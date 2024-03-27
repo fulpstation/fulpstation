@@ -1,145 +1,224 @@
+#define HEART_RESPAWN_THRESHHOLD 40
+#define HEART_SPECIAL_SHADOWIFY 2
+
 /datum/species/shadow
 	// Humans cursed to stay in the darkness, lest their life forces drain. They regain health in shadow and die in light.
-	name = "Shadow"
-	plural_form = "Shadowpeople"
-	id = SPECIES_SHADOW
-	sexes = FALSE
-	meat = /obj/item/food/meat/slab/human/mutant/shadow
-	inherent_traits = list(
-		TRAIT_NOBREATH,
-		TRAIT_RADIMMUNE,
-		TRAIT_VIRUSIMMUNE,
-		TRAIT_NOBLOOD,
-		TRAIT_NODISMEMBER,
-		TRAIT_NEVER_WOUNDED
-	)
-	inherent_factions = list(FACTION_FAITHLESS)
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC
+	name = "???"
+	id = "shadow"
+	sexes = 0
+	blacklisted = 1
+	ignored_by = list(/mob/living/simple_animal/hostile/faithless)
+	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/shadow
+	species_traits = list(NOBLOOD,NOEYES)
+	inherent_traits = list(TRAIT_RADIMMUNE,TRAIT_VIRUSIMMUNE,TRAIT_NOBREATH)
 
-	mutantbrain = /obj/item/organ/internal/brain/shadow
-	mutanteyes = /obj/item/organ/internal/eyes/shadow
-	mutantheart = null
-	mutantlungs = null
+	dangerous_existence = 1
+	mutanteyes = /obj/item/organ/eyes/night_vision
 
-	species_language_holder = /datum/language_holder/shadowpeople
 
-	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/shadow,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/shadow,
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/shadow,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/shadow,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/shadow,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/shadow,
-	)
+/datum/species/shadow/spec_life(mob/living/carbon/human/H)
+	var/turf/T = H.loc
+	if(istype(T))
+		var/light_amount = T.get_lumcount()
+
+		if(light_amount > SHADOW_SPECIES_LIGHT_THRESHOLD) //if there's enough light, start dying
+			H.take_overall_damage(1,1, 0, BODYPART_ORGANIC)
+		else if (light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD) //heal in the dark
+			H.heal_overall_damage(1,1, 0, BODYPART_ORGANIC)
 
 /datum/species/shadow/check_roundstart_eligible()
-	if(check_holidays(HALLOWEEN))
+	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
 		return TRUE
 	return ..()
 
-/datum/species/shadow/get_physical_attributes()
-	return "These cursed creatures heal in the dark, but suffer in the light much more heavily. Their eyes let them see in the dark as though it were day."
+/datum/species/shadow/nightmare
+	name = "Nightmare"
+	id = "nightmare"
+	limbs_id = "shadow"
+	burnmod = 1.5
+	blacklisted = TRUE
+	no_equip = list(SLOT_WEAR_MASK, SLOT_WEAR_SUIT, SLOT_GLOVES, SLOT_SHOES, SLOT_W_UNIFORM, SLOT_S_STORE)
+	species_traits = list(NOBLOOD,NO_UNDERWEAR,NO_DNA_COPY,NOTRANSSTING,NOEYES)
+	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_NOBREATH,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_NOGUNS,TRAIT_RADIMMUNE,TRAIT_VIRUSIMMUNE,TRAIT_PIERCEIMMUNE,TRAIT_NODISMEMBER,TRAIT_NOHUNGER)
+	mutanteyes = /obj/item/organ/eyes/night_vision/nightmare
+	mutant_organs = list(/obj/item/organ/heart/nightmare)
+	mutant_brain = /obj/item/organ/brain/nightmare
 
-/datum/species/shadow/get_species_description()
-	return "Victims of a long extinct space alien. Their flesh is a sickly \
-		seethrough filament, their tangled insides in clear view. Their form \
-		is a mockery of life, leaving them mostly unable to work with others under \
-		normal circumstances."
+	var/info_text = "You are a <span class='danger'>Nightmare</span>. The ability <span class='warning'>shadow walk</span> allows unlimited, unrestricted movement in the dark while activated. \
+					Your <span class='warning'>light eater</span> will destroy any light producing objects you attack, as well as destroy any lights a living creature may be holding. You will automatically dodge gunfire and melee attacks when on a dark tile. If killed, you will eventually revive if left in darkness."
 
-/datum/species/shadow/get_species_lore()
-	return list(
-		"Long ago, the Spinward Sector used to be inhabited by terrifying aliens aptly named \"Shadowlings\" \
-		after their control over darkness, and tendancy to kidnap victims into the dark maintenance shafts. \
-		Around 2558, the long campaign Nanotrasen waged against the space terrors ended with the full extinction of the Shadowlings.",
-
-		"Victims of their kidnappings would become brainless thralls, and via surgery they could be freed from the Shadowling's control. \
-		Those more unlucky would have their entire body transformed by the Shadowlings to better serve in kidnappings. \
-		Unlike the brain tumors of lesser control, these greater thralls could not be reverted.",
-
-		"With Shadowlings long gone, their will is their own again. But their bodies have not reverted, burning in exposure to light. \
-		Nanotrasen has assured the victims that they are searching for a cure. No further information has been given, even years later. \
-		Most shadowpeople now assume Nanotrasen has long since shelfed the project.",
-	)
-
-/datum/species/shadow/create_pref_unique_perks()
-	var/list/to_add = list()
-
-	to_add += list(
-		list(
-			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
-			SPECIES_PERK_ICON = "moon",
-			SPECIES_PERK_NAME = "Shadowborn",
-			SPECIES_PERK_DESC = "Their skin blooms in the darkness. All kinds of damage, \
-				no matter how extreme, will heal over time as long as there is no light.",
-		),
-		list(
-			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
-			SPECIES_PERK_ICON = "eye",
-			SPECIES_PERK_NAME = "Nightvision",
-			SPECIES_PERK_DESC = "Their eyes are adapted to the night, and can see in the dark with no problems.",
-		),
-		list(
-			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
-			SPECIES_PERK_ICON = "sun",
-			SPECIES_PERK_NAME = "Lightburn",
-			SPECIES_PERK_DESC = "Their flesh withers in the light. Any exposure to light is \
-				incredibly painful for the shadowperson, charring their skin.",
-		),
-	)
-
-	return to_add
-
-/obj/item/organ/internal/eyes/shadow
-	name = "burning red eyes"
-	desc = "Even without their shadowy owner, looking at these eyes gives you a sense of dread."
-	icon = 'icons/obj/medical/organs/shadow_organs.dmi'
-	color_cutoffs = list(20, 10, 40)
-	pepperspray_protect = TRUE
-	flash_protect = FLASH_PROTECTION_SENSITIVE
-
-/// the key to some of their powers
-/obj/item/organ/internal/brain/shadow
-	name = "shadowling tumor"
-	desc = "Something that was once a brain, before being remolded by a shadowling. It has adapted to the dark, irreversibly."
-	icon = 'icons/obj/medical/organs/shadow_organs.dmi'
-	/// What status effect do we gain while in darkness?
-	var/applied_status = /datum/status_effect/shadow_regeneration
-
-/obj/item/organ/internal/brain/shadow/on_life(seconds_per_tick, times_fired)
+/datum/species/shadow/nightmare/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
-	var/turf/owner_turf = owner.loc
-	if(!isturf(owner_turf))
+	to_chat(C, "[info_text]")
+
+	C.real_name = "[pick(GLOB.nightmare_names)]"
+	C.name = C.real_name
+	if(C.mind)
+		C.mind.name = C.real_name
+	C.dna.real_name = C.real_name
+
+/datum/species/shadow/nightmare/bullet_act(obj/item/projectile/P, mob/living/carbon/human/H)
+	var/turf/T = H.loc
+	if(istype(T))
+		var/light_amount = T.get_lumcount()
+		if(light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD)
+			H.visible_message("<span class='danger'>[H] dances in the shadows, evading [P]!</span>")
+			playsound(T, "bullet_miss", 75, 1)
+			return -1
+	return 0
+
+/datum/species/shadow/nightmare/check_roundstart_eligible()
+	return FALSE
+
+//Organs
+
+/obj/item/organ/brain/nightmare
+	name = "tumorous mass"
+	desc = "A fleshy growth that was dug out of the skull of a Nightmare."
+	icon_state = "brain-x-d"
+	var/obj/effect/proc_holder/spell/targeted/shadowwalk/shadowwalk
+
+/obj/item/organ/brain/nightmare/Insert(mob/living/carbon/M, special = 0)
+	..()
+	if(M.dna.species.id != "nightmare")
+		M.set_species(/datum/species/shadow/nightmare)
+		visible_message("<span class='warning'>[M] thrashes as [src] takes root in [M.p_their()] body!</span>")
+	var/obj/effect/proc_holder/spell/targeted/shadowwalk/SW = new
+	M.AddSpell(SW)
+	shadowwalk = SW
+
+
+/obj/item/organ/brain/nightmare/Remove(mob/living/carbon/M, special = 0)
+	if(shadowwalk)
+		M.RemoveSpell(shadowwalk)
+	..()
+
+
+/obj/item/organ/heart/nightmare
+	name = "heart of darkness"
+	desc = "An alien organ that twists and writhes when exposed to light."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "demon_heart-on"
+	color = "#1C1C1C"
+	var/respawn_progress = 0
+	var/obj/item/light_eater/blade
+
+
+/obj/item/organ/heart/nightmare/attack(mob/M, mob/living/carbon/user, obj/target)
+	if(M != user)
+		return ..()
+	user.visible_message("<span class='warning'>[user] raises [src] to [user.p_their()] mouth and tears into it with [user.p_their()] teeth!</span>", \
+						 "<span class='danger'>[src] feels unnaturally cold in your hands. You raise [src] your mouth and devour it!</span>")
+	playsound(user, 'sound/magic/demon_consume.ogg', 50, 1)
+
+
+	user.visible_message("<span class='warning'>Blood erupts from [user]'s arm as it reforms into a weapon!</span>", \
+						 "<span class='userdanger'>Icy blood pumps through your veins as your arm reforms itself!</span>")
+	user.temporarilyRemoveItemFromInventory(src, TRUE)
+	Insert(user)
+
+/obj/item/organ/heart/nightmare/Insert(mob/living/carbon/M, special = 0)
+	..()
+	if(special != HEART_SPECIAL_SHADOWIFY)
+		blade = new/obj/item/light_eater
+		M.put_in_hands(blade)
+	START_PROCESSING(SSobj, src)
+
+/obj/item/organ/heart/nightmare/Remove(mob/living/carbon/M, special = 0)
+	STOP_PROCESSING(SSobj, src)
+	respawn_progress = 0
+	if(blade && special != HEART_SPECIAL_SHADOWIFY)
+		QDEL_NULL(blade)
+		M.visible_message("<span class='warning'>\The [blade] disintegrates!</span>")
+	..()
+
+/obj/item/organ/heart/nightmare/Stop()
+	return 0
+
+/obj/item/organ/heart/nightmare/update_icon()
+	return //always beating visually
+
+/obj/item/organ/heart/nightmare/process()
+	if(QDELETED(owner) || owner.stat != DEAD)
+		respawn_progress = 0
 		return
-	var/light_amount = owner_turf.get_lumcount()
+	var/turf/T = get_turf(owner)
 
-	if (light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD) //heal in the dark
-		owner.apply_status_effect(applied_status)
-	if (!owner.has_status_effect(applied_status))
-		owner.take_overall_damage(brute = 0.5 * seconds_per_tick, burn = 0.5 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC)
+	if(istype(T))
+		var/light_amount = T.get_lumcount()
+		if(light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD)
+			respawn_progress++
+			playsound(owner,'sound/effects/singlebeat.ogg',40,1)
+	if(respawn_progress >= HEART_RESPAWN_THRESHHOLD)
+		owner.revive(full_heal = TRUE)
+		if(!(owner.dna.species.id == "shadow" || owner.dna.species.id == "nightmare"))
+			var/mob/living/carbon/old_owner = owner
+			Remove(owner, HEART_SPECIAL_SHADOWIFY)
+			old_owner.set_species(/datum/species/shadow)
+			Insert(old_owner, HEART_SPECIAL_SHADOWIFY)
+			to_chat(owner, "<span class='userdanger'>You feel the shadows invade your skin, leaping into the center of your chest! You're alive!</span>")
+			SEND_SOUND(owner, sound('sound/effects/ghost.ogg'))
+		owner.visible_message("<span class='warning'>[owner] staggers to [owner.p_their()] feet!</span>")
+		playsound(owner, 'sound/hallucinations/far_noise.ogg', 50, 1)
+		respawn_progress = 0
 
-/// Heal in darkness and potentially trigger other effects, persists for a short duration after leaving
-/datum/status_effect/shadow_regeneration
-	id = "shadow_regeneration"
-	duration = 2 SECONDS
-	status_type = STATUS_EFFECT_REFRESH
-	alert_type = /atom/movable/screen/alert/status_effect/shadow_regeneration
+//Weapon
 
-/datum/status_effect/shadow_regeneration/on_apply()
+/obj/item/light_eater
+	name = "light eater" //as opposed to heavy eater
+	icon_state = "arm_blade"
+	item_state = "arm_blade"
+	force = 25
+	armour_penetration = 35
+	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
+	item_flags = ABSTRACT | NODROP | DROPDEL
+	w_class = WEIGHT_CLASS_HUGE
+	sharpness = IS_SHARP
+
+/obj/item/light_eater/Initialize()
 	. = ..()
-	if (!.)
-		return FALSE
-	heal_owner()
-	return TRUE
+	AddComponent(/datum/component/butchering, 80, 70)
 
-/datum/status_effect/shadow_regeneration/refresh(effect)
+/obj/item/light_eater/afterattack(atom/movable/AM, mob/user, proximity)
 	. = ..()
-	heal_owner()
+	if(!proximity)
+		return
+	if(isopenturf(AM)) //So you can actually melee with it
+		return
+	if(isliving(AM))
+		var/mob/living/L = AM
+		if(isethereal(AM))
+			AM.emp_act(EMP_LIGHT)
 
-/// Regenerate health whenever this status effect is applied or reapplied
-/datum/status_effect/shadow_regeneration/proc/heal_owner()
-	owner.heal_overall_damage(brute = 1, burn = 1, required_bodytype = BODYTYPE_ORGANIC)
+		if(iscyborg(AM))
+			var/mob/living/silicon/robot/borg = AM
+			if(!borg.lamp_cooldown)
+				borg.update_headlamp(TRUE, INFINITY)
+				to_chat(borg, "<span class='danger'>Your headlamp is fried! You'll need a human to help replace it.</span>")
+		else
+			for(var/obj/item/O in AM)
+				if(O.light_range && O.light_power)
+					disintegrate(O)
+		if(L.pulling && L.pulling.light_range && isitem(L.pulling))
+			disintegrate(L.pulling)
+	else if(isitem(AM))
+		var/obj/item/I = AM
+		if(I.light_range && I.light_power)
+			disintegrate(I)
 
-/atom/movable/screen/alert/status_effect/shadow_regeneration
-	name = "Shadow Regeneration"
-	desc = "Bathed in soothing darkness, you will slowly heal yourself."
-	icon_state = "lightless"
+/obj/item/light_eater/proc/disintegrate(obj/item/O)
+	if(istype(O, /obj/item/pda))
+		var/obj/item/pda/PDA = O
+		PDA.set_light(0)
+		PDA.fon = FALSE
+		PDA.f_lum = 0
+		PDA.update_icon()
+		visible_message("<span class='danger'>The light in [PDA] shorts out!</span>")
+	else
+		visible_message("<span class='danger'>[O] is disintegrated by [src]!</span>")
+		O.burn()
+	playsound(src, 'sound/items/welder.ogg', 50, 1)
+
+#undef HEART_SPECIAL_SHADOWIFY
+#undef HEART_RESPAWN_THRESHHOLD

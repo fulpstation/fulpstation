@@ -3,21 +3,20 @@
 	name = "technology disk"
 	desc = "A disk for storing technology data for further research."
 	icon_state = "datadisk0"
-	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT * 3, /datum/material/glass=SMALL_MATERIAL_AMOUNT)
+	materials = list(MAT_METAL=300, MAT_GLASS=100)
 	var/datum/techweb/stored_research
 
-/obj/item/disk/tech_disk/Initialize(mapload)
+/obj/item/disk/tech_disk/Initialize()
 	. = ..()
-	if(!stored_research)
-		stored_research = new /datum/techweb/disk
-	pixel_x = base_pixel_x + rand(-5, 5)
-	pixel_y = base_pixel_y + rand(-5, 5)
+	pixel_x = rand(-5, 5)
+	pixel_y = rand(-5, 5)
+	stored_research = new /datum/techweb
 
 /obj/item/disk/tech_disk/debug
 	name = "\improper CentCom technology disk"
 	desc = "A debug item for research"
-	custom_materials = null
+	materials = list()
 
-/obj/item/disk/tech_disk/debug/Initialize(mapload)
-	stored_research = locate(/datum/techweb/admin) in SSresearch.techwebs
-	return ..()
+/obj/item/disk/tech_disk/debug/Initialize()
+	. = ..()
+	stored_research = new /datum/techweb/admin

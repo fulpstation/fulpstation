@@ -1,189 +1,207 @@
-/**
- *LEGION
- *
- *Legion spawns from the necropolis gate in the far north of lavaland. It is the guardian of the Necropolis and emerges from within whenever an intruder tries to enter through its gate.
- *Whenever Legion emerges, everything in lavaland will receive a notice via color, audio, and text. This is because Legion is powerful enough to slaughter the entirety of lavaland with little effort. LOL
- *
- *It has three attacks.
- *Spawn Skull. Most of the time it will use this attack. Spawns a single legion skull.
- *Spawn Sentinel. The legion will spawn up to three sentinels, depending on its size.
- *CHARGE! The legion starts spinning and tries to melee the player. It will try to flick itself towards the player, dealing some damage if it hits.
- *
- *When Legion dies, it will split into three smaller skulls up to three times.
- *If you kill all of the smaller ones it drops a staff of storms, which allows its wielder to call and disperse ash storms at will and functions as a powerful melee weapon.
- *
- *Difficulty: Medium
- *
- *SHITCODE AHEAD. BE ADVISED. Also comment extravaganza
- */
+/*
 
-#define LEGION_LARGE 3
-#define LEGION_MEDIUM 2
-#define LEGION_SMALL 1
+LEGION
+
+Legion spawns from the necropolis gate in the far north of lavaland. It is the guardian of the Necropolis and emerges from within whenever an intruder tries to enter through its gate.
+Whenever Legion emerges, everything in lavaland will receive a notice via color, audio, and text. This is because Legion is powerful enough to slaughter the entirety of lavaland with little effort.
+
+It has two attack modes that it constantly rotates between.
+
+In ranged mode, it will behave like a normal legion - retreating when possible and firing legion skulls at the target.
+In charge mode, it will spin and rush its target, attacking with melee whenever possible.
+
+When Legion dies, it drops a staff of storms, which allows its wielder to call and disperse ash storms at will and functions as a powerful melee weapon.
+
+Difficulty: Medium
+
+*/
 
 /mob/living/simple_animal/hostile/megafauna/legion
 	name = "Legion"
-	health = 700
-	maxHealth = 700
-	icon_state = "mega_legion"
-	icon_living = "mega_legion"
-	health_doll_icon = "mega_legion"
+	health = 800
+	maxHealth = 800
+	spacewalk = TRUE
+	icon_state = "legion"
+	icon_living = "legion"
 	desc = "One of many."
-	icon = 'icons/mob/simple/lavaland/96x96megafauna.dmi'
-	attack_verb_continuous = "chomps"
-	attack_verb_simple = "chomp"
+	icon = 'icons/mob/lavaland/legion.dmi'
+	attacktext = "chomps"
 	attack_sound = 'sound/magic/demon_attack1.ogg'
-	attack_vis_effect = ATTACK_EFFECT_BITE
 	speak_emote = list("echoes")
 	armour_penetration = 50
 	melee_damage_lower = 25
 	melee_damage_upper = 25
-	speed = 5
-	ranged = TRUE
-	del_on_death = TRUE
+	speed = 2
+	ranged = 1
+	del_on_death = 1
 	retreat_distance = 5
 	minimum_distance = 5
-	ranged_cooldown_time = 2 SECONDS
-	gps_name = "Echoing Signal"
-	achievement_type = /datum/award/achievement/boss/legion_kill
-	crusher_achievement_type = /datum/award/achievement/boss/legion_crusher
-	score_achievement_type = /datum/award/score/legion_score
-	SET_BASE_PIXEL(-32, -16)
-	maptext_height = 96
-	maptext_width = 96
+	ranged_cooldown_time = 20
+	var/size = 5
+	var/charging = 0
+	medal_type = BOSS_MEDAL_LEGION
+	score_type = LEGION_SCORE
+	pixel_y = -90
+	pixel_x = -75
 	loot = list(/obj/item/stack/sheet/bone = 3)
 	vision_range = 13
 	wander = FALSE
-	elimination = TRUE
-	appearance_flags = LONG_GLIDE
+	elimination = 1
+	appearance_flags = 0
 	mouse_opacity = MOUSE_OPACITY_ICON
-	var/size = LEGION_LARGE
-	/// Create Skulls ability
-	var/datum/action/cooldown/mob_cooldown/create_legion_skull/create_legion_skull
-	/// Charge Target Ability
-	var/datum/action/cooldown/mob_cooldown/chase_target/chase_target
-	/// Create Turrets Ability
-	var/datum/action/cooldown/mob_cooldown/create_legion_turrets/create_legion_turrets
 
-/mob/living/simple_animal/hostile/megafauna/legion/Initialize(mapload)
+/mob/living/simple_animal/hostile/megafauna/legion/Initialize()
 	. = ..()
-	ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, INNATE_TRAIT)
-	create_legion_skull = new(src)
-	chase_target = new(src)
-	chase_target.size = size
-	create_legion_turrets = new(src)
-	create_legion_turrets.maximum_turrets = size * 2
-	create_legion_skull.Grant(src)
-	chase_target.Grant(src)
-	create_legion_turrets.Grant(src)
-
-/mob/living/simple_animal/hostile/megafauna/legion/Destroy()
-	create_legion_skull = null
-	chase_target = null
-	create_legion_turrets = null
-	return ..()
-
-/mob/living/simple_animal/hostile/megafauna/legion/medium
-	icon = 'icons/mob/simple/lavaland/64x64megafauna.dmi'
-	pixel_x = -16
-	pixel_y = -8
-	maxHealth = 350
-	size = LEGION_MEDIUM
-
-/mob/living/simple_animal/hostile/megafauna/legion/medium/left
-	icon_state = "mega_legion_left"
-
-/mob/living/simple_animal/hostile/megafauna/legion/medium/eye
-	icon_state = "mega_legion_eye"
-
-/mob/living/simple_animal/hostile/megafauna/legion/medium/right
-	icon_state = "mega_legion_right"
-
-/mob/living/simple_animal/hostile/megafauna/legion/small
-	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
-	icon_state = "mega_legion"
-	pixel_x = 0
-	pixel_y = 0
-	maxHealth = 200
-	size = LEGION_SMALL
-
-/mob/living/simple_animal/hostile/megafauna/legion/OpenFire(the_target)
-	if(client)
-		return
-
-	switch(rand(4)) //Larger skulls use more attacks.
-		if(0 to 2)
-			create_legion_skull.Trigger(target = target)
-		if(3)
-			chase_target.Trigger(target = target)
-		if(4)
-			create_legion_turrets.Trigger(target = target)
-
-///Deals some extra damage on throw impact.
-/mob/living/simple_animal/hostile/megafauna/legion/throw_impact(mob/living/hit_atom, datum/thrownthing/throwingdatum)
-	. = ..()
-	if(istype(hit_atom))
-		playsound(src, attack_sound, 100, TRUE)
-		hit_atom.apply_damage(22 * size / 2, wound_bonus = CANT_WOUND) //It gets pretty hard to dodge the skulls when there are a lot of them. Scales down with size
-		hit_atom.safe_throw_at(get_step(src, get_dir(src, hit_atom)), 2) //Some knockback. Prevent the legion from melee directly after the throw.
+	internal = new/obj/item/gps/internal/legion(src)
 
 /mob/living/simple_animal/hostile/megafauna/legion/GiveTarget(new_target)
 	. = ..()
 	if(target)
 		wander = TRUE
 
-///This makes sure that the legion door opens on taking damage, so you can't cheese this boss.
 /mob/living/simple_animal/hostile/megafauna/legion/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
-	if(GLOB.necropolis_gate && true_spawn)
+	if(GLOB.necropolis_gate)
 		GLOB.necropolis_gate.toggle_the_gate(null, TRUE) //very clever.
 	return ..()
 
-
-///In addition to parent functionality, this will also turn the target into a small legion if they are unconscious.
-/mob/living/simple_animal/hostile/megafauna/legion/AttackingTarget(atom/attacked_target)
+/mob/living/simple_animal/hostile/megafauna/legion/AttackingTarget()
 	. = ..()
-	if(!. || !ishuman(target))
-		return
-	var/mob/living/living_target = target
-	switch(living_target.stat)
-		if(UNCONSCIOUS, HARD_CRIT)
-			var/mob/living/basic/legion_brood/legion = new(loc)
-			legion.infest(living_target)
+	if(. && ishuman(target))
+		var/mob/living/L = target
+		if(L.stat == UNCONSCIOUS)
+			var/mob/living/simple_animal/hostile/asteroid/hivelordbrood/legion/A = new(loc)
+			A.infest(L)
 
-///Special snowflake death() here. Can only die if size is 1 or lower and HP is 0 or below.
+/mob/living/simple_animal/hostile/megafauna/legion/OpenFire(the_target)
+	if(world.time >= ranged_cooldown && !charging)
+		if(prob(75))
+			var/mob/living/simple_animal/hostile/asteroid/hivelordbrood/legion/A = new(loc)
+			A.GiveTarget(target)
+			A.friends = friends
+			A.faction = faction
+			ranged_cooldown = world.time + ranged_cooldown_time
+		else
+			visible_message("<span class='warning'><b>[src] charges!</b></span>")
+			SpinAnimation(speed = 20, loops = 5)
+			ranged = 0
+			retreat_distance = 0
+			minimum_distance = 0
+			speed = 0
+			charging = 1
+			addtimer(CALLBACK(src, PROC_REF(reset_charge)), 50)
+
+/mob/living/simple_animal/hostile/megafauna/legion/proc/reset_charge()
+	ranged = 1
+	retreat_distance = 5
+	minimum_distance = 5
+	speed = 2
+	charging = 0
+
 /mob/living/simple_animal/hostile/megafauna/legion/death()
-	//Make sure we didn't get cheesed
 	if(health > 0)
 		return
-	if(Split())
+	if(size > 1)
+		adjustHealth(-maxHealth) //heal ourself to full in prep for splitting
+		var/mob/living/simple_animal/hostile/megafauna/legion/L = new(loc)
+
+		L.maxHealth = round(maxHealth * 0.6,DAMAGE_PRECISION)
+		maxHealth = L.maxHealth
+
+		L.health = L.maxHealth
+		health = maxHealth
+
+		size--
+		L.size = size
+
+		L.resize = L.size * 0.2
+		transform = initial(transform)
+		resize = size * 0.2
+
+		L.update_transform()
+		update_transform()
+
+		L.faction = faction.Copy()
+
+		L.GiveTarget(target)
+
+		visible_message("<span class='boldannounce'>[src] splits in twain!</span>")
+	else
+		var/last_legion = TRUE
+		for(var/mob/living/simple_animal/hostile/megafauna/legion/other in GLOB.mob_living_list)
+			if(other != src)
+				last_legion = FALSE
+				break
+		if(last_legion)
+			loot = list(/obj/item/staff/storm)
+			elimination = 0
+		else if(prob(5))
+			loot = list(/obj/structure/closet/crate/necropolis/tendril)
+		..()
+
+/obj/item/gps/internal/legion
+	icon_state = null
+	gpstag = "Echoing Signal"
+	desc = "The message repeats."
+	invisibility = 100
+
+
+//Loot
+
+/obj/item/staff/storm
+	name = "staff of storms"
+	desc = "An ancient staff retrieved from the remains of Legion. The wind stirs as you move it."
+	icon_state = "staffofstorms"
+	item_state = "staffofstorms"
+	icon = 'icons/obj/guns/magic.dmi'
+	slot_flags = ITEM_SLOT_BACK
+	w_class = WEIGHT_CLASS_BULKY
+	force = 25
+	damtype = BURN
+	hitsound = 'sound/weapons/sear.ogg'
+	var/storm_type = /datum/weather/ash_storm
+	var/storm_cooldown = 0
+	var/static/list/excluded_areas = list(/area/reebe/city_of_cogs)
+
+/obj/item/staff/storm/attack_self(mob/user)
+	if(storm_cooldown > world.time)
+		to_chat(user, "<span class='warning'>The staff is still recharging!</span>")
 		return
-	//We check what loot we should drop.
-	var/last_legion = TRUE
-	for(var/mob/living/simple_animal/hostile/megafauna/legion/other in GLOB.mob_living_list)
-		if(other != src)
-			last_legion = FALSE
+
+	var/area/user_area = get_area(user)
+	var/turf/user_turf = get_turf(user)
+	if(!user_area || !user_turf || (user_area.type in excluded_areas))
+		to_chat(user, "<span class='warning'>Something is preventing you from using the staff here.</span>")
+		return
+	var/datum/weather/A
+	for(var/V in SSweather.processing)
+		var/datum/weather/W = V
+		if((user_turf.z in W.impacted_z_levels) && W.area_type == user_area.type)
+			A = W
 			break
-	if(last_legion)
-		loot = list(/obj/item/storm_staff)
-		elimination = FALSE
-	else if(prob(20)) //20% chance for sick lootz.
-		loot = list(/obj/structure/closet/crate/necropolis/tendril)
-		if(!true_spawn)
-			loot = null
-	return ..()
 
-///Splits legion into smaller skulls.
-/mob/living/simple_animal/hostile/megafauna/legion/proc/Split()
-	size--
-	switch(size)
-		if (LEGION_SMALL)
-			for (var/i in 0 to 2)
-				new /mob/living/simple_animal/hostile/megafauna/legion/small(loc)
-		if (LEGION_MEDIUM)
-			new /mob/living/simple_animal/hostile/megafauna/legion/medium/left(loc)
-			new /mob/living/simple_animal/hostile/megafauna/legion/medium/right(loc)
-			new /mob/living/simple_animal/hostile/megafauna/legion/medium/eye(loc)
+	if(A)
+		if(A.stage != END_STAGE)
+			if(A.stage == WIND_DOWN_STAGE)
+				to_chat(user, "<span class='warning'>The storm is already ending! It would be a waste to use the staff now.</span>")
+				return
+			user.visible_message("<span class='warning'>[user] holds [src] skywards as an orange beam travels into the sky!</span>", \
+			"<span class='notice'>You hold [src] skyward, dispelling the storm!</span>")
+			playsound(user, 'sound/magic/staff_change.ogg', 200, 0)
+			A.wind_down()
+			log_game("[user] ([key_name(user)]) has dispelled a storm at [AREACOORD(user_turf)]")
+			return
+	else
+		A = new storm_type(list(user_turf.z))
+		A.name = "staff storm"
+		log_game("[user] ([key_name(user)]) has summoned [A] at [AREACOORD(user_turf)]")
+		if (is_special_character(user))
+			message_admins("[A] has been summoned in [ADMIN_VERBOSEJMP(user_turf)] by [ADMIN_LOOKUPFLW(user)], a non-antagonist")
+		A.area_type = user_area.type
+		A.telegraph_duration = 100
+		A.end_duration = 100
 
-#undef LEGION_LARGE
-#undef LEGION_MEDIUM
-#undef LEGION_SMALL
+	user.visible_message("<span class='warning'>[user] holds [src] skywards as red lightning crackles into the sky!</span>", \
+	"<span class='notice'>You hold [src] skyward, calling down a terrible storm!</span>")
+	playsound(user, 'sound/magic/staff_change.ogg', 200, 0)
+	A.telegraph()
+	storm_cooldown = world.time + 200

@@ -2,34 +2,44 @@
 	..()
 	description = "Upper management has requested one [name] mech be sent as soon as possible. Ship it to receive a large payment."
 
-/datum/bounty/item/mech/ship(obj/shipped)
-	. = ..()
-	if(!.)
+/datum/bounty/item/mech/ship(obj/O)
+	if(!applies_to(O))
 		return
-	var/obj/vehicle/sealed/mecha/mecha = shipped
-	mecha.wreckage = null // So the mech doesn't explode.
+	if(istype(O, /obj/mecha))
+		var/obj/mecha/M = O
+		M.wreckage = null // So the mech doesn't explode.
+	..()
 
-/datum/bounty/item/mech/ripleymk2
-	name = "APLU MK-II \"Ripley\""
-	reward = CARGO_CRATE_VALUE * 26
-	wanted_types = list(/obj/vehicle/sealed/mecha/ripley/mk2 = TRUE)
+/datum/bounty/item/mech/mark_high_priority(scale_reward)
+	return ..(max(scale_reward * 0.7, 1.2))
 
-/datum/bounty/item/mech/clarke
-	name = "Clarke"
-	reward = CARGO_CRATE_VALUE * 32
-	wanted_types = list(/obj/vehicle/sealed/mecha/clarke = TRUE)
+/datum/bounty/item/mech/ripley
+	name = "APLU \"Ripley\""
+	reward = 13000
+	wanted_types = list(/obj/mecha/working/ripley)
+	exclude_types = list(/obj/mecha/working/ripley/firefighter)
+
+/datum/bounty/item/mech/firefighter
+	name = "APLU \"Firefighter\""
+	reward = 18000
+	wanted_types = list(/obj/mecha/working/ripley/firefighter)
 
 /datum/bounty/item/mech/odysseus
 	name = "Odysseus"
-	reward = CARGO_CRATE_VALUE * 22
-	wanted_types = list(/obj/vehicle/sealed/mecha/odysseus = TRUE)
+	reward = 11000
+	wanted_types = list(/obj/mecha/medical/odysseus)
 
 /datum/bounty/item/mech/gygax
 	name = "Gygax"
-	reward = CARGO_CRATE_VALUE * 56
-	wanted_types = list(/obj/vehicle/sealed/mecha/gygax = TRUE)
+	reward = 28000
+	wanted_types = list(/obj/mecha/combat/gygax)
 
 /datum/bounty/item/mech/durand
 	name = "Durand"
-	reward = CARGO_CRATE_VALUE * 40
-	wanted_types = list(/obj/vehicle/sealed/mecha/durand = TRUE)
+	reward = 20000
+	wanted_types = list(/obj/mecha/combat/durand)
+
+/datum/bounty/item/mech/phazon
+	name = "Phazon"
+	reward = 50000
+	wanted_types = list(/obj/mecha/combat/phazon)

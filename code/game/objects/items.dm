@@ -1,383 +1,180 @@
-/// Anything you can pick up and hold.
+GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/effects/fire.dmi', "fire"))
+
+GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
+// if true, everyone item when created will have its name changed to be
+// more... RPG-like.
+
 /obj/item
 	name = "item"
-	icon = 'icons/obj/anomaly.dmi'
-	blocks_emissive = EMISSIVE_BLOCK_GENERIC
-	burning_particles = /particles/smoke/burning/small
-	pass_flags_self = PASSITEM
-
-	/* !!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!!
-
-		IF YOU ADD MORE ICON CRAP TO THIS
-		ENSURE YOU ALSO ADD THE NEW VARS TO CHAMELEON ITEM_ACTION'S update_item() PROC (/datum/action/item_action/chameleon/change/proc/update_item())
-		WASHING MASHINE'S dye_item() PROC (/obj/item/proc/dye_item())
-		AND ALSO TO THE CHANGELING PROFILE DISGUISE SYSTEMS (/datum/changeling_profile / /datum/antagonist/changeling/proc/create_profile() / /proc/changeling_transform())
-
-		!!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!! */
-
-	///icon state for inhand overlays.
-	var/inhand_icon_state = null
-	///Icon file for left hand inhand overlays
+	icon = 'icons/obj/items_and_weapons.dmi'
+	var/item_state = null
 	var/lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
-	///Icon file for right inhand overlays
 	var/righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 
-	///Icon file for mob worn overlays.
-	var/icon/worn_icon
-	///Icon state for mob worn overlays, if null the normal icon_state will be used.
-	var/worn_icon_state
-	///Icon state for the belt overlay, if null the normal icon_state will be used.
-	var/belt_icon_state
-	///Forced mob worn layer instead of the standard preferred size.
-	var/alternate_worn_layer
-	///The config type to use for greyscaled worn sprites. Both this and greyscale_colors must be assigned to work.
-	var/greyscale_config_worn
-	///The config type to use for greyscaled left inhand sprites. Both this and greyscale_colors must be assigned to work.
-	var/greyscale_config_inhand_left
-	///The config type to use for greyscaled right inhand sprites. Both this and greyscale_colors must be assigned to work.
-	var/greyscale_config_inhand_right
-	///The config type to use for greyscaled belt overlays. Both this and greyscale_colors must be assigned to work.
-	var/greyscale_config_belt
-
-	/* !!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!!
-
-		IF YOU ADD MORE ICON CRAP TO THIS
-		ENSURE YOU ALSO ADD THE NEW VARS TO CHAMELEON ITEM_ACTION'S update_item() PROC (/datum/action/item_action/chameleon/change/proc/update_item())
-		WASHING MASHINE'S dye_item() PROC (/obj/item/proc/dye_item())
-		AND ALSO TO THE CHANGELING PROFILE DISGUISE SYSTEMS (/datum/changeling_profile / /datum/antagonist/changeling/proc/create_profile() / /proc/changeling_transform())
-
-		!!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!! */
-
-	///Dimensions of the icon file used when this item is worn, eg: hats.dmi (32x32 sprite, 64x64 sprite, etc.). Allows inhands/worn sprites to be of any size, but still centered on a mob properly
+	//Dimensions of the icon file used when this item is worn, eg: hats.dmi
+	//eg: 32x32 sprite, 64x64 sprite, etc.
+	//allows inhands/worn sprites to be of any size, but still centered on a mob properly
 	var/worn_x_dimension = 32
-	///Dimensions of the icon file used when this item is worn, eg: hats.dmi (32x32 sprite, 64x64 sprite, etc.). Allows inhands/worn sprites to be of any size, but still centered on a mob properly
 	var/worn_y_dimension = 32
-	///Same as for [worn_x_dimension][/obj/item/var/worn_x_dimension] but for inhands, uses the lefthand_ and righthand_ file vars
+	//Same as above but for inhands, uses the lefthand_ and righthand_ file vars
 	var/inhand_x_dimension = 32
-	///Same as for [worn_y_dimension][/obj/item/var/worn_y_dimension] but for inhands, uses the lefthand_ and righthand_ file vars
 	var/inhand_y_dimension = 32
-	/// Worn overlay will be shifted by this along y axis
-	var/worn_y_offset = 0
+
+	//Not on /clothing because for some reason any /obj/item can technically be "worn" with enough fuckery.
+	var/icon/alternate_worn_icon = null//If this is set, update_icons() will find on mob (WORN, NOT INHANDS) states in this file instead, primary use: badminnery/events
+	var/alternate_worn_layer = null//If this is set, update_icons() will force the on mob state (WORN, NOT INHANDS) onto this layer, instead of it's default
 
 	max_integrity = 200
 
 	obj_flags = NONE
-	///Item flags for the item
 	var/item_flags = NONE
 
-	///Sound played when you hit something with the item
-	var/hitsound
-	///Played when the item is used, for example tools
-	var/usesound
-	///Used when yate into a mob
-	var/mob_throw_hit_sound
-	///Sound used when equipping the item into a valid slot
-	var/equip_sound
-	///Sound uses when picking the item up (into your hands)
-	var/pickup_sound
-	///Sound uses when dropping the item, or when its thrown.
-	var/drop_sound
-	///Whether or not we use stealthy audio levels for this item's attack sounds
-	var/stealthy_audio = FALSE
-	///Sound which is produced when blocking an attack
-	var/block_sound
-
-	///How large is the object, used for stuff like whether it can fit in backpacks or not
+	var/hitsound = null
+	var/usesound = null
+	var/throwhitsound = null
 	var/w_class = WEIGHT_CLASS_NORMAL
-	///This is used to determine on which slots an item can fit.
-	var/slot_flags = 0
+	var/slot_flags = 0		//This is used to determine on which slots an item can fit.
 	pass_flags = PASSTABLE
 	pressure_resistance = 4
-	/// This var exists as a weird proxy "owner" ref
-	/// It's used in a few places. Stop using it, and optimially replace all uses please
 	var/obj/item/master = null
 
-	///Price of an item in a vending machine, overriding the base vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
-	var/custom_price
-	///Price of an item in a vending machine, overriding the premium vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
-	var/custom_premium_price
-	///Whether spessmen with an ID with an age below AGE_MINOR (20 by default) can buy this item
-	var/age_restricted = FALSE
+	var/heat_protection = 0 //flags which determine which body parts are protected from heat. Use the HEAD, CHEST, GROIN, etc. flags. See setup.dm
+	var/cold_protection = 0 //flags which determine which body parts are protected from cold. Use the HEAD, CHEST, GROIN, etc. flags. See setup.dm
+	var/max_heat_protection_temperature //Set this variable to determine up to which temperature (IN KELVIN) the item protects against heat damage. Keep at null to disable protection. Only protects areas set by heat_protection flags
+	var/min_cold_protection_temperature //Set this variable to determine down to which temperature (IN KELVIN) the item protects against cold damage. 0 is NOT an acceptable number due to if(varname) tests!! Keep at null to disable protection. Only protects areas set by cold_protection flags
 
-	///flags which determine which body parts are protected from heat. [See here][HEAD]
-	var/heat_protection = 0
-	///flags which determine which body parts are protected from cold. [See here][HEAD]
-	var/cold_protection = 0
-	///Set this variable to determine up to which temperature (IN KELVIN) the item protects against heat damage. Keep at null to disable protection. Only protects areas set by heat_protection flags
-	var/max_heat_protection_temperature
-	///Set this variable to determine down to which temperature (IN KELVIN) the item protects against cold damage. 0 is NOT an acceptable number due to if(varname) tests!! Keep at null to disable protection. Only protects areas set by cold_protection flags
-	var/min_cold_protection_temperature
-
-	///list of /datum/action's that this item has.
-	var/list/datum/action/actions
-	///list of paths of action datums to give to the item on New().
-	var/list/actions_types
+	var/list/actions //list of /datum/action's that this item has.
+	var/list/actions_types //list of paths of action datums to give to the item on New().
 
 	//Since any item can now be a piece of clothing, this has to be put here so all items share it.
-	///This flag is used to determine when items in someone's inventory cover others. IE helmets making it so you can't see glasses, etc.
-	var/flags_inv
-	///you can see someone's mask through their transparent visor, but you can't reach it
-	var/transparent_protection = NONE
+	var/flags_inv //This flag is used to determine when items in someone's inventory cover others. IE helmets making it so you can't see glasses, etc.
+	var/transparent_protection = NONE //you can see someone's mask through their transparent visor, but you can't reach it
 
-	///flags for what should be done when you click on the item, default is picking it up
 	var/interaction_flags_item = INTERACT_ITEM_ATTACK_HAND_PICKUP
 
-	///What body parts are covered by the clothing when you wear it
-	var/body_parts_covered = 0
-	/// for electrical admittance/conductance (electrocution checks and shit)
-	var/siemens_coefficient = 1
-	/// How much clothing is slowing you down. Negative values speeds you up
-	var/slowdown = 0
-	///percentage of armour effectiveness to remove
-	var/armour_penetration = 0
-	///Whether or not our object is easily hindered by the presence of armor
-	var/weak_against_armour = FALSE
-	/// The click cooldown given after attacking. Lower numbers means faster attacks
-	var/attack_speed = CLICK_CD_MELEE
-	/// The click cooldown on secondary attacks. Lower numbers mean faster attacks. Will use attack_speed if undefined.
-	var/secondary_attack_speed
-	///In deciseconds, how long an item takes to equip; counts only for normal clothing slots, not pockets etc.
-	var/equip_delay_self = 0
-	///In deciseconds, how long an item takes to put on another person
-	var/equip_delay_other = 20
-	///In deciseconds, how long an item takes to remove from another person
-	var/strip_delay = 40
-	///How long it takes to resist out of the item (cuffs and such)
+	var/item_color = null //this needs deprecating, soonish
+
+	var/body_parts_covered = 0 //see setup.dm for appropriate bit flags
+	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
+	var/permeability_coefficient = 1 // for chemicals/diseases
+	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
+	var/slowdown = 0 // How much clothing is slowing you down. Negative values speeds you up
+	var/armour_penetration = 0 //percentage of armour effectiveness to remove
+	var/list/allowed = null //suit storage stuff.
+	var/equip_delay_self = 0 //In deciseconds, how long an item takes to equip; counts only for normal clothing slots, not pockets etc.
+	var/equip_delay_other = 20 //In deciseconds, how long an item takes to put on another person
+	var/strip_delay = 40 //In deciseconds, how long an item takes to remove from another person
 	var/breakouttime = 0
+	var/list/materials
 
-	///Used in [atom/proc/attackby] to say how something was attacked `"[x] has been [z.attack_verb] by [y] with [z]"`
-	var/list/attack_verb_continuous
-	var/list/attack_verb_simple
-	///list() of species types, if a species cannot put items in a certain slot, but species type is in list, it will be able to wear that item
-	var/list/species_exception = null
-	///This is a bitfield that defines what variations exist for bodyparts like Digi legs. See: code\_DEFINES\inventory.dm
-	var/supports_variations_flags = NONE
+	var/list/attack_verb //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
+	var/list/species_exception = null	// list() of species types, if a species cannot put items in a certain slot, but species type is in list, it will be able to wear that item
 
-	///A weakref to the mob who threw the item
-	var/datum/weakref/thrownby = null //I cannot verbally describe how much I hate this var
-	///Items can by default thrown up to 10 tiles by TK users
-	tk_throw_range = 10
+	var/mob/thrownby = null
 
-	///the icon to indicate this object is being dragged
-	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //the icon to indicate this object is being dragged
 
-	///Does it embed and if yes, what kind of embed
-	var/list/embedding
+	var/datum/embedding_behavior/embedding
 
-	///for flags such as [GLASSESCOVERSEYES]
-	var/flags_cover = 0
+	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
-	///All items with sharpness of SHARP_EDGED or higher will automatically get the butchering component.
-	var/sharpness = NONE
+	var/sharpness = IS_BLUNT
 
-	///How a tool acts when you use it on something, such as wirecutters cutting wires while multitools measure power
-	var/tool_behaviour = null
-
-	///How fast does the tool work
+	var/tool_behaviour = NONE
 	var/toolspeed = 1
 
-	///Chance of blocking incoming attack
 	var/block_chance = 0
-	///Effect of blocking
-	var/block_effect = /obj/effect/temp_visual/block
 	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
-	///In tiles, how far this weapon can reach; 1 for adjacent, which is default
-	var/reach = 1
+	var/reach = 1 //In tiles, how far this weapon can reach; 1 for adjacent, which is default
 
-	///The list of slots by priority. equip_to_appropriate_slot() uses this list. Doesn't matter if a mob type doesn't have a slot. For default list, see [/mob/proc/equip_to_appropriate_slot]
-	var/list/slot_equipment_priority = null
+	//The list of slots by priority. equip_to_appropriate_slot() uses this list. Doesn't matter if a mob type doesn't have a slot.
+	var/list/slot_equipment_priority = null // for default list, see /mob/proc/equip_to_appropriate_slot()
 
-	///Reference to the datum that determines whether dogs can wear the item: Needs to be in /obj/item because corgis can wear a lot of non-clothing items
+	// Needs to be in /obj/item because corgis can wear a lot of
+	// non-clothing items
 	var/datum/dog_fashion/dog_fashion = null
 
+	var/datum/rpg_loot/rpg_loot = null
+
+
 	//Tooltip vars
-	///string form of an item's force. Edit this var only to set a custom force string
-	var/force_string
+	var/force_string //string form of an item's force. Edit this var only to set a custom force string
 	var/last_force_string_check = 0
 	var/tip_timer
 
-	///Determines who can shoot this
 	var/trigger_guard = TRIGGER_GUARD_NONE
 
-	///Used as the dye color source in the washing machine only (at the moment). Can be a hex color or a key corresponding to a registry entry, see washing_machine.dm
-	var/dye_color
-	///Whether the item is unaffected by standard dying.
-	var/undyeable = FALSE
-	///What dye registry should be looked at when dying this item; see washing_machine.dm
-	var/dying_key
+	//Grinder vars
+	var/list/grind_results //A reagent list containing the reagents this item produces when ground up in a grinder - this can be an empty list to allow for reagent transferring only
+	var/list/juice_results //A reagent list containing blah blah... but when JUICED in a grinder!
 
-	///Grinder var:A reagent list containing the reagents this item produces when ground up in a grinder - this can be an empty list to allow for reagent transferring only
-	var/list/grind_results
-	///A reagent the nutriments are converted into when the item is juiced.
-	var/datum/reagent/consumable/juice_typepath
+/obj/item/Initialize()
 
-	/// Used in obj/item/examine to give additional notes on what the weapon does, separate from the predetermined output variables
-	var/offensive_notes
-	/// Used in obj/item/examine to determines whether or not to detail an item's statistics even if it does not meet the force requirements
-	var/override_notes = FALSE
-	/// Used if we want to have a custom verb text for throwing. "John Spaceman flicks the ciggerate" for example.
-	var/throw_verb
+	materials =	typelist("materials", materials)
 
-	/// A lazylist used for applying fantasy values, contains the actual modification applied to a variable.
-	var/list/fantasy_modifications = null
-
-/obj/item/Initialize(mapload)
-	if(attack_verb_continuous)
-		attack_verb_continuous = string_list(attack_verb_continuous)
-	if(attack_verb_simple)
-		attack_verb_simple = string_list(attack_verb_simple)
-	if(species_exception)
-		species_exception = string_list(species_exception)
-
-	if(sharpness && force > 5) //give sharp objects butchering functionality, for consistency
-		AddComponent(/datum/component/butchering, speed = 8 SECONDS * toolspeed)
-
-	if(!greyscale_config && greyscale_colors && (greyscale_config_worn || greyscale_config_belt || greyscale_config_inhand_right || greyscale_config_inhand_left))
-		update_greyscale()
+	if (attack_verb)
+		attack_verb = typelist("attack_verb", attack_verb)
 
 	. = ..()
-
-	// Handle adding item associated actions
 	for(var/path in actions_types)
-		add_item_action(path)
+		new path(src)
 	actions_types = null
+
+	if(GLOB.rpg_loot_items)
+		rpg_loot = new(src)
 
 	if(force_string)
 		item_flags |= FORCE_STRING_OVERRIDE
 
 	if(!hitsound)
-		if(damtype == BURN)
+		if(damtype == "fire")
 			hitsound = 'sound/items/welder.ogg'
-		if(damtype == BRUTE)
-			hitsound = SFX_SWING_HIT
+		if(damtype == "brute")
+			hitsound = "swing_hit"
 
-	add_weapon_description()
+	if (!embedding)
+		embedding = getEmbeddingBehavior()
+	else if (islist(embedding))
+		embedding = getEmbeddingBehavior(arglist(embedding))
+	else if (!istype(embedding, /datum/embedding_behavior))
+		stack_trace("Invalid type [embedding.type] found in .embedding during /obj/item Initialize()")
 
-	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NEW_ITEM, src)
-	if(LAZYLEN(embedding))
-		updateEmbedding()
-
-/obj/item/Destroy(force)
-	// This var exists as a weird proxy "owner" ref
-	// It's used in a few places. Stop using it, and optimially replace all uses please
-	master = null
+/obj/item/Destroy()
+	item_flags &= ~DROPDEL	//prevent reqdels
 	if(ismob(loc))
 		var/mob/m = loc
 		m.temporarilyRemoveItemFromInventory(src, TRUE)
-
-	// Handle cleaning up our actions list
-	for(var/datum/action/action as anything in actions)
-		remove_item_action(action)
-
+	for(var/X in actions)
+		qdel(X)
+	QDEL_NULL(rpg_loot)
 	return ..()
 
-/// Called when an action associated with our item is deleted
-/obj/item/proc/on_action_deleted(datum/source)
-	SIGNAL_HANDLER
-
-	if(!(source in actions))
-		CRASH("An action ([source.type]) was deleted that was associated with an item ([src]), but was not found in the item's actions list.")
-
-	LAZYREMOVE(actions, source)
-
-/// Adds an item action to our list of item actions.
-/// Item actions are actions linked to our item, that are granted to mobs who equip us.
-/// This also ensures that the actions are properly tracked in the actions list and removed if they're deleted.
-/// Can be be passed a typepath of an action or an instance of an action.
-/obj/item/proc/add_item_action(action_or_action_type)
-
-	var/datum/action/action
-	if(ispath(action_or_action_type, /datum/action))
-		action = new action_or_action_type(src)
-	else if(istype(action_or_action_type, /datum/action))
-		action = action_or_action_type
+/obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
+	if(((src in target) && !target_self) || (!isturf(target.loc) && !isturf(target) && not_inside))
+		return 0
 	else
-		CRASH("item add_item_action got a type or instance of something that wasn't an action.")
-
-	LAZYADD(actions, action)
-	RegisterSignal(action, COMSIG_QDELETING, PROC_REF(on_action_deleted))
-	grant_action_to_bearer(action)
-	return action
-
-/// Grant the action to anyone who has this item equipped to an appropriate slot
-/obj/item/proc/grant_action_to_bearer(datum/action/action)
-	if(!ismob(loc))
-		return
-	var/mob/holder = loc
-	give_item_action(action, holder, holder.get_slot_by_item(src))
-
-/// Removes an instance of an action from our list of item actions.
-/obj/item/proc/remove_item_action(datum/action/action)
-	if(!action)
-		return
-
-	UnregisterSignal(action, COMSIG_QDELETING)
-	LAZYREMOVE(actions, action)
-	qdel(action)
-
-/// Called if this item is supposed to be a steal objective item objective.
-/obj/item/proc/add_stealing_item_objective()
-	return
-
-/// Adds the weapon_description element, which shows the 'warning label' for especially dangerous objects. Override this for item types with special notes.
-/obj/item/proc/add_weapon_description()
-	AddElement(/datum/element/weapon_description)
-
-/**
- * Checks if an item is allowed to be used on an atom/target
- * Returns TRUE if allowed.
- *
- * Args:
- * target_self - Whether we will check if we (src) are in target, preventing people from using items on themselves.
- * not_inside - Whether target (or target's loc) has to be a turf.
- */
-/obj/item/proc/check_allowed_items(atom/target, not_inside = FALSE, target_self = FALSE)
-	if(!target_self && (src in target))
-		return FALSE
-	if(not_inside && !isturf(target.loc) && !isturf(target))
-		return FALSE
-	return TRUE
+		return 1
 
 /obj/item/blob_act(obj/structure/blob/B)
 	if(B && B.loc == loc)
-		atom_destruction(MELEE)
+		qdel(src)
 
-/**Makes cool stuff happen when you suicide with an item
- *
- *Outputs a creative message and then return the damagetype done
- * Arguments:
- * * user: The mob that is suiciding
- */
-/obj/item/proc/suicide_act(mob/living/user)
+//user: The mob that is suiciding
+//damagetype: The type of damage the item will inflict on the user
+//BRUTELOSS = 1
+//FIRELOSS = 2
+//TOXLOSS = 4
+//OXYLOSS = 8
+//Output a creative message and then return the damagetype done
+/obj/item/proc/suicide_act(mob/user)
 	return
-
-/obj/item/set_greyscale(list/colors, new_config, new_worn_config, new_inhand_left, new_inhand_right)
-	if(new_worn_config)
-		greyscale_config_worn = new_worn_config
-	if(new_inhand_left)
-		greyscale_config_inhand_left = new_inhand_left
-	if(new_inhand_right)
-		greyscale_config_inhand_right = new_inhand_right
-	return ..()
-
-/// Checks if this atom uses the GAGS system and if so updates the worn and inhand icons
-/obj/item/update_greyscale()
-	. = ..()
-	if(!greyscale_colors)
-		return
-	if(greyscale_config_worn)
-		worn_icon = SSgreyscale.GetColoredIconByType(greyscale_config_worn, greyscale_colors)
-	if(greyscale_config_inhand_left)
-		lefthand_file = SSgreyscale.GetColoredIconByType(greyscale_config_inhand_left, greyscale_colors)
-	if(greyscale_config_inhand_right)
-		righthand_file = SSgreyscale.GetColoredIconByType(greyscale_config_inhand_right, greyscale_colors)
 
 /obj/item/verb/move_to_top()
 	set name = "Move To Top"
 	set category = "Object"
 	set src in oview(1)
 
-	if(!isturf(loc) || usr.stat != CONSCIOUS || HAS_TRAIT(usr, TRAIT_HANDS_BLOCKED))
+	if(!isturf(loc) || usr.stat || usr.restrained())
 		return
 
 	if(isliving(usr))
@@ -386,42 +183,27 @@
 			return
 
 	var/turf/T = loc
-	abstract_move(null)
-	forceMove(T)
+	loc = null
+	loc = T
 
 /obj/item/examine(mob/user) //This might be spammy. Remove?
-	. = ..()
-
-	. += "[gender == PLURAL ? "They are" : "It is"] a [weight_class_to_text(w_class)] item."
-
-	if(item_flags & CRUEL_IMPLEMENT)
-		. += "[src] seems quite practical for particularly <font color='red'>morbid</font> procedures and experiments."
-
-	if(resistance_flags & INDESTRUCTIBLE)
-		. += "[src] seems extremely robust! It'll probably withstand anything that could happen to it!"
+	..()
+	var/pronoun
+	if(src.gender == PLURAL)
+		pronoun = "They are"
 	else
-		if(resistance_flags & LAVA_PROOF)
-			. += "[src] is made of an extremely heat-resistant material, it'd probably be able to withstand lava!"
-		if(resistance_flags & (ACID_PROOF | UNACIDABLE))
-			. += "[src] looks pretty robust! It'd probably be able to withstand acid!"
-		if(resistance_flags & FREEZE_PROOF)
-			. += "[src] is made of cold-resistant materials."
-		if(resistance_flags & FIRE_PROOF)
-			. += "[src] is made of fire-retardant materials."
+		pronoun = "It is"
+	var/size = weightclass2text(src.w_class)
+	to_chat(user, "[pronoun] a [size] item." )
+
+	if(!user.research_scanner)
 		return
 
-/obj/item/examine_more(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_RESEARCH_SCANNER))
-		. += research_scan(user)
-
-/obj/item/proc/research_scan(mob/user)
-	/// Research prospects, including boostable nodes and point values. Deliver to a console to know whether the boosts have already been used.
+	// Research prospects, including boostable nodes and point values.
+	// Deliver to a console to know whether the boosts have already been used.
 	var/list/research_msg = list("<font color='purple'>Research prospects:</font> ")
-	///Separator between the items on the list
 	var/sep = ""
-	///Nodes that can be boosted
-	var/list/boostable_nodes = techweb_item_unlock_check(src)
+	var/list/boostable_nodes = techweb_item_boost_check(src)
 	if (boostable_nodes)
 		for(var/id in boostable_nodes)
 			var/datum/techweb_node/node = SSresearch.techweb_node_by_id(id)
@@ -440,151 +222,126 @@
 
 	// Extractable materials. Only shows the names, not the amounts.
 	research_msg += ".<br><font color='purple'>Extractable materials:</font> "
-	if (length(custom_materials))
+	if (materials.len)
 		sep = ""
-		for(var/mat in custom_materials)
+		for(var/mat in materials)
 			research_msg += sep
 			research_msg += CallMaterialName(mat)
 			sep = ", "
 	else
 		research_msg += "None"
 	research_msg += "."
-	return research_msg.Join()
+	to_chat(user, research_msg.Join())
+
+/obj/item/proc/speechModification(message)			//for message modding by mask slot.
+	return message
 
 /obj/item/interact(mob/user)
 	add_fingerprint(user)
 	ui_interact(user)
 
-/obj/item/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+/obj/item/ui_act(action, params)
 	add_fingerprint(usr)
 	return ..()
 
-/obj/item/vv_get_dropdown()
+/obj/item/attack_hand(mob/user)
 	. = ..()
-	VV_DROPDOWN_OPTION(VV_HK_ADD_FANTASY_AFFIX, "Add Fantasy Affix")
-
-/obj/item/vv_do_topic(list/href_list)
-	. = ..()
-
-	if(!.)
+	if(.)
+		return
+	if(!user)
+		return
+	if(anchored)
 		return
 
-	if(href_list[VV_HK_ADD_FANTASY_AFFIX])
-		if(!check_rights(R_FUN))
-			return
-		//gathering all affixes that make sense for this item
-		var/list/prefixes = list()
-		var/list/suffixes = list()
-		for(var/datum/fantasy_affix/affix_choice as anything in subtypesof(/datum/fantasy_affix))
-			affix_choice = new affix_choice()
-			if(!affix_choice.validate(src))
-				qdel(affix_choice)
-			else
-				if(affix_choice.placement & AFFIX_PREFIX)
-					prefixes[affix_choice.name] = affix_choice
-				else
-					suffixes[affix_choice.name] = affix_choice
-		//making it more presentable here
-		var/list/affixes = list("---PREFIXES---")
-		affixes.Add(prefixes)
-		affixes.Add("---SUFFIXES---")
-		affixes.Add(suffixes)
-		//admin picks, cleanup the ones we didn't do and handle chosen
-		var/picked_affix_name = tgui_input_list(usr, "Affix to add to [src]", "Enchant [src]", affixes)
-		if(isnull(picked_affix_name))
-			return
-		if(!affixes[picked_affix_name] || QDELETED(src))
-			return
-		var/datum/fantasy_affix/affix = affixes[picked_affix_name]
-		affixes.Remove(affix)
-		var/fantasy_quality = 0
-		if(affix.alignment & AFFIX_GOOD)
-			fantasy_quality++
+	if(resistance_flags & ON_FIRE)
+		var/mob/living/carbon/C = user
+		var/can_handle_hot = FALSE
+		if(!istype(C))
+			can_handle_hot = TRUE
+		else if(C.gloves && (C.gloves.max_heat_protection_temperature > 360))
+			can_handle_hot = TRUE
+		else if(C.has_trait(TRAIT_RESISTHEAT) || C.has_trait(TRAIT_RESISTHEATHANDS))
+			can_handle_hot = TRUE
+
+		if(can_handle_hot)
+			extinguish()
+			to_chat(user, "<span class='notice'>You put out the fire on [src].</span>")
 		else
-			fantasy_quality--
-		//name gets changed by the component so i want to store it for feedback later
-		var/before_name = name
-		//naming these vars that i'm putting into the fantasy component to make it more readable
-		var/canFail = FALSE
-		var/announce = FALSE
-		//Apply fantasy with affix. failing this should never happen, but if it does it should not be silent.
-		if(AddComponent(/datum/component/fantasy, fantasy_quality, list(affix), canFail, announce) == COMPONENT_INCOMPATIBLE)
-			to_chat(usr, span_warning("Fantasy component not compatible with [src]."))
-			CRASH("fantasy component incompatible with object of type: [type]")
-		to_chat(usr, span_notice("[before_name] now has [picked_affix_name]!"))
-		log_admin("[key_name(usr)] has added [picked_affix_name] fantasy affix to [before_name]")
-		message_admins(span_notice("[key_name(usr)] has added [picked_affix_name] fantasy affix to [before_name]"))
+			to_chat(user, "<span class='warning'>You burn your hand on [src]!</span>")
+			var/obj/item/bodypart/affecting = C.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+			if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
+				C.update_damage_overlays()
+			return
 
-/obj/item/attack_hand(mob/user, list/modifiers)
-	. = ..()
-	if(. || !user || anchored)
-		return
-	return attempt_pickup(user)
+	if(acid_level > 20 && !ismob(loc))// so we can still remove the clothes on us that have acid.
+		var/mob/living/carbon/C = user
+		if(istype(C))
+			if(!C.gloves || (!(C.gloves.resistance_flags & (UNACIDABLE|ACID_PROOF))))
+				to_chat(user, "<span class='warning'>The acid on [src] burns your hand!</span>")
+				var/obj/item/bodypart/affecting = C.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+				if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
+					C.update_damage_overlays()
 
-/obj/item/proc/attempt_pickup(mob/user, skip_grav = FALSE)
-	. = TRUE
-
-	if(!(interaction_flags_item & INTERACT_ITEM_ATTACK_HAND_PICKUP)) //See if we're supposed to auto pickup.
+	if(!(interaction_flags_item & INTERACT_ITEM_ATTACK_HAND_PICKUP))		//See if we're supposed to auto pickup.
 		return
 
-	if(!skip_grav)
-		//Heavy gravity makes picking up things very slow.
-		var/grav = user.has_gravity()
-		if(grav > STANDARD_GRAVITY)
-			var/grav_power = min(3,grav - STANDARD_GRAVITY)
-			to_chat(user,span_notice("You start picking up [src]..."))
-			if(!do_after(user, 30 * grav_power, src))
-				return
+	//Heavy gravity makes picking up things very slow.
+	var/grav = user.has_gravity()
+	if(grav > STANDARD_GRAVITY)
+		var/grav_power = min(3,grav - STANDARD_GRAVITY)
+		to_chat(user,"<span class='notice'>You start picking up [src]...</span>")
+		if(!do_mob(user,src,30*grav_power))
+			return
+
 
 	//If the item is in a storage item, take it out
-	var/outside_storage = !loc.atom_storage
-	var/turf/storage_turf
-	if(loc.atom_storage)
-		//We want the pickup animation to play even if we're moving the item between movables. Unless the mob is not located on a turf.
-		if(isturf(user.loc))
-			storage_turf = get_turf(loc)
-		if(!loc.atom_storage.remove_single(user, src, user, silent = TRUE))
-			return
-	if(QDELETED(src)) //moving it out of the storage destroyed it.
-		return
-
-	if(storage_turf)
-		do_pickup_animation(user, storage_turf)
+	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
 
 	if(throwing)
 		throwing.finalize(FALSE)
-	if(loc == user && outside_storage)
+	if(loc == user)
 		if(!allow_attack_hand_drop(user) || !user.temporarilyRemoveItemFromInventory(src))
 			return
 
-	. = FALSE
 	pickup(user)
 	add_fingerprint(user)
-	if(!user.put_in_active_hand(src, ignore_animation = !outside_storage))
+	if(!user.put_in_active_hand(src, FALSE, FALSE))
 		user.dropItemToGround(src)
-		return TRUE
 
 /obj/item/proc/allow_attack_hand_drop(mob/user)
 	return TRUE
 
-/obj/item/attack_paw(mob/user, list/modifiers)
-	. = ..()
-	if(. || !user || anchored)
+/obj/item/attack_paw(mob/user)
+	if(!user)
 		return
-	return attempt_pickup(user)
-
-/obj/item/attack_alien(mob/user, list/modifiers)
-	var/mob/living/carbon/alien/ayy = user
-
-	if(!user.can_hold_items(src))
-		if(src in ayy.contents) // To stop Aliens having items stuck in their pockets
-			ayy.dropItemToGround(src)
-		to_chat(user, span_warning("Your claws aren't capable of such fine manipulation!"))
+	if(anchored)
 		return
-	attack_paw(ayy, modifiers)
+
+	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
+
+	if(throwing)
+		throwing.finalize(FALSE)
+	if(loc == user)
+		if(!user.temporarilyRemoveItemFromInventory(src))
+			return
+
+	pickup(user)
+	add_fingerprint(user)
+	if(!user.put_in_active_hand(src, FALSE, FALSE))
+		user.dropItemToGround(src)
+
+/obj/item/attack_alien(mob/user)
+	var/mob/living/carbon/alien/A = user
+
+	if(!A.has_fine_manipulation)
+		if(src in A.contents) // To stop Aliens having items stuck in their pockets
+			A.dropItemToGround(src)
+		to_chat(user, "<span class='warning'>Your claws aren't capable of such fine manipulation!</span>")
+		return
+	attack_paw(A)
 
 /obj/item/attack_ai(mob/user)
-	if(istype(src.loc, /obj/item/robot_model))
+	if(istype(src.loc, /obj/item/robot_module))
 		//If the item is part of a cyborg module, equip it
 		if(!iscyborg(user))
 			return
@@ -593,153 +350,67 @@
 			R.activate_module(src)
 			R.hud_used.update_robot_modules_display()
 
+/obj/item/proc/GetDeconstructableContents()
+	return GetAllContents() - src
+
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_HIT_REACT, owner, hitby, attack_text, final_block_chance, damage, attack_type, damage_type) & COMPONENT_HIT_REACTION_BLOCK)
-		return TRUE
-
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	SEND_SIGNAL(src, COMSIG_ITEM_HIT_REACT, args)
 	if(prob(final_block_chance))
-		owner.visible_message(span_danger("[owner] blocks [attack_text] with [src]!"))
-		var/owner_turf = get_turf(owner)
-		new block_effect(owner_turf, COLOR_YELLOW)
-		playsound(src, block_sound, BLOCK_SOUND_VOLUME, vary = TRUE)
-		return TRUE
+		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
+		return 1
+	return 0
 
-/**
- * Handles someone talking INTO an item
- *
- * Commonly used by someone holding it and using .r or .l
- * Also used by radios
- *
- * * speaker - the atom that is doing the talking
- * * message - the message being spoken
- * * channel - the channel the message is being spoken on, only really used for radios
- * * spans - the spans of the message
- * * language - the language the message is in
- * * message_mods - any message mods that should be applied to the message
- *
- * Return a flag that modifies the original message
- */
-/obj/item/proc/talk_into(atom/movable/speaker, message, channel, list/spans, datum/language/language, list/message_mods)
-	return SEND_SIGNAL(src, COMSIG_ITEM_TALK_INTO, speaker, message, channel, spans, language, message_mods) || (ITALICS|REDUCE_RANGE)
+/obj/item/proc/talk_into(mob/M, input, channel, spans, datum/language/language)
+	return ITALICS | REDUCE_RANGE
 
-/// Called when a mob drops an item.
-/obj/item/proc/dropped(mob/user, silent = FALSE)
-	SHOULD_CALL_PARENT(TRUE)
-
-	// Remove any item actions we temporary gave out.
-	for(var/datum/action/action_item_has as anything in actions)
-		action_item_has.Remove(user)
-
-	if(item_flags & DROPDEL && !QDELETED(src))
+/obj/item/proc/dropped(mob/user)
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.Remove(user)
+	if(item_flags & DROPDEL)
 		qdel(src)
 	item_flags &= ~IN_INVENTORY
-	SEND_SIGNAL(src, COMSIG_ITEM_DROPPED, user)
-	if(!silent)
-		playsound(src, drop_sound, DROP_SOUND_VOLUME, ignore_walls = FALSE)
-	user?.update_equipment_speed_mods()
+	SEND_SIGNAL(src, COMSIG_ITEM_DROPPED,user)
 
-/// called just as an item is picked up (loc is not yet changed)
+// called just as an item is picked up (loc is not yet changed)
 /obj/item/proc/pickup(mob/user)
-	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ITEM_PICKUP, user)
-	SEND_SIGNAL(user, COMSIG_LIVING_PICKED_UP_ITEM, src)
 	item_flags |= IN_INVENTORY
 
-/// called when "found" in pockets and storage items. Returns 1 if the search should end.
+// called when "found" in pockets and storage items. Returns 1 if the search should end.
 /obj/item/proc/on_found(mob/finder)
 	return
 
-/**
- * Called after an item is placed in an equipment slot. Runs equipped(), then sends a signal.
- * This should be called last or near-to-last, after all other inventory code stuff is handled.
- *
- * Arguments:
- * * user is mob that equipped it
- * * slot uses the slot_X defines found in setup.dm for items that can be placed in multiple slots
- * * initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
- */
-/obj/item/proc/on_equipped(mob/user, slot, initial = FALSE)
-	SHOULD_NOT_OVERRIDE(TRUE)
-	equipped(user, slot, initial)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_POST_EQUIPPED, user, slot) && COMPONENT_EQUIPPED_FAILED)
-		return FALSE
-	return TRUE
-
-/**
- * To be overwritten to only perform visual tasks;
- * this is directly called instead of `equipped` on visual-only features like human dummies equipping outfits.
- *
- * This separation exists to prevent things like the monkey sentience helmet from
- * polling ghosts while it's just being equipped as a visual preview for a dummy.
- */
-/obj/item/proc/visual_equipped(mob/user, slot, initial = FALSE)
-	return
-
-/**
- * Called by on_equipped. Don't call this directly, we want the ITEM_POST_EQUIPPED signal to be sent after everything else.
- *
- * Note that hands count as slots.
- *
- * Arguments:
- * * user is mob that equipped it
- * * slot uses the slot_X defines found in setup.dm for items that can be placed in multiple slots
- * * initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
- */
-/obj/item/proc/equipped(mob/user, slot, initial = FALSE)
-	SHOULD_CALL_PARENT(TRUE)
-	PROTECTED_PROC(TRUE)
-	visual_equipped(user, slot, initial)
+// called after an item is placed in an equipment slot
+// user is mob that equipped it
+// slot uses the slot_X defines found in setup.dm
+// for items that can be placed in multiple slots
+// note this isn't called during the initial dressing of a player
+/obj/item/proc/equipped(mob/user, slot)
 	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
-	SEND_SIGNAL(user, COMSIG_MOB_EQUIPPED_ITEM, src, slot)
-
-	// Give out actions our item has to people who equip it.
-	for(var/datum/action/action as anything in actions)
-		give_item_action(action, user, slot)
-
+	for(var/X in actions)
+		var/datum/action/A = X
+		if(item_action_slot_check(slot, user)) //some items only give their actions buttons when in a specific slot.
+			A.Grant(user)
 	item_flags |= IN_INVENTORY
-	if(!initial)
-		if(equip_sound && (slot_flags & slot))
-			playsound(src, equip_sound, EQUIP_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
-		else if(slot & ITEM_SLOT_HANDS)
-			playsound(src, pickup_sound, PICKUP_SOUND_VOLUME, ignore_walls = FALSE)
-	user.update_equipment_speed_mods()
 
-/// Gives one of our item actions to a mob, when equipped to a certain slot
-/obj/item/proc/give_item_action(datum/action/action, mob/to_who, slot)
-	// Some items only give their actions buttons when in a specific slot.
-	if(!item_action_slot_check(slot, to_who, action) || SEND_SIGNAL(src, COMSIG_ITEM_UI_ACTION_SLOT_CHECKED, to_who, action, slot) & COMPONENT_ITEM_ACTION_SLOT_INVALID)
-		// There is a chance we still have our item action currently,
-		// and are moving it from a "valid slot" to an "invalid slot".
-		// So call Remove() here regardless, even if excessive.
-		action.Remove(to_who)
-		return
-
-	action.Grant(to_who)
-
-/// Sometimes we only want to grant the item's action if it's equipped in a specific slot.
-/obj/item/proc/item_action_slot_check(slot, mob/user, datum/action/action)
-	if(slot & (ITEM_SLOT_BACKPACK|ITEM_SLOT_LEGCUFFED)) //these aren't true slots, so avoid granting actions there
+//sometimes we only want to grant the item's action if it's equipped in a specific slot.
+/obj/item/proc/item_action_slot_check(slot, mob/user)
+	if(slot == SLOT_IN_BACKPACK || slot == SLOT_LEGCUFFED) //these aren't true slots, so avoid granting actions there
 		return FALSE
 	return TRUE
 
-/**
- *the mob M is attempting to equip this item into the slot passed through as 'slot'. Return 1 if it can do this and 0 if it can't.
- *if this is being done by a mob other than M, it will include the mob equipper, who is trying to equip the item to mob M. equipper will be null otherwise.
- *If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
- * Arguments:
- * * disable_warning to TRUE if you wish it to not give you text outputs.
- * * slot is the slot we are trying to equip to
- * * bypass_equip_delay_self for whether we want to bypass the equip delay
- * * ignore_equipped ignores any already equipped items in that slot
- * * indirect_action allows inserting into "soft locked" bags, things that can be easily opened by the owner
- */
-/obj/item/proc/mob_can_equip(mob/living/M, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE, ignore_equipped = FALSE, indirect_action = FALSE)
+//the mob M is attempting to equip this item into the slot passed through as 'slot'. Return 1 if it can do this and 0 if it can't.
+//if this is being done by a mob other than M, it will include the mob equipper, who is trying to equip the item to mob M. equipper will be null otherwise.
+//If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
+//Set disable_warning to TRUE if you wish it to not give you outputs.
+/obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	if(!M)
 		return FALSE
 
-	return M.can_equip(src, slot, disable_warning, bypass_equip_delay_self, ignore_equipped, indirect_action = indirect_action)
+	return M.can_equip(src, slot, disable_warning, bypass_equip_delay_self)
 
 /obj/item/verb/verb_pickup()
 	set src in oview(1)
@@ -757,20 +428,84 @@
 	if(usr.get_active_held_item() == null) // Let me know if this has any problems -Yota
 		usr.UnarmedAttack(src)
 
-/**
- *This proc is executed when someone clicks the on-screen UI button.
- *The default action is attack_self().
- *Checks before we get to here are: mob is alive, mob is not restrained, stunned, asleep, resting, laying, item is on the mob.
- */
+//This proc is executed when someone clicks the on-screen UI button.
+//The default action is attack_self().
+//Checks before we get to here are: mob is alive, mob is not restrained, stunned, asleep, resting, laying, item is on the mob.
 /obj/item/proc/ui_action_click(mob/user, actiontype)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_UI_ACTION_CLICK, user, actiontype) & COMPONENT_ACTION_HANDLED)
-		return
-
 	attack_self(user)
 
-///This proc determines if and at what an object will reflect energy projectiles if it's in l_hand,r_hand or wear_suit
-/obj/item/proc/IsReflect(def_zone)
-	return FALSE
+/obj/item/proc/IsReflect(var/def_zone) //This proc determines if and at what% an object will reflect energy projectiles if it's in l_hand,r_hand or wear_suit
+	return 0
+
+/obj/item/proc/eyestab(mob/living/carbon/M, mob/living/carbon/user)
+
+	var/is_human_victim
+	var/obj/item/bodypart/affecting = M.get_bodypart(BODY_ZONE_HEAD)
+	if(ishuman(M))
+		if(!affecting) //no head!
+			return
+		is_human_victim = TRUE
+
+	if(M.is_eyes_covered())
+		// you can't stab someone in the eyes wearing a mask!
+		to_chat(user, "<span class='danger'>You're going to need to remove [M.p_their()] eye protection first!</span>")
+		return
+
+	if(isalien(M))//Aliens don't have eyes./N     slimes also don't have eyes!
+		to_chat(user, "<span class='warning'>You cannot locate any eyes on this creature!</span>")
+		return
+
+	if(isbrain(M))
+		to_chat(user, "<span class='danger'>You cannot locate any organic eyes on this brain!</span>")
+		return
+
+	src.add_fingerprint(user)
+
+	playsound(loc, src.hitsound, 30, 1, -1)
+
+	user.do_attack_animation(M)
+
+	if(M != user)
+		M.visible_message("<span class='danger'>[user] has stabbed [M] in the eye with [src]!</span>", \
+							"<span class='userdanger'>[user] stabs you in the eye with [src]!</span>")
+	else
+		user.visible_message( \
+			"<span class='danger'>[user] has stabbed [user.p_them()]self in the eyes with [src]!</span>", \
+			"<span class='userdanger'>You stab yourself in the eyes with [src]!</span>" \
+		)
+	if(is_human_victim)
+		var/mob/living/carbon/human/U = M
+		U.apply_damage(7, BRUTE, affecting)
+
+	else
+		M.take_bodypart_damage(7)
+
+	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "eye_stab", /datum/mood_event/eye_stab)
+
+	log_combat(user, M, "attacked", "[src.name]", "(INTENT: [uppertext(user.a_intent)])")
+
+	M.adjust_blurriness(3)
+	M.adjust_eye_damage(rand(2,4))
+	var/obj/item/organ/eyes/eyes = M.getorganslot(ORGAN_SLOT_EYES)
+	if (!eyes)
+		return
+	if(eyes.eye_damage >= 10)
+		M.adjust_blurriness(15)
+		if(M.stat != DEAD)
+			to_chat(M, "<span class='danger'>Your eyes start to bleed profusely!</span>")
+		if(!(M.has_trait(TRAIT_BLIND) || M.has_trait(TRAIT_NEARSIGHT)))
+			to_chat(M, "<span class='danger'>You become nearsighted!</span>")
+		M.become_nearsighted(EYE_DAMAGE)
+		if(prob(50))
+			if(M.stat != DEAD)
+				if(M.drop_all_held_items())
+					to_chat(M, "<span class='danger'>You drop what you're holding and clutch at your eyes!</span>")
+			M.adjust_blurriness(10)
+			M.Unconscious(20)
+			M.Paralyze(40)
+		if (prob(eyes.eye_damage - 10 + 1))
+			M.become_blind(EYE_DAMAGE)
+			to_chat(M, "<span class='danger'>You go blind!</span>")
 
 /obj/item/singularity_pull(S, current_size)
 	..()
@@ -779,85 +514,38 @@
 	else
 		return
 
-/obj/item/on_exit_storage(datum/storage/master_storage)
-	. = ..()
-	do_drop_animation(master_storage.parent)
-
 /obj/item/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(QDELETED(hit_atom))
-		return
-	if(SEND_SIGNAL(src, COMSIG_MOVABLE_PRE_IMPACT, hit_atom, throwingdatum) & COMPONENT_MOVABLE_IMPACT_NEVERMIND)
-		return
-	if(SEND_SIGNAL(hit_atom, COMSIG_ATOM_PREHITBY, src, throwingdatum) & COMSIG_HIT_PREVENTED)
-		return
+	if(hit_atom && !QDELETED(hit_atom))
+		SEND_SIGNAL(src, COMSIG_MOVABLE_IMPACT, hit_atom, throwingdatum)
+		if(is_hot() && isliving(hit_atom))
+			var/mob/living/L = hit_atom
+			L.IgniteMob()
+		var/itempush = 1
+		if(w_class < 4)
+			itempush = 0 //too light to push anything
+		return hit_atom.hitby(src, 0, itempush, throwingdatum=throwingdatum)
 
-	SEND_SIGNAL(src, COMSIG_MOVABLE_IMPACT, hit_atom, throwingdatum)
-	if(get_temperature() && isliving(hit_atom))
-		var/mob/living/L = hit_atom
-		L.ignite_mob()
-	var/itempush = 1
-	if(w_class < WEIGHT_CLASS_BULKY)
-		itempush = 0 //too light to push anything
-	if(isliving(hit_atom)) //Living mobs handle hit sounds differently.
-		var/volume = get_volume_by_throwforce_and_or_w_class()
-		if (throwforce > 0 || HAS_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND))
-			if (mob_throw_hit_sound)
-				playsound(hit_atom, mob_throw_hit_sound, volume, TRUE, -1)
-			else if(hitsound)
-				playsound(hit_atom, hitsound, volume, TRUE, -1)
-			else
-				playsound(hit_atom, 'sound/weapons/genhit.ogg',volume, TRUE, -1)
-		else
-			playsound(hit_atom, 'sound/weapons/throwtap.ogg', 1, volume, -1)
-
-	else
-		playsound(src, drop_sound, YEET_SOUND_VOLUME, ignore_walls = FALSE)
-	return hit_atom.hitby(src, 0, itempush, throwingdatum=throwingdatum)
-
-/obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force, gentle = FALSE, quickstart = TRUE)
-	if(HAS_TRAIT(src, TRAIT_NODROP))
-		return
-	thrownby = WEAKREF(thrower)
+/obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1, diagonals_first = 0, datum/callback/callback, force)
+	thrownby = thrower
 	callback = CALLBACK(src, PROC_REF(after_throw), callback) //replace their callback with our own
-	. = ..(target, range, speed, thrower, spin, diagonals_first, callback, force, gentle, quickstart = quickstart)
+	. = ..(target, range, speed, thrower, spin, diagonals_first, callback, force)
+
 
 /obj/item/proc/after_throw(datum/callback/callback)
 	if (callback) //call the original callback
 		. = callback.Invoke()
+	throw_speed = initial(throw_speed) //explosions change this.
 	item_flags &= ~IN_INVENTORY
-	if(!pixel_y && !pixel_x && !(item_flags & NO_PIXEL_RANDOM_DROP))
-		pixel_x = rand(-8,8)
-		pixel_y = rand(-8,8)
 
-/// Takes the location to move the item to, and optionally the mob doing the removing
-/// If no mob is provided, we'll pass in the location, assuming it is a mob
-/// Please use this if you're going to snowflake an item out of a obj/item/storage
-/obj/item/proc/remove_item_from_storage(atom/newLoc, mob/removing)
+/obj/item/proc/remove_item_from_storage(atom/newLoc) //please use this if you're going to snowflake an item out of a obj/item/storage
 	if(!newLoc)
 		return FALSE
-	if(!removing)
-		if(ismob(newLoc))
-			removing = newLoc
-		else
-			stack_trace("Tried to remove an item and place it into [newLoc] without implicitly or explicitly passing in a mob doing the removing")
-			return
-	if(loc.atom_storage)
-		return loc.atom_storage.remove_single(removing, src, newLoc, silent = TRUE)
+	if(SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
+		return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, TRUE)
 	return FALSE
 
-/// Returns the icon used for overlaying the object on a belt
-/obj/item/proc/get_belt_overlay()
-	var/icon_state_to_use = belt_icon_state || icon_state
-	if(greyscale_config_belt && greyscale_colors)
-		return mutable_appearance(SSgreyscale.GetColoredIconByType(greyscale_config_belt, greyscale_colors), icon_state_to_use)
-	return mutable_appearance('icons/obj/clothing/belt_overlays.dmi', icon_state_to_use)
-
-/**
- * Extend this to give the item an appearance when placed in a surgical tray. Uses an icon state in `medicart.dmi`.
- * * tray_extended - If true, the surgical tray the item is placed on is in "table mode"
- */
-/obj/item/proc/get_surgery_tool_overlay(tray_extended)
-	return null
+/obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt
+	return mutable_appearance('icons/obj/clothing/belt_overlays.dmi', icon_state)
 
 /obj/item/proc/update_slot_icon()
 	if(!ismob(loc))
@@ -865,75 +553,82 @@
 	var/mob/owner = loc
 	var/flags = slot_flags
 	if(flags & ITEM_SLOT_OCLOTHING)
-		owner.update_worn_oversuit()
+		owner.update_inv_wear_suit()
 	if(flags & ITEM_SLOT_ICLOTHING)
-		owner.update_worn_undersuit()
+		owner.update_inv_w_uniform()
 	if(flags & ITEM_SLOT_GLOVES)
-		owner.update_worn_gloves()
+		owner.update_inv_gloves()
 	if(flags & ITEM_SLOT_EYES)
-		owner.update_worn_glasses()
+		owner.update_inv_glasses()
 	if(flags & ITEM_SLOT_EARS)
 		owner.update_inv_ears()
 	if(flags & ITEM_SLOT_MASK)
-		owner.update_worn_mask()
+		owner.update_inv_wear_mask()
 	if(flags & ITEM_SLOT_HEAD)
-		owner.update_worn_head()
+		owner.update_inv_head()
 	if(flags & ITEM_SLOT_FEET)
-		owner.update_worn_shoes()
+		owner.update_inv_shoes()
 	if(flags & ITEM_SLOT_ID)
-		owner.update_worn_id()
+		owner.update_inv_wear_id()
 	if(flags & ITEM_SLOT_BELT)
-		owner.update_worn_belt()
+		owner.update_inv_belt()
 	if(flags & ITEM_SLOT_BACK)
-		owner.update_worn_back()
+		owner.update_inv_back()
 	if(flags & ITEM_SLOT_NECK)
-		owner.update_worn_neck()
+		owner.update_inv_neck()
 
-///Returns the temperature of src. If you want to know if an item is hot use this proc.
-/obj/item/proc/get_temperature()
-	if(resistance_flags & ON_FIRE)
-		return max(heat, BURNING_ITEM_MINIMUM_TEMPERATURE)
+/obj/item/proc/is_hot()
 	return heat
 
-///Returns the sharpness of src. If you want to get the sharpness of an item use this.
-/obj/item/proc/get_sharpness()
+/obj/item/proc/is_sharp()
 	return sharpness
+
+/obj/item/proc/get_dismemberment_chance(obj/item/bodypart/affecting)
+	if(affecting.can_dismember(src))
+		if((sharpness || damtype == BURN) && w_class >= WEIGHT_CLASS_NORMAL && force >= 10)
+			. = force * (affecting.get_damage() / affecting.max_damage)
 
 /obj/item/proc/get_dismember_sound()
 	if(damtype == BURN)
-		. = SFX_SEAR
+		. = 'sound/weapons/sear.ogg'
 	else
-		. = SFX_DESECRATION
+		. = pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg')
 
-/// Creates an ignition hotspot if item is lit and located on turf, in mask, or in hand
 /obj/item/proc/open_flame(flame_heat=700)
 	var/turf/location = loc
 	if(ismob(location))
-		var/mob/pyromanic = location
+		var/mob/M = location
 		var/success = FALSE
-		if(src == pyromanic.get_item_by_slot(ITEM_SLOT_MASK) || (src in pyromanic.held_items))
+		if(src == M.get_item_by_slot(SLOT_WEAR_MASK))
 			success = TRUE
 		if(success)
-			location = get_turf(pyromanic)
+			location = get_turf(M)
 	if(isturf(location))
 		location.hotspot_expose(flame_heat, 5)
 
-/// If an object can successfully be used as a fire starter it will return a message
 /obj/item/proc/ignition_effect(atom/A, mob/user)
-	if(get_temperature())
-		. = span_notice("[user] lights [A] with [src].")
+	if(is_hot())
+		. = "<span class='notice'>[user] lights [A] with [src].</span>"
 	else
 		. = ""
 
+
+//when an item modify our speech spans when in our active hand. Override this to modify speech spans.
+/obj/item/proc/get_held_item_speechspans(mob/living/carbon/user)
+	return
+
 /obj/item/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
-	return SEND_SIGNAL(src, COMSIG_ATOM_HITBY, AM, skipcatch, hitpush, blocked, throwingdatum)
+	return
 
 /obj/item/attack_hulk(mob/living/carbon/human/user)
-	return FALSE
+	return 0
 
-/obj/item/attack_animal(mob/living/simple_animal/user, list/modifiers)
+/obj/item/attack_animal(mob/living/simple_animal/M)
 	if (obj_flags & CAN_BE_HIT)
 		return ..()
+	return 0
+
+/obj/item/mech_melee_attack(obj/mecha/M)
 	return 0
 
 /obj/item/burn()
@@ -955,44 +650,20 @@
 		MO.desc = "Looks like this was \an [src] some time ago."
 		..()
 
-/obj/item/proc/microwave_act(obj/machinery/microwave/microwave_source, mob/microwaver, randomize_pixel_offset)
-	SHOULD_CALL_PARENT(TRUE)
+/obj/item/proc/microwave_act(obj/machinery/microwave/M)
+	if(istype(M) && M.dirty < 100)
+		M.dirty++
 
-	return SEND_SIGNAL(src, COMSIG_ITEM_MICROWAVE_ACT, microwave_source, microwaver, randomize_pixel_offset)
-
+/obj/item/proc/on_mob_death(mob/living/L, gibbed)
 
 /obj/item/proc/grind_requirements(obj/machinery/reagentgrinder/R) //Used to check for extra requirements for grinding an object
 	return TRUE
 
-///Called BEFORE the object is ground up - use this to change grind results based on conditions. Return "-1" to prevent the grinding from occurring
+ //Called BEFORE the object is ground up - use this to change grind results based on conditions
+ //Use "return -1" to prevent the grinding from occurring
 /obj/item/proc/on_grind()
-	return SEND_SIGNAL(src, COMSIG_ITEM_ON_GRIND)
 
-///Grind item, adding grind_results to item's reagents and transfering to target_holder if specified
-/obj/item/proc/grind(datum/reagents/target_holder, mob/user)
-	if(on_grind() == -1)
-		return FALSE
-	if(target_holder)
-		target_holder.add_reagent_list(grind_results)
-		if(reagents)
-			reagents.trans_to(target_holder, reagents.total_volume, transferred_by = user)
-	return TRUE
-
-///Called BEFORE the object is ground up - use this to change grind results based on conditions. Return "-1" to prevent the grinding from occurring
 /obj/item/proc/on_juice()
-	if(!juice_typepath)
-		return -1
-	return SEND_SIGNAL(src, COMSIG_ITEM_ON_JUICE)
-
-///Juice item, converting nutriments into juice_typepath and transfering to target_holder if specified
-/obj/item/proc/juice(datum/reagents/target_holder, mob/user)
-	if(on_juice() == -1)
-		return FALSE
-	if(reagents)
-		reagents.convert_reagent(/datum/reagent/consumable, juice_typepath, include_source_subtypes = TRUE)
-		if(target_holder)
-			reagents.trans_to(target_holder, reagents.total_volume, transferred_by = user)
-	return TRUE
 
 /obj/item/proc/set_force_string()
 	switch(force)
@@ -1021,72 +692,25 @@
 		openToolTip(user,src,params,title = name,content = "[desc]<br><b>Force:</b> [force_string]",theme = "")
 
 /obj/item/MouseEntered(location, control, params)
-	. = ..()
-	if(((get(src, /mob) == usr) || loc?.atom_storage || (item_flags & IN_STORAGE)) && !QDELETED(src)) //nullspace exists.
-		var/mob/living/L = usr
-		if(usr.client.prefs.read_preference(/datum/preference/toggle/enable_tooltips))
-			var/timedelay = usr.client.prefs.read_preference(/datum/preference/numeric/tooltip_delay) / 100
-			tip_timer = addtimer(CALLBACK(src, PROC_REF(openTip), location, control, params, usr), timedelay, TIMER_STOPPABLE)//timer takes delay in deciseconds, but the pref is in milliseconds. dividing by 100 converts it.
-		if(usr.client.prefs.read_preference(/datum/preference/toggle/item_outlines))
-			if(istype(L) && L.incapacitated())
-				apply_outline(COLOR_RED_GRAY) //if they're dead or handcuffed, let's show the outline as red to indicate that they can't interact with that right now
-			else
-				apply_outline() //if the player's alive and well we send the command with no color set, so it uses the theme's color
-
-/obj/item/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
-	. = ..()
-	remove_filter(HOVER_OUTLINE_FILTER) //get rid of the hover effect in case the mouse exit isn't called if someone drags and drops an item and somthing goes wrong
+	if((item_flags & IN_INVENTORY) && usr.client.prefs.enable_tips && !QDELETED(src))
+		var/timedelay = usr.client.prefs.tip_delay/100
+		var/user = usr
+		tip_timer = addtimer(CALLBACK(src, PROC_REF(openTip), location, control, params, user), timedelay, TIMER_STOPPABLE)//timer takes delay in deciseconds, but the pref is in milliseconds. dividing by 100 converts it.
 
 /obj/item/MouseExited()
-	deltimer(tip_timer) //delete any in-progress timer if the mouse is moved off the item before it finishes
+	deltimer(tip_timer)//delete any in-progress timer if the mouse is moved off the item before it finishes
 	closeToolTip(usr)
-	remove_filter(HOVER_OUTLINE_FILTER)
 
-/obj/item/proc/apply_outline(outline_color = null)
-	if(((get(src, /mob) != usr) && !loc?.atom_storage && !(item_flags & IN_STORAGE)) || QDELETED(src) || isobserver(usr)) //cancel if the item isn't in an inventory, is being deleted, or if the person hovering is a ghost (so that people spectating you don't randomly make your items glow)
-		return FALSE
-	var/theme = lowertext(usr.client?.prefs?.read_preference(/datum/preference/choiced/ui_style))
-	if(!outline_color) //if we weren't provided with a color, take the theme's color
-		switch(theme) //yeah it kinda has to be this way
-			if("midnight")
-				outline_color = COLOR_THEME_MIDNIGHT
-			if("plasmafire")
-				outline_color = COLOR_THEME_PLASMAFIRE
-			if("retro")
-				outline_color = COLOR_THEME_RETRO //just as garish as the rest of this theme
-			if("slimecore")
-				outline_color = COLOR_THEME_SLIMECORE
-			if("operative")
-				outline_color = COLOR_THEME_OPERATIVE
-			if("clockwork")
-				outline_color = COLOR_THEME_CLOCKWORK //if you want free gbp go fix the fact that clockwork's tooltip css is glass'
-			if("glass")
-				outline_color = COLOR_THEME_GLASS
-			else //this should never happen, hopefully
-				outline_color = COLOR_WHITE
-	if(color)
-		outline_color = COLOR_WHITE //if the item is recolored then the outline will be too, let's make the outline white so it becomes the same color instead of some ugly mix of the theme and the tint
 
-	add_filter(HOVER_OUTLINE_FILTER, 1, list("type" = "outline", "size" = 1, "color" = outline_color))
-
-/// Called when a mob tries to use the item as a tool. Handles most checks.
+// Called when a mob tries to use the item as a tool.
+// Handles most checks.
 /obj/item/proc/use_tool(atom/target, mob/living/user, delay, amount=0, volume=0, datum/callback/extra_checks)
 	// No delay means there is no start message, and no reason to call tool_start_check before use_tool.
 	// Run the start check here so we wouldn't have to call it manually.
 	if(!delay && !tool_start_check(user, amount))
 		return
 
-	var/skill_modifier = 1
-
-	if(tool_behaviour == TOOL_MINING && ishuman(user))
-		if(user.mind)
-			skill_modifier = user.mind.get_skill_modifier(/datum/skill/mining, SKILL_SPEED_MODIFIER)
-
-			if(user.mind.get_skill_level(/datum/skill/mining) >= SKILL_LEVEL_JOURNEYMAN && prob(user.mind.get_skill_modifier(/datum/skill/mining, SKILL_PROBS_MODIFIER))) // we check if the skill level is greater than Journeyman and then we check for the probality for that specific level.
-				mineral_scan_pulse(get_turf(user), SKILL_LEVEL_JOURNEYMAN - 2, scanner = src) //SKILL_LEVEL_JOURNEYMAN = 3 So to get range of 1+ we have to subtract 2 from it,.
-
-	delay *= toolspeed * skill_modifier
-
+	delay *= toolspeed
 
 	// Play tool sound at the beginning of tool usage.
 	play_tool_sound(target, volume)
@@ -1095,8 +719,13 @@
 		// Create a callback with checks that would be called every tick by do_after.
 		var/datum/callback/tool_check = CALLBACK(src, PROC_REF(tool_check_callback), user, amount, extra_checks)
 
-		if(!do_after(user, delay, target=target, extra_checks=tool_check))
-			return
+		if(ismob(target))
+			if(!do_mob(user, target, delay, extra_checks=tool_check))
+				return
+
+		else
+			if(!do_after(user, delay, target=target, extra_checks=tool_check))
+				return
 	else
 		// Invoke the extra checks once, just in case.
 		if(extra_checks && !extra_checks.Invoke())
@@ -1113,21 +742,21 @@
 
 	return TRUE
 
-/// Called before [obj/item/proc/use_tool] if there is a delay, or by [obj/item/proc/use_tool] if there isn't. Only ever used by welding tools and stacks, so it's not added on any other [obj/item/proc/use_tool] checks.
+// Called before use_tool if there is a delay, or by use_tool if there isn't.
+// Only ever used by welding tools and stacks, so it's not added on any other use_tool checks.
 /obj/item/proc/tool_start_check(mob/living/user, amount=0)
-	. = tool_use_check(user, amount)
-	if(.)
-		SEND_SIGNAL(src, COMSIG_TOOL_START_USE, user)
+	return tool_use_check(user, amount)
 
-/// A check called by [/obj/item/proc/tool_start_check] once, and by use_tool on every tick of delay.
+// A check called by tool_start_check once, and by use_tool on every tick of delay.
 /obj/item/proc/tool_use_check(mob/living/user, amount)
 	return !amount
 
-/// Generic use proc. Depending on the item, it uses up fuel, charges, sheets, etc. Returns TRUE on success, FALSE on failure.
+// Generic use proc. Depending on the item, it uses up fuel, charges, sheets, etc.
+// Returns TRUE on success, FALSE on failure.
 /obj/item/proc/use(used)
 	return !used
 
-/// Plays item's usesound, if any.
+// Plays item's usesound, if any.
 /obj/item/proc/play_tool_sound(atom/target, volume=50)
 	if(target && usesound && volume)
 		var/played_sound = usesound
@@ -1135,521 +764,32 @@
 		if(islist(usesound))
 			played_sound = pick(usesound)
 
-		playsound(target, played_sound, volume, TRUE)
+		playsound(target, played_sound, volume, 1)
 
-/// Used in a callback that is passed by use_tool into do_after call. Do not override, do not call manually.
+// Used in a callback that is passed by use_tool into do_after call. Do not override, do not call manually.
 /obj/item/proc/tool_check_callback(mob/living/user, amount, datum/callback/extra_checks)
-	SHOULD_NOT_OVERRIDE(TRUE)
-	. = tool_use_check(user, amount) && (!extra_checks || extra_checks.Invoke())
-	if(.)
-		SEND_SIGNAL(src, COMSIG_TOOL_IN_USE, user)
+	return tool_use_check(user, amount) && (!extra_checks || extra_checks.Invoke())
 
-/// Returns a numeric value for sorting items used as parts in machines, so they can be replaced by the rped
+// Returns a numeric value for sorting items used as parts in machines, so they can be replaced by the rped
 /obj/item/proc/get_part_rating()
 	return 0
 
 /obj/item/doMove(atom/destination)
-	if (!ismob(loc))
-		return ..()
-
-	var/mob/M = loc
-	var/hand_index = M.get_held_index_of_item(src)
-	if(!hand_index)
-		return ..()
-
-	M.held_items[hand_index] = null
-	M.update_held_items()
-	if(M.client)
-		M.client.screen -= src
-	layer = initial(layer)
-	SET_PLANE_IMPLICIT(src, initial(plane))
-	appearance_flags &= ~NO_CLIENT_COLOR
-	dropped(M, FALSE)
+	if (ismob(loc))
+		var/mob/M = loc
+		var/hand_index = M.get_held_index_of_item(src)
+		if(hand_index)
+			M.held_items[hand_index] = null
+			M.update_inv_hands()
+			if(M.client)
+				M.client.screen -= src
+			layer = initial(layer)
+			plane = initial(plane)
+			appearance_flags &= ~NO_CLIENT_COLOR
+			dropped(M)
 	return ..()
 
-/obj/item/proc/embedded(atom/embedded_target, obj/item/bodypart/part)
-	SHOULD_CALL_PARENT(TRUE)
-	SEND_SIGNAL(src, COMSIG_ITEM_EMBEDDED, embedded_target, part)
-
-/obj/item/proc/unembedded()
-	if(item_flags & DROPDEL && !QDELETED(src))
-		qdel(src)
-		return TRUE
-
-/obj/item/proc/canStrip(mob/stripper, mob/owner)
-	SHOULD_BE_PURE(TRUE)
-	return !HAS_TRAIT(src, TRAIT_NODROP) && !(item_flags & ABSTRACT)
-
-/obj/item/proc/doStrip(mob/stripper, mob/owner)
-	return owner.dropItemToGround(src)
-
-///Does the current embedding var meet the criteria for being harmless? Namely, does it have a pain multiplier and jostle pain mult of 0? If so, return true.
-/obj/item/proc/isEmbedHarmless()
-	if(embedding)
-		return !isnull(embedding["pain_mult"]) && !isnull(embedding["jostle_pain_mult"]) && embedding["pain_mult"] == 0 && embedding["jostle_pain_mult"] == 0
-
-///In case we want to do something special (like self delete) upon failing to embed in something.
-/obj/item/proc/failedEmbed()
-	SHOULD_CALL_PARENT(TRUE)
-	SEND_SIGNAL(src, COMSIG_ITEM_FAILED_EMBED)
-	if(item_flags & DROPDEL && !QDELETED(src))
-		qdel(src)
-
-///Called by the carbon throw_item() proc. Returns null if the item negates the throw, or a reference to the thing to suffer the throw else.
-/obj/item/proc/on_thrown(mob/living/carbon/user, atom/target)
-	if((item_flags & ABSTRACT) || HAS_TRAIT(src, TRAIT_NODROP))
+/obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=TRUE, diagonals_first = FALSE, var/datum/callback/callback)
+	if (item_flags & NODROP)
 		return
-	user.dropItemToGround(src, silent = TRUE)
-	if(throwforce && HAS_TRAIT(user, TRAIT_PACIFISM))
-		to_chat(user, span_notice("You set [src] down gently on the ground."))
-		return
-	return src
-
-/**
- * tryEmbed() is for when you want to try embedding something without dealing with the damage + hit messages of calling hitby() on the item while targeting the target.
- *
- * Really, this is used mostly with projectiles with shrapnel payloads, from [/datum/element/embed/proc/checkEmbedProjectile], and called on said shrapnel. Mostly acts as an intermediate between different embed elements.
- *
- * Returns TRUE if it embedded successfully, nothing otherwise
- *
- * Arguments:
- * * target- Either a body part or a carbon. What are we hitting?
- * * forced- Do we want this to go through 100%?
- */
-/obj/item/proc/tryEmbed(atom/target, forced=FALSE)
-	if(!isbodypart(target) && !iscarbon(target))
-		return NONE
-	if(!forced && !LAZYLEN(embedding))
-		return NONE
-
-	if(SEND_SIGNAL(src, COMSIG_EMBED_TRY_FORCE, target = target, forced = forced))
-		return COMPONENT_EMBED_SUCCESS
-	failedEmbed()
-
-///For when you want to disable an item's embedding capabilities (like transforming weapons and such), this proc will detach any active embed elements from it.
-/obj/item/proc/disableEmbedding()
-	SEND_SIGNAL(src, COMSIG_ITEM_DISABLE_EMBED)
-	return
-
-///For when you want to add/update the embedding on an item. Uses the vars in [/obj/item/var/embedding], and defaults to config values for values that aren't set. Will automatically detach previous embed elements on this item.
-/obj/item/proc/updateEmbedding()
-	SHOULD_CALL_PARENT(TRUE)
-
-	SEND_SIGNAL(src, COMSIG_ITEM_EMBEDDING_UPDATE)
-	if(!LAZYLEN(embedding))
-		disableEmbedding()
-		return
-
-	AddElement(/datum/element/embed,\
-		embed_chance = (!isnull(embedding["embed_chance"]) ? embedding["embed_chance"] : EMBED_CHANCE),\
-		fall_chance = (!isnull(embedding["fall_chance"]) ? embedding["fall_chance"] : EMBEDDED_ITEM_FALLOUT),\
-		pain_chance = (!isnull(embedding["pain_chance"]) ? embedding["pain_chance"] : EMBEDDED_PAIN_CHANCE),\
-		pain_mult = (!isnull(embedding["pain_mult"]) ? embedding["pain_mult"] : EMBEDDED_PAIN_MULTIPLIER),\
-		remove_pain_mult = (!isnull(embedding["remove_pain_mult"]) ? embedding["remove_pain_mult"] : EMBEDDED_UNSAFE_REMOVAL_PAIN_MULTIPLIER),\
-		rip_time = (!isnull(embedding["rip_time"]) ? embedding["rip_time"] : EMBEDDED_UNSAFE_REMOVAL_TIME),\
-		ignore_throwspeed_threshold = (!isnull(embedding["ignore_throwspeed_threshold"]) ? embedding["ignore_throwspeed_threshold"] : FALSE),\
-		impact_pain_mult = (!isnull(embedding["impact_pain_mult"]) ? embedding["impact_pain_mult"] : EMBEDDED_IMPACT_PAIN_MULTIPLIER),\
-		jostle_chance = (!isnull(embedding["jostle_chance"]) ? embedding["jostle_chance"] : EMBEDDED_JOSTLE_CHANCE),\
-		jostle_pain_mult = (!isnull(embedding["jostle_pain_mult"]) ? embedding["jostle_pain_mult"] : EMBEDDED_JOSTLE_PAIN_MULTIPLIER),\
-		pain_stam_pct = (!isnull(embedding["pain_stam_pct"]) ? embedding["pain_stam_pct"] : EMBEDDED_PAIN_STAM_PCT))
-	return TRUE
-
-/// How many different types of mats will be counted in a bite?
-#define MAX_MATS_PER_BITE 2
-
-/*
- * On accidental consumption: when you somehow end up eating an item accidentally (currently, this is used for when items are hidden in food like bread or cake)
- *
- * The base proc will check if the item is sharp and has a decent force.
- * Then, it checks the item's mat datums for the effects it applies afterwards.
- * Then, it checks tiny items.
- * After all that, it returns TRUE if the item is set to be discovered. Otherwise, it returns FALSE.
- *
- * This works similarily to /suicide_act: if you want an item to have a unique interaction, go to that item
- * and give it an /on_accidental_consumption proc override. For a simple example of this, check out the nuke disk.
- *
- * Arguments
- * * M - the mob accidentally consuming the item
- * * user - the mob feeding M the item - usually, it's the same as M
- * * source_item - the item that held the item being consumed - bread, cake, etc
- * * discover_after - if the item will be discovered after being chomped (FALSE will usually mean it was swallowed, TRUE will usually mean it was bitten into and discovered)
- */
-/obj/item/proc/on_accidental_consumption(mob/living/carbon/victim, mob/living/carbon/user, obj/item/source_item, discover_after = TRUE)
-	if(get_sharpness() && force >= 5) //if we've got something sharp with a decent force (ie, not plastic)
-		INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob, emote), "scream")
-		victim.visible_message(span_warning("[victim] looks like [victim.p_theyve()] just bit something they shouldn't have!"), \
-							span_boldwarning("OH GOD! Was that a crunch? That didn't feel good at all!!"))
-
-		victim.apply_damage(max(15, force), BRUTE, BODY_ZONE_HEAD, wound_bonus = 10, sharpness = TRUE)
-		victim.losebreath += 2
-		if(tryEmbed(victim.get_bodypart(BODY_ZONE_CHEST), forced = TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
-			victim.apply_damage(max(25, force*1.5), BRUTE, BODY_ZONE_CHEST, wound_bonus = 7, sharpness = TRUE)
-			victim.losebreath += 6
-			discover_after = FALSE
-		if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
-			return
-		source_item?.reagents?.add_reagent(/datum/reagent/blood, 2)
-
-	else if(custom_materials?.len) //if we've got materials, lets see whats in it
-		// How many mats have we found? You can only be affected by two material datums by default
-		var/found_mats = 0
-		// How much of each material is in it? Used to determine if the glass should break
-		var/total_material_amount = 0
-
-		for(var/mats in custom_materials)
-			total_material_amount += custom_materials[mats]
-			if(found_mats >= MAX_MATS_PER_BITE)
-				continue //continue instead of break so we can finish adding up all the mats to the total
-
-			var/datum/material/discovered_mat = mats
-			if(discovered_mat.on_accidental_mat_consumption(victim, source_item))
-				found_mats++
-
-		//if there's glass in it and the glass is more than 60% of the item, then we can shatter it
-		if(custom_materials[GET_MATERIAL_REF(/datum/material/glass)] >= total_material_amount * 0.60)
-			if(prob(66)) //66% chance to break it
-				// The glass shard that is spawned into the source item
-				var/obj/item/shard/broken_glass = new /obj/item/shard(loc)
-				broken_glass.name = "broken [name]"
-				broken_glass.desc = "This used to be \a [name], but it sure isn't anymore."
-				playsound(victim, SFX_SHATTER, 25, TRUE)
-				qdel(src)
-				if(QDELETED(source_item))
-					broken_glass.on_accidental_consumption(victim, user)
-			else //33% chance to just "crack" it (play a sound) and leave it in the bread
-				playsound(victim, SFX_SHATTER, 15, TRUE)
-			discover_after = FALSE
-
-		victim.adjust_disgust(33)
-		victim.visible_message(span_warning("[victim] looks like [victim.p_theyve()] just bitten into something hard."), \
-						span_warning("Eugh! Did I just bite into something?"))
-
-	else if(w_class == WEIGHT_CLASS_TINY) //small items like soap or toys that don't have mat datums
-		// victim's chest (for cavity implanting the item)
-		var/obj/item/bodypart/chest/victim_cavity = victim.get_bodypart(BODY_ZONE_CHEST)
-		if(victim_cavity.cavity_item)
-			victim.vomit(vomit_flags = (MOB_VOMIT_MESSAGE | MOB_VOMIT_HARM), lost_nutrition = 5, distance = 0)
-			forceMove(drop_location())
-			to_chat(victim, span_warning("You vomit up a [name]! [source_item? "Was that in \the [source_item]?" : ""]"))
-		else
-			victim.transferItemToLoc(src, victim, TRUE)
-			victim.losebreath += 2
-			victim_cavity.cavity_item = src
-			to_chat(victim, span_warning("You swallow hard. [source_item? "Something small was in \the [source_item]..." : ""]"))
-		discover_after = FALSE
-
-	else
-		to_chat(victim, span_warning("[source_item? "Something strange was in the \the [source_item]..." : "I just bit something strange..."] "))
-
-	return discover_after
-
-#undef MAX_MATS_PER_BITE
-
-/**
- * Updates all action buttons associated with this item
- *
- * Arguments:
- * * update_flags - Which flags of the action should we update
- * * force - Force buttons update even if the given button icon state has not changed
- */
-/obj/item/proc/update_item_action_buttons(update_flags = ALL, force = FALSE)
-	for(var/datum/action/current_action as anything in actions)
-		current_action.build_all_button_icons(update_flags, force)
-
-// Update icons if this is being carried by a mob
-/obj/item/wash(clean_types)
-	. = ..()
-	if(ismob(loc))
-		var/mob/mob_loc = loc
-		mob_loc.update_clothing(slot_flags)
-
-/// Called on [/datum/element/openspace_item_click_handler/proc/on_afterattack]. Check the relative file for information.
-/obj/item/proc/handle_openspace_click(turf/target, mob/user, proximity_flag, click_parameters)
-	stack_trace("Undefined handle_openspace_click() behaviour. Ascertain the openspace_item_click_handler element has been attached to the right item and that its proc override doesn't call parent.")
-
-/**
- * * An interrupt for offering an item to other people, called mainly from [/mob/living/carbon/proc/give], in case you want to run your own offer behavior instead.
- *
- * * Return TRUE if you want to interrupt the offer.
- *
- * * Arguments:
- * * offerer - The person offering the item.
- * * offered - The person being offered the item.
- */
-/obj/item/proc/on_offered(mob/living/carbon/offerer, mob/living/carbon/offered)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_OFFERING, offerer) & COMPONENT_OFFER_INTERRUPT)
-		return TRUE
-
-/**
- * * An interrupt for someone trying to accept an offered item, called mainly from [/mob/living/carbon/proc/take], in case you want to run your own take behavior instead.
- *
- * * Return TRUE if you want to interrupt the taking.
- *
- * * Arguments:
- * * offerer - the person offering the item
- * * taker - the person trying to accept the offer
- */
-/obj/item/proc/on_offer_taken(mob/living/carbon/offerer, mob/living/carbon/taker)
-	if(SEND_SIGNAL(src, COMSIG_ITEM_OFFER_TAKEN, offerer, taker) & COMPONENT_OFFER_INTERRUPT)
-		return TRUE
-
-/// Special stuff you want to do when an outfit equips this item.
-/obj/item/proc/on_outfit_equip(mob/living/carbon/human/outfit_wearer, visuals_only, item_slot)
-	SHOULD_CALL_PARENT(TRUE)
-	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED_AS_OUTFIT, outfit_wearer, visuals_only, item_slot)
-
-/// Whether or not this item can be put into a storage item through attackby
-/obj/item/proc/attackby_storage_insert(datum/storage, atom/storage_holder, mob/user)
-	return TRUE
-
-/obj/item/proc/do_pickup_animation(atom/target, turf/source)
-	if(!source)
-		if(!istype(loc, /turf))
-			return
-		source = loc
-	var/image/pickup_animation = image(icon = src)
-	SET_PLANE(pickup_animation, GAME_PLANE, source)
-	pickup_animation.transform.Scale(0.75)
-	pickup_animation.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
-
-	var/direction = get_dir(source, target)
-	var/to_x = target.base_pixel_x
-	var/to_y = target.base_pixel_y
-
-	if(direction & NORTH)
-		to_y += 32
-	else if(direction & SOUTH)
-		to_y -= 32
-	if(direction & EAST)
-		to_x += 32
-	else if(direction & WEST)
-		to_x -= 32
-	if(!direction)
-		to_y += 10
-		pickup_animation.pixel_x += 6 * (prob(50) ? 1 : -1) //6 to the right or left, helps break up the straight upward move
-
-	var/atom/movable/flick_visual/pickup = source.flick_overlay_view(pickup_animation, 0.4 SECONDS)
-	var/matrix/animation_matrix = new(pickup.transform)
-	animation_matrix.Turn(pick(-30, 30))
-	animation_matrix.Scale(0.65)
-
-	animate(pickup, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 0.3 SECONDS, transform = animation_matrix, easing = CUBIC_EASING)
-	animate(alpha = 0, transform = matrix().Scale(0.7), time = 0.1 SECONDS)
-
-/obj/item/proc/do_drop_animation(atom/moving_from)
-	if(!istype(loc, /turf))
-		return
-
-	if(!istype(moving_from))
-		return
-
-	var/turf/current_turf = get_turf(src)
-	var/direction = get_dir(moving_from, current_turf)
-	var/from_x = moving_from.base_pixel_x
-	var/from_y = moving_from.base_pixel_y
-
-	if(direction & NORTH)
-		from_y -= 32
-	else if(direction & SOUTH)
-		from_y += 32
-	if(direction & EAST)
-		from_x -= 32
-	else if(direction & WEST)
-		from_x += 32
-	if(!direction)
-		from_y += 10
-		from_x += 6 * (prob(50) ? 1 : -1) //6 to the right or left, helps break up the straight upward move
-
-	//We're moving from these chords to our current ones
-	var/old_x = pixel_x
-	var/old_y = pixel_y
-	var/old_alpha = alpha
-	var/matrix/old_transform = transform
-	var/matrix/animation_matrix = new(old_transform)
-	animation_matrix.Turn(pick(-30, 30))
-	animation_matrix.Scale(0.7) // Shrink to start, end up normal sized
-
-	pixel_x = from_x
-	pixel_y = from_y
-	alpha = 0
-	transform = animation_matrix
-
-	SEND_SIGNAL(src, COMSIG_ATOM_TEMPORARY_ANIMATION_START, 3)
-	// This is instant on byond's end, but to our clients this looks like a quick drop
-	animate(src, alpha = old_alpha, pixel_x = old_x, pixel_y = old_y, transform = old_transform, time = 3, easing = CUBIC_EASING)
-
-/atom/movable/proc/do_item_attack_animation(atom/attacked_atom, visual_effect_icon, obj/item/used_item)
-	var/image/attack_image
-	if(visual_effect_icon)
-		attack_image = image(icon = 'icons/effects/effects.dmi', icon_state = visual_effect_icon)
-	else if(used_item)
-		attack_image = image(icon = used_item)
-		attack_image.plane = attacked_atom.plane + 1
-
-		// Scale the icon.
-		attack_image.transform *= 0.4
-		// The icon should not rotate.
-		attack_image.appearance_flags = APPEARANCE_UI
-
-		// Set the direction of the icon animation.
-		var/direction = get_dir(src, attacked_atom)
-		if(direction & NORTH)
-			attack_image.pixel_y = -12
-		else if(direction & SOUTH)
-			attack_image.pixel_y = 12
-
-		if(direction & EAST)
-			attack_image.pixel_x = -14
-		else if(direction & WEST)
-			attack_image.pixel_x = 14
-
-		if(!direction) // Attacked self?!
-			attack_image.pixel_y = 12
-			attack_image.pixel_x = 5 * (prob(50) ? 1 : -1)
-
-	if(!attack_image)
-		return
-
-	var/atom/movable/flick_visual/attack = attacked_atom.flick_overlay_view(attack_image, 1 SECONDS)
-	var/matrix/copy_transform = new(transform)
-	// And animate the attack!
-	animate(attack, alpha = 175, transform = copy_transform.Scale(0.75), pixel_x = 0, pixel_y = 0, pixel_z = 0, time = 0.3 SECONDS)
-	animate(time = 0.1 SECONDS)
-	animate(alpha = 0, time = 0.3 SECONDS, easing = CIRCULAR_EASING|EASE_OUT)
-
-/// Common proc used by painting tools like spraycans and palettes that can access the entire 24 bits color space.
-/obj/item/proc/pick_painting_tool_color(mob/user, default_color)
-	var/chosen_color = input(user,"Pick new color", "[src]", default_color) as color|null
-	if(!chosen_color || QDELETED(src) || IS_DEAD_OR_INCAP(user) || !user.is_holding(src))
-		return
-	set_painting_tool_color(chosen_color)
-
-/obj/item/proc/set_painting_tool_color(chosen_color)
-	SEND_SIGNAL(src, COMSIG_PAINTING_TOOL_SET_COLOR, chosen_color)
-
-/**
- * Returns null if this object cannot be used to interact with physical writing mediums such as paper.
- * Returns a list of key attributes for this object interacting with paper otherwise.
- */
-/obj/item/proc/get_writing_implement_details()
-	return null
-
-/**
- * When called on an item, and given a body targeting zone, this will return TRUE if the item slot matches the target zone, and FALSE otherwise.
- * Currently supports the jumpsuit, outersuit, backpack, belt, gloves, hat, ears, neck, mask, eyes, and feet slots. All other slots will auto return FALSE.
- */
-/obj/item/proc/compare_zone_to_item_slot(zone)
-	switch(slot_flags)
-		if(ITEM_SLOT_ICLOTHING, ITEM_SLOT_OCLOTHING, ITEM_SLOT_BACK)
-			return (zone == BODY_ZONE_CHEST)
-		if(ITEM_SLOT_BELT)
-			return (zone == BODY_ZONE_PRECISE_GROIN)
-		if(ITEM_SLOT_GLOVES)
-			return (zone == BODY_ZONE_R_ARM || zone == BODY_ZONE_L_ARM)
-		if(ITEM_SLOT_HEAD, ITEM_SLOT_EARS, ITEM_SLOT_NECK)
-			return (zone == BODY_ZONE_HEAD)
-		if(ITEM_SLOT_MASK)
-			return (zone == BODY_ZONE_PRECISE_MOUTH)
-		if(ITEM_SLOT_EYES)
-			return (zone == BODY_ZONE_PRECISE_EYES)
-		if(ITEM_SLOT_FEET)
-			return (zone == BODY_ZONE_L_LEG || zone == BODY_ZONE_R_LEG)
-	return FALSE
-
-/**
- * This proc calls at the begining of anytime an item is being equiped to a target by another mob.
- * It handles initial messages, AFK stripping, and initial logging.
- */
-/obj/item/proc/item_start_equip(atom/target, obj/item/equipping, mob/user, show_visible_message = TRUE)
-
-	if(show_visible_message)
-		if(HAS_TRAIT(equipping, TRAIT_DANGEROUS_OBJECT))
-			target.visible_message(
-				span_danger("[user] tries to put [equipping] on [target]."),
-				span_userdanger("[user] tries to put [equipping] on you."),
-				ignored_mobs = user,
-			)
-
-		else
-			target.visible_message(
-				span_notice("[user] tries to put [equipping] on [target]."),
-				span_notice("[user] tries to put [equipping] on you."),
-				ignored_mobs = user,
-			)
-
-		if(ishuman(target))
-			var/mob/living/carbon/human/victim_human = target
-			if(victim_human.key && !victim_human.client) // AKA braindead
-				if(victim_human.stat <= SOFT_CRIT && LAZYLEN(victim_human.afk_thefts) <= AFK_THEFT_MAX_MESSAGES)
-					var/list/new_entry = list(list(user.name, "tried equipping you with [equipping]", world.time))
-					LAZYADD(victim_human.afk_thefts, new_entry)
-
-			else if(victim_human.is_blind())
-				to_chat(target, span_userdanger("You feel someone trying to put something on you."))
-	user.do_item_attack_animation(target, used_item = equipping)
-
-	to_chat(user, span_notice("You try to put [equipping] on [target]..."))
-
-	user.log_message("is putting [equipping] on [key_name(target)]", LOG_ATTACK, color="red")
-	target.log_message("is having [equipping] put on them by [key_name(user)]", LOG_VICTIM, color="orange", log_globally=FALSE)
-
-/obj/item/update_atom_colour()
-	. = ..()
-	update_slot_icon()
-
-/// Modifies the fantasy variable
-/obj/item/proc/modify_fantasy_variable(variable_key, value, bonus, minimum = 0)
-	var/result = LAZYACCESS(fantasy_modifications, variable_key)
-	if(!isnull(result))
-		if(HAS_TRAIT(src, TRAIT_INNATELY_FANTASTICAL_ITEM))
-			return result // we are immune to your foul magicks you inferior wizard, we keep our bonuses
-
-		stack_trace("modify_fantasy_variable was called twice for the same key '[variable_key]' on type '[type]' before reset_fantasy_variable could be called!")
-
-	var/intended_target = value + bonus
-	value = max(minimum, intended_target)
-
-	var/difference = intended_target - value
-	var/modified_amount = bonus - difference
-	LAZYSET(fantasy_modifications, variable_key, modified_amount)
-	return value
-
-/// Returns the original fantasy variable value
-/obj/item/proc/reset_fantasy_variable(variable_key, current_value)
-	var/modification = LAZYACCESS(fantasy_modifications, variable_key)
-
-	if(isnum(modification) && HAS_TRAIT(src, TRAIT_INNATELY_FANTASTICAL_ITEM))
-		return modification // we are immune to your foul magicks you inferior wizard, we keep our bonuses the way they are
-
-	LAZYREMOVE(fantasy_modifications, variable_key)
-	if(isnull(modification))
-		return current_value
-
-	return current_value - modification
-
-/obj/item/proc/apply_fantasy_bonuses(bonus)
-	SHOULD_CALL_PARENT(TRUE)
-	SEND_SIGNAL(src, COMSIG_ITEM_APPLY_FANTASY_BONUSES, bonus)
-	force = modify_fantasy_variable("force", force, bonus)
-	throwforce = modify_fantasy_variable("throwforce", throwforce, bonus)
-	wound_bonus = modify_fantasy_variable("wound_bonus", wound_bonus, bonus)
-	bare_wound_bonus = modify_fantasy_variable("bare_wound_bonus", bare_wound_bonus, bonus)
-	toolspeed = modify_fantasy_variable("toolspeed", toolspeed, -bonus/10, minimum = 0.1)
-
-/obj/item/proc/remove_fantasy_bonuses(bonus)
-	SHOULD_CALL_PARENT(TRUE)
-	force = reset_fantasy_variable("force", force)
-	throwforce = reset_fantasy_variable("throwforce", throwforce)
-	wound_bonus = reset_fantasy_variable("wound_bonus", wound_bonus)
-	bare_wound_bonus = reset_fantasy_variable("bare_wound_bonus", bare_wound_bonus)
-	toolspeed = reset_fantasy_variable("toolspeed", toolspeed)
-	SEND_SIGNAL(src, COMSIG_ITEM_REMOVE_FANTASY_BONUSES, bonus)
-
-//automatically finds tool behavior if there is only one. requires an extension of the proc if a tool has multiple behaviors
-/obj/item/proc/get_all_tool_behaviours()
-	if (!isnull(tool_behaviour))
-		return list(tool_behaviour)
-	return null
-
-/obj/item/animate_atom_living(mob/living/owner)
-	new /mob/living/simple_animal/hostile/mimic/copy(drop_location(), src, owner)
+	return ..()

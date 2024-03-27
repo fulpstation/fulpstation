@@ -1,574 +1,318 @@
-/// How many more items does `max_items` get increased by per rating point.
-#define MAX_ITEMS_PER_RATING 10
-/// How many items are converted per cycle, per rating point of the manipulator used.
-#define PROCESSED_ITEMS_PER_RATING 5
-/// Starting purity of reagents made in biogenerator
-#define BIOGEN_REAGENT_PURITY 0.3
-
 /obj/machinery/biogenerator
 	name = "biogenerator"
 	desc = "Converts plants into biomass, which can be used to construct useful items."
 	icon = 'icons/obj/machines/biogenerator.dmi'
-	icon_state = "biogenerator"
+	icon_state = "biogen-empty"
 	density = TRUE
+	use_power = IDLE_POWER_USE
+	idle_power_usage = 40
 	circuit = /obj/item/circuitboard/machine/biogenerator
-	processing_flags = START_PROCESSING_MANUALLY
-	/// Whether the biogenerator is currently processing biomass or not.
 	var/processing = FALSE
-	/// The reagent container that is currently inside of the biomass generator. Can be null.
-	var/obj/item/reagent_containers/cup/beaker = null
-	/// The amount of biomass that's currently stored in the biogenerator.
-	var/biomass = 0
-	/// The amount by which the biomass consumption will be divided.
-	var/efficiency = 1
-	/// The conversion factor for nutrient to biomass, and the amount of additional items that will be processed at once per cycle.
-	var/productivity = 1
-	/// The amount of items that will be converted into biomass per processing cycle.
-	var/processed_items_per_cycle = 5
-	/// The maximum amount of items the biogenerator can hold for biomass conversion purposes.
-	var/max_items = 20
-	/// The current amount of items that can be converted into biomass that the biogenerator is holding.
-	var/current_item_count = 0
-	/// The maximum amount of biomass that will affect the visuals of the biogenerator.
-	var/max_visual_biomass = 5000
-	/// The maximum amount of reagents that the biogenerator can output to a container at once.
-	var/max_output = 50
-	/// The research that is stored within this biogenerator.
+	var/obj/item/reagent_containers/glass/beaker = null
+	var/points = 0
+	var/menustat = "menu"
+	var/efficiency = 0
+	var/productivity = 0
+	var/max_items = 40
 	var/datum/techweb/stored_research
-	/// The different visual categories for the biogenerator, for the tabs.
-	var/list/show_categories = list(
-		RND_CATEGORY_BIO_FOOD,
-		RND_CATEGORY_BIO_CHEMICALS,
-		RND_CATEGORY_BIO_MATERIALS,
-	)
-	/// The category that's currently selected in the UI.
-	var/selected_cat
-	/// The sound loop that can be heard when the generator is processing.
-	var/datum/looping_sound/generator/soundloop
-	/// Whether the biogen is welded down to the floor disabling unwrenching
-	var/welded_down = FALSE
+	var/list/show_categories = list("Food", "Botany Chemicals", "Organic Materials")
+	var/list/timesFiveCategories = list("Food", "Botany Chemicals")
 
-/obj/machinery/biogenerator/Initialize(mapload)
+/obj/machinery/biogenerator/Initialize()
 	. = ..()
-	if(!GLOB.autounlock_techwebs[/datum/techweb/autounlocking/biogenerator])
-		GLOB.autounlock_techwebs[/datum/techweb/autounlocking/biogenerator] = new /datum/techweb/autounlocking/biogenerator
-	stored_research = GLOB.autounlock_techwebs[/datum/techweb/autounlocking/biogenerator]
-	soundloop = new(src, processing)
-	if(mapload)
-		welded_down = TRUE
-
-/obj/machinery/biogenerator/can_be_unfasten_wrench(mob/user, silent)
-	if(welded_down)
-		to_chat(user, span_warning("[src] is welded to the floor!"))
-		return FAILED_UNFASTEN
-	return ..()
-
-/obj/machinery/biogenerator/set_anchored(anchorvalue)
-	. = ..()
-	if(!anchored && welded_down) //make sure they're keep in sync in case it was forcibly unanchored by badmins or by a megafauna.
-		welded_down = FALSE
-
-/obj/machinery/biogenerator/welder_act(mob/living/user, obj/item/tool)
-	..()
-	if(welded_down)
-		if(!tool.tool_start_check(user, amount=2))
-			return TRUE
-		user.visible_message(
-			span_notice("[user.name] starts to cut the [name] free from the floor."),
-			span_notice("You start to cut [src] free from the floor..."),
-			span_hear("You hear welding."),
-		)
-		if(!tool.use_tool(src, user, 10 SECONDS, volume=100))
-			return FALSE
-		welded_down = FALSE
-		to_chat(user, span_notice("You cut [src] free from the floor."))
-		return TRUE
-	if(!anchored)
-		to_chat(user, span_warning("[src] needs to be wrenched to the floor!"))
-		return TRUE
-	if(!tool.tool_start_check(user, amount=2))
-		return TRUE
-	user.visible_message(
-		span_notice("[user.name] starts to weld the [name] to the floor."),
-		span_notice("You start to weld [src] to the floor..."),
-		span_hear("You hear welding."),
-	)
-	if(!tool.use_tool(src, user, 10 SECONDS, volume=100))
-		balloon_alert(user, "cancelled!")
-		return FALSE
-	welded_down = TRUE
-	to_chat(user, span_notice("You weld [src] to the floor."))
-	return TRUE
+	stored_research = new /datum/techweb/specialized/autounlocking/biogenerator
+	create_reagents(1000)
 
 /obj/machinery/biogenerator/Destroy()
 	QDEL_NULL(beaker)
-	QDEL_NULL(soundloop)
 	return ..()
 
 /obj/machinery/biogenerator/contents_explosion(severity, target)
-	. = ..()
-	if(!beaker)
-		return
+	..()
+	if(beaker)
+		beaker.ex_act(severity, target)
 
-	switch(severity)
-		if(EXPLODE_DEVASTATE)
-			SSexplosions.high_mov_atom += beaker
-		if(EXPLODE_HEAVY)
-			SSexplosions.med_mov_atom += beaker
-		if(EXPLODE_LIGHT)
-			SSexplosions.low_mov_atom += beaker
-
-/obj/machinery/biogenerator/Exited(atom/movable/gone, direction)
-	. = ..()
-	if(gone == beaker)
+/obj/machinery/biogenerator/handle_atom_del(atom/A)
+	..()
+	if(A == beaker)
 		beaker = null
-		update_appearance()
+		update_icon()
+		updateUsrDialog()
 
 /obj/machinery/biogenerator/RefreshParts()
-	. = ..()
-
-	var/new_efficiency = 0
-	var/new_productivity = 0
-	var/new_max_items = 10
-	var/new_processed_items_per_cycle = 0
-
-	for(var/datum/stock_part/matter_bin/bin in component_parts)
-		new_max_items += MAX_ITEMS_PER_RATING * bin.tier
-
-	for(var/datum/stock_part/servo/servo in component_parts)
-		new_productivity += servo.tier
-		new_efficiency += servo.tier
-		new_processed_items_per_cycle += PROCESSED_ITEMS_PER_RATING * servo.tier
-
-	max_items = new_max_items
-	efficiency = new_efficiency
-	productivity = new_productivity
-	processed_items_per_cycle = new_processed_items_per_cycle
-
-	update_appearance()
-
+	var/E = 0
+	var/P = 0
+	var/max_storage = 40
+	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
+		P += B.rating
+		max_storage = 40 * B.rating
+	for(var/obj/item/stock_parts/manipulator/M in component_parts)
+		E += M.rating
+	efficiency = E
+	productivity = P
+	max_items = max_storage
 
 /obj/machinery/biogenerator/examine(mob/user)
-	. = ..()
-
+	..()
 	if(in_range(user, src) || isobserver(user))
-		. += span_notice("The status display reads:")
-		. += span_notice(" - Productivity at <b>[productivity * 100]%</b>.")
-		. += span_notice(" - Converting <b>[processed_items_per_cycle]</b> pieces of food per cycle.")
-		. += span_notice(" - Matter consumption at <b>[1 / efficiency * 100]</b>%.")
-		. += span_notice(" - Internal biomass converter capacity at <b>[max_items]</b> pieces of food, and currently holding <b>[current_item_count]</b>.")
+		to_chat(user, "<span class='notice'>The status display reads: Productivity at <b>[productivity*100]%</b>.<br>Matter consumption reduced by <b>[(efficiency*25)-25]</b>%.<br>Machine can hold up to <b>[max_items]</b> pieces of produce.<span>")
 
-	if(welded_down)
-		. += span_info("It's moored firmly to the floor. You can unsecure its moorings with a <b>welder</b>.")
+/obj/machinery/biogenerator/on_reagent_change(changetype)			//When the reagents change, change the icon as well.
+	update_icon()
 
-/obj/machinery/biogenerator/update_appearance()
-	. = ..()
-
-	var/power = machine_stat & (NOPOWER|BROKEN) ? 0 : 1 + min(biomass / max_visual_biomass, 1) + (processing & 1)
-	set_light(MINIMUM_USEFUL_LIGHT_RANGE, power, LIGHT_COLOR_CYAN)
-
-
-/obj/machinery/biogenerator/update_overlays()
-	. = ..()
-
+/obj/machinery/biogenerator/update_icon()
 	if(panel_open)
-		. += mutable_appearance(icon, "[icon_state]_o_panel")
+		icon_state = "biogen-empty-o"
+	else if(!src.beaker)
+		icon_state = "biogen-empty"
+	else if(!src.processing)
+		icon_state = "biogen-stand"
+	else
+		icon_state = "biogen-work"
+	return
 
-	if(beaker)
-		. += mutable_appearance(icon, "[icon_state]_o_container")
-
-	if(biomass > 0)
-		// Get current biomass volume adjusted with sine function (more biomass = less frequent icon changes)
-		var/biomass_volume_sin = sin(min(biomass/max_visual_biomass, 1) * 90)
-		// Round up to get the corresponding overlay icon
-		var/biomass_level = ROUND_UP(biomass_volume_sin * 7)
-		. += mutable_appearance(icon, "[icon_state]_o_biomass_[biomass_level]")
-		. += emissive_appearance(icon, "[icon_state]_o_biomass_[biomass_level]", src)
-
-	if(machine_stat & (NOPOWER|BROKEN))
-		return
-
-	if(processing)
-		. += mutable_appearance(icon, "[icon_state]_o_process")
-		. += emissive_appearance(icon, "[icon_state]_o_process", src)
-
-	. += mutable_appearance(icon, "[icon_state]_o_screen")
-	. += emissive_appearance(icon, "[icon_state]_o_screen", src)
-
-/obj/machinery/biogenerator/wrench_act(mob/living/user, obj/item/tool)
-	. = ..()
-	default_unfasten_wrench(user, tool)
-	return ITEM_INTERACT_SUCCESS
-
-/obj/machinery/biogenerator/attackby(obj/item/attacking_item, mob/living/user, params)
-	if(user.combat_mode)
+/obj/machinery/biogenerator/attackby(obj/item/O, mob/user, params)
+	if(user.a_intent == INTENT_HARM)
 		return ..()
 
-	if(default_deconstruction_screwdriver(user, icon_state, icon_state, attacking_item))
-		if(processing)
-			stop_process(FALSE)
+	if(processing)
+		to_chat(user, "<span class='warning'>The biogenerator is currently processing.</span>")
+		return
 
+	if(default_deconstruction_screwdriver(user, "biogen-empty-o", "biogen-empty", O))
 		if(beaker)
-			beaker.forceMove(drop_location())
+			var/obj/item/reagent_containers/glass/B = beaker
+			B.forceMove(drop_location())
 			beaker = null
-
-		update_appearance(UPDATE_ICON)
+		update_icon()
 		return
 
-	var/turf/drop_location = drop_location()
-	if(default_deconstruction_crowbar(attacking_item))
-		if(biomass > 0)
-			drop_location.visible_message(span_warning("Biomass spills from \the [src]'s biomass tank!"))
-			playsound(drop_location, 'sound/effects/slosh.ogg', 25, vary = TRUE)
-			new /obj/effect/decal/cleanable/greenglow(drop_location)
-
+	if(default_deconstruction_crowbar(O))
 		return
 
-	if(istype(attacking_item, /obj/item/reagent_containers/cup))
-		if(panel_open)
-			to_chat(user, span_warning("Close the maintenance panel first."))
+	if(istype(O, /obj/item/reagent_containers/glass))
+		. = 1 //no afterattack
+		if(!panel_open)
+			if(beaker)
+				to_chat(user, "<span class='warning'>A container is already loaded into the machine.</span>")
+			else
+				if(!user.transferItemToLoc(O, src))
+					return
+				beaker = O
+				to_chat(user, "<span class='notice'>You add the container to the machine.</span>")
+				update_icon()
+				updateUsrDialog()
 		else
-			insert_beaker(user, attacking_item)
+			to_chat(user, "<span class='warning'>Close the maintenance panel first.</span>")
+		return
 
+	else if(istype(O, /obj/item/storage/bag/plants))
+		var/obj/item/storage/bag/plants/PB = O
+		var/i = 0
+		for(var/obj/item/reagent_containers/food/snacks/grown/G in contents)
+			i++
+		if(i >= max_items)
+			to_chat(user, "<span class='warning'>The biogenerator is already full! Activate it.</span>")
+		else
+			for(var/obj/item/reagent_containers/food/snacks/grown/G in PB.contents)
+				if(i >= max_items)
+					break
+				if(SEND_SIGNAL(PB, COMSIG_TRY_STORAGE_TAKE, G, src))
+					i++
+			if(i<max_items)
+				to_chat(user, "<span class='info'>You empty the plant bag into the biogenerator.</span>")
+			else if(PB.contents.len == 0)
+				to_chat(user, "<span class='info'>You empty the plant bag into the biogenerator, filling it to its capacity.</span>")
+			else
+				to_chat(user, "<span class='info'>You fill the biogenerator to its capacity.</span>")
+		return TRUE //no afterattack
+
+	else if(istype(O, /obj/item/reagent_containers/food/snacks/grown))
+		var/i = 0
+		for(var/obj/item/reagent_containers/food/snacks/grown/G in contents)
+			i++
+		if(i >= max_items)
+			to_chat(user, "<span class='warning'>The biogenerator is full! Activate it.</span>")
+		else
+			if(user.transferItemToLoc(O, src))
+				to_chat(user, "<span class='info'>You put [O.name] in [src.name]</span>")
+		return TRUE //no afterattack
+	else if (istype(O, /obj/item/disk/design_disk))
+		user.visible_message("[user] begins to load \the [O] in \the [src]...",
+			"You begin to load a design from \the [O]...",
+			"You hear the chatter of a floppy drive.")
+		processing = TRUE
+		var/obj/item/disk/design_disk/D = O
+		if(do_after(user, 10, target = src))
+			for(var/B in D.blueprints)
+				if(B)
+					stored_research.add_design(B)
+		processing = FALSE
+		return TRUE
+	else
+		to_chat(user, "<span class='warning'>You cannot put this in [src.name]!</span>")
+
+/obj/machinery/biogenerator/ui_interact(mob/user)
+	if(stat & BROKEN || panel_open)
+		return
+	. = ..()
+	var/dat
+	if(processing)
+		dat += "<div class='statusDisplay'>Biogenerator is processing! Please wait...</div><BR>"
+	else
+		switch(menustat)
+			if("nopoints")
+				dat += "<div class='statusDisplay'>You do not have enough biomass to create products.<BR>Please, put growns into reactor and activate it.</div>"
+				menustat = "menu"
+			if("complete")
+				dat += "<div class='statusDisplay'>Operation complete.</div>"
+				menustat = "menu"
+			if("void")
+				dat += "<div class='statusDisplay'>Error: No growns inside.<BR>Please, put growns into reactor.</div>"
+				menustat = "menu"
+			if("nobeakerspace")
+				dat += "<div class='statusDisplay'>Not enough space left in container. Unable to create product.</div>"
+				menustat = "menu"
+		if(beaker)
+			var/categories = show_categories.Copy()
+			for(var/V in categories)
+				categories[V] = list()
+			for(var/V in stored_research.researched_designs)
+				var/datum/design/D = SSresearch.techweb_design_by_id(V)
+				for(var/C in categories)
+					if(C in D.category)
+						categories[C] += D
+
+			dat += "<div class='statusDisplay'>Biomass: [points] units.</div><BR>"
+			dat += "<A href='?src=[REF(src)];activate=1'>Activate</A><A href='?src=[REF(src)];detach=1'>Detach Container</A>"
+			for(var/cat in categories)
+				dat += "<h3>[cat]:</h3>"
+				dat += "<div class='statusDisplay'>"
+				for(var/V in categories[cat])
+					var/datum/design/D = V
+					dat += "[D.name]: <A href='?src=[REF(src)];create=[REF(D)];amount=1'>Make</A>"
+					if(cat in timesFiveCategories)
+						dat += "<A href='?src=[REF(src)];create=[REF(D)];amount=5'>x5</A>"
+					if(ispath(D.build_path, /obj/item/stack))
+						dat += "<A href='?src=[REF(src)];create=[REF(D)];amount=10'>x10</A>"
+					dat += "([D.materials[MAT_BIOMASS]/efficiency])<br>"
+				dat += "</div>"
+		else
+			dat += "<div class='statusDisplay'>No container inside, please insert container.</div>"
+
+	var/datum/browser/popup = new(user, "biogen", name, 350, 520)
+	popup.set_content(dat)
+	popup.open()
+
+/obj/machinery/biogenerator/proc/activate()
+	if (usr.stat != CONSCIOUS)
+		return
+	if (src.stat != NONE) //NOPOWER etc
+		return
+	if(processing)
+		to_chat(usr, "<span class='warning'>The biogenerator is in the process of working.</span>")
+		return
+	var/S = 0
+	for(var/obj/item/reagent_containers/food/snacks/grown/I in contents)
+		S += 5
+		if(I.reagents.get_reagent_amount("nutriment") < 0.1)
+			points += 1*productivity
+		else points += I.reagents.get_reagent_amount("nutriment")*10*productivity
+		qdel(I)
+	if(S)
+		processing = TRUE
+		update_icon()
+		updateUsrDialog()
+		playsound(src.loc, 'sound/machines/blender.ogg', 50, 1)
+		use_power(S*30)
+		sleep(S+15/productivity)
+		processing = FALSE
+		update_icon()
+	else
+		menustat = "void"
+
+/obj/machinery/biogenerator/proc/check_cost(list/materials, multiplier = 1, remove_points = 1)
+	if(materials.len != 1 || materials[1] != MAT_BIOMASS)
+		return FALSE
+	if (materials[MAT_BIOMASS]*multiplier/efficiency > points)
+		menustat = "nopoints"
+		return FALSE
+	else
+		if(remove_points)
+			points -= materials[MAT_BIOMASS]*multiplier/efficiency
+		update_icon()
+		updateUsrDialog()
 		return TRUE
 
-	else if(istype(attacking_item, /obj/item/storage/bag))
-		if(current_item_count >= max_items)
-			to_chat(user, span_warning("\The [src] is already full! Activate it to free up some space."))
-			return TRUE
+/obj/machinery/biogenerator/proc/check_container_volume(list/reagents, multiplier = 1)
+	var/sum_reagents = 0
+	for(var/R in reagents)
+		sum_reagents += reagents[R]
+	sum_reagents *= multiplier
 
-		var/obj/item/storage/bag/bag = attacking_item
+	if(beaker.reagents.total_volume + sum_reagents > beaker.reagents.maximum_volume)
+		menustat = "nobeakerspace"
+		return FALSE
 
-		for(var/obj/item/food/item in bag.contents)
-			if(current_item_count >= max_items)
-				break
+	return TRUE
 
-			if(bag.atom_storage.attempt_remove(item, src))
-				current_item_count++
+/obj/machinery/biogenerator/proc/create_product(datum/design/D, amount)
+	if(!beaker || !loc)
+		return FALSE
 
-		if(bag.contents.len == 0)
-			to_chat(user, span_info("You empty \the [bag] into \the [src]."))
+	if(ispath(D.build_path, /obj/item/stack))
+		if(!check_container_volume(D.make_reagents, amount))
+			return FALSE
+		if(!check_cost(D.materials, amount))
+			return FALSE
 
-		else if (current_item_count >= max_items)
-			to_chat(user, span_info("You fill \the [src] from \the [bag] to its capacity."))
-
-		else
-			to_chat(user, span_info("You fill \the [src] from \the [bag]."))
-
-		return TRUE //no afterattack
-
-	else if(istype(attacking_item, /obj/item/food))
-		if(current_item_count >= max_items)
-			to_chat(user, span_warning("\The [src] is full! Activate it."))
-
-		else
-			if(user.transferItemToLoc(attacking_item, src))
-				current_item_count++
-				to_chat(user, span_info("You insert \the [attacking_item] in \the [src]"))
-
-		return TRUE //no afterattack
-
+		new D.build_path(drop_location(), amount)
+		for(var/R in D.make_reagents)
+			beaker.reagents.add_reagent(R, D.make_reagents[R]*amount)
 	else
-		to_chat(user, span_warning("You cannot put \the [attacking_item] in \the [src]!"))
+		var/i = amount
+		while(i > 0)
+			if(!check_container_volume(D.make_reagents))
+				return .
+			if(!check_cost(D.materials))
+				return .
+			if(D.build_path)
+				new D.build_path(loc)
+			for(var/R in D.make_reagents)
+				beaker.reagents.add_reagent(R, D.make_reagents[R])
+			. = 1
+			--i
 
+	menustat = "complete"
+	update_icon()
+	return .
 
-/obj/machinery/biogenerator/AltClick(mob/living/user)
-	. = ..()
-	if(user.can_perform_action(src, FORBID_TELEKINESIS_REACH) && can_interact(user))
-		eject_beaker(user)
-
-
-/// Activates biomass processing and converts all inserted food products into biomass
-/obj/machinery/biogenerator/proc/start_process()
-	if(machine_stat != NONE || panel_open)
-		return
-
-	if(processing)
-		say("Already working!")
-		return
-
-	if(!(locate(/obj/item/food) in contents))
-		say("No food items found!")
-		return
-
-	begin_processing()
-	processing = TRUE
-	soundloop.start()
-	update_appearance()
-
-
-/obj/machinery/biogenerator/process(seconds_per_tick)
-	if(!processing)
-		return
-
-	if(machine_stat != NONE || panel_open)
-		stop_process()
-		return
-
-	if(!current_item_count)
-		stop_process()
-		return
-
-	for(var/i in 1 to processed_items_per_cycle)
-		var/obj/item/food/food_to_convert = locate(/obj/item/food) in contents
-
-		if(!food_to_convert)
-			break
-
-		if(food_to_convert.flags_1 & HOLOGRAM_1)
-			qdel(food_to_convert)
-			current_item_count = max(current_item_count - 1, 0)
-			continue
-
-		convert_to_biomass(food_to_convert)
-
-	use_power(active_power_usage * seconds_per_tick)
-
-	if(!current_item_count)
-		stop_process(FALSE)
-
-	update_appearance()
-
-
-
-/**
- * Simple helper proc that converts the given food item into biomass for the generator,
- * while also handling removing it and modifying the `current_item_count`.
- *
- * Arguments:
- * * food_to_convert - The food item that will be converted into biomass and
- * subsequently be deleted.
- */
-/obj/machinery/biogenerator/proc/convert_to_biomass(obj/item/food/food_to_convert)
-	var/nutriments = ROUND_UP(food_to_convert.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment, type_check = REAGENT_PARENT_TYPE))
-	qdel(food_to_convert)
-	current_item_count = max(current_item_count - 1, 0)
-	biomass += nutriments * productivity
-
-
-/**
- * Simple helper to handle stopping the process of the biogenerator.
- *
- * Arguments:
- * * update_appearance - Whether or not we call `update_appearance()` here.
- * Defaults to `TRUE`.
- */
-/obj/machinery/biogenerator/proc/stop_process(update_appearance = TRUE)
-	end_processing()
-	processing = FALSE
-	soundloop.stop()
-
-	if(update_appearance)
-		update_appearance()
-
-
-/obj/machinery/biogenerator/proc/use_biomass(list/materials, amount = 1, remove_biomass = TRUE)
-	if(materials.len != 1 || materials[1] != GET_MATERIAL_REF(/datum/material/biomass))
-		return FALSE
-
-	var/cost = materials[GET_MATERIAL_REF(/datum/material/biomass)] * amount / efficiency
-	if (cost > biomass)
-		return FALSE
-
-
-	if(remove_biomass)
-		biomass -= cost
-
-	update_appearance()
-	return TRUE
-
-
-/obj/machinery/biogenerator/proc/create_product(datum/design/design, amount)
-	if(design.make_reagent)
-		if(!beaker)
-			return FALSE
-
-		if(beaker.reagents.maximum_volume - beaker.reagents.total_volume < amount)
-			say("Warning: Attached container does not have enough free capacity!")
-			return FALSE
-
-		if(!use_biomass(design.materials, amount))
-			return FALSE
-
-		beaker.reagents.add_reagent(design.make_reagent, amount, added_purity = BIOGEN_REAGENT_PURITY)
-
-	if(design.build_path)
-		if(!use_biomass(design.materials, amount))
-			return FALSE
-
-		if(istype(design.build_path, /obj/item/stack/sheet))
-			new design.build_path(drop_location(), amount)
-
-		else
-			var/drop_location = drop_location()
-			for(var/i in 1 to amount)
-				new design.build_path(drop_location)
-
-	return TRUE
-
-
-/*
- * Insert a new beaker into the biogenerator, replacing/swapping our current beaker if there is one.
- *
- * user - the mob inserting the beaker
- * inserted_beaker - the beaker we're inserting into the biogen
- */
-/obj/machinery/biogenerator/proc/insert_beaker(mob/living/user, obj/item/reagent_containers/cup/inserted_beaker)
-	if(!can_interact(user))
-		return
-
-	if(!user.transferItemToLoc(inserted_beaker, src))
-		return
-
+/obj/machinery/biogenerator/proc/detach()
 	if(beaker)
-		to_chat(user, span_notice("You swap out [beaker] in [src] for [inserted_beaker]."))
-		eject_beaker(user, silent = TRUE)
-
-	else
-		to_chat(user, span_notice("You add [inserted_beaker] to [src]."))
-
-	beaker = inserted_beaker
-	update_appearance(UPDATE_ICON)
-
-
-/*
- * Eject the current stored beaker either into the user's hands or onto the ground.
- *
- * user - the mob ejecting the beaker
- * silent - whether to give a message to the user that the beaker was ejected.
- */
-/obj/machinery/biogenerator/proc/eject_beaker(mob/living/user, silent = FALSE)
-	if(!beaker)
-		return
-
-	if(!can_interact(user))
-		return
-
-	if(user.put_in_hands(beaker))
-		if(!silent)
-			to_chat(user, span_notice("You eject [beaker] from [src]."))
-
-	else
-		if(!silent)
-			to_chat(user, span_notice("You eject [beaker] from [src] onto the ground."))
-
 		beaker.forceMove(drop_location())
+		beaker = null
+		update_icon()
 
-	beaker = null
-	update_appearance(UPDATE_ICON)
-
-
-/obj/machinery/biogenerator/ui_status(mob/user, datum/ui_state/state)
-	if(machine_stat & BROKEN || panel_open)
-		return UI_CLOSE
-
-	return ..()
-
-
-/obj/machinery/biogenerator/ui_assets(mob/user)
-	return list(
-		get_asset_datum(/datum/asset/spritesheet/research_designs),
-	)
-
-
-/obj/machinery/biogenerator/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "Biogenerator", name)
-		ui.open()
-
-
-/obj/machinery/biogenerator/ui_data(mob/user)
-	var/list/data = list()
-	data["beaker"] = beaker ? TRUE : FALSE
-	data["biomass"] = biomass
-	data["processing"] = processing
-	data["max_output"] = max_output
-	data["efficiency"] = efficiency
-	data["can_process"] = !!current_item_count
-
-	if(beaker)
-		data["beakerCurrentVolume"] = round(beaker.reagents.total_volume, 0.01)
-		data["beakerMaxVolume"] = beaker.volume
-		data["reagent_color"] = mix_color_from_reagents(beaker.reagents.reagent_list)
-
-	return data
-
-
-/obj/machinery/biogenerator/ui_static_data(mob/user)
-	var/list/data = list()
-	data["categories"] = list()
-	data["max_visual_biomass"] = max_visual_biomass
-
-	var/categories = show_categories.Copy()
-	for(var/category in categories)
-		categories[category] = list()
-
-	for(var/design_id in stored_research.researched_designs)
-		var/datum/design/design = SSresearch.techweb_design_by_id(design_id)
-		for(var/category in categories)
-			if(category in design.category)
-				categories[category] += design
-
-	for(var/category in categories)
-		var/list/cat = list(
-			"name" = category,
-			"items" = (category == selected_cat ? list() : null))
-
-		for(var/item in categories[category])
-			var/datum/design/design = item
-			cat["items"] += list(list(
-				"id" = design.id,
-				"name" = design.name,
-				"is_reagent" = design.make_reagent != null,
-				"cost" = design.materials[GET_MATERIAL_REF(/datum/material/biomass)] / efficiency,
-			))
-		data["categories"] += list(cat)
-
-	return data
-
-
-/obj/machinery/biogenerator/ui_act(action, list/params)
-	. = ..()
-	if(.)
+/obj/machinery/biogenerator/Topic(href, href_list)
+	if(..() || panel_open)
 		return
 
-	switch(action)
-		if("activate")
-			start_process()
-			return TRUE
+	usr.set_machine(src)
 
-		if("eject")
-			eject_beaker(usr)
-			return TRUE
+	if(href_list["activate"])
+		activate()
+		updateUsrDialog()
 
-		if("create")
-			var/amount = text2num(params["amount"])
-			if(!amount)
-				return
+	else if(href_list["detach"])
+		detach()
+		updateUsrDialog()
 
-			var/id = params["id"]
-			if(!stored_research.researched_designs.Find(id))
-				stack_trace("ID did not map to a researched datum [id]")
-				return
+	else if(href_list["create"])
+		var/amount = (text2num(href_list["amount"]))
+		var/datum/design/D = locate(href_list["create"])
+		create_product(D, amount)
+		updateUsrDialog()
 
-			var/datum/design/design = SSresearch.techweb_design_by_id(id)
-			amount = clamp(amount, 1, (design.make_reagent && beaker ? beaker.reagents.maximum_volume - beaker.reagents.total_volume : max_output))
-
-			if(design && !istype(design, /datum/design/error_design))
-				create_product(design, amount)
-
-			else
-				stack_trace("ID could not be turned into a valid techweb design datum [id]")
-				return
-
-			return TRUE
-
-		if("select")
-			selected_cat = params["category"]
-			return TRUE
-
-
-#undef MAX_ITEMS_PER_RATING
-#undef PROCESSED_ITEMS_PER_RATING
-#undef BIOGEN_REAGENT_PURITY
+	else if(href_list["menu"])
+		menustat = "menu"
+		updateUsrDialog()

@@ -5,15 +5,20 @@
 	button_icon_state = "adrenaline"
 	chemical_cost = 30
 	dna_cost = 2
-	req_human = TRUE
+	req_human = 1
 	req_stat = UNCONSCIOUS
 
 //Recover from stuns.
 /datum/action/changeling/adrenaline/sting_action(mob/living/user)
 	..()
-	to_chat(user, span_notice("Energy rushes through us."))
+	to_chat(user, "<span class='notice'>Energy rushes through us.[(!(user.mobility_flags & MOBILITY_STAND)) ? " We arise." : ""]</span>")
+	user.SetSleeping(0)
+	user.SetUnconscious(0)
+	user.SetStun(0)
 	user.SetKnockdown(0)
-	user.set_resting(FALSE)
-	user.reagents.add_reagent(/datum/reagent/medicine/changelingadrenaline, 4) //20 seconds
-	user.reagents.add_reagent(/datum/reagent/medicine/changelinghaste, 3) //6 seconds, for a really quick burst of speed
+	user.SetImmobilized(0)
+	user.SetParalyzed(0)
+	user.reagents.add_reagent("changelingadrenaline", 10)
+	user.reagents.add_reagent("changelinghaste", 2) //For a really quick burst of speed
+	user.adjustStaminaLoss(-75)
 	return TRUE

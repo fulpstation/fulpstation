@@ -1,37 +1,32 @@
 /*
 	AI ClickOn()
 
+	Note currently ai restrained() returns 0 in all cases,
+	therefore restrained code has been removed
+
 	The AI can double click to move the camera (this was already true but is cleaner),
 	or double click a mob to track them.
 
 	Note that AI have no need for the adjacency proc, and so this proc is a lot cleaner.
 */
-/mob/living/silicon/ai/DblClickOn(atom/A, params)
+/mob/living/silicon/ai/DblClickOn(var/atom/A, params)
 	if(control_disabled || incapacitated())
 		return
 
 	if(ismob(A))
-		ai_tracking_tool.track_mob(src, A)
+		ai_actual_track(A)
 	else
 		A.move_camera_by_click()
 
-/mob/living/silicon/ai/ClickOn(atom/A, params)
+/mob/living/silicon/ai/ClickOn(var/atom/A, params)
 	if(world.time <= next_click)
 		return
 	next_click = world.time + 1
 
-	var/list/modifiers = params2list(params)
-
-	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, modifiers) & COMSIG_MOB_CANCEL_CLICKON)
-		return
-
-	if(!can_interact_with(A))
-		return
-
 	if(multicam_on)
 		var/turf/T = get_turf(A)
 		if(T)
-			for(var/atom/movable/screen/movable/pic_in_pic/ai/P in T.vis_locs)
+			for(var/obj/screen/movable/pic_in_pic/ai/P in T.vis_locs)
 				if(P.ai == src)
 					P.Click(params)
 					break
@@ -46,33 +41,43 @@
 	if(isnull(pixel_turf))
 		return
 	if(!can_see(A))
+		if(isturf(A)) //On unmodified clients clicking the static overlay clicks the turf underneath
+			return //So there's no point messaging admins
+		message_admins("[ADMIN_LOOKUPFLW(src)] might be running a modified client! (failed can_see on AI click of [A] (Turf Loc: [ADMIN_VERBOSEJMP(pixel_turf)]))")
+		var/message = "[key_name(src)] might be running a modified client! (failed can_see on AI click of [A] (Turf Loc: [AREACOORD(pixel_turf)]))"
+		log_admin(message)
+		if(REALTIMEOFDAY >= chnotify + 9000)
+			chnotify = REALTIMEOFDAY
+			send2irc_adminless_only("NOCHEAT", message)
 		return
 
-	if(LAZYACCESS(modifiers, SHIFT_CLICK))
-		if(LAZYACCESS(modifiers, CTRL_CLICK))
-			CtrlShiftClickOn(A)
-			return
+	var/list/modifiers = params2list(params)
+	if(modifiers["shift"] && modifiers["ctrl"])
+		CtrlShiftClickOn(A)
+		return
+	if(modifiers["middle"])
+		if(controlled_mech) //Are we piloting a mech? Placed here so the modifiers are not overridden.
+			controlled_mech.click_action(A, src, params) //Override AI normal click behavior.
+		return
+
+		return
+	if(modifiers["shift"])
 		ShiftClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, ALT_CLICK)) // alt and alt-gr (rightalt)
+	if(modifiers["alt"]) // alt and alt-gr (rightalt)
 		AltClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, CTRL_CLICK))
+	if(modifiers["ctrl"])
 		CtrlClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
-		MiddleClickOn(A, params)
-		return
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		var/secondary_result = A.attack_ai_secondary(src, modifiers)
-		if(secondary_result == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN || secondary_result == SECONDARY_ATTACK_CONTINUE_CHAIN)
-			return
-		else if(secondary_result != SECONDARY_ATTACK_CALL_NORMAL)
-			CRASH("attack_ai_secondary did not return a SECONDARY_ATTACK_* define.")
 
 	if(world.time <= next_move)
 		return
 
+	if(aicamera.in_camera_mode)
+		aicamera.camera_mode_off()
+		aicamera.captureimage(pixel_turf, usr)
+		return
 	if(waypoint_mode)
 		waypoint_mode = 0
 		set_waypoint(A)
@@ -82,28 +87,17 @@
 
 /*
 	AI has no need for the UnarmedAttack() and RangedAttack() procs,
-	because the AI code is not generic; attack_ai() is used instead.
+	because the AI code is not generic;	attack_ai() is used instead.
 	The below is only really for safety, or you can alter the way
 	it functions and re-insert it above.
 */
-/mob/living/silicon/ai/UnarmedAttack(atom/A, proximity_flag, list/modifiers)
+/mob/living/silicon/ai/UnarmedAttack(atom/A)
 	A.attack_ai(src)
-
 /mob/living/silicon/ai/RangedAttack(atom/A)
 	A.attack_ai(src)
 
 /atom/proc/attack_ai(mob/user)
 	return
-
-/**
- * What happens when the AI holds right-click on an item. Returns a SECONDARY_ATTACK_* value.
- *
- * Arguments:
- * * user The mob holding the right click
- * * modifiers The list of the custom click modifiers
- */
-/atom/proc/attack_ai_secondary(mob/user, list/modifiers)
-	return SECONDARY_ATTACK_CALL_NORMAL
 
 /*
 	Since the AI handles shift, ctrl, and alt-click differently
@@ -111,17 +105,14 @@
 	for AI shift, ctrl, and alt clicking.
 */
 
-/mob/living/silicon/ai/CtrlShiftClickOn(atom/target)
-	target.AICtrlShiftClick(src)
-
-/mob/living/silicon/ai/ShiftClickOn(atom/target)
-	target.AIShiftClick(src)
-
-/mob/living/silicon/ai/CtrlClickOn(atom/target)
-	target.AICtrlClick(src)
-
-/mob/living/silicon/ai/AltClickOn(atom/target)
-	target.AIAltClick(src)
+/mob/living/silicon/ai/CtrlShiftClickOn(var/atom/A)
+	A.AICtrlShiftClick(src)
+/mob/living/silicon/ai/ShiftClickOn(var/atom/A)
+	A.AIShiftClick(src)
+/mob/living/silicon/ai/CtrlClickOn(var/atom/A)
+	A.AICtrlClick(src)
+/mob/living/silicon/ai/AltClickOn(var/atom/A)
+	A.AIAltClick(src)
 
 /*
 	The following criminally helpful code is just the previous code cleaned up;
@@ -130,140 +121,77 @@
 /* Questions: Instead of an Emag check on every function, can we not add to airlocks onclick if emag return? */
 
 /* Atom Procs */
-/atom/proc/AICtrlClick(mob/living/silicon/ai/user)
+/atom/proc/AICtrlClick()
 	return
-
 /atom/proc/AIAltClick(mob/living/silicon/ai/user)
 	AltClick(user)
 	return
-
-/atom/proc/AIShiftClick(mob/living/silicon/ai/user)
+/atom/proc/AIShiftClick()
 	return
-
-/atom/proc/AICtrlShiftClick(mob/living/silicon/ai/user)
+/atom/proc/AICtrlShiftClick()
 	return
 
 /* Airlocks */
-/obj/machinery/door/airlock/AICtrlClick(mob/living/silicon/ai/user) // Bolts doors
+/obj/machinery/door/airlock/AICtrlClick() // Bolts doors
 	if(obj_flags & EMAGGED)
 		return
 
-	toggle_bolt(user)
-	add_hiddenprint(user)
+	if(locked)
+		bolt_raise(usr)
+	else
+		bolt_drop(usr)
+	add_hiddenprint(usr)
 
-/obj/machinery/door/airlock/AIAltClick(mob/living/silicon/ai/user) // Eletrifies doors.
+/obj/machinery/door/airlock/AIAltClick() // Eletrifies doors.
 	if(obj_flags & EMAGGED)
 		return
 
 	if(!secondsElectrified)
-		shock_perm(user)
+		shock_perm(usr)
 	else
-		shock_restore(user)
+		shock_restore(usr)
 
-/obj/machinery/door/airlock/AIShiftClick(mob/living/silicon/ai/user)  // Opens and closes doors!
+/obj/machinery/door/airlock/AIShiftClick()  // Opens and closes doors!
 	if(obj_flags & EMAGGED)
 		return
 
-	user_toggle_open(user)
-	add_hiddenprint(user)
+	user_toggle_open(usr)
+	add_hiddenprint(usr)
 
-/obj/machinery/door/airlock/AICtrlShiftClick(mob/living/silicon/ai/user)  // Sets/Unsets Emergency Access Override
+/obj/machinery/door/airlock/AICtrlShiftClick()  // Sets/Unsets Emergency Access Override
 	if(obj_flags & EMAGGED)
 		return
 
-	toggle_emergency(user)
-	add_hiddenprint(user)
+	if(!emergency)
+		emergency_on(usr)
+	else
+		emergency_off(usr)
+	add_hiddenprint(usr)
 
-/////////////
-/*   APC   */
-/////////////
-
-/// Toggle APC power settings
-/obj/machinery/power/apc/AICtrlClick(mob/living/silicon/ai/user)
-	if(!can_use(user, loud = TRUE))
-		return
-
-	toggle_breaker(user)
-
-/// Toggle APC environment settings (atmos)
-/obj/machinery/power/apc/AICtrlShiftClick(mob/living/silicon/ai/user)
-	if(!can_use(user, loud = TRUE))
-		return
-
-	if(!is_operational || failure_timer)
-		return
-
-	environ = environ ? APC_CHANNEL_OFF : APC_CHANNEL_ON
-	if (user)
-		add_hiddenprint(user)
-		var/enabled_or_disabled = environ ? "enabled" : "disabled"
-		balloon_alert(user, "environment power [enabled_or_disabled]")
-		user.log_message("[enabled_or_disabled] the [src] environment settings", LOG_GAME)
-	update_appearance()
-	update()
-
-/// Toggle APC lighting settings
-/obj/machinery/power/apc/AIShiftClick(mob/living/silicon/ai/user)
-	if(!can_use(user, loud = TRUE))
-		return
-
-	if(!is_operational || failure_timer)
-		return
-
-	lighting = lighting ? APC_CHANNEL_OFF : APC_CHANNEL_ON
-	if (user)
-		var/enabled_or_disabled = lighting ? "enabled" : "disabled"
-		add_hiddenprint(user)
-		balloon_alert(user, "lighting power toggled [enabled_or_disabled]")
-		user.log_message("turned [enabled_or_disabled] the [src] lighting settings", LOG_GAME)
-	update_appearance()
-	update()
-
-/// Toggle APC equipment settings
-/obj/machinery/power/apc/AIAltClick(mob/living/silicon/ai/user)
-	if(!can_use(user, loud = TRUE))
-		return
-
-	if(!is_operational || failure_timer)
-		return
-
-	equipment = equipment ? APC_CHANNEL_OFF : APC_CHANNEL_ON
-	if (user)
-		var/enabled_or_disabled = equipment ? "enabled" : "disabled"
-		balloon_alert(user, "equipment power toggled [enabled_or_disabled]")
-		add_hiddenprint(user)
-		user.log_message("turned [enabled_or_disabled] the [src] equipment settings", LOG_GAME)
-	update_appearance()
-	update()
-
-/obj/machinery/power/apc/attack_ai_secondary(mob/living/silicon/user, list/modifiers)
-	if(!can_use(user, loud = TRUE))
-		return
-
-	togglelock(user)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+/* APC */
+/obj/machinery/power/apc/AICtrlClick() // turns off/on APCs.
+	if(can_use(usr, 1))
+		toggle_breaker(usr)
 
 /* AI Turrets */
-/obj/machinery/turretid/AIAltClick(mob/living/silicon/ai/user) //toggles lethal on turrets
+/obj/machinery/turretid/AIAltClick() //toggles lethal on turrets
 	if(ailock)
 		return
-	toggle_lethal(user)
+	toggle_lethal(usr)
 
-/obj/machinery/turretid/AICtrlClick(mob/living/silicon/ai/user) //turns off/on Turrets
+/obj/machinery/turretid/AICtrlClick() //turns off/on Turrets
 	if(ailock)
 		return
-	toggle_on(user)
+	toggle_on(usr)
 
 /* Holopads */
 /obj/machinery/holopad/AIAltClick(mob/living/silicon/ai/user)
-	if (user)
-		balloon_alert(user, "disrupted all active calls")
-		add_hiddenprint(user)
 	hangup_all_calls()
+	add_hiddenprint(usr)
 
 //
 // Override TurfAdjacent for AltClicking
 //
 
-/mob/living/silicon/ai/TurfAdjacent(turf/target_turf)
-	return (GLOB.cameranet && GLOB.cameranet.checkTurfVis(target_turf))
+/mob/living/silicon/ai/TurfAdjacent(var/turf/T)
+	return (GLOB.cameranet && GLOB.cameranet.checkTurfVis(T))

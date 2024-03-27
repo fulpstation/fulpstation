@@ -6,15 +6,12 @@
 	wires = list(
 		WIRE_POWER,
 		WIRE_IDSCAN, WIRE_AI,
-		WIRE_PANIC, WIRE_ALARM,
-		WIRE_SPEAKER
+		WIRE_PANIC, WIRE_ALARM
 	)
 	add_duds(3)
 	..()
 
 /datum/wires/airalarm/interactable(mob/user)
-	if(!..())
-		return FALSE
 	var/obj/machinery/airalarm/A = holder
 	if(A.panel_open && A.buildstage == 2)
 		return TRUE
@@ -33,7 +30,7 @@
 		if(WIRE_POWER) // Short out for a long time.
 			if(!A.shorted)
 				A.shorted = TRUE
-				A.update_appearance()
+				A.update_icon()
 			addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/airalarm, reset), wire), 1200)
 		if(WIRE_IDSCAN) // Toggle lock.
 			A.locked = !A.locked
@@ -43,22 +40,24 @@
 			addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/airalarm, reset), wire), 100)
 		if(WIRE_PANIC) // Toggle panic siphon.
 			if(!A.shorted)
-				if(istype(A.selected_mode, /datum/air_alarm_mode/filtering))
-					A.select_mode(usr, /datum/air_alarm_mode/panic_siphon)
+				if(A.mode == 1) // AALARM_MODE_SCRUB
+					A.mode = 3 // AALARM_MODE_PANIC
 				else
-					A.select_mode(usr, /datum/air_alarm_mode/filtering)
+					A.mode = 1 // AALARM_MODE_SCRUB
+				A.apply_mode()
 		if(WIRE_ALARM) // Clear alarms.
-			if(A.alarm_manager.clear_alarm(ALARM_ATMOS))
-				A.danger_level = AIR_ALARM_ALERT_NONE
-			A.update_appearance()
+			var/area/AA = get_area(A)
+			if(AA.atmosalert(0, holder))
+				A.post_alert(0)
+			A.update_icon()
 
-/datum/wires/airalarm/on_cut(wire, mend, source)
+/datum/wires/airalarm/on_cut(wire, mend)
 	var/obj/machinery/airalarm/A = holder
 	switch(wire)
 		if(WIRE_POWER) // Short out forever.
 			A.shock(usr, 50)
 			A.shorted = !mend
-			A.update_appearance()
+			A.update_icon()
 		if(WIRE_IDSCAN)
 			if(!mend)
 				A.locked = TRUE
@@ -66,10 +65,10 @@
 			A.aidisabled = mend // Enable/disable AI control.
 		if(WIRE_PANIC) // Force panic syphon on.
 			if(!mend && !A.shorted)
-				A.select_mode(usr, /datum/air_alarm_mode/panic_siphon)
+				A.mode = 3 // AALARM_MODE_PANIC
+				A.apply_mode()
 		if(WIRE_ALARM) // Post alarm.
-			if(A.alarm_manager.send_alarm(ALARM_ATMOS))
-				A.danger_level = AIR_ALARM_ALERT_HAZARD
-			A.update_appearance()
-		if(WIRE_SPEAKER)
-			A.speaker_enabled = mend
+			var/area/AA = get_area(A)
+			if(AA.atmosalert(2, holder))
+				A.post_alert(2)
+			A.update_icon()

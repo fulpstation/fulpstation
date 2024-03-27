@@ -1,20 +1,15 @@
 /mob/living/simple_animal/bot/secbot/grievous //This bot is powerful. If you managed to get 4 eswords somehow, you deserve this horror. Emag him for best results.
 	name = "General Beepsky"
 	desc = "Is that a secbot with four eswords in its arms...?"
-	icon = 'icons/mob/silicon/aibots.dmi'
+	icon = 'icons/mob/aibots.dmi'
 	icon_state = "grievous"
 	health = 150
 	maxHealth = 150
-
-	baton_type = /obj/item/melee/energy/sword/saber
+	baton_type = /obj/item/melee/transforming/energy/sword
 	base_speed = 4 //he's a fast fucker
-	weapon_force = 30
-
+	var/obj/item/weapon
 	var/block_chance = 50
 
-/mob/living/simple_animal/bot/secbot/grievous/Initialize(mapload)
-	. = ..()
-	RegisterSignal(src, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(block_bullets))
 
 /mob/living/simple_animal/bot/secbot/grievous/toy //A toy version of general beepsky!
 	name = "Genewul Bweepskee"
@@ -22,28 +17,23 @@
 	health = 50
 	maxHealth = 50
 	baton_type = /obj/item/toy/sword
-	weapon_force = 0
 
-/mob/living/simple_animal/bot/secbot/grievous/proc/block_bullets(datum/source, obj/projectile/hitting_projectile)
-	SIGNAL_HANDLER
+/mob/living/simple_animal/bot/secbot/grievous/bullet_act(obj/item/projectile/P)
+	visible_message("[src] deflects [P] with its energy swords!")
+	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE)
+	return FALSE
 
-	if(stat != CONSCIOUS)
-		return NONE
-
-	visible_message(span_warning("[source] deflects [hitting_projectile] with its energy swords!"))
-	playsound(source, 'sound/weapons/blade1.ogg', 50, TRUE)
-	return COMPONENT_BULLET_BLOCKED
-
-/mob/living/simple_animal/bot/secbot/grievous/on_entered(datum/source, atom/movable/AM)
-	. = ..()
+/mob/living/simple_animal/bot/secbot/grievous/Crossed(atom/movable/AM)
+	..()
 	if(ismob(AM) && AM == target)
-		visible_message(span_warning("[src] flails his swords and cuts [AM]!"))
+		visible_message("[src] flails his swords and cuts [AM]!")
 		playsound(src,'sound/effects/beepskyspinsabre.ogg',100,TRUE,-1)
-		INVOKE_ASYNC(src, PROC_REF(stun_attack), AM)
+		stun_attack(AM)
 
-/mob/living/simple_animal/bot/secbot/grievous/Initialize(mapload)
+/mob/living/simple_animal/bot/secbot/grievous/Initialize()
 	. = ..()
-	INVOKE_ASYNC(weapon, TYPE_PROC_REF(/obj/item, attack_self), src)
+	weapon = new baton_type(src)
+	weapon.attack_self(src)
 
 /mob/living/simple_animal/bot/secbot/grievous/Destroy()
 	QDEL_NULL(weapon)
@@ -53,7 +43,7 @@
 	if(mode != BOT_HUNT)
 		return
 	if(prob(block_chance))
-		visible_message(span_warning("[src] deflects [user]'s attack with his energy swords!"))
+		visible_message("[src] deflects [user]'s attack with his energy swords!")
 		playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE, -1)
 		return TRUE
 
@@ -61,37 +51,37 @@
 	weapon.attack(C, src)
 	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE, -1)
 	if(C.stat == DEAD)
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_appearance)), 2)
+		addtimer(CALLBACK(src, PROC_REF(update_icon)), 2)
 		back_to_idle()
 
 
 /mob/living/simple_animal/bot/secbot/grievous/handle_automated_action()
-	if(!(bot_mode_flags & BOT_MODE_ON))
+	if(!on)
 		return
 	switch(mode)
-		if(BOT_IDLE) // idle
-			update_appearance()
-			SSmove_manager.stop_looping(src)
-			look_for_perp() // see if any criminals are in range
-			if(!mode && bot_mode_flags & BOT_MODE_AUTOPATROL) // still idle, and set to patrol
-				mode = BOT_START_PATROL // switch to patrol mode
-		if(BOT_HUNT) // hunting for perp
-			update_appearance()
+		if(BOT_IDLE)		// idle
+			update_icon()
+			walk_to(src,0)
+			look_for_perp()	// see if any criminals are in range
+			if(!mode && auto_patrol)	// still idle, and set to patrol
+				mode = BOT_START_PATROL	// switch to patrol mode
+		if(BOT_HUNT)		// hunting for perp
+			update_icon()
 			playsound(src,'sound/effects/beepskyspinsabre.ogg',100,TRUE,-1)
 			// general beepsky doesn't give up so easily, jedi scum
 			if(frustration >= 20)
-				SSmove_manager.stop_looping(src)
+				walk_to(src,0)
 				back_to_idle()
 				return
-			if(target) // make sure target exists
-				if(Adjacent(target) && isturf(target.loc)) // if right next to perp
+			if(target)		// make sure target exists
+				if(Adjacent(target) && isturf(target.loc))	// if right next to perp
 					target_lastloc = target.loc //stun_attack() can clear the target if they're dead, so this needs to be set first
 					stun_attack(target)
-					set_anchored(TRUE)
+					anchored = TRUE
 					return
-				else // not next to perp
+				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					SSmove_manager.move_to(src, target, 1, 4)
+					walk_to(src, target,1,4)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -108,7 +98,7 @@
 			bot_patrol()
 
 /mob/living/simple_animal/bot/secbot/grievous/look_for_perp()
-	set_anchored(FALSE)
+	anchored = FALSE
 	var/judgement_criteria = judgement_criteria()
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
 		if((C.stat) || (C.handcuffed))
@@ -117,26 +107,44 @@
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgement_criteria)
+		threatlevel = C.assess_threat(judgement_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 
-		if (threatlevel < THREAT_ASSESS_DANGEROUS)
+		if(!threatlevel)
 			continue
-		target = C
-		oldtarget_name = C.name
-		speak("Level [threatlevel] infraction alert!")
-		playsound(src, pick('sound/voice/beepsky/criminal.ogg', 'sound/voice/beepsky/justice.ogg', 'sound/voice/beepsky/freeze.ogg'), 50, FALSE)
-		playsound(src,'sound/weapons/saberon.ogg',50,TRUE,-1)
-		visible_message(span_warning("[src] ignites his energy swords!"))
-		icon_state = "grievous-c"
-		visible_message("<b>[src]</b> points at [C.name]!")
-		mode = BOT_HUNT
-		INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
-		break
+
+		else if(threatlevel >= 4)
+			target = C
+			oldtarget_name = C.name
+			speak("Level [threatlevel] infraction alert!")
+			playsound(src, pick('sound/voice/beepsky/criminal.ogg', 'sound/voice/beepsky/justice.ogg', 'sound/voice/beepsky/freeze.ogg'), 50, FALSE)
+			playsound(src,'sound/weapons/saberon.ogg',50,TRUE,-1)
+			visible_message("[src] ignites his energy swords!")
+			icon_state = "grievous-c"
+			visible_message("<b>[src]</b> points at [C.name]!")
+			mode = BOT_HUNT
+			INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
+			break
+		else
+			continue
+
 
 /mob/living/simple_animal/bot/secbot/grievous/explode()
-	var/atom/Tsec = drop_location()
-	//Parent is dropping the weapon, so let's drop 3 more to make up for it.
-	for(var/dropped_weapons = 0 to 3)
-		drop_part(weapon, Tsec)
 
-	return ..()
+	walk_to(src,0)
+	visible_message("<span class='boldannounce'>[src] lets out a huge cough as it blows apart!</span>")
+	var/atom/Tsec = drop_location()
+
+	var/obj/item/bot_assembly/secbot/Sa = new (Tsec)
+	Sa.build_step = 1
+	Sa.add_overlay("hs_hole")
+	Sa.created_name = name
+	new /obj/item/assembly/prox_sensor(Tsec)
+
+	if(prob(50))
+		drop_part(robot_arm, Tsec)
+
+	do_sparks(3, TRUE, src)
+	for(var/IS = 0 to 4)
+		drop_part(baton_type, Tsec)
+	new /obj/effect/decal/cleanable/oil(Tsec)
+	qdel(src)

@@ -4,31 +4,10 @@
 	locked = TRUE
 	icon_state = "secure"
 	max_integrity = 250
-	armor_type = /datum/armor/closet_secure_closet
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 50, "energy" = 100, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80)
 	secure = TRUE
-	damage_deflection = 20
-	material_drop_amount = 5
 
-/datum/armor/closet_secure_closet
-	melee = 30
-	bullet = 50
-	laser = 50
-	energy = 100
-	fire = 80
-	acid = 80
-
-/obj/structure/closet/secure_closet/Initialize(mapload)
+/obj/structure/closet/secure_closet/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir)
+	if(damage_flag == "melee" && damage_amount < 20)
+		return 0
 	. = ..()
-	RegisterSignal(SSdcs, COMSIG_GLOB_GREY_TIDE, PROC_REF(grey_tide))
-
-/obj/structure/closet/secure_closet/proc/grey_tide(datum/source, list/grey_tide_areas)
-	SIGNAL_HANDLER
-
-	if(!is_station_level(z))
-		return
-
-	for(var/area_type in grey_tide_areas)
-		if(!istype(get_area(src), area_type))
-			continue
-		locked = FALSE
-		update_appearance(UPDATE_ICON)

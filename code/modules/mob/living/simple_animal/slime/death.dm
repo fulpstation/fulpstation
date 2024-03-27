@@ -1,22 +1,31 @@
 /mob/living/simple_animal/slime/death(gibbed)
 	if(stat == DEAD)
 		return
-	if(!gibbed && life_stage == SLIME_LIFE_STAGE_ADULT)
-		var/mob/living/simple_animal/slime/new_slime = new(drop_location(), slime_type.type)
-		new_slime.rabid = TRUE
-		new_slime.regenerate_icons()
+	if(!gibbed)
+		if(is_adult)
+			var/mob/living/simple_animal/slime/M = new(loc, colour)
+			M.rabid = TRUE
+			M.regenerate_icons()
 
-		//revives us as a baby
-		set_life_stage(SLIME_LIFE_STAGE_BABY)
-		revive(HEAL_ALL)
-		regenerate_icons()
-		update_name()
-		return
+			is_adult = FALSE
+			maxHealth = 150
+			for(var/datum/action/innate/slime/reproduce/R in actions)
+				R.Remove(src)
+			var/datum/action/innate/slime/evolve/E = new
+			E.Grant(src)
+			revive(full_heal = 1)
+			regenerate_icons()
+			update_name()
+			return
 
 	if(buckled)
-		stop_feeding(silent = TRUE) //releases ourselves from the mob we fed on.
+		Feedstop(silent = TRUE) //releases ourselves from the mob we fed on.
 
+	stat = DEAD
 	cut_overlays()
+
+	if(SSticker.mode)
+		SSticker.mode.check_win()
 
 	return ..(gibbed)
 

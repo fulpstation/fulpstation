@@ -11,63 +11,23 @@
 #define STYLE_FRUIT 11
 #define STYLE_INVISIBLE 12
 #define STYLE_GONDOLA 13
-#define STYLE_SEETHROUGH 14
 
-#define POD_SHAPE 1
-#define POD_BASE 2
-#define POD_DOOR 3
-#define POD_DECAL 4
-#define POD_GLOW 5
-#define POD_RUBBLE_TYPE 6
-#define POD_NAME 7
-#define POD_DESC 8
+#define POD_ICON_STATE 1
+#define POD_NAME 2
+#define POD_DESC 3
 
-#define RUBBLE_NONE 1
-#define RUBBLE_NORMAL 2
-#define RUBBLE_WIDE 3
-#define RUBBLE_THIN 4
-
-#define POD_SHAPE_NORML 1
-#define POD_SHAPE_OTHER 2
-
-#define POD_TRANSIT "1"
-#define POD_FALLING "2"
-#define POD_OPENING "3"
-#define POD_LEAVING "4"
-
-#define SUPPLYPOD_X_OFFSET -16
-
-/// The baseline unit for cargo crates. Adjusting this will change the cost of all in-game shuttles, crate export values, bounty rewards, and all supply pack import values, as they use this as their unit of measurement.
-#define CARGO_CRATE_VALUE 200
-
-/// The highest amount of orders you can have of one thing at any one time
-#define CARGO_MAX_ORDER 50
-
-/// Returned by /obj/docking_port/mobile/supply/proc/get_order_count to signify us going over the order limit
-#define OVER_ORDER_LIMIT "GO AWAY"
-
-/// Universal Scanner mode for export scanning.
-#define SCAN_EXPORTS 1
-/// Universal Scanner mode for using the sales tagger.
-#define SCAN_SALES_TAG 2
-/// Universal Scanner mode for using the price tagger.
-#define SCAN_PRICE_TAG 3
-
-///Used by coupons to define that they're cursed
-#define COUPON_OMEN "omen"
-
-///Discount categories for coupons. This one is for anything that isn't discountable.
-#define SUPPLY_PACK_NOT_DISCOUNTABLE null
-///Discount category for the standard stuff, mostly goodies.
-#define SUPPLY_PACK_STD_DISCOUNTABLE "standard_discount"
-///Discount category for stuff that's mostly niche and/or that might be useful.
-#define SUPPLY_PACK_UNCOMMON_DISCOUNTABLE "uncommon_discount"
-///Discount category for the silly, overpriced, joke content, sometimes useful or plain bad.
-#define SUPPLY_PACK_RARE_DISCOUNTABLE "rare_discount"
-
-///Standard export define for not selling the item.
-#define EXPORT_NOT_SOLD 0
-///Sell the item
-#define EXPORT_SOLD 1
-///Sell the item, but for the love of god, don't delete it, we're handling it in a fancier way.
-#define EXPORT_SOLD_DONT_DELETE 2
+#define POD_STYLES list(\
+    list("supplypod", "supply pod", "A Nanotrasen supply drop pod."),\
+    list("bluespacepod", "bluespace supply pod" , "A Nanotrasen Bluespace supply pod. Teleports back to CentCom after delivery."),\
+    list("centcompod", "\improper Centcom supply pod", "A Nanotrasen supply pod, this one has been marked with Central Command's designations. Teleports back to Centcom after delivery."),\
+    list("syndiepod", "blood-red supply pod", "A dark, intimidating supply pod, covered in the blood-red markings of the Syndicate. It's probably best to stand back from this."),\
+    list("squadpod", "\improper MK. II supply pod", "A Nanotrasen supply pod. This one has been marked the markings of some sort of elite strike team."),\
+    list("cultpod", "bloody supply pod", "A Nanotrasen supply pod covered in scratch-marks, blood, and strange runes."),\
+    list("missilepod", "cruise missile", "A big ass missile that didn't seem to fully detonate. It was likely launched from some far-off deep space missile silo. There appears to be an auxillery payload hatch on the side, though manually opening it is likely impossible."),\
+    list("smissilepod", "\improper Syndicate cruise missile", "A big ass, blood-red missile that didn't seem to fully detonate. It was likely launched from some deep space Syndicate missile silo. There appears to be an auxillery payload hatch on the side, though manually opening it is likely impossible."),\
+    list("boxpod", "\improper Aussec supply crate", "An incredibly sturdy supply crate, designed to withstand orbital re-entry. Has 'Aussec Armory - 2532' engraved on the side."),\
+    list("honkpod", "\improper HONK pod", "A brightly-colored supply pod. It likely originated from the Clown Federation."),\
+    list("fruitpod", "\improper Orange", "An angry orange."),\
+    list("", "\improper S.T.E.A.L.T.H. pod MKVII", "A supply pod that, under normal circumstances, is completely invisible to conventional methods of detection. How are you even seeing this?"),\
+    list("gondolapod", "gondola", "The silent walker. This one seems to be part of a delivery agency.")\
+)

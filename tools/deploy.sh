@@ -11,16 +11,11 @@ fi
 
 mkdir -p \
     $1/_maps \
-    $1/icons/effects \
-    $1/icons/mob/clothing \
-    $1/icons/mob/inhands \
-    $1/icons/mob/simple \
-    $1/icons/obj \
-    $1/icons/runtime \
-    $1/sound/runtime \
-    $1/strings \
-    $1/tgui/public \
-    $1/tgui/packages/tgfont/dist
+    $1/icons \
+    $1/sound/chatter \
+    $1/sound/voice/complionator \
+    $1/sound/instruments \
+    $1/strings
 
 if [ -d ".git" ]; then
   mkdir -p $1/.git/logs
@@ -29,16 +24,11 @@ fi
 
 cp tgstation.dmb tgstation.rsc $1/
 cp -r _maps/* $1/_maps/
-cp -r icons/effects/* $1/icons/effects/
-cp -r icons/mob/clothing/* $1/icons/mob/clothing/
-cp -r icons/mob/inhands/* $1/icons/mob/inhands/
-cp -r icons/mob/simple/* $1/icons/mob/simple/
-cp -r icons/obj/* $1/icons/obj/
-cp -r icons/runtime/* $1/icons/runtime/
-cp -r sound/runtime/* $1/sound/runtime/
+cp icons/default_title.dmi $1/icons/
+cp -r sound/chatter/* $1/sound/chatter/
+cp -r sound/voice/complionator/* $1/sound/voice/complionator/
+cp -r sound/instruments/* $1/sound/instruments/
 cp -r strings/* $1/strings/
-cp -r tgui/public/* $1/tgui/public/
-cp -r tgui/packages/tgfont/dist/* $1/tgui/packages/tgfont/dist/
 
 #remove .dm files from _maps
 
@@ -46,6 +36,5 @@ cp -r tgui/packages/tgfont/dist/* $1/tgui/packages/tgfont/dist/
 #find $1/_maps -name "*.dm" -type f -delete
 
 #dlls on windows
-if [ "$(uname -o)" = "Msys" ]; then
-	cp ./*.dll $1/
-fi
+cp rust_g* $1/ || true
+cp *BSQL.* $1/ || true

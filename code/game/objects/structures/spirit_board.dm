@@ -1,111 +1,79 @@
 /obj/structure/spirit_board
 	name = "spirit board"
 	desc = "A wooden board with letters etched into it, used in seances."
-	icon = 'icons/obj/structures.dmi'
+	icon = 'icons/obj/objects.dmi'
 	icon_state = "spirit_board"
-	resistance_flags = FLAMMABLE
 	density = TRUE
 	anchored = FALSE
-	/// Whether no one has moved the planchette yet.
-	var/virgin = TRUE //applies especially to admins
-	/// How long between planchette movements.
-	COOLDOWN_DECLARE(next_use)
-	/// Where the planchette is currently pointing.
-	var/planchette
-	/// Ckey of last mob to use the board.
+	var/virgin = 1
+	var/next_use = 0
+	var/planchette = "A"
 	var/lastuser = null
-	/// List of options ghosts (or people) can pick from.
-	var/list/ghosty_options = list(
-		"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
-		"1","2","3","4","5","6","7","8","9","0",
-		"Yes","No",
-	)
-	/// Number of living, willing mobs adjacent to the board required for a seance to occur.
-	var/required_user_count = 2
-
-/obj/structure/spirit_board/Initialize(mapload)
-	. = ..()
-	if(prob(1))
-		name = "luigi board"
-	planchette = ghosty_options[1]
 
 /obj/structure/spirit_board/examine()
-	. = ..()
-	if(planchette)
-		. += span_notice("The planchette is currently at the letter \"[planchette]\".")
-	else
-		. += span_notice("The planchette is in the middle of the board on no particular letter.")
+	desc = "[initial(desc)] The planchette is sitting at \"[planchette]\"."
+	..()
 
-/obj/structure/spirit_board/attack_hand(mob/user, list/modifiers)
+/obj/structure/spirit_board/attack_hand(mob/user)
 	. = ..()
 	if(.)
-		return .
-	spirit_board_pick_letter(user)
-	return TRUE
-
-/obj/structure/spirit_board/attack_ghost(mob/dead/observer/user)
-	. = ..()
-	if(.)
-		return .
-	spirit_board_pick_letter(user)
-	return TRUE
-
-/obj/structure/spirit_board/proc/spirit_board_pick_letter(mob/ghost)
-	if(!spirit_board_checks(ghost))
 		return
+	spirit_board_pick_letter(user)
+
+
+//ATTACK GHOST IGNORING PARENT RETURN VALUE
+/obj/structure/spirit_board/attack_ghost(mob/dead/observer/user)
+	spirit_board_pick_letter(user)
+	return ..()
+
+/obj/structure/spirit_board/proc/spirit_board_pick_letter(mob/M)
+	if(!spirit_board_checks(M))
+		return 0
 
 	if(virgin)
-		virgin = FALSE
-		notify_ghosts(
-			"Someone has begun playing with \a [src] in [get_area(src)]!",
-			source = src,
-			header = "Spirit board",
-		)
+		virgin = 0
+		notify_ghosts("Someone has begun playing with a [src.name] in [get_area(src)]!", source = src)
 
-	var/new_planchette = tgui_input_list(ghost, "Choose the letter.", "Seance!", ghosty_options)
-	if(isnull(new_planchette))
+	planchette = input("Choose the letter.", "Seance!") as null|anything in list("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
+	if(!planchette || !Adjacent(M) || next_use > world.time)
 		return
-	if(!Adjacent(ghost) || !COOLDOWN_FINISHED(src, next_use))
-		return
-	planchette = new_planchette
-	ghost.log_message("picked a letter on [src], which was \"[planchette]\".", LOG_GAME)
-	COOLDOWN_START(src, next_use, rand(3 SECONDS, 5 SECONDS))
-	lastuser = ghost.ckey
-	for(var/mob/viewer in range(2, src))
-		if(isnull(viewer.client))
-			continue
-		if(viewer.stat != CONSCIOUS && viewer.stat != DEAD) // You gotta be awake or dead to pay the toll
-			continue
-		if(viewer.is_blind())
-			to_chat(viewer, span_hear("You hear a scraping sound..."))
-		else
-			to_chat(viewer, span_notice("The planchette slowly moves... and stops at the letter \"[planchette]\"."))
+	M.log_message("picked a letter on [src], which was \"[planchette]\".", LOG_GAME)
+	next_use = world.time + rand(30,50)
+	lastuser = M.ckey
+	//blind message is the same because not everyone brings night vision to seances
+	var/msg = "<span class='notice'>The planchette slowly moves... and stops at the letter \"[planchette]\".</span>"
+	visible_message(msg,"",msg)
 
-/obj/structure/spirit_board/proc/spirit_board_checks(mob/ghost)
-	var/cd_penalty = (ghost.ckey == lastuser) ? 1 SECONDS : 0 SECONDS //Give some other people a chance, hog.
+/obj/structure/spirit_board/proc/spirit_board_checks(mob/M)
+	//cooldown
+	var/bonus = 0
+	if(M.ckey == lastuser)
+		bonus = 10 //Give some other people a chance, hog.
 
-	if(next_use - cd_penalty > world.time)
-		return FALSE //No feedback here, hiding the cooldown a little makes it harder to tell who's really picking letters.
+	if(next_use - bonus > world.time )
+		return 0 //No feedback here, hiding the cooldown a little makes it harder to tell who's really picking letters.
 
-	var/turf/play_turf = get_turf(src)
-	if(play_turf?.get_lumcount() > 0.2)
-		to_chat(ghost, span_warning("It's too bright here to use [src]!"))
-		return FALSE
+	//lighting check
+	var/light_amount = 0
+	var/turf/T = get_turf(src)
+	light_amount = T.get_lumcount()
 
-	if(required_user_count > 0)
-		var/users_in_range = 0
-		for(var/mob/living/player in orange(1, src))
-			if(isnull(player.ckey) || isnull(player.client))
-				continue
 
-			if(player.client?.is_afk() || player.stat != CONSCIOUS || HAS_TRAIT(player, TRAIT_HANDS_BLOCKED))//no playing with braindeads or corpses or handcuffed dudes.
-				to_chat(ghost, span_warning("[player] doesn't seem to be paying attention..."))
-				continue
+	if(light_amount > 0.2)
+		to_chat(M, "<span class='warning'>It's too bright here to use [src.name]!</span>")
+		return 0
 
-			users_in_range++
+	//mobs in range check
+	var/users_in_range = 0
+	for(var/mob/living/L in orange(1,src))
+		if(L.ckey && L.client)
+			if((world.time - L.client.inactivity) < (world.time - 300) || L.stat != CONSCIOUS || L.restrained())//no playing with braindeads or corpses or handcuffed dudes.
+				to_chat(M, "<span class='warning'>[L] doesn't seem to be paying attention...</span>")
+			else
+				users_in_range++
 
-		if(users_in_range < required_user_count)
-			to_chat(ghost, span_warning("There aren't enough people around to use [src]!"))
-			return FALSE
+	if(users_in_range < 2)
+		to_chat(M, "<span class='warning'>There aren't enough people to use the [src.name]!</span>")
+		return 0
 
-	return TRUE
+	return 1

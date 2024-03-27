@@ -1,45 +1,34 @@
 // How much "space" we give the edge of the map
-GLOBAL_LIST_INIT(potentialRandomZlevels, generateMapList(filename = "awaymissionconfig.txt"))
-GLOBAL_LIST_INIT(potentialConfigRandomZlevels, generate_map_list_from_directory(directory = "[global.config.directory]/away_missions/"))
+GLOBAL_LIST_INIT(potentialRandomZlevels, generateMapList(filename = "[global.config.directory]/awaymissionconfig.txt"))
 
-/proc/createRandomZlevel(config_gateway = FALSE)
-	var/map
-	if(config_gateway && GLOB.potentialConfigRandomZlevels?.len)
-		map = pick_n_take(GLOB.potentialConfigRandomZlevels)
-	else if(GLOB.potentialRandomZlevels?.len)
-		map = pick_n_take(GLOB.potentialRandomZlevels)
-	else
-		return to_chat(world, span_boldannounce("No valid away mission files, loading aborted."))
-	to_chat(world, span_boldannounce("Loading away mission..."))
-	var/loaded = load_new_z_level(map, "Away Mission", config_gateway)
-	to_chat(world, span_boldannounce("Away mission [loaded ? "loaded" : "aborted due to errors"]."))
-	if(!loaded)
-		message_admins("Away mission [map] loading failed due to errors.")
-		log_admin("Away mission [map] loading failed due to errors.")
-		createRandomZlevel(config_gateway)
+/proc/createRandomZlevel()
+	if(GLOB.awaydestinations.len)	//crude, but it saves another var!
+		return
+
+	if(GLOB.potentialRandomZlevels && GLOB.potentialRandomZlevels.len)
+		to_chat(world, "<span class='boldannounce'>Loading away mission...</span>")
+		var/map = pick(GLOB.potentialRandomZlevels)
+		load_new_z_level(map, "Away Mission")
+		to_chat(world, "<span class='boldannounce'>Away mission loaded.</span>")
+
+/proc/reset_gateway_spawns(reset = FALSE)
+	for(var/obj/machinery/gateway/G in world)
+		if(reset)
+			G.randomspawns = GLOB.awaydestinations
+		else
+			G.randomspawns.Add(GLOB.awaydestinations)
 
 /obj/effect/landmark/awaystart
 	name = "away mission spawn"
 	desc = "Randomly picked away mission spawn points."
-	var/id
-	var/delay = TRUE // If the generated destination should be delayed by configured gateway delay
 
-/obj/effect/landmark/awaystart/Initialize(mapload)
-	. = ..()
-	var/datum/gateway_destination/point/current
-	for(var/datum/gateway_destination/point/D in GLOB.gateway_destinations)
-		if(D.id == id)
-			current = D
-	if(!current)
-		current = new
-		current.id = id
-		if(delay)
-			current.wait = CONFIG_GET(number/gateway_delay)
-		GLOB.gateway_destinations += current
-	current.target_turfs += get_turf(src)
+/obj/effect/landmark/awaystart/New()
+	GLOB.awaydestinations += src
+	..()
 
-/obj/effect/landmark/awaystart/nodelay
-	delay = FALSE
+/obj/effect/landmark/awaystart/Destroy()
+	GLOB.awaydestinations -= src
+	return ..()
 
 /proc/generateMapList(filename)
 	. = list()
@@ -55,7 +44,7 @@ GLOBAL_LIST_INIT(potentialConfigRandomZlevels, generate_map_list_from_directory(
 		t = trim(t)
 		if (length(t) == 0)
 			continue
-		else if (t[1] == "#")
+		else if (copytext(t, 1, 2) == "#")
 			continue
 
 		var/pos = findtext(t, " ")
@@ -71,13 +60,3 @@ GLOBAL_LIST_INIT(potentialConfigRandomZlevels, generate_map_list_from_directory(
 			continue
 
 		. += t
-
-/// Returns a list of all maps to be found in the directory that is passed in.
-/proc/generate_map_list_from_directory(directory)
-	var/list/config_maps = list()
-	var/list/maps = flist(directory)
-	for(var/map_file in maps)
-		if(!findtext(map_file, ".dmm"))
-			continue
-		config_maps += (directory + map_file)
-	return config_maps

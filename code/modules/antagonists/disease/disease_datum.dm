@@ -1,13 +1,12 @@
 /datum/antagonist/disease
 	name = "Sentient Disease"
 	roundend_category = "diseases"
-	antagpanel_category = ANTAG_GROUP_BIOHAZARDS
-	show_to_ghosts = TRUE
+	antagpanel_category = "Disease"
 	var/disease_name = ""
 
 /datum/antagonist/disease/on_gain()
-	owner.set_assigned_role(SSjob.GetJobType(/datum/job/sentient_disease))
-	owner.special_role = ROLE_SENTIENT_DISEASE
+	owner.special_role = "Sentient Disease"
+	owner.assigned_role = "Sentient Disease"
 	var/datum/objective/O = new /datum/objective/disease_infect()
 	O.owner = owner
 	objectives += O
@@ -19,8 +18,8 @@
 	. = ..()
 
 /datum/antagonist/disease/greet()
-	. = ..()
-	to_chat(owner.current, span_notice("Infect members of the crew to gain adaptation points, and spread your infection further."))
+	to_chat(owner.current, "<span class='notice'>You are the [owner.special_role]!</span>")
+	to_chat(owner.current, "<span class='notice'>Infect members of the crew to gain adaptation points, and spread your infection further.</span>")
 	owner.announce_objectives()
 
 /datum/antagonist/disease/apply_innate_effects(mob/living/mob_override)
@@ -46,9 +45,9 @@
 	var/count = 1
 	for(var/datum/objective/objective in objectives)
 		if(objective.check_completion())
-			objectives_text += "<br><B>Objective #[count]</B>: [objective.explanation_text] [span_greentext("Success!")]"
+			objectives_text += "<br><B>Objective #[count]</B>: [objective.explanation_text] <span class='greentext'>Success!</span>"
 		else
-			objectives_text += "<br><B>Objective #[count]</B>: [objective.explanation_text] [span_redtext("Fail.")]"
+			objectives_text += "<br><B>Objective #[count]</B>: [objective.explanation_text] <span class='redtext'>Fail.</span>"
 			win = FALSE
 		count++
 
@@ -57,9 +56,9 @@
 	var/special_role_text = lowertext(name)
 
 	if(win)
-		result += span_greentext("The [special_role_text] was successful!")
+		result += "<span class='greentext'>The [special_role_text] was successful!</span>"
 	else
-		result += span_redtext("The [special_role_text] has failed!")
+		result += "<span class='redtext'>The [special_role_text] has failed!</span>"
 
 	if(istype(owner.current, /mob/camera/disease))
 		var/mob/camera/disease/D = owner.current
@@ -73,11 +72,6 @@
 
 	return result.Join("<br>")
 
-/datum/antagonist/disease/get_preview_icon()
-	var/icon/icon = icon('icons/mob/huds/antag_hud.dmi', "virus_infected")
-	icon.Blend(COLOR_GREEN_GRAY, ICON_MULTIPLY)
-	icon.Scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
-	return icon
 
 /datum/objective/disease_infect
 	explanation_text = "Survive and infect as many people as possible."

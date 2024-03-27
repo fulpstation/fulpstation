@@ -7,6 +7,11 @@
 /datum/language
 	var/name = "an unknown language"  // Fluff name of language if any.
 	var/desc = "A language."          // Short description for 'Check Languages'.
+	var/speech_verb = "says"          // 'says', 'hisses', 'farts'.
+	var/ask_verb = "asks"             // Used when sentence ends in a ?
+	var/exclaim_verb = "exclaims"     // Used when sentence ends in a !
+	var/whisper_verb = "whispers"     // Optional. When not specified speech_verb + quietly/softly is used instead.
+	var/list/signlang_verb = list("signs", "gestures") // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
 	var/key                           // Character used to speak in language
 	// If key is null, then the language isn't real or learnable.
 	var/flags                         // Various language flags.
@@ -30,12 +35,12 @@
 	return TRUE
 
 /datum/language/proc/get_icon()
-	var/datum/asset/spritesheet/sheet = get_asset_datum(/datum/asset/spritesheet/chat)
+	var/datum/asset/spritesheet/sheet = get_asset_datum(/datum/asset/spritesheet/goonchat)
 	return sheet.icon_tag("language-[icon_state]")
 
 /datum/language/proc/get_random_name(gender, name_count=2, syllable_count=4, syllable_divisor=2)
 	if(!syllables || !syllables.len)
-		if(gender == FEMALE)
+		if(gender==FEMALE)
 			return capitalize(pick(GLOB.first_names_female)) + " " + capitalize(pick(GLOB.last_names))
 		else
 			return capitalize(pick(GLOB.first_names_male)) + " " + capitalize(pick(GLOB.last_names))
@@ -47,7 +52,7 @@
 		new_name = ""
 		var/Y = rand(FLOOR(syllable_count/syllable_divisor, 1), syllable_count)
 		for(var/x in Y to 0)
-			new_name += pick_weight_recursive(syllables)
+			new_name += pick(syllables)
 		full_name += " [capitalize(lowertext(new_name))]"
 
 	return "[trim(full_name)]"
@@ -75,12 +80,12 @@
 	if(lookup)
 		return lookup
 
-	var/input_size = length_char(input)
+	var/input_size = length(input)
 	var/scrambled_text = ""
 	var/capitalize = TRUE
 
-	while(length_char(scrambled_text) < input_size)
-		var/next = pick_weight_recursive(syllables)
+	while(length(scrambled_text) < input_size)
+		var/next = pick(syllables)
 		if(capitalize)
 			next = capitalize(next)
 			capitalize = FALSE
@@ -93,15 +98,23 @@
 			scrambled_text += " "
 
 	scrambled_text = trim(scrambled_text)
-	var/ending = copytext_char(scrambled_text, -1)
+	var/ending = copytext(scrambled_text, length(scrambled_text))
 	if(ending == ".")
-		scrambled_text = copytext_char(scrambled_text, 1, -2)
-	var/input_ending = copytext_char(input, -1)
+		scrambled_text = copytext(scrambled_text,1,length(scrambled_text)-1)
+	var/input_ending = copytext(input, input_size)
 	if(input_ending in list("!","?","."))
 		scrambled_text += input_ending
 
 	add_to_cache(input, scrambled_text)
 
 	return scrambled_text
+
+/datum/language/proc/get_spoken_verb(msg_end)
+	switch(msg_end)
+		if("!")
+			return exclaim_verb
+		if("?")
+			return ask_verb
+	return speech_verb
 
 #undef SCRAMBLE_CACHE_LEN

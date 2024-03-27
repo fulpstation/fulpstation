@@ -6,8 +6,6 @@
 #define FOOTSTEP_GRASS "grass"
 #define FOOTSTEP_WATER "water"
 #define FOOTSTEP_LAVA "lava"
-#define FOOTSTEP_MEAT "meat"
-#define FOOTSTEP_CATWALK "catwalk"
 //barefoot sounds
 #define FOOTSTEP_WOOD_BAREFOOT "woodbarefoot"
 #define FOOTSTEP_WOOD_CLAW "woodclaw"
@@ -16,26 +14,6 @@
 #define FOOTSTEP_CARPET_BAREFOOT "carpetbarefoot"
 //misc footstep sounds
 #define FOOTSTEP_GENERIC_HEAVY "heavy"
-
-
-//footstep mob defines
-#define FOOTSTEP_MOB_CLAW "footstep_claw"
-#define FOOTSTEP_MOB_BAREFOOT "footstep_barefoot"
-#define FOOTSTEP_MOB_HEAVY "footstep_heavy"
-#define FOOTSTEP_MOB_SHOE "footstep_shoe"
-#define FOOTSTEP_MOB_HUMAN "footstep_human" //Warning: Only works on /mob/living/carbon/human
-#define FOOTSTEP_MOB_SLIME "footstep_slime"
-#define FOOTSTEP_MOB_RUST "footstep_rust"
-#define FOOTSTEP_OBJ_MACHINE "footstep_machine"
-#define FOOTSTEP_OBJ_ROBOT "footstep_robot"
-
-//priority defines for the footstep_override element
-#define STEP_SOUND_NO_PRIORITY 0
-#define STEP_SOUND_CONVEYOR_PRIORITY 1
-#define STEP_SOUND_TABLE_PRIORITY 2
-
-///the name of the index key for priority
-#define STEP_SOUND_PRIORITY "step_sound_priority"
 
 /*
 
@@ -93,14 +71,6 @@ GLOBAL_LIST_INIT(footstep, list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
 		'sound/effects/footstep/lava3.ogg'), 100, 0),
-	FOOTSTEP_MEAT = list(list(
-		'sound/effects/meatslap.ogg'), 100, 0),
-	FOOTSTEP_CATWALK = list(list(
-		'sound/effects/footstep/catwalk1.ogg',
-		'sound/effects/footstep/catwalk2.ogg',
-		'sound/effects/footstep/catwalk3.ogg',
-		'sound/effects/footstep/catwalk4.ogg',
-		'sound/effects/footstep/catwalk5.ogg'), 100, 1),
 ))
 //bare footsteps lists
 GLOBAL_LIST_INIT(barefootstep, list(
@@ -142,8 +112,6 @@ GLOBAL_LIST_INIT(barefootstep, list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
 		'sound/effects/footstep/lava3.ogg'), 100, 0),
-	FOOTSTEP_MEAT = list(list(
-		'sound/effects/meatslap.ogg'), 100, 0),
 ))
 
 //claw footsteps lists
@@ -186,8 +154,6 @@ GLOBAL_LIST_INIT(clawfootstep, list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
 		'sound/effects/footstep/lava3.ogg'), 100, 0),
-	FOOTSTEP_MEAT = list(list(
-		'sound/effects/meatslap.ogg'), 100, 0),
 ))
 
 //heavy footsteps list
@@ -204,7 +170,5 @@ GLOBAL_LIST_INIT(heavyfootstep, list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
 		'sound/effects/footstep/lava3.ogg'), 100, 0),
-	FOOTSTEP_MEAT = list(list(
-		'sound/effects/meatslap.ogg'), 100, 0),
 ))
 

@@ -2,26 +2,24 @@
 /obj/item/pinpointer
 	name = "pinpointer"
 	desc = "A handheld tracking device that locks onto certain signals."
-	icon = 'icons/obj/devices/tracker.dmi'
+	icon = 'icons/obj/device.dmi'
 	icon_state = "pinpointer"
-	obj_flags = CONDUCTS_ELECTRICITY
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
-	inhand_icon_state = "electronic"
-	worn_icon_state = "pinpointer"
-	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
+	item_state = "electronic"
+	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
 	throw_speed = 3
 	throw_range = 7
-	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 5, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 2.5)
+	materials = list(MAT_METAL = 500, MAT_GLASS = 250)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/active = FALSE
 	var/atom/movable/target //The thing we're searching for
 	var/minimum_range = 0 //at what range the pinpointer declares you to be at your destination
 	var/alert = FALSE // TRUE to display things more seriously
-	var/process_scan = TRUE // some pinpointers change target every time they scan, which means we can't have it change very process but instead when it turns on.
-	var/icon_suffix = "" // for special pinpointer icons
 
-/obj/item/pinpointer/Initialize(mapload)
+/obj/item/pinpointer/Initialize()
 	. = ..()
 	GLOB.pinpointer_list += src
 
@@ -32,131 +30,108 @@
 	return ..()
 
 /obj/item/pinpointer/attack_self(mob/living/user)
-	if(!process_scan) //since it's not scanning on process, it scans here.
-		scan_for_target()
 	toggle_on()
-	user.visible_message(span_notice("[user] [active ? "" : "de"]activates [user.p_their()] pinpointer."), span_notice("You [active ? "" : "de"]activate your pinpointer."))
-
-/obj/item/pinpointer/examine(mob/user)
-	. = ..()
-	if(target)
-		. += "It is currently tracking [target]."
+	user.visible_message("<span class='notice'>[user] [active ? "" : "de"]activates [user.p_their()] pinpointer.</span>", "<span class='notice'>You [active ? "" : "de"]activate your pinpointer.</span>")
 
 /obj/item/pinpointer/proc/toggle_on()
 	active = !active
-	playsound(src, 'sound/items/screwdriver2.ogg', 50, TRUE)
+	playsound(src, 'sound/items/screwdriver2.ogg', 50, 1)
 	if(active)
 		START_PROCESSING(SSfastprocess, src)
 	else
 		target = null
 		STOP_PROCESSING(SSfastprocess, src)
-	update_appearance()
+	update_icon()
 
 /obj/item/pinpointer/process()
 	if(!active)
 		return PROCESS_KILL
-	if(process_scan)
-		scan_for_target()
-	update_appearance()
+	scan_for_target()
+	update_icon()
 
 /obj/item/pinpointer/proc/scan_for_target()
 	return
 
-/obj/item/pinpointer/update_overlays()
-	. = ..()
+/obj/item/pinpointer/update_icon()
+	cut_overlays()
 	if(!active)
 		return
 	if(!target)
-		. += "pinon[alert ? "alert" : ""]null[icon_suffix]"
+		add_overlay("pinon[alert ? "alert" : ""]null")
 		return
 	var/turf/here = get_turf(src)
 	var/turf/there = get_turf(target)
-	if(!here || !there || here.z != there.z)
-		. += "pinon[alert ? "alert" : ""]null[icon_suffix]"
+	if(here.z != there.z)
+		add_overlay("pinon[alert ? "alert" : ""]null")
 		return
-	. += get_direction_icon(here, there)
-
-///Called by update_icon after sanity. There is a target
-/obj/item/pinpointer/proc/get_direction_icon(here, there)
 	if(get_dist_euclidian(here,there) <= minimum_range)
-		return "pinon[alert ? "alert" : ""]direct[icon_suffix]"
+		add_overlay("pinon[alert ? "alert" : ""]direct")
 	else
 		setDir(get_dir(here, there))
 		switch(get_dist(here, there))
 			if(1 to 8)
-				return "pinon[alert ? "alert" : "close"][icon_suffix]"
+				add_overlay("pinon[alert ? "alert" : "close"]")
 			if(9 to 16)
-				return "pinon[alert ? "alert" : "medium"][icon_suffix]"
+				add_overlay("pinon[alert ? "alert" : "medium"]")
 			if(16 to INFINITY)
-				return "pinon[alert ? "alert" : "far"][icon_suffix]"
+				add_overlay("pinon[alert ? "alert" : "far"]")
 
 /obj/item/pinpointer/crew // A replacement for the old crew monitoring consoles
 	name = "crew pinpointer"
 	desc = "A handheld tracking device that points to crew suit sensors."
 	icon_state = "pinpointer_crew"
-	worn_icon_state = "pinpointer_crew"
-	custom_price = PAYCHECK_CREW * 4
-	custom_premium_price = PAYCHECK_CREW * 6
-	var/has_owner = FALSE
-	var/pinpointer_owner = null
-	var/ignore_suit_sensor_level = FALSE /// Do we find people even if their suit sensors are turned off
+	custom_price = 150
 
 /obj/item/pinpointer/crew/proc/trackable(mob/living/carbon/human/H)
 	var/turf/here = get_turf(src)
-	var/turf/there = get_turf(H)
-	if(here && there && (there.z == here.z || (is_station_level(here.z) && is_station_level(there.z)))) // Device and target should be on the same level or different levels of the same station
-		if (istype(H.w_uniform, /obj/item/clothing/under))
-			var/obj/item/clothing/under/U = H.w_uniform
-			if(U.has_sensor && (U.sensor_mode >= SENSOR_COORDS || ignore_suit_sensor_level)) // Suit sensors must be on maximum or a contractor pinpointer
-				return TRUE
+	if((H.z == 0 || H.z == here.z) && istype(H.w_uniform, /obj/item/clothing/under))
+		var/obj/item/clothing/under/U = H.w_uniform
+
+		// Suit sensors must be on maximum.
+		if(!U.has_sensor || U.sensor_mode < SENSOR_COORDS)
+			return FALSE
+
+		var/turf/there = get_turf(H)
+		return (H.z != 0 || (there && there.z == here.z))
+
 	return FALSE
 
 /obj/item/pinpointer/crew/attack_self(mob/living/user)
 	if(active)
 		toggle_on()
-		user.visible_message(span_notice("[user] deactivates [user.p_their()] pinpointer."), span_notice("You deactivate your pinpointer."))
-		return
-
-	if (has_owner && !pinpointer_owner)
-		pinpointer_owner = user
-
-	if (pinpointer_owner && pinpointer_owner != user)
-		to_chat(user, span_notice("The pinpointer doesn't respond. It seems to only recognise its owner."))
+		user.visible_message("<span class='notice'>[user] deactivates [user.p_their()] pinpointer.</span>", "<span class='notice'>You deactivate your pinpointer.</span>")
 		return
 
 	var/list/name_counts = list()
 	var/list/names = list()
 
-	for(var/i in GLOB.human_list)
-		var/mob/living/carbon/human/H = i
+	for(var/mob/living/carbon/human/H in GLOB.carbon_list)
 		if(!trackable(H))
 			continue
 
 		var/crewmember_name = "Unknown"
 		if(H.wear_id)
 			var/obj/item/card/id/I = H.wear_id.GetID()
-			if(I?.registered_name)
+			if(I && I.registered_name)
 				crewmember_name = I.registered_name
 
 		while(crewmember_name in name_counts)
 			name_counts[crewmember_name]++
-			crewmember_name = "[crewmember_name] ([name_counts[crewmember_name]])"
+			crewmember_name = text("[] ([])", crewmember_name, name_counts[crewmember_name])
 		names[crewmember_name] = H
 		name_counts[crewmember_name] = 1
 
-	if(!length(names))
-		user.visible_message(span_notice("[user]'s pinpointer fails to detect a signal."), span_notice("Your pinpointer fails to detect a signal."))
+	if(!names.len)
+		user.visible_message("<span class='notice'>[user]'s pinpointer fails to detect a signal.</span>", "<span class='notice'>Your pinpointer fails to detect a signal.</span>")
 		return
-	var/pinpoint_target = tgui_input_list(user, "Person to track", "Pinpoint", sort_list(names))
-	if(isnull(pinpoint_target))
+
+	var/A = input(user, "Person to track", "Pinpoint") in names
+	if(!A || QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated())
 		return
-	if(isnull(names[pinpoint_target]))
-		return
-	if(QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated())
-		return
-	target = names[pinpoint_target]
+
+	target = names[A]
 	toggle_on()
-	user.visible_message(span_notice("[user] activates [user.p_their()] pinpointer."), span_notice("You activate your pinpointer."))
+	user.visible_message("<span class='notice'>[user] activates [user.p_their()] pinpointer.</span>", "<span class='notice'>You activate your pinpointer.</span>")
 
 /obj/item/pinpointer/crew/scan_for_target()
 	if(target)
@@ -166,6 +141,7 @@
 				target = null
 	if(!target) //target can be set to null from above code, or elsewhere
 		active = FALSE
+
 
 /obj/item/pinpointer/pair
 	name = "pair pinpointer"
@@ -185,7 +161,7 @@
 		return
 	var/mob/mob_holder = get(target, /mob)
 	if(istype(mob_holder))
-		. += "Its pair is being held by [mob_holder]."
+		to_chat(user, "Its pair is being held by [mob_holder].")
 		return
 
 /obj/item/storage/box/pinpointer_pairs
@@ -197,57 +173,3 @@
 
 	A.other_pair = B
 	B.other_pair = A
-
-/obj/item/pinpointer/shuttle
-	name = "bounty shuttle pinpointer"
-	desc = "A handheld tracking device that locates the bounty hunter shuttle for quick escapes."
-	icon_state = "pinpointer_hunter"
-	worn_icon_state = "pinpointer_black"
-	icon_suffix = "_hunter"
-	var/obj/shuttleport
-
-/obj/item/pinpointer/shuttle/Initialize(mapload)
-	. = ..()
-	shuttleport = SSshuttle.getShuttle("huntership")
-
-/obj/item/pinpointer/shuttle/scan_for_target()
-	target = shuttleport
-
-/obj/item/pinpointer/shuttle/Destroy()
-	shuttleport = null
-	. = ..()
-
-///list of all sheets with sniffable = TRUE for the sniffer to locate
-GLOBAL_LIST_EMPTY(sniffable_sheets)
-
-/obj/item/pinpointer/material_sniffer
-	name = "material sniffer"
-	desc = "A handheld tracking device that locates sheets of glass and iron."
-	icon_state = "pinpointer_sniffer"
-	worn_icon_state = "pinpointer_black"
-
-/obj/item/pinpointer/material_sniffer/scan_for_target()
-	if(target || !GLOB.sniffable_sheets.len)
-		return
-	var/obj/item/stack/sheet/new_sheet_target
-	var/closest_distance = INFINITY
-	for(var/obj/item/stack/sheet/potential_sheet as anything in GLOB.sniffable_sheets)
-		// not enough for lag reasons, and shouldn't even be on this
-		if(potential_sheet.amount < 10)
-			GLOB.sniffable_sheets -= potential_sheet
-			continue
-		//held by someone
-		if(isliving(potential_sheet.loc))
-			continue
-		//not on scanner's z
-		if(potential_sheet.z != z)
-			continue
-		var/distance_from_sniffer = get_dist(src, potential_sheet)
-		if(distance_from_sniffer < closest_distance)
-			closest_distance = distance_from_sniffer
-			new_sheet_target = potential_sheet
-	if(!new_sheet_target)
-		target = null
-		return
-	say("Located [new_sheet_target.amount] [new_sheet_target.singular_name]s!")
-	target = new_sheet_target

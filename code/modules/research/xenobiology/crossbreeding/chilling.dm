@@ -9,18 +9,18 @@ Chilling extracts:
 	effect = "chilling"
 	icon_state = "chilling"
 
-/obj/item/slimecross/chilling/Initialize(mapload)
+/obj/item/slimecross/chilling/Initialize()
 	. = ..()
 	create_reagents(10, INJECTABLE | DRAWABLE)
 
 /obj/item/slimecross/chilling/attack_self(mob/user)
-	if(!reagents.has_reagent(/datum/reagent/toxin/plasma, 10))
-		to_chat(user, span_warning("This extract needs to be full of plasma to activate!"))
+	if(!reagents.has_reagent("plasma",10))
+		to_chat(user, "<span class='warning'>This extract needs to be full of plasma to activate!</span>")
 		return
-	reagents.remove_reagent(/datum/reagent/toxin/plasma, 10)
-	to_chat(user, span_notice("You squeeze the extract, and it absorbs the plasma!"))
-	playsound(src, 'sound/effects/bubbles.ogg', 50, TRUE)
-	playsound(src, 'sound/effects/glassbr1.ogg', 50, TRUE)
+	reagents.remove_reagent("plasma",10)
+	to_chat(user, "<span class='notice'>You squeeze the extract, and it absorbs the plasma!</span>")
+	playsound(src, 'sound/effects/bubbles.ogg', 50, 1)
+	playsound(src, 'sound/effects/glassbr1.ogg', 50, 1)
 	do_effect(user)
 
 /obj/item/slimecross/chilling/proc/do_effect(mob/user) //If, for whatever reason, you don't want to delete the extract, don't do ..()
@@ -28,159 +28,141 @@ Chilling extracts:
 	return
 
 /obj/item/slimecross/chilling/grey
-	colour = SLIME_TYPE_GREY
-	effect_desc = "Creates some slime barrier cubes. When used they create slimy barricades."
+	colour = "grey"
 
 /obj/item/slimecross/chilling/grey/do_effect(mob/user)
-	user.visible_message(span_notice("[src] produces a few small, grey cubes"))
+	user.visible_message("<span class='notice'>[src] produces a few small, grey cubes</span>")
 	for(var/i in 1 to 3)
 		new /obj/item/barriercube(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/orange
-	colour = SLIME_TYPE_ORANGE
-	effect_desc = "Creates a ring of fire one tile away from the user."
+	colour = "orange"
 
 /obj/item/slimecross/chilling/orange/do_effect(mob/user)
-	user.visible_message(span_danger("[src] shatters, and lets out a jet of heat!"))
+	user.visible_message("<span class='danger'>[src] shatters, and lets out a jet of heat!</span>")
 	for(var/turf/T in orange(get_turf(user),2))
 		if(get_dist(get_turf(user), T) > 1)
 			new /obj/effect/hotspot(T)
 	..()
 
 /obj/item/slimecross/chilling/purple
-	colour = SLIME_TYPE_PURPLE
-	effect_desc = "Injects everyone in the area with some regenerative jelly."
+	colour = "purple"
 
 /obj/item/slimecross/chilling/purple/do_effect(mob/user)
-	var/area/user_area = get_area(user)
-	if(user_area.outdoors)
-		to_chat(user, span_warning("[src] can't affect such a large area."))
+	var/area/A = get_area(get_turf(user))
+	if(A.outdoors)
+		to_chat(user, "<span class='warning'>[src] can't affect such a large area.</span>")
 		return
-	user.visible_message(span_notice("[src] shatters, and a healing aura fills the room briefly."))
-	for (var/list/zlevel_turfs as anything in user_area.get_zlevel_turf_lists())
-		for(var/turf/area_turf as anything in zlevel_turfs)
-			for(var/mob/living/carbon/nearby in area_turf)
-				nearby.reagents?.add_reagent(/datum/reagent/medicine/regen_jelly,10)
+	user.visible_message("<span class='notice'>[src] shatters, and a healing aura fills the room briefly.</span>")
+	for(var/mob/living/carbon/C in A)
+		C.reagents.add_reagent("regen_jelly",10)
 	..()
 
 /obj/item/slimecross/chilling/blue
-	colour = SLIME_TYPE_BLUE
-	effect_desc = "Creates a rebreather, a tankless mask."
+	colour = "blue"
 
 /obj/item/slimecross/chilling/blue/do_effect(mob/user)
-	user.visible_message(span_notice("[src] cracks, and spills out a liquid goo, which reforms into a mask!"))
+	user.visible_message("<span class='notice'>[src] cracks, and spills out a liquid goo, which reforms into a mask!</span>")
 	new /obj/item/clothing/mask/nobreath(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/metal
-	colour = SLIME_TYPE_METAL
-	effect_desc = "Temporarily surrounds the user with unbreakable walls."
+	colour = "metal"
 
 /obj/item/slimecross/chilling/metal/do_effect(mob/user)
-	user.visible_message(span_danger("[src] melts like quicksilver, and surrounds [user] in a wall!"))
+	user.visible_message("<span class='danger'>[src] melts like quicksilver, and surrounds [user] in a wall!</span>")
 	for(var/turf/T in orange(get_turf(user),1))
 		if(get_dist(get_turf(user), T) > 0)
 			new /obj/effect/forcefield/slimewall(T)
 	..()
 
 /obj/item/slimecross/chilling/yellow
-	colour = SLIME_TYPE_YELLOW
-	effect_desc = "Recharges the room's APC by 50%."
+	colour = "yellow"
 
 /obj/item/slimecross/chilling/yellow/do_effect(mob/user)
-	var/area/user_area = get_area(user)
-	if(isnull(user_area.apc?.cell))
-		user.visible_message(span_notice("[src] shatters, yet the air around you feels normal."))
-		return
-
-	var/obj/machinery/power/apc/area_apc = user_area.apc
-	area_apc.cell.charge = min(area_apc.cell.charge + area_apc.cell.maxcharge / 2, area_apc.cell.maxcharge)
-	user.visible_message(span_notice("[src] shatters, and the air suddenly feels charged for a moment."))
+	var/area/A = get_area(get_turf(user))
+	user.visible_message("<span class='notice'>[src] shatters, and a the air suddenly feels charged for a moment.</span>")
+	for(var/obj/machinery/power/apc/C in A)
+		if(C.cell)
+			C.cell.charge = min(C.cell.charge + C.cell.maxcharge/2, C.cell.maxcharge)
 	..()
 
 /obj/item/slimecross/chilling/darkpurple
-	colour = SLIME_TYPE_DARK_PURPLE
-	effect_desc = "Removes all plasma gas in the area."
+	colour = "dark purple"
 
 /obj/item/slimecross/chilling/darkpurple/do_effect(mob/user)
 	var/area/A = get_area(get_turf(user))
 	if(A.outdoors)
-		to_chat(user, span_warning("[src] can't affect such a large area."))
+		to_chat(user, "<span class='warning'>[src] can't affect such a large area.</span>")
 		return
 	var/filtered = FALSE
-	for(var/turf/open/T in A.get_turfs_from_all_zlevels())
+	for(var/turf/open/T in A)
 		var/datum/gas_mixture/G = T.air
 		if(istype(G))
 			G.assert_gas(/datum/gas/plasma)
 			G.gases[/datum/gas/plasma][MOLES] = 0
 			filtered = TRUE
 			G.garbage_collect()
-			T.air_update_turf(FALSE, FALSE)
+			T.air_update_turf()
 	if(filtered)
-		user.visible_message(span_notice("Cracks spread throughout [src], and some air is sucked in!"))
+		user.visible_message("<span class='notice'>Cracks spread throughout [src], and some air is sucked in!</span>")
 	else
-		user.visible_message(span_notice("[src] cracks, but nothing happens."))
+		user.visible_message("<span class='notice'>[src] cracks, but nothing happens.</span>")
 	..()
 
 /obj/item/slimecross/chilling/darkblue
-	colour = SLIME_TYPE_DARK_BLUE
-	effect_desc = "Seals the user in a protective block of ice."
+	colour = "dark blue"
 
 /obj/item/slimecross/chilling/darkblue/do_effect(mob/user)
 	if(isliving(user))
-		user.visible_message(span_notice("[src] freezes over [user]'s entire body!"))
+		user.visible_message("<span class='notice'>[src] freezes over [user]'s entire body!</span>")
 		var/mob/living/M = user
 		M.apply_status_effect(/datum/status_effect/frozenstasis)
 	..()
 
 /obj/item/slimecross/chilling/silver
-	colour = SLIME_TYPE_SILVER
-	effect_desc = "Creates several ration packs."
+	colour = "silver"
 
 /obj/item/slimecross/chilling/silver/do_effect(mob/user)
-	user.visible_message(span_notice("[src] crumbles into icy powder, leaving behind several emergency food supplies!"))
+	user.visible_message("<span class='notice'>[src] crumbles into icy powder, leaving behind several emergency food supplies!</span>")
 	var/amount = rand(5, 10)
 	for(var/i in 1 to amount)
-		new /obj/item/food/rationpack(get_turf(user))
+		new /obj/item/reagent_containers/food/snacks/rationpack(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/bluespace
-	colour = SLIME_TYPE_BLUESPACE
-	effect_desc = "Touching people with this extract adds them to a list, when it is activated it teleports everyone on that list to the user."
+	colour = "bluespace"
 	var/list/allies = list()
 	var/active = FALSE
 
 /obj/item/slimecross/chilling/bluespace/afterattack(atom/target, mob/user, proximity)
 	if(!proximity || !isliving(target) || active)
 		return
-	if(HAS_TRAIT(target, TRAIT_NO_TELEPORT))
-		to_chat(user, span_warning("[target] resists being linked with [src]!"))
-		return
 	if(target in allies)
 		allies -= target
-		to_chat(user, span_notice("You unlink [src] with [target]."))
+		to_chat(user, "<span class='notice'>You unlink [src] with [target].</span>")
 	else
 		allies |= target
-		to_chat(user, span_notice("You link [src] with [target]."))
+		to_chat(user, "<span class='notice'>You link [src] with [target].</span>")
 	return
 
 /obj/item/slimecross/chilling/bluespace/do_effect(mob/user)
 	if(allies.len <= 0)
-		to_chat(user, span_warning("[src] is not linked to anyone!"))
+		to_chat(user, "<span class='warning'>[src] is not linked to anyone!</span>")
 		return
-	to_chat(user, span_notice("You feel [src] pulse as it begins charging bluespace energies..."))
+	to_chat(user, "<span class='notice'>You feel [src] pulse as it begins charging bluespace energies...</span>")
 	active = TRUE
 	for(var/mob/living/M in allies)
 		var/datum/status_effect/slimerecall/S = M.apply_status_effect(/datum/status_effect/slimerecall)
 		S.target = user
 	if(do_after(user, 100, target=src))
-		to_chat(user, span_notice("[src] shatters as it tears a hole in reality, snatching the linked individuals from the void!"))
+		to_chat(user, "<span class='notice'>[src] shatters as it tears a hole in reality, snatching the linked individuals from the void!</span>")
 		for(var/mob/living/M in allies)
 			var/datum/status_effect/slimerecall/S = M.has_status_effect(/datum/status_effect/slimerecall)
 			M.remove_status_effect(S)
 	else
-		to_chat(user, span_warning("[src] falls dark, dissolving into nothing as the energies fade away."))
+		to_chat(user, "<span class='warning'>[src] falls dark, dissolving into nothing as the energies fade away.</span>")
 		for(var/mob/living/M in allies)
 			var/datum/status_effect/slimerecall/S = M.has_status_effect(/datum/status_effect/slimerecall)
 			if(istype(S))
@@ -189,8 +171,7 @@ Chilling extracts:
 	..()
 
 /obj/item/slimecross/chilling/sepia
-	colour = SLIME_TYPE_SEPIA
-	effect_desc = "Touching someone with it adds/removes them from a list. Activating the extract stops time for 30 seconds, and everyone on the list is immune, except the user."
+	colour = "sepia"
 	var/list/allies = list()
 
 /obj/item/slimecross/chilling/sepia/afterattack(atom/target, mob/user, proximity)
@@ -198,56 +179,50 @@ Chilling extracts:
 		return
 	if(target in allies)
 		allies -= target
-		to_chat(user, span_notice("You unlink [src] with [target]."))
+		to_chat(user, "<span class='notice'>You unlink [src] with [target].</span>")
 	else
 		allies |= target
-		to_chat(user, span_notice("You link [src] with [target]."))
+		to_chat(user, "<span class='notice'>You link [src] with [target].</span>")
 	return
 
 /obj/item/slimecross/chilling/sepia/do_effect(mob/user)
-	user.visible_message(span_warning("[src] shatters, freezing time itself!"))
-	allies -= user //support class
+	user.visible_message("<span class='warning'>[src] shatters, freezing time itself!</span>")
 	new /obj/effect/timestop(get_turf(user), 2, 300, allies)
-	..()
 
 /obj/item/slimecross/chilling/cerulean
-	colour = SLIME_TYPE_CERULEAN
-	effect_desc = "Creates a flimsy copy of the user, that they control."
+	colour = "cerulean"
 
 /obj/item/slimecross/chilling/cerulean/do_effect(mob/user)
 	if(isliving(user))
-		user.visible_message(span_warning("[src] creaks and shifts into a clone of [user]!"))
+		user.visible_message("<span class='warning'>[src] creaks and shifts into a clone of [user]!</span>")
 		var/mob/living/M = user
 		M.apply_status_effect(/datum/status_effect/slime_clone)
 	..()
 
 /obj/item/slimecross/chilling/pyrite
-	colour = SLIME_TYPE_PYRITE
-	effect_desc = "Creates a pair of Prism Glasses, which allow the wearer to place colored light crystals."
+	colour = "pyrite"
 
 /obj/item/slimecross/chilling/pyrite/do_effect(mob/user)
-	user.visible_message(span_notice("[src] crystallizes into a pair of spectacles!"))
+	user.visible_message("<span class='notice'>[src] crystallizes into a pair of spectacles!</span>")
 	new /obj/item/clothing/glasses/prism_glasses(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/red
-	colour = SLIME_TYPE_RED
-	effect_desc = "Pacifies every slime in your vacinity."
+	colour = "red"
 
 /obj/item/slimecross/chilling/red/do_effect(mob/user)
 	var/slimesfound = FALSE
-	for(var/mob/living/simple_animal/slime/slimes_in_view in view(get_turf(user), 7))
+	for(var/mob/living/simple_animal/slime/S in view(get_turf(user), 7))
 		slimesfound = TRUE
-		slimes_in_view.docile = TRUE
+		S.docile = TRUE
 	if(slimesfound)
-		user.visible_message(span_notice("[src] lets out a peaceful ring as it shatters, and nearby slimes seem calm."))
+		user.visible_message("<span class='notice'>[src] lets out a peaceful ring as it shatters, and nearby slimes seem calm.</span>")
 	else
-		user.visible_message(span_notice("[src] lets out a peaceful ring as it shatters, but nothing happens..."))
-	return ..()
+		user.visible_message("<span class='notice'>[src] lets out a peaceful ring as it shatters, but nothing happens...</span>")
+	..()
 
 /obj/item/slimecross/chilling/green
-	colour = SLIME_TYPE_GREEN
-	effect_desc = "Creates a bone gun in the hand it is used in, which uses blood as ammo."
+	colour = "green"
 
 /obj/item/slimecross/chilling/green/do_effect(mob/user)
 	var/which_hand = "l_hand"
@@ -261,84 +236,75 @@ Chilling extracts:
 	var/obj/item/gun/magic/bloodchill/gun = new(user)
 	if(!L.put_in_hands(gun))
 		qdel(gun)
-		user.visible_message(span_warning("[src] flash-freezes [user]'s arm, cracking the flesh horribly!"))
+		user.visible_message("<span class='warning'>[src] flash-freezes [user]'s arm, cracking the flesh horribly!</span>")
 	else
-		user.visible_message(span_danger("[src] chills and snaps off the front of the bone on [user]'s arm, leaving behind a strange, gun-like structure!"))
+		user.visible_message("<span class='danger'>[src] chills and snaps off the front of the bone on [user]'s arm, leaving behind a strange, gun-like structure!</span>")
 	user.emote("scream")
 	L.apply_damage(30,BURN,which_hand)
 	..()
 
 /obj/item/slimecross/chilling/pink
-	colour = SLIME_TYPE_PINK
-	effect_desc = "Creates a slime corgi puppy."
+	colour = "pink"
 
 /obj/item/slimecross/chilling/pink/do_effect(mob/user)
-	user.visible_message(span_notice("[src] cracks like an egg, and an adorable puppy comes tumbling out!"))
-	new /mob/living/basic/pet/dog/corgi/puppy/slime(get_turf(user))
+	user.visible_message("<span class='notice'>[src] cracks like an egg, and an adorable puppy comes tumbling out!</span>")
+	new /mob/living/simple_animal/pet/dog/corgi/puppy/slime(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/gold
-	colour = SLIME_TYPE_GOLD
-	effect_desc = "Produces a golden capture device"
+	colour = "gold"
 
 /obj/item/slimecross/chilling/gold/do_effect(mob/user)
-	user.visible_message(span_notice("[src] lets off golden light as it melts and reforms into an egg-like device!"))
+	user.visible_message("<span class='notice'>[src] lets off golden light as it melts and reforms into an egg-like device!</span>")
 	new /obj/item/capturedevice(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/oil
-	colour = SLIME_TYPE_OIL
-	effect_desc = "It creates a weak, but wide-ranged explosion."
+	colour = "oil"
 
 /obj/item/slimecross/chilling/oil/do_effect(mob/user)
-	user.visible_message(span_danger("[src] begins to shake with muted intensity!"))
+	user.visible_message("<span class='danger'>[src] begins to shake with muted intensity!</span>")
 	addtimer(CALLBACK(src, PROC_REF(boom)), 50)
 
 /obj/item/slimecross/chilling/oil/proc/boom()
-	explosion(src, devastation_range = -1, heavy_impact_range = -1, light_impact_range = 10, explosion_cause = src) //Large radius, but mostly light damage, and no flash.
+	explosion(get_turf(src), -1, -1, 3, 10) //Large radius, but mostly light damage.
 	qdel(src)
 
 /obj/item/slimecross/chilling/black
-	colour = SLIME_TYPE_BLACK
-	effect_desc = "Transforms the user into a golem."
+	colour = "black"
 
 /obj/item/slimecross/chilling/black/do_effect(mob/user)
 	if(ishuman(user))
-		user.visible_message(span_notice("[src] crystallizes along [user]'s skin, turning into solid stone!"))
+		user.visible_message("<span class='notice'>[src] crystallizes along [user]'s skin, turning into metallic scales!</span>")
 		var/mob/living/carbon/human/H = user
-		H.set_species(/datum/species/golem)
+		H.set_species(/datum/species/golem/random)
 	..()
 
 /obj/item/slimecross/chilling/lightpink
-	colour = SLIME_TYPE_LIGHT_PINK
-	effect_desc = "Creates a Heroine Bud, a special flower that pacifies whoever wears it on their head. They will not be able to take it off without help."
+	colour = "light pink"
 
 /obj/item/slimecross/chilling/lightpink/do_effect(mob/user)
-	user.visible_message(span_notice("[src] blooms into a beautiful flower!"))
+	user.visible_message("<span class='notice'>[src] blooms into a beautiful flower!</span>")
 	new /obj/item/clothing/head/peaceflower(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/adamantine
-	colour = SLIME_TYPE_ADAMANTINE
-	effect_desc = "Solidifies into a set of adamantine armor."
+	colour = "adamantine"
 
 /obj/item/slimecross/chilling/adamantine/do_effect(mob/user)
-	user.visible_message(span_notice("[src] creaks and breaks as it shifts into a heavy set of armor!"))
+	user.visible_message("<span class='notice'>[src] creaks and breaks as it shifts into a heavy set of armor!</span>")
 	new /obj/item/clothing/suit/armor/heavy/adamantine(get_turf(user))
 	..()
 
 /obj/item/slimecross/chilling/rainbow
-	colour = SLIME_TYPE_RAINBOW
-	effect_desc = "Makes an unpassable wall in every door in the area."
+	colour = "rainbow"
 
 /obj/item/slimecross/chilling/rainbow/do_effect(mob/user)
 	var/area/area = get_area(user)
 	if(area.outdoors)
-		to_chat(user, span_warning("[src] can't affect such a large area."))
+		to_chat(user, "<span class='warning'>[src] can't affect such a large area.</span>")
 		return
-	user.visible_message(span_warning("[src] reflects an array of dazzling colors and light, energy rushing to nearby doors!"))
-	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
-		for(var/turf/area_turf as anything in zlevel_turfs)
-			for(var/obj/machinery/door/airlock/door in area_turf)
-				new /obj/effect/forcefield/slimewall/rainbow(door.loc)
+	user.visible_message("<span class='warning'>[src] reflects an array of dazzling colors and light, energy rushing to nearby doors!</span>")
+	for(var/obj/machinery/door/airlock/door in area)
+		new /obj/effect/forcefield/slimewall/rainbow(door.loc)
 	return ..()

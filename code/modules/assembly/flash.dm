@@ -1,76 +1,64 @@
 #define CONFUSION_STACK_MAX_MULTIPLIER 2
-
 /obj/item/assembly/flash
 	name = "flash"
 	desc = "A powerful and versatile flashbulb device, with applications ranging from disorienting attackers to acting as visual receptors in robot production."
-	icon = 'icons/obj/devices/flash.dmi'
 	icon_state = "flash"
-	inhand_icon_state = "flashtool"
+	item_state = "flashtool"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
-	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*3, /datum/material/glass = SMALL_MATERIAL_AMOUNT*3)
-	light_system = OVERLAY_LIGHT //Used as a flash here.
-	light_range = FLASH_LIGHT_RANGE
-	light_color = COLOR_WHITE
+	materials = list(MAT_METAL = 300, MAT_GLASS = 300)
+	crit_fail = FALSE     //Is the flash burnt out?
+	light_color = LIGHT_COLOR_WHITE
 	light_power = FLASH_LIGHT_POWER
-	light_on = FALSE
-	/// Whether we currently have the flashing overlay.
-	var/flashing = FALSE
-	/// The overlay we use for flashing.
 	var/flashing_overlay = "flash-f"
 	var/times_used = 0 //Number of times it's been used.
-	var/burnt_out = FALSE     //Is the flash burnt out?
 	var/burnout_resistance = 0
 	var/last_used = 0 //last world.time it was used.
 	var/cooldown = 0
 	var/last_trigger = 0 //Last time it was successfully triggered.
 
 /obj/item/assembly/flash/suicide_act(mob/living/user)
-	if(burnt_out)
-		user.visible_message(span_suicide("[user] raises \the [src] up to [user.p_their()] eyes and activates it ... but it's burnt out!"))
+	if (crit_fail)
+		user.visible_message("<span class='suicide'>[user] raises \the [src] up to [user.p_their()] eyes and activates it ... but it's burnt out!</span>")
 		return SHAME
-	else if(user.is_blind())
-		user.visible_message(span_suicide("[user] raises \the [src] up to [user.p_their()] eyes and activates it ... but [user.p_theyre()] blind!"))
+	else if (user.eye_blind)
+		user.visible_message("<span class='suicide'>[user] raises \the [src] up to [user.p_their()] eyes and activates it ... but [user.p_theyre()] blind!</span>")
 		return SHAME
-	user.visible_message(span_suicide("[user] raises \the [src] up to [user.p_their()] eyes and activates it! It looks like [user.p_theyre()] trying to commit suicide!"))
+	user.visible_message("<span class='suicide'>[user] raises \the [src] up to [user.p_their()] eyes and activates it! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	attack(user,user)
 	return FIRELOSS
 
-/obj/item/assembly/flash/update_icon(updates=ALL, flash = FALSE)
-	inhand_icon_state = "[burnt_out ? "flashtool_burnt" : "[initial(inhand_icon_state)]"]"
-	flashing = flash
-	. = ..()
-	if(flash)
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_icon)), 5)
-	holder?.update_icon(updates)
-
-/obj/item/assembly/flash/update_overlays()
+/obj/item/assembly/flash/update_icon(flash = FALSE)
+	cut_overlays()
 	attached_overlays = list()
-	. = ..()
-	if(burnt_out)
-		. += "flashburnt"
+	if(crit_fail)
+		add_overlay("flashburnt")
 		attached_overlays += "flashburnt"
-	if(flashing)
-		. += flashing_overlay
+	if(flash)
+		add_overlay(flashing_overlay)
 		attached_overlays += flashing_overlay
-
-/obj/item/assembly/flash/update_name()
-	name = "[burnt_out ? "burnt-out [initial(name)]" : "[initial(name)]"]"
-	return ..()
+		addtimer(CALLBACK(src, PROC_REF(update_icon)), 5)
+	if(holder)
+		holder.update_icon()
 
 /obj/item/assembly/flash/proc/clown_check(mob/living/carbon/human/user)
-	if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
-		flash_carbon(user, user, confusion_duration = 15 SECONDS, targeted = FALSE)
+	if(user.has_trait(TRAIT_CLUMSY) && prob(50))
+		flash_carbon(user, user, 15, 0)
 		return FALSE
 	return TRUE
 
 /obj/item/assembly/flash/proc/burn_out() //Made so you can override it if you want to have an invincible flash from R&D or something.
-	if(!burnt_out)
-		burnt_out = TRUE
-		loc?.visible_message(span_danger("[src] burns out!"),span_userdanger("[src] burns out!"))
-		update_appearance()
+	if(!crit_fail)
+		crit_fail = TRUE
+		update_icon()
+	if(ismob(loc))
+		var/mob/M = loc
+		M.visible_message("<span class='danger'>[src] burns out!</span>","<span class='userdanger'>[src] burns out!</span>")
+	else
+		var/turf/T = get_turf(src)
+		T.visible_message("<span class='danger'>[src] burns out!</span>")
 
 /obj/item/assembly/flash/proc/flash_recharge(interval = 10)
 	var/deciseconds_passed = world.time - last_used
@@ -84,15 +72,14 @@
 	return TRUE
 
 //BYPASS CHECKS ALSO PREVENTS BURNOUT!
-/obj/item/assembly/flash/proc/AOE_flash(bypass_checks = FALSE, range = 3, confusion_duration = 5 SECONDS, mob/user)
+/obj/item/assembly/flash/proc/AOE_flash(bypass_checks = FALSE, range = 3, power = 5, targeted = FALSE, mob/user)
 	if(!bypass_checks && !try_use_flash())
 		return FALSE
 	var/list/mob/targets = get_flash_targets(get_turf(src), range, FALSE)
 	if(user)
 		targets -= user
-		to_chat(user, span_danger("[src] emits a blinding light!"))
-	for(var/mob/living/carbon/nearby_carbon in targets)
-		flash_carbon(nearby_carbon, user, confusion_duration, targeted = FALSE, generic_message = TRUE)
+	for(var/mob/living/carbon/C in targets)
+		flash_carbon(C, user, power, targeted, TRUE)
 	return TRUE
 
 /obj/item/assembly/flash/proc/get_flash_targets(atom/target_loc, range = 3, override_vision_checks = FALSE)
@@ -103,181 +90,111 @@
 	if(isturf(target_loc) || (ismob(target_loc) && isturf(target_loc.loc)))
 		return viewers(range, get_turf(target_loc))
 	else
-		return typecache_filter_list(target_loc.get_all_contents(), GLOB.typecache_living)
+		return typecache_filter_list(target_loc.GetAllContents(), GLOB.typecache_living)
 
 /obj/item/assembly/flash/proc/try_use_flash(mob/user = null)
-	if(burnt_out || (world.time < last_trigger + cooldown))
+	if(crit_fail || (world.time < last_trigger + cooldown))
 		return FALSE
 	last_trigger = world.time
 	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
-	set_light_on(TRUE)
-	addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
+	flash_lighting_fx(FLASH_LIGHT_RANGE, light_power, light_color)
 	times_used++
-	if(!flash_recharge())
-		return FALSE
-	update_icon(ALL, TRUE)
-	update_name(ALL) //so if burnt_out was somehow reverted to 0 the name changes back to flash
+	flash_recharge()
+	update_icon(TRUE)
 	if(user && !clown_check(user))
 		return FALSE
 	return TRUE
 
-
-/obj/item/assembly/flash/proc/flash_end()
-	set_light_on(FALSE)
-
-/**
- * Handles actual flashing part of the attack
- *
- * This proc is awful in every sense of the way, someone should definately refactor this whole code.
- * Arguments:
- * * M - Victim
- * * user - Attacker
- * * confusion_duration - handles the amount of confusion it gives you
- * * targeted - determines if it was aoe or targeted
- * * generic_message - checks if it should display default message.
- */
-/obj/item/assembly/flash/proc/flash_carbon(mob/living/carbon/flashed, mob/user, confusion_duration = 15 SECONDS, targeted = TRUE, generic_message = FALSE)
-	if(!istype(flashed))
+/obj/item/assembly/flash/proc/flash_carbon(mob/living/carbon/M, mob/user, power = 15, targeted = TRUE, generic_message = FALSE)
+	if(!istype(M))
 		return
 	if(user)
-		log_combat(user, flashed, "[targeted? "flashed(targeted)" : "flashed(AOE)"]", src)
+		log_combat(user, M, "[targeted? "flashed(targeted)" : "flashed(AOE)"]", src)
 	else //caused by emp/remote signal
-		flashed.log_message("was [targeted? "flashed(targeted)" : "flashed(AOE)"]", LOG_ATTACK)
-
-	if(generic_message && flashed != user)
-		to_chat(flashed, span_danger("[src] emits a blinding light!"))
-
-	var/deviation = calculate_deviation(flashed, user || src)
-
-	if(user)
-		var/sigreturn = SEND_SIGNAL(user, COMSIG_MOB_PRE_FLASHED_CARBON, flashed, src, deviation)
-		if(sigreturn & STOP_FLASH)
-			return
-
-		if(sigreturn & DEVIATION_OVERRIDE_FULL)
-			deviation = DEVIATION_FULL
-		else if(sigreturn & DEVIATION_OVERRIDE_PARTIAL)
-			deviation = DEVIATION_PARTIAL
-		else if(sigreturn & DEVIATION_OVERRIDE_NONE)
-			deviation = DEVIATION_NONE
-
-	//If you face away from someone they shouldnt notice any effects.
-	if(deviation == DEVIATION_FULL)
-		return
-
+		M.log_message("was [targeted? "flashed(targeted)" : "flashed(AOE)"]",LOG_ATTACK)
+	if(generic_message && M != user)
+		to_chat(M, "<span class='disarm'>[src] emits a blinding light!</span>")
 	if(targeted)
-		if(flashed.flash_act(1, 1))
-			flashed.set_confusion_if_lower(confusion_duration * CONFUSION_STACK_MAX_MULTIPLIER)
-			visible_message(span_danger("[user] blinds [flashed] with the flash!"), span_userdanger("[user] blinds you with the flash!"))
-			//easy way to make sure that you can only long stun someone who is facing in your direction
-			flashed.adjustStaminaLoss(rand(80, 120) * (1 - (deviation * 0.5)))
-			flashed.Knockdown(rand(25, 50) * (1 - (deviation * 0.5)))
-			SEND_SIGNAL(user, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, flashed, src, deviation)
-
+		if(M.flash_act(1, 1))
+			if(M.confused < power)
+				var/diff = power * CONFUSION_STACK_MAX_MULTIPLIER - M.confused
+				M.confused += min(power, diff)
+			if(user)
+				terrible_conversion_proc(M, user)
+				visible_message("<span class='disarm'>[user] blinds [M] with the flash!</span>")
+				to_chat(user, "<span class='danger'>You blind [M] with the flash!</span>")
+				to_chat(M, "<span class='userdanger'>[user] blinds you with the flash!</span>")
+			else
+				to_chat(M, "<span class='userdanger'>You are blinded by [src]!</span>")
+			M.Paralyze(rand(80,120))
 		else if(user)
-			visible_message(span_warning("[user] fails to blind [flashed] with the flash!"), span_danger("[user] fails to blind you with the flash!"))
+			visible_message("<span class='disarm'>[user] fails to blind [M] with the flash!</span>")
+			to_chat(user, "<span class='warning'>You fail to blind [M] with the flash!</span>")
+			to_chat(M, "<span class='danger'>[user] fails to blind you with the flash!</span>")
 		else
-			to_chat(flashed, span_danger("[src] fails to blind you!"))
+			to_chat(M, "<span class='danger'>[src] fails to blind you!</span>")
 	else
-		if(flashed.flash_act())
-			flashed.set_confusion_if_lower(confusion_duration * CONFUSION_STACK_MAX_MULTIPLIER)
-
-/**
- * Handles the directionality of the attack
- *
- * Returns the amount of 'deviation', 0 being facing eachother, 1 being sideways, 2 being facing away from eachother.
- * Arguments:
- * * victim - Victim
- * * attacker - Attacker
- */
-/obj/item/assembly/flash/proc/calculate_deviation(mob/victim, atom/attacker)
-	// Tactical combat emote-spinning should not counter intended gameplay mechanics.
-	// This trumps same-loc checks to discourage floor spinning in general to counter flashes.
-	// In short, combat spinning is silly and you should feel silly for doing it.
-	if(HAS_TRAIT(victim, TRAIT_SPINNING))
-		return DEVIATION_NONE
-
-	if(iscarbon(victim))
-		var/mob/living/carbon/carbon_victim = victim
-		if(carbon_victim.get_eye_protection() < FLASH_PROTECTION_SENSITIVE) // If we have really bad flash sensitivity, usually due to really sensitive eyes, we get flashed from all directions
-			return DEVIATION_NONE
-
-	// Are they on the same tile? We'll return partial deviation. This may be someone flashing while lying down
-	// or flashing someone they're stood on the same turf as, or a borg flashing someone buckled to them.
-	if(victim.loc == attacker.loc)
-		return DEVIATION_PARTIAL
-
-	// If the victim was looking at the attacker, this is the direction they'd have to be facing.
-	var/victim_to_attacker = get_dir(victim, attacker)
-	// The victim's dir is necessarily a cardinal value.
-	var/victim_dir = victim.dir
-
-	// - - -
-	// - V - Victim facing south
-	// # # #
-	// Attacker within 45 degrees of where the victim is facing.
-	if(victim_dir & victim_to_attacker)
-		return DEVIATION_NONE
-
-	// # # #
-	// - V - Victim facing south
-	// - - -
-	// Attacker at 135 or more degrees of where the victim is facing.
-	if(victim_dir & REVERSE_DIR(victim_to_attacker))
-		return DEVIATION_FULL
-
-	// - - -
-	// # V # Victim facing south
-	// - - -
-	// Attacker lateral to the victim.
-	return DEVIATION_PARTIAL
+		if(M.flash_act())
+			var/diff = power * CONFUSION_STACK_MAX_MULTIPLIER - M.confused
+			M.confused += min(power, diff)
 
 /obj/item/assembly/flash/attack(mob/living/M, mob/user)
 	if(!try_use_flash(user))
 		return FALSE
-
-	. = TRUE
 	if(iscarbon(M))
-		flash_carbon(M, user, confusion_duration = 5 SECONDS, targeted = TRUE)
-		return
-	if(issilicon(M))
-		var/mob/living/silicon/robot/flashed_borgo = M
-		log_combat(user, flashed_borgo, "flashed", src)
-		update_icon(ALL, TRUE)
-		if(flashed_borgo.flash_act(affect_silicon = TRUE))
-			if(flashed_borgo.is_blind())
-				var/flash_duration = rand(8,12) SECONDS
-				flashed_borgo.Paralyze(flash_duration)
-				flashed_borgo.set_temp_blindness_if_lower(flash_duration)
-				user.visible_message(span_warning("[user] overloads [flashed_borgo]'s sensors and computing with the flash!"), span_danger("You overload [flashed_borgo]'s sensors and computing with the flash!"))
-			else
-				user.visible_message(span_warning("[user] blinds [flashed_borgo] with the flash!"), span_danger("You blind [flashed_borgo] with the flash!"))
-			flashed_borgo.set_temp_blindness_if_lower( (rand(5,15) SECONDS))
-			flashed_borgo.set_confusion_if_lower(5 SECONDS * CONFUSION_STACK_MAX_MULTIPLIER)
-		else
-			user.visible_message(span_warning("[user] fails to blind [flashed_borgo] with the flash!"), span_warning("You fail to blind [flashed_borgo] with the flash!"))
-		return
+		flash_carbon(M, user, 5, 1)
+		return TRUE
+	else if(issilicon(M))
+		var/mob/living/silicon/robot/R = M
+		log_combat(user, R, "flashed", src)
+		update_icon(1)
+		R.Paralyze(rand(80,120))
+		var/diff = 5 * CONFUSION_STACK_MAX_MULTIPLIER - M.confused
+		R.confused += min(5, diff)
+		R.flash_act(affect_silicon = 1)
+		user.visible_message("<span class='disarm'>[user] overloads [R]'s sensors with the flash!</span>", "<span class='danger'>You overload [R]'s sensors with the flash!</span>")
+		return TRUE
 
-	user.visible_message(span_warning("[user] fails to blind [M] with the flash!"), span_warning("You fail to blind [M] with the flash!"))
+	user.visible_message("<span class='disarm'>[user] fails to blind [M] with the flash!</span>", "<span class='warning'>You fail to blind [M] with the flash!</span>")
 
 /obj/item/assembly/flash/attack_self(mob/living/carbon/user, flag = 0, emp = 0)
 	if(holder)
 		return FALSE
-	if(!AOE_flash(user = user))
+	if(!AOE_flash(FALSE, 3, 5, FALSE, user))
 		return FALSE
+	to_chat(user, "<span class='danger'>[src] emits a blinding light!</span>")
 
 /obj/item/assembly/flash/emp_act(severity)
 	. = ..()
 	if(. & EMP_PROTECT_SELF)
 		return
-	if(!AOE_flash())
+	if(!try_use_flash())
 		return
+	AOE_flash()
 	burn_out()
 
 /obj/item/assembly/flash/activate()//AOE flash on signal received
 	if(!..())
 		return
 	AOE_flash()
+
+/obj/item/assembly/flash/proc/terrible_conversion_proc(mob/living/carbon/H, mob/user)
+	if(istype(H) && H.stat != DEAD)
+		if(user.mind)
+			var/datum/antagonist/rev/head/converter = user.mind.has_antag_datum(/datum/antagonist/rev/head)
+			if(!converter)
+				return
+			if(!H.client)
+				to_chat(user, "<span class='warning'>This mind is so vacant that it is not susceptible to influence!</span>")
+				return
+			if(H.stat != CONSCIOUS)
+				to_chat(user, "<span class='warning'>They must be conscious before you can convert [H.p_them()]!</span>")
+				return
+			if(converter.add_revolutionary(H.mind))
+				times_used -- //Flashes less likely to burn out for headrevs when used for conversion
+			else
+				to_chat(user, "<span class='warning'>This mind seems resistant to the flash!</span>")
+
 
 /obj/item/assembly/flash/cyborg
 
@@ -297,10 +214,9 @@
 /obj/item/assembly/flash/memorizer
 	name = "memorizer"
 	desc = "If you see this, you're not likely to remember it any time soon."
+	icon = 'icons/obj/device.dmi'
 	icon_state = "memorizer"
-	inhand_icon_state = "nullrod"
-	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	item_state = "nullrod"
 
 /obj/item/assembly/flash/handheld //this is now the regular pocket flashes
 
@@ -309,82 +225,137 @@
 	desc = "A high-powered photon projector implant normally used for lighting purposes, but also doubles as a flashbulb weapon. Self-repair protocols fix the flashbulb if it ever burns out."
 	var/flashcd = 20
 	var/overheat = 0
-	//Wearef to our arm
-	var/datum/weakref/arm
+	var/obj/item/organ/cyberimp/arm/flash/I = null
 
 /obj/item/assembly/flash/armimplant/burn_out()
-	var/obj/item/organ/internal/cyberimp/arm/flash/real_arm = arm.resolve()
-	if(real_arm?.owner)
-		to_chat(real_arm.owner, span_warning("Your photon projector implant overheats and deactivates!"))
-		real_arm.Retract()
+	if(I && I.owner)
+		to_chat(I.owner, "<span class='warning'>Your photon projector implant overheats and deactivates!</span>")
+		I.Retract()
 	overheat = TRUE
 	addtimer(CALLBACK(src, PROC_REF(cooldown)), flashcd * 2)
 
 /obj/item/assembly/flash/armimplant/try_use_flash(mob/user = null)
 	if(overheat)
-		var/obj/item/organ/internal/cyberimp/arm/flash/real_arm = arm.resolve()
-		if(real_arm?.owner)
-			to_chat(real_arm.owner, span_warning("Your photon projector is running too hot to be used again so quickly!"))
+		if(I && I.owner)
+			to_chat(I.owner, "<span class='warning'>Your photon projector is running too hot to be used again so quickly!</span>")
 		return FALSE
 	overheat = TRUE
 	addtimer(CALLBACK(src, PROC_REF(cooldown)), flashcd)
 	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
-	update_icon(ALL, TRUE)
+	update_icon(1)
 	return TRUE
 
 
 /obj/item/assembly/flash/armimplant/proc/cooldown()
 	overheat = FALSE
 
-/obj/item/assembly/flash/armimplant/screwdriver_act(mob/living/user, obj/item/I)
-	to_chat(user, span_notice("\The [src] is an implant! It cannot be unsecured!"))
-	add_fingerprint(user)
+/obj/item/assembly/flash/shield
+	name = "strobe shield"
+	desc = "A shield with a built in, high intensity light capable of blinding and disorienting suspects. Takes regular handheld flashes as bulbs."
+	icon = 'icons/obj/items_and_weapons.dmi'
+	icon_state = "flashshield"
+	item_state = "flashshield"
+	lefthand_file = 'icons/mob/inhands/equipment/shields_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/shields_righthand.dmi'
+	slot_flags = ITEM_SLOT_BACK
+	force = 10
+	throwforce = 5
+	throw_speed = 2
+	throw_range = 3
+	w_class = WEIGHT_CLASS_BULKY
+	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
+	attack_verb = list("shoved", "bashed")
+	block_chance = 50
+	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 0, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 70)
 
+/obj/item/assembly/flash/shield/flash_recharge(interval=10)
+	if(times_used >= 4)
+		burn_out()
+		return FALSE
+	return TRUE
+
+/obj/item/assembly/flash/shield/attackby(obj/item/W, mob/user)
+	if(istype(W, /obj/item/assembly/flash/handheld))
+		var/obj/item/assembly/flash/handheld/flash = W
+		if(flash.crit_fail)
+			to_chat(user, "No sense replacing it with a broken bulb.")
+			return
+		else
+			to_chat(user, "You begin to replace the bulb.")
+			if(do_after(user, 20, target = src))
+				if(flash.crit_fail || !flash || QDELETED(flash))
+					return
+				crit_fail = FALSE
+				times_used = 0
+				playsound(src, 'sound/items/deconstruct.ogg', 50, TRUE)
+				update_icon()
+				flash.crit_fail = TRUE
+				flash.update_icon()
+				return
+	..()
+
+/obj/item/assembly/flash/shield/update_icon(flash = FALSE)
+	icon_state = "flashshield"
+	item_state = "flashshield"
+
+	if(crit_fail)
+		icon_state = "riot"
+		item_state = "riot"
+	else if(flash)
+		icon_state = "flashshield_flash"
+		item_state = "flashshield_flash"
+		addtimer(CALLBACK(src, PROC_REF(update_icon)), 5)
+
+	if(holder)
+		holder.update_icon()
+
+/obj/item/assembly/flash/shield/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	activate()
+	return ..()
+	
 /obj/item/assembly/flash/hypnotic
 	desc = "A modified flash device, programmed to emit a sequence of subliminal flashes that can send a vulnerable target into a hypnotic trance."
-	flashing_overlay = "mindflash"
+	flashing_overlay = "flash-hypno"
 	light_color = LIGHT_COLOR_PINK
 	cooldown = 20
-
+	
 /obj/item/assembly/flash/hypnotic/burn_out()
 	return
-
-/obj/item/assembly/flash/hypnotic/flash_carbon(mob/living/carbon/M, mob/user, confusion_duration = 15, targeted = TRUE, generic_message = FALSE)
+	
+/obj/item/assembly/flash/hypnotic/flash_carbon(mob/living/carbon/M, mob/user, power = 15, targeted = TRUE, generic_message = FALSE)
 	if(!istype(M))
 		return
 	if(user)
 		log_combat(user, M, "[targeted? "hypno-flashed(targeted)" : "hypno-flashed(AOE)"]", src)
 	else //caused by emp/remote signal
-		M.log_message("was [targeted? "hypno-flashed(targeted)" : "hypno-flashed(AOE)"]", LOG_ATTACK)
+		M.log_message("was [targeted? "hypno-flashed(targeted)" : "hypno-flashed(AOE)"]",LOG_ATTACK)
 	if(generic_message && M != user)
-		to_chat(M, span_notice("[src] emits a soothing light..."))
+		to_chat(M, "<span class='disarm'>[src] emits a soothing light...</span>")
 	if(targeted)
 		if(M.flash_act(1, 1))
 			var/hypnosis = FALSE
 			if(M.hypnosis_vulnerable())
 				hypnosis = TRUE
 			if(user)
-				user.visible_message(span_danger("[user] blinds [M] with the flash!"), span_danger("You hypno-flash [M]!"))
-
+				user.visible_message("<span class='disarm'>[user] blinds [M] with the flash!</span>", "<span class='danger'>You hypno-flash [M]!</span>")	
+				
 			if(!hypnosis)
-				to_chat(M, span_hypnophrase("The light makes you feel oddly relaxed..."))
-				M.adjust_confusion_up_to(10 SECONDS, 20 SECONDS)
-				M.adjust_dizzy_up_to(20 SECONDS, 40 SECONDS)
-				M.adjust_drowsiness_up_to(20 SECONDS, 40 SECONDS)
-				M.adjust_pacifism(10 SECONDS)
+				to_chat(M, "<span class='notice'>The light makes you feel oddly relaxed...</span>")
+				M.confused += min(M.confused + 10, 20)
+				M.dizziness += min(M.dizziness + 10, 20)
+				M.drowsyness += min(M.drowsyness + 10, 20)
+				M.apply_status_effect(STATUS_EFFECT_PACIFY, 100)			
 			else
-				M.apply_status_effect(/datum/status_effect/trance, 200, TRUE)
-
+				M.apply_status_effect(/datum/status_effect/trance, 200, TRUE)				
+				
 		else if(user)
-			user.visible_message(span_warning("[user] fails to blind [M] with the flash!"), span_warning("You fail to hypno-flash [M]!"))
+			user.visible_message("<span class='disarm'>[user] fails to blind [M] with the flash!</span>", "<span class='warning'>You fail to hypno-flash [M]!</span>")
 		else
-			to_chat(M, span_danger("[src] fails to blind you!"))
-
+			to_chat(M, "<span class='danger'>[src] fails to blind you!</span>")
+			
 	else if(M.flash_act())
-		to_chat(M, span_notice("Such a pretty light..."))
-		M.adjust_confusion_up_to(4 SECONDS, 20 SECONDS)
-		M.adjust_dizzy_up_to(8 SECONDS, 40 SECONDS)
-		M.adjust_drowsiness_up_to(8 SECONDS, 40 SECONDS)
-		M.adjust_pacifism(4 SECONDS)
-
-#undef CONFUSION_STACK_MAX_MULTIPLIER
+		to_chat(M, "<span class='notice'>Such a pretty light...</span>")
+		M.confused += min(M.confused + 4, 20)
+		M.dizziness += min(M.dizziness + 4, 20)
+		M.drowsyness += min(M.drowsyness + 4, 20)
+		M.apply_status_effect(STATUS_EFFECT_PACIFY, 40)

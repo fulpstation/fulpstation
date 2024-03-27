@@ -7,7 +7,7 @@
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/escape)
 "ad" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
+/obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "ae" = (
@@ -34,11 +34,13 @@
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 "al" = (
-/obj/machinery/shower/directional/west,
+/obj/machinery/shower{
+	dir = 8
+	},
 /turf/open/floor/noslip,
 /area/shuttle/escape)
 "am" = (
-/obj/structure/reflector/single/mapping{
+/obj/structure/reflector/single/anchored{
 	dir = 6
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -47,11 +49,12 @@
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "an" = (
-/obj/structure/reflector/box/mapping,
+/obj/structure/reflector/box/anchored,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "ao" = (
-/obj/structure/reflector/single/mapping{
+/obj/structure/reflector/single{
+	anchored = 1;
 	dir = 10
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -60,7 +63,9 @@
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "ap" = (
-/obj/machinery/shower/directional/east,
+/obj/machinery/shower{
+	dir = 4
+	},
 /turf/open/floor/noslip,
 /area/shuttle/escape)
 "ar" = (
@@ -100,12 +105,12 @@
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "aB" = (
-/obj/machinery/power/supermatter_crystal/hugbox,
+/obj/machinery/power/supermatter_crystal/shard/hugbox/fakecrystal,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "aD" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/medkit/toxin,
+/obj/item/storage/firstaid/toxin,
 /obj/item/crowbar/red,
 /obj/item/storage/box/snappops{
 	pixel_x = 4;
@@ -131,35 +136,37 @@
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
 "aL" = (
-/obj/machinery/door/airlock/external/ruin{
-	name = "Emergency Launch Catwalk"
+/obj/machinery/door/airlock/external{
+	name = "Emergency Launch Catwalk";
+	req_access_txt = "10;13"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "aM" = (
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aN" = (
-/obj/structure/reflector/single/mapping{
+/obj/structure/reflector/single/anchored{
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aO" = (
-/obj/structure/reflector/double/mapping{
+/obj/structure/reflector/double/anchored{
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aP" = (
-/obj/structure/reflector/double/mapping{
+/obj/structure/reflector/double{
+	anchored = 1;
 	dir = 10
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aQ" = (
-/obj/structure/reflector/single/mapping{
+/obj/structure/reflector/single{
+	anchored = 1;
 	dir = 10
 	},
 /turf/open/floor/plating/airless,
@@ -205,7 +212,9 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aY" = (
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/stripes/line{
+	dir = 2
+	},
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "aZ" = (
@@ -228,7 +237,7 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "bc" = (
-/obj/machinery/power/shuttle_engine/heater,
+/obj/structure/shuttle/engine/heater,
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "bd" = (
@@ -238,7 +247,7 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "be" = (
-/obj/machinery/power/shuttle_engine/propulsion,
+/obj/structure/shuttle/engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/escape)
 "bf" = (
@@ -264,7 +273,9 @@
 	anchored = 1
 	},
 /obj/item/clothing/glasses/meson/engine,
-/obj/machinery/light/small/directional/east,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 "bj" = (
@@ -272,26 +283,32 @@
 	anchored = 1
 	},
 /obj/item/clothing/glasses/meson/engine,
-/obj/machinery/light/small/directional/west,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/shuttle/escape)
 "bk" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/light/warm/directional/west,
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "bl" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/light/warm/directional/east,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "hD" = (
 /obj/structure/lattice/catwalk,
-/turf/template_noop,
+/turf/open/space,
 /area/shuttle/escape)
 "pb" = (
 /obj/structure/closet/radiation{
@@ -370,9 +387,9 @@ be
 "}
 (3,1,1) = {"
 ac
-bj
 ag
 ag
+bi
 Bi
 ag
 ag
@@ -514,9 +531,9 @@ aa
 "}
 (9,1,1) = {"
 ac
-bi
 ag
 ag
+bj
 pb
 ag
 ag

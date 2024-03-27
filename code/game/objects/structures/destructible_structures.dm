@@ -6,7 +6,7 @@
 
 /obj/structure/destructible/deconstruct(disassembled = TRUE)
 	if(!disassembled)
-		if(!(obj_flags & NO_DECONSTRUCTION))
+		if(!(flags_1 & NODECONSTRUCT_1))
 			if(islist(debris))
 				for(var/I in debris)
 					for(var/i in 1 to debris[I])
@@ -14,6 +14,6 @@
 		if(break_message)
 			visible_message(break_message)
 		if(break_sound)
-			playsound(src, break_sound, 50, TRUE)
+			playsound(src, break_sound, 50, 1)
 	qdel(src)
 	return 1

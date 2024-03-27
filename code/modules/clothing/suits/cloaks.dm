@@ -5,18 +5,23 @@
 	desc = "It's a cape that can be worn around your neck."
 	icon = 'icons/obj/clothing/cloaks.dmi'
 	icon_state = "qmcloak"
-	inhand_icon_state = null
+	item_state = "qmcloak"
 	w_class = WEIGHT_CLASS_SMALL
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	flags_inv = HIDESUITSTORAGE
 
-/obj/item/clothing/neck/cloak/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/surgery_initiator)
+/obj/item/clothing/head/cloakhood
+	name = "cloak hood"
+	icon = 'icons/obj/clothing/hats.dmi'
+	icon_state = "golhood"
+	desc = "A hood for a cloak."
+	body_parts_covered = HEAD
+	item_flags = NODROP
+	flags_inv = HIDEHAIR|HIDEEARS
 
-/obj/item/clothing/neck/cloak/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	return OXYLOSS
+/obj/item/clothing/neck/cloak/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is strangling [user.p_them()]self with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	return(OXYLOSS)
 
 /obj/item/clothing/neck/cloak/hos
 	name = "head of security's cloak"
@@ -36,7 +41,6 @@
 	name = "chief engineer's cloak"
 	desc = "Worn by Engitopia, wielders of an unlimited power."
 	icon_state = "cecloak"
-	resistance_flags = FIRE_PROOF
 
 /obj/item/clothing/neck/cloak/rd
 	name = "research director's cloak"
@@ -53,36 +57,41 @@
 	desc = "Worn by the Head of Personnel. It smells faintly of bureaucracy."
 	icon_state = "hopcloak"
 
-/obj/item/clothing/neck/cloak/skill_reward
-	var/associated_skill_path = /datum/skill
-	var/element_type = /datum/element/skill_reward
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE
+/obj/item/clothing/suit/hooded/cloak/goliath
+	name = "goliath cloak"
+	icon_state = "goliath_cloak"
+	desc = "A staunch, practical cape made out of numerous monster materials, it is coveted amongst exiles & hermits."
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/pickaxe, /obj/item/twohanded/spear, /obj/item/twohanded/bonespear, /obj/item/organ/regenerative_core/legion, /obj/item/kitchen/knife/combat/bone, /obj/item/kitchen/knife/combat/survival)
+	armor = list("melee" = 35, "bullet" = 10, "laser" = 25, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60) //a fair alternative to bone armor, requiring alternative materials and gaining a suit slot
+	hoodtype = /obj/item/clothing/head/hooded/cloakhood/goliath
+	body_parts_covered = CHEST|GROIN|ARMS
 
-/obj/item/clothing/neck/cloak/skill_reward/Initialize(mapload)
-	. = ..()
-	AddElement(element_type, associated_skill_path)
+/obj/item/clothing/head/hooded/cloakhood/goliath
+	name = "goliath cloak hood"
+	icon_state = "golhood"
+	desc = "A protective & concealing hood."
+	armor = list("melee" = 35, "bullet" = 10, "laser" = 25, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 60)
+	flags_inv = HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
+	transparent_protection = HIDEMASK
 
-/obj/item/clothing/neck/cloak/skill_reward/gaming
-	name = "legendary gamer's cloak"
-	desc = "Worn by the most skilled professional gamers on the station, this legendary cloak is only attainable by achieving true gaming enlightenment. This status symbol represents the awesome might of a being of focus, commitment, and sheer fucking will. Something casual gamers will never begin to understand."
-	icon_state = "gamercloak"
-	associated_skill_path = /datum/skill/gaming
+/obj/item/clothing/suit/hooded/cloak/drake
+	name = "drake armour"
+	icon_state = "dragon"
+	desc = "A suit of armour fashioned from the remains of an ash drake."
+	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/resonator, /obj/item/mining_scanner, /obj/item/t_scanner/adv_mining_scanner, /obj/item/gun/energy/kinetic_accelerator, /obj/item/pickaxe, /obj/item/twohanded/spear)
+	armor = list("melee" = 70, "bullet" = 30, "laser" = 50, "energy" = 40, "bomb" = 70, "bio" = 60, "rad" = 50, "fire" = 100, "acid" = 100)
+	hoodtype = /obj/item/clothing/head/hooded/cloakhood/drake
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	transparent_protection = HIDEGLOVES|HIDESUITSTORAGE|HIDEJUMPSUIT|HIDESHOES
 
-/obj/item/clothing/neck/cloak/skill_reward/cleaning
-	name = "legendary cleaner's cloak"
-	desc = "Worn by the most skilled custodians, this legendary cloak is only attainable by achieving janitorial enlightenment. This status symbol represents a being not only extensively trained in grime combat, but one who is willing to use an entire aresenal of cleaning supplies to its full extent to wipe grime's miserable ass off the face of the station."
-	icon_state = "cleanercloak"
-	associated_skill_path = /datum/skill/cleaning
-
-/obj/item/clothing/neck/cloak/skill_reward/mining
-	name = "legendary miner's cloak"
-	desc = "Worn by the most skilled miners, this legendary cloak is only attainable by achieving true mineral enlightenment. This status symbol represents a being who has forgotten more about rocks than most miners will ever know, a being who has moved mountains and filled valleys."
-	icon_state = "minercloak"
-	associated_skill_path = /datum/skill/mining
-
-/obj/item/clothing/neck/cloak/skill_reward/playing
-	name = "legendary veteran's cloak"
-	desc = "Worn by the wisest of veteran employees, this legendary cloak is only attainable by maintaining a living employment agreement with Nanotrasen for over <b>five thousand hours</b>. This status symbol represents a being is better than you in nearly every quantifiable way, simple as that."
-	icon_state = "playercloak"
-	element_type = /datum/element/skill_reward/veteran
-
+/obj/item/clothing/head/hooded/cloakhood/drake
+	name = "drake helm"
+	icon_state = "dragon"
+	desc = "The skull of a dragon."
+	armor = list("melee" = 70, "bullet" = 30, "laser" = 50, "energy" = 40, "bomb" = 70, "bio" = 60, "rad" = 50, "fire" = 100, "acid" = 100)
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	resistance_flags = FIRE_PROOF | ACID_PROOF

@@ -11,9 +11,8 @@ SUBSYSTEM_DEF(throwing)
 	var/list/currentrun
 	var/list/processing = list()
 
-/datum/controller/subsystem/throwing/stat_entry(msg)
-	msg = "P:[length(processing)]"
-	return ..()
+/datum/controller/subsystem/throwing/stat_entry()
+	..("P:[processing.len]")
 
 
 /datum/controller/subsystem/throwing/fire(resumed = 0)
@@ -41,95 +40,36 @@ SUBSYSTEM_DEF(throwing)
 	currentrun = null
 
 /datum/thrownthing
-	///Defines the atom that has been thrown (Objects and Mobs, mostly.)
 	var/atom/movable/thrownthing
-	///Weakref to the original intended target of the throw, to prevent hardDels
-	var/datum/weakref/initial_target
-	///The turf that the target was on, if it's not a turf itself.
+	var/atom/target
 	var/turf/target_turf
-	///The turf that we were thrown from.
-	var/turf/starting_turf
-	///If the target happens to be a carbon and that carbon has a body zone aimed at, this is carried on here.
-	var/target_zone
-	///The initial direction of the thrower of the thrownthing for building the trajectory of the throw.
 	var/init_dir
-	///The maximum number of turfs that the thrownthing will travel to reach it's target.
 	var/maxrange
-	///Turfs to travel per tick
 	var/speed
-	///If a mob is the one who has thrown the object, then it's moved here. This can be null and must be null checked before trying to use it.
-	var/datum/weakref/thrower
-	///A variable that helps in describing objects thrown at an angle, if it should be moved diagonally first or last.
+	var/mob/thrower
 	var/diagonals_first
-	///Set to TRUE if the throw is exclusively diagonal (45 Degree angle throws for example)
-	var/pure_diagonal
-	///Tracks how far a thrownthing has traveled mid-throw for the purposes of maxrange
 	var/dist_travelled = 0
-	///The start_time obtained via world.time for the purposes of tiles moved/tick.
 	var/start_time
-	///Distance to travel in the X axis/direction.
 	var/dist_x
-	///Distance to travel in the y axis/direction.
 	var/dist_y
-	///The Horizontal direction we're traveling (EAST or WEST)
 	var/dx
-	///The VERTICAL direction we're traveling (NORTH or SOUTH)
 	var/dy
-	///The movement force provided to a given object in transit. More info on these in move_force.dm
 	var/force = MOVE_FORCE_DEFAULT
-	///If the throw is gentle, then the thrownthing is harmless on impact.
-	var/gentle = FALSE
-	///How many tiles that need to be moved in order to travel to the target.
+	var/pure_diagonal
 	var/diagonal_error
-	///If a thrown thing has a callback, it can be invoked here within thrownthing.
 	var/datum/callback/callback
-	///Mainly exists for things that would freeze a thrown object in place, like a timestop'd tile. Or a Tractor Beam.
 	var/paused = FALSE
-	///How long an object has been paused for, to be added to the travel time.
 	var/delayed_time = 0
-	///The last world.time value stored when the thrownthing was moving.
 	var/last_move = 0
-
-/datum/thrownthing/New(thrownthing, target, init_dir, maxrange, speed, thrower, diagonals_first, force, gentle, callback, target_zone)
-	. = ..()
-	src.thrownthing = thrownthing
-	RegisterSignal(thrownthing, COMSIG_QDELETING, PROC_REF(on_thrownthing_qdel))
-	src.starting_turf = get_turf(thrownthing)
-	src.target_turf = get_turf(target)
-	if(target_turf != target)
-		src.initial_target = WEAKREF(target)
-	src.init_dir = init_dir
-	src.maxrange = maxrange
-	src.speed = speed
-	if(thrower)
-		src.thrower = WEAKREF(thrower)
-	src.diagonals_first = diagonals_first
-	src.force = force
-	src.gentle = gentle
-	src.callback = callback
-	src.target_zone = target_zone
 
 /datum/thrownthing/Destroy()
 	SSthrowing.processing -= thrownthing
-	SSthrowing.currentrun -= thrownthing
 	thrownthing.throwing = null
 	thrownthing = null
+	target = null
 	thrower = null
-	initial_target = null
 	callback = null
 	return ..()
-
-///Defines the datum behavior on the thrownthing's qdeletion event.
-/datum/thrownthing/proc/on_thrownthing_qdel(atom/movable/source, force)
-	SIGNAL_HANDLER
-
-	qdel(src)
-
-/// Returns the mob thrower, or null
-/datum/thrownthing/proc/get_thrower()
-	. = thrower?.resolve()
-	if(isnull(.))
-		thrower = null
 
 /datum/thrownthing/proc/tick()
 	var/atom/movable/AM = thrownthing
@@ -141,20 +81,9 @@ SUBSYSTEM_DEF(throwing)
 		delayed_time += world.time - last_move
 		return
 
-	var/atom/movable/actual_target = initial_target?.resolve()
-	var/mob/mob_thrower = get_thrower()
-
-	if(dist_travelled) //to catch sneaky things moving on our tile while we slept
-		for(var/atom/movable/obstacle as anything in get_turf(thrownthing))
-			if (obstacle == thrownthing || (obstacle == mob_thrower && !ismob(thrownthing)))
-				continue
-			if(ismob(obstacle) && thrownthing.pass_flags & PASSMOB && (obstacle != actual_target))
-				continue
-			if(obstacle.pass_flags_self & LETPASSTHROW)
-				continue
-			if (obstacle == actual_target || (obstacle.density && !(obstacle.flags_1 & ON_BORDER_1) && !(obstacle in AM.buckled_mobs)))
-				finalize(TRUE, obstacle)
-				return
+	if (dist_travelled && hitcheck()) //to catch sneaky things moving on our tile while we slept
+		finalize()
+		return
 
 	var/atom/step
 
@@ -181,16 +110,13 @@ SUBSYSTEM_DEF(throwing)
 			finalize()
 			return
 
-		if(!AM.Move(step, get_dir(AM, step), DELAY_TO_GLIDE_SIZE(1 / speed))) // we hit something during our move...
-			if(AM.throwing) // ...but finalize() wasn't called on Bump() because of a higher level definition that doesn't always call parent.
-				finalize()
+		AM.Move(step, get_dir(AM, step))
+
+		if (!AM.throwing) // we hit something during our move
+			finalize(hit = TRUE)
 			return
 
 		dist_travelled++
-
-		if(actual_target && !(actual_target.pass_flags_self & LETPASSTHROW) && actual_target.loc == AM.loc) // we crossed a movable with no density (e.g. a mouse or APC) we intend to hit anyway.
-			finalize(TRUE, actual_target)
-			return
 
 		if (dist_travelled > MAX_THROWING_DIST)
 			finalize()
@@ -203,40 +129,34 @@ SUBSYSTEM_DEF(throwing)
 		return
 	thrownthing.throwing = null
 	if (!hit)
-		for (var/atom/movable/obstacle as anything in get_turf(thrownthing)) //looking for our target on the turf we land on.
-			if (obstacle == target)
+		for (var/thing in get_turf(thrownthing)) //looking for our target on the turf we land on.
+			var/atom/A = thing
+			if (A == target)
 				hit = TRUE
-				thrownthing.throw_impact(obstacle, src)
-				if(QDELETED(thrownthing)) //throw_impact can delete things, such as glasses smashing
-					return //deletion should already be handled by on_thrownthing_qdel()
+				thrownthing.throw_impact(A, src)
 				break
 		if (!hit)
 			thrownthing.throw_impact(get_turf(thrownthing), src)  // we haven't hit something yet and we still must, let's hit the ground.
-			if(QDELETED(thrownthing)) //throw_impact can delete things, such as glasses smashing
-				return //deletion should already be handled by on_thrownthing_qdel()
 			thrownthing.newtonian_move(init_dir)
 	else
 		thrownthing.newtonian_move(init_dir)
 
 	if(target)
 		thrownthing.throw_impact(target, src)
-		if(QDELETED(thrownthing)) //throw_impact can delete things, such as glasses smashing
-			return //deletion should already be handled by on_thrownthing_qdel()
 
 	if (callback)
 		callback.Invoke()
 
-	if(!thrownthing.currently_z_moving) // I don't think you can zfall while thrown but hey, just in case.
-		var/turf/T = get_turf(thrownthing)
-		T?.zFall(thrownthing)
-
-	if(thrownthing)
-		SEND_SIGNAL(thrownthing, COMSIG_MOVABLE_THROW_LANDED, src)
-		var/turf/landed_turf = get_turf(thrownthing)
-		if(landed_turf)
-			SEND_SIGNAL(landed_turf, COMSIG_TURF_MOVABLE_THROW_LANDED, thrownthing)
-
 	qdel(src)
 
-#undef MAX_THROWING_DIST
-#undef MAX_TICKS_TO_MAKE_UP
+/datum/thrownthing/proc/hit_atom(atom/A)
+	finalize(hit=TRUE, target=A)
+
+/datum/thrownthing/proc/hitcheck()
+	for (var/thing in get_turf(thrownthing))
+		var/atom/movable/AM = thing
+		if (AM == thrownthing)
+			continue
+		if (AM.density && !(AM.pass_flags & LETPASSTHROW) && !(AM.flags_1 & ON_BORDER_1))
+			finalize(hit=TRUE, target=AM)
+			return TRUE

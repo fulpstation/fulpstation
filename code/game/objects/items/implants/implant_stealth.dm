@@ -13,18 +13,17 @@
 	name = "inconspicious box"
 	desc = "It's so normal that you didn't notice it before."
 	icon_state = "agentbox"
-	max_integrity = 1 // "This dumb box shouldn't take more than one hit to make it vanish."
 	move_speed_multiplier = 0.5
-	enable_door_overlay = FALSE
 
-/obj/structure/closet/cardboard/agent/Initialize(mapload)
+/obj/structure/closet/cardboard/agent/proc/go_invisible()
+	animate(src, , alpha = 0, time = 20)
+
+/obj/structure/closet/cardboard/agent/Initialize()
 	. = ..()
 	go_invisible()
 
-/obj/structure/closet/cardboard/agent/proc/go_invisible()
-	animate(src, alpha = 0, time = 20)
 
-/obj/structure/closet/cardboard/agent/after_open(mob/living/user)
+/obj/structure/closet/cardboard/agent/open()
 	. = ..()
 	qdel(src)
 
@@ -35,7 +34,7 @@
 	alpha = 255
 	addtimer(CALLBACK(src, PROC_REF(go_invisible)), 10, TIMER_OVERRIDE|TIMER_UNIQUE)
 
-/obj/structure/closet/cardboard/agent/Bump(atom/A)
+/obj/structure/closet/cardboard/agent/Bump(atom/movable/A)
 	. = ..()
 	if(isliving(A))
 		reveal()

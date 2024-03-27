@@ -1,18 +1,15 @@
 /datum/wires/syndicatebomb
 	holder_type = /obj/machinery/syndicatebomb
-	proper_name = "Syndicate Explosive Device"
 	randomize = TRUE
 
 /datum/wires/syndicatebomb/New(atom/holder)
 	wires = list(
-		WIRE_BOOM, WIRE_BOOM2, WIRE_UNBOLT,
+		WIRE_BOOM, WIRE_UNBOLT,
 		WIRE_ACTIVATE, WIRE_DELAY, WIRE_PROCEED
 	)
 	..()
 
 /datum/wires/syndicatebomb/interactable(mob/user)
-	if(!..())
-		return FALSE
 	var/obj/machinery/syndicatebomb/P = holder
 	if(P.open_panel)
 		return TRUE
@@ -20,35 +17,24 @@
 /datum/wires/syndicatebomb/on_pulse(wire)
 	var/obj/machinery/syndicatebomb/B = holder
 	switch(wire)
-		if(WIRE_BOOM,WIRE_BOOM2)
+		if(WIRE_BOOM)
 			if(B.active)
-				holder.visible_message(span_danger("[icon2html(B, viewers(holder))] An alarm sounds! It's go-"))
+				holder.visible_message("<span class='danger'>[icon2html(B, viewers(holder))] An alarm sounds! It's go-</span>")
 				B.explode_now = TRUE
-				if(!istype(B.payload, /obj/machinery/syndicatebomb/training))
-					tell_admins(B)
-					// Cursed usr use but no easy way to get the pulser
-					if(isliving(usr))
-						add_memory_in_range(B, 7, /datum/memory/bomb_defuse_failure, protagonist = usr, antagonist = B)
-
-			else
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] Nothing happens."))
-
+				tell_admins(B)
 		if(WIRE_UNBOLT)
-			holder.visible_message(span_notice("[icon2html(B, viewers(holder))] The bolts spin in place for a moment."))
-
+			holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The bolts spin in place for a moment.</span>")
 		if(WIRE_DELAY)
 			if(B.delayedbig)
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] Nothing happens."))
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The bomb has already been delayed.</span>")
 			else
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] The bomb chirps."))
-				playsound(B, 'sound/machines/chime.ogg', 30, TRUE)
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The bomb chirps.</span>")
+				playsound(B, 'sound/machines/chime.ogg', 30, 1)
 				B.detonation_timer += 300
-				if(B.active)
-					B.delayedbig = TRUE
-
+				B.delayedbig = TRUE
 		if(WIRE_PROCEED)
-			holder.visible_message(span_danger("[icon2html(B, viewers(holder))] The bomb buzzes ominously!"))
-			playsound(B, 'sound/machines/buzz-sigh.ogg', 30, TRUE)
+			holder.visible_message("<span class='danger'>[icon2html(B, viewers(holder))] The bomb buzzes ominously!</span>")
+			playsound(B, 'sound/machines/buzz-sigh.ogg', 30, 1)
 			var/seconds = B.seconds_remaining()
 			if(seconds >= 61) // Long fuse bombs can suddenly become more dangerous if you tinker with them.
 				B.detonation_timer = world.time + 600
@@ -56,57 +42,51 @@
 				B.detonation_timer -= 100
 			else if(seconds >= 11) // Both to prevent negative timers and to have a little mercy.
 				B.detonation_timer = world.time + 100
-
 		if(WIRE_ACTIVATE)
-			if(!B.active)
-				holder.visible_message(span_danger("[icon2html(B, viewers(holder))] You hear the bomb start ticking!"))
+			if(!B.active && !B.defused)
+				holder.visible_message("<span class='danger'>[icon2html(B, viewers(holder))] You hear the bomb start ticking!</span>")
 				B.activate()
-				B.update_appearance()
+				B.update_icon()
 			else if(B.delayedlittle)
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] Nothing happens."))
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] Nothing happens.</span>")
 			else
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] The bomb seems to hesitate for a moment."))
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The bomb seems to hesitate for a moment.</span>")
 				B.detonation_timer += 100
 				B.delayedlittle = TRUE
 
-/datum/wires/syndicatebomb/on_cut(wire, mend, source)
+/datum/wires/syndicatebomb/on_cut(wire, mend)
 	var/obj/machinery/syndicatebomb/B = holder
 	switch(wire)
-		if(WIRE_BOOM,WIRE_BOOM2)
-			if(!mend && B.active)
-				holder.visible_message(span_danger("[icon2html(B, viewers(holder))] An alarm sounds! It's go-"))
-				B.explode_now = TRUE
-				if(!istype(B.payload, /obj/machinery/syndicatebomb/training))
+		if(WIRE_BOOM)
+			if(mend)
+				B.defused = FALSE // Cutting and mending all the wires of an inactive bomb will thus cure any sabotage.
+			else
+				if(B.active)
+					holder.visible_message("<span class='danger'>[icon2html(B, viewers(holder))] An alarm sounds! It's go-</span>")
+					B.explode_now = TRUE
 					tell_admins(B)
-					if(isliving(source))
-						log_combat(source, holder, "cut the detonation wire for")
-						add_memory_in_range(B, 7, /datum/memory/bomb_defuse_failure, protagonist = source, antagonist = B)
-
+				else
+					B.defused = TRUE
 		if(WIRE_UNBOLT)
 			if(!mend && B.anchored)
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] The bolts lift out of the ground!"))
-				playsound(B, 'sound/effects/stealthoff.ogg', 30, TRUE)
-				B.set_anchored(FALSE)
-
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The bolts lift out of the ground!</span>")
+				playsound(B, 'sound/effects/stealthoff.ogg', 30, 1)
+				B.anchored = FALSE
 		if(WIRE_PROCEED)
 			if(!mend && B.active)
-				holder.visible_message(span_danger("[icon2html(B, viewers(holder))] The digital display on the device deactivates."))
-				B.examinable_countdown = FALSE
-
-
+				holder.visible_message("<span class='danger'>[icon2html(B, viewers(holder))] An alarm sounds! It's go-</span>")
+				B.explode_now = TRUE
+				tell_admins(B)
 		if(WIRE_ACTIVATE)
 			if(!mend && B.active)
-				var/bomb_time_left = B.seconds_remaining()
-				holder.visible_message(span_notice("[icon2html(B, viewers(holder))] The timer stops! The bomb has been defused!"))
+				holder.visible_message("<span class='notice'>[icon2html(B, viewers(holder))] The timer stops! The bomb has been defused!</span>")
 				B.active = FALSE
-				B.delayedlittle = FALSE
-				B.delayedbig = FALSE
-				B.examinable_countdown = TRUE
-				B.update_appearance()
-				if(isliving(usr))
-					add_memory_in_range(B, 7, /datum/memory/bomb_defuse_success, protagonist = usr, antagonist = B, bomb_time_left = bomb_time_left)
+				B.defused = TRUE
+				B.update_icon()
 
 /datum/wires/syndicatebomb/proc/tell_admins(obj/machinery/syndicatebomb/B)
+	if(istype(B, /obj/machinery/syndicatebomb/training))
+		return
 	var/turf/T = get_turf(B)
 	log_game("\A [B] was detonated via boom wire at [AREACOORD(T)].")
 	message_admins("A [B.name] was detonated via boom wire at [ADMIN_VERBOSEJMP(T)].")

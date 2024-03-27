@@ -1,45 +1,36 @@
 /datum/hud/larva
-	ui_style = 'icons/hud/screen_alien.dmi'
+	ui_style = 'icons/mob/screen_alien.dmi'
 
 /datum/hud/larva/New(mob/owner)
 	..()
-	var/atom/movable/screen/using
+	var/obj/screen/using
 
-	action_intent = new /atom/movable/screen/combattoggle/flashy(null, src)
-	action_intent.icon = ui_style
-	action_intent.screen_loc = ui_combat_toggle
-	static_inventory += action_intent
+	using = new /obj/screen/act_intent/alien()
+	using.icon_state = mymob.a_intent
+	using.hud = src
+	static_inventory += using
+	action_intent = using
 
-	healths = new /atom/movable/screen/healths/alien(null, src)
+	healths = new /obj/screen/healths/alien()
+	healths.hud = src
 	infodisplay += healths
 
-	alien_queen_finder = new /atom/movable/screen/alien/alien_queen_finder(null, src)
+	alien_queen_finder = new /obj/screen/alien/alien_queen_finder()
+	alien_queen_finder.hud = src
 	infodisplay += alien_queen_finder
-
-	pull_icon = new /atom/movable/screen/pull(null, src)
-	pull_icon.icon = 'icons/hud/screen_alien.dmi'
-	pull_icon.update_appearance()
+	pull_icon = new /obj/screen/pull()
+	pull_icon.icon = 'icons/mob/screen_alien.dmi'
+	pull_icon.update_icon(mymob)
 	pull_icon.screen_loc = ui_above_movement
+	pull_icon.hud = src
 	hotkeybuttons += pull_icon
 
-	rest_icon = new /atom/movable/screen/rest(null, src)
-	rest_icon.icon = ui_style
-	rest_icon.screen_loc = ui_above_intent
-	rest_icon.update_appearance()
-	static_inventory += rest_icon
-
-	using = new/atom/movable/screen/language_menu(null, src)
+	using = new/obj/screen/language_menu
 	using.screen_loc = ui_alien_language_menu
+	using.hud = src
 	static_inventory += using
 
-	using = new /atom/movable/screen/floor_menu(null, src)
-	using.screen_loc = ui_alien_floor_menu
-	static_inventory += using
-
-	using = new /atom/movable/screen/navigate(null, src)
-	using.screen_loc = ui_alien_navigate_menu
-	static_inventory += using
-
-	zone_select = new /atom/movable/screen/zone_sel/alien(null, src)
-	zone_select.update_appearance()
+	zone_select = new /obj/screen/zone_sel/alien()
+	zone_select.update_icon(mymob)
+	zone_select.hud = src
 	static_inventory += zone_select

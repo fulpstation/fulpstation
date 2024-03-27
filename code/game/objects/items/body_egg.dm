@@ -1,53 +1,51 @@
-/obj/item/organ/internal/body_egg
+/obj/item/organ/body_egg
 	name = "body egg"
 	desc = "All slimy and yuck."
 	icon_state = "innards"
-	visual = TRUE
 	zone = BODY_ZONE_CHEST
-	slot = ORGAN_SLOT_PARASITE_EGG
+	slot = "parasite_egg"
 
-/obj/item/organ/internal/body_egg/on_find(mob/living/finder)
+/obj/item/organ/body_egg/on_find(mob/living/finder)
 	..()
-	to_chat(finder, span_warning("You found an unknown alien organism in [owner]'s [zone]!"))
+	to_chat(finder, "<span class='warning'>You found an unknown alien organism in [owner]'s [zone]!</span>")
 
-/obj/item/organ/internal/body_egg/Initialize(mapload)
-	. = ..()
+/obj/item/organ/body_egg/New(loc)
 	if(iscarbon(loc))
-		Insert(loc)
+		src.Insert(loc)
+	return ..()
 
-/obj/item/organ/internal/body_egg/Insert(mob/living/carbon/egg_owner, special = FALSE, movement_flags = DELETE_IF_REPLACED)
-	. = ..()
-	if(!.)
-		return
-	egg_owner.add_traits(list(TRAIT_XENO_HOST, TRAIT_XENO_IMMUNE), ORGAN_TRAIT)
-	egg_owner.med_hud_set_status()
-	INVOKE_ASYNC(src, PROC_REF(AddInfectionImages), egg_owner)
+/obj/item/organ/body_egg/Insert(var/mob/living/carbon/M, special = 0)
+	..()
+	owner.add_trait(TRAIT_XENO_HOST, TRAIT_GENERIC)
+	START_PROCESSING(SSobj, src)
+	owner.med_hud_set_status()
+	INVOKE_ASYNC(src, PROC_REF(AddInfectionImages), owner)
 
-/obj/item/organ/internal/body_egg/Remove(mob/living/carbon/egg_owner, special, movement_flags)
-	. = ..()
-	egg_owner.remove_traits(list(TRAIT_XENO_HOST, TRAIT_XENO_IMMUNE), ORGAN_TRAIT)
-	egg_owner.med_hud_set_status()
-	INVOKE_ASYNC(src, PROC_REF(RemoveInfectionImages), egg_owner)
+/obj/item/organ/body_egg/Remove(var/mob/living/carbon/M, special = 0)
+	STOP_PROCESSING(SSobj, src)
+	if(owner)
+		owner.remove_trait(TRAIT_XENO_HOST, TRAIT_GENERIC)
+		owner.med_hud_set_status()
+		INVOKE_ASYNC(src, PROC_REF(RemoveInfectionImages), owner)
+	..()
 
-/obj/item/organ/internal/body_egg/on_death(seconds_per_tick, times_fired)
-	. = ..()
+/obj/item/organ/body_egg/process()
 	if(!owner)
 		return
-	egg_process(seconds_per_tick, times_fired)
+	if(!(src in owner.internal_organs))
+		Remove(owner)
+		return
+	egg_process()
 
-/obj/item/organ/internal/body_egg/on_life(seconds_per_tick, times_fired)
-	. = ..()
-	egg_process(seconds_per_tick, times_fired)
-
-/obj/item/organ/internal/body_egg/proc/egg_process(seconds_per_tick, times_fired)
+/obj/item/organ/body_egg/proc/egg_process()
 	return
 
-/obj/item/organ/internal/body_egg/proc/RefreshInfectionImage()
+/obj/item/organ/body_egg/proc/RefreshInfectionImage()
 	RemoveInfectionImages()
 	AddInfectionImages()
 
-/obj/item/organ/internal/body_egg/proc/AddInfectionImages()
+/obj/item/organ/body_egg/proc/AddInfectionImages()
 	return
 
-/obj/item/organ/internal/body_egg/proc/RemoveInfectionImages()
+/obj/item/organ/body_egg/proc/RemoveInfectionImages()
 	return

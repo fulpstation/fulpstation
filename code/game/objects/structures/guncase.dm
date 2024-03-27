@@ -2,124 +2,102 @@
 /obj/structure/guncase
 	name = "gun locker"
 	desc = "A locker that holds guns."
-	icon = 'icons/obj/storage/closet.dmi'
+	icon = 'icons/obj/closet.dmi'
 	icon_state = "shotguncase"
 	anchored = FALSE
 	density = TRUE
-	opacity = FALSE
+	opacity = 0
 	var/case_type = ""
 	var/gun_category = /obj/item/gun
 	var/open = TRUE
 	var/capacity = 4
 
 /obj/structure/guncase/Initialize(mapload)
-	. = ..()
+	..()
 	if(mapload)
 		for(var/obj/item/I in loc.contents)
 			if(istype(I, gun_category))
 				I.forceMove(src)
 			if(contents.len >= capacity)
 				break
-	update_appearance()
+	update_icon()
 
-/obj/structure/guncase/update_overlays()
-	. = ..()
+/obj/structure/guncase/update_icon()
+	cut_overlays()
 	if(case_type && LAZYLEN(contents))
 		var/mutable_appearance/gun_overlay = mutable_appearance(icon, case_type)
 		for(var/i in 1 to contents.len)
 			gun_overlay.pixel_x = 3 * (i - 1)
-			. += new /mutable_appearance(gun_overlay)
-	. += "[icon_state]_[open ? "open" : "door"]"
+			add_overlay(gun_overlay)
+	if(open)
+		add_overlay("[icon_state]_open")
+	else
+		add_overlay("[icon_state]_door")
 
-/obj/structure/guncase/attackby(obj/item/I, mob/living/user, params)
+/obj/structure/guncase/attackby(obj/item/I, mob/user, params)
 	if(iscyborg(user) || isalien(user))
 		return
 	if(istype(I, gun_category) && open)
 		if(LAZYLEN(contents) < capacity)
 			if(!user.transferItemToLoc(I, src))
 				return
-			to_chat(user, span_notice("You place [I] in [src]."))
-			update_appearance()
+			to_chat(user, "<span class='notice'>You place [I] in [src].</span>")
+			update_icon()
 		else
-			to_chat(user, span_warning("[src] is full."))
+			to_chat(user, "<span class='warning'>[src] is full.</span>")
 		return
 
-	else if(!user.combat_mode)
+	else if(user.a_intent != INTENT_HARM)
 		open = !open
-		update_appearance()
+		update_icon()
 	else
 		return ..()
 
-/obj/structure/guncase/attack_hand(mob/user, list/modifiers)
+/obj/structure/guncase/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
 	if(iscyborg(user) || isalien(user))
 		return
 	if(contents.len && open)
-		show_menu(user)
+		ShowWindow(user)
 	else
 		open = !open
-		update_appearance()
+		update_icon()
 
-/**
- * show_menu: Shows a radial menu to a user consisting of an available weaponry for taking
- *
- * Arguments:
- * * user The mob to which we are showing the radial menu
- */
-/obj/structure/guncase/proc/show_menu(mob/user)
-	if(!LAZYLEN(contents))
-		return
+/obj/structure/guncase/proc/ShowWindow(mob/user)
+	var/dat = {"<div class='block'>
+				<h3>Stored Guns</h3>
+				<table align='center'>"}
+	if(LAZYLEN(contents))
+		for(var/i in 1 to contents.len)
+			var/obj/item/I = contents[i]
+			dat += "<tr><A href='?src=[REF(src)];retrieve=[REF(I)]'>[I.name]</A><br>"
+	dat += "</table></div>"
 
-	var/list/display_names = list()
-	var/list/items = list()
-	for(var/i in 1 to length(contents))
-		var/obj/item/thing = contents[i]
-		display_names["[thing.name] ([i])"] = REF(thing)
-		var/image/item_image = image(icon = thing.icon, icon_state = thing.icon_state)
-		if(length(thing.overlays))
-			item_image.copy_overlays(thing)
-		items += list("[thing.name] ([i])" = item_image)
+	var/datum/browser/popup = new(user, "gunlocker", "<div align='center'>[name]</div>", 350, 300)
+	popup.set_content(dat)
+	popup.open(FALSE)
 
-	var/pick = show_radial_menu(user, src, items, custom_check = CALLBACK(src, PROC_REF(check_menu), user), radius = 36, require_near = TRUE)
-	if(!pick)
-		return
+/obj/structure/guncase/Topic(href, href_list)
+	if(href_list["retrieve"])
+		var/obj/item/O = locate(href_list["retrieve"]) in contents
+		if(!O || !istype(O))
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || !open)
+			return
+		if(ishuman(usr))
+			if(!usr.put_in_hands(O))
+				O.forceMove(get_turf(src))
+			update_icon()
 
-	var/weapon_reference = display_names[pick]
-	var/obj/item/weapon = locate(weapon_reference) in contents
-	if(!istype(weapon))
-		return
-	if(!user.put_in_hands(weapon))
-		weapon.forceMove(get_turf(src))
-
-/**
- * check_menu: Checks if we are allowed to interact with a radial menu
- *
- * Arguments:
- * * user The mob interacting with a menu
- */
-/obj/structure/guncase/proc/check_menu(mob/living/carbon/human/user)
-	if(!open)
-		return FALSE
-	if(!istype(user))
-		return FALSE
-	if(user.incapacitated())
-		return FALSE
-	return TRUE
-
-/obj/structure/guncase/Exited(atom/movable/gone, direction)
-	. = ..()
-	update_appearance()
+/obj/structure/guncase/handle_atom_del(atom/A)
+	update_icon()
 
 /obj/structure/guncase/contents_explosion(severity, target)
-	switch(severity)
-		if(EXPLODE_DEVASTATE)
-			SSexplosions.high_mov_atom += contents
-		if(EXPLODE_HEAVY)
-			SSexplosions.med_mov_atom += contents
-		if(EXPLODE_LIGHT)
-			SSexplosions.low_mov_atom += contents
+	for(var/atom/A in contents)
+		A.ex_act(severity++, target)
+		CHECK_TICK
 
 /obj/structure/guncase/shotgun
 	name = "shotgun locker"
@@ -130,10 +108,6 @@
 /obj/structure/guncase/ecase
 	name = "energy gun locker"
 	desc = "A locker that holds energy guns."
+	icon_state = "ecase"
 	case_type = "egun"
 	gun_category = /obj/item/gun/energy/e_gun
-
-/obj/structure/guncase/wt550
-	name = "WT-550 gun locker"
-	desc = "A locker that holds WT-550 rifles."
-	case_type = "wt550"

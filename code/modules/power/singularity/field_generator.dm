@@ -3,13 +3,13 @@
 
 /*
 field_generator power level display
-The icon used for the field_generator need to have 6 icon states
-named 'Field_Gen +p[num]' where 'num' ranges from 1 to 6
+   The icon used for the field_generator need to have 'num_power_levels' number of icon states
+   named 'Field_Gen +p[num]' where 'num' ranges from 1 to 'num_power_levels'
 
-The power level is displayed using overlays. The current displayed power level is stored in 'powerlevel'.
-The overlay in use and the powerlevel variable must be kept in sync.  A powerlevel equal to 0 means that
-no power level overlay is currently in the overlays list.
--Aygar
+   The power level is displayed using overlays. The current displayed power level is stored in 'powerlevel'.
+   The overlay in use and the powerlevel variable must be kept in sync.  A powerlevel equal to 0 means that
+   no power level overlay is currently in the overlays list.
+   -Aygar
 */
 
 #define field_generator_max_power 250
@@ -32,247 +32,213 @@ no power level overlay is currently in the overlays list.
 	density = TRUE
 	use_power = NO_POWER_USE
 	max_integrity = 500
-	can_atmos_pass = ATMOS_PASS_YES
 	//100% immune to lasers and energy projectiles since it absorbs their energy.
-	armor_type = /datum/armor/field_generator
-	///Amount of energy stored, used for visual overlays (over 9000?)
+	armor = list("melee" = 25, "bullet" = 10, "laser" = 100, "energy" = 100, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 70)
+	var/const/num_power_levels = 6	// Total number of power level icon has
 	var/power_level = 0
-	///Current power mode of the machine, between FG_OFFLINE, FG_CHARGING, FG_ONLINE
 	var/active = FG_OFFLINE
-	/// Current amount of power
-	var/power = 20
-	///Current state of the machine, between FG_UNSECURED, FG_SECURED, FG_WELDED
+	var/power = 20  // Current amount of power
 	var/state = FG_UNSECURED
-	///Timer between 0 and 3 before the field gets made
 	var/warming_up = 0
-	///List of every containment fields connected to this generator
-	var/list/obj/machinery/field/containment/fields = list()
-	///List of every field generators connected to this one
-	var/list/obj/machinery/field/generator/connected_gens = list()
-	///Check for asynk cleanups for this and the connected gens
-	var/clean_up = FALSE
+	var/list/obj/machinery/field/containment/fields
+	var/list/obj/machinery/field/generator/connected_gens
+	var/clean_up = 0
 
-/datum/armor/field_generator
-	melee = 25
-	bullet = 10
-	laser = 100
-	energy = 100
-	fire = 50
-	acid = 70
-	bomb = 100 //Explosive resistance only protects the turfs behind itself from the epicenter.
-
-/obj/machinery/field/generator/update_overlays()
-	. = ..()
+/obj/machinery/field/generator/update_icon()
+	cut_overlays()
 	if(warming_up)
-		. += "+a[warming_up]"
-	if(LAZYLEN(fields))
-		. += "+on"
+		add_overlay("+a[warming_up]")
+	if(fields.len)
+		add_overlay("+on")
 	if(power_level)
-		. += "+p[power_level]"
+		add_overlay("+p[power_level]")
 
 
-/obj/machinery/field/generator/Initialize(mapload)
-	AddElement(/datum/element/blocks_explosives)
+/obj/machinery/field/generator/Initialize()
 	. = ..()
-	AddElement(/datum/element/empprotection, EMP_PROTECT_SELF | EMP_PROTECT_WIRES)
-	RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity_if_active))
+	fields = list()
+	connected_gens = list()
 
-/obj/machinery/field/generator/anchored/Initialize(mapload)
+/obj/machinery/field/generator/ComponentInitialize()
 	. = ..()
-	set_anchored(TRUE)
+	AddComponent(/datum/component/empprotection, EMP_PROTECT_SELF | EMP_PROTECT_WIRES)
 
 /obj/machinery/field/generator/process()
 	if(active == FG_ONLINE)
 		calc_power()
 
 /obj/machinery/field/generator/interact(mob/user)
-	if(state != FG_WELDED)
-		to_chat(user, span_warning("[src] needs to be firmly secured to the floor first!"))
-		return
-	if(get_dist(src, user) > 1)//Need to actually touch the thing to turn it on
-		return
-	if(active >= FG_CHARGING)
-		to_chat(user, span_warning("You are unable to turn off [src] once it is online!"))
-		return TRUE
+	if(state == FG_WELDED)
+		if(get_dist(src, user) <= 1)//Need to actually touch the thing to turn it on
+			if(active >= FG_CHARGING)
+				to_chat(user, "<span class='warning'>You are unable to turn off [src] once it is online!</span>")
+				return 1
+			else
+				user.visible_message("[user] turns on [src].", \
+					"<span class='notice'>You turn on [src].</span>", \
+					"<span class='italics'>You hear heavy droning.</span>")
+				turn_on()
+				investigate_log("<font color='green'>activated</font> by [key_name(user)].", INVESTIGATE_SINGULO)
 
-	user.visible_message(
-		span_notice("[user] turns on [src]."),
-		span_notice("You turn on [src]."),
-		span_hear("You hear heavy droning."))
-	turn_on()
-	investigate_log("activated by [key_name(user)].", INVESTIGATE_ENGINE)
-
-	add_fingerprint(user)
-
-/obj/machinery/field/generator/set_anchored(anchorvalue)
-	. = ..()
-	if(isnull(.))
-		return
-	if(active)
-		turn_off()
-	state = anchorvalue ? FG_SECURED : FG_UNSECURED
+				add_fingerprint(user)
+	else
+		to_chat(user, "<span class='warning'>[src] needs to be firmly secured to the floor first!</span>")
 
 /obj/machinery/field/generator/can_be_unfasten_wrench(mob/user, silent)
 	if(active)
 		if(!silent)
-			to_chat(user, span_warning("Turn \the [src] off first!"))
+			to_chat(user, "<span class='warning'>Turn \the [src] off first!</span>")
 		return FAILED_UNFASTEN
 
 	else if(state == FG_WELDED)
 		if(!silent)
-			to_chat(user, span_warning("[src] is welded to the floor!"))
+			to_chat(user, "<span class='warning'>[src] is welded to the floor!</span>")
 		return FAILED_UNFASTEN
 
 	return ..()
 
-/obj/machinery/field/generator/wrench_act(mob/living/user, obj/item/tool)
+/obj/machinery/field/generator/default_unfasten_wrench(mob/user, obj/item/I, time = 20)
 	. = ..()
-	default_unfasten_wrench(user, tool)
-	return ITEM_INTERACT_SUCCESS
+	if(. == SUCCESSFUL_UNFASTEN)
+		if(anchored)
+			state = FG_SECURED
+		else
+			state = FG_UNSECURED
 
-/obj/machinery/field/generator/welder_act(mob/living/user, obj/item/welder)
-	. = ..()
+/obj/machinery/field/generator/wrench_act(mob/living/user, obj/item/I)
+	default_unfasten_wrench(user, I)
+	return TRUE
+
+/obj/machinery/field/generator/welder_act(mob/living/user, obj/item/I)
 	if(active)
-		to_chat(user, span_warning("[src] needs to be off!"))
+		to_chat(user, "<span class='warning'>[src] needs to be off!</span>")
 		return TRUE
 
 	switch(state)
 		if(FG_UNSECURED)
-			to_chat(user, span_warning("[src] needs to be wrenched to the floor!"))
+			to_chat(user, "<span class='warning'>[src] needs to be wrenched to the floor!</span>")
 
 		if(FG_SECURED)
-			if(!welder.tool_start_check(user, amount=1))
+			if(!I.tool_start_check(user, amount=0))
 				return TRUE
-			user.visible_message(
-				span_notice("[user] starts to weld [src] to the floor."),
-				span_notice("You start to weld \the [src] to the floor..."),
-				span_hear("You hear welding."))
-			if(welder.use_tool(src, user, 20, volume=50) && state == FG_SECURED)
+			user.visible_message("[user] starts to weld [src] to the floor.", \
+				"<span class='notice'>You start to weld \the [src] to the floor...</span>", \
+				"<span class='italics'>You hear welding.</span>")
+			if(I.use_tool(src, user, 20, volume=50) && state == FG_SECURED)
 				state = FG_WELDED
-				to_chat(user, span_notice("You weld the field generator to the floor."))
+				to_chat(user, "<span class='notice'>You weld the field generator to the floor.</span>")
 
 		if(FG_WELDED)
-			if(!welder.tool_start_check(user, amount=1))
+			if(!I.tool_start_check(user, amount=0))
 				return TRUE
-			user.visible_message(
-				span_notice("[user] starts to cut [src] free from the floor."),
-				span_notice("You start to cut \the [src] free from the floor..."),
-				span_hear("You hear welding."))
-			if(welder.use_tool(src, user, 20, volume=50) && state == FG_WELDED)
+			user.visible_message("[user] starts to cut [src] free from the floor.", \
+				"<span class='notice'>You start to cut \the [src] free from the floor...</span>", \
+				"<span class='italics'>You hear welding.</span>")
+			if(I.use_tool(src, user, 20, volume=50) && state == FG_WELDED)
 				state = FG_SECURED
-				to_chat(user, span_notice("You cut \the [src] free from the floor."))
+				to_chat(user, "<span class='notice'>You cut \the [src] free from the floor.</span>")
 
 	return TRUE
 
 
-/obj/machinery/field/generator/attack_animal(mob/living/simple_animal/user, list/modifiers)
-	if(user.environment_smash == ENVIRONMENT_SMASH_RWALLS && active == FG_OFFLINE && state != FG_UNSECURED)
-		set_anchored(FALSE)
-		user.visible_message(span_warning("[user] rips [src] free from its moorings!"))
+/obj/machinery/field/generator/attack_animal(mob/living/simple_animal/M)
+	if(M.environment_smash & ENVIRONMENT_SMASH_RWALLS && active == FG_OFFLINE && state != FG_UNSECURED)
+		state = FG_UNSECURED
+		anchored = FALSE
+		M.visible_message("<span class='warning'>[M] rips [src] free from its moorings!</span>")
 	else
 		..()
 	if(!anchored)
-		step(src, get_dir(user, src))
+		step(src, get_dir(M, src))
 
 /obj/machinery/field/generator/blob_act(obj/structure/blob/B)
 	if(active)
-		return FALSE
+		return 0
 	else
-		return ..()
+		..()
 
-/obj/machinery/field/generator/bullet_act(obj/projectile/considered_bullet)
-	if(considered_bullet.armor_flag != BULLET)
-		power = min(power + considered_bullet.damage, field_generator_max_power)
+/obj/machinery/field/generator/bullet_act(obj/item/projectile/Proj)
+	if(Proj.flag != "bullet")
+		power = min(power + Proj.damage, field_generator_max_power)
 		check_power_level()
-	. = ..()
+	..()
 
 
 /obj/machinery/field/generator/Destroy()
 	cleanup()
 	return ..()
 
-/**
- *The power level is displayed using overlays. The current displayed power level is stored in 'powerlevel'.
- *The overlay in use and the powerlevel variable must be kept in sync.  A powerlevel equal to 0 means that
- *no power level overlay is currently in the overlays list.
- */
+
 /obj/machinery/field/generator/proc/check_power_level()
-	var/new_level = round(6 * power / field_generator_max_power)
+	var/new_level = round(num_power_levels * power / field_generator_max_power)
 	if(new_level != power_level)
 		power_level = new_level
-		update_appearance()
+		update_icon()
 
 /obj/machinery/field/generator/proc/turn_off()
 	active = FG_OFFLINE
-	can_atmos_pass = ATMOS_PASS_YES
-	air_update_turf(TRUE, FALSE)
-	INVOKE_ASYNC(src, PROC_REF(cleanup))
-	addtimer(CALLBACK(src, PROC_REF(cool_down)), 5 SECONDS)
-
-/obj/machinery/field/generator/proc/cool_down()
-	if(active || warming_up <= 0)
-		return
-	warming_up--
-	update_appearance()
-	if(warming_up > 0)
-		addtimer(CALLBACK(src, PROC_REF(cool_down)), 5 SECONDS)
+	spawn(1)
+		cleanup()
+		while (warming_up>0 && !active)
+			sleep(50)
+			warming_up--
+			update_icon()
 
 /obj/machinery/field/generator/proc/turn_on()
 	active = FG_CHARGING
-	addtimer(CALLBACK(src, PROC_REF(warm_up)), 5 SECONDS)
+	spawn(1)
+		while (warming_up<3 && active)
+			sleep(50)
+			warming_up++
+			update_icon()
+			if(warming_up >= 3)
+				start_fields()
 
-/obj/machinery/field/generator/proc/warm_up()
-	if(!active)
-		return
-	warming_up++
-	update_appearance()
-	if(warming_up >= 3)
-		start_fields()
-	else
-		addtimer(CALLBACK(src, PROC_REF(warm_up)), 5 SECONDS)
 
 /obj/machinery/field/generator/proc/calc_power(set_power_draw)
 	var/power_draw = 2 + fields.len
 	if(set_power_draw)
 		power_draw = set_power_draw
 
-	if(draw_power(round(power_draw * 0.5, 1)))
+	if(draw_power(round(power_draw/2,1)))
 		check_power_level()
-		return TRUE
+		return 1
 	else
-		visible_message(span_danger("The [name] shuts down!"), span_hear("You hear something shutting down."))
+		visible_message("<span class='danger'>The [name] shuts down!</span>", "<span class='italics'>You hear something shutting down.</span>")
 		turn_off()
-		investigate_log("ran out of power and DEACTIVATED.", INVESTIGATE_ENGINE)
+		investigate_log("ran out of power and <font color='red'>deactivated</font>", INVESTIGATE_SINGULO)
 		power = 0
 		check_power_level()
-		return FALSE
+		return 0
 
 //This could likely be better, it tends to start loopin if you have a complex generator loop setup.  Still works well enough to run the engine fields will likely recode the field gens and fields sometime -Mport
-/obj/machinery/field/generator/proc/draw_power(draw = 0, failsafe = FALSE, obj/machinery/field/generator/other_generator = null, obj/machinery/field/generator/last = null)
-	if((other_generator && (other_generator == src)) || (failsafe >= 8))//Loopin, set fail
-		return FALSE
+/obj/machinery/field/generator/proc/draw_power(draw = 0, failsafe = FALSE, obj/machinery/field/generator/G = null, obj/machinery/field/generator/last = null)
+	if((G && (G == src)) || (failsafe >= 8))//Loopin, set fail
+		return 0
 	else
 		failsafe++
 
 	if(power >= draw)//We have enough power
 		power -= draw
-		return TRUE
+		return 1
 
-	//Need more power
-	draw -= power
-	power = 0
-	for(var/connected_generator in connected_gens)
-		var/obj/machinery/field/generator/considered_generator = connected_generator
-		if(considered_generator == last)//We just asked you
-			continue
-		if(other_generator)//Another gen is askin for power and we dont have it
-			if(considered_generator.draw_power(draw, failsafe, other_generator, src))//Can you take the load
-				return TRUE
-			return FALSE
-		//We are askin another for power
-		if(considered_generator.draw_power(draw, failsafe, src, src))
-			return TRUE
-		return FALSE
+	else//Need more power
+		draw -= power
+		power = 0
+		for(var/CG in connected_gens)
+			var/obj/machinery/field/generator/FG = CG
+			if(FG == last)//We just asked you
+				continue
+			if(G)//Another gen is askin for power and we dont have it
+				if(FG.draw_power(draw,failsafe,G,src))//Can you take the load
+					return 1
+				else
+					return 0
+			else//We are askin another for power
+				if(FG.draw_power(draw,failsafe,src,src))
+					return 1
+				else
+					return 0
 
 
 /obj/machinery/field/generator/proc/start_fields()
@@ -280,130 +246,98 @@ no power level overlay is currently in the overlays list.
 		turn_off()
 		return
 	move_resist = INFINITY
-	set_explosion_block(INFINITY)
-	can_atmos_pass = ATMOS_PASS_NO
-	air_update_turf(TRUE, TRUE)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 1), 1)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 2), 2)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 4), 3)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 8), 4)
-	addtimer(VARSET_CALLBACK(src, active, FG_ONLINE), 5)
+	spawn(1)
+		setup_field(1)
+	spawn(2)
+		setup_field(2)
+	spawn(3)
+		setup_field(4)
+	spawn(4)
+		setup_field(8)
+	spawn(5)
+		active = FG_ONLINE
+
 
 /obj/machinery/field/generator/proc/setup_field(NSEW)
-	var/turf/current_turf = loc
-	if(!istype(current_turf))
-		return FALSE
+	var/turf/T = loc
+	if(!istype(T))
+		return 0
 
-	var/obj/machinery/field/generator/found_generator = null
+	var/obj/machinery/field/generator/G = null
 	var/steps = 0
 	if(!NSEW)//Make sure its ran right
-		return FALSE
+		return 0
 	for(var/dist in 0 to 7) // checks out to 8 tiles away for another generator
-		current_turf = get_step(current_turf, NSEW)
-		if(current_turf.density)//We cant shoot a field though this
-			return FALSE
+		T = get_step(T, NSEW)
+		if(T.density)//We cant shoot a field though this
+			return 0
 
-		found_generator = locate(/obj/machinery/field/generator) in current_turf
-		if(found_generator)
+		G = locate(/obj/machinery/field/generator) in T
+		if(G)
 			steps -= 1
-			if(!found_generator.active)
-				return FALSE
+			if(!G.active)
+				return 0
 			break
 
-		for(var/turf_content in current_turf.contents)
-			var/atom/found_atom = turf_content
-			if(ismob(found_atom))
+		for(var/TC in T.contents)
+			var/atom/A = TC
+			if(ismob(A))
 				continue
-			if(found_atom.density)
-				return FALSE
+			if(A.density)
+				return 0
 
 		steps++
 
-	if(!found_generator)
-		return FALSE
+	if(!G)
+		return 0
 
-	current_turf = loc
+	T = loc
 	for(var/dist in 0 to steps) // creates each field tile
-		var/field_dir = get_dir(current_turf, get_step(found_generator.loc, NSEW))
-		current_turf = get_step(current_turf, NSEW)
-		if(!locate(/obj/machinery/field/containment) in current_turf)
-			var/obj/machinery/field/containment/created_field = new(current_turf)
-			created_field.set_master(src,found_generator)
-			created_field.setDir(field_dir)
-			fields += created_field
-			found_generator.fields += created_field
-			for(var/mob/living/shocked_mob in current_turf)
-				created_field.on_entered(src, shocked_mob)
+		var/field_dir = get_dir(T,get_step(G.loc, NSEW))
+		T = get_step(T, NSEW)
+		if(!locate(/obj/machinery/field/containment) in T)
+			var/obj/machinery/field/containment/CF = new(T)
+			CF.set_master(src,G)
+			CF.setDir(field_dir)
+			fields += CF
+			G.fields += CF
+			for(var/mob/living/L in T)
+				CF.Crossed(L)
 
-	connected_gens |= found_generator
-	found_generator.connected_gens |= src
-	shield_floor(TRUE)
-	update_appearance()
+	connected_gens |= G
+	G.connected_gens |= src
+	update_icon()
 
 
 /obj/machinery/field/generator/proc/cleanup()
-	clean_up = TRUE
-	for (var/field in fields)
-		qdel(field)
+	clean_up = 1
+	for (var/F in fields)
+		qdel(F)
 
-	shield_floor(FALSE)
+	for(var/CG in connected_gens)
+		var/obj/machinery/field/generator/FG = CG
+		FG.connected_gens -= src
+		if(!FG.clean_up)//Makes the other gens clean up as well
+			FG.cleanup()
+		connected_gens -= FG
+	clean_up = 0
+	update_icon()
 
-	for(var/connected_generator in connected_gens)
-		var/obj/machinery/field/generator/considered_generator = connected_generator
-		considered_generator.connected_gens -= src
-		if(!considered_generator.clean_up)//Makes the other gens clean up as well
-			considered_generator.cleanup()
-		connected_gens -= considered_generator
-	clean_up = FALSE
-	update_appearance()
-
+	//This is here to help fight the "hurr durr, release singulo cos nobody will notice before the
+	//singulo eats the evidence". It's not fool-proof but better than nothing.
+	//I want to avoid using global variables.
+	spawn(1)
+		var/temp = 1 //stops spam
+		for(var/obj/singularity/O in GLOB.singularities)
+			if(O.last_warning && temp)
+				if((world.time - O.last_warning) > 50) //to stop message-spam
+					temp = 0
+					var/turf/T = get_turf(src)
+					message_admins("A singulo exists and a containment field has failed at [ADMIN_VERBOSEJMP(T)].")
+					investigate_log("has <font color='red'>failed</font> whilst a singulo exists at [AREACOORD(T)].", INVESTIGATE_SINGULO)
+			O.last_warning = world.time
+	
 	move_resist = initial(move_resist)
-	set_explosion_block(0)
-
-/obj/machinery/field/generator/proc/shield_floor(create)
-	if(connected_gens.len < 2)
-		return
-	var/connected_gen_counter
-	for(connected_gen_counter = 1; connected_gen_counter < connected_gens.len, connected_gen_counter++)
-
-		var/list/connected_gen_list = ((connected_gens[connected_gen_counter].connected_gens & connected_gens[connected_gen_counter+1].connected_gens)^src)
-		if(!connected_gen_list.len)
-			return
-		var/obj/machinery/field/generator/considered_generator = connected_gen_list[1]
-
-		var/x_step
-		var/y_step
-		if(considered_generator.x > x && considered_generator.y > y)
-			for(x_step=x; x_step <= considered_generator.x; x_step++)
-				for(y_step=y; y_step <= considered_generator.y; y_step++)
-					place_floor(locate(x_step,y_step,z),create)
-		else if(considered_generator.x > x && considered_generator.y < y)
-			for(x_step=x; x_step <= considered_generator.x; x_step++)
-				for(y_step=y; y_step >= considered_generator.y; y_step--)
-					place_floor(locate(x_step,y_step,z),create)
-		else if(considered_generator.x < x && considered_generator.y > y)
-			for(x_step=x; x_step >= considered_generator.x; x_step--)
-				for(y_step=y; y_step <= considered_generator.y; y_step++)
-					place_floor(locate(x_step,y_step,z),create)
-		else
-			for(x_step=x; x_step >= considered_generator.x; x_step--)
-				for(y_step=y; y_step >= considered_generator.y; y_step--)
-					place_floor(locate(x_step,y_step,z),create)
-
-
-/obj/machinery/field/generator/proc/place_floor(Location,create)
-	if(create && !locate(/obj/effect/shield) in Location)
-		new/obj/effect/shield(Location)
-	else if(!create)
-		var/obj/effect/shield/created_shield = locate(/obj/effect/shield) in Location
-		if(created_shield)
-			qdel(created_shield)
-
-/obj/machinery/field/generator/proc/block_singularity_if_active()
-	SIGNAL_HANDLER
-
-	if (active)
-		return SINGULARITY_TRY_MOVE_BLOCK
 
 /obj/machinery/field/generator/shock(mob/living/user)
 	if(fields.len)
@@ -412,14 +346,6 @@ no power level overlay is currently in the overlays list.
 /obj/machinery/field/generator/bump_field(atom/movable/AM as mob|obj)
 	if(fields.len)
 		..()
-
-/obj/machinery/field/generator/starts_on
-	anchored = TRUE
-	state = FG_WELDED
-
-/obj/machinery/field/generator/starts_on/Initialize(mapload)
-	. = ..()
-	turn_on()
 
 #undef FG_UNSECURED
 #undef FG_SECURED

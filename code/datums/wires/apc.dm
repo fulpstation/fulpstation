@@ -11,8 +11,6 @@
 	..()
 
 /datum/wires/apc/interactable(mob/user)
-	if(!..())
-		return FALSE
 	var/obj/machinery/power/apc/A = holder
 	if(A.panel_open && !A.opened)
 		return TRUE
@@ -31,29 +29,27 @@
 		if(WIRE_POWER1, WIRE_POWER2) // Short for a long while.
 			if(!A.shorted)
 				A.shorted = TRUE
-				addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 2 MINUTES)
+				addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 1200)
 		if(WIRE_IDSCAN) // Unlock for a little while.
 			A.locked = FALSE
-			addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 30 SECONDS)
+			addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 300)
 		if(WIRE_AI) // Disable AI control for a very short time.
 			if(!A.aidisabled)
 				A.aidisabled = TRUE
-				addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 1 SECONDS)
+				addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/power/apc, reset), wire), 10)
 
-/datum/wires/apc/on_cut(wire, mend, source)
+/datum/wires/apc/on_cut(index, mend)
 	var/obj/machinery/power/apc/A = holder
-	switch(wire)
+	switch(index)
 		if(WIRE_POWER1, WIRE_POWER2) // Short out.
 			if(mend && !is_cut(WIRE_POWER1) && !is_cut(WIRE_POWER2))
 				A.shorted = FALSE
+				A.shock(usr, 50)
 			else
 				A.shorted = TRUE
-			A.shock(usr, 50)
+				A.shock(usr, 50)
 		if(WIRE_AI) // Disable AI control.
-			A.aidisabled = !mend
-
-/datum/wires/apc/can_reveal_wires(mob/user)
-	if(HAS_TRAIT(user, TRAIT_KNOW_ENGI_WIRES))
-		return TRUE
-
-	return ..()
+			if(mend)
+				A.aidisabled = FALSE
+			else
+				A.aidisabled = TRUE

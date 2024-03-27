@@ -11,20 +11,20 @@
 	key_third_person = "hisses"
 	message_alien = "hisses."
 	message_larva = "hisses softly."
-	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
 
-/datum/emote/living/alien/hiss/get_sound(mob/living/user)
-	if(isalienadult(user))
-		return SFX_HISS
+/datum/emote/living/alien/hiss/run_emote(mob/user, params)
+	. = ..()
+	if(. && isalienadult(user))
+		playsound(user.loc, "hiss", 40, 1, 1)
 
 /datum/emote/living/alien/roar
 	key = "roar"
 	key_third_person = "roars"
 	message_alien = "roars."
 	message_larva = "softly roars."
-	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
-	vary = TRUE
+	emote_type = EMOTE_AUDIBLE
 
-/datum/emote/living/alien/roar/get_sound(mob/living/user)
-	if(isalienadult(user))
-		return 'sound/voice/hiss5.ogg'
+/datum/emote/living/alien/roar/run_emote(mob/user, params)
+	. = ..()
+	if(. && isalienadult(user))
+		playsound(user.loc, 'sound/voice/hiss5.ogg', 40, 1, 1)

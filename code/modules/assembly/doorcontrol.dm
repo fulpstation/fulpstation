@@ -3,57 +3,25 @@
 	desc = "A small electronic device able to control a blast door remotely."
 	icon_state = "control"
 	attachable = TRUE
-	/// The ID of the blast door electronics to match to the ID of the blast door being used.
 	var/id = null
-	/// Cooldown of the door's controller. Updates when pressed (activate())
-	var/cooldown = FALSE
+	var/can_change_id = 0
+	var/cooldown = FALSE //Door cooldowns
 	var/sync_doors = TRUE
 
 /obj/item/assembly/control/examine(mob/user)
-	. = ..()
+	..()
 	if(id)
-		. += span_notice("Its channel ID is '[id]'.")
-
-/obj/item/assembly/control/multitool_act(mob/living/user)
-	var/change_id = tgui_input_number(user, "Set the door controllers ID", "Door ID", id, 100)
-	if(!change_id || QDELETED(user) || QDELETED(src) || !usr.can_perform_action(src, FORBID_TELEKINESIS_REACH))
-		return
-	id = change_id
-	balloon_alert(user, "id changed")
-	to_chat(user, span_notice("You change the ID to [id]."))
+		to_chat(user, "<span class='notice'>Its channel ID is '[id]'.</span>")
 
 /obj/item/assembly/control/activate()
-	var/openclose
-	if(cooldown)
-		return
 	cooldown = TRUE
-	for(var/obj/machinery/door/poddoor/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/poddoor))
+	var/openclose
+	for(var/obj/machinery/door/poddoor/M in GLOB.machines)
 		if(M.id == src.id)
 			if(openclose == null || !sync_doors)
 				openclose = M.density
 			INVOKE_ASYNC(M, openclose ? TYPE_PROC_REF(/obj/machinery/door/poddoor, open) : TYPE_PROC_REF(/obj/machinery/door/poddoor, close))
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 10)
-
-/obj/item/assembly/control/curtain
-	name = "curtain controller"
-	desc = "A small electronic device able to control a mechanical curtain remotely."
-
-/obj/item/assembly/control/curtain/examine(mob/user)
-	. = ..()
-	if(id)
-		. += span_notice("Its channel ID is '[id]'.")
-
-/obj/item/assembly/control/curtain/activate()
-	var/openclose
-	if(cooldown)
-		return
-	cooldown = TRUE
-	for(var/obj/structure/curtain/cloth/fancy/mechanical/M in GLOB.curtains)
-		if(M.id == src.id)
-			if(openclose == null || !sync_doors)
-				openclose = M.density
-			INVOKE_ASYNC(M, openclose ? TYPE_PROC_REF(/obj/structure/curtain/cloth/fancy/mechanical, open) : TYPE_PROC_REF(/obj/structure/curtain/cloth/fancy/mechanical, close))
-	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 5)
 
 
 /obj/item/assembly/control/airlock
@@ -62,7 +30,7 @@
 	id = "badmin" // Set it to null for MEGAFUN.
 	var/specialfunctions = OPEN
 	/*
-	Bitflag, 1= open (OPEN)
+	Bitflag, 	1= open (OPEN)
 				2= idscan (IDSCAN)
 				4= bolts (BOLTS)
 				8= shock (SHOCK)
@@ -70,12 +38,10 @@
 	*/
 
 /obj/item/assembly/control/airlock/activate()
-	if(cooldown)
-		return
 	cooldown = TRUE
 	var/doors_need_closing = FALSE
 	var/list/obj/machinery/door/airlock/open_or_close = list()
-	for(var/obj/machinery/door/airlock/D as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/airlock))
+	for(var/obj/machinery/door/airlock/D in GLOB.airlocks)
 		if(D.id_tag == src.id)
 			if(specialfunctions & OPEN)
 				open_or_close += D
@@ -85,11 +51,8 @@
 				D.aiDisabledIdScanner = !D.aiDisabledIdScanner
 			if(specialfunctions & BOLTS)
 				if(!D.wires.is_cut(WIRE_BOLTS) && D.hasPower())
-					if(D.locked)
-						D.unlock()
-					else
-						D.lock()
-					D.update_appearance()
+					D.locked = !D.locked
+					D.update_icon()
 			if(specialfunctions & SHOCK)
 				if(D.secondsElectrified)
 					D.set_electrified(MACHINE_ELECTRIFIED_PERMANENT, usr)
@@ -99,7 +62,7 @@
 				D.safe = !D.safe
 
 	for(var/D in open_or_close)
-		INVOKE_ASYNC(D,  doors_need_closing ? TYPE_PROC_REF(/obj/machinery/door/airlock, close) : TYPE_PROC_REF(/obj/machinery/door/airlock, open))
+		INVOKE_ASYNC(D, doors_need_closing ? TYPE_PROC_REF(/obj/machinery/door/airlock, close) : TYPE_PROC_REF(/obj/machinery/door/airlock, open))
 
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 10)
 
@@ -109,24 +72,20 @@
 	desc = "A small electronic device able to control a mass driver."
 
 /obj/item/assembly/control/massdriver/activate()
-	if(cooldown)
-		return
 	cooldown = TRUE
-	for(var/obj/machinery/door/poddoor/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/poddoor))
+	for(var/obj/machinery/door/poddoor/M in GLOB.machines)
 		if (M.id == src.id)
 			INVOKE_ASYNC(M, TYPE_PROC_REF(/obj/machinery/door/poddoor, open))
 
-	addtimer(CALLBACK(src, PROC_REF(activate_stage2)), 1 SECONDS)
+	sleep(10)
 
-/obj/item/assembly/control/massdriver/proc/activate_stage2()
-	for(var/obj/machinery/mass_driver/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/mass_driver))
+	for(var/obj/machinery/mass_driver/M in GLOB.machines)
 		if(M.id == src.id)
 			M.drive()
 
-	addtimer(CALLBACK(src, PROC_REF(activate_stage3)), 6 SECONDS)
+	sleep(60)
 
-/obj/item/assembly/control/massdriver/proc/activate_stage3()
-	for(var/obj/machinery/door/poddoor/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/poddoor))
+	for(var/obj/machinery/door/poddoor/M in GLOB.machines)
 		if (M.id == src.id)
 			INVOKE_ASYNC(M, TYPE_PROC_REF(/obj/machinery/door/poddoor, close))
 
@@ -138,16 +97,16 @@
 	desc = "A remote controller for a mounted igniter."
 
 /obj/item/assembly/control/igniter/activate()
-	if(cooldown)
-		return
 	cooldown = TRUE
-	for(var/obj/machinery/sparker/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/sparker))
+	for(var/obj/machinery/sparker/M in GLOB.machines)
 		if (M.id == src.id)
 			INVOKE_ASYNC(M, TYPE_PROC_REF(/obj/machinery/sparker, ignite))
 
-	for(var/obj/machinery/igniter/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/igniter))
+	for(var/obj/machinery/igniter/M in GLOB.machines)
 		if(M.id == src.id)
-			INVOKE_ASYNC(M, TYPE_PROC_REF(/obj/machinery/igniter, toggle))
+			M.use_power(50)
+			M.on = !M.on
+			M.icon_state = "igniter[M.on]"
 
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 30)
 
@@ -156,10 +115,8 @@
 	desc = "A remote controller for a mounted flasher."
 
 /obj/item/assembly/control/flasher/activate()
-	if(cooldown)
-		return
 	cooldown = TRUE
-	for(var/obj/machinery/flasher/M as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/flasher))
+	for(var/obj/machinery/flasher/M in GLOB.machines)
 		if(M.id == src.id)
 			INVOKE_ASYNC(M, TYPE_PROC_REF(/obj/machinery/flasher, flash))
 
@@ -171,8 +128,6 @@
 	desc = "An evil-looking remote controller for a crematorium."
 
 /obj/item/assembly/control/crematorium/activate()
-	if(cooldown)
-		return
 	cooldown = TRUE
 	for (var/obj/structure/bodycontainer/crematorium/C in GLOB.crematoriums)
 		if (C.id == id)

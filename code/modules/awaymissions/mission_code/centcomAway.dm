@@ -1,44 +1,44 @@
 //centcomAway areas
 
-/area/awaymission/centcom_away
+/area/awaymission/centcomAway
 	name = "XCC-P5831"
 	icon_state = "away"
 	requires_power = FALSE
 
-/area/awaymission/centcom_away/general
+/area/awaymission/centcomAway/general
 	name = "XCC-P5831"
-	ambientsounds = list('sound/ambience/ambigen2.ogg')
+	ambientsounds = list('sound/ambience/ambigen3.ogg')
 
-/area/awaymission/centcom_away/maint
+/area/awaymission/centcomAway/maint
 	name = "XCC-P5831 Maintenance"
 	icon_state = "away1"
 	ambientsounds = list('sound/ambience/ambisin1.ogg')
 
-/area/awaymission/centcom_away/thunderdome
+/area/awaymission/centcomAway/thunderdome
 	name = "XCC-P5831 Thunderdome"
 	icon_state = "away2"
 	ambientsounds = list('sound/ambience/ambisin2.ogg')
 
-/area/awaymission/centcom_away/cafe
+/area/awaymission/centcomAway/cafe
 	name = "XCC-P5831 Kitchen Arena"
 	icon_state = "away3"
 	ambientsounds = list('sound/ambience/ambisin3.ogg')
 
-/area/awaymission/centcom_away/courtroom
+/area/awaymission/centcomAway/courtroom
 	name = "XCC-P5831 Courtroom"
 	icon_state = "away4"
 	ambientsounds = list('sound/ambience/ambisin4.ogg')
 
-/area/awaymission/centcom_away/hangar
+/area/awaymission/centcomAway/hangar
 	name = "XCC-P5831 Hangars"
 	icon_state = "away4"
-	ambientsounds = list('sound/ambience/ambigen4.ogg')
+	ambientsounds = list('sound/ambience/ambigen5.ogg')
 
 //centcomAway items
 
 /obj/item/paper/pamphlet/centcom/visitor_info
 	name = "Visitor Info Pamphlet"
-	default_raw_text = "<b> XCC-P5831 Visitor Information </b><br>\
+	info = "<b> XCC-P5831 Visitor Information </b><br>\
 	Greetings, visitor, to  XCC-P5831! As you may know, this outpost was once \
 	used as Nanotrasen's CENTRAL COMMAND STATION, organizing and coordinating company \
 	projects across the vastness of space. <br>\
@@ -50,7 +50,7 @@
 
 /obj/item/paper/fluff/awaymissions/centcom/gateway_memo
 	name = "Memo to XCC-P5831 QM"
-	default_raw_text = "<b>From: XCC-P5831 Management Office</b><br>\
+	info = "<b>From: XCC-P5831 Management Office</b><br>\
 	<b>To: Rolf Ingram, XCC-P5831 Quartermaster</b><br>\
 	Hey, Rolf, once you pack that gateway into the ferry hangar, <i>make absolutely sure</i> \
 	to deactivate it! As you may know, SS13 has recently got its network up and running, \

@@ -1,45 +1,32 @@
 /obj/item/clothing/suit
+	icon = 'icons/obj/clothing/suits.dmi'
 	name = "suit"
-	icon = 'icons/obj/clothing/suits/default.dmi'
-	lefthand_file = 'icons/mob/inhands/clothing/suits_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/clothing/suits_righthand.dmi'
 	var/fire_resist = T0C+100
-	allowed = list(
-		/obj/item/tank/internals/emergency_oxygen,
-		/obj/item/tank/internals/plasmaman,
-		/obj/item/tank/jetpack/oxygen/captain,
-		/obj/item/storage/belt/holster,
-		)
-	armor_type = /datum/armor/none
-	drop_sound = 'sound/items/handling/cloth_drop.ogg'
-	pickup_sound = 'sound/items/handling/cloth_pickup.ogg'
+	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	slot_flags = ITEM_SLOT_OCLOTHING
 	var/blood_overlay_type = "suit"
-	limb_integrity = 0 // disabled for most exo-suits
+	var/togglename = null
+	var/suittoggled = FALSE
 
-/obj/item/clothing/suit/worn_overlays(mutable_appearance/standing, isinhands = FALSE)
-	. = ..()
-	if(isinhands)
-		return
 
-	if(damaged_clothes)
-		. += mutable_appearance('icons/effects/item_damage.dmi', "damaged[blood_overlay_type]")
-	if(GET_ATOM_BLOOD_DNA_LENGTH(src))
-		. += mutable_appearance('icons/effects/blood.dmi', "[blood_overlay_type]blood")
+/obj/item/clothing/suit/worn_overlays(isinhands = FALSE)
+	. = list()
+	if(!isinhands)
+		if(damaged_clothes)
+			. += mutable_appearance('icons/effects/item_damage.dmi', "damaged[blood_overlay_type]")
+		IF_HAS_BLOOD_DNA(src)
+			. += mutable_appearance('icons/effects/blood.dmi', "[blood_overlay_type]blood")
+		var/mob/living/carbon/human/M = loc
+		if(ishuman(M) && M.w_uniform)
+			var/obj/item/clothing/under/U = M.w_uniform
+			if(istype(U) && U.attached_accessory)
+				var/obj/item/clothing/accessory/A = U.attached_accessory
+				if(A.above_suit)
+					. += U.accessory_overlay
 
-	var/mob/living/carbon/human/wearer = loc
-	if(!ishuman(wearer) || !wearer.w_uniform)
-		return
-	var/obj/item/clothing/under/undershirt = wearer.w_uniform
-	if(!istype(undershirt) || !LAZYLEN(undershirt.attached_accessories))
-		return
-
-	var/obj/item/clothing/accessory/displayed = undershirt.attached_accessories[1]
-	if(displayed.above_suit)
-		. += undershirt.accessory_overlay
-
-/obj/item/clothing/suit/update_clothes_damaged_state(damaged_state = CLOTHING_DAMAGED)
+/obj/item/clothing/suit/update_clothes_damaged_state(damaging = TRUE)
 	..()
 	if(ismob(loc))
 		var/mob/M = loc
-		M.update_worn_oversuit()
+		M.update_inv_wear_suit()

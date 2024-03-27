@@ -1,9 +1,8 @@
 /obj/item/pinpointer/nuke
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/mode = TRACK_NUKE_DISK
 
 /obj/item/pinpointer/nuke/examine(mob/user)
-	. = ..()
+	..()
 	var/msg = "Its tracking indicator reads "
 	switch(mode)
 		if(TRACK_NUKE_DISK)
@@ -14,39 +13,38 @@
 			msg += "\"vasvygengbefuvc\"."
 		else
 			msg = "Its tracking indicator is blank."
-	. += msg
-	for(var/obj/machinery/nuclearbomb/bomb as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/nuclearbomb))
+	to_chat(user, msg)
+	for(var/obj/machinery/nuclearbomb/bomb in GLOB.machines)
 		if(bomb.timing)
-			. += "Extreme danger. Arming signal detected. Time remaining: [bomb.get_time_left()]."
+			to_chat(user, "Extreme danger. Arming signal detected. Time remaining: [bomb.get_time_left()].")
 
-/obj/item/pinpointer/nuke/process(seconds_per_tick)
+/obj/item/pinpointer/nuke/process()
 	..()
-	if(!active || alert)
-		return
-	for(var/obj/machinery/nuclearbomb/bomb as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/nuclearbomb))
-		if(!bomb.timing)
-			continue
-		alert = TRUE
-		playsound(src, 'sound/items/nuke_toy_lowpower.ogg', 50, FALSE)
-		if(isliving(loc))
-			var/mob/living/alerted_holder = loc
-			to_chat(alerted_holder, span_userdanger("Your [name] vibrates and lets out an ominous alarm. Uh oh."))
-		return
+	if(active) // If shit's going down
+		for(var/obj/machinery/nuclearbomb/bomb in GLOB.nuke_list)
+			if(bomb.timing)
+				if(!alert)
+					alert = TRUE
+					playsound(src, 'sound/items/nuke_toy_lowpower.ogg', 50, 0)
+					if(isliving(loc))
+						var/mob/living/L = loc
+						to_chat(L, "<span class='userdanger'>Your [name] vibrates and lets out a tinny alarm. Uh oh.</span>")
 
 /obj/item/pinpointer/nuke/scan_for_target()
 	target = null
 	switch(mode)
 		if(TRACK_NUKE_DISK)
-			var/obj/item/disk/nuclear/N = locate() in SSpoints_of_interest.real_nuclear_disks
+			var/obj/item/disk/nuclear/N = locate() in GLOB.poi_list
 			target = N
 		if(TRACK_MALF_AI)
 			for(var/V in GLOB.ai_list)
 				var/mob/living/silicon/ai/A = V
 				if(A.nuking)
 					target = A
-			for(var/obj/machinery/power/apc/apc as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/power/apc))
-				if(apc.malfhack && apc.occupier)
-					target = apc
+			for(var/V in GLOB.apcs_list)
+				var/obj/machinery/power/apc/A = V
+				if(A.malfhack && A.occupier)
+					target = A
 		if(TRACK_INFILTRATOR)
 			target = SSshuttle.getShuttle("syndicate")
 	..()
@@ -54,8 +52,8 @@
 /obj/item/pinpointer/nuke/proc/switch_mode_to(new_mode)
 	if(isliving(loc))
 		var/mob/living/L = loc
-		to_chat(L, span_userdanger("Your [name] beeps as it reconfigures it's tracking algorithms."))
-		playsound(L, 'sound/machines/triple_beep.ogg', 50, TRUE)
+		to_chat(L, "<span class='userdanger'>Your [name] beeps as it reconfigures it's tracking algorithms.</span>")
+		playsound(L, 'sound/machines/triple_beep.ogg', 50, 1)
 	mode = new_mode
 	scan_for_target()
 
@@ -63,17 +61,12 @@
 	name = "syndicate pinpointer"
 	desc = "A handheld tracking device that locks onto certain signals. It's configured to switch tracking modes once it detects the activation signal of a nuclear device."
 	icon_state = "pinpointer_syndicate"
-	worn_icon_state = "pinpointer_black"
 
 /obj/item/pinpointer/syndicate_cyborg // Cyborg pinpointers just look for a random operative.
 	name = "cyborg syndicate pinpointer"
 	desc = "An integrated tracking device, jury-rigged to search for living Syndicate operatives."
+	item_flags = NODROP
 	flags_1 = NONE
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
-
-/obj/item/pinpointer/syndicate_cyborg/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CYBORG_ITEM_TRAIT)
 
 /obj/item/pinpointer/syndicate_cyborg/cyborg_unequip(mob/user)
 	if(!active)

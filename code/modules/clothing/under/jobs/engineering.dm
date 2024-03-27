@@ -1,71 +1,42 @@
 //Contains: Engineering department jumpsuits
-
-/obj/item/clothing/under/rank/engineering
-	icon = 'icons/obj/clothing/under/engineering.dmi'
-	worn_icon = 'icons/mob/clothing/under/engineering.dmi'
-	armor_type = /datum/armor/clothing_under/rank_engineering
-	resistance_flags = NONE
-
-/datum/armor/clothing_under/rank_engineering
-	fire = 60
-	acid = 20
-
-/obj/item/clothing/under/rank/engineering/chief_engineer
-	desc = "It's a high visibility jumpsuit given to those engineers insane enough to achieve the rank of \"Chief Engineer\". Made from fire resistant materials."
+/obj/item/clothing/under/rank/chief_engineer
+	desc = "It's a high visibility jumpsuit given to those engineers insane enough to achieve the rank of \"Chief Engineer\". It has minor radiation shielding."
 	name = "chief engineer's jumpsuit"
 	icon_state = "chiefengineer"
-	inhand_icon_state = "gy_suit"
-	armor_type = /datum/armor/clothing_under/engineering_chief_engineer
+	item_state = "gy_suit"
+	item_color = "chief"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 10, "fire" = 80, "acid" = 40)
+	resistance_flags = NONE
 
-/datum/armor/clothing_under/engineering_chief_engineer
-	fire = 80
-	acid = 40
-
-/obj/item/clothing/under/rank/engineering/chief_engineer/skirt
-	name = "chief engineer's jumpskirt"
-	desc = "It's a high visibility jumpskirt given to those engineers insane enough to achieve the rank of \"Chief Engineer\". Made from fire resistant materials."
-	icon_state = "chief_skirt"
-	inhand_icon_state = "gy_suit"
-	body_parts_covered = CHEST|GROIN|ARMS
-	dying_key = DYE_REGISTRY_JUMPSKIRT
-	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
-	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
-
-/obj/item/clothing/under/rank/engineering/atmospheric_technician
-	desc = "It's a jumpsuit worn by atmospheric technicians. Made from fire resistant materials."
+/obj/item/clothing/under/rank/atmospheric_technician
+	desc = "It's a jumpsuit worn by atmospheric technicians."
 	name = "atmospheric technician's jumpsuit"
 	icon_state = "atmos"
-	inhand_icon_state = "atmos_suit"
+	item_state = "atmos_suit"
+	item_color = "atmos"
+	resistance_flags = NONE
 
-/obj/item/clothing/under/rank/engineering/atmospheric_technician/skirt
-	name = "atmospheric technician's jumpskirt"
-	desc = "It's a jumpskirt worn by atmospheric technicians. Made from fire resistant materials."
-	icon_state = "atmos_skirt"
-	inhand_icon_state = "atmos_suit"
-	body_parts_covered = CHEST|GROIN|ARMS
-	dying_key = DYE_REGISTRY_JUMPSKIRT
-	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
-	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
-
-/obj/item/clothing/under/rank/engineering/engineer
-	desc = "It's an orange high visibility jumpsuit worn by engineers. Made from fire resistant materials."
+/obj/item/clothing/under/rank/engineer
+	desc = "It's an orange high visibility jumpsuit worn by engineers. It has minor radiation shielding."
 	name = "engineer's jumpsuit"
 	icon_state = "engine"
-	inhand_icon_state = "engi_suit"
+	item_state = "engi_suit"
+	item_color = "engine"
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 10, "fire" = 60, "acid" = 20)
+	resistance_flags = NONE
 
-/obj/item/clothing/under/rank/engineering/engineer/hazard
+/obj/item/clothing/under/rank/engineer/hazard
 	name = "engineer's hazard jumpsuit"
-	desc = "A high visibility jumpsuit. Made from fire resistant materials."
+	desc = "A high visibility jumpsuit made from heat and radiation resistant materials."
 	icon_state = "hazard"
-	inhand_icon_state = "syndicate-orange"
+	item_state = "suit-orange"
+	item_color = "hazard"
 	alt_covers_chest = TRUE
 
-/obj/item/clothing/under/rank/engineering/engineer/skirt
-	name = "engineer's jumpskirt"
-	desc = "It's an orange high visibility jumpskirt worn by engineers. Made from fire resistant materials."
-	icon_state = "engine_skirt"
-	inhand_icon_state = "engi_suit"
-	body_parts_covered = CHEST|GROIN|ARMS
-	dying_key = DYE_REGISTRY_JUMPSKIRT
-	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
-	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+/obj/item/clothing/under/rank/roboticist
+	desc = "It's a slimming black with reinforced seams; great for industrial work."
+	name = "roboticist's jumpsuit"
+	icon_state = "robotics"
+	item_state = "robotics"
+	item_color = "robotics"
+	resistance_flags = NONE

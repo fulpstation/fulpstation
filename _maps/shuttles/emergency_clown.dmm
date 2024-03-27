@@ -6,7 +6,7 @@
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/escape)
 "ac" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
+/obj/effect/spawner/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/shuttle/escape)
 "ad" = (
@@ -14,7 +14,7 @@
 /area/shuttle/escape)
 "ae" = (
 /obj/structure/table,
-/obj/item/storage/medkit/fire,
+/obj/item/storage/firstaid/fire,
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "af" = (
@@ -29,7 +29,7 @@
 /area/shuttle/escape)
 "ah" = (
 /obj/structure/table,
-/obj/item/storage/medkit/regular{
+/obj/item/storage/firstaid/regular{
 	pixel_x = 2;
 	pixel_y = 3
 	},
@@ -74,12 +74,22 @@
 /obj/structure/chair/comfy/shuttle{
 	dir = 8
 	},
-/obj/structure/extinguisher_cabinet/directional/south,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "ap" = (
-/obj/item/radio/intercom/directional/south,
+/obj/item/radio/intercom{
+	name = "Station Intercom (General)";
+	pixel_y = -29
+	},
 /obj/item/toy/snappop/phoenix,
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"aq" = (
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/light,
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "ar" = (
@@ -94,13 +104,23 @@
 	},
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
+"at" = (
+/obj/machinery/status_display/evac,
+/turf/closed/wall/mineral/titanium,
+/area/shuttle/escape)
 "au" = (
 /turf/open/chasm,
 /area/shuttle/escape)
+"av" = (
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
 "ay" = (
 /obj/structure/table,
-/obj/item/storage/medkit/fire,
-/obj/item/storage/medkit/regular{
+/obj/item/storage/firstaid/fire,
+/obj/item/storage/firstaid/regular{
 	pixel_x = 2;
 	pixel_y = 3
 	},
@@ -111,8 +131,8 @@
 /obj/item/greentext/quiet{
 	anchored = 1
 	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/shuttle/escape/brig)
+/turf/open/floor/mineral/plastitanium/red/brig,
+/area/shuttle/escape)
 "aA" = (
 /obj/machinery/door/airlock/bananium/glass{
 	name = "Emergency Shuttle Greentext"
@@ -137,6 +157,14 @@
 "aF" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/escape)
+"aG" = (
+/obj/structure/table,
+/obj/item/toy/sword,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
 "aH" = (
 /obj/structure/table,
 /obj/item/toy/sword,
@@ -151,14 +179,58 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
-"aK" = (
-/obj/structure/extinguisher_cabinet/directional/north,
+"aJ" = (
 /obj/item/toy/snappop/phoenix,
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"aK" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = -5;
+	pixel_y = 30
+	},
+/obj/item/toy/snappop/phoenix,
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
+"aL" = (
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 27
+	},
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
 "aM" = (
 /obj/structure/bed,
-/obj/effect/spawner/random/bedsheet/any,
+/obj/item/bedsheet/random,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"aN" = (
+/obj/structure/window/reinforced{
+	dir = 4
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"aO" = (
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/turf/open/floor/mineral/bananium,
+/area/shuttle/escape)
+"aP" = (
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/structure/window/reinforced{
+	dir = 8
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aQ" = (
@@ -167,8 +239,15 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/escape)
+"aR" = (
+/obj/item/toy/snappop/phoenix,
+/obj/machinery/light/small,
+/turf/open/floor/bluespace,
+/area/shuttle/escape)
 "aS" = (
-/obj/structure/extinguisher_cabinet/directional/south,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = -30
+	},
 /obj/item/toy/snappop/phoenix,
 /turf/open/floor/bluespace,
 /area/shuttle/escape)
@@ -188,31 +267,44 @@
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aW" = (
-/obj/structure/extinguisher_cabinet/directional/east,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 27
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aX" = (
-/obj/machinery/stasis,
+/obj/machinery/sleeper{
+	dir = 8
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aY" = (
-/obj/machinery/light/small/directional/west,
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 8
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "aZ" = (
-/obj/machinery/light/small/directional/east,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "bb" = (
 /obj/structure/table,
-/obj/item/storage/medkit/fire,
-/obj/item/storage/medkit/regular{
+/obj/item/storage/firstaid/fire,
+/obj/item/storage/firstaid/regular{
 	pixel_x = 2;
 	pixel_y = 3
 	},
 /obj/item/crowbar,
-/obj/structure/extinguisher_cabinet/directional/east,
-/obj/machinery/light/small/directional/east,
+/obj/structure/extinguisher_cabinet{
+	pixel_x = 27
+	},
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "bc" = (
@@ -235,93 +327,16 @@
 	},
 /turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
+"bf" = (
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/obj/structure/shuttle/engine/heater,
+/turf/open/floor/plating/airless,
+/area/shuttle/escape)
 "bg" = (
-/obj/machinery/power/shuttle_engine/propulsion,
+/obj/structure/shuttle/engine/propulsion,
 /turf/open/floor/plating/airless,
-/area/shuttle/escape)
-"ex" = (
-/obj/item/toy/snappop/phoenix,
-/obj/machinery/status_display/evac/directional/south,
-/turf/open/floor/bluespace,
-/area/shuttle/escape)
-"iU" = (
-/obj/structure/bed,
-/obj/effect/spawner/random/bedsheet/any,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"kT" = (
-/obj/structure/bed{
-	dir = 4
-	},
-/obj/effect/spawner/random/bedsheet/any{
-	dir = 4
-	},
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"lG" = (
-/obj/item/toy/snappop/phoenix,
-/obj/machinery/light/floor,
-/turf/open/floor/bluespace,
-/area/shuttle/escape)
-"ns" = (
-/obj/item/toy/snappop/phoenix,
-/obj/machinery/light/directional/south,
-/turf/open/floor/bluespace,
-/area/shuttle/escape)
-"pi" = (
-/obj/structure/window/reinforced/spawner/directional/north,
-/obj/machinery/power/shuttle_engine/heater,
-/turf/open/floor/plating/airless,
-/area/shuttle/escape)
-"tA" = (
-/obj/structure/extinguisher_cabinet/directional/east,
-/obj/item/toy/snappop/phoenix,
-/turf/open/floor/bluespace,
-/area/shuttle/escape)
-"za" = (
-/obj/structure/table,
-/obj/item/toy/sword,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"Hv" = (
-/obj/structure/bed{
-	dir = 4
-	},
-/obj/effect/spawner/random/bedsheet/any{
-	dir = 4
-	},
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"Lb" = (
-/obj/structure/window/reinforced/spawner/directional/west,
-/obj/structure/bed{
-	dir = 4
-	},
-/obj/effect/spawner/random/bedsheet/any{
-	dir = 4
-	},
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"RX" = (
-/obj/item/toy/snappop/phoenix,
-/obj/machinery/vending/wallmed/directional/north{
-	use_power = 0
-	},
-/turf/open/floor/bluespace,
-/area/shuttle/escape)
-"XT" = (
-/obj/structure/window/reinforced/spawner/directional/east,
-/obj/structure/bed,
-/obj/effect/spawner/random/bedsheet/any,
-/turf/open/floor/mineral/bananium,
-/area/shuttle/escape)
-"YC" = (
-/obj/machinery/status_display/evac/directional/north,
-/obj/machinery/light/small/directional/north,
-/turf/open/floor/mineral/bananium,
 /area/shuttle/escape)
 "Zf" = (
 /obj/structure/closet/emcloset,
@@ -363,13 +378,13 @@ au
 au
 au
 ab
-ak
-Hv
-kT
-kT
-kT
-Hv
-ak
+aJ
+aM
+aM
+aM
+aM
+aM
+aR
 ab
 aV
 aY
@@ -398,7 +413,7 @@ ab
 aV
 aV
 bc
-pi
+bf
 bg
 "}
 (4,1,1) = {"
@@ -412,17 +427,17 @@ au
 au
 ab
 ak
-XT
-XT
-XT
-XT
-XT
+aN
+aN
+aN
+aN
+aN
 ak
 aT
 aV
 aV
 bd
-pi
+bf
 bg
 "}
 (5,1,1) = {"
@@ -435,42 +450,42 @@ ac
 aA
 ac
 aF
-RX
-Lb
-Lb
-Lb
-Lb
-Lb
+ak
+aO
+aO
+aO
+aO
+aO
 ak
 ab
 aW
 aZ
 be
-pi
+bf
 bg
 "}
 (6,1,1) = {"
 ac
 ag
 ak
-ns
+aq
 ab
-aV
+av
 ak
 aC
-za
+aG
 ak
 ak
 ak
-lG
 ak
 ak
-ex
+ak
+aq
+at
 ab
 ab
 ab
-ab
-pi
+bf
 bg
 "}
 (7,1,1) = {"
@@ -484,17 +499,17 @@ ak
 aD
 aH
 ak
-XT
-XT
-XT
-XT
-XT
+aN
+aN
+aN
+aN
+aN
 ak
 ac
 Zf
 aY
 Zf
-pi
+bf
 bg
 "}
 (8,1,1) = {"
@@ -502,23 +517,23 @@ ac
 ah
 al
 al
-ab
-YC
+at
+aV
 ak
 aE
 aH
 ak
-Lb
-Lb
-Lb
-Lb
-Lb
+aP
+aO
+aO
+aO
+aO
 ak
 aU
 aV
 aV
 aV
-pi
+bf
 bg
 "}
 (9,1,1) = {"
@@ -542,7 +557,7 @@ ac
 aV
 aV
 aV
-pi
+bf
 bg
 "}
 (10,1,1) = {"
@@ -555,13 +570,13 @@ ay
 aZ
 aV
 aV
-tA
-iU
+aL
 aM
 aM
 aM
-iU
-tA
+aM
+aM
+aL
 ac
 aX
 bb

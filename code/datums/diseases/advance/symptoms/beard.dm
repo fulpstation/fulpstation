@@ -1,16 +1,23 @@
-/** Facial Hypertrichosis
- * No change to stealth.
- * Increases resistance.
- * Increases speed.
- * Slighlty increases transmissibility
- * Intense Level.
- * Bonus: Makes the mob grow a massive beard, regardless of gender.
+/*
+//////////////////////////////////////
+Facial Hypertrichosis
+
+	No change to stealth.
+	Increases resistance.
+	Increases speed.
+	Slighlty increases transmittability
+	Intense Level.
+
+BONUS
+	Makes the mob grow a massive beard, regardless of gender.
+
+//////////////////////////////////////
 */
 
 /datum/symptom/beard
+
 	name = "Facial Hypertrichosis"
 	desc = "The virus increases hair production significantly, causing rapid beard growth."
-	illness = "Man-Mouth"
 	stealth = 0
 	resistance = 3
 	stage_speed = 2
@@ -20,17 +27,25 @@
 	symptom_delay_min = 18
 	symptom_delay_max = 36
 
-	var/list/beard_order = list("Beard (Jensen)", "Beard (Full)", "Beard (Dwarf)", "Beard (Very Long)")
-
-/datum/symptom/beard/Activate(datum/disease/advance/disease)
-	. = ..()
-	if(!.)
+/datum/symptom/beard/Activate(datum/disease/advance/A)
+	if(!..())
 		return
-
-	var/mob/living/manly_mob = disease.affected_mob
-	if(ishuman(manly_mob))
-		var/mob/living/carbon/human/manly_man = manly_mob
-		var/index = min(max(beard_order.Find(manly_man.facial_hairstyle)+1, disease.stage-1), beard_order.len)
-		if(index > 0 && manly_man.facial_hairstyle != beard_order[index])
-			to_chat(manly_man, span_warning("Your chin itches."))
-			manly_man.set_facial_hairstyle(beard_order[index], update = TRUE)
+	var/mob/living/M = A.affected_mob
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		switch(A.stage)
+			if(1, 2)
+				to_chat(H, "<span class='warning'>Your chin itches.</span>")
+				if(H.facial_hair_style == "Shaved")
+					H.facial_hair_style = "Jensen Beard"
+					H.update_hair()
+			if(3, 4)
+				to_chat(H, "<span class='warning'>You feel tough.</span>")
+				if(!(H.facial_hair_style == "Dwarf Beard") && !(H.facial_hair_style == "Very Long Beard") && !(H.facial_hair_style == "Full Beard"))
+					H.facial_hair_style = "Full Beard"
+					H.update_hair()
+			else
+				to_chat(H, "<span class='warning'>You feel manly!</span>")
+				if(!(H.facial_hair_style == "Dwarf Beard") && !(H.facial_hair_style == "Very Long Beard"))
+					H.facial_hair_style = pick("Dwarf Beard", "Very Long Beard")
+					H.update_hair()

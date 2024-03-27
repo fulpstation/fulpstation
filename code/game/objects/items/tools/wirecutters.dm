@@ -3,81 +3,119 @@
 	desc = "This cuts wires."
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "cutters_map"
-	worn_icon_state = "cutters"
-	inhand_icon_state = "cutters"
+	item_state = "cutters"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
-
-	greyscale_config = /datum/greyscale_config/wirecutters
-	greyscale_config_belt = /datum/greyscale_config/wirecutters_belt_overlay
-	greyscale_config_inhand_left = /datum/greyscale_config/wirecutter_inhand_left
-	greyscale_config_inhand_right = /datum/greyscale_config/wirecutter_inhand_right
-
-	obj_flags = CONDUCTS_ELECTRICITY
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 	force = 6
 	throw_speed = 3
 	throw_range = 7
 	w_class = WEIGHT_CLASS_SMALL
-	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.8)
-	attack_verb_continuous = list("pinches", "nips")
-	attack_verb_simple = list("pinch", "nip")
+	materials = list(MAT_METAL=80)
+	attack_verb = list("pinched", "nipped")
 	hitsound = 'sound/items/wirecutter.ogg'
 	usesound = 'sound/items/wirecutter.ogg'
-	drop_sound = 'sound/items/handling/wirecutter_drop.ogg'
-	pickup_sound = 'sound/items/handling/wirecutter_pickup.ogg'
+
 	tool_behaviour = TOOL_WIRECUTTER
 	toolspeed = 1
-	armor_type = /datum/armor/item_wirecutters
-	/// If the item should be assigned a random color
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30)
 	var/random_color = TRUE
-	/// List of possible random colors
 	var/static/list/wirecutter_colors = list(
-		COLOR_TOOL_BLUE,
-		COLOR_TOOL_RED,
-		COLOR_TOOL_PINK,
-		COLOR_TOOL_BROWN,
-		COLOR_TOOL_GREEN,
-		COLOR_TOOL_CYAN,
-		COLOR_TOOL_YELLOW,
+		"blue" = "#1861d5",
+		"red" = "#951710",
+		"pink" = "#d5188d",
+		"brown" = "#a05212",
+		"green" = "#0e7f1b",
+		"cyan" = "#18a2d5",
+		"yellow" = "#d58c18"
 	)
-	/// Used on Initialize, how much time to cut cable restraints and zipties.
-	var/snap_time_weak_handcuffs = 0 SECONDS
-	/// Used on Initialize, how much time to cut real handcuffs. Null means it can't.
-	var/snap_time_strong_handcuffs = null
 
-/datum/armor/item_wirecutters
-	fire = 50
-	acid = 30
 
-/obj/item/wirecutters/Initialize(mapload)
-	if(random_color)
-		set_greyscale(colors = list(pick(wirecutter_colors)))
+/obj/item/wirecutters/Initialize()
+	. = ..()
+	if(random_color) //random colors!
+		icon_state = "cutters"
+		var/our_color = pick(wirecutter_colors)
+		add_atom_colour(wirecutter_colors[our_color], FIXED_COLOUR_PRIORITY)
+		update_icon()
 
-	AddElement(/datum/element/falling_hazard, damage = force, wound_bonus = wound_bonus, hardhat_safety = TRUE, crushes = FALSE, impact_sound = hitsound)
-	AddElement(/datum/element/cuffsnapping, snap_time_weak_handcuffs, snap_time_strong_handcuffs)
-	return ..()
+/obj/item/wirecutters/update_icon()
+	if(!random_color) //icon override
+		return
+	cut_overlays()
+	var/mutable_appearance/base_overlay = mutable_appearance(icon, "cutters_cutty_thingy")
+	base_overlay.appearance_flags = RESET_COLOR
+	add_overlay(base_overlay)
 
-/obj/item/wirecutters/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] is cutting at [user.p_their()] arteries with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, usesound, 50, TRUE, -1)
-	return BRUTELOSS
+/obj/item/wirecutters/attack(mob/living/carbon/C, mob/user)
+	if(istype(C) && C.handcuffed && istype(C.handcuffed, /obj/item/restraints/handcuffs/cable))
+		user.visible_message("<span class='notice'>[user] cuts [C]'s restraints with [src]!</span>")
+		qdel(C.handcuffed)
+		return
+	else
+		..()
+
+/obj/item/wirecutters/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is cutting at [user.p_their()] arteries with [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	playsound(loc, usesound, 50, 1, -1)
+	return (BRUTELOSS)
+
+/obj/item/wirecutters/brass
+	name = "brass wirecutters"
+	desc = "A pair of wirecutters made of brass. The handle feels freezing cold to the touch."
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	icon_state = "cutters_brass"
+	random_color = FALSE
+	toolspeed = 0.5
 
 /obj/item/wirecutters/abductor
 	name = "alien wirecutters"
 	desc = "Extremely sharp wirecutters, made out of a silvery-green metal."
-	icon = 'icons/obj/antags/abductor.dmi'
-	custom_materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT * 2.5, /datum/material/silver = SHEET_MATERIAL_AMOUNT*1.25, /datum/material/plasma =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/titanium =SHEET_MATERIAL_AMOUNT, /datum/material/diamond =SHEET_MATERIAL_AMOUNT)
+	icon = 'icons/obj/abductor.dmi'
 	icon_state = "cutters"
 	toolspeed = 0.1
+
 	random_color = FALSE
-	snap_time_strong_handcuffs = 1 SECONDS
 
 /obj/item/wirecutters/cyborg
-	name = "powered wirecutters"
-	desc = "Cuts wires with the power of ELECTRICITY. Faster than normal wirecutters."
-	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "wirecutters_cyborg"
-	worn_icon_state = "cutters"
+	name = "wirecutters"
+	desc = "This cuts wires."
 	toolspeed = 0.5
+
+/obj/item/wirecutters/power
+	name = "jaws of life"
+	desc = "A set of jaws of life, compressed through the magic of science. It's fitted with a cutting head."
+	icon_state = "jaws_cutter"
+	item_state = "jawsoflife"
+
+	materials = list(MAT_METAL=150,MAT_SILVER=50,MAT_TITANIUM=25)
+	usesound = 'sound/items/jaws_cut.ogg'
+	toolspeed = 0.7
 	random_color = FALSE
+
+/obj/item/wirecutters/power/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is wrapping \the [src] around [user.p_their()] neck. It looks like [user.p_theyre()] trying to rip [user.p_their()] head off!</span>")
+	playsound(loc, 'sound/items/jaws_cut.ogg', 50, 1, -1)
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/bodypart/BP = C.get_bodypart(BODY_ZONE_HEAD)
+		if(BP)
+			BP.drop_limb()
+			playsound(loc,pick('sound/misc/desceration-01.ogg','sound/misc/desceration-02.ogg','sound/misc/desceration-01.ogg') ,50, 1, -1)
+	return (BRUTELOSS)
+
+/obj/item/wirecutters/power/attack_self(mob/user)
+	playsound(get_turf(user), 'sound/items/change_jaws.ogg', 50, 1)
+	var/obj/item/crowbar/power/pryjaws = new /obj/item/crowbar/power(drop_location())
+	to_chat(user, "<span class='notice'>You attach the pry jaws to [src].</span>")
+	qdel(src)
+	user.put_in_active_hand(pryjaws)
+
+/obj/item/wirecutters/power/attack(mob/living/carbon/C, mob/user)
+	if(istype(C) && C.handcuffed)
+		user.visible_message("<span class='notice'>[user] cuts [C]'s restraints with [src]!</span>")
+		qdel(C.handcuffed)
+		return
+	else
+		..()

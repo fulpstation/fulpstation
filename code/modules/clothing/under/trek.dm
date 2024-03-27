@@ -1,83 +1,72 @@
 //Just some alt-uniforms themed around Star Trek - Pls don't sue, Mr Roddenberry ;_;
 
+
 /obj/item/clothing/under/trek
 	can_adjust = FALSE
-	icon = 'icons/obj/clothing/under/trek.dmi'
-	worn_icon = 'icons/mob/clothing/under/trek.dmi'
 
-/*
-*	The Original Series (Technically not THE original because these have a black undershirt while the very-original didn't but IDC)
-*/
+
+//TOS
 /obj/item/clothing/under/trek/command
 	name = "command uniform"
-	desc = "An outdated uniform worn by command officers."
-	icon_state = "trek_tos_com" //Shirt has gold wrist-bands
-	inhand_icon_state = "y_suit"
-	greyscale_config = /datum/greyscale_config/trek
-	greyscale_config_worn = /datum/greyscale_config/trek/worn
-	greyscale_colors = "#fab342"
+	desc = "The uniform worn by command officers."
+	icon_state = "trek_command"
+	item_color = "trek_command"
+	item_state = "y_suit"
 
 /obj/item/clothing/under/trek/engsec
 	name = "engsec uniform"
-	desc = "An outdated uniform worn by engineering/security officers."
-	icon_state = "trek_tos_sec" //Tucked-in shirt
-	inhand_icon_state = "r_suit"
-	greyscale_config = /datum/greyscale_config/trek
-	greyscale_config_worn = /datum/greyscale_config/trek/worn
-	greyscale_colors = "#B72B2F"
+	desc = "The uniform worn by engineering/security officers."
+	icon_state = "trek_engsec"
+	item_color = "trek_engsec"
+	item_state = "r_suit"
+	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0) //more sec than eng, but w/e.
+	strip_delay = 50
 
 /obj/item/clothing/under/trek/medsci
 	name = "medsci uniform"
-	desc = "An outdated worn by medical/science officers."
-	icon_state = "trek_tos"
-	inhand_icon_state = "b_suit"
-	greyscale_config = /datum/greyscale_config/trek
-	greyscale_config_worn = /datum/greyscale_config/trek/worn
-	greyscale_colors = "#5FA4CC"
+	desc = "The uniform worn by medical/science officers."
+	icon_state = "trek_medsci"
+	item_color = "trek_medsci"
+	item_state = "b_suit"
 
-/*
-*	The Next Generation
-*/
+
+//TNG
 /obj/item/clothing/under/trek/command/next
-	icon_state = "trek_next" //Technically TNG had Command wearing red, but bc gold is closer to command roles for SS13 we're taking some liberties
+	icon_state = "trek_next_command"
+	item_color = "trek_next_command"
+	item_state = "r_suit"
 
 /obj/item/clothing/under/trek/engsec/next
-	icon_state = "trek_next"
+	icon_state = "trek_next_engsec"
+	item_color = "trek_next_engsec"
+	item_state = "y_suit"
 
 /obj/item/clothing/under/trek/medsci/next
-	icon_state = "trek_next"
+	icon_state = "trek_next_medsci"
+	item_color = "trek_next_medsci"
 
-/*
-*	Voyager
-*/
-/obj/item/clothing/under/trek/command/voy
-	icon_state = "trek_voy" //Same point applies as TNG
 
-/obj/item/clothing/under/trek/engsec/voy
-	icon_state = "trek_voy"
-
-/obj/item/clothing/under/trek/medsci/voy
-	icon_state = "trek_voy"
-
-/*
-*	Enterprise
-*/
+//ENT
 /obj/item/clothing/under/trek/command/ent
-	icon_state = "trek_ent"
-	//Greyscale sprite note, the base of it can't be greyscaled lest I make a whole new .json, but the color bands are greyscale at least.
-	inhand_icon_state = "bl_suit"
+	icon_state = "trek_ent_command"
+	item_color = "trek_ent_command"
+	item_state = "bl_suit"
 
 /obj/item/clothing/under/trek/engsec/ent
-	icon_state = "trek_ent"
-	inhand_icon_state = "bl_suit"
+	icon_state = "trek_ent_engsec"
+	item_color = "trek_ent_engsec"
+	item_state = "bl_suit"
 
 /obj/item/clothing/under/trek/medsci/ent
-	icon_state = "trek_ent"
-	inhand_icon_state = "bl_suit"
+	icon_state = "trek_ent_medsci"
+	item_color = "trek_ent_medsci"
+	item_state = "bl_suit"
+
 
 //Q
-/obj/item/clothing/under/trek/q
+/obj/item/clothing/under/trek/Q
 	name = "french marshall's uniform"
-	desc = "Something about this uniform feels off..."
+	desc = "Something about it feels off..."
 	icon_state = "trek_Q"
-	inhand_icon_state = "r_suit"
+	item_color = "trek_Q"
+	item_state = "r_suit"

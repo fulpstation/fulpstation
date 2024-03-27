@@ -1,12 +1,13 @@
-
 /proc/create_all_lighting_objects()
-	for(var/area/area as anything in GLOB.areas)
-		if(!area.static_lighting)
+	for(var/area/A in world)
+		if(!IS_DYNAMIC_LIGHTING(A))
 			continue
-		for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
-			for(var/turf/area_turf as anything in zlevel_turfs)
-				if(area_turf.space_lit)
-					continue
-				new /datum/lighting_object(area_turf)
+
+		for(var/turf/T in A)
+
+			if(!IS_DYNAMIC_LIGHTING(T))
+				continue
+
+			new/atom/movable/lighting_object(T)
 			CHECK_TICK
 		CHECK_TICK

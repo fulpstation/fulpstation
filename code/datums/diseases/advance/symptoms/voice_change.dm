@@ -1,16 +1,24 @@
-/*Voice Change
- * Slight stealth reduction
- * Reduces resistance
- * Reduces stage speed
- * Increases transmissibility
- * Fatal level
- * Bonus: Changes the voice of the affected mob. Causing confusion in communication.
+/*
+//////////////////////////////////////
+
+Voice Change
+
+	Noticeable.
+	Lowers resistance.
+	Decreases stage speed.
+	Increased transmittable.
+	Fatal Level.
+
+Bonus
+	Changes the voice of the affected mob. Causing confusion in communication.
+
+//////////////////////////////////////
 */
 
 /datum/symptom/voice_change
+
 	name = "Voice Change"
 	desc = "The virus alters the pitch and tone of the host's vocal cords, changing how their voice sounds."
-	illness = "Mime Crisis"
 	stealth = -1
 	resistance = -2
 	stage_speed = -2
@@ -20,45 +28,46 @@
 	base_message_chance = 100
 	symptom_delay_min = 60
 	symptom_delay_max = 120
-	required_organ = ORGAN_SLOT_TONGUE
-	threshold_descs = list(
-		"Transmission 14" = "The host's language center of the brain is damaged, leading to complete inability to speak or understand any language.",
-		"Stage Speed 7" = "Changes voice more often.",
-		"Stealth 3" = "The symptom remains hidden until active."
-	)
 	var/scramble_language = FALSE
 	var/datum/language/current_language
+	var/datum/language_holder/original_language
+	threshold_desc = "<b>Transmission 14:</b> The host's language center of the brain is damaged, leading to complete inability to speak or understand any language.<br>\
+					  <b>Stage Speed 7:</b> Changes voice more often.<br>\
+					  <b>Stealth 3:</b> The symptom remains hidden until active."
 
 /datum/symptom/voice_change/Start(datum/disease/advance/A)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
-	if(A.totalStealth() >= 3)
+	if(A.properties["stealth"] >= 3)
 		suppress_warning = TRUE
-	if(A.totalStageSpeed() >= 7) //faster change of voice
+	if(A.properties["stage_rate"] >= 7) //faster change of voice
 		base_message_chance = 25
 		symptom_delay_min = 25
 		symptom_delay_max = 85
-	if(A.totalTransmittable() >= 14) //random language
+	if(A.properties["transmittable"] >= 14) //random language
 		scramble_language = TRUE
+		var/mob/living/M = A.affected_mob
+		var/datum/language_holder/mob_language = M.get_language_holder()
+		original_language = mob_language.copy()
 
 /datum/symptom/voice_change/Activate(datum/disease/advance/A)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
 	var/mob/living/carbon/M = A.affected_mob
 	switch(A.stage)
 		if(1, 2, 3, 4)
 			if(prob(base_message_chance) && !suppress_warning)
-				to_chat(M, span_warning("[pick("Your throat hurts.", "You clear your throat.")]"))
+				to_chat(M, "<span class='warning'>[pick("Your throat hurts.", "You clear your throat.")]</span>")
 		else
 			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
 				H.SetSpecialVoice(H.dna.species.random_name(H.gender))
-				if(scramble_language && !current_language) // Last part prevents rerolling language with small amounts of cure.
+				if(scramble_language)
+					H.remove_language(current_language)
 					current_language = pick(subtypesof(/datum/language) - /datum/language/common)
-					H.add_blocked_language(subtypesof(/datum/language) - current_language, LANGUAGE_VOICECHANGE)
-					H.grant_language(current_language, source = LANGUAGE_VOICECHANGE)
+					H.grant_language(current_language)
+					var/datum/language_holder/mob_language = H.get_language_holder()
+					mob_language.only_speaks_language = current_language
 
 /datum/symptom/voice_change/End(datum/disease/advance/A)
 	..()
@@ -66,5 +75,7 @@
 		var/mob/living/carbon/human/H = A.affected_mob
 		H.UnsetSpecialVoice()
 	if(scramble_language)
-		A.affected_mob.remove_blocked_language(subtypesof(/datum/language), LANGUAGE_VOICECHANGE)
-		A.affected_mob.remove_all_languages(LANGUAGE_VOICECHANGE) // In case someone managed to get more than one anyway.
+		var/mob/living/M = A.affected_mob
+		M.copy_known_languages_from(original_language, TRUE)
+		current_language = null
+		QDEL_NULL(original_language)

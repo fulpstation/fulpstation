@@ -1,10 +1,10 @@
 /obj/machinery/implantchair
 	name = "mindshield implanter"
 	desc = "Used to implant occupants with mindshield implants."
-	icon = 'icons/obj/machines/implant_chair.dmi'
+	icon = 'icons/obj/machines/implantchair.dmi'
 	icon_state = "implantchair"
 	density = TRUE
-	opacity = FALSE
+	opacity = 0
 
 	var/ready = TRUE
 	var/replenishing = FALSE
@@ -21,42 +21,39 @@
 	var/message_cooldown
 	var/breakout_time = 600
 
-/obj/machinery/implantchair/Initialize(mapload)
+/obj/machinery/implantchair/Initialize()
 	. = ..()
 	open_machine()
-	update_appearance()
+	update_icon()
 
-/obj/machinery/implantchair/ui_state(mob/user)
-	return GLOB.notcontained_state
 
-/obj/machinery/implantchair/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
+/obj/machinery/implantchair/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.notcontained_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
-		ui = new(user, src, "ImplantChair", name)
+		ui = new(user, src, ui_key, "implantchair", name, 375, 280, master_ui, state)
 		ui.open()
+
 
 /obj/machinery/implantchair/ui_data()
 	var/list/data = list()
-	var/mob/living/mob_occupant = occupant
-
-	data["occupied"] = mob_occupant ? 1 : 0
+	data["occupied"] = occupant ? 1 : 0
 	data["open"] = state_open
 
 	data["occupant"] = list()
-	if(mob_occupant)
+	if(occupant)
+		var/mob/living/mob_occupant = occupant
 		data["occupant"]["name"] = mob_occupant.name
 		data["occupant"]["stat"] = mob_occupant.stat
 
 	data["special_name"] = special ? special_name : null
-	data["ready_implants"] = ready_implants
+	data["ready_implants"]  = ready_implants
 	data["ready"] = ready
 	data["replenishing"] = replenishing
 
 	return data
 
 /obj/machinery/implantchair/ui_act(action, params)
-	. = ..()
-	if(.)
+	if(..())
 		return
 	switch(action)
 		if("door")
@@ -66,7 +63,7 @@
 				open_machine()
 			. = TRUE
 		if("implant")
-			implant(occupant, usr)
+			implant(occupant,usr)
 			. = TRUE
 
 /obj/machinery/implantchair/proc/implant(mob/living/M,mob/user)
@@ -78,39 +75,37 @@
 		ready_implants--
 		if(!replenishing && auto_replenish)
 			replenishing = TRUE
-			addtimer(CALLBACK(src, PROC_REF(replenish)),replenish_cooldown)
+			addtimer(CALLBACK(src,"replenish"),replenish_cooldown)
 		if(injection_cooldown > 0)
 			ready = FALSE
-			addtimer(CALLBACK(src, PROC_REF(set_ready)),injection_cooldown)
+			addtimer(CALLBACK(src,"set_ready"),injection_cooldown)
 	else
-		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 25, TRUE)
-	update_appearance()
+		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 25, 1)
+	update_icon()
 
 /obj/machinery/implantchair/proc/implant_action(mob/living/M)
 	var/obj/item/I = new implant_type
 	if(istype(I, /obj/item/implant))
 		var/obj/item/implant/P = I
 		if(P.implant(M))
-			visible_message(span_warning("[M] is implanted by [src]."))
+			visible_message("<span class='warning'>[M] has been implanted by [src].</span>")
 			return TRUE
-	else if(isorgan(I))
+	else if(istype(I, /obj/item/organ))
 		var/obj/item/organ/P = I
-		P.Insert(M, FALSE, FALSE)
-		visible_message(span_warning("[M] is implanted by [src]."))
+		P.Insert(M, drop_if_replaced = FALSE)
+		visible_message("<span class='warning'>[M] has been implanted by [src].</span>")
 		return TRUE
 
-/obj/machinery/implantchair/update_icon_state()
+/obj/machinery/implantchair/update_icon()
 	icon_state = initial(icon_state)
 	if(state_open)
 		icon_state += "_open"
 	if(occupant)
 		icon_state += "_occupied"
-	return ..()
-
-/obj/machinery/implantchair/update_overlays()
-	. = ..()
 	if(ready)
-		. += "ready"
+		add_overlay("ready")
+	else
+		cut_overlays()
 
 /obj/machinery/implantchair/proc/replenish()
 	if(ready_implants < max_implants)
@@ -122,38 +117,36 @@
 
 /obj/machinery/implantchair/proc/set_ready()
 	ready = TRUE
-	update_appearance()
+	update_icon()
 
-/obj/machinery/implantchair/container_resist_act(mob/living/user)
+/obj/machinery/implantchair/container_resist(mob/living/user)
 	user.changeNext_move(CLICK_CD_BREAKOUT)
 	user.last_special = world.time + CLICK_CD_BREAKOUT
-	user.visible_message(span_notice("You see [user] kicking against the door of [src]!"), \
-		span_notice("You lean on the back of [src] and start pushing the door open... (this will take about [DisplayTimeText(breakout_time)].)"), \
-		span_hear("You hear a metallic creaking from [src]."))
+	user.visible_message("<span class='notice'>You see [user] kicking against the door of [src]!</span>", \
+		"<span class='notice'>You lean on the back of [src] and start pushing the door open... (this will take about [DisplayTimeText(breakout_time)].)</span>", \
+		"<span class='italics'>You hear a metallic creaking from [src].</span>")
 	if(do_after(user,(breakout_time), target = src))
 		if(!user || user.stat != CONSCIOUS || user.loc != src || state_open)
 			return
-		user.visible_message(span_warning("[user] successfully broke out of [src]!"), \
-			span_notice("You successfully break out of [src]!"))
+		user.visible_message("<span class='warning'>[user] successfully broke out of [src]!</span>", \
+			"<span class='notice'>You successfully break out of [src]!</span>")
 		open_machine()
 
-/obj/machinery/implantchair/relaymove(mob/living/user, direction)
+/obj/machinery/implantchair/relaymove(mob/user)
 	if(message_cooldown <= world.time)
 		message_cooldown = world.time + 50
-		to_chat(user, span_warning("[src]'s door won't budge!"))
-
+		to_chat(user, "<span class='warning'>[src]'s door won't budge!</span>")
 
 /obj/machinery/implantchair/MouseDrop_T(mob/target, mob/user)
-	if(user.stat || !Adjacent(user) || !user.Adjacent(target) || !isliving(target) || !ISADVANCEDTOOLUSER(user))
+	if(user.stat || !Adjacent(user) || !user.Adjacent(target) || !isliving(target) || !user.IsAdvancedToolUser())
 		return
 	if(isliving(user))
 		var/mob/living/L = user
-		if(L.body_position == LYING_DOWN)
+		if(!(L.mobility_flags & MOBILITY_STAND))
 			return
 	close_machine(target)
 
-
-/obj/machinery/implantchair/close_machine(mob/living/user, density_to_set = TRUE)
+/obj/machinery/implantchair/close_machine(mob/living/user)
 	if((isnull(user) || istype(user)) && state_open)
 		..(user)
 		if(auto_inject && ready && ready_implants > 0)
@@ -169,11 +162,11 @@
 
 /obj/machinery/implantchair/genepurge/implant_action(mob/living/carbon/human/H,mob/user)
 	if(!istype(H))
-		return FALSE
+		return 0
 	H.set_species(/datum/species/human, 1)//lizards go home
 	purrbation_remove(H)//remove cats
 	H.dna.remove_all_mutations()//hulks out
-	return TRUE
+	return 1
 
 
 /obj/machinery/implantchair/brainwash
@@ -187,20 +180,18 @@
 	var/objective = "Obey the law. Praise Nanotrasen."
 	var/custom = FALSE
 
-/obj/machinery/implantchair/brainwash/implant_action(mob/living/C, mob/user)
+/obj/machinery/implantchair/brainwash/implant_action(mob/living/C,mob/user)
 	if(!istype(C) || !C.mind) // I don't know how this makes any sense for silicons but laws trump objectives anyway.
 		return FALSE
 	if(custom)
 		if(!user || !user.Adjacent(src))
 			return FALSE
-		objective = tgui_input_text(user, "What order do you want to imprint on [C]?", "Brainwashing", max_length = 120)
+		objective = stripped_input(usr,"What order do you want to imprint on [C]?","Enter the order","",120)
 		message_admins("[ADMIN_LOOKUPFLW(user)] set brainwash machine objective to '[objective]'.")
-		user.log_message("set brainwash machine objective to '[objective]'.", LOG_GAME)
-	if(HAS_TRAIT(C, TRAIT_MINDSHIELD))
+		log_game("[key_name(user)] set brainwash machine objective to '[objective]'.")
+	if(C.has_trait(TRAIT_MINDSHIELD))
 		return FALSE
 	brainwash(C, objective)
 	message_admins("[ADMIN_LOOKUPFLW(user)] brainwashed [key_name_admin(C)] with objective '[objective]'.")
-	user.log_message("has brainwashed [key_name(C)] with the objective '[objective]' using \the [src]", LOG_ATTACK)
-	C.log_message("has been brainwashed with the objective '[objective]' by [key_name(user)] using \the [src]", LOG_VICTIM, log_globally = FALSE)
 	log_game("[key_name(user)] brainwashed [key_name(C)] with objective '[objective]'.")
 	return TRUE

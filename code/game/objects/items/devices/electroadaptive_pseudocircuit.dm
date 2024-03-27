@@ -2,49 +2,45 @@
 /obj/item/electroadaptive_pseudocircuit
 	name = "electroadaptive pseudocircuit"
 	desc = "An all-in-one circuit imprinter, designer, synthesizer, outfitter, creator, and chef. It can be used in place of any generic circuit board during construction."
-	icon = 'icons/obj/devices/circuitry_n_data.dmi'
+	icon = 'icons/obj/module.dmi'
 	icon_state = "boris"
 	w_class = WEIGHT_CLASS_TINY
-	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 0.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 3)
+	materials = list(MAT_METAL = 50, MAT_GLASS = 300)
 	var/recharging = FALSE
 	var/circuits = 5 //How many circuits the pseudocircuit has left
-	var/static/recycleable_circuits = typecacheof(list(
-		/obj/item/electronics/firelock,
-		/obj/item/electronics/airalarm,
-		/obj/item/electronics/firealarm,
-		/obj/item/electronics/apc,
-	))//A typecache of circuits consumable for material
+	var/static/recycleable_circuits = typecacheof(list(/obj/item/electronics/firelock, /obj/item/electronics/airalarm, /obj/item/electronics/firealarm, \
+	/obj/item/electronics/apc))//A typecache of circuits consumable for material
 
-/obj/item/electroadaptive_pseudocircuit/Initialize(mapload)
+/obj/item/electroadaptive_pseudocircuit/Initialize()
 	. = ..()
-	maptext = MAPTEXT(circuits)
+	maptext = "[circuits]"
 
 /obj/item/electroadaptive_pseudocircuit/examine(mob/user)
-	. = ..()
+	..()
 	if(iscyborg(user))
-		. += "[span_notice("It has material for <b>[circuits]</b> circuit[circuits == 1 ? "" : "s"]. Use the pseudocircuit on existing circuits to gain material.")]\n"+\
-		"[span_notice("Serves as a substitute for <b>fire/air alarm</b>, <b>firelock</b>, and <b>APC</b> electronics.")]\n"+\
-		span_notice("It can also be used on an APC with no power cell to <b>fabricate a low-capacity cell</b> at a high power cost.")
+		to_chat(user, "<span class='notice'>It has material for <b>[circuits]</b> circuit[circuits == 1 ? "" : "s"]. Use the pseudocircuit on existing circuits to gain material.</span>")
+		to_chat(user, "<span class='notice'>Serves as a substitute for <b>fire/air alarm</b>, <b>firelock</b>, and <b>APC</b> electronics.</span>")
+		to_chat(user, "<span class='notice'>It can also be used on an APC with no power cell to <b>fabricate a low-capacity cell</b> at a high power cost.</span>")
 
 /obj/item/electroadaptive_pseudocircuit/proc/adapt_circuit(mob/living/silicon/robot/R, circuit_cost = 0)
 	if(QDELETED(R) || !istype(R))
 		return
 	if(!R.cell)
-		to_chat(R, span_warning("You need a power cell installed for that."))
+		to_chat(R, "<span class='warning'>You need a power cell installed for that.</span>")
 		return
 	if(!R.cell.use(circuit_cost))
-		to_chat(R, span_warning("You don't have the energy for that (you need [display_energy(circuit_cost)].)"))
+		to_chat(R, "<span class='warning'>You don't have the energy for that (you need [DisplayEnergy(circuit_cost)].)</span>")
 		return
 	if(recharging)
-		to_chat(R, span_warning("[src] needs some time to recharge first."))
+		to_chat(R, "<span class='warning'>[src] needs some time to recharge first.</span>")
 		return
 	if(!circuits)
-		to_chat(R, span_warning("You need more material. Use [src] on existing simple circuits to break them down."))
+		to_chat(R, "<span class='warning'>You need more material. Use [src] on existing simple circuits to break them down.</span>")
 		return
 	playsound(R, 'sound/items/rped.ogg', 50, TRUE)
 	recharging = TRUE
 	circuits--
-	maptext = MAPTEXT(circuits)
+	maptext = "[circuits]"
 	icon_state = "[initial(icon_state)]_recharging"
 	var/recharge_time = min(600, circuit_cost * 5)  //40W of cost for one fabrication = 20 seconds of recharge time; this is to prevent spamming
 	addtimer(CALLBACK(src, PROC_REF(recharge)), recharge_time)
@@ -54,13 +50,12 @@
 	. = ..()
 	if(!proximity)
 		return
-	. |= AFTERATTACK_PROCESSED_ITEM
 	if(!is_type_in_typecache(target, recycleable_circuits))
 		return
 	circuits++
-	maptext = MAPTEXT(circuits)
-	user.visible_message(span_notice("User breaks down [target] with [src]."), \
-	span_notice("You recycle [target] into [src]. It now has material for <b>[circuits]</b> circuits."))
+	maptext = "[circuits]"
+	user.visible_message("<span class='notice'>User breaks down [target] with [src].</span>", \
+	"<span class='notice'>You recycle [target] into [src]. It now has material for <b>[circuits]</b> circuits.</span>")
 	playsound(user, 'sound/items/deconstruct.ogg', 50, TRUE)
 	qdel(target)
 

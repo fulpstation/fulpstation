@@ -1,48 +1,53 @@
-///This type is responsible for any map generation behavior that is done in areas, override this to allow for
-///area-specific map generation. This generation is ran by areas in initialize.
-/datum/map_generator
+//clusterCheckFlags defines
+//All based on clusterMin and clusterMax as guides
 
-	///Map information, such as the start and end turfs of the map generation.
-	var/list/turf/map = list()
+//Individual defines
+#define CLUSTER_CHECK_NONE				0  			//No checks are done, cluster as much as possible
+#define CLUSTER_CHECK_DIFFERENT_TURFS	(1<<1)  //Don't let turfs of DIFFERENT types cluster
+#define CLUSTER_CHECK_DIFFERENT_ATOMS	(1<<2)  //Don't let atoms of DIFFERENT types cluster
+#define CLUSTER_CHECK_SAME_TURFS		(1<<3)  //Don't let turfs of the SAME type cluster
+#define CLUSTER_CHECK_SAME_ATOMS		(1<<4) 	//Don't let atoms of the SAME type cluster
 
-	///The map generator modules that we will generate and sync to.
-	var/list/datum/map_generator_module/modules = list()
+//Combined defines
+#define CLUSTER_CHECK_SAMES				24 //Don't let any of the same type cluster
+#define CLUSTER_CHECK_DIFFERENTS		6  //Don't let any of different types cluster
+#define CLUSTER_CHECK_ALL_TURFS			10 //Don't let ANY turfs cluster same and different types
+#define CLUSTER_CHECK_ALL_ATOMS			20 //Don't let ANY atoms cluster same and different types
+
+//All
+#define CLUSTER_CHECK_ALL				30 //Don't let anything cluster, like, at all
+
+/datum/mapGenerator
+
+	//Map information
+	var/list/map = list()
+
+	//mapGeneratorModule information
+	var/list/modules = list()
 
 	var/buildmode_name = "Undocumented"
 
-/datum/map_generator/New()
+/datum/mapGenerator/New()
 	..()
 	if(buildmode_name == "Undocumented")
-		buildmode_name = copytext_char("[type]", 20) // / d a t u m / m a p g e n e r a t o r / = 20 characters.
+		buildmode_name = copytext("[type]", 20)	// / d a t u m / m a p g e n e r a t o r / = 20 characters.
 	initialiseModules()
-
-/datum/map_generator/Destroy(force)
-	. = ..()
-	QDEL_LIST(modules)
-
-///This proc will be ran by areas on Initialize, and provides the areas turfs as argument to allow for generation.
-/datum/map_generator/proc/generate_terrain(list/turfs, area/generate_in)
-	return
-
-/// Populate terrain with flora, fauna, features and basically everything that isn't a turf.
-/datum/map_generator/proc/populate_terrain(list/turfs, area/generate_in)
-	return
 
 //Defines the region the map represents, sets map
 //Returns the map
-/datum/map_generator/proc/defineRegion(turf/Start, turf/End, replace = 0)
+/datum/mapGenerator/proc/defineRegion(turf/Start, turf/End, replace = 0)
 	if(!checkRegion(Start, End))
 		return 0
 
 	if(replace)
 		undefineRegion()
-	map |= block(Start, End)
+	map |= block(Start,End)
 	return map
 
 
 //Defines the region the map represents, as a CIRCLE!, sets map
 //Returns the map
-/datum/map_generator/proc/defineCircularRegion(turf/Start, turf/End, replace = 0)
+/datum/mapGenerator/proc/defineCircularRegion(turf/Start, turf/End, replace = 0)
 	if(!checkRegion(Start, End))
 		return 0
 
@@ -64,60 +69,61 @@
 	if(bigZ % 2 == 0)
 		offByOneOffset = 0
 
-	for(var/i in lilZ to bigZ+offByOneOffset)
+	for(var/i = lilZ, i <= bigZ+offByOneOffset, i++)
 		var/theRadius = radius
 		if(i != sphereMagic)
 			theRadius = max(radius/max((2*abs(sphereMagic-i)),1),1)
 
 
-		map |= circle_range(locate(centerX, centerY, i),theRadius)
+		map |= circlerange(locate(centerX,centerY,i),theRadius)
 
 
 	return map
 
 
 //Empties the map list, he's dead jim.
-/datum/map_generator/proc/undefineRegion()
+/datum/mapGenerator/proc/undefineRegion()
 	map = list() //bai bai
 
 
 //Checks for and Rejects bad region coordinates
 //Returns 1/0
-/datum/map_generator/proc/checkRegion(turf/Start, turf/End)
+/datum/mapGenerator/proc/checkRegion(turf/Start, turf/End)
+	. = 1
+
 	if(!Start || !End)
-		return FALSE //Just bail
+		return 0 //Just bail
 
 	if(Start.x > world.maxx || End.x > world.maxx)
-		return FALSE
+		. = 0
 	if(Start.y > world.maxy || End.y > world.maxy)
-		return FALSE
+		. = 0
 	if(Start.z > world.maxz || End.z > world.maxz)
-		return FALSE
-	return TRUE
+		. = 0
 
 
 //Requests the mapGeneratorModule(s) to (re)generate
-/datum/map_generator/proc/generate()
+/datum/mapGenerator/proc/generate()
 	syncModules()
 	if(!modules || !modules.len)
 		return
-	for(var/datum/map_generator_module/mod as anything in modules)
-		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/map_generator_module, generate))
+	for(var/datum/mapGeneratorModule/mod in modules)
+		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/mapGeneratorModule, generate))
 
 
 //Requests the mapGeneratorModule(s) to (re)generate this one turf
-/datum/map_generator/proc/generateOneTurf(turf/T)
+/datum/mapGenerator/proc/generateOneTurf(turf/T)
 	if(!T)
 		return
 	syncModules()
 	if(!modules || !modules.len)
 		return
-	for(var/datum/map_generator_module/mod as anything in modules)
-		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/map_generator_module, place), T)
+	for(var/datum/mapGeneratorModule/mod in modules)
+		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/mapGeneratorModule, place), T)
 
 
 //Replaces all paths in the module list with actual module datums
-/datum/map_generator/proc/initialiseModules()
+/datum/mapGenerator/proc/initialiseModules()
 	for(var/path in modules)
 		if(ispath(path))
 			modules.Remove(path)
@@ -126,8 +132,8 @@
 
 
 //Sync mapGeneratorModule(s) to mapGenerator
-/datum/map_generator/proc/syncModules()
-	for(var/datum/map_generator_module/mod as anything in modules)
+/datum/mapGenerator/proc/syncModules()
+	for(var/datum/mapGeneratorModule/mod in modules)
 		mod.sync(src)
 
 
@@ -140,17 +146,9 @@
 	set name = "Test Nature Map Generator"
 	set category = "Debug"
 
-	var/datum/map_generator/nature/N = new()
-	var/startInput = input(usr, "Start turf of Map, (X;Y;Z)", "Map Gen Settings", "1;1;1") as text|null
-
-	if (isnull(startInput))
-		return
-
-	var/endInput = input(usr, "End turf of Map (X;Y;Z)", "Map Gen Settings", "[world.maxx];[world.maxy];[mob ? mob.z : 1]") as text|null
-
-	if (isnull(endInput))
-		return
-
+	var/datum/mapGenerator/nature/N = new()
+	var/startInput = input(usr,"Start turf of Map, (X;Y;Z)", "Map Gen Settings", "1;1;1") as text
+	var/endInput = input(usr,"End turf of Map (X;Y;Z)", "Map Gen Settings", "[world.maxx];[world.maxy];[mob ? mob.z : 1]") as text
 	//maxx maxy and current z so that if you fuck up, you only fuck up one entire z level instead of the entire universe
 	if(!startInput || !endInput)
 		to_chat(src, "Missing Input")
@@ -172,18 +170,9 @@
 		to_chat(src, "End Coords: [endCoords[1]] - [endCoords[2]] - [endCoords[3]]")
 		return
 
-	var/static/list/clusters = list(
-		"None" = CLUSTER_CHECK_NONE,
-		"All" = CLUSTER_CHECK_ALL,
-		"Sames" = CLUSTER_CHECK_SAMES,
-		"Differents" = CLUSTER_CHECK_DIFFERENTS,
-		"Same turfs" = CLUSTER_CHECK_SAME_TURFS,
-		"Same atoms" = CLUSTER_CHECK_SAME_ATOMS,
-		"Different turfs" = CLUSTER_CHECK_DIFFERENT_TURFS,
-		"Different atoms" = CLUSTER_CHECK_DIFFERENT_ATOMS,
-		"All turfs" = CLUSTER_CHECK_ALL_TURFS,
-		"All atoms" = CLUSTER_CHECK_ALL_ATOMS,
-	)
+	var/list/clusters = list("None"=CLUSTER_CHECK_NONE,"All"=CLUSTER_CHECK_ALL,"Sames"=CLUSTER_CHECK_SAMES,"Differents"=CLUSTER_CHECK_DIFFERENTS, \
+	"Same turfs"=CLUSTER_CHECK_SAME_TURFS, "Same atoms"=CLUSTER_CHECK_SAME_ATOMS, "Different turfs"=CLUSTER_CHECK_DIFFERENT_TURFS, \
+	"Different atoms"=CLUSTER_CHECK_DIFFERENT_ATOMS, "All turfs"=CLUSTER_CHECK_ALL_TURFS,"All atoms"=CLUSTER_CHECK_ALL_ATOMS)
 
 	var/moduleClusters = input("Cluster Flags (Cancel to leave unchanged from defaults)","Map Gen Settings") as null|anything in clusters
 	//null for default
@@ -195,10 +184,10 @@
 			return
 		theCluster = clusters[moduleClusters]
 	else
-		theCluster = CLUSTER_CHECK_NONE
+		theCluster =  CLUSTER_CHECK_NONE
 
 	if(theCluster)
-		for(var/datum/map_generator_module/M as anything in N.modules)
+		for(var/datum/mapGeneratorModule/M in N.modules)
 			M.clusterCheckFlags = theCluster
 
 

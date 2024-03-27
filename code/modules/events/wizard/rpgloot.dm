@@ -4,114 +4,116 @@
 	typepath = /datum/round_event/wizard/rpgloot
 	max_occurrences = 1
 	earliest_start = 0 MINUTES
-	description = "Every item in the world will have fantastical names."
-	min_wizard_trigger_potency = 4
-	max_wizard_trigger_potency = 7
 
 /datum/round_event/wizard/rpgloot/start()
-	GLOB.rpgloot_controller = new /datum/rpgloot_controller
+	var/upgrade_scroll_chance = 0
+	for(var/obj/item/I in world)
+		if(!(I.flags_1 & INITIALIZED_1))
+			continue
+
+		if(!istype(I.rpg_loot))
+			I.rpg_loot = new(I)
+
+		if(istype(I, /obj/item/storage))
+			var/obj/item/storage/S = I
+			GET_COMPONENT_FROM(STR, /datum/component/storage, S)
+			if(prob(upgrade_scroll_chance) && S.contents.len < STR.max_items && !S.invisibility)
+				var/obj/item/upgradescroll/scroll = new
+				SEND_SIGNAL(S, COMSIG_TRY_STORAGE_INSERT, scroll, null, TRUE, TRUE)
+				upgrade_scroll_chance = max(0,upgrade_scroll_chance-100)
+			upgrade_scroll_chance += 25
+
+	GLOB.rpg_loot_items = TRUE
 
 /obj/item/upgradescroll
 	name = "item fortification scroll"
 	desc = "Somehow, this piece of paper can be applied to items to make them \"better\". Apparently there's a risk of losing the item if it's already \"too good\". <i>This all feels so arbitrary...</i>"
-	icon = 'icons/obj/scrolls.dmi'
+	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll"
-	worn_icon_state = "scroll"
 	w_class = WEIGHT_CLASS_TINY
 
 	var/upgrade_amount = 1
 	var/can_backfire = TRUE
-	var/uses = 1
+	var/one_use = TRUE
 
-/obj/item/upgradescroll/apply_fantasy_bonuses(bonus)
+/obj/item/upgradescroll/afterattack(obj/item/target, mob/user , proximity)
 	. = ..()
-	if(bonus >= 15)
-		can_backfire = FALSE
-	upgrade_amount = modify_fantasy_variable("upgrade_amount", upgrade_amount, round(bonus / 4), minimum = 1)
-
-/obj/item/upgradescroll/remove_fantasy_bonuses(bonus)
-	upgrade_amount = reset_fantasy_variable("upgrade_amount", upgrade_amount)
-	can_backfire = TRUE
-	return ..()
-
-
-/obj/item/upgradescroll/pre_attack(obj/item/target, mob/living/user)
-	. = ..()
-	if(. || !istype(target) || !user.combat_mode)
+	if(!proximity || !istype(target))
 		return
-	target.AddComponent(/datum/component/fantasy, upgrade_amount, null, null, can_backfire, TRUE)
-	uses -= 1
-	if(!uses)
-		visible_message(span_warning("[src] vanishes, its magic completely consumed from the fortification."))
+
+	var/datum/rpg_loot/rpg_loot_datum = target.rpg_loot
+	if(!istype(rpg_loot_datum))
+		target.rpg_loot = rpg_loot_datum = new /datum/rpg_loot(target)
+
+	var/quality = rpg_loot_datum.quality
+
+	if(can_backfire && (quality > 9 && prob((quality - 9)*10)))
+		to_chat(user, "<span class='danger'>[target] violently glows blue for a while, then evaporates.</span>")
+		target.burn()
+	else
+		to_chat(user, "<span class='notice'>[target] glows blue and seems vaguely \"better\"!</span>")
+		rpg_loot_datum.modify(upgrade_amount)
+
+	if(one_use)
 		qdel(src)
-	return TRUE
 
 /obj/item/upgradescroll/unlimited
 	name = "unlimited foolproof item fortification scroll"
 	desc = "Somehow, this piece of paper can be applied to items to make them \"better\". This scroll is made from the tongues of dead paper wizards, and can be used an unlimited number of times, with no drawbacks."
-	uses = INFINITY
+	one_use = FALSE
 	can_backfire = FALSE
 
-///Holds the global datum for rpgloot, so anywhere may check for its existence (it signals into whatever it needs to modify, so it shouldn't require fetching)
-GLOBAL_DATUM(rpgloot_controller, /datum/rpgloot_controller)
+/datum/rpg_loot
+	var/positive_prefix = "okay"
+	var/negative_prefix = "weak"
+	var/suffix = "something profound"
+	var/quality = 0
 
-/**
- * ## rpgloot controller!
- *
- * Stored in a global datum, and created when rpgloot is turned on via event or VV'ing the GLOB.rpgloot_controller to be a new /datum/rpgloot_controller.
- * Makes every item in the world fantasy, but also hooks into global signals for new items created to also bless them with fantasy.
- *
- * What do I mean by fantasy?
- * * Items will have random qualities assigned to them
- * * Good quality items will have positive buffs/special powers applied to them
- * * Bad quality items will get the opposite!
- * * All of this is reflected in a fitting name for the item
- * * See fantasy.dm and read the component for more information :)
- */
-/datum/rpgloot_controller
+	var/obj/item/attached
+	var/original_name
 
-/datum/rpgloot_controller/New()
-	. = ..()
-	//second operation takes MUCH longer, so lets set up signals first.
-	RegisterSignal(SSdcs, COMSIG_GLOB_ATOM_AFTER_POST_INIT, PROC_REF(on_new_item_in_existence))
-	handle_current_items()
+/datum/rpg_loot/New(attached_item=null)
+	attached = attached_item
 
-///signal sent by a new item being created.
-/datum/rpgloot_controller/proc/on_new_item_in_existence(datum/source, obj/item/created_item)
-	SIGNAL_HANDLER
-	if(!istype(created_item))
-		return
-	if(created_item.item_flags & SKIP_FANTASY_ON_SPAWN)
-		return
-	created_item.AddComponent(/datum/component/fantasy)
+	randomise()
 
-/**
- * ### handle_current_items
- *
- * Gives every viable item in the world the fantasy component.
- * If the item it is giving fantasy to is a storage item, there's a chance it'll drop in an item fortification scroll. neat!
- */
-/datum/rpgloot_controller/proc/handle_current_items()
-	var/upgrade_scroll_chance = 0
-	for(var/obj/item/fantasy_item in world)
-		CHECK_TICK
+/datum/rpg_loot/Destroy()
+	attached = null
 
-		if(!(fantasy_item.flags_1 & INITIALIZED_1) || QDELETED(fantasy_item))
-			continue
+/datum/rpg_loot/proc/randomise()
+	var/static/list/prefixespositive = list("greater", "major", "blessed", "superior", "empowered", "honed", "true", "glorious", "robust")
+	var/static/list/prefixesnegative = list("lesser", "minor", "blighted", "inferior", "enfeebled", "rusted", "unsteady", "tragic", "gimped")
+	var/static/list/suffixes = list("orc slaying", "elf slaying", "corgi slaying", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "the forest", "the hills", "the plains", "the sea", "the sun", "the moon", "the void", "the world", "the fool", "many secrets", "many tales", "many colors", "rending", "sundering", "the night", "the day")
 
-		fantasy_item.AddComponent(/datum/component/fantasy)
+	var/new_quality = pick(1;15, 2;14, 2;13, 2;12, 3;11, 3;10, 3;9, 4;8, 4;7, 4;6, 5;5, 5;4, 5;3, 6;2, 6;1, 6;0)
 
-		if(isnull(fantasy_item.loc))
-			continue
+	suffix = pick(suffixes)
+	positive_prefix = pick(prefixespositive)
+	negative_prefix = pick(prefixesnegative)
 
-		if(istype(fantasy_item, /obj/item/storage))
-			var/obj/item/storage/storage_item = fantasy_item
-			var/datum/storage/storage_component = storage_item.atom_storage
-			if(prob(upgrade_scroll_chance) && storage_item.contents.len < storage_component.max_slots && !storage_item.invisibility)
-				var/obj/item/upgradescroll/scroll = new(get_turf(storage_item))
-				storage_item.atom_storage?.attempt_insert(scroll, override = TRUE, force = STORAGE_SOFT_LOCKED)
-				upgrade_scroll_chance = max(0,upgrade_scroll_chance-100)
-				if(isturf(scroll.loc))
-					qdel(scroll)
+	if(prob(50))
+		new_quality = -new_quality
 
-			upgrade_scroll_chance += 25
+	modify(new_quality)
+
+/datum/rpg_loot/proc/rename()
+	var/obj/item/I = attached
+	if(!original_name)
+		original_name = I.name
+	if(quality < 0)
+		I.name = "[negative_prefix] [original_name] of [suffix] [quality]"
+	else if(quality == 0)
+		I.name = "[original_name] of [suffix]"
+	else if(quality > 0)
+		I.name = "[positive_prefix] [original_name] of [suffix] +[quality]"
+
+/datum/rpg_loot/proc/modify(quality_mod)
+	var/obj/item/I = attached
+	quality += quality_mod
+
+	I.force = max(0,I.force + quality_mod)
+	I.throwforce = max(0,I.throwforce + quality_mod)
+
+	I.armor = I.armor.modifyAllRatings(quality)
+
+	rename()

@@ -11,8 +11,6 @@
 	..()
 
 /datum/wires/autolathe/interactable(mob/user)
-	if(!..())
-		return FALSE
 	var/obj/machinery/autolathe/A = holder
 	if(A.panel_open)
 		return TRUE
@@ -37,12 +35,12 @@
 			A.disabled = !A.disabled
 			addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/machinery/autolathe, reset), wire), 60)
 
-/datum/wires/autolathe/on_cut(wire, mend, source)
+/datum/wires/autolathe/on_cut(wire, mend)
 	var/obj/machinery/autolathe/A = holder
 	switch(wire)
 		if(WIRE_HACK)
 			A.adjust_hacked(!mend)
-		if(WIRE_SHOCK)
+		if(WIRE_HACK)
 			A.shocked = !mend
 		if(WIRE_DISABLE)
 			A.disabled = !mend

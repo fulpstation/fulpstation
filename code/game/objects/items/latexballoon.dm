@@ -1,117 +1,56 @@
-#define INFLATED "inflated"
-#define POPPED "popped"
-#define DEFLATED "deflated"
-
-/obj/item/latexballoon
+/obj/item/latexballon
 	name = "latex glove"
 	desc = "Sterile and airtight."
-	icon_state = "latexballoon"
-	icon = 'icons/obj/weapons/hand.dmi'
-	inhand_icon_state = "greyscale_gloves"
-	lefthand_file = 'icons/mob/inhands/clothing/gloves_righthand.dmi'
-	righthand_file = 'icons/mob/inhands/clothing/gloves_lefthand.dmi'
+	icon_state = "latexballon"
+	item_state = "lgloves"
 	force = 0
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
 	throw_speed = 1
 	throw_range = 7
-	var/state = DEFLATED
+	var/state
 	var/datum/gas_mixture/air_contents = null
 
-/obj/item/latexballoon/Initialize(mapload)
-	. = ..()
-	AddElement(/datum/element/atmos_sensitive, mapload)
-	AddElement(/datum/element/update_icon_updates_onmob)
-
-/obj/item/latexballoon/proc/set_state(state_to_set)
-	state = state_to_set
-	update_appearance(UPDATE_ICON | UPDATE_DESC)
-
-/obj/item/latexballoon/update_icon_state()
-	. = ..()
-
-	switch(state)
-		if(INFLATED)
-			icon_state = "latexballoon_blow"
-			lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
-			righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-			inhand_icon_state = "latexballoon"
-		if(POPPED)
-			icon_state = "latexballoon_bursted"
-			inhand_icon_state = initial(inhand_icon_state)
-			lefthand_file = initial(lefthand_file)
-			righthand_file = initial(righthand_file)
-
-/obj/item/latexballoon/update_desc()
-	. = ..()
-	switch(state)
-		if(INFLATED)
-			desc = "It's a blown up latex glove on a string."
-		if(POPPED)
-			desc = "The remains of a latex glove."
-
-/obj/item/latexballoon/proc/blow(obj/item/tank/tank, mob/user)
-	if(state == POPPED)
+/obj/item/latexballon/proc/blow(obj/item/tank/tank, mob/user)
+	if (icon_state == "latexballon_bursted")
 		return
-
+	icon_state = "latexballon_blow"
+	item_state = "latexballon"
+	user.update_inv_hands()
+	to_chat(user, "<span class='notice'>You blow up [src] with [tank].</span>")
 	air_contents = tank.remove_air_volume(3)
 
-	if(isnull(air_contents))
-		balloon_alert(user, "tank is empty!")
+/obj/item/latexballon/proc/burst()
+	if (!air_contents || icon_state != "latexballon_blow")
 		return
-
-	if(state == INFLATED)
-		burst() // too much air, pop it!
-		return
-
-	playsound(src, 'sound/items/modsuit/inflate_bloon.ogg', 50, TRUE)
-
-	balloon_alert(user, "you blow up the balloon!") // because it's a balloon obviously
-
-	set_state(INFLATED)
-
-/obj/item/latexballoon/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
-	return (exposed_temperature > T0C+100)
-
-/obj/item/latexballoon/atmos_expose(datum/gas_mixture/air, exposed_temperature)
-	burst()
-
-/obj/item/latexballoon/proc/burst()
-	if (!air_contents || state != INFLATED)
-		return
-
-	set_state(POPPED)
-	playsound(src, 'sound/items/balloon_pop.ogg', 75, TRUE)
+	playsound(src, 'sound/weapons/gunshot.ogg', 100, 1)
+	icon_state = "latexballon_bursted"
+	item_state = "lgloves"
+	if(isliving(loc))
+		var/mob/living/user = src.loc
+		user.update_inv_hands()
 	loc.assume_air(air_contents)
 
-/obj/item/latexballoon/ex_act(severity, target)
+/obj/item/latexballon/ex_act(severity, target)
 	burst()
 	switch(severity)
-		if (EXPLODE_DEVASTATE)
+		if (1)
 			qdel(src)
-		if (EXPLODE_HEAVY)
+		if (2)
 			if (prob(50))
 				qdel(src)
 
-	return TRUE
+/obj/item/latexballon/bullet_act()
+	burst()
 
-/obj/item/latexballoon/bullet_act(obj/projectile/projectile)
-	if(projectile.damage > 0)
+/obj/item/latexballon/temperature_expose(datum/gas_mixture/air, temperature, volume)
+	if(temperature > T0C+100)
 		burst()
 
-	return ..()
-
-/obj/item/latexballoon/attackby(obj/item/item, mob/user, params)
-	if(istype(item, /obj/item/tank))
-		var/obj/item/tank/air_tank = item
-		blow(air_tank, user)
+/obj/item/latexballon/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/tank))
+		var/obj/item/tank/T = W
+		blow(T, user)
 		return
-	if(item.get_sharpness() || item.get_temperature())
+	if (W.is_sharp() || W.is_hot() || is_pointed(W))
 		burst()
-		return
-
-	return ..()
-
-#undef INFLATED
-#undef POPPED
-#undef DEFLATED

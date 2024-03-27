@@ -1,9 +1,9 @@
 /* Clown Items
  * Contains:
- * Soap
- * Bike Horns
- * Air Horns
- * Canned Laughter
+ *		Soap
+ *		Bike Horns
+ *		Air Horns
+ *		Canned Laughter
  */
 
 /*
@@ -14,10 +14,8 @@
 	name = "soap"
 	desc = "A cheap bar of soap. Doesn't smell."
 	gender = PLURAL
-	icon = 'icons/obj/watercloset.dmi'
+	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "soap"
-	inhand_icon_state = "soap"
-	worn_icon_state = "soap"
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
@@ -25,15 +23,14 @@
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 7
-	grind_results = list(/datum/reagent/lye = 10)
-	var/cleanspeed = 3.5 SECONDS //slower than mop
+	grind_results = list("lye" = 10)
+	var/cleanspeed = 35 //slower than mop
 	force_string = "robust... against germs"
 	var/uses = 100
 
-/obj/item/soap/Initialize(mapload)
+/obj/item/soap/Initialize()
 	. = ..()
 	AddComponent(/datum/component/slippery, 80)
-	AddComponent(/datum/component/cleaner, cleanspeed, 0.1, pre_clean_callback=CALLBACK(src, PROC_REF(should_clean)), on_cleaned_callback=CALLBACK(src, PROC_REF(decreaseUses))) //less scaling for soapies
 
 /obj/item/soap/examine(mob/user)
 	. = ..()
@@ -42,120 +39,98 @@
 	if(uses != max_uses)
 		var/percentage_left = uses / max_uses
 		switch(percentage_left)
-			if(0 to 0.15)
+			if(0 to 14)
 				msg = "There's just a tiny bit left of what it used to be, you're not sure it'll last much longer."
-			if(0.15 to 0.30)
+			if(15 to 29)
 				msg = "It's dissolved quite a bit, but there's still some life to it."
-			if(0.30 to 0.50)
+			if(30 to 49)
 				msg = "It's past its prime, but it's definitely still good."
-			if(0.50 to 0.75)
+			if(50 to 74)
 				msg = "It's started to get a little smaller than it used to be, but it'll definitely still last for a while."
 			else
 				msg = "It's seen some light use, but it's still pretty fresh."
-	. += span_notice("[msg]")
-
-/obj/item/soap/homemade
-	desc = "A homemade bar of soap. Smells of... well...."
-	grind_results = list(/datum/reagent/consumable/liquidgibs = 9, /datum/reagent/lye = 9)
-	icon_state = "soapgibs"
-	inhand_icon_state = "soapgibs"
-	worn_icon_state = "soapgibs"
-	cleanspeed = 3 SECONDS // faster than base soap to reward chemists for going to the effort
+	to_chat(user, "<span class='notice'>[msg]</span>")
 
 /obj/item/soap/nanotrasen
 	desc = "A heavy duty bar of Nanotrasen brand soap. Smells of plasma."
-	grind_results = list(/datum/reagent/toxin/plasma = 10, /datum/reagent/lye = 10)
+	grind_results = list("plasma" = 10, "lye" = 10)
 	icon_state = "soapnt"
-	inhand_icon_state = "soapnt"
-	worn_icon_state = "soapnt"
-	cleanspeed = 2.8 SECONDS //janitor gets this
+	cleanspeed = 28 //janitor gets this
 	uses = 300
 
-/obj/item/soap/nanotrasen/cyborg
+/obj/item/soap/homemade
+	desc = "A homemade bar of soap. Smells of... well...."
+	icon_state = "soapgibs"
+	cleanspeed = 30 // faster to reward chemists for going to the effort
 
 /obj/item/soap/deluxe
 	desc = "A deluxe Waffle Co. brand bar of soap. Smells of high-class luxury."
-	grind_results = list(/datum/reagent/consumable/aloejuice = 10, /datum/reagent/lye = 10)
 	icon_state = "soapdeluxe"
-	inhand_icon_state = "soapdeluxe"
-	worn_icon_state = "soapdeluxe"
-	cleanspeed = 2 SECONDS //captain gets one of these
+	cleanspeed = 20 //captain gets one of these
 
 /obj/item/soap/syndie
 	desc = "An untrustworthy bar of soap made of strong chemical agents that dissolve blood faster."
-	grind_results = list(/datum/reagent/toxin/acid = 10, /datum/reagent/lye = 10)
 	icon_state = "soapsyndie"
-	inhand_icon_state = "soapsyndie"
-	worn_icon_state = "soapsyndie"
-	cleanspeed = 0.5 SECONDS //faster than mops so it's useful for traitors who want to clean crime scenes
+	cleanspeed = 5 //faster than mop so it is useful for traitors who want to clean crime scenes
 
-/obj/item/soap/omega
-	name = "\improper Omega soap"
-	desc = "The most advanced soap known to mankind. The beginning of the end for germs."
-	grind_results = list(/datum/reagent/consumable/potato_juice = 9, /datum/reagent/consumable/ethanol/lizardwine = 9, /datum/reagent/monkey_powder = 9, /datum/reagent/drug/krokodil = 9, /datum/reagent/toxin/acid/nitracid = 9, /datum/reagent/baldium = 9, /datum/reagent/consumable/ethanol/hooch = 9, /datum/reagent/bluespace = 9, /datum/reagent/drug/pumpup = 9, /datum/reagent/consumable/space_cola = 9)
-	icon_state = "soapomega"
-	inhand_icon_state = "soapomega"
-	worn_icon_state = "soapomega"
-	cleanspeed = 0.3 SECONDS //Only the truest of mind soul and body get one of these
-	uses = 800 //In the Greek numeric system, Omega has a value of 800
-
-/obj/item/soap/omega/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] is using [src] to scrub themselves from the timeline! It looks like [user.p_theyre()] trying to commit suicide!"))
-	new /obj/structure/chrono_field(user.loc, user)
-	return MANUAL_SUICIDE
-
-/obj/item/paper/fluff/stations/soap
-	name = "ancient janitorial poem"
-	desc = "An old paper that has passed many hands."
-	default_raw_text = "<B>The legend of the omega soap</B><BR><BR> Essence of <B>potato</B>. Juice, not grind.<BR><BR> A <B>lizard's</B> tail, turned into <B>wine</B>.<BR><BR> <B>powder of monkey</B>, to help the workload.<BR><BR> Some <B>Krokodil</B>, because meth would explode.<BR><BR> <B>Nitric acid</B> and <B>Baldium</B>, for organic dissolving.<BR><BR> A cup filled with <B>Hooch</B>, for sinful absolving<BR><BR> Some <B>Bluespace Dust</B>, for removal of stains.<BR><BR> A syringe full of <B>Pump-up</B>, it's security's bane.<BR><BR> Add a can of <B>Space Cola</B>, because we've been paid.<BR><BR> <B>Heat</B> as hot as you can, let the soap be your blade.<BR><BR> <B>Ten units of each reagent create a soap that could topple all others.</B>"
-
-/obj/item/soap/suicide_act(mob/living/user)
+/obj/item/soap/suicide_act(mob/user)
 	user.say(";FFFFFFFFFFFFFFFFUUUUUUUDGE!!", forced="soap suicide")
-	user.visible_message(span_suicide("[user] lifts [src] to [user.p_their()] mouth and gnaws on it furiously, producing a thick froth! [user.p_They()]'ll never get that BB gun now!"))
-	var/datum/effect_system/fluid_spread/foam/foam = new
-	foam.set_up(1, holder = src, location = get_turf(user))
-	foam.start()
-	return TOXLOSS
+	user.visible_message("<span class='suicide'>[user] lifts [src] to [user.p_their()] mouth and gnaws on it furiously, producing a thick froth! [user.p_they(TRUE)]'ll never get that BB gun now!</span>")
+	new /obj/effect/particle_effect/foam(loc)
+	return (TOXLOSS)
 
-/obj/item/soap/proc/should_clean(datum/cleaning_source, atom/atom_to_clean, mob/living/cleaner)
-	return check_allowed_items(atom_to_clean)
+/obj/item/soap/proc/decreaseUses(mob/user)
+	uses--
+	if(uses <= 0)
+		to_chat(user, "<span class='warning'>[src] crumbles into tiny bits!</span>")
+		qdel(src)
 
-/**
- * Decrease the number of uses the bar of soap has.
- *
- * The higher the cleaning skill, the less likely the soap will lose a use.
- * Arguments
- * * source - the source of the cleaning
- * * target - The atom that is being cleaned
- * * user - The mob that is using the soap to clean.
- */
-/obj/item/soap/proc/decreaseUses(datum/source, atom/target, mob/living/user, clean_succeeded)
-	if(!clean_succeeded)
+/obj/item/soap/afterattack(atom/target, mob/user, proximity)
+	. = ..()
+	if(!proximity || !check_allowed_items(target))
 		return
-	var/skillcheck = 1
-	if(user?.mind)
-		skillcheck = user.mind.get_skill_modifier(/datum/skill/cleaning, SKILL_SPEED_MODIFIER)
-	if(prob(skillcheck*100)) //higher level = more uses assuming RNG is nice
-		uses--
-	if(uses <= 0)
-		noUses(user)
+	//I couldn't feasibly  fix the overlay bugs caused by cleaning items we are wearing.
+	//So this is a workaround. This also makes more sense from an IC standpoint. ~Carn
+	if(user.client && ((target in user.client.screen) && !user.is_holding(target)))
+		to_chat(user, "<span class='warning'>You need to take that [target.name] off before cleaning it!</span>")
+	else if(istype(target, /obj/effect/decal/cleanable))
+		user.visible_message("[user] begins to scrub \the [target.name] out with [src].", "<span class='warning'>You begin to scrub \the [target.name] out with [src]...</span>")
+		if(do_after(user, src.cleanspeed, target = target))
+			to_chat(user, "<span class='notice'>You scrub \the [target.name] out.</span>")
+			qdel(target)
+			decreaseUses(user)
 
-/obj/item/soap/proc/noUses(mob/user)
-	to_chat(user, span_warning("[src] crumbles into tiny bits!"))
-	qdel(src)
+	else if(ishuman(target) && user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
+		var/mob/living/carbon/human/H = user
+		if(user.zone_selected == "mouth")
+			user.visible_message("<span class='warning'>\the [user] washes \the [target]'s mouth out with [src.name]!</span>", "<span class='notice'>You wash \the [target]'s mouth out with [src.name]!</span>") //washes mouth out with soap sounds better than 'the soap' here
+			H.lip_style = null //removes lipstick
+			H.adjust_hygiene(5) //it kinda works i guess
+		else
+			user.visible_message("<span class='warning'>\the [user] washes \the [target] with [src.name]!</span>", "<span class='notice'>You wash \the [target] with [src.name]!</span>")
+			H.adjust_hygiene(20)
+		H.update_body()
+		decreaseUses(user)
+		return
+	else if(istype(target, /obj/structure/window))
+		user.visible_message("[user] begins to clean \the [target.name] with [src]...", "<span class='notice'>You begin to clean \the [target.name] with [src]...</span>")
+		if(do_after(user, src.cleanspeed, target = target))
+			to_chat(user, "<span class='notice'>You clean \the [target.name].</span>")
+			target.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+			target.set_opacity(initial(target.opacity))
+			decreaseUses(user)
+	else
+		user.visible_message("[user] begins to clean \the [target.name] with [src]...", "<span class='notice'>You begin to clean \the [target.name] with [src]...</span>")
+		if(do_after(user, src.cleanspeed, target = target))
+			to_chat(user, "<span class='notice'>You clean \the [target.name].</span>")
+			for(var/obj/effect/decal/cleanable/C in target)
+				qdel(C)
+			target.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+			SEND_SIGNAL(target, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_MEDIUM)
+			target.wash_cream()
+			decreaseUses(user)
+	return
 
-/obj/item/soap/nanotrasen/cyborg/noUses(mob/user)
-	to_chat(user, span_warning("The soap has ran out of chemicals"))
-
-/obj/item/soap/nanotrasen/cyborg/afterattack(atom/target, mob/user, proximity)
-	. = isitem(target) ? AFTERATTACK_PROCESSED_ITEM : NONE
-	if(uses <= 0)
-		to_chat(user, span_warning("No good, you need to recharge!"))
-		return .
-	return ..() | .
-
-/obj/item/soap/attackby_storage_insert(datum/storage, atom/storage_holder, mob/living/user)
-	return !user?.combat_mode  // only cleans a storage item if on combat
 
 /*
  * Bike Horns
@@ -163,80 +138,73 @@
 
 /obj/item/bikehorn
 	name = "bike horn"
-	desc = "A horn off of a bicycle. Rumour has it that they're made from recycled clowns."
-	icon = 'icons/obj/art/horn.dmi'
+	desc = "A horn off of a bicycle."
+	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "bike_horn"
-	inhand_icon_state = "bike_horn"
-	worn_icon_state = "horn"
+	item_state = "bike_horn"
 	lefthand_file = 'icons/mob/inhands/equipment/horns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/horns_righthand.dmi'
 	throwforce = 0
 	hitsound = null //To prevent tap.ogg playing, as the item lacks of force
 	w_class = WEIGHT_CLASS_TINY
-	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_BELT
 	throw_speed = 3
 	throw_range = 7
-	attack_verb_continuous = list("HONKS")
-	attack_verb_simple = list("HONK")
-	///sound file given to the squeaky component we make in Initialize() so sub-types can specify their own sound
-	var/sound_file = 'sound/items/bikehorn.ogg'
+	attack_verb = list("HONKED")
 
-/obj/item/bikehorn/Initialize(mapload)
+/obj/item/bikehorn/Initialize()
 	. = ..()
-	var/list/sound_list = list()
-	sound_list[sound_file] = 1
-	AddComponent(/datum/component/squeak, sound_list, 50, falloff_exponent = 20)
+	AddComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg'=1), 50)
 
 /obj/item/bikehorn/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(user != M && ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if (HAS_TRAIT(H, TRAIT_CLUMSY)) //only clowns can unlock its true powers
-			M.add_mood_event("honk", /datum/mood_event/honk)
+	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "honk", /datum/mood_event/honk)
 	return ..()
 
-/obj/item/bikehorn/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] solemnly points [src] at [user.p_their()] temple! It looks like [user.p_theyre()] trying to commit suicide!"))
+/obj/item/bikehorn/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] solemnly points [src] at [user.p_their()] temple! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	playsound(src, 'sound/items/bikehorn.ogg', 50, TRUE)
-	return BRUTELOSS
+	return (BRUTELOSS)
 
 //air horn
 /obj/item/bikehorn/airhorn
 	name = "air horn"
 	desc = "Damn son, where'd you find this?"
 	icon_state = "air_horn"
-	worn_icon_state = "horn_air"
-	sound_file = 'sound/items/airhorn2.ogg'
+
+/obj/item/bikehorn/airhorn/Initialize()
+	. = ..()
+	AddComponent(/datum/component/squeak, list('sound/items/airhorn2.ogg'=1), 50)
 
 //golden bikehorn
 /obj/item/bikehorn/golden
 	name = "golden bike horn"
 	desc = "Golden? Clearly, it's made with bananium! Honk!"
 	icon_state = "gold_horn"
-	inhand_icon_state = "gold_horn"
-	worn_icon_state = "horn_gold"
-	COOLDOWN_DECLARE(golden_horn_cooldown)
+	item_state = "gold_horn"
+	var/flip_cooldown = 0
 
 /obj/item/bikehorn/golden/attack()
-	flip_mobs()
+	if(flip_cooldown < world.time)
+		flip_mobs()
 	return ..()
 
 /obj/item/bikehorn/golden/attack_self(mob/user)
-	flip_mobs()
+	if(flip_cooldown < world.time)
+		flip_mobs()
 	..()
 
 /obj/item/bikehorn/golden/proc/flip_mobs(mob/living/carbon/M, mob/user)
-	if(!COOLDOWN_FINISHED(src, golden_horn_cooldown))
-		return
 	var/turf/T = get_turf(src)
 	for(M in ohearers(7, T))
-		if(M.can_hear())
-			M.emote("flip")
-	COOLDOWN_START(src, golden_horn_cooldown, 1 SECONDS)
+		if(ishuman(M) && M.can_hear())
+			var/mob/living/carbon/human/H = M
+			if(istype(H.ears, /obj/item/clothing/ears/earmuffs))
+				continue
+		M.emote("flip")
+	flip_cooldown = world.time + 7
 
 //canned laughter
-/obj/item/reagent_containers/cup/soda_cans/canned_laughter
+/obj/item/reagent_containers/food/drinks/soda_cans/canned_laughter
 	name = "Canned Laughter"
 	desc = "Just looking at this makes you want to giggle."
 	icon_state = "laughter"
-	volume = 50
-	list_reagents = list(/datum/reagent/consumable/laughter = 50)
+	list_reagents = list("laughter" = 50)

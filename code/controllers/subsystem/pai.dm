@@ -1,97 +1,197 @@
 SUBSYSTEM_DEF(pai)
 	name = "pAI"
+
 	flags = SS_NO_INIT|SS_NO_FIRE
 
-	/// List of pAI candidates, including those not submitted.
 	var/list/candidates = list()
-	/// All pAI cards on the map.
+	var/ghost_spam = FALSE
+	var/spam_delay = 100
 	var/list/pai_card_list = list()
-	/// Prevents a pAI from submitting itself repeatedly and sounding an alert.
-	var/submit_spam = FALSE
 
-/datum/controller/subsystem/pai/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "PaiSubmit")
-		ui.open()
-		ui.set_autoupdate(FALSE)
+/datum/controller/subsystem/pai/Topic(href, href_list[])
+	if(href_list["download"])
+		var/datum/paiCandidate/candidate = locate(href_list["candidate"]) in candidates
+		var/obj/item/paicard/card = locate(href_list["device"]) in pai_card_list
+		if(card.pai)
+			return
+		if(istype(card, /obj/item/paicard) && istype(candidate, /datum/paiCandidate))
+			if(check_ready(candidate) != candidate)
+				return FALSE
+			var/mob/living/silicon/pai/pai = new(card)
+			if(!candidate.name)
+				pai.name = pick(GLOB.ninja_names)
+			else
+				pai.name = candidate.name
+			pai.real_name = pai.name
+			pai.key = candidate.key
 
-/datum/controller/subsystem/pai/ui_state(mob/user)
-	return GLOB.observer_state
+			card.setPersonality(pai)
 
-/datum/controller/subsystem/pai/ui_static_data(mob/user)
-	. = ..()
-	var/list/data = list()
-	var/datum/pai_candidate/candidate = candidates[user.ckey]
-	if(isnull(candidate))
-		return data
-	data["comments"] = candidate.comments
-	data["description"] = candidate.description
-	data["name"] = candidate.name
-	return data
+			SSticker.mode.update_cult_icons_removed(card.pai.mind)
 
-/datum/controller/subsystem/pai/ui_act(action, list/params, datum/tgui/ui)
-	. = ..()
-	if(.)
-		return TRUE
-	var/datum/pai_candidate/candidate = candidates[usr.ckey]
-	if(is_banned_from(usr.ckey, ROLE_PAI))
-		to_chat(usr, span_warning("You are banned from playing pAI!"))
-		ui.close()
+			candidates -= candidate
+			usr << browse(null, "window=findPai")
+
+	if(href_list["new"])
+		var/datum/paiCandidate/candidate = locate(href_list["candidate"]) in candidates
+		var/option = href_list["option"]
+		var/t = ""
+
+		switch(option)
+			if("name")
+				t = input("Enter a name for your pAI", "pAI Name", candidate.name) as text
+				if(t)
+					candidate.name = copytext(sanitize(t),1,MAX_NAME_LEN)
+			if("desc")
+				t = input("Enter a description for your pAI", "pAI Description", candidate.description) as message
+				if(t)
+					candidate.description = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
+			if("role")
+				t = input("Enter a role for your pAI", "pAI Role", candidate.role) as text
+				if(t)
+					candidate.role = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
+			if("ooc")
+				t = input("Enter any OOC comments", "pAI OOC Comments", candidate.comments) as message
+				if(t)
+					candidate.comments = copytext(sanitize(t),1,MAX_MESSAGE_LEN)
+			if("save")
+				candidate.savefile_save(usr)
+			if("load")
+				candidate.savefile_load(usr)
+				//In case people have saved unsanitized stuff.
+				if(candidate.name)
+					candidate.name = copytext(sanitize(candidate.name),1,MAX_NAME_LEN)
+				if(candidate.description)
+					candidate.description = copytext(sanitize(candidate.description),1,MAX_MESSAGE_LEN)
+				if(candidate.role)
+					candidate.role = copytext(sanitize(candidate.role),1,MAX_MESSAGE_LEN)
+				if(candidate.comments)
+					candidate.comments = copytext(sanitize(candidate.comments),1,MAX_MESSAGE_LEN)
+
+			if("submit")
+				if(candidate)
+					candidate.ready = 1
+					for(var/obj/item/paicard/p in pai_card_list)
+						if(!p.pai)
+							p.alertUpdate()
+				usr << browse(null, "window=paiRecruit")
+				return
+		recruitWindow(usr)
+
+/datum/controller/subsystem/pai/proc/recruitWindow(mob/M)
+	var/datum/paiCandidate/candidate
+	for(var/datum/paiCandidate/c in candidates)
+		if(c.key == M.key)
+			candidate = c
+	if(!candidate)
+		candidate = new /datum/paiCandidate()
+		candidate.key = M.key
+		candidates.Add(candidate)
+
+
+	var/dat = ""
+	dat += {"
+			<style type="text/css">
+
+			p.top {
+				background-color: #AAAAAA; color: black;
+			}
+
+			tr.d0 td {
+				background-color: #CC9999; color: black;
+			}
+			tr.d1 td {
+				background-color: #9999CC; color: black;
+			}
+			</style>
+			"}
+
+	dat += "<p class=\"top\">Please configure your pAI personality's options. Remember, what you enter here could determine whether or not the user requesting a personality chooses you!</p>"
+	dat += "<table>"
+	dat += "<tr class=\"d0\"><td>Name:</td><td>[candidate.name]</td></tr>"
+	dat += "<tr class=\"d1\"><td><a href='byond://?src=[REF(src)];option=name;new=1;candidate=[REF(candidate)]'>\[Edit\]</a></td><td>What you plan to call yourself. Suggestions: Any character name you would choose for a station character OR an AI.</td></tr>"
+
+	dat += "<tr class=\"d0\"><td>Description:</td><td>[candidate.description]</td></tr>"
+	dat += "<tr class=\"d1\"><td><a href='byond://?src=[REF(src)];option=desc;new=1;candidate=[REF(candidate)]'>\[Edit\]</a></td><td>What sort of pAI you typically play; your mannerisms, your quirks, etc. This can be as sparse or as detailed as you like.</td></tr>"
+
+	dat += "<tr class=\"d0\"><td>Preferred Role:</td><td>[candidate.role]</td></tr>"
+	dat += "<tr class=\"d1\"><td><a href='byond://?src=[REF(src)];option=role;new=1;candidate=[REF(candidate)]'>\[Edit\]</a></td><td>Do you like to partner with sneaky social ninjas? Like to help security hunt down thugs? Enjoy watching an engineer's back while he saves the station yet again? This doesn't have to be limited to just station jobs. Pretty much any general descriptor for what you'd like to be doing works here.</td></tr>"
+
+	dat += "<tr class=\"d0\"><td>OOC Comments:</td><td>[candidate.comments]</td></tr>"
+	dat += "<tr class=\"d1\"><td><a href='byond://?src=[REF(src)];option=ooc;new=1;candidate=[REF(candidate)]'>\[Edit\]</a></td><td>Anything you'd like to address specifically to the player reading this in an OOC manner. \"I prefer more serious RP.\", \"I'm still learning the interface!\", etc. Feel free to leave this blank if you want.</td></tr>"
+
+	dat += "</table>"
+
+	dat += "<br>"
+	dat += "<h3><a href='byond://?src=[REF(src)];option=submit;new=1;candidate=[REF(candidate)]'>Submit Personality</a></h3><br>"
+	dat += "<a href='byond://?src=[REF(src)];option=save;new=1;candidate=[REF(candidate)]'>Save Personality</a><br>"
+	dat += "<a href='byond://?src=[REF(src)];option=load;new=1;candidate=[REF(candidate)]'>Load Personality</a><br>"
+
+	M << browse(dat, "window=paiRecruit")
+
+/datum/controller/subsystem/pai/proc/spam_again()
+	ghost_spam = FALSE
+
+/datum/controller/subsystem/pai/proc/check_ready(var/datum/paiCandidate/C)
+	if(!C.ready)
 		return FALSE
-	if(isnull(candidate))
-		to_chat(usr, span_warning("There was an error. Please resubmit."))
-		ui.close()
-		return FALSE
-	switch(action)
-		if("submit")
-			candidate.comments = trim(params["comments"], MAX_BROADCAST_LEN)
-			candidate.description = trim(params["description"], MAX_BROADCAST_LEN)
-			candidate.name = trim(params["name"], MAX_NAME_LEN)
-			candidate.ckey = usr.ckey
-			candidate.ready = TRUE
-			ui.close()
-			submit_alert()
-			return TRUE
-		if("save")
-			candidate.comments = params["comments"]
-			candidate.description = params["description"]
-			candidate.name = params["name"]
-			candidate.savefile_save(usr)
-			return TRUE
-		if("load")
-			candidate.savefile_load(usr)
-			ui.send_full_update()
-			return TRUE
+	for(var/mob/dead/observer/O in GLOB.player_list)
+		if(O.key == C.key)
+			return C
 	return FALSE
 
-/**
- * This is the primary window proc when the pAI candidate
- * hud menu is pressed by observers.
- *
- * @params {mob} user The ghost doing the pressing.
- */
-/datum/controller/subsystem/pai/proc/recruit_window(mob/user)
-	/// Searches for a previous candidate upon opening the menu
-	var/datum/pai_candidate/candidate = candidates[user.ckey]
-	if(isnull(candidate))
-		candidate = new(user.ckey)
-		candidates[user.ckey] = candidate
-	ui_interact(user)
+/datum/controller/subsystem/pai/proc/findPAI(obj/item/paicard/p, mob/user)
+	if(!ghost_spam)
+		ghost_spam = TRUE
+		for(var/mob/dead/observer/G in GLOB.player_list)
+			if(!G.key || !G.client)
+				continue
+			if(!(ROLE_PAI in G.client.prefs.be_special))
+				continue
+			to_chat(G, "<span class='ghostalert'>[user] is requesting a pAI personality! Use the pAI button to submit yourself as one.</span>")
+		addtimer(CALLBACK(src, PROC_REF(spam_again)), spam_delay)
+	var/list/available = list()
+	for(var/datum/paiCandidate/c in SSpai.candidates)
+		available.Add(check_ready(c))
+	var/dat = ""
 
+	dat += {"
+			<style type="text/css">
 
-/**
- * Pings all pAI cards on the station that new candidates are available.
- */
-/datum/controller/subsystem/pai/proc/submit_alert()
-	if(submit_spam)
-		to_chat(usr, span_warning("Your candidacy has been submitted, but pAI cards have been alerted too recently."))
-		return FALSE
-	submit_spam = TRUE
-	for(var/obj/item/pai_card/pai_card as anything in pai_card_list)
-		if(!pai_card.pai)
-			pai_card.alert_update()
-	to_chat(usr, span_notice("Your pAI candidacy has been submitted!"))
-	addtimer(VARSET_CALLBACK(src, submit_spam, FALSE), PAI_SPAM_TIME, TIMER_UNIQUE | TIMER_STOPPABLE | TIMER_CLIENT_TIME | TIMER_DELETE_ME)
-	return TRUE
+			p.top {
+				background-color: #AAAAAA; color: black;
+			}
+
+			tr.d0 td {
+				background-color: #CC9999; color: black;
+			}
+			tr.d1 td {
+				background-color: #9999CC; color: black;
+			}
+			tr.d2 td {
+				background-color: #99CC99; color: black;
+			}
+			</style>
+			"}
+	dat += "<p class=\"top\">Requesting AI personalities from central database... If there are no entries, or if a suitable entry is not listed, check again later as more personalities may be added.</p>"
+
+	dat += "<table>"
+
+	for(var/datum/paiCandidate/c in available)
+		dat += "<tr class=\"d0\"><td>Name:</td><td>[c.name]</td></tr>"
+		dat += "<tr class=\"d1\"><td>Description:</td><td>[c.description]</td></tr>"
+		dat += "<tr class=\"d0\"><td>Preferred Role:</td><td>[c.role]</td></tr>"
+		dat += "<tr class=\"d1\"><td>OOC Comments:</td><td>[c.comments]</td></tr>"
+		dat += "<tr class=\"d2\"><td><a href='byond://?src=[REF(src)];download=1;candidate=[REF(c)];device=[REF(p)]'>\[Download [c.name]\]</a></td><td></td></tr>"
+
+	dat += "</table>"
+
+	user << browse(dat, "window=findPai")
+
+/datum/paiCandidate
+	var/name
+	var/key
+	var/description
+	var/role
+	var/comments
+	var/ready = 0

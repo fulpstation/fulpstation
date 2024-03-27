@@ -1,17 +1,12 @@
-#define MAX_NOTICES 8
-
 /obj/structure/noticeboard
 	name = "notice board"
-	desc = "A board for pinning important notices upon. It is made of the finest Spanish cork."
-	icon = 'icons/obj/wallmounts.dmi'
-	icon_state = "noticeboard"
+	desc = "A board for pinning important notices upon."
+	icon = 'icons/obj/stationobjs.dmi'
+	icon_state = "nboard00"
 	density = FALSE
 	anchored = TRUE
 	max_integrity = 150
-	/// Current number of a pinned notices
 	var/notices = 0
-
-MAPPING_DIRECTIONAL_HELPERS(/obj/structure/noticeboard, 32)
 
 /obj/structure/noticeboard/Initialize(mapload)
 	. = ..()
@@ -20,117 +15,79 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/noticeboard, 32)
 		return
 
 	for(var/obj/item/I in loc)
-		if(notices >= MAX_NOTICES)
+		if(notices > 4)
 			break
 		if(istype(I, /obj/item/paper))
 			I.forceMove(src)
 			notices++
-	update_appearance(UPDATE_ICON)
-	find_and_hang_on_wall()
+	icon_state = "nboard0[notices]"
 
 //attaching papers!!
 /obj/structure/noticeboard/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/paper) || istype(O, /obj/item/photo))
 		if(!allowed(user))
-			to_chat(user, span_warning("You are not authorized to add notices!"))
+			to_chat(user, "<span class='info'>You are not authorized to add notices</span>")
 			return
-		if(notices < MAX_NOTICES)
+		if(notices < 5)
 			if(!user.transferItemToLoc(O, src))
 				return
 			notices++
-			update_appearance(UPDATE_ICON)
-			to_chat(user, span_notice("You pin the [O] to the noticeboard."))
+			icon_state = "nboard0[notices]"
+			to_chat(user, "<span class='notice'>You pin the [O] to the noticeboard.</span>")
 		else
-			to_chat(user, span_warning("The notice board is full!"))
+			to_chat(user, "<span class='notice'>The notice board is full</span>")
 	else
 		return ..()
 
-/obj/structure/noticeboard/ui_state(mob/user)
-	return GLOB.physical_state
+/obj/structure/noticeboard/interact(mob/user)
+	ui_interact(user)
 
-/obj/structure/noticeboard/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "NoticeBoard", name)
-		ui.open()
-
-/obj/structure/noticeboard/ui_data(mob/user)
-	var/list/data = list()
-	data["allowed"] = allowed(user)
-	data["items"] = list()
-	for(var/obj/item/content in contents)
-		var/list/content_data = list(
-			name = content.name,
-			ref = REF(content)
-		)
-		data["items"] += list(content_data)
-	return data
-
-/obj/structure/noticeboard/ui_act(action, params)
+/obj/structure/noticeboard/ui_interact(mob/user)
 	. = ..()
-	if(.)
-		return
+	var/auth = allowed(user)
+	var/dat = "<B>[name]</B><BR>"
+	for(var/obj/item/P in src)
+		if(istype(P, /obj/item/paper))
+			dat += "<A href='?src=[REF(src)];read=[REF(P)]'>[P.name]</A> [auth ? "<A href='?src=[REF(src)];write=[REF(P)]'>Write</A> <A href='?src=[REF(src)];remove=[REF(P)]'>Remove</A>" : ""]<BR>"
+		else
+			dat += "<A href='?src=[REF(src)];read=[REF(P)]'>[P.name]</A> [auth ? "<A href='?src=[REF(src)];remove=[REF(P)]'>Remove</A>" : ""]<BR>"
+	user << browse("<HEAD><TITLE>Notices</TITLE></HEAD>[dat]","window=noticeboard")
+	onclose(user, "noticeboard")
 
-	var/obj/item/item = locate(params["ref"]) in contents
-	if(!istype(item) || item.loc != src)
-		return
+/obj/structure/noticeboard/Topic(href, href_list)
+	..()
+	usr.set_machine(src)
+	if(href_list["remove"])
+		if((usr.stat || usr.restrained()))	//For when a player is handcuffed while they have the notice window open
+			return
+		var/obj/item/I = locate(href_list["remove"]) in contents
+		if(istype(I) && I.loc == src)
+			I.forceMove(usr.loc)
+			usr.put_in_hands(I)
+			notices--
+			icon_state = "nboard0[notices]"
 
-	var/mob/user = usr
-
-	switch(action)
-		if("examine")
-			if(istype(item, /obj/item/paper))
-				item.ui_interact(user)
+	if(href_list["write"])
+		if((usr.stat || usr.restrained())) //For when a player is handcuffed while they have the notice window open
+			return
+		var/obj/item/P = locate(href_list["write"]) in contents
+		if(istype(P) && P.loc == src)
+			var/obj/item/I = usr.is_holding_item_of_type(/obj/item/pen)
+			if(I)
+				add_fingerprint(usr)
+				P.attackby(I, usr)
 			else
-				user.examinate(item)
-			return TRUE
-		if("remove")
-			if(!allowed(user))
-				return
-			remove_item(item, user)
-			return TRUE
+				to_chat(usr, "<span class='notice'>You'll need something to write with!</span>")
 
-/obj/structure/noticeboard/update_overlays()
-	. = ..()
-	if(notices)
-		. += "notices_[notices]"
-
-/**
- * Removes an item from the notice board
- *
- * Arguments:
- * * item - The item that is to be removed
- * * user - The mob that is trying to get the item removed, if there is one
- */
-/obj/structure/noticeboard/proc/remove_item(obj/item/item, mob/user)
-	item.forceMove(drop_location())
-	if(user)
-		user.put_in_hands(item)
-		balloon_alert(user, "removed from board")
-	notices--
-	update_appearance(UPDATE_ICON)
+	if(href_list["read"])
+		var/obj/item/I = locate(href_list["read"]) in contents
+		if(istype(I) && I.loc == src)
+			usr.examinate(I)
 
 /obj/structure/noticeboard/deconstruct(disassembled = TRUE)
-	if(!(obj_flags & NO_DECONSTRUCTION))
-		if(!disassembled)
-			new /obj/item/stack/sheet/mineral/wood(loc)
-		else
-			new /obj/item/wallframe/noticeboard(loc)
-	for(var/obj/item/content in contents)
-		remove_item(content)
+	if(!(flags_1 & NODECONSTRUCT_1))
+		new /obj/item/stack/sheet/metal (loc, 1)
 	qdel(src)
-
-/obj/item/wallframe/noticeboard
-	name = "notice board"
-	desc = "Right now it's more of a clipboard. Attach to a wall to use."
-	icon = 'icons/obj/wallmounts.dmi'
-	icon_state = "noticeboard"
-	custom_materials = list(
-		/datum/material/wood = SHEET_MATERIAL_AMOUNT,
-	)
-	resistance_flags = FLAMMABLE
-	result_path = /obj/structure/noticeboard
-	pixel_shift = 32
 
 // Notice boards for the heads of staff (plus the qm)
 
@@ -172,6 +129,4 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/noticeboard, 32)
 /obj/structure/noticeboard/staff
 	name = "Staff Notice Board"
 	desc = "Important notices from the heads of staff."
-	req_access = list(ACCESS_COMMAND)
-
-#undef MAX_NOTICES
+	req_access = list(ACCESS_HEADS)
