@@ -11,10 +11,14 @@ export BYOND_MINOR=${LIST[1]}
 unset LIST
 
 #rust_g git tag
-export RUST_G_VERSION=0.4.2
+export RUST_G_VERSION=3.1.0
 
 #bsql git tag
 export BSQL_VERSION=v1.4.0.0
 
 #node version
-export NODE_VERSION=8
+export NODE_VERSION=14
+export NODE_VERSION_PRECISE=14.16.1
+
+# Python version for mapmerge and other tools
+export PYTHON_VERSION=3.9.0
