@@ -44,8 +44,3 @@
 
 //Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
 #define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
-
-//Fool heretic's airlock spell
-#define TRAIT_UNHINGED "airlock_unhinged"
-#define TRAIT_UNHINGED_SEARCHING "airlock_unhinged_searching"
-#define ACCESS_MANSUS "mansus"
