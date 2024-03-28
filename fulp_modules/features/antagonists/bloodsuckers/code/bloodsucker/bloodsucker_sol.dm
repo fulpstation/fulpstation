@@ -69,6 +69,7 @@
 		if(!HAS_TRAIT(owner.current, TRAIT_NODEATH))
 			check_begin_torpor(TRUE)
 			owner.current.add_mood_event("vampsleep", /datum/mood_event/coffinsleep)
+		dirty_area()
 		return
 
 	if(COOLDOWN_FINISHED(src, bloodsucker_spam_sol_burn)) // Closets offer SOME protection
@@ -77,6 +78,21 @@
 	owner.current.adjustFireLoss(0.5 + (bloodsucker_level / 4))
 	owner.current.updatehealth()
 	owner.current.add_mood_event("vampsleep", /datum/mood_event/daylight_1)
+
+///Makes the area the bloodsucker is currently in dirty with cobweb and dirt.
+/datum/antagonist/bloodsucker/proc/dirty_area()
+	var/list/turf/area_turfs = get_area_turfs(get_area(owner.current))
+	var/turf/turf_to_be_dirtied = pick(area_turfs)
+	if(turf_to_be_dirtied && !turf_to_be_dirtied.density)
+		var/turf/north_turf = get_step(turf_to_be_dirtied, NORTH)
+		if(istype(north_turf, /turf/closed/wall))
+			var/turf/west_turf = get_step(turf_to_be_dirtied, WEST)
+			if(istype(west_turf, /turf/closed/wall))
+				new /obj/effect/decal/cleanable/cobweb(turf_to_be_dirtied)
+			var/turf/east_turf = get_step(turf_to_be_dirtied, EAST)
+			if(istype(east_turf, /turf/closed/wall))
+				new /obj/effect/decal/cleanable/cobweb/cobweb2(turf_to_be_dirtied)
+		new /obj/effect/decal/cleanable/dirt(turf_to_be_dirtied)
 
 /datum/antagonist/bloodsucker/proc/give_warning(atom/source, danger_level, vampire_warning_message, vassal_warning_message)
 	SIGNAL_HANDLER

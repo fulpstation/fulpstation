@@ -10,7 +10,7 @@
 		claimed.balloon_alert(owner.current, "not part of station!")
 		return
 	// This is my Lair
-	coffin = claimed
+	claimed_coffin = claimed
 	bloodsucker_lair_area = current_area
 	if(!(/datum/crafting_recipe/vassalrack in owner?.learned_recipes))
 		owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
@@ -139,36 +139,10 @@
 	if(bloodsuckerdatum.claim_coffin(src, current_area))
 		resident = claimant
 		anchored = TRUE
-		START_PROCESSING(SSprocessing, src)
 
 /obj/structure/closet/crate/coffin/Destroy()
 	unclaim_coffin()
-	STOP_PROCESSING(SSprocessing, src)
 	return ..()
-
-/obj/structure/closet/crate/coffin/process(mob/living/user)
-	. = ..()
-	if(!.)
-		return FALSE
-	if(user in src)
-		var/list/turf/area_turfs = get_area_turfs(get_area(src))
-		// Create Dirt etc.
-		var/turf/T_Dirty = pick(area_turfs)
-		if(T_Dirty && !T_Dirty.density)
-			// Default: Dirt
-			// STEP ONE: COBWEBS
-			// CHECK: Wall to North?
-			var/turf/check_N = get_step(T_Dirty, NORTH)
-			if(istype(check_N, /turf/closed/wall))
-				// CHECK: Wall to West?
-				var/turf/check_W = get_step(T_Dirty, WEST)
-				if(istype(check_W, /turf/closed/wall))
-					new /obj/effect/decal/cleanable/cobweb(T_Dirty)
-				// CHECK: Wall to East?
-				var/turf/check_E = get_step(T_Dirty, EAST)
-				if(istype(check_E, /turf/closed/wall))
-					new /obj/effect/decal/cleanable/cobweb/cobweb2(T_Dirty)
-			new /obj/effect/decal/cleanable/dirt(T_Dirty)
 
 /obj/structure/closet/crate/proc/unclaim_coffin(manual = FALSE)
 	// Unanchor it (If it hasn't been broken, anyway)
@@ -177,8 +151,8 @@
 		return
 	// Unclaiming
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = resident.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum && bloodsuckerdatum.coffin == src)
-		bloodsuckerdatum.coffin = null
+	if(bloodsuckerdatum && bloodsuckerdatum.claimed_coffin == src)
+		bloodsuckerdatum.claimed_coffin = null
 		bloodsuckerdatum.bloodsucker_lair_area = null
 	for(var/obj/structure/bloodsucker/bloodsucker_structure in get_area(src))
 		if(bloodsucker_structure.owner == resident)
@@ -213,7 +187,7 @@
 		if(!bloodsuckerdatum)
 			return FALSE
 		var/area/current_area = get_area(src)
-		if(!bloodsuckerdatum.coffin && !resident)
+		if(!bloodsuckerdatum.claimed_coffin && !resident)
 			switch(tgui_alert(user, "Do you wish to claim this as your coffin? [current_area] will be your lair.", "Claim Lair", list("Yes", "No")))
 				if("Yes")
 					claim_coffin(user, current_area)
@@ -273,19 +247,20 @@
 				unclaim_coffin(TRUE)
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
-	if(user == resident)
-		if(!broken)
-			locked = inLocked
-			if(locked)
-				to_chat(user, span_notice("You flip a secret latch and lock yourself inside [src]."))
-			else
-				to_chat(user, span_notice("You flip a secret latch and unlock [src]."))
-			return
-		// Broken? Let's fix it.
-		to_chat(resident, span_notice("The secret latch that would lock [src] from the inside is broken. You set it back into place..."))
-		if(!do_after(resident, 5 SECONDS, src))
-			to_chat(resident, span_notice("You fail to fix [src]'s mechanism."))
-			return
-		to_chat(resident, span_notice("You fix the mechanism and lock it."))
-		broken = FALSE
-		locked = TRUE
+	if(user != resident)
+		return
+	if(!broken)
+		locked = inLocked
+		if(locked)
+			to_chat(user, span_notice("You flip a secret latch and lock yourself inside [src]."))
+		else
+			to_chat(user, span_notice("You flip a secret latch and unlock [src]."))
+		return
+	// Broken? Let's fix it.
+	to_chat(resident, span_notice("The secret latch that would lock [src] from the inside is broken. You set it back into place..."))
+	if(!do_after(resident, 5 SECONDS, src, timed_action_flags = IGNORE_INCAPACITATED))
+		to_chat(resident, span_notice("You fail to fix [src]'s mechanism."))
+		return
+	to_chat(resident, span_notice("You fix the mechanism and lock it."))
+	broken = FALSE
+	locked = TRUE

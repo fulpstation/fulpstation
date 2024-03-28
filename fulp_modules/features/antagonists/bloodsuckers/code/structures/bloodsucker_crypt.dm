@@ -494,15 +494,18 @@
 	ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
 	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
 	vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
-	hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
-		While buckled, Monsters can use this to telepathically communicate with eachother."
-	var/mutable_appearance/armrest
+	hunter_desc = "This blood-red looking torture device latches onto anyone that sits onto its throne, but allows\n\
+		Monsters to telepathically communicate with others while contained in it."
+
+	///The static armrest that the throne has while someone is buckled onto it.
+	var/static/mutable_appearance/armrest
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
 	AddComponent(/datum/component/simple_rotation)
-	armrest = GetArmrest()
-	armrest.layer = ABOVE_MOB_LAYER
+	if(!armrest)
+		armrest = mutable_appearance('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+		armrest.layer = ABOVE_MOB_LAYER
 	return ..()
 
 /obj/structure/bloodsucker/bloodthrone/Destroy()
@@ -517,22 +520,16 @@
 	. = ..()
 	anchored = FALSE
 
-// Armrests
-/obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
-	return mutable_appearance('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
-
-/obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
+/obj/structure/bloodsucker/bloodthrone/update_overlays()
+	. = ..()
 	if(has_buckled_mobs())
-		add_overlay(armrest)
-	else
-		cut_overlay(armrest)
+		. += armrest
 
 // Rotating
 /obj/structure/bloodsucker/bloodthrone/setDir(newdir)
 	. = ..()
 	if(has_buckled_mobs())
-		for(var/m in buckled_mobs)
-			var/mob/living/buckled_mob = m
+		for(var/mob/living/buckled_mob as anything in buckled_mobs)
 			buckled_mob.setDir(newdir)
 
 	if(has_buckled_mobs() && dir == NORTH)
@@ -550,34 +547,31 @@
 		span_notice("[user] sits down on [src]."),
 		span_boldnotice("You sit down onto [src]."),
 	)
-	if(IS_BLOODSUCKER(user))
-		RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-	else
-		unbuckle_mob(user)
-		user.Paralyze(10 SECONDS)
-		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
+	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
-	update_armrest()
 	target.pixel_y += 2
+	update_appearance(UPDATE_OVERLAYS)
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
-	src.visible_message(span_danger("[user] unbuckles themselves from [src]."))
-	if(IS_BLOODSUCKER(user))
-		UnregisterSignal(user, COMSIG_MOB_SAY)
-	. = ..()
+	UnregisterSignal(user, COMSIG_MOB_SAY)
+	return ..()
 
 /obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/target)
+	. = ..()
 	target.pixel_y -= 2
+	update_appearance(UPDATE_OVERLAYS)
 
 // The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
 
-	var/message = speech_args[SPEECH_MESSAGE]
 	var/mob/living/carbon/human/user = source
+	if(!user.mind || !IS_BLOODSUCKER(user))
+		return
+	var/message = speech_args[SPEECH_MESSAGE]
 	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
