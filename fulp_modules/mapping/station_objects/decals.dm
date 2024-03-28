@@ -196,3 +196,37 @@
 
 /obj/effect/turf_decal/trimline/prison/filled/shrink_ccw
 	icon_state = "trimline_shrink_ccw"
+
+/// aft/fore/port/star directional plaques
+//****
+
+/obj/effect/turf_decal/fulp
+	icon = 'fulp_modules/mapping/icons/mapping.dmi'
+	icon_state = "aft"
+
+/obj/effect/turf_decal/fulp/floor_directions/aft
+	icon_state = "aft"
+
+/obj/effect/turf_decal/fulp/floor_directions/fore
+	icon_state = "fore"
+
+/obj/effect/turf_decal/fulp/floor_directions/port
+	icon_state = "port"
+
+/obj/effect/turf_decal/fulp/floor_directions/starboard
+	icon_state = "starboard"
+
+// with arrows
+
+/obj/effect/turf_decal/fulp/floor_directions/aft/directional
+	icon_state = "aft_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/fore/directional
+	icon_state = "fore_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/port/directional
+	icon_state = "port_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/starboard/directional
+	icon_state = "starboard_directional"
+
