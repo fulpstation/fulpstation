@@ -71,7 +71,7 @@
 		CHECK_OUTFIT_SLOT(id, ITEM_SLOT_ID)
 		CHECK_OUTFIT_SLOT(l_pocket, ITEM_SLOT_LPOCKET)
 		CHECK_OUTFIT_SLOT(r_pocket, ITEM_SLOT_RPOCKET)
-		CHECK_OUTFIT_SLOT(suit_store, ITEM_SLOT_SUITSTORE)
+		//CHECK_OUTFIT_SLOT(suit_store, ITEM_SLOT_SUITSTORE)
 		if (outfit.backpack_contents || outfit.box)
 			var/list/backpack_contents = outfit.backpack_contents?.Copy()
 			if (outfit.box)
