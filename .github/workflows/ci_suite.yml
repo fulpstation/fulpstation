@@ -67,6 +67,7 @@ jobs:
         run: |
           pip3 install setuptools
           bash tools/ci/install_node.sh
+          bash tools/ci/install_spaceman_dmm.sh dreamchecker
           bash tools/ci/install_ripgrep.sh
           tools/bootstrap/python -c ''
       - name: Give Linters A Go
