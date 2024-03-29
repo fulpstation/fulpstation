@@ -75,7 +75,7 @@
 
 /datum/outfit/job/clown/mod
 	name = "Clown (MODsuit)"
-
+	suit = null
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/cosmohonk
 	internals_slot = ITEM_SLOT_SUITSTORE
