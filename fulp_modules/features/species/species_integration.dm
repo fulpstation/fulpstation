@@ -13,7 +13,9 @@
 /world/proc/make_fulp_datum_references_lists()
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/eyes, GLOB.eyes_beefman)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/beef/mouth, GLOB.mouths_beefman)
-
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/protogen, GLOB.tails_list_protogen)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/protogen/antennae, GLOB.antennae_list_protogen, add_blank = TRUE)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/protogen/snout, GLOB.snouts_list_protogen)
 
 /**
  * CARBON INTEGRATION

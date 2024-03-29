@@ -236,3 +236,7 @@ GLOBAL_LIST_INIT(russian_names, list(
 	"Volski",
 	"Zakharov",
 ))
+
+GLOBAL_LIST_EMPTY(tails_list_protogen)
+GLOBAL_LIST_EMPTY(snouts_list_protogen)
+GLOBAL_LIST_EMPTY(antennae_list_protogen)
