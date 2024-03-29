@@ -41,8 +41,10 @@
 	death_sound = 'sound/voice/borg_deathsound.ogg'
 
 // It's for april fools, it better be available
-// /datum/species/protogen/check_roundstart_eligible()
-// 	return TRUE
+/datum/species/protogen/check_roundstart_eligible()
+	if(check_holidays(APRIL_FOOLS))
+		return TRUE
+	return ..()
 
 /datum/species/protogen/randomize_features()
 	var/list/features = ..()
