@@ -44,6 +44,17 @@
 /datum/species/protogen/check_roundstart_eligible()
 	return TRUE
 
+/datum/species/protogen/randomize_features()
+	var/list/features = ..()
+	features["tail_protogen"] = pick(GLOB.tails_list_protogen)
+	features["snout_protogen"] = pick(GLOB.snouts_list_protogen)
+	features["antennae_protogen"] = pick(GLOB.antennae_list_protogen)
+	return features
+
+
+/mob/living/carbon/human/species/protogen
+	race = /datum/species/protogen
+
 /// Lore and shit
 
 /datum/species/protogen/get_physical_attributes()
