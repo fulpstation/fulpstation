@@ -5911,8 +5911,13 @@
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "ccz" = (
-/obj/effect/decal/cleanable/cobweb,
-/turf/closed/mineral/random/labormineral,
+/obj/effect/turf_decal/sand/plating,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/effect/decal/cleanable/robot_debris,
+/turf/open/floor/plating/airless,
 /area/space/nearstation)
 "ccQ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/cyan/visible,
@@ -12592,12 +12597,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/courtroom)
-"elV" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/holosign/barrier/atmos,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/west,
-/turf/open/floor/plating/airless,
-/area/station/maintenance/space_hut/plasmaman)
 "emb" = (
 /obj/machinery/door/airlock/external{
 	name = "Departure Shuttle Airlock";
@@ -14186,9 +14185,13 @@
 /turf/open/floor/wood/tile,
 /area/station/service/library)
 "eOs" = (
-/obj/effect/decal/cleanable/robot_debris,
-/turf/closed/wall/r_wall/rust,
-/area/station/service/chapel/dock)
+/obj/machinery/smartfridge/chemistry/preloaded,
+/obj/effect/turf_decal/tile/yellow/half/contrasted{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow/half/contrasted,
+/turf/open/floor/iron/showroomfloor,
+/area/station/medical/pharmacy)
 "eOt" = (
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
@@ -20396,12 +20399,6 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /turf/open/floor/iron,
 /area/station/medical/medbay/central)
-"gKf" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/structure/holosign/barrier/atmos,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/east,
-/turf/open/floor/plating/airless,
-/area/station/maintenance/space_hut/plasmaman)
 "gKg" = (
 /obj/structure/railing,
 /obj/structure/disposalpipe/segment{
@@ -21877,19 +21874,11 @@
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "hlb" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 8
-	},
-/obj/machinery/door/window/right/directional/west{
-	name = "Creature Cell";
-	req_access = list("xenobiology")
-	},
-/turf/open/floor/iron/dark,
-/area/station/science/xenobiology)
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/holosign/barrier/atmos,
+/obj/structure/sign/poster/contraband/rebels_unite/directional/west,
+/turf/open/floor/plating/airless,
+/area/station/maintenance/space_hut/plasmaman)
 "hlC" = (
 /obj/machinery/turretid{
 	icon_state = "control_stun";
@@ -23396,7 +23385,7 @@
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
 /mob/living/basic/bot/cleanbot/medbay{
-	maints_access_required = list(22);
+	maints_access_required = list("chaplain");
 	name = "Deacon Scrubsy"
 	},
 /turf/open/floor/iron/smooth_large,
@@ -32514,7 +32503,10 @@
 /area/station/medical/storage)
 "kHG" = (
 /obj/machinery/smartfridge/chemistry/preloaded,
-/turf/closed/wall,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
 /area/station/medical/pharmacy)
 "kHI" = (
 /obj/effect/turf_decal/stripes/corner{
@@ -33376,12 +33368,12 @@
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/cleanable/blood/gibs/old,
 /obj/effect/spawner/random/structure/crate,
+/obj/effect/mapping_helpers/burnt_floor,
 /mob/living/basic/chicken{
-	atmos_requirements = list("min_oxy"=0,"max_oxy"=0,"min_tox"=0,"max_tox"=1,"min_co2"=0,"max_co2"=0,"min_n2"=0,"max_n2"=0);
 	desc = "A timeless classic.";
+	habitable_atmos = list("min_oxy"=0,"max_oxy"=0,"min_tox"=0,"max_tox"=1,"min_co2"=0,"max_co2"=0,"min_n2"=0,"max_n2"=0);
 	name = "Kentucky"
 	},
-/obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/starboard)
 "kVv" = (
@@ -33509,13 +33501,11 @@
 	name = "Creature Cell 1"
 	},
 /obj/effect/turf_decal/delivery,
-/obj/machinery/door/window/left/directional/west{
-	base_state = "right";
-	icon_state = "right";
+/obj/structure/cable,
+/obj/machinery/door/window/right/directional/west{
 	name = "Creature Cell";
 	req_access = list("xenobiology")
 	},
-/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "kXN" = (
@@ -36139,6 +36129,12 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/maintenance/port/fore)
+"lOT" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/holosign/barrier/atmos,
+/obj/structure/sign/poster/contraband/rebels_unite/directional/east,
+/turf/open/floor/plating/airless,
+/area/station/maintenance/space_hut/plasmaman)
 "lOX" = (
 /turf/closed/wall/r_wall,
 /area/station/engineering/supermatter)
@@ -38115,7 +38111,19 @@
 /area/station/engineering/atmos)
 "mwe" = (
 /obj/machinery/smartfridge,
-/turf/closed/wall,
+/obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/white{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/white{
+	dir = 4
+	},
+/turf/open/space/basic,
 /area/station/service/kitchen)
 "mwj" = (
 /obj/effect/turf_decal/stripes/line,
@@ -38795,6 +38803,8 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/firealarm/directional/east,
+/obj/effect/decal/cleanable/cobweb/cobweb2,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "mIo" = (
@@ -39189,13 +39199,7 @@
 /turf/open/floor/plating,
 /area/station/commons/vacant_room/commissary)
 "mPE" = (
-/obj/structure/sink/directional/west,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/camera/directional/east{
-	c_tag = "Xenobiology Computers";
-	name = "xenobiology camera";
-	network = list("ss13","rd","xeno")
-	},
 /obj/effect/turf_decal/tile/purple,
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 4
@@ -40074,7 +40078,15 @@
 /area/station/command/bridge)
 "ndz" = (
 /obj/machinery/smartfridge/extract/preloaded,
-/turf/closed/wall,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
+	},
+/obj/machinery/camera/directional/east{
+	c_tag = "Xenobiology Computers";
+	name = "xenobiology camera";
+	network = list("ss13","rd","xeno")
+	},
+/turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "ndP" = (
 /obj/machinery/atmospherics/pipe/bridge_pipe/green/visible,
@@ -41595,8 +41607,8 @@
 "nFN" = (
 /obj/machinery/igniter/incinerator_ordmix,
 /mob/living/basic/chicken{
-	atmos_requirements = list("min_oxy"=0,"max_oxy"=0,"min_tox"=0,"max_tox"=1,"min_co2"=0,"max_co2"=0,"min_n2"=0,"max_n2"=0);
 	desc = "A timeless classic.";
+	habitable_atmos = list("min_oxy"=0,"max_oxy"=0,"min_tox"=0,"max_tox"=1,"min_co2"=0,"max_co2"=0,"min_n2"=0,"max_n2"=0);
 	name = "Kentucky"
 	},
 /turf/open/floor/engine/vacuum,
@@ -46723,18 +46735,16 @@
 /turf/open/floor/iron/dark,
 /area/station/command/gateway)
 "puJ" = (
-/obj/machinery/door/window/left/directional/west{
-	base_state = "right";
-	icon_state = "right";
-	name = "Creature Cell";
-	req_access = list("xenobiology")
-	},
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
+	},
+/obj/machinery/door/window/right/directional/west{
+	name = "Creature Cell";
+	req_access = list("xenobiology")
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
@@ -51053,7 +51063,8 @@
 /area/station/hallway/secondary/entry)
 "qUj" = (
 /obj/machinery/smartfridge/food,
-/turf/closed/wall,
+/obj/effect/turf_decal/tile/red/opposingcorners,
+/turf/open/floor/iron/showroomfloor,
 /area/station/service/kitchen)
 "qUp" = (
 /obj/effect/decal/cleanable/cobweb/cobweb2,
@@ -57551,7 +57562,13 @@
 /area/station/engineering/gravity_generator)
 "sVz" = (
 /obj/machinery/smartfridge,
-/turf/closed/wall,
+/obj/effect/turf_decal/tile/green{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/iron,
 /area/station/service/hydroponics)
 "sVB" = (
 /obj/machinery/door/airlock/maintenance{
@@ -58406,8 +58423,6 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "tiK" = (
-/obj/machinery/firealarm/directional/east,
-/obj/effect/decal/cleanable/cobweb/cobweb2,
 /obj/machinery/airalarm/directional/north,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
@@ -65813,7 +65828,7 @@
 /area/station/engineering/supermatter/room)
 "vDD" = (
 /obj/machinery/smartfridge/drinks,
-/turf/closed/wall,
+/turf/open/floor/wood,
 /area/station/hallway/secondary/service)
 "vDO" = (
 /obj/machinery/door/firedoor,
@@ -90668,7 +90683,7 @@ rNx
 psC
 hOm
 psC
-eOs
+vTV
 aeu
 aeu
 aeu
@@ -90925,7 +90940,7 @@ gnh
 aeu
 mbC
 dKZ
-unx
+ccz
 unx
 unx
 unx
@@ -95094,7 +95109,7 @@ bdM
 vkE
 mpv
 opL
-kHG
+eOs
 ofg
 ofg
 nlR
@@ -105070,7 +105085,7 @@ aeu
 aeu
 aeu
 aeu
-ccz
+aeu
 aeu
 aeu
 aaa
@@ -112540,7 +112555,7 @@ hvl
 mOt
 wpw
 gcp
-hlb
+puJ
 aNt
 ndz
 kYR
@@ -124138,10 +124153,10 @@ aeo
 aaa
 aeo
 aaa
-elV
+hlb
 tmv
 qKH
-elV
+hlb
 viq
 aaa
 aaa
@@ -124652,10 +124667,10 @@ aeo
 aaa
 aeo
 aaa
-gKf
+lOT
 oVY
 qlX
-gKf
+lOT
 viq
 aaa
 aaa
