@@ -1692,6 +1692,7 @@
 /area/station/science/genetics)
 "aAP" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
+/obj/structure/sign/poster/official/safety_eye_protection/directional/east,
 /turf/open/floor/iron/showroomfloor,
 /area/station/medical/chemistry)
 "aAQ" = (
@@ -6252,14 +6253,12 @@
 	id = "hop";
 	name = "Privacy Shutters"
 	},
-/obj/machinery/door/window/brigdoor/left/directional/north{
-	base_state = "rightsecure";
-	icon_state = "rightsecure";
-	name = "Head of Personnel's Desk";
-	req_access = list("hop")
-	},
 /obj/machinery/door/window/right/directional/south{
 	name = "Reception Desk"
+	},
+/obj/machinery/door/window/brigdoor/right/directional/north{
+	name = "Head of Personnel's Desk";
+	req_access = list("hop")
 	},
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
@@ -8108,7 +8107,6 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/directional/west,
 /obj/machinery/airalarm/directional/west,
-/obj/machinery/power/shieldwallgen,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
@@ -8244,13 +8242,6 @@
 /area/station/security/checkpoint/customs)
 "cQb" = (
 /obj/machinery/quantum_server,
-/obj/structure/sign/poster/contraband/pwr_game/directional/south{
-	pixel_x = 9;
-	pixel_y = -30
-	},
-/obj/structure/sign/poster/contraband/hacking_guide/directional/south{
-	pixel_x = -12
-	},
 /obj/effect/turf_decal/box/red/corners{
 	dir = 1
 	},
@@ -8261,6 +8252,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/box/red/corners,
+/obj/structure/sign/poster/contraband/pwr_game/directional/south,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
 "cQc" = (
@@ -11512,9 +11504,7 @@
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/effect/spawner/random/aimodule/neutral,
-/obj/machinery/door/window/left/directional/south{
-	base_state = "right";
-	icon_state = "right";
+/obj/machinery/door/window/right/directional/south{
 	name = "Core Modules";
 	req_access = list("captain")
 	},
@@ -12602,6 +12592,12 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/courtroom)
+"elV" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/holosign/barrier/atmos,
+/obj/structure/sign/poster/contraband/rebels_unite/directional/west,
+/turf/open/floor/plating/airless,
+/area/station/maintenance/space_hut/plasmaman)
 "emb" = (
 /obj/machinery/door/airlock/external{
 	name = "Departure Shuttle Airlock";
@@ -14709,6 +14705,7 @@
 "eYv" = (
 /obj/machinery/netpod,
 /obj/effect/turf_decal/bot_red,
+/obj/structure/sign/poster/official/ue_no/directional/north,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
 "eYw" = (
@@ -19394,9 +19391,6 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 1
 	},
-/obj/machinery/smartfridge/organ{
-	pixel_y = -32
-	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
@@ -20402,6 +20396,12 @@
 /obj/effect/turf_decal/tile/neutral/opposingcorners,
 /turf/open/floor/iron,
 /area/station/medical/medbay/central)
+"gKf" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/holosign/barrier/atmos,
+/obj/structure/sign/poster/contraband/rebels_unite/directional/east,
+/turf/open/floor/plating/airless,
+/area/station/maintenance/space_hut/plasmaman)
 "gKg" = (
 /obj/structure/railing,
 /obj/structure/disposalpipe/segment{
@@ -21545,12 +21545,10 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/vending/assist,
 /obj/effect/turf_decal/bot_white,
-/obj/structure/sign/poster/contraband/punch_shit{
-	pixel_x = 30
-	},
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
+/obj/structure/sign/poster/contraband/punch_shit/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/port/fore)
 "hhc" = (
@@ -21879,15 +21877,19 @@
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "hlb" = (
-/obj/structure/sign/poster/official/safety_eye_protection/directional/south{
-	pixel_x = 32
+/obj/structure/cable,
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/tile/yellow/half/contrasted{
-	dir = 4
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
 	},
-/turf/open/floor/iron/showroomfloor,
-/area/station/medical/chemistry)
+/obj/machinery/door/window/right/directional/west{
+	name = "Creature Cell";
+	req_access = list("xenobiology")
+	},
+/turf/open/floor/iron/dark,
+/area/station/science/xenobiology)
 "hlC" = (
 /obj/machinery/turretid{
 	icon_state = "control_stun";
@@ -21895,19 +21897,16 @@
 	pixel_x = 3;
 	pixel_y = 28
 	},
-/obj/machinery/door/window/left/directional/west{
-	atom_integrity = 300;
-	base_state = "leftsecure";
-	icon_state = "leftsecure";
-	name = "Primary AI Core Access";
-	req_access = list("ai_upload")
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 8;
 	id = "AI Core shutters";
 	name = "AI Core Shutter"
 	},
 /obj/effect/turf_decal/delivery,
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "Primary AI Core Access";
+	req_access = list("ai_upload")
+	},
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
 "hlJ" = (
@@ -22041,13 +22040,11 @@
 	name = "Creature Cell 2"
 	},
 /obj/effect/turf_decal/delivery,
-/obj/machinery/door/window/left/directional/west{
-	base_state = "right";
-	icon_state = "right";
+/obj/structure/cable,
+/obj/machinery/door/window/right/directional/west{
 	name = "Creature Cell";
 	req_access = list("xenobiology")
 	},
-/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "hnA" = (
@@ -23598,7 +23595,6 @@
 /obj/machinery/power/shieldwallgen,
 /obj/effect/turf_decal/bot,
 /obj/structure/window/reinforced/spawner/directional/east,
-/obj/machinery/power/shieldwallgen,
 /obj/machinery/light_switch/directional/west,
 /obj/effect/turf_decal/tile/neutral,
 /turf/open/floor/iron/dark,
@@ -27138,13 +27134,8 @@
 	name = "Private Channel";
 	pixel_x = 8
 	},
-/obj/machinery/door/window/left/directional/west{
-	atom_integrity = 300;
-	base_state = "leftsecure";
-	icon_state = "leftsecure";
-	layer = 4.1;
+/obj/machinery/door/window/brigdoor/left/directional/west{
 	name = "Tertiary AI Core Access";
-	pixel_x = -3;
 	req_access = list("ai_upload")
 	},
 /turf/open/floor/circuit/red,
@@ -27882,6 +27873,7 @@
 /obj/effect/turf_decal/box/red/corners{
 	dir = 8
 	},
+/obj/structure/sign/poster/contraband/energy_swords/directional/east,
 /obj/structure/extinguisher_cabinet/directional/east,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
@@ -31226,9 +31218,6 @@
 /area/station/security/prison)
 "kiZ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/sign/poster/official/space_cops/directional/south{
-	pixel_x = 32
-	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/red{
 	dir = 8
@@ -33270,11 +33259,10 @@
 /area/station/ai_monitored/command/storage/eva)
 "kTD" = (
 /obj/machinery/byteforge,
-/obj/structure/sign/poster/official/download/directional/south{
-	pixel_y = -28
-	},
 /obj/effect/turf_decal/stripes/red/box,
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/sign/poster/official/download/directional/west,
+/obj/structure/sign/poster/contraband/free_key/directional/south,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
 "kTJ" = (
@@ -33910,13 +33898,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "lcK" = (
-/obj/machinery/door/window/left/directional/east{
-	atom_integrity = 300;
-	base_state = "rightsecure";
-	icon_state = "rightsecure";
-	name = "Primary AI Core Access";
-	req_access = list("ai_upload")
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 4;
 	id = "AI Core shutters";
@@ -33925,6 +33906,10 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/light_switch/directional/north{
 	pixel_x = 8
+	},
+/obj/machinery/door/window/brigdoor/right/directional/east{
+	name = "Primary AI Core Access";
+	req_access = list("ai_upload")
 	},
 /turf/open/floor/engine,
 /area/station/ai_monitored/turret_protected/ai)
@@ -34314,6 +34299,7 @@
 /obj/machinery/camera/directional/north{
 	c_tag = "Bitrunning Den"
 	},
+/obj/structure/sign/poster/contraband/bountyhunters/directional/north,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
 "ljy" = (
@@ -43830,14 +43816,12 @@
 	dir = 1
 	},
 /obj/structure/window/reinforced/spawner/directional/south,
-/obj/machinery/door/window/right/directional/east{
-	base_state = "left";
-	icon_state = "left";
-	name = "Fitness Ring"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
+	},
+/obj/machinery/door/window/left/directional/east{
+	name = "Fitness Ring"
 	},
 /turf/open/floor/iron/dark,
 /area/station/commons/fitness/recreation)
@@ -45148,9 +45132,6 @@
 /area/station/hallway/secondary/exit/departure_lounge)
 "oVY" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/north{
-	pixel_x = 32
-	},
 /obj/effect/turf_decal/trimline/purple/filled/corner{
 	dir = 8
 	},
@@ -45802,10 +45783,9 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal/incinerator)
 "phH" = (
-/obj/structure/bodycontainer/morgue,
-/obj/effect/turf_decal/bot_white,
-/obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/neutral,
+/obj/machinery/iv_drip,
+/obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
 "phK" = (
@@ -49231,9 +49211,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/item/tank/internals/plasmaman/belt/full,
 /obj/structure/table,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/south{
-	pixel_x = 32
-	},
 /obj/effect/turf_decal/trimline/purple/filled/corner{
 	dir = 1
 	},
@@ -50516,9 +50493,6 @@
 /area/station/maintenance/fore)
 "qKH" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/south{
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/trimline/purple/filled/corner{
 	dir = 4
 	},
@@ -52192,13 +52166,11 @@
 /obj/structure/window/reinforced/spawner/directional/north{
 	pixel_y = 1
 	},
-/obj/machinery/door/window/right/directional/west{
-	base_state = "left";
-	icon_state = "left";
-	name = "Fitness Ring"
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/tile/neutral,
+/obj/machinery/door/window/left/directional/west{
+	name = "Fitness Ring"
+	},
 /turf/open/floor/iron/dark,
 /area/station/commons/fitness/recreation)
 "rnG" = (
@@ -58719,9 +58691,6 @@
 /area/station/maintenance/fore)
 "tmv" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/sign/poster/contraband/rebels_unite/directional/north{
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/trimline/purple/filled/corner,
 /obj/effect/turf_decal/trimline/purple/filled/corner{
 	dir = 1
@@ -65717,6 +65686,7 @@
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
 	},
+/obj/structure/sign/poster/official/space_cops/directional/east,
 /turf/open/floor/iron,
 /area/station/security/office)
 "vBR" = (
@@ -66220,8 +66190,8 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
-/obj/machinery/iv_drip,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/smartfridge/organ,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
 "vJh" = (
@@ -69634,7 +69604,6 @@
 /obj/machinery/power/shieldwallgen,
 /obj/effect/turf_decal/bot,
 /obj/machinery/firealarm/directional/west,
-/obj/machinery/power/shieldwallgen,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
@@ -70735,18 +70704,8 @@
 /obj/machinery/netpod,
 /obj/effect/turf_decal/bot_red,
 /obj/structure/sign/poster/contraband/blood_geometer/directional/north,
-/obj/structure/sign/poster/contraband/communist_state/directional/west{
-	pixel_x = -29;
-	pixel_y = 1
-	},
-/obj/structure/sign/poster/contraband/bountyhunters/directional/north{
-	pixel_x = -23
-	},
-/obj/structure/sign/poster/contraband/babel_device/directional/west{
-	pixel_x = -38;
-	pixel_y = 9
-	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/sign/poster/contraband/communist_state/directional/west,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/cargo/bitrunning/den)
 "xcV" = (
@@ -72278,13 +72237,8 @@
 	name = "Private Channel";
 	pixel_x = -8
 	},
-/obj/machinery/door/window/left/directional/east{
-	atom_integrity = 300;
-	base_state = "rightsecure";
-	icon_state = "rightsecure";
-	layer = 4.1;
+/obj/machinery/door/window/brigdoor/right/directional/east{
 	name = "Secondary AI Core Access";
-	pixel_x = 4;
 	req_access = list("ai_upload")
 	},
 /turf/open/floor/circuit/red,
@@ -89743,7 +89697,7 @@ wYR
 xFE
 tWn
 juL
-hlb
+wYR
 aAP
 mtV
 rPU
@@ -112586,7 +112540,7 @@ hvl
 mOt
 wpw
 gcp
-puJ
+hlb
 aNt
 ndz
 kYR
@@ -124184,10 +124138,10 @@ aeo
 aaa
 aeo
 aaa
-iBc
+elV
 tmv
 qKH
-iBc
+elV
 viq
 aaa
 aaa
@@ -124698,10 +124652,10 @@ aeo
 aaa
 aeo
 aaa
-iBc
+gKf
 oVY
 qlX
-iBc
+gKf
 viq
 aaa
 aaa
