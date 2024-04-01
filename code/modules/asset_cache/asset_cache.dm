@@ -7,7 +7,7 @@ The simple subclass will most like be of use for most cases.
 Then call get_asset_datum() with the type of the datum you created and store the return
 Then call .send(client) on that stored return value.
 
-Note: If your code uses output() with assets you will need to call asset_flush on the client and wait for it to return before calling output(). You only need do this if .send(client) returned TRUE
+Note: If your code uses output() with assets you will need to call browse_queue_flush on the client and wait for it to return before calling output(). You only need do this if .send(client) returned TRUE
 */
 
 //When sending mutiple assets, how many before we give the client a quaint little sending resources message
@@ -19,7 +19,7 @@ Note: If your code uses output() with assets you will need to call asset_flush o
 	return send_asset_list(client, list(asset_name))
 
 /// Sends a list of assets to a client
-/// This proc will no longer block, use client.asset_flush() if you to need know when the client has all assets (such as for output()). (This is not required for browse() calls as they use the same message queue as asset sends)
+/// This proc will no longer block, use client.browse_queue_flush() if you to need know when the client has all assets (such as for output()). (This is not required for browse() calls as they use the same message queue as asset sends)
 /// client - a client or mob
 /// asset_list - A list of asset filenames to be sent to the client.
 /// Returns TRUE if any assets were sent.
@@ -77,7 +77,7 @@ Note: If your code uses output() with assets you will need to call asset_flush o
 		if (send_asset(client, file))
 			if (!(--filerate))
 				filerate = startingfilerate
-				client.asset_flush()
+				client.browse_queue_flush()
 			stoplag(0) //queuing calls like this too quickly can cause issues in some client versions
 
 //This proc "registers" an asset, it adds it to the cache for further use, you cannot touch it from this point on or you'll fuck things up.
