@@ -2,8 +2,8 @@
 
 /datum/asset/simple/tgui
 	assets = list(
-		"tgui.bundle.js" = 'tgui/packages/tgui/public/tgui.bundle.js',
-		"tgui.bundle.css" = 'tgui/packages/tgui/public/tgui.bundle.css',
+		"tgui.bundle.js" = "tgui/public/tgui.bundle.js",
+		"tgui.bundle.css" = "tgui/public/tgui.bundle.css",
 	)
 
 /datum/asset/simple/headers
