@@ -24,6 +24,14 @@ Juke.setup({ file: import.meta.url }).then((code) => {
     return;
   }
 
+  if (TGS_MODE) {
+    // workaround for ESBuild process lingering
+    // Once https://github.com/privatenumber/esbuild-loader/pull/354 is merged and updated to, this can be removed
+    setTimeout(() => process.exit(code), 10000);
+  }
+  else {
+    process.exit(code);
+  }
 });
 
 const DME_NAME = 'tgstation';
