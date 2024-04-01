@@ -430,6 +430,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
 
+	if(isnull(job_preferences))
+		ResetJobs()
+
 	all_quirks = SANITIZE_LIST(all_quirks)
 
 	return TRUE
