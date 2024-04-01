@@ -13,29 +13,19 @@
 }
 
 .Flex--iefix {
-  display: table !important;
+  display: block;
 }
 
-.Flex--iefix--column {
-  display: block !important;
-
-  & > .Flex__item {
-    display: block !important;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-  }
+.Flex--iefix.Flex--inline {
+  display: inline-block;
 }
 
 .Flex__item--iefix {
-  display: table-cell !important;
+  display: inline-block;
 }
 
-@for $i from 1 through 2 {
-  .Flex--spacing--#{$i} {
-    margin: 0 -0.25em * $i;
-
-    & > .Flex__item {
-      margin: 0 0.25em * $i;
-    }
+.Flex--iefix--column {
+  & > .Flex__item--iefix {
+    display: block;
   }
 }
