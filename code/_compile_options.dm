@@ -47,6 +47,14 @@
 #define CBT
 #endif
 
+#ifdef CIBUILDING
+#define UNIT_TESTS
+#endif
+
+#ifdef CITESTING
+#define TESTING
+#endif
+
 #if !defined(CBT) && !defined(SPACEMAN_DMM)
 #warn Building with Dream Maker is no longer supported and will result in errors.
 #warn In order to build, run BUILD.bat in the root directory.
