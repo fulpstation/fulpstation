@@ -9,8 +9,6 @@
 
 GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 
-/datum/request_manager/mentor
-
 /datum/request_manager/mentor/ui_state(mob/user)
 	return GLOB.mentor_state
 
