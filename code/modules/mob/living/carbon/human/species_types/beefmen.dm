@@ -359,7 +359,7 @@
 			// Leave Melee Chain (so deleting the meat doesn't throw an error) <--- aka, deleting the meat that called this very proc.
 			spawn(1)
 				if (!do_mob(user,H))
-					return TRUE
+					return
 				// Attach the part!
 				var/obj/item/bodypart/newBP = H.newBodyPart(target_zone, FALSE)
 				H.visible_message("The meat sprouts digits and becomes [H]'s new [newBP.name]!", "<span class='notice'>The meat sprouts digits and becomes your new [newBP.name]!</span>")

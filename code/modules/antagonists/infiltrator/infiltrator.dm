@@ -14,14 +14,14 @@
 /datum/antagonist/traitor/infiltrator/event
 	name = "Infiltrator (Event)"
 	should_give_codewords = TRUE //There is a pretty good chance that infiltrator will spawn in Traitors round, so why not?
-	hijack_chance = 0 //Normal mid-round infiltrators will not interrupt the ongoing round with hjiack, \
-	unless they get lucky with faction.
+	hijack_chance = 0 //Normal mid-round infiltrators will not interrupt the ongoing round with hjiack, unless they get lucky with faction.
 	dagd_chance = 0
 
 /datum/antagonist/traitor/infiltrator/event/move_to_spawnpoint() //Mid-round infiltrators are moved on spawn by event.
 	owner.current.reagents.add_reagent(/datum/reagent/medicine/leporazine, 10)
 
 /datum/antagonist/traitor/infiltrator/on_gain()
+	SHOULD_CALL_PARENT(FALSE)
 	equip_agent()
 	move_to_spawnpoint()
 	SSticker.mode.traitors += owner

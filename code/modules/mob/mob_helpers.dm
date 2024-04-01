@@ -101,7 +101,7 @@
 			else if(newletter == ".")
 				newletter = " *BURP*."
 		switch(rand(1, 20))
-			if(1)
+			if(1 to 9)
 				newletter += "'"
 			if(10)
 				newletter += "[newletter]"
@@ -150,6 +150,8 @@
 				newletter = "nglu"
 			if(5)
 				newletter = "glor"
+			if(6 to 15)
+				newletter = "'"
 		. += newletter
 	return sanitize(.)
 

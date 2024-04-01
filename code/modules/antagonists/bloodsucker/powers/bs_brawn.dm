@@ -136,8 +136,6 @@
 	if(user_C.handcuffed)
 		var/obj/O = user_C.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 		if(istype(O))
-			//user_C.visible_message("<span class='warning'>[user_C] attempts to remove [O]!</span>", \
-			//					 "<span class='warning'>You snap [O] like it's nothing!</span>")
 			user_C.clear_cuffs(O,TRUE)
 			playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
 			return TRUE
@@ -158,8 +156,6 @@
 	if(user_C.legcuffed)
 		var/obj/O = user_C.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 		if(istype(O))
-			//user_C.visible_message("<span class='warning'>[user_C] attempts to remove [O]!</span>", \
-			//					 "<span class='warning'>You snap [O] like it's nothing!</span>")
 			user_C.clear_cuffs(O,TRUE)
 			playsound(get_turf(usr), 'sound/effects/grillehit.ogg', 80, 1, -1)
 			return TRUE
