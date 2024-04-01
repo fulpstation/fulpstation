@@ -62,9 +62,6 @@
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
 
-
-
-
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"
 	icon_state = "green"
@@ -78,62 +75,50 @@
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
 
-
-
-
 /area/ruin/has_grav/prototype
 	requires_power = TRUE
 	outdoors = FALSE
 	power_light = FALSE
 	power_equip = FALSE
 	power_environ = FALSE
+	icon = 'icons/area/areas_station.dmi'
 
 /area/ruin/has_grav/prototype/Captain
 	name = "Prototype Captain's quarter"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "captain"
 
 /area/ruin/has_grav/prototype/arrivals
 	name = "Prototype Arrivals"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "entry"
 
 /area/ruin/has_grav/prototype/hallway
 	name = "Prototype Main Hallway"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "hall"
 
 /area/ruin/has_grav/prototype/medsci
 	name = "Prototype Med-Sci"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "medbay"
 
 /area/ruin/has_grav/prototype/botany
 	name = "Prototype Botany"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "hydro"
 
 /area/ruin/has_grav/prototype/engineering
 	name = "Prototype Engineering"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "engie"
 
 /area/ruin/has_grav/prototype/solars
 	name = "Prototype Solars"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "panels"
 
 /area/ruin/has_grav/prototype/kitchen
 	name = "Prototype Kitchen"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "kitchen"
 
 /area/ruin/has_grav/prototype/brig
 	name = "Prototype Brig"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "brig"
 
 /area/ruin/has_grav/prototype/dorms
 	name = "Prototype Dormitories"
-	icon = 'icons/area/areas_station.dmi'
 	icon_state = "dorms"

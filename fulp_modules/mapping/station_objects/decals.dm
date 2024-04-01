@@ -41,7 +41,7 @@
 	name = "prison fourcorner"
 
 /obj/effect/turf_decal/tile/security
-	color = "#FF0000"
+	color = COLOR_RED
 	name = "security corner"
 
 /obj/effect/turf_decal/tile/security/anticorner
@@ -61,7 +61,7 @@
 	name = "security fourcorner"
 
 /obj/effect/turf_decal/tile/engineering
-	color = "#FFD700"
+	color = COLOR_GOLD
 	name = "engineering corner"
 
 /obj/effect/turf_decal/tile/engineering/anticorner
@@ -135,7 +135,7 @@
 	icon_state =  "siding_plain_corner"
 
 /obj/effect/turf_decal/siding/engineering
-	color = "#FFD700"
+	color = COLOR_GOLD
 
 /obj/effect/turf_decal/siding/engineering/corner
 	icon_state =  "siding_plain_corner"
