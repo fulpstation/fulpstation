@@ -1,15 +1,15 @@
 /obj/item/electropack
 	name = "electropack"
 	desc = "Dance my monkeys! DANCE!!!"
-	icon = 'icons/obj/devices/tool.dmi'
+	icon = 'icons/obj/radio.dmi'
 	icon_state = "electropack0"
 	inhand_icon_state = "electropack"
-	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
-	obj_flags = CONDUCTS_ELECTRICITY
+	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
 	w_class = WEIGHT_CLASS_HUGE
-	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT *5, /datum/material/glass=SHEET_MATERIAL_AMOUNT * 1.25)
+	custom_materials = list(/datum/material/iron=10000, /datum/material/glass=2500)
 
 	var/on = TRUE
 	var/code = 2
@@ -24,33 +24,33 @@
 	SSradio.remove_object(src, frequency)
 	return ..()
 
-/obj/item/electropack/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] hooks [user.p_them()]self to the electropack and spams the trigger! It looks like [user.p_theyre()] trying to commit suicide!"))
-	return FIRELOSS
+/obj/item/electropack/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] hooks [user.p_them()]self to the electropack and spams the trigger! It looks like [user.p_theyre()] trying to commit suicide!</span>")
+	return (FIRELOSS)
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/item/electropack/attack_hand(mob/user, list/modifiers)
+/obj/item/electropack/attack_hand(mob/user)
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		if(src == C.back)
-			to_chat(user, span_warning("You need help taking this off!"))
+			to_chat(user, "<span class='warning'>You need help taking this off!</span>")
 			return
 	return ..()
 
 /obj/item/electropack/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/clothing/head/helmet))
 		var/obj/item/assembly/shock_kit/A = new /obj/item/assembly/shock_kit(user)
-		A.icon = 'icons/obj/devices/assemblies.dmi'
+		A.icon = 'icons/obj/assemblies.dmi'
 
 		if(!user.transferItemToLoc(W, A))
-			to_chat(user, span_warning("[W] is stuck to your hand, you cannot attach it to [src]!"))
+			to_chat(user, "<span class='warning'>[W] is stuck to your hand, you cannot attach it to [src]!</span>")
 			return
 		W.master = A
-		A.helmet_part = W
+		A.part1 = W
 
 		user.transferItemToLoc(src, A, TRUE)
 		master = A
-		A.electropack_part = src
+		A.part2 = src
 
 		user.put_in_hands(A)
 		A.add_fingerprint(user)
@@ -60,6 +60,7 @@
 /obj/item/electropack/receive_signal(datum/signal/signal)
 	if(!signal || signal.data["code"] != code)
 		return
+
 	if(isliving(loc) && on)
 		if(shock_cooldown)
 			return
@@ -68,7 +69,7 @@
 		var/mob/living/L = loc
 		step(L, pick(GLOB.cardinals))
 
-		to_chat(L, span_danger("You feel a sharp shock!"))
+		to_chat(L, "<span class='danger'>You feel a sharp shock!</span>")
 		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(3, 1, L)
 		s.start()
@@ -76,9 +77,6 @@
 		L.Paralyze(100)
 
 	if(master)
-		if(isassembly(master))
-			var/obj/item/assembly/master_as_assembly = master
-			master_as_assembly.pulsed()
 		master.receive_signal()
 
 /obj/item/electropack/proc/set_frequency(new_frequency)
@@ -105,8 +103,7 @@
 	return data
 
 /obj/item/electropack/ui_act(action, params)
-	. = ..()
-	if(.)
+	if(..())
 		return
 
 	switch(action)

@@ -13,13 +13,13 @@
 	else
 		return ..()
 
-/obj/machinery/door/unpowered/emag_act(mob/user, obj/item/card/emag/emag_card)
-	return FALSE
+/obj/machinery/door/unpowered/emag_act()
+	return
 
 /obj/machinery/door/unpowered/shuttle
 	icon = 'icons/turf/shuttle.dmi'
 	name = "door"
 	icon_state = "door1"
-	opacity = TRUE
+	opacity = 1
 	density = TRUE
 	explosion_block = 1

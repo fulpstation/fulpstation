@@ -1,81 +1,38 @@
 /mob/living/proc/robot_talk(message)
 	log_talk(message, LOG_SAY, tag="binary")
-
-	var/designation = "Default Cyborg"
-	var/spans = list(SPAN_ROBOT)
-
+	var/desig = "Default Cyborg" //ezmode for taters
 	if(issilicon(src))
-		var/mob/living/silicon/player = src
-		designation = trim_left(player.designation + " " + player.job)
-
-	if(HAS_TRAIT(mind, DISPLAYS_JOB_IN_BINARY))
-		designation = mind.assigned_role.title
-
-	if(isAI(src))
-		// AIs are loud and ugly
-		spans |= SPAN_COMMAND
-
-	var/quoted_message = say_quote(
-		message,
-		spans
-	)
-
-	var/namepart = name
-	// If carbon, use voice to account for voice changers
-	if(iscarbon(src))
-		namepart = GetVoice()
-
+		var/mob/living/silicon/S = src
+		desig = trim_left(S.designation + " " + S.job)
+	var/message_a = say_quote(message)
+	var/rendered = "Robotic Talk, <span class='name'>[name]</span> <span class='message'>[message_a]</span>"
 	for(var/mob/M in GLOB.player_list)
 		if(M.binarycheck())
 			if(isAI(M))
-				to_chat(
-					M,
-					span_binarysay("\
-						Robotic Talk, \
-						<a href='?src=[REF(M)];track=[html_encode(namepart)]'>[span_name("[namepart] ([designation])")]</a> \
-						<span class='message'>[quoted_message]</span>\
-					"),
-					avoid_highlighting = src == M
-				)
+				var/renderedAI = "<span class='binarysay'>Robotic Talk, <a href='?src=[REF(M)];track=[html_encode(name)]'><span class='name'>[name] ([desig])</span></a> <span class='message'>[message_a]</span></span>"
+				to_chat(M, renderedAI)
 			else
-				to_chat(
-					M,
-					span_binarysay("\
-						Robotic Talk, \
-						[span_name("[namepart]")] <span class='message'>[quoted_message]</span>\
-					"),
-					avoid_highlighting = src == M
-				)
-
+				to_chat(M, "<span class='binarysay'>[rendered]</span>")
 		if(isobserver(M))
 			var/following = src
-
 			// If the AI talks on binary chat, we still want to follow
-			// its camera eye, like if it talked on the radio
-
+			// it's camera eye, like if it talked on the radio
 			if(isAI(src))
 				var/mob/living/silicon/ai/ai = src
 				following = ai.eyeobj
-
-			var/follow_link = FOLLOW_LINK(M, following)
-
-			to_chat(
-				M,
-				span_binarysay("\
-					[follow_link] \
-					Robotic Talk, \
-					[span_name("[namepart]")] <span class='message'>[quoted_message]</span>\
-				"),
-				avoid_highlighting = src == M
-			)
+			var/link = FOLLOW_LINK(M, following)
+			to_chat(M, "<span class='binarysay'>[link] [rendered]</span>")
 
 /mob/living/silicon/binarycheck()
-	return TRUE
+	return 1
+
+/mob/living/silicon/lingcheck()
+	return 0 //Borged or AI'd lings can't speak on the ling channel.
 
 /mob/living/silicon/radio(message, list/message_mods = list(), list/spans, language)
 	. = ..()
-	if(.)
-		return
+	if(. != 0)
+		return .
 	if(message_mods[MODE_HEADSET])
 		if(radio)
 			radio.talk_into(src, message, , spans, language, message_mods)
@@ -85,4 +42,4 @@
 			radio.talk_into(src, message, message_mods[RADIO_EXTENSION], spans, language, message_mods)
 			return ITALICS | REDUCE_RANGE
 
-	return FALSE
+	return 0

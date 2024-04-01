@@ -9,16 +9,12 @@ SUBSYSTEM_DEF(augury)
 	var/list/observers_given_action = list()
 
 /datum/controller/subsystem/augury/stat_entry(msg)
-	msg = "W:[watchers.len]|D:[length(doombringers)]"
-	return ..()
+	..("W:[watchers.len]|D:[doombringers.len]")
 
 /datum/controller/subsystem/augury/proc/register_doom(atom/A, severity)
 	doombringers[A] = severity
-	RegisterSignal(A, COMSIG_QDELETING, PROC_REF(unregister_doom))
 
 /datum/controller/subsystem/augury/proc/unregister_doom(atom/A)
-	SIGNAL_HANDLER
-	UnregisterSignal(A, COMSIG_QDELETING)
 	doombringers -= A
 
 /datum/controller/subsystem/augury/fire()
@@ -59,8 +55,9 @@ SUBSYSTEM_DEF(augury)
 
 /datum/action/innate/augury
 	name = "Auto Follow Debris"
-	button_icon = 'icons/obj/meteor.dmi'
+	icon_icon = 'icons/obj/meteor.dmi'
 	button_icon_state = "flaming"
+	background_icon_state = ACTION_BUTTON_DEFAULT_BACKGROUND
 
 /datum/action/innate/augury/Destroy()
 	if(owner)
@@ -69,10 +66,19 @@ SUBSYSTEM_DEF(augury)
 
 /datum/action/innate/augury/Activate()
 	SSaugury.watchers += owner
-	to_chat(owner, span_notice("You are now auto-following debris."))
+	to_chat(owner, "<span class='notice'>You are now auto-following debris.</span>")
 	active = TRUE
+	UpdateButtonIcon()
 
 /datum/action/innate/augury/Deactivate()
 	SSaugury.watchers -= owner
-	to_chat(owner, span_notice("You are no longer auto-following debris."))
+	to_chat(owner, "<span class='notice'>You are no longer auto-following debris.</span>")
 	active = FALSE
+	UpdateButtonIcon()
+
+/datum/action/innate/augury/UpdateButtonIcon(status_only = FALSE, force)
+	..()
+	if(active)
+		button.icon_state = "template_active"
+	else
+		button.icon_state = "template"

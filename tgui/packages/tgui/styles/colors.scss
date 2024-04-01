@@ -22,7 +22,6 @@ $purple: #a333c8 !default;
 $pink: #e03997 !default;
 $brown: #a5673f !default;
 $grey: #767676 !default;
-$light-grey: #aaa !default;
 
 $primary: #4972a1 !default;
 $good: #5baa27 !default;
@@ -32,7 +31,7 @@ $label: #7e90a7 !default;
 
 // Background and foreground color lightness ratios
 $bg-lightness: -15% !default;
-$fg-lightness: 10% !default;
+$fg-lightness: 5% !default;
 
 @function bg($color) {
   @return color.scale($color, $lightness: $bg-lightness);
@@ -59,7 +58,6 @@ $_gen_map: (
   'pink': $pink,
   'brown': $brown,
   'grey': $grey,
-  'light-grey': $light-grey,
   'good': $good,
   'average': $average,
   'bad': $bad,
@@ -73,7 +71,6 @@ $bg-map-keys: map.keys($_gen_map) !default;
 
 $fg-map: ();
 @each $color-name in $fg-map-keys {
-  // prettier-ignore
   $fg-map: map-merge($fg-map, (
     $color-name: fg(map.get($_gen_map, $color-name)),
   ));
@@ -81,7 +78,6 @@ $fg-map: ();
 
 $bg-map: ();
 @each $color-name in $bg-map-keys {
-  // prettier-ignore
   $bg-map: map-merge($bg-map, (
     $color-name: bg(map.get($_gen_map, $color-name)),
   ));

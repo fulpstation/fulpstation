@@ -12,50 +12,9 @@
 /obj/machinery/computer/launchpad/Initialize(mapload)
 	launchpads = list()
 	. = ..()
-	AddComponent(/datum/component/usb_port, list(
-		/obj/item/circuit_component/bluespace_launchpad/console,
-	))
 
-/obj/item/circuit_component/bluespace_launchpad/console
-	display_name = "Bluespace Launchpad Console"
-	desc = "Teleports anything to and from any location on the station. Doesn't use actual GPS coordinates, but rather offsets from the launchpad itself. Can only go as far as the launchpad can go, which depends on its parts."
-
-	var/datum/port/input/launchpad_id
-
-	var/obj/machinery/computer/launchpad/attached_console
-
-/obj/item/circuit_component/bluespace_launchpad/console/populate_ports()
-	launchpad_id = add_input_port("Launchpad ID", PORT_TYPE_NUMBER, trigger = null, default = 1)
-	..()
-
-/obj/item/circuit_component/bluespace_launchpad/console/register_usb_parent(atom/movable/shell)
-	. = ..()
-	if(istype(shell, /obj/machinery/computer/launchpad))
-		attached_console = shell
-
-/obj/item/circuit_component/bluespace_launchpad/console/unregister_usb_parent(atom/movable/shell)
-	attached_console = null
-	return ..()
-
-/obj/item/circuit_component/bluespace_launchpad/console/input_received(datum/port/input/port)
-	if(!attached_console || length(attached_console.launchpads) == 0)
-		why_fail.set_output("No launchpads connected!")
-		on_fail.set_output(COMPONENT_SIGNAL)
-		return
-
-	if(!launchpad_id.value)
-		return
-
-	attached_launchpad = KEYBYINDEX(attached_console.launchpads, launchpad_id.value)
-
-	if(isnull(attached_launchpad))
-		why_fail.set_output("Invalid launchpad selected!")
-		on_fail.set_output(COMPONENT_SIGNAL)
-		return
-	..()
-
-/obj/machinery/computer/launchpad/attack_paw(mob/user, list/modifiers)
-	to_chat(user, span_warning("You are too primitive to use this computer!"))
+/obj/machinery/computer/launchpad/attack_paw(mob/user)
+	to_chat(user, "<span class='warning'>You are too primitive to use this computer!</span>")
 	return
 
 /obj/machinery/computer/launchpad/attackby(obj/item/W, mob/user, params)
@@ -66,10 +25,10 @@
 		if(M.buffer && istype(M.buffer, /obj/machinery/launchpad))
 			if(LAZYLEN(launchpads) < maximum_pads)
 				launchpads |= M.buffer
-				M.set_buffer(null)
-				to_chat(user, span_notice("You upload the data from the [W.name]'s buffer."))
+				M.buffer = null
+				to_chat(user, "<span class='notice'>You upload the data from the [W.name]'s buffer.</span>")
 			else
-				to_chat(user, span_warning("[src] cannot handle any more connections!"))
+				to_chat(user, "<span class='warning'>[src] cannot handle any more connections!</span>")
 	else
 		return ..()
 
@@ -79,12 +38,20 @@
 		return FALSE
 	return TRUE
 
+/obj/machinery/computer/launchpad/proc/teleport(mob/user, obj/machinery/launchpad/pad, sending)
+	if(QDELETED(pad))
+		to_chat(user, "<span class='warning'>ERROR: Launchpad not responding. Check launchpad integrity.</span>")
+		return
+	if(!pad.isAvailable())
+		to_chat(user, "<span class='warning'>ERROR: Launchpad not operative. Make sure the launchpad is ready and powered.</span>")
+		return
+	pad.doteleport(user, sending)
+
 /obj/machinery/computer/launchpad/proc/get_pad(number)
 	var/obj/machinery/launchpad/pad = launchpads[number]
 	return pad
 
 /obj/machinery/computer/launchpad/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "LaunchpadConsole", name)
@@ -121,8 +88,7 @@
 	return data
 
 /obj/machinery/computer/launchpad/ui_act(action, params)
-	. = ..()
-	if(.)
+	if(..())
 		return
 	var/obj/machinery/launchpad/current_pad = launchpads[selected_id]
 	switch(action)
@@ -149,24 +115,15 @@
 				return
 			current_pad.display_name = new_name
 		if("remove")
-			if(usr && tgui_alert(usr, "Are you sure?", "Unlink Launchpad", list("I'm Sure", "Abort")) == "I'm Sure")
+			if(usr && alert(usr, "Are you sure?", "Unlink Launchpad", "I'm Sure", "Abort") != "Abort")
 				launchpads -= current_pad
 				selected_id = null
 			. = TRUE
 		if("launch")
-			var/checks = current_pad.teleport_checks()
-			if(isnull(checks))
-				current_pad.doteleport(usr, TRUE)
-			else
-				to_chat(usr, span_warning(checks))
+			teleport(usr, current_pad, TRUE)
 			. = TRUE
 
 		if("pull")
-			var/checks = current_pad.teleport_checks()
-			if(isnull(checks))
-				current_pad.doteleport(usr, FALSE)
-			else
-				to_chat(usr, span_warning(checks))
-
+			teleport(usr, current_pad, FALSE)
 			. = TRUE
 	. = TRUE

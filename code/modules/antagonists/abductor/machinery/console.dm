@@ -1,5 +1,5 @@
 /proc/get_abductor_console(team_number)
-	for(var/obj/machinery/abductor/console/C as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/abductor/console))
+	for(var/obj/machinery/abductor/console/C in GLOB.machines)
 		if(C.team_number == team_number)
 			return C
 
@@ -7,7 +7,6 @@
 
 /obj/machinery/abductor
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
-	use_power = NO_POWER_USE
 	var/team_number = 0
 
 //Console
@@ -15,7 +14,7 @@
 /obj/machinery/abductor/console
 	name = "abductor console"
 	desc = "Ship command center."
-	icon = 'icons/obj/antags/abductor.dmi'
+	icon = 'icons/obj/abductor.dmi'
 	icon_state = "console"
 	density = TRUE
 	var/obj/item/abductor/gizmo/gizmo
@@ -35,24 +34,9 @@
 	. = ..()
 	possible_gear = get_abductor_gear()
 
-/obj/machinery/abductor/console/Destroy()
-	if(gizmo)
-		gizmo.console = null
-		gizmo = null
-	if(experiment)
-		experiment.console = null
-		experiment = null
-	if(pad)
-		pad.console = null
-		pad = null
-	if(camera)
-		camera.console = null
-		camera = null
-	return ..()
-
 /**
- * get_abductor_gear: Returns a list of a filtered abductor gear sorted by categories
- */
+  * get_abductor_gear: Returns a list of a filtered abductor gear sorted by categories
+  */
 /obj/machinery/abductor/console/proc/get_abductor_gear()
 	var/list/filtered_modules = list()
 	for(var/path in GLOB.abductor_gear)
@@ -62,16 +46,16 @@
 		filtered_modules[AG.category][AG] = AG
 	return filtered_modules
 
-/obj/machinery/abductor/console/attack_hand(mob/user, list/modifiers)
+/obj/machinery/abductor/console/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
-	if(!HAS_MIND_TRAIT(user, TRAIT_ABDUCTOR_TRAINING))
-		to_chat(user, span_warning("You start mashing alien buttons at random!"))
+	if(!HAS_TRAIT(user, TRAIT_ABDUCTOR_TRAINING) && !HAS_TRAIT(user.mind, TRAIT_ABDUCTOR_TRAINING))
+		to_chat(user, "<span class='warning'>You start mashing alien buttons at random!</span>")
 		if(do_after(user,100, target = src))
 			TeleporterSend()
 
-/obj/machinery/abductor/console/ui_status(mob/user, datum/ui_state/state)
+/obj/machinery/abductor/console/ui_status(mob/user)
 	if(!isabductor(user) && !isobserver(user))
 		return UI_CLOSE
 	return ..()
@@ -111,7 +95,7 @@
 		data["credits"] = experiment.credits
 	data["pad"] = pad ? TRUE : FALSE
 	if(pad)
-		data["gizmo"] = gizmo && gizmo.marked_target_weakref?.resolve() ? TRUE : FALSE
+		data["gizmo"] = gizmo && gizmo.marked ? TRUE : FALSE
 	data["vest"] = vest ? TRUE : FALSE
 	if(vest)
 		data["vest_mode"] = vest.mode
@@ -159,9 +143,8 @@
 			return TRUE
 
 /obj/machinery/abductor/console/proc/TeleporterRetrieve()
-	var/mob/living/marked = gizmo.marked_target_weakref?.resolve()
-	if(pad && marked)
-		pad.Retrieve(marked)
+	if(pad && gizmo && gizmo.marked)
+		pad.Retrieve(gizmo.marked)
 
 /obj/machinery/abductor/console/proc/TeleporterSend()
 	if(pad)
@@ -191,12 +174,12 @@
 
 /obj/machinery/abductor/console/proc/SetDroppoint(turf/open/location,user)
 	if(!istype(location))
-		to_chat(user, span_warning("That place is not safe for the specimen."))
+		to_chat(user, "<span class='warning'>That place is not safe for the specimen.</span>")
 		return
 
 	if(pad)
 		pad.teleport_target = location
-		to_chat(user, span_notice("Location marked as test subject release point."))
+		to_chat(user, "<span class='notice'>Location marked as test subject release point.</span>")
 
 /obj/machinery/abductor/console/Initialize(mapload)
 	..()
@@ -206,31 +189,30 @@
 	if(!team_number)
 		return
 
-	for(var/obj/machinery/abductor/pad/p as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/abductor/pad))
+	for(var/obj/machinery/abductor/pad/p in GLOB.machines)
 		if(p.team_number == team_number)
 			pad = p
-			pad.console = src
 			break
 
-	for(var/obj/machinery/abductor/experiment/e as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/abductor/experiment))
+	for(var/obj/machinery/abductor/experiment/e in GLOB.machines)
 		if(e.team_number == team_number)
 			experiment = e
 			e.console = src
 
-	for(var/obj/machinery/computer/camera_advanced/abductor/c as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/camera_advanced/abductor))
+	for(var/obj/machinery/computer/camera_advanced/abductor/c in GLOB.machines)
 		if(c.team_number == team_number)
 			camera = c
 			c.console = src
 
 /obj/machinery/abductor/console/proc/AddSnapshot(mob/living/carbon/human/target)
-	if(target.can_block_magic(MAGIC_RESISTANCE_MIND, charge_cost = 0))
-		say("Unable to get a proper scan of subject! Something is shielding [target]'s mind!")
+	if(target.anti_magic_check(FALSE, FALSE, TRUE, 0))
+		say("Subject wearing specialized protective tinfoil gear, unable to get a proper scan!")
 		return
 	var/datum/icon_snapshot/entry = new
 	entry.name = target.name
 	entry.icon = target.icon
 	entry.icon_state = target.icon_state
-	entry.overlays = target.get_overlays_copy(list(HANDS_LAYER)) //ugh
+	entry.overlays = target.get_overlays_copy(list(HANDS_LAYER))	//ugh
 	//Update old disguise instead of adding new one
 	if(disguises[entry.name])
 		disguises[entry.name] = entry
@@ -252,7 +234,7 @@
 	if(vest == V)
 		return FALSE
 
-	for(var/obj/machinery/abductor/console/C as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/abductor/console))
+	for(var/obj/machinery/abductor/console/C in GLOB.machines)
 		if(C.vest == V)
 			C.vest = null
 			break
@@ -262,13 +244,13 @@
 
 /obj/machinery/abductor/console/attackby(obj/O, mob/user, params)
 	if(istype(O, /obj/item/abductor/gizmo) && AddGizmo(O))
-		to_chat(user, span_notice("You link the tool to the console."))
+		to_chat(user, "<span class='notice'>You link the tool to the console.</span>")
 	else if(istype(O, /obj/item/clothing/suit/armor/abductor/vest) && AddVest(O))
-		to_chat(user, span_notice("You link the vest to the console."))
+		to_chat(user, "<span class='notice'>You link the vest to the console.</span>")
 	else
 		return ..()
 
-/obj/machinery/abductor/console/proc/Dispense(items_list, cost=1)
+/obj/machinery/abductor/console/proc/Dispense(item,cost=1)
 	if(experiment && experiment.credits >= cost)
 		experiment.credits -=cost
 		say("Incoming supply!")
@@ -276,8 +258,7 @@
 		if(pad)
 			flick("alien-pad", pad)
 			drop_location = pad.loc
-		for(var/each_item in items_list)
-			for(var/i in 1 to items_list[each_item])
-				new each_item(drop_location)
+		new item(drop_location)
+
 	else
 		say("Insufficent data!")

@@ -6,8 +6,9 @@
 
 /obj/structure/closet/secure_closet/ert_com/PopulateContents()
 	..()
-	new /obj/item/storage/medkit/regular(src)
+	new /obj/item/storage/firstaid/regular(src)
 	new /obj/item/storage/box/handcuffs(src)
+	new /obj/item/aicard(src)
 	new /obj/item/assembly/flash/handheld(src)
 	if(prob(50))
 		new /obj/item/ammo_box/magazine/m50(src)
@@ -17,12 +18,6 @@
 		new /obj/item/ammo_box/a357(src)
 		new /obj/item/ammo_box/a357(src)
 		new /obj/item/gun/ballistic/revolver/mateba(src)
-
-/obj/structure/closet/secure_closet/ert_com/populate_contents_immediate()
-	. = ..()
-
-	// Traitor steal objective
-	new /obj/item/aicard(src)
 
 /obj/structure/closet/secure_closet/ert_sec
 	name = "emergency response team security locker"
@@ -45,14 +40,14 @@
 	icon_state = "cmo"
 
 /obj/structure/closet/secure_closet/ert_med/PopulateContents()
-	. = ..()
-	new /mob/living/basic/bot/medbot(src)
-	new /obj/item/storage/medkit/o2(src)
-	new /obj/item/storage/medkit/toxin(src)
-	new /obj/item/storage/medkit/fire(src)
-	new /obj/item/storage/medkit/brute(src)
-	new /obj/item/storage/medkit/regular(src)
+	..()
+	new /obj/item/storage/firstaid/o2(src)
+	new /obj/item/storage/firstaid/toxin(src)
+	new /obj/item/storage/firstaid/fire(src)
+	new /obj/item/storage/firstaid/brute(src)
+	new /obj/item/storage/firstaid/regular(src)
 	new /obj/item/defibrillator/compact/combat/loaded/nanotrasen(src)
+	new /mob/living/simple_animal/bot/medbot(src)
 
 /obj/structure/closet/secure_closet/ert_engi
 	name = "emergency response team engineer locker"
@@ -63,7 +58,7 @@
 /obj/structure/closet/secure_closet/ert_engi/PopulateContents()
 	..()
 	new /obj/item/stack/sheet/plasteel(src, 50)
-	new /obj/item/stack/sheet/iron(src, 50)
+	new /obj/item/stack/sheet/metal(src, 50)
 	new /obj/item/stack/sheet/glass(src, 50)
 	new /obj/item/stack/sheet/mineral/sandbags(src, 30)
 	new /obj/item/clothing/shoes/magboots(src)

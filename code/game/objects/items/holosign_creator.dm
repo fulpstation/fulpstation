@@ -1,110 +1,69 @@
 /obj/item/holosign_creator
 	name = "holographic sign projector"
 	desc = "A handy-dandy holographic projector that displays a janitorial sign."
-	icon = 'icons/obj/devices/tool.dmi'
+	icon = 'icons/obj/device.dmi'
 	icon_state = "signmaker"
 	inhand_icon_state = "electronic"
-	worn_icon_state = "electronic"
-	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
+	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
 	force = 0
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 7
 	item_flags = NOBLUDGEON
-	var/list/signs
+	var/list/signs = list()
 	var/max_signs = 10
-	//time to create a holosign in deciseconds.
-	var/creation_time = 0
-	//holosign image that is projected
+	var/creation_time = 0 //time to create a holosign in deciseconds.
 	var/holosign_type = /obj/structure/holosign/wetsign
 	var/holocreator_busy = FALSE //to prevent placing multiple holo barriers at once
 
-/obj/item/holosign_creator/Initialize(mapload)
+/obj/item/holosign_creator/afterattack(atom/target, mob/user, flag)
 	. = ..()
-	AddElement(/datum/element/openspace_item_click_handler)
-	RegisterSignal(src, COMSIG_OBJ_PAINTED, TYPE_PROC_REF(/obj/item/holosign_creator, on_color_change))
-
-/obj/item/holosign_creator/handle_openspace_click(turf/target, mob/user, proximity_flag, click_parameters)
-	afterattack(target, user, proximity_flag, click_parameters)
-
-/obj/item/holosign_creator/examine(mob/user)
-	. = ..()
-	if(!signs)
-		return
-	. += span_notice("It is currently maintaining <b>[signs.len]/[max_signs]</b> projections.")
-
-/obj/item/holosign_creator/afterattack(atom/target, mob/user, proximity_flag)
-	. = ..()
-	if(!proximity_flag)
-		return
-	. |= AFTERATTACK_PROCESSED_ITEM
-	if(!check_allowed_items(target, not_inside = TRUE))
-		return .
-	var/turf/target_turf = get_turf(target)
-	var/obj/structure/holosign/target_holosign = locate(holosign_type) in target_turf
-	if(target_holosign)
-		qdel(target_holosign)
-		return .
-	if(target_turf.is_blocked_turf(TRUE)) //can't put holograms on a tile that has dense stuff
-		return .
-	if(holocreator_busy)
-		to_chat(user, span_notice("[src] is busy creating a hologram."))
-		return .
-	if(LAZYLEN(signs) >= max_signs)
-		balloon_alert(user, "max capacity!")
-		return .
-	playsound(loc, 'sound/machines/click.ogg', 20, TRUE)
-	if(creation_time)
-		holocreator_busy = TRUE
-		if(!do_after(user, creation_time, target = target))
-			holocreator_busy = FALSE
-			return .
-		holocreator_busy = FALSE
-		if(LAZYLEN(signs) >= max_signs)
-			return .
-		if(target_turf.is_blocked_turf(TRUE)) //don't try to sneak dense stuff on our tile during the wait.
-			return .
-	target_holosign = create_holosign(target, user)
-	return .
+	if(flag)
+		if(!check_allowed_items(target, 1))
+			return
+		var/turf/T = get_turf(target)
+		var/obj/structure/holosign/H = locate(holosign_type) in T
+		if(H)
+			to_chat(user, "<span class='notice'>You use [src] to deactivate [H].</span>")
+			qdel(H)
+		else
+			if(!is_blocked_turf(T, TRUE)) //can't put holograms on a tile that has dense stuff
+				if(holocreator_busy)
+					to_chat(user, "<span class='notice'>[src] is busy creating a hologram.</span>")
+					return
+				if(signs.len < max_signs)
+					playsound(src.loc, 'sound/machines/click.ogg', 20, TRUE)
+					if(creation_time)
+						holocreator_busy = TRUE
+						if(!do_after(user, creation_time, target = target))
+							holocreator_busy = FALSE
+							return
+						holocreator_busy = FALSE
+						if(signs.len >= max_signs)
+							return
+						if(is_blocked_turf(T, TRUE)) //don't try to sneak dense stuff on our tile during the wait.
+							return
+					H = new holosign_type(get_turf(target), src)
+					to_chat(user, "<span class='notice'>You create \a [H] with [src].</span>")
+				else
+					to_chat(user, "<span class='notice'>[src] is projecting at max capacity!</span>")
 
 /obj/item/holosign_creator/attack(mob/living/carbon/human/M, mob/user)
 	return
 
-/obj/item/holosign_creator/proc/create_holosign(atom/target, mob/user)
-	var/atom/new_holosign = new holosign_type(get_turf(target), src)
-	new_holosign.add_hiddenprint(user)
-	if(color)
-		new_holosign.color = color
-	return new_holosign
-
 /obj/item/holosign_creator/attack_self(mob/user)
-	if(LAZYLEN(signs))
-		for(var/obj/structure/holosign/hologram as anything in signs)
-			qdel(hologram)
-		balloon_alert(user, "holograms cleared")
-
-/obj/item/holosign_creator/Destroy()
-	. = ..()
-	if(LAZYLEN(signs))
-		for(var/obj/structure/holosign/hologram as anything in signs)
-			qdel(hologram)
-
-/obj/item/holosign_creator/proc/on_color_change(obj/item/holosign_creator, mob/user, obj/item/toy/crayon/spraycan/spraycan, is_dark_color)
-	SIGNAL_HANDLER
-	if(!spraycan.actually_paints)
-		return
-
-	if(LAZYLEN(signs))
-		for(var/obj/structure/holosign/hologram as anything in signs)
-			hologram.color = color
+	if(signs.len)
+		for(var/H in signs)
+			qdel(H)
+		to_chat(user, "<span class='notice'>You clear all active holograms.</span>")
 
 /obj/item/holosign_creator/janibarrier
 	name = "custodial holobarrier projector"
 	desc = "A holographic projector that creates hard light wet floor barriers."
 	holosign_type = /obj/structure/holosign/barrier/wetsign
-	creation_time = 1 SECONDS
+	creation_time = 20
 	max_signs = 12
 
 /obj/item/holosign_creator/security
@@ -112,7 +71,7 @@
 	desc = "A holographic projector that creates holographic security barriers."
 	icon_state = "signmaker_sec"
 	holosign_type = /obj/structure/holosign/barrier
-	creation_time = 3 SECONDS
+	creation_time = 30
 	max_signs = 6
 
 /obj/item/holosign_creator/engineering
@@ -120,8 +79,8 @@
 	desc = "A holographic projector that creates holographic engineering barriers."
 	icon_state = "signmaker_engi"
 	holosign_type = /obj/structure/holosign/barrier/engineering
-	creation_time = 1 SECONDS
-	max_signs = 12
+	creation_time = 30
+	max_signs = 6
 
 /obj/item/holosign_creator/atmos
 	name = "ATMOS holofan projector"
@@ -129,87 +88,52 @@
 	icon_state = "signmaker_atmos"
 	holosign_type = /obj/structure/holosign/barrier/atmos
 	creation_time = 0
-	max_signs = 6
-	/// Clearview holograms don't catch clicks and are more transparent
-	var/clearview = FALSE
-	/// Timer for auto-turning off clearview
-	var/clearview_timer
-
-/obj/item/holosign_creator/atmos/Initialize(mapload)
-	. = ..()
-	register_context()
-
-/obj/item/holosign_creator/atmos/add_context(atom/source, list/context, obj/item/held_item, mob/user)
-	. = ..()
-	if(LAZYLEN(signs))
-		context[SCREENTIP_CONTEXT_RMB] = "[clearview ? "Turn off" : "Temporarily activate"] clearview"
-	return CONTEXTUAL_SCREENTIP_SET
-
-/obj/item/holosign_creator/atmos/create_holosign(atom/target, mob/user)
-	var/obj/structure/holosign/barrier/atmos/new_holosign = new holosign_type(get_turf(target), src)
-	new_holosign.add_hiddenprint(user)
-	if(color)
-		new_holosign.color = color
-	if(clearview)
-		new_holosign.clearview_transparency()
-	return new_holosign
-
-/obj/item/holosign_creator/atmos/attack_self_secondary(mob/user, modifiers)
-	if(clearview)
-		reset_hologram_transparency()
-		balloon_alert(user, "turned off clearview")
-		return
-	if(LAZYLEN(signs))
-		for(var/obj/structure/holosign/barrier/atmos/hologram as anything in signs)
-			hologram.clearview_transparency()
-		clearview = TRUE
-		balloon_alert(user, "turned on clearview")
-		clearview_timer = addtimer(CALLBACK(src, PROC_REF(reset_hologram_transparency)), 40 SECONDS, TIMER_STOPPABLE)
-	return ..()
-
-/obj/item/holosign_creator/atmos/proc/reset_hologram_transparency()
-	if(LAZYLEN(signs))
-		for(var/obj/structure/holosign/barrier/atmos/hologram as anything in signs)
-			hologram.reset_transparency()
-		clearview = FALSE
-		deltimer(clearview_timer)
+	max_signs = 3
 
 /obj/item/holosign_creator/medical
 	name = "\improper PENLITE barrier projector"
 	desc = "A holographic projector that creates PENLITE holobarriers. Useful during quarantines since they halt those with malicious diseases."
 	icon_state = "signmaker_med"
 	holosign_type = /obj/structure/holosign/barrier/medical
-	creation_time = 1 SECONDS
-	max_signs = 6
+	creation_time = 30
+	max_signs = 3
 
 /obj/item/holosign_creator/cyborg
 	name = "Energy Barrier Projector"
 	desc = "A holographic projector that creates fragile energy fields."
-	creation_time = 1.5 SECONDS
+	creation_time = 15
 	max_signs = 9
 	holosign_type = /obj/structure/holosign/barrier/cyborg
-	var/shock = FALSE
+	var/shock = 0
 
 /obj/item/holosign_creator/cyborg/attack_self(mob/user)
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/borg = user
+		var/mob/living/silicon/robot/R = user
 
 		if(shock)
-			to_chat(user, span_notice("You clear all active holograms, and reset your projector to normal."))
+			to_chat(user, "<span class='notice'>You clear all active holograms, and reset your projector to normal.</span>")
 			holosign_type = /obj/structure/holosign/barrier/cyborg
-			creation_time = 0.5 SECONDS
-			for(var/obj/structure/holosign/hologram as anything in signs)
-				qdel(hologram)
-			shock = FALSE
+			creation_time = 5
+			if(signs.len)
+				for(var/H in signs)
+					qdel(H)
+			shock = 0
 			return
-		if(borg.emagged && !shock)
-			to_chat(user, span_warning("You clear all active holograms, and overload your energy projector!"))
+		else if(R.emagged&&!shock)
+			to_chat(user, "<span class='warning'>You clear all active holograms, and overload your energy projector!</span>")
 			holosign_type = /obj/structure/holosign/barrier/cyborg/hacked
-			creation_time = 3 SECONDS
-			for(var/obj/structure/holosign/hologram as anything in signs)
-				qdel(hologram)
-			shock = TRUE
+			creation_time = 30
+			if(signs.len)
+				for(var/H in signs)
+					qdel(H)
+			shock = 1
 			return
-	for(var/obj/structure/holosign/hologram as anything in signs)
-		qdel(hologram)
-	balloon_alert(user, "holograms cleared")
+		else
+			if(signs.len)
+				for(var/H in signs)
+					qdel(H)
+				to_chat(user, "<span class='notice'>You clear all active holograms.</span>")
+	if(signs.len)
+		for(var/H in signs)
+			qdel(H)
+		to_chat(user, "<span class='notice'>You clear all active holograms.</span>")

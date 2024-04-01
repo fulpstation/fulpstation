@@ -1,10 +1,3 @@
-/* Mind Restoration
- * Slight stealth reduction
- * Reduces resistance
- * Slight increase to stage speed
- * Greatly decreases transmissibility
- * Critical level
-*/
 /datum/symptom/mind_restoration
 	name = "Mind Restoration"
 	desc = "The virus strengthens the bonds between neurons, reducing the duration of any ailments of the mind."
@@ -25,43 +18,39 @@
 	)
 
 /datum/symptom/mind_restoration/Start(datum/disease/advance/A)
-	. = ..()
-	if(!.)
+	if(!..())
 		return
-	if(A.totalResistance() >= 6) //heal brain damage
+	if(A.properties["resistance"] >= 6) //heal brain damage
 		trauma_heal_mild = TRUE
-	if(A.totalResistance() >= 9) //heal severe traumas
+	if(A.properties["resistance"] >= 9) //heal severe traumas
 		trauma_heal_severe = TRUE
-	if(A.totalTransmittable() >= 8) //purge alcohol
+	if(A.properties["transmittable"] >= 8) //purge alcohol
 		purge_alcohol = TRUE
 
-/datum/symptom/mind_restoration/Activate(datum/disease/advance/A)
-	. = ..()
-	if(!.)
+/datum/symptom/mind_restoration/Activate(var/datum/disease/advance/A)
+	if(!..())
 		return
 	var/mob/living/M = A.affected_mob
 
 
 	if(A.stage >= 3)
-		M.adjust_dizzy(-4 SECONDS)
-		M.adjust_drowsiness(-4 SECONDS)
-		// All slurring effects get reduced down a bit
-		for(var/datum/status_effect/speech/slurring/slur in M.status_effects)
-			slur.remove_duration(1 SECONDS)
-
-		M.adjust_confusion(-2 SECONDS)
+		M.dizziness = max(0, M.dizziness - 2)
+		M.drowsyness = max(0, M.drowsyness - 2)
+		M.slurring = max(0, M.slurring - 2)
+		M.confused = max(0, M.confused - 2)
 		if(purge_alcohol)
-			M.reagents.remove_reagent(/datum/reagent/consumable/ethanol, 3, include_subtypes = TRUE)
-			M.adjust_drunk_effect(-5)
+			M.reagents.remove_all_type(/datum/reagent/consumable/ethanol, 3)
+			if(ishuman(M))
+				var/mob/living/carbon/human/H = M
+				H.drunkenness = max(H.drunkenness - 5, 0)
 
 	if(A.stage >= 4)
-		M.adjust_drowsiness(-4 SECONDS)
+		M.drowsyness = max(0, M.drowsyness - 2)
 		if(M.reagents.has_reagent(/datum/reagent/toxin/mindbreaker))
 			M.reagents.remove_reagent(/datum/reagent/toxin/mindbreaker, 5)
 		if(M.reagents.has_reagent(/datum/reagent/toxin/histamine))
 			M.reagents.remove_reagent(/datum/reagent/toxin/histamine, 5)
-
-		M.adjust_hallucinations(-20 SECONDS)
+		M.hallucination = max(0, M.hallucination - 10)
 
 	if(A.stage >= 5)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -3)
@@ -69,7 +58,7 @@
 			var/mob/living/carbon/C = M
 			if(prob(10))
 				if(trauma_heal_severe)
-					C.cure_trauma_type(resilience = TRAUMA_RESILIENCE_SURGERY)
+					C.cure_trauma_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
 				else
 					C.cure_trauma_type(resilience = TRAUMA_RESILIENCE_BASIC)
 
@@ -87,34 +76,31 @@
 	symptom_delay_min = 1
 	symptom_delay_max = 1
 
-/datum/symptom/sensory_restoration/Activate(datum/disease/advance/advanced_disease)
-	. = ..()
-	if(!.)
+/datum/symptom/sensory_restoration/Activate(datum/disease/advance/A)
+	if(!..())
 		return
-	var/mob/living/carbon/infected_mob = advanced_disease.affected_mob
-	switch(advanced_disease.stage)
+	var/mob/living/carbon/M = A.affected_mob
+	switch(A.stage)
 		if(4, 5)
-			if(advanced_disease.has_required_infectious_organ(infected_mob, ORGAN_SLOT_EARS))
-				var/obj/item/organ/internal/ears/ears = infected_mob.get_organ_slot(ORGAN_SLOT_EARS)
+			var/obj/item/organ/ears/ears = M.getorganslot(ORGAN_SLOT_EARS)
+			if(ears)
 				ears.adjustEarDamage(-4, -4)
-
-			if(!advanced_disease.has_required_infectious_organ(infected_mob, ORGAN_SLOT_EYES))
+			M.adjust_blindness(-2)
+			M.adjust_blurriness(-2)
+			var/obj/item/organ/eyes/eyes = M.getorganslot(ORGAN_SLOT_EYES)
+			if(!eyes) // only dealing with eye stuff from here on out
 				return
-
-			var/obj/item/organ/internal/eyes/eyes = infected_mob.get_organ_slot(ORGAN_SLOT_EYES)
-			infected_mob.adjust_temp_blindness(-4 SECONDS)
-			infected_mob.adjust_eye_blur(-4 SECONDS)
-
-			eyes.apply_organ_damage(-2)
-			if(prob(20))
-				if(infected_mob.is_blind_from(EYE_DAMAGE))
-					to_chat(infected_mob, span_warning("Your vision slowly returns..."))
-					infected_mob.adjust_eye_blur(20 SECONDS)
-
-				else if(infected_mob.is_nearsighted_from(EYE_DAMAGE))
-					to_chat(infected_mob, span_warning("The blackness in your peripheral vision begins to fade."))
-					infected_mob.adjust_eye_blur(5 SECONDS)
-
+			eyes.applyOrganDamage(-2)
+			if(HAS_TRAIT_FROM(M, TRAIT_BLIND, EYE_DAMAGE))
+				if(prob(20))
+					to_chat(M, "<span class='warning'>Your vision slowly returns...</span>")
+					M.cure_blind(EYE_DAMAGE)
+					M.cure_nearsighted(EYE_DAMAGE)
+					M.blur_eyes(35)
+			else if(HAS_TRAIT_FROM(M, TRAIT_NEARSIGHT, EYE_DAMAGE))
+				to_chat(M, "<span class='warning'>The blackness in your peripheral vision fades.</span>")
+				M.cure_nearsighted(EYE_DAMAGE)
+				M.blur_eyes(10)
 		else
 			if(prob(base_message_chance))
-				to_chat(infected_mob, span_notice("[pick("Your eyes feel great.","You feel like your eyes can focus more clearly.", "You don't feel the need to blink.","Your ears feel great.","Your hearing feels more acute.")]"))
+				to_chat(M, "<span class='notice'>[pick("Your eyes feel great.","You feel like your eyes can focus more clearly.", "You don't feel the need to blink.","Your ears feel great.","Your hearing feels more acute.")]</span>")

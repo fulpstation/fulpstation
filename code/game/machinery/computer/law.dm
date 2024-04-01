@@ -3,14 +3,11 @@
 /obj/machinery/computer/upload
 	var/mob/living/silicon/current = null //The target of future law uploads
 	icon_screen = "command"
-	time_to_unscrew = 6 SECONDS
+	time_to_screwdrive = 60
 
 /obj/machinery/computer/upload/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/gps, "Encrypted Upload")
-	if(!mapload)
-		log_silicon("\A [name] was created at [loc_name(src)].")
-		message_admins("\A [name] was created at [ADMIN_VERBOSEJMP(src)].")
 
 /obj/machinery/computer/upload/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/ai_module))
@@ -18,14 +15,15 @@
 		if(machine_stat & (NOPOWER|BROKEN|MAINT))
 			return
 		if(!current)
-			to_chat(user, span_alert("You haven't selected anything to transmit laws to!"))
+			to_chat(user, "<span class='alert'>You haven't selected anything to transmit laws to!</span>")
 			return
 		if(!can_upload_to(current))
-			to_chat(user, span_alert("Upload failed! Check to make sure [current.name] is functioning properly."))
+			to_chat(user, "<span class='alert'>Upload failed! Check to make sure [current.name] is functioning properly.</span>")
 			current = null
 			return
-		if(!is_valid_z_level(get_turf(current), get_turf(user)))
-			to_chat(user, span_alert("Upload failed! Unable to establish a connection to [current.name]. You're too far away!"))
+		var/turf/currentloc = get_turf(current)
+		if(currentloc && user.z != currentloc.z)
+			to_chat(user, "<span class='alert'>Upload failed! Unable to establish a connection to [current.name]. You're too far away!</span>")
 			current = null
 			return
 		M.install(current.laws, user)
@@ -42,18 +40,13 @@
 	desc = "Used to upload laws to the AI."
 	circuit = /obj/item/circuitboard/computer/aiupload
 
-/obj/machinery/computer/upload/ai/Initialize(mapload)
-	. = ..()
-	if(mapload && HAS_TRAIT(SSstation, STATION_TRAIT_HUMAN_AI))
-		return INITIALIZE_HINT_QDEL
-
 /obj/machinery/computer/upload/ai/interact(mob/user)
 	current = select_active_ai(user, z)
 
 	if (!current)
-		to_chat(user, span_alert("No active AIs detected!"))
+		to_chat(user, "<span class='alert'>No active AIs detected!</span>")
 	else
-		to_chat(user, span_notice("[current.name] selected for law changes."))
+		to_chat(user, "<span class='notice'>[current.name] selected for law changes.</span>")
 
 /obj/machinery/computer/upload/ai/can_upload_to(mob/living/silicon/ai/A)
 	if(!A || !isAI(A))
@@ -72,9 +65,9 @@
 	current = select_active_free_borg(user)
 
 	if(!current)
-		to_chat(user, span_alert("No active unslaved cyborgs detected."))
+		to_chat(user, "<span class='alert'>No active unslaved cyborgs detected.</span>")
 	else
-		to_chat(user, span_notice("[current.name] selected for law changes."))
+		to_chat(user, "<span class='notice'>[current.name] selected for law changes.</span>")
 
 /obj/machinery/computer/upload/borg/can_upload_to(mob/living/silicon/robot/B)
 	if(!B || !iscyborg(B))

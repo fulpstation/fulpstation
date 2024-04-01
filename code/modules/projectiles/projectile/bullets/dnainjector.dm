@@ -3,22 +3,20 @@
 	icon_state = "syringeproj"
 	var/obj/item/dnainjector/injector
 	damage = 5
-	hitsound_wall = SFX_SHATTER
-	embedding = null
-	shrapnel_type = null
+	hitsound_wall = "shatter"
 
-/obj/projectile/bullet/dnainjector/on_hit(atom/target, blocked = 0, pierce_hit)
+/obj/projectile/bullet/dnainjector/on_hit(atom/target, blocked = FALSE)
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
 		if(blocked != 100)
-			if(M.can_inject(target_zone = def_zone))
+			if(M.can_inject(null, FALSE, def_zone, FALSE))
 				if(injector.inject(M, firer))
 					QDEL_NULL(injector)
 					return BULLET_ACT_HIT
 			else
 				blocked = 100
-				target.visible_message(span_danger("\The [src] is deflected!"), \
-									   span_userdanger("You are protected against \the [src]!"))
+				target.visible_message("<span class='danger'>\The [src] is deflected!</span>", \
+									   "<span class='userdanger'>You are protected against \the [src]!</span>")
 	return ..()
 
 /obj/projectile/bullet/dnainjector/Destroy()

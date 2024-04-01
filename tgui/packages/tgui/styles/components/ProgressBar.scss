@@ -7,8 +7,8 @@
 @use '../colors.scss';
 @use '../functions.scss' as *;
 
-$color-default-fill: colors.bg(colors.$primary) !default;
-$background-color: rgba(0, 0, 0, 0) !default;
+$color-default: colors.bg(colors.$primary) !default;
+$color-background: rgba(0, 0, 0, 0) !default;
 $border-radius: base.$border-radius !default;
 $bg-map: colors.$bg-map !default;
 
@@ -17,11 +17,9 @@ $bg-map: colors.$bg-map !default;
   position: relative;
   width: 100%;
   padding: 0 0.5em;
-  border-width: base.em(1px) !important;
-  border-style: solid !important;
   border-radius: $border-radius;
-  background-color: $background-color;
-  transition: border-color 900ms ease-out;
+  background-color: $color-background;
+  transition: border-color 500ms;
 }
 
 .ProgressBar__fill {
@@ -32,9 +30,7 @@ $bg-map: colors.$bg-map !default;
 }
 
 .ProgressBar__fill--animated {
-  transition:
-    background-color 900ms ease-out,
-    width 900ms ease-out;
+  transition: background-color 500ms, width 500ms;
 }
 
 .ProgressBar__content {
@@ -45,16 +41,16 @@ $bg-map: colors.$bg-map !default;
 }
 
 .ProgressBar--color--default {
-  border: base.em(1px) solid $color-default-fill;
+  border: base.em(1px) solid $color-default;
 
   .ProgressBar__fill {
-    background-color: $color-default-fill;
+    background-color: $color-default;
   }
 }
 
 @each $color-name, $color-value in $bg-map {
   .ProgressBar--color--#{$color-name} {
-    border-color: $color-value !important;
+    border: base.em(1px) solid $color-value !important;
 
     .ProgressBar__fill {
       background-color: $color-value;

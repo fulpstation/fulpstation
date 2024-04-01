@@ -1,7 +1,10 @@
 /obj/docking_port/mobile/arrivals
 	name = "arrivals shuttle"
-	shuttle_id = "arrival"
+	id = "arrivals"
 
+	dwidth = 3
+	width = 7
+	height = 15
 	dir = WEST
 	port_direction = SOUTH
 
@@ -11,45 +14,43 @@
 	movement_force = list("KNOCKDOWN" = 3, "THROW" = 0)
 
 	var/sound_played
-	var/damaged //too damaged to undock?
-	var/list/areas //areas in our shuttle
-	var/list/queued_announces //people coming in that we have to announce
+	var/damaged	//too damaged to undock?
+	var/list/areas	//areas in our shuttle
+	var/list/queued_announces	//people coming in that we have to announce
 	var/obj/machinery/requests_console/console
 	var/force_depart = FALSE
-	var/perma_docked = FALSE //highlander with RESPAWN??? OH GOD!!!
+	var/perma_docked = FALSE	//highlander with RESPAWN??? OH GOD!!!
 	var/obj/docking_port/stationary/target_dock  // for badminry
 
 /obj/docking_port/mobile/arrivals/Initialize(mapload)
 	. = ..()
 	preferred_direction = dir
-	return INITIALIZE_HINT_LATELOAD //for latejoin list
+	return INITIALIZE_HINT_LATELOAD	//for latejoin list
 
 /obj/docking_port/mobile/arrivals/register()
 	..()
 	if(SSshuttle.arrivals)
-		log_mapping("More than one arrivals docking_port placed on map! Ignoring duplicates.")
+		WARNING("More than one arrivals docking_port placed on map! Ignoring duplicates.")
 	SSshuttle.arrivals = src
 
 /obj/docking_port/mobile/arrivals/LateInitialize()
 	areas = list()
 
 	var/list/new_latejoin = list()
-	for(var/area/shuttle/arrival/arrival_area in GLOB.areas)
-		for (var/list/zlevel_turfs as anything in arrival_area.get_zlevel_turf_lists())
-			for(var/turf/arrival_turf as anything in zlevel_turfs)
-				for(var/obj/structure/chair/shuttle_chair in arrival_turf)
-					new_latejoin += shuttle_chair
-				if(isnull(console))
-					console = locate() in arrival_turf
-		areas += arrival_area
+	for(var/area/shuttle/arrival/A in GLOB.sortedAreas)
+		for(var/obj/structure/chair/C in A)
+			new_latejoin += C
+		if(!console)
+			console = locate(/obj/machinery/requests_console) in A
+		areas += A
 
 	if(SSjob.latejoin_trackers.len)
-		log_mapping("Map contains predefined latejoin spawn points and an arrivals shuttle. Using the arrivals shuttle.")
+		WARNING("Map contains predefined latejoin spawn points and an arrivals shuttle. Using the arrivals shuttle.")
 
 	if(!new_latejoin.len)
-		log_mapping("Arrivals shuttle contains no chairs for spawn points. Reverting to latejoin landmarks.")
+		WARNING("Arrivals shuttle contains no chairs for spawn points. Reverting to latejoin landmarks.")
 		if(!SSjob.latejoin_trackers.len)
-			log_mapping("No latejoin landmarks exist. Players will spawn unbuckled on the shuttle.")
+			WARNING("No latejoin landmarks exist. Players will spawn unbuckled on the shuttle.")
 		return
 
 	SSjob.latejoin_trackers = new_latejoin
@@ -107,7 +108,7 @@
 	for(var/I in SSjob.latejoin_trackers)
 		var/turf/open/T = get_turf(I)
 		var/pressure = T.air.return_pressure()
-		if(pressure < HAZARD_LOW_PRESSURE || pressure > HAZARD_HIGH_PRESSURE) //simple safety check
+		if(pressure < HAZARD_LOW_PRESSURE || pressure > HAZARD_HIGH_PRESSURE)	//simple safety check
 			return TRUE
 	return FALSE
 
@@ -123,7 +124,7 @@
 	return FALSE
 
 /obj/docking_port/mobile/arrivals/proc/NukeDiskCheck()
-	for (var/obj/item/disk/nuclear/N in SSpoints_of_interest.real_nuclear_disks)
+	for (var/obj/item/disk/nuclear/N in GLOB.poi_list)
 		if (get_area(N) in areas)
 			return TRUE
 	return FALSE
@@ -133,13 +134,13 @@
 	if(mode == SHUTTLE_CALL && timeLeft(1) > dockTime)
 		if(console)
 			console.say(damaged ? "Initiating emergency docking for repairs!" : "Now approaching: [station_name()].")
-		hyperspace_sound(HYPERSPACE_LAUNCH, areas) //for the new guy
+		hyperspace_sound(HYPERSPACE_LAUNCH, areas)	//for the new guy
 		setTimer(dockTime)
 
 /obj/docking_port/mobile/arrivals/initiate_docking(obj/docking_port/stationary/S1, force=FALSE)
 	var/docked = S1 == assigned_transit
 	sound_played = FALSE
-	if(docked) //about to launch
+	if(docked)	//about to launch
 		if(!force_depart)
 			var/cancel_reason
 			if(PersonCheck())
@@ -180,8 +181,8 @@
 			console.say(pickingup ? "Departing immediately for new employee pickup." : "Shuttle departing.")
 		var/obj/docking_port/stationary/target = target_dock
 		if(QDELETED(target))
-			target = SSshuttle.getDock("arrival_stationary")
-		request(target) //we will intentionally never return SHUTTLE_ALREADY_DOCKED
+			target = SSshuttle.getDock("arrivals_stationary")
+		request(target)		//we will intentionally never return SHUTTLE_ALREADY_DOCKED
 
 /obj/docking_port/mobile/arrivals/proc/RequireUndocked(mob/user)
 	if(mode == SHUTTLE_CALL || damaged)
@@ -189,22 +190,15 @@
 
 	Launch(TRUE)
 
-	to_chat(user, span_notice("Calling your shuttle. One moment..."))
+	to_chat(user, "<span class='notice'>Calling your shuttle. One moment...</span>")
 	while(mode != SHUTTLE_CALL && !damaged)
 		stoplag()
 
-/**
- * Queues an announcement arrival.
- *
- * Arguments:
- * * mob - The arriving mob.
- * * rank - The job of the arriving mob.
- */
 /obj/docking_port/mobile/arrivals/proc/QueueAnnounce(mob, rank)
 	if(mode != SHUTTLE_CALL)
-		announce_arrival(mob, rank)
+		AnnounceArrival(mob, rank)
 	else
-		LAZYADD(queued_announces, CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(announce_arrival), mob, rank))
+		LAZYADD(queued_announces, CALLBACK(GLOBAL_PROC, PROC_REF(AnnounceArrival), mob, rank))
 
 /obj/docking_port/mobile/arrivals/vv_edit_var(var_name, var_value)
 	switch(var_name)

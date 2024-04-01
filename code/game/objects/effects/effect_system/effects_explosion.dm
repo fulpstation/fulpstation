@@ -1,7 +1,7 @@
 /obj/effect/particle_effect/expl_particles
 	name = "fire"
 	icon_state = "explosion_particle"
-	opacity = TRUE
+	opacity = 1
 	anchored = TRUE
 
 /obj/effect/particle_effect/expl_particles/Initialize(mapload)
@@ -9,15 +9,11 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/particle_effect/expl_particles/LateInitialize()
-	var/step_amt = pick(25;1,50;2,100;3,200;4)
-
-	var/datum/move_loop/loop = SSmove_manager.move(src, pick(GLOB.alldirs), 1, timeout = step_amt, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
-	RegisterSignal(loop, COMSIG_QDELETING, PROC_REF(end_particle))
-
-/obj/effect/particle_effect/expl_particles/proc/end_particle(datum/source)
-	SIGNAL_HANDLER
-	if(QDELETED(src))
-		return
+	var/direct = pick(GLOB.alldirs)
+	var/steps_amt = pick(1;25,2;50,3,4;200)
+	for(var/j in 1 to steps_amt)
+		step(src, direct)
+		sleep(1)
 	qdel(src)
 
 /datum/effect_system/expl_particles
@@ -31,10 +27,8 @@
 	name = "fire"
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "explosion"
-	opacity = TRUE
+	opacity = 1
 	anchored = TRUE
-	layer = ABOVE_ALL_MOB_LAYER
-	plane = ABOVE_GAME_PLANE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	pixel_x = -32
 	pixel_y = -32
@@ -45,8 +39,11 @@
 
 /datum/effect_system/explosion
 
-/datum/effect_system/explosion/set_up(location)
-	src.location = get_turf(location)
+/datum/effect_system/explosion/set_up(loca)
+	if(isturf(loca))
+		location = loca
+	else
+		location = get_turf(loca)
 
 /datum/effect_system/explosion/start()
 	new/obj/effect/explosion( location )
@@ -57,10 +54,9 @@
 /datum/effect_system/explosion/smoke
 
 /datum/effect_system/explosion/smoke/proc/create_smoke()
-	var/datum/effect_system/fluid_spread/smoke/S = new
-	S.set_up(2, holder = holder, location = location)
+	var/datum/effect_system/smoke_spread/S = new
+	S.set_up(2, location)
 	S.start()
-
 /datum/effect_system/explosion/smoke/start()
 	..()
 	addtimer(CALLBACK(src, PROC_REF(create_smoke)), 5)

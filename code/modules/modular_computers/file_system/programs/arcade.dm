@@ -1,12 +1,12 @@
 /datum/computer_file/program/arcade
-	filename = "dsarcade"
-	filedesc = "Donksoft Micro Arcade"
-	program_open_overlay = "arcade"
+	filename = "arcade"
+	filedesc = "Nanotrasen Micro Arcade"
+	program_icon_state = "arcade"
 	extended_desc = "This port of the classic game 'Outbomb Cuban Pete', redesigned to run on tablets, with thrilling graphics and chilling storytelling."
-	downloader_category = PROGRAM_CATEGORY_GAMES
+	requires_ntnet = FALSE
+	network_destination = "arcade network"
 	size = 6
 	tgui_id = "NtosArcade"
-	program_icon = "gamepad"
 
 	///Returns TRUE if the game is being played.
 	var/game_active = TRUE
@@ -23,44 +23,28 @@
 	///Determines which boss image to use on the UI.
 	var/boss_id = 1
 
-///Lazy version of the arade that can be found in maintenance disks
-/datum/computer_file/program/arcade/eazy
-	filename = "dsarcadeez"
-	filedesc = "Donksoft Micro Arcade Ez"
-	filetype = "MNT"
-	program_flags = PROGRAM_UNIQUE_COPY
-	extended_desc = "Some sort of fan-made conversion of the classic game 'Outbomb Cuban Pete'. This one has you fight the weaker 'George Melon' instead."
-	boss_hp = 40
-	boss_mp = 10
-	player_hp = 35
-	player_mp = 15
-	heads_up = "Are you a bad enough dude to grief the station?"
-	boss_name = "George Melon"
-
 /datum/computer_file/program/arcade/proc/game_check(mob/user)
-	sleep(0.5 SECONDS)
+	sleep(5)
 	user?.mind?.adjust_experience(/datum/skill/gaming, 1)
 	if(boss_hp <= 0)
 		heads_up = "You have crushed [boss_name]! Rejoice!"
-		playsound(computer.loc, 'sound/arcade/win.ogg', 50)
+		playsound(computer.loc, 'sound/arcade/win.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 		game_active = FALSE
-		program_open_overlay = "arcade_off"
+		program_icon_state = "arcade_off"
 		if(istype(computer))
-			computer.update_appearance()
+			computer.update_icon()
 		ticket_count += 1
 		user?.mind?.adjust_experience(/datum/skill/gaming, 50)
-		usr.won_game()
-		sleep(1 SECONDS)
+		sleep(10)
 	else if(player_hp <= 0 || player_mp <= 0)
 		heads_up = "You have been defeated... how will the station survive?"
-		playsound(computer.loc, 'sound/arcade/lose.ogg', 50)
+		playsound(computer.loc, 'sound/arcade/lose.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 		game_active = FALSE
-		program_open_overlay = "arcade_off"
+		program_icon_state = "arcade_off"
 		if(istype(computer))
-			computer.update_appearance()
+			computer.update_icon()
 		user?.mind?.adjust_experience(/datum/skill/gaming, 10)
-		usr.lost_game()
-		sleep(1 SECONDS)
+		sleep(10)
 
 /datum/computer_file/program/arcade/proc/enemy_check(mob/user)
 	var/boss_attackamt = 0 //Spam protection from boss attacks as well.
@@ -74,17 +58,17 @@
 		return
 	if (boss_mp <= 5)
 		heads_up = "[boss_mpamt] magic power has been stolen from you!"
-		playsound(computer.loc, 'sound/arcade/steal.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/steal.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 		player_mp -= boss_mpamt
 		boss_mp += boss_mpamt
 	else if(boss_mp > 5 && boss_hp <12)
 		heads_up = "[boss_name] heals for [bossheal] health!"
-		playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 		boss_hp += bossheal
 		boss_mp -= boss_mpamt
 	else
 		heads_up = "[boss_name] attacks you for [boss_attackamt] damage!"
-		playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 		player_hp -= boss_attackamt
 
 	pause_state = FALSE
@@ -96,7 +80,7 @@
 	)
 
 /datum/computer_file/program/arcade/ui_data(mob/user)
-	var/list/data = list()
+	var/list/data = get_header_data()
 	data["Hitpoints"] = boss_hp
 	data["PlayerHitpoints"] = player_hp
 	data["PlayerMP"] = player_mp
@@ -107,14 +91,15 @@
 	data["BossID"] = "boss[boss_id].gif"
 	return data
 
-/datum/computer_file/program/arcade/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
-	usr.played_game()
-	var/gamerSkillLevel = 0
-	var/gamerSkill = 0
-	if(usr?.mind)
-		gamerSkillLevel = usr.mind.get_skill_level(/datum/skill/gaming)
-		gamerSkill = usr.mind.get_skill_modifier(/datum/skill/gaming, SKILL_RANDS_MODIFIER)
+/datum/computer_file/program/arcade/ui_act(action, list/params)
+	if(..())
+		return TRUE
+	var/obj/item/computer_hardware/printer/printer
+	if(computer)
+		printer = computer.all_components[MC_PRINT]
+
+	var/gamerSkillLevel = usr.mind?.get_skill_level(/datum/skill/gaming)
+	var/gamerSkill = usr.mind?.get_skill_modifier(/datum/skill/gaming, SKILL_RANDS_MODIFIER)
 	switch(action)
 		if("Attack")
 			var/attackamt = 0 //Spam prevention.
@@ -122,9 +107,9 @@
 				attackamt = rand(2,6) + rand(0, gamerSkill)
 			pause_state = TRUE
 			heads_up = "You attack for [attackamt] damage."
-			playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 			boss_hp -= attackamt
-			sleep(1 SECONDS)
+			sleep(10)
 			game_check()
 			enemy_check()
 			return TRUE
@@ -139,10 +124,10 @@
 				healcost = rand(1, maxPointCost)
 			pause_state = TRUE
 			heads_up = "You heal for [healamt] damage."
-			playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 			player_hp += healamt
 			player_mp -= healcost
-			sleep(1 SECONDS)
+			sleep(10)
 			game_check()
 			enemy_check()
 			return TRUE
@@ -152,34 +137,37 @@
 				rechargeamt = rand(4,7) + rand(0, gamerSkill)
 			pause_state = TRUE
 			heads_up = "You regain [rechargeamt] magic power."
-			playsound(computer.loc, 'sound/arcade/mana.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/mana.ogg', 50, TRUE, extrarange = -3, falloff = 10)
 			player_mp += rechargeamt
-			sleep(1 SECONDS)
+			sleep(10)
 			game_check()
 			enemy_check()
 			return TRUE
 		if("Dispense_Tickets")
-			if(computer.stored_paper <= 0)
-				to_chat(usr, span_notice("Printer is out of paper."))
+			if(!printer)
+				to_chat(usr, "<span class='notice'>Hardware error: A printer is required to redeem tickets.</span>")
+				return
+			if(printer.stored_paper <= 0)
+				to_chat(usr, "<span class='notice'>Hardware error: Printer is out of paper.</span>")
 				return
 			else
-				computer.visible_message(span_notice("\The [computer] prints out paper."))
+				computer.visible_message("<span class='notice'>\The [computer] prints out paper.</span>")
 				if(ticket_count >= 1)
 					new /obj/item/stack/arcadeticket((get_turf(computer)), 1)
-					to_chat(usr, span_notice("[computer] dispenses a ticket!"))
+					to_chat(usr, "<span class='notice'>[src] dispenses a ticket!</span>")
 					ticket_count -= 1
-					computer.stored_paper -= 1
+					printer.stored_paper -= 1
 				else
-					to_chat(usr, span_notice("You don't have any stored tickets!"))
+					to_chat(usr, "<span class='notice'>You don't have any stored tickets!</span>")
 				return TRUE
 		if("Start_Game")
 			game_active = TRUE
-			boss_hp = initial(boss_hp)
-			player_hp = initial(player_hp)
-			player_mp = initial(player_mp)
+			boss_hp = 45
+			player_hp = 30
+			player_mp = 10
 			heads_up = "You stand before [boss_name]! Prepare for battle!"
-			program_open_overlay = "arcade"
+			program_icon_state = "arcade"
 			boss_id = rand(1,6)
 			pause_state = FALSE
 			if(istype(computer))
-				computer.update_appearance()
+				computer.update_icon()

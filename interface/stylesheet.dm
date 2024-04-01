@@ -2,7 +2,7 @@
 /// !!!!!!!!!!HEY LISTEN!!!!!!!!!!!!!!!!!!!!!!!!
 /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// If you modify this file you ALSO need to modify tgui/packages/tgui-panel/styles/tgchat/chat-light.scss and chat-dark.scss
+// If you modify this file you ALSO need to modify code/modules/goonchat/browserAssets/browserOutput.css and browserOutput_white.css
 // BUT you have to use PX font sizes with are on a x8 scale of these font sizes
 // Sample font-size: DM: 8 CSS: 64px
 
@@ -24,8 +24,7 @@ em						{font-style: normal;	font-weight: bold;}
 .bold					{					font-weight: bold;}
 
 .prefix					{					font-weight: bold;}
-.oocplain				{}
-.warningplain			{}
+
 .ooc					{					font-weight: bold;}
 .adminobserverooc		{color: #0099cc;	font-weight: bold;}
 .adminooc				{color: #700038;	font-weight: bold;}
@@ -53,17 +52,13 @@ em						{font-style: normal;	font-weight: bold;}
 .aiprivradio			{color: #ff00ff;}
 .redteamradio			{color: #ff0000;}
 .blueteamradio			{color: #0000ff;}
-.greenteamradio			{color: #00ff00;}
-.yellowteamradio		{color: #d1ba22;}
-.gangradio				{color: #ac2ea1;}
 
 .yell					{					font-weight: bold;}
 
 .alert					{color: #ff0000;}
 h1.alert, h2.alert		{color: #000000;}
 
-.emote					{}
-.infoplain				{}
+.emote					{					font-style: italic;}
 
 .userdanger				{color: #ff0000;	font-weight: bold;	font-size: 3;}
 .danger					{color: #ff0000;	font-weight: bold;}
@@ -74,13 +69,11 @@ h1.alert, h2.alert		{color: #000000;}
 .boldwarning			{color: #ff0000;	font-style: italic;	font-weight: bold}
 .announce				{color: #228b22;	font-weight: bold;}
 .boldannounce			{color: #ff0000;	font-weight: bold;}
-.minorannounce			{					font-weight: bold;  font-size: 3;}
 .greenannounce			{color: #00ff00;	font-weight: bold;}
 .rose					{color: #ff5050;}
 .info					{color: #0000CC;}
 .notice					{color: #000099;}
 .tinynotice				{color: #000099; font-size: 85%;}
-.tinynoticeital			{color: #000099; font-style: italic; font-size: 85%;}
 .smallnotice			{color: #000099; font-size: 90%;}
 .smallnoticeital		{color: #000099; font-style: italic;	font-size: 90%;}
 .boldnotice				{color: #000099;	font-weight: bold;}
@@ -90,13 +83,11 @@ h1.alert, h2.alert		{color: #000000;}
 .unconscious			{color: #0000ff;	font-weight: bold;}
 .suicide				{color: #ff5050;	font-style: italic;}
 .green					{color: #03ff39;}
-.grey					{color: #838383;}
 .nicegreen				{color: #14a833;}
-.boldnicegreen			{color: #14a833;	font-weight: bold;}
-.cult					{color: #973e3b;}
-.cultlarge				{color: #973e3b;	font-weight: bold;	font-size: 3;}
-.narsie					{color: #973e3b;	font-weight: bold;	font-size: 15;}
-.narsiesmall			{color: #973e3b;	font-weight: bold;	font-size: 6;}
+.cult					{color: #960000;}
+.cultlarge				{color: #960000;	font-weight: bold;	font-size: 3;}
+.narsie					{color: #960000;	font-weight: bold;	font-size: 15;}
+.narsiesmall			{color: #960000;	font-weight: bold;	font-size: 6;}
 .colossus				{color: #7F282A;	font-size: 5;}
 .hierophant				{color: #660099;	font-weight: bold;	font-style: italic;}
 .hierophant_warning		{color: #660099;	font-style: italic;}
@@ -111,8 +102,6 @@ h1.alert, h2.alert		{color: #000000;}
 .revenwarning			{color: #760fbb;	font-style: italic;}
 .revendanger			{color: #760fbb;	font-weight: bold;	font-size: 3;}
 
-.sentientdisease		{color: #446600;}
-
 .deconversion_message	{color: #5000A0;	font-size: 3;	font-style: italic;}
 
 .ghostalert				{color: #5c00e6;	font-style: italic;	font-weight: bold;}
@@ -125,8 +114,6 @@ h1.alert, h2.alert		{color: #000000;}
 .spider					{color: #4d004d;}
 
 .interface				{color: #330033;}
-
-.blob					{color: #556B2F;	font-weight: bold;	font-size: 3;}
 
 .sans					{font-family: "Comic Sans MS", cursive, sans-serif;}
 .papyrus				{font-family: "Papyrus", cursive, sans-serif;}
@@ -170,5 +157,6 @@ h1.alert, h2.alert		{color: #000000;}
 .swarmer				{color: #2C75FF;}
 .resonate				{color: #298F85;}
 
-.upside_down			{display: inline; -moz-transform: scale(-1, -1); -webkit-transform: scale(-1, -1); -o-transform: scale(-1, -1); -ms-transform: scale(-1, -1); transform: scale(-1, -1);}
+.monkeyhive				{color: #774704;}
+.monkeylead				{color: #774704;	font-size: 2;}
 </style>"}

@@ -3,7 +3,7 @@
 /area/awaymission/research
 	name = "Research Outpost"
 	icon_state = "away"
-	static_lighting = TRUE
+	dynamic_lighting = DYNAMIC_LIGHTING_ENABLED
 
 /area/awaymission/research/interior
 	name = "Research Inside"
@@ -65,5 +65,5 @@
 //research papers
 
 /obj/item/paper/crumpled/awaymissions/research/sensitive_info
-	default_raw_text = "Theres a lot of sensitive info on these disks, try and keep them secure! If these backup copies get into the wrong hands, god knows what they could do with the genetic research on these disk.."
+	info = "Theres a lot of sensitive info on these disks, try and keep them secure! If these backup copies get into the wrong hands, god knows what they could do with the genetic research on these disk.."
 

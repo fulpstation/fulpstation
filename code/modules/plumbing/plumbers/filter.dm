@@ -4,7 +4,6 @@
 	desc = "A chemical filter for filtering chemicals. The left and right outputs appear to be from the perspective of the input port."
 	icon_state = "filter"
 	density = FALSE
-
 	///whitelist of chems id's that go to the left side. Empty to disable port
 	var/list/left = list()
 	///whitelist of chem id's that go to the right side. Empty to disable port
@@ -14,9 +13,9 @@
 	///whitelist of chems but their name instead of path
 	var/list/english_right = list()
 
-/obj/machinery/plumbing/filter/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/filter/Initialize(mapload, bolt)
 	. = ..()
-	AddComponent(/datum/component/plumbing/filter, bolt, layer)
+	AddComponent(/datum/component/plumbing/filter, bolt)
 
 /obj/machinery/plumbing/filter/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -31,31 +30,25 @@
 	return data
 
 /obj/machinery/plumbing/filter/ui_act(action, params)
-	. = ..()
-	if(.)
+	if(..())
 		return
 	. = TRUE
 	switch(action)
 		if("add")
-			var/which = params["which"]
-
-			var/selected_reagent = tgui_input_list(usr, "Select [which] reagent", "Reagent", GLOB.name2reagent)
-			if(!selected_reagent)
-				return TRUE
-
-			var/datum/reagent/chem_id = GLOB.name2reagent[selected_reagent]
-			if(!chem_id)
-				return TRUE
-
-			switch(which)
-				if("left")
-					if(!left.Find(chem_id))
-						english_left += selected_reagent
-						left += chem_id
-				if("right")
-					if(!right.Find(chem_id))
-						english_right += selected_reagent
-						right += chem_id
+			var/new_chem_name = params["name"]
+			var/chem_id = get_chem_id(new_chem_name)
+			if(chem_id)
+				switch(params["which"])
+					if("left")
+						if(!left.Find(chem_id))
+							english_left += new_chem_name
+							left += chem_id
+					if("right")
+						if(!right.Find(chem_id))
+							english_right += new_chem_name
+							right += chem_id
+			else
+				to_chat(usr, "<span class='warning'>No such known reagent exists!</span>")
 
 		if("remove")
 			var/chem_name = params["reagent"]

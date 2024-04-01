@@ -1,75 +1,51 @@
-/**
- * The relay idles until it receives information. It then passes on that information
- * depending on where it came from.
- *
- * The relay is needed in order to send information to different Z levels. It
- * must be linked with a hub, the only other machine that can send to/receive
- * from other Z levels.
- */
+/*
+	The relay idles until it receives information. It then passes on that information
+	depending on where it came from.
+
+	The relay is needed in order to send information pass Z levels. It must be linked
+	with a HUB, the only other machine that can send/receive pass Z levels.
+*/
+
 /obj/machinery/telecomms/relay
 	name = "telecommunication relay"
 	icon_state = "relay"
 	desc = "A mighty piece of hardware used to send massive amounts of data far away."
-	telecomms_type = /obj/machinery/telecomms/relay
 	density = TRUE
-	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 0.01
+	use_power = IDLE_POWER_USE
+	idle_power_usage = 30
 	netspeed = 5
-	long_range_link = TRUE
+	long_range_link = 1
 	circuit = /obj/item/circuitboard/machine/telecomms/relay
-	/// Can this relay broadcast signals to other Z levels?
-	var/broadcasting = TRUE
-	/// Can this relay receive signals from other Z levels?
-	var/receiving = TRUE
+	var/broadcasting = 1
+	var/receiving = 1
 
 /obj/machinery/telecomms/relay/receive_information(datum/signal/subspace/signal, obj/machinery/telecomms/machine_from)
 	// Add our level and send it back
-	var/turf/relay_turf = get_turf(src)
-	if(can_send(signal) && relay_turf)
-		// Relays send signals to all ZTRAIT_STATION z-levels
-		if(SSmapping.level_trait(relay_turf.z, ZTRAIT_STATION))
-			for(var/z_level in SSmapping.levels_by_trait(ZTRAIT_STATION))
-				signal.levels |= SSmapping.get_connected_levels(z_level)
-		else
-			signal.levels |= SSmapping.get_connected_levels(relay_turf)
+	var/turf/T = get_turf(src)
+	if(can_send(signal) && T)
+		signal.levels |= T.z
 
-	use_power(idle_power_usage)
+// Checks to see if it can send/receive.
 
-/**
- * Checks to see if the relay can send/receive the signal, by checking if it's
- * on, and if it's listening to the frequency of the signal.
- *
- * Returns `TRUE` if it can listen to the signal, `FALSE` if not.
- */
-/obj/machinery/telecomms/relay/proc/can_listen_to_signal(datum/signal/signal)
+/obj/machinery/telecomms/relay/proc/can(datum/signal/signal)
 	if(!on)
 		return FALSE
 	if(!is_freq_listening(signal))
 		return FALSE
 	return TRUE
 
-/**
- * Checks to see if the relay can send this signal, which requires it to have
- * `broadcasting` set to `TRUE`.
- *
- * Returns `TRUE` if it can send the signal, `FALSE` if not.
- */
 /obj/machinery/telecomms/relay/proc/can_send(datum/signal/signal)
-	if(!can_listen_to_signal(signal))
+	if(!can(signal))
 		return FALSE
 	return broadcasting
 
-/**
- * Checks to see if the relay can receive this signal, which requires it to have
- * `receiving` set to `TRUE`.
- *
- * Returns `TRUE` if it can receive the signal, `FALSE` if not.
- */
 /obj/machinery/telecomms/relay/proc/can_receive(datum/signal/signal)
-	if(!can_listen_to_signal(signal))
+	if(!can(signal))
 		return FALSE
 	return receiving
 
-// Preset Relays
+//Preset Relay
+
 /obj/machinery/telecomms/relay/preset
 	network = "tcommsat"
 
@@ -96,7 +72,7 @@
 	toggled = FALSE
 	autolinkers = list("r_relay")
 
-// Generic preset relay
+//Generic preset relay
 /obj/machinery/telecomms/relay/preset/auto
 	hide = TRUE
 	autolinkers = list("autorelay")

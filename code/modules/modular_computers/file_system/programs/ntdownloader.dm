@@ -1,67 +1,68 @@
 /datum/computer_file/program/ntnetdownload
-	filename = "ntsoftwarehub"
-	filedesc = "NT Software Hub"
-	program_open_overlay = "generic"
+	filename = "ntndownloader"
+	filedesc = "Software Download Tool"
+	program_icon_state = "generic"
 	extended_desc = "This program allows downloads of software from official NT repositories"
-	undeletable = TRUE
+	unsendable = 1
+	undeletable = 1
 	size = 4
-	program_flags = PROGRAM_REQUIRES_NTNET
+	requires_ntnet = 1
+	requires_ntnet_feature = NTNET_SOFTWAREDOWNLOAD
+	available_on_ntnet = 0
+	ui_header = "downloader_finished.gif"
 	tgui_id = "NtosNetDownloader"
-	program_icon = "download"
 
-	///The program currently being downloaded.
-	var/datum/computer_file/program/downloaded_file
-	///Boolean on whether the `downloaded_file` is being downloaded from the Syndicate store,
-	///in which case it will appear as 'ENCRYPTED' in logs, rather than display file name.
-	var/hacked_download = FALSE
-	///How much of the data has been downloaded.
-	var/download_completion
-	///The error message being displayed to the user, if necessary. Null if there isn't one.
-	var/downloaderror
+	var/datum/computer_file/program/downloaded_file = null
+	var/hacked_download = 0
+	var/download_completion = 0 //GQ of downloaded data.
+	var/download_netspeed = 0
+	var/downloaderror = ""
+	var/obj/item/modular_computer/my_computer = null
+	var/emagged = FALSE
+	var/list/main_repo
+	var/list/antag_repo
 
-	///The list of categories to display in the UI, in order of which they appear.
-	var/static/list/show_categories = list(
-		PROGRAM_CATEGORY_DEVICE,
-		PROGRAM_CATEGORY_EQUIPMENT,
-		PROGRAM_CATEGORY_GAMES,
-		PROGRAM_CATEGORY_SECURITY,
-		PROGRAM_CATEGORY_ENGINEERING,
-		PROGRAM_CATEGORY_SUPPLY,
-		PROGRAM_CATEGORY_SCIENCE,
-	)
-
-/datum/computer_file/program/ntnetdownload/kill_program(mob/user)
-	abort_file_download()
-	ui_header = null
+/datum/computer_file/program/ntnetdownload/run_program()
 	. = ..()
+	main_repo = SSnetworks.station_network.available_station_software
+	antag_repo = SSnetworks.station_network.available_antag_software
+
+/datum/computer_file/program/ntnetdownload/run_emag()
+	if(emagged)
+		return FALSE
+	emagged = TRUE
+	return TRUE
+
 
 /datum/computer_file/program/ntnetdownload/proc/begin_file_download(filename)
 	if(downloaded_file)
-		return FALSE
+		return 0
 
-	var/datum/computer_file/program/PRG = SSmodular_computers.find_ntnet_file_by_name(filename)
+	var/datum/computer_file/program/PRG = SSnetworks.station_network.find_ntnet_file_by_name(filename)
 
 	if(!PRG || !istype(PRG))
-		return FALSE
+		return 0
 
 	// Attempting to download antag only program, but without having emagged/syndicate computer. No.
-	if((PRG.program_flags & PROGRAM_ON_SYNDINET_STORE) && !(computer.obj_flags & EMAGGED))
-		return FALSE
+	if(PRG.available_on_syndinet && !emagged)
+		return 0
 
-	if(!computer || !computer.can_store_file(PRG))
-		return FALSE
+	var/obj/item/computer_hardware/hard_drive/hard_drive = computer.all_components[MC_HDD]
+
+	if(!computer || !hard_drive || !hard_drive.can_store_file(PRG))
+		return 0
 
 	ui_header = "downloader_running.gif"
 
-	if(PRG in SSmodular_computers.available_station_software)
+	if(PRG in main_repo)
 		generate_network_log("Began downloading file [PRG.filename].[PRG.filetype] from NTNet Software Repository.")
-		hacked_download = FALSE
-	else if(PRG in SSmodular_computers.available_antag_software)
+		hacked_download = 0
+	else if(PRG in antag_repo)
 		generate_network_log("Began downloading file **ENCRYPTED**.[PRG.filetype] from unspecified server.")
-		hacked_download = TRUE
+		hacked_download = 1
 	else
 		generate_network_log("Began downloading file [PRG.filename].[PRG.filetype] from unspecified server.")
-		hacked_download = FALSE
+		hacked_download = 0
 
 	downloaded_file = PRG.clone()
 
@@ -70,58 +71,62 @@
 		return
 	generate_network_log("Aborted download of file [hacked_download ? "**ENCRYPTED**" : "[downloaded_file.filename].[downloaded_file.filetype]"].")
 	downloaded_file = null
-	download_completion = FALSE
-	ui_header = null
+	download_completion = 0
+	ui_header = "downloader_finished.gif"
 
 /datum/computer_file/program/ntnetdownload/proc/complete_file_download()
 	if(!downloaded_file)
 		return
 	generate_network_log("Completed download of file [hacked_download ? "**ENCRYPTED**" : "[downloaded_file.filename].[downloaded_file.filetype]"].")
-	if(!computer || !computer.store_file(downloaded_file))
+	var/obj/item/computer_hardware/hard_drive/hard_drive = computer.all_components[MC_HDD]
+	if(!computer || !hard_drive || !hard_drive.store_file(downloaded_file))
 		// The download failed
 		downloaderror = "I/O ERROR - Unable to save file. Check whether you have enough free space on your hard drive and whether your hard drive is properly connected. If the issue persists contact your system administrator for assistance."
 	downloaded_file = null
-	download_completion = FALSE
+	download_completion = 0
 	ui_header = "downloader_finished.gif"
 
-/datum/computer_file/program/ntnetdownload/process_tick(seconds_per_tick)
+/datum/computer_file/program/ntnetdownload/process_tick()
 	if(!downloaded_file)
 		return
 	if(download_completion >= downloaded_file.size)
 		complete_file_download()
 	// Download speed according to connectivity state. NTNet server is assumed to be on unlimited speed so we're limited by our local connectivity
-	var/download_netspeed
+	download_netspeed = 0
 	// Speed defines are found in misc.dm
 	switch(ntnet_status)
-		if(NTNET_LOW_SIGNAL)
+		if(1)
 			download_netspeed = NTNETSPEED_LOWSIGNAL
-		if(NTNET_GOOD_SIGNAL)
+		if(2)
 			download_netspeed = NTNETSPEED_HIGHSIGNAL
-		if(NTNET_ETHERNET_SIGNAL)
+		if(3)
 			download_netspeed = NTNETSPEED_ETHERNET
-	if(download_netspeed)
-		if(HAS_TRAIT(computer, TRAIT_MODPC_HALVED_DOWNLOAD_SPEED))
-			download_netspeed *= 0.5
-		download_completion += download_netspeed
+	download_completion += download_netspeed
 
-/datum/computer_file/program/ntnetdownload/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
+/datum/computer_file/program/ntnetdownload/ui_act(action, params)
+	if(..())
+		return 1
 	switch(action)
 		if("PRG_downloadfile")
 			if(!downloaded_file)
 				begin_file_download(params["filename"])
-			return TRUE
+			return 1
 		if("PRG_reseterror")
 			if(downloaderror)
-				download_completion = FALSE
+				download_completion = 0
+				download_netspeed = 0
 				downloaded_file = null
 				downloaderror = ""
-			return TRUE
-	return FALSE
+			return 1
+	return 0
 
 /datum/computer_file/program/ntnetdownload/ui_data(mob/user)
-	var/list/data = list()
-	var/list/access = computer.GetAccess()
+	my_computer = computer
+
+	if(!istype(my_computer))
+		return
+
+	var/list/data = get_header_data()
 
 	data["downloading"] = !!downloaded_file
 	data["error"] = downloaderror || FALSE
@@ -131,34 +136,73 @@
 		data["downloadname"] = downloaded_file.filename
 		data["downloaddesc"] = downloaded_file.filedesc
 		data["downloadsize"] = downloaded_file.size
+		data["downloadspeed"] = download_netspeed
 		data["downloadcompletion"] = round(download_completion, 0.1)
 
-	data["disk_size"] = computer.max_capacity
-	data["disk_used"] = computer.used_capacity
-	data["emagged"] = (computer.obj_flags & EMAGGED)
+	var/obj/item/computer_hardware/hard_drive/hard_drive = my_computer.all_components[MC_HDD]
+	data["disk_size"] = hard_drive.max_capacity
+	data["disk_used"] = hard_drive.used_capacity
+	var/list/all_entries[0]
+	for(var/A in main_repo)
+		var/datum/computer_file/program/P = A
+		// Only those programs our user can run will show in the list
+		if(!P.can_run(user,transfer = 1) || hard_drive.find_file_by_name(P.filename))
+			continue
+		all_entries.Add(list(list(
+			"filename" = P.filename,
+			"filedesc" = P.filedesc,
+			"fileinfo" = P.extended_desc,
+			"compatibility" = check_compatibility(P),
+			"size" = P.size,
+		)))
+	data["hackedavailable"] = FALSE
+	if(emagged) // If we are running on emagged computer we have access to some "bonus" software
+		var/list/hacked_programs[0]
+		for(var/S in antag_repo)
+			var/datum/computer_file/program/P = S
+			if(hard_drive.find_file_by_name(P.filename))
+				continue
+			data["hackedavailable"] = TRUE
+			hacked_programs.Add(list(list(
+				"filename" = P.filename,
+				"filedesc" = P.filedesc,
+				"fileinfo" = P.extended_desc,
+				"size" = P.size,
+			)))
+		data["hacked_programs"] = hacked_programs
 
-	var/list/repo = SSmodular_computers.available_antag_software | SSmodular_computers.available_station_software
-
-	for(var/datum/computer_file/program/programs as anything in repo)
-		data["programs"] += list(list(
-			"icon" = programs.program_icon,
-			"filename" = programs.filename,
-			"filedesc" = programs.filedesc,
-			"fileinfo" = programs.extended_desc,
-			"category" = programs.downloader_category,
-			"installed" = !!computer.find_file_by_name(programs.filename),
-			"compatible" = check_compatibility(programs),
-			"size" = programs.size,
-			"access" = programs.can_run(user, downloading = TRUE, access = access),
-			"verifiedsource" = !!(programs.program_flags & PROGRAM_ON_NTNET_STORE),
-		))
-
-	data["categories"] = show_categories
+	data["downloadable_programs"] = all_entries
 
 	return data
 
-///Checks if a provided `program_to_check` is compatible to be downloaded on our computer.
-/datum/computer_file/program/ntnetdownload/proc/check_compatibility(datum/computer_file/program/program_to_check)
-	if(!program_to_check || !program_to_check.is_supported_by_hardware(hardware_flag = computer.hardware_flag, loud = FALSE))
-		return FALSE
-	return TRUE
+/datum/computer_file/program/ntnetdownload/proc/check_compatibility(datum/computer_file/program/P)
+	var/hardflag = computer.hardware_flag
+
+	if(P && P.is_supported_by_hardware(hardflag,0))
+		return "Compatible"
+	return "Incompatible!"
+
+/datum/computer_file/program/ntnetdownload/kill_program(forced)
+	abort_file_download()
+	return ..(forced)
+
+////////////////////////
+//Syndicate Downloader//
+////////////////////////
+
+/// This app only lists programs normally found in the emagged section of the normal downloader app
+
+/datum/computer_file/program/ntnetdownload/syndicate
+	filename = "syndownloader"
+	filedesc = "Software Download Tool"
+	program_icon_state = "generic"
+	extended_desc = "This program allows downloads of software from shared Syndicate repositories"
+	requires_ntnet = 0
+	ui_header = "downloader_finished.gif"
+	tgui_id = "NtosNetDownloader"
+	emagged = TRUE
+
+/datum/computer_file/program/ntnetdownload/syndicate/run_program()
+	. = ..()
+	main_repo = SSnetworks.station_network.available_antag_software
+	antag_repo = null

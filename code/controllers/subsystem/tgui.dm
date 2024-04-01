@@ -1,13 +1,10 @@
-/*!
- * Copyright (c) 2020 Aleksej Komarov
- * SPDX-License-Identifier: MIT
- */
-
 /**
  * tgui subsystem
  *
  * Contains all tgui state and subsystem code.
  *
+ * Copyright (c) 2020 Aleksej Komarov
+ * SPDX-License-Identifier: MIT
  */
 
 SUBSYSTEM_DEF(tgui)
@@ -19,39 +16,35 @@ SUBSYSTEM_DEF(tgui)
 
 	/// A list of UIs scheduled to process
 	var/list/current_run = list()
-	/// A list of all open UIs
-	var/list/all_uis = list()
+	/// A list of open UIs
+	var/list/open_uis = list()
+	/// A list of open UIs, grouped by src_object.
+	var/list/open_uis_by_src = list()
 	/// The HTML base used for all UIs.
 	var/basehtml
 
 /datum/controller/subsystem/tgui/PreInit()
-	basehtml = file2text('tgui/public/tgui.html')
-	// Inject inline polyfills
-	var/polyfill = file2text('tgui/public/tgui-polyfill.min.js')
-	polyfill = "<script>\n[polyfill]\n</script>"
-	basehtml = replacetextEx(basehtml, "<!-- tgui:inline-polyfill -->", polyfill)
-	basehtml = replacetextEx(basehtml, "<!-- tgui:nt-copyright -->", "Nanotrasen (c) 2525-[CURRENT_STATION_YEAR]")
+	basehtml = file2text('tgui/packages/tgui/public/tgui.html')
 
 /datum/controller/subsystem/tgui/Shutdown()
 	close_all_uis()
 
-/datum/controller/subsystem/tgui/stat_entry(msg)
-	msg = "P:[length(all_uis)]"
-	return ..()
+/datum/controller/subsystem/tgui/stat_entry()
+	..("P:[open_uis.len]")
 
-/datum/controller/subsystem/tgui/fire(resumed = FALSE)
+/datum/controller/subsystem/tgui/fire(resumed = 0)
 	if(!resumed)
-		src.current_run = all_uis.Copy()
+		src.current_run = open_uis.Copy()
 	// Cache for sanic speed (lists are references anyways)
 	var/list/current_run = src.current_run
 	while(current_run.len)
 		var/datum/tgui/ui = current_run[current_run.len]
 		current_run.len--
 		// TODO: Move user/src_object check to process()
-		if(ui?.user && ui.src_object)
-			ui.process(wait * 0.1)
+		if(ui && ui.user && ui.src_object)
+			ui.process()
 		else
-			ui.close(0)
+			open_uis.Remove(ui)
 		if(MC_TICK_CHECK)
 			return
 
@@ -88,8 +81,7 @@ SUBSYSTEM_DEF(tgui)
 			window_found = TRUE
 			break
 	if(!window_found)
-		log_tgui(user, "Error: Pool exhausted",
-			context = "SStgui/request_pooled_window")
+		log_tgui(user, "Error: Pool exhausted")
 		return null
 	return window
 
@@ -101,7 +93,7 @@ SUBSYSTEM_DEF(tgui)
  * required user mob
  */
 /datum/controller/subsystem/tgui/proc/force_close_all_windows(mob/user)
-	log_tgui(user, context = "SStgui/force_close_all_windows")
+	log_tgui(user, "force_close_all_windows")
 	if(user.client)
 		user.client.tgui_windows = list()
 		for(var/i in 1 to TGUI_WINDOW_HARD_LIMIT)
@@ -117,7 +109,7 @@ SUBSYSTEM_DEF(tgui)
  * required window_id string
  */
 /datum/controller/subsystem/tgui/proc/force_close_window(mob/user, window_id)
-	log_tgui(user, context = "SStgui/force_close_window")
+	log_tgui(user, "force_close_window")
 	// Close all tgui datums based on window_id.
 	for(var/datum/tgui/ui in user.tgui_open_uis)
 		if(ui.window && ui.window.id == window_id)
@@ -170,10 +162,11 @@ SUBSYSTEM_DEF(tgui)
  * return datum/tgui The found UI.
  */
 /datum/controller/subsystem/tgui/proc/get_open_ui(mob/user, datum/src_object)
+	var/key = "[REF(src_object)]"
 	// No UIs opened for this src_object
-	if(!LAZYLEN(src_object?.open_uis))
+	if(isnull(open_uis_by_src[key]) || !istype(open_uis_by_src[key], /list))
 		return null
-	for(var/datum/tgui/ui in src_object.open_uis)
+	for(var/datum/tgui/ui in open_uis_by_src[key])
 		// Make sure we have the right user
 		if(ui.user == user)
 			return ui
@@ -189,14 +182,15 @@ SUBSYSTEM_DEF(tgui)
  * return int The number of UIs updated.
  */
 /datum/controller/subsystem/tgui/proc/update_uis(datum/src_object)
-	// No UIs opened for this src_object
-	if(!LAZYLEN(src_object?.open_uis))
-		return 0
 	var/count = 0
-	for(var/datum/tgui/ui in src_object.open_uis)
+	var/key = "[REF(src_object)]"
+	// No UIs opened for this src_object
+	if(isnull(open_uis_by_src[key]) || !istype(open_uis_by_src[key], /list))
+		return count
+	for(var/datum/tgui/ui in open_uis_by_src[key])
 		// Check if UI is valid.
-		if(ui?.src_object && ui.user && ui.src_object.ui_host(ui.user))
-			INVOKE_ASYNC(ui, TYPE_PROC_REF(/datum/tgui, process), wait * 0.1, TRUE)
+		if(ui && ui.src_object && ui.user && ui.src_object.ui_host(ui.user))
+			ui.process(force = 1)
 			count++
 	return count
 
@@ -210,13 +204,14 @@ SUBSYSTEM_DEF(tgui)
  * return int The number of UIs closed.
  */
 /datum/controller/subsystem/tgui/proc/close_uis(datum/src_object)
-	// No UIs opened for this src_object
-	if(!LAZYLEN(src_object?.open_uis))
-		return 0
 	var/count = 0
-	for(var/datum/tgui/ui in src_object.open_uis)
+	var/key = "[REF(src_object)]"
+	// No UIs opened for this src_object
+	if(isnull(open_uis_by_src[key]) || !istype(open_uis_by_src[key], /list))
+		return count
+	for(var/datum/tgui/ui in open_uis_by_src[key])
 		// Check if UI is valid.
-		if(ui?.src_object && ui.user && ui.src_object.ui_host(ui.user))
+		if(ui && ui.src_object && ui.user && ui.src_object.ui_host(ui.user))
 			ui.close()
 			count++
 	return count
@@ -230,11 +225,12 @@ SUBSYSTEM_DEF(tgui)
  */
 /datum/controller/subsystem/tgui/proc/close_all_uis()
 	var/count = 0
-	for(var/datum/tgui/ui in all_uis)
-		// Check if UI is valid.
-		if(ui?.src_object && ui.user && ui.src_object.ui_host(ui.user))
-			ui.close()
-			count++
+	for(var/key in open_uis_by_src)
+		for(var/datum/tgui/ui in open_uis_by_src[key])
+			// Check if UI is valid.
+			if(ui && ui.src_object && ui.user && ui.src_object.ui_host(ui.user))
+				ui.close()
+				count++
 	return count
 
 /**
@@ -253,7 +249,7 @@ SUBSYSTEM_DEF(tgui)
 		return count
 	for(var/datum/tgui/ui in user.tgui_open_uis)
 		if(isnull(src_object) || ui.src_object == src_object)
-			ui.process(wait * 0.1, force = 1)
+			ui.process(force = 1)
 			count++
 	return count
 
@@ -285,9 +281,13 @@ SUBSYSTEM_DEF(tgui)
  * required ui datum/tgui The UI to be added.
  */
 /datum/controller/subsystem/tgui/proc/on_open(datum/tgui/ui)
-	ui.user?.tgui_open_uis |= ui
-	LAZYOR(ui.src_object.open_uis, ui)
-	all_uis |= ui
+	var/key = "[REF(ui.src_object)]"
+	if(isnull(open_uis_by_src[key]) || !istype(open_uis_by_src[key], /list))
+		open_uis_by_src[key] = list()
+	ui.user.tgui_open_uis |= ui
+	var/list/uis = open_uis_by_src[key]
+	uis |= ui
+	open_uis |= ui
 
 /**
  * private
@@ -299,14 +299,18 @@ SUBSYSTEM_DEF(tgui)
  * return bool If the UI was removed or not.
  */
 /datum/controller/subsystem/tgui/proc/on_close(datum/tgui/ui)
+	var/key = "[REF(ui.src_object)]"
+	if(isnull(open_uis_by_src[key]) || !istype(open_uis_by_src[key], /list))
+		return FALSE
 	// Remove it from the list of processing UIs.
-	all_uis -= ui
-	current_run -= ui
+	open_uis.Remove(ui)
 	// If the user exists, remove it from them too.
 	if(ui.user)
-		ui.user.tgui_open_uis -= ui
-	if(ui.src_object)
-		LAZYREMOVE(ui.src_object.open_uis, ui)
+		ui.user.tgui_open_uis.Remove(ui)
+	var/list/uis = open_uis_by_src[key]
+	uis.Remove(ui)
+	if(length(uis) == 0)
+		open_uis_by_src.Remove(key)
 	return TRUE
 
 /**
@@ -341,7 +345,7 @@ SUBSYSTEM_DEF(tgui)
 	for(var/datum/tgui/ui in source.tgui_open_uis)
 		// Inform the UIs of their new owner.
 		ui.user = target
-		target.tgui_open_uis += ui
+		target.tgui_open_uis.Add(ui)
 	// Clear the old list.
 	source.tgui_open_uis.Cut()
 	return TRUE

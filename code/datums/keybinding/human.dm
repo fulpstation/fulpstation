@@ -57,20 +57,17 @@
 	slot_item_name = "suit storage slot item"
 	keybind_signal = COMSIG_KB_HUMAN_SUITEQUIP_DOWN
 
-/datum/keybinding/human/quick_equip_belt/quick_equip_lpocket
-	hotkey_keys = list("Ctrl1")
-	name = "quick_equip_lpocket"
-	full_name = "Quick equip left pocket"
-	description = "Put in or take out an item in left pocket"
-	slot_type = ITEM_SLOT_LPOCKET
-	slot_item_name = "left pocket"
-	keybind_signal = COMSIG_KB_HUMAN_LPOCKETEQUIP_DOWN
+/datum/keybinding/human/equipment_swap
+	hotkey_keys = list("V")
+	name = "equipment_swap"
+	full_name = "Equipment Swap"
+	description = "Equip the currently held item by swapping it out with the already equipped item after a small delay"
+	keybind_signal = COMSIG_KB_HUMAN_EQUIPMENTSWAP_DOWN
 
-/datum/keybinding/human/quick_equip_belt/quick_equip_rpocket
-	hotkey_keys = list("Ctrl2")
-	name = "quick_equip_rpocket"
-	full_name = "Quick equip right pocket"
-	description = "Put in or take out an item in right pocket"
-	slot_type = ITEM_SLOT_RPOCKET
-	slot_item_name = "right pocket"
-	keybind_signal = COMSIG_KB_HUMAN_RPOCKETEQUIP_DOWN
+/datum/keybinding/human/equipment_swap/down(client/user)
+	. = ..()
+	if(.)
+		return
+	var/mob/living/carbon/human/H = user.mob
+	H.equipment_swap()
+	return TRUE

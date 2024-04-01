@@ -1,40 +1,33 @@
 /datum/species/mush //mush mush codecuck
 	name = "Mushroomperson"
-	plural_form = "Mushroompeople"
-	id = SPECIES_MUSHROOM
+	id = "mush"
+	mutant_bodyparts = list("caps")
+	default_features = list("caps" = "Round")
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
 
-	fixed_mut_color = "#DBBF92"
-	hair_color = "#FF4B19" //cap color, spot color uses eye color
+	fixed_mut_color = "DBBF92"
+	hair_color = "FF4B19" //cap color, spot color uses eye color
+	nojumpsuit = TRUE
 
-	external_organs = list(/obj/item/organ/external/mushroom_cap = "Round")
+	say_mod = "poofs" //what does a mushroom sound like
+	species_traits = list(MUTCOLORS, NOEYESPRITES, NO_UNDERWEAR, HAS_FLESH, HAS_BONE)
+	inherent_traits = list(TRAIT_NOBREATH, TRAIT_NOFLASH)
+	inherent_factions = list("mushroom")
+	speedmod = 1.5 //faster than golems but not by much
 
-	inherent_traits = list(
-		TRAIT_MUTANT_COLORS,
-		TRAIT_NOBREATH,
-		TRAIT_NOFLASH,
-		TRAIT_NO_UNDERWEAR,
-	)
-	inherent_factions = list(FACTION_MUSHROOM)
+	punchdamagelow = 6
+	punchdamagehigh = 14
+	punchstunthreshold = 14 //about 44% chance to stun
 
-	no_equip_flags = ITEM_SLOT_MASK | ITEM_SLOT_OCLOTHING | ITEM_SLOT_GLOVES | ITEM_SLOT_FEET | ITEM_SLOT_ICLOTHING
+	no_equip = list(ITEM_SLOT_MASK, ITEM_SLOT_OCLOTHING, ITEM_SLOT_GLOVES, ITEM_SLOT_FEET, ITEM_SLOT_ICLOTHING)
 
+	burnmod = 1.25
 	heatmod = 1.5
 
-	mutanttongue = /obj/item/organ/internal/tongue/mush
-	mutanteyes = /obj/item/organ/internal/eyes/night_vision/mushroom
-	mutantlungs = null
-	species_language_holder = /datum/language_holder/mushroom
-
-	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/mushroom,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/mushroom,
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/mushroom,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/mushroom,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/mushroom,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/mushroom,
-	)
+	mutanteyes = /obj/item/organ/eyes/night_vision/mushroom
+	use_skintones = FALSE
 	var/datum/martial_art/mushpunch/mush
+	species_language_holder = /datum/language_holder/mushroom
 
 /datum/species/mush/check_roundstart_eligible()
 	return FALSE //hard locked out of roundstart on the order of design lead kor, this can be removed in the future when planetstation is here OR SOMETHING but right now we have a problem with races.
@@ -42,49 +35,24 @@
 /datum/species/mush/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	if(ishuman(C))
-		mush = new()
-		mush.teach(C)
-		mush.allow_temp_override = FALSE
+		var/mob/living/carbon/human/H = C
+		if(!H.dna.features["caps"])
+			H.dna.features["caps"] = "Round"
+			handle_mutant_bodyparts(H)
+		mush = new(null)
+		mush.teach(H)
 
 /datum/species/mush/on_species_loss(mob/living/carbon/C)
 	. = ..()
-	mush.fully_remove(C)
+	mush.remove(C)
 	QDEL_NULL(mush)
 
-/datum/species/mush/handle_chemical(datum/reagent/chem, mob/living/carbon/human/affected, seconds_per_tick, times_fired)
-	. = ..()
-	if(. & COMSIG_MOB_STOP_REAGENT_CHECK)
-		return
+/datum/species/mush/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.type == /datum/reagent/toxin/plantbgone/weedkiller)
-		affected.adjustToxLoss(3 * REM * seconds_per_tick)
+		H.adjustToxLoss(3)
+		H.reagents.remove_reagent(chem.type, REAGENTS_METABOLISM)
+		return TRUE
 
-/// A mushpersons mushroom cap organ
-/obj/item/organ/external/mushroom_cap
-	name = "mushroom cap"
-	desc = "These are yummie, no cap."
-
-	use_mob_sprite_as_obj_sprite = TRUE
-
-	zone = BODY_ZONE_HEAD
-	slot = ORGAN_SLOT_EXTERNAL_POD_HAIR
-
-	preference = "feature_mushperson_cap"
-
-	dna_block = DNA_MUSHROOM_CAPS_BLOCK
-	restyle_flags = EXTERNAL_RESTYLE_PLANT
-
-	bodypart_overlay = /datum/bodypart_overlay/mutant/mushroom_cap
-
-/// Bodypart overlay for the mushroom cap organ
-/datum/bodypart_overlay/mutant/mushroom_cap
-	layers = EXTERNAL_ADJACENT
-	feature_key = "caps"
-
-/datum/bodypart_overlay/mutant/mushroom_cap/get_global_feature_list()
-	return GLOB.caps_list
-
-/datum/bodypart_overlay/mutant/mushroom_cap/can_draw_on_bodypart(mob/living/carbon/human/human)
-	if((human.head?.flags_inv & HIDEHAIR) || (human.wear_mask?.flags_inv & HIDEHAIR))
-		return FALSE
-
-	return TRUE
+/datum/species/mush/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour)
+	forced_colour = FALSE
+	..()

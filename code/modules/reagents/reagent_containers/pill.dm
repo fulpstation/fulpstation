@@ -1,13 +1,12 @@
 /obj/item/reagent_containers/pill
 	name = "pill"
 	desc = "A tablet or capsule."
-	icon = 'icons/obj/medical/chemical.dmi'
+	icon = 'icons/obj/chemical.dmi'
 	icon_state = "pill"
 	inhand_icon_state = "pill"
-	worn_icon_state = "nothing"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
-	has_variable_transfer_amount = FALSE
+	possible_transfer_amounts = list()
 	volume = 50
 	grind_results = list()
 	var/apply_type = INGEST
@@ -22,39 +21,36 @@
 		icon_state = "pill[rand(1,20)]"
 	if(reagents.total_volume && rename_with_volume)
 		name += " ([reagents.total_volume]u)"
-	if(apply_type == INGEST)
-		AddComponent(/datum/component/germ_sensitive, mapload)
+
+
+/obj/item/reagent_containers/pill/attack_self(mob/user)
+	return
+
 
 /obj/item/reagent_containers/pill/attack(mob/M, mob/user, def_zone)
 	if(!canconsume(M, user))
 		return FALSE
 
 	if(M == user)
-		M.visible_message(span_notice("[user] attempts to [apply_method] [src]."))
+		M.visible_message("<span class='notice'>[user] attempts to [apply_method] [src].</span>")
 		if(self_delay)
-			if(!do_after(user, self_delay, M))
+			if(!do_mob(user, M, self_delay))
 				return FALSE
-		to_chat(M, span_notice("You [apply_method] [src]."))
+		to_chat(M, "<span class='notice'>You [apply_method] [src].</span>")
 
 	else
-		M.visible_message(span_danger("[user] attempts to force [M] to [apply_method] [src]."), \
-							span_userdanger("[user] attempts to force you to [apply_method] [src]."))
-		if(!do_after(user, CHEM_INTERACT_DELAY(3 SECONDS, user), M))
+		M.visible_message("<span class='danger'>[user] attempts to force [M] to [apply_method] [src].</span>", \
+							"<span class='userdanger'>[user] attempts to force you to [apply_method] [src].</span>")
+		if(!do_mob(user, M))
 			return FALSE
-		M.visible_message(span_danger("[user] forces [M] to [apply_method] [src]."), \
-							span_userdanger("[user] forces you to [apply_method] [src]."))
+		M.visible_message("<span class='danger'>[user] forces [M] to [apply_method] [src].</span>", \
+							"<span class='userdanger'>[user] forces you to [apply_method] [src].</span>")
 
-	return on_consumption(M, user)
-
-///Runs the consumption code, can be overriden for special effects
-/obj/item/reagent_containers/pill/proc/on_consumption(mob/consumer, mob/giver)
 	if(icon_state == "pill4" && prob(5)) //you take the red pill - you stay in Wonderland, and I show you how deep the rabbit hole goes
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), consumer, span_notice("[pick(strings(REDPILL_FILE, "redpill_questions"))]")), 50)
-	if(apply_type == INGEST)
-		SEND_SIGNAL(consumer, COMSIG_LIVING_PILL_CONSUMED, src, giver)
-		SEND_SIGNAL(src, COMSIG_PILL_CONSUMED, eater = consumer, feeder = giver)
+		addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(to_chat), M, "<span class='notice'>[pick(strings(REDPILL_FILE, "redpill_questions"))]</span>"), 50)
+
 	if(reagents.total_volume)
-		reagents.trans_to(consumer, reagents.total_volume, transferred_by = giver, methods = apply_type)
+		reagents.trans_to(M, reagents.total_volume, transfered_by = user, method = apply_type)
 	qdel(src)
 	return TRUE
 
@@ -63,27 +59,29 @@
 	. = ..()
 	if(!proximity)
 		return
-	. |= AFTERATTACK_PROCESSED_ITEM
 	if(!dissolvable || !target.is_refillable())
 		return
 	if(target.is_drainable() && !target.reagents.total_volume)
-		to_chat(user, span_warning("[target] is empty! There's nothing to dissolve [src] in."))
+		to_chat(user, "<span class='warning'>[target] is empty! There's nothing to dissolve [src] in.</span>")
 		return
 
 	if(target.reagents.holder_full())
-		to_chat(user, span_warning("[target] is full."))
+		to_chat(user, "<span class='warning'>[target] is full.</span>")
 		return
 
-	user.visible_message(span_warning("[user] slips something into [target]!"), span_notice("You dissolve [src] in [target]."), null, 2)
-	reagents.trans_to(target, reagents.total_volume, transferred_by = user)
+	user.visible_message("<span class='warning'>[user] slips something into [target]!</span>", "<span class='notice'>You dissolve [src] in [target].</span>", null, 2)
+	reagents.trans_to(target, reagents.total_volume, transfered_by = user)
 	qdel(src)
 
-/*
+/* 
  * On accidental consumption, consume the pill
  */
-/obj/item/reagent_containers/pill/on_accidental_consumption(mob/living/carbon/victim, mob/living/carbon/user, obj/item/source_item, discover_after = FALSE)
-	to_chat(victim, span_warning("You swallow something small. [source_item ? "Was that in [source_item]?" : ""]"))
-	reagents?.trans_to(victim, reagents.total_volume, transferred_by = user, methods = INGEST)
+/obj/item/reagent_containers/pill/on_accidental_consumption(mob/living/carbon/M, mob/living/carbon/user, obj/item/source_item, discover_after = FALSE)
+	to_chat(M, "<span class='warning'>You swallow something small. Was that in \the [source_item]?</span>")
+	if(reagents?.total_volume)
+		reagents.trans_to(M, reagents.total_volume, transfered_by = user, method = INGEST)
+
+	source_item?.contents -= src
 	qdel(src)
 	return discover_after
 
@@ -144,14 +142,8 @@
 	name = "mannitol pill"
 	desc = "Used to treat brain damage."
 	icon_state = "pill17"
-	list_reagents = list(/datum/reagent/medicine/mannitol = 14)
+	list_reagents = list(/datum/reagent/medicine/mannitol = 50)
 	rename_with_volume = TRUE
-
-/obj/item/reagent_containers/pill/sansufentanyl
-	name = "sansufentanyl pill"
-	desc = "Used to treat Hereditary Manifold Sickness. Temporary side effects include - nausea, dizziness, impaired motor coordination."
-	icon_state = "pill19"
-	list_reagents = list(/datum/reagent/medicine/sansufentanyl = 5)
 
 //Lower quantity mannitol pills (50u pills heal 250 brain damage, 5u pills heal 25)
 /obj/item/reagent_containers/pill/mannitol/braintumor
@@ -213,7 +205,7 @@
 	desc = "I wouldn't eat this if I were you."
 	icon_state = "pill9"
 	color = "#454545"
-	list_reagents = list(/datum/reagent/mutationtoxin/shadow = 10)
+	list_reagents = list(/datum/reagent/mutationtoxin/shadow = 5)
 
 ///////////////////////////////////////// Psychologist inventory pills
 /obj/item/reagent_containers/pill/happinesspsych
@@ -265,26 +257,20 @@
 	list_reagents = list(/datum/reagent/drug/aranesp = 10)
 	icon_state = "pill3"
 
-///Black and white pills that spawn in maintenance and have random reagent contents
-/obj/item/reagent_containers/pill/maintenance
-	name = "maintenance pill"
-	desc = "A strange pill found in the depths of maintenance."
+/obj/item/reagent_containers/pill/floorpill
+	name = "floorpill"
+	desc = "A strange pill found in the depths of maintenance"
 	icon_state = "pill21"
-	var/static/list/names = list("maintenance pill", "floor pill", "mystery pill", "suspicious pill", "strange pill", "lucky pill", "ominous pill", "eerie pill")
+	var/static/list/names = list("maintenance pill","floorpill","mystery pill","suspicious pill","strange pill")
 	var/static/list/descs = list("Your feeling is telling you no, but...","Drugs are expensive, you can't afford not to eat any pills that you find."\
-	, "Surely, there's no way this could go bad.", "Winners don't do dr- oh what the heck!", "Free pills? At no cost, how could I lose?")
+	, "Surely, there's no way this could go bad.")
 
-/obj/item/reagent_containers/pill/maintenance/Initialize(mapload)
-	list_reagents = list(get_random_reagent_id() = rand(10,50)) //list_reagents is called before init, because init generates the reagents using list_reagents
+/obj/item/reagent_containers/pill/floorpill/Initialize(mapload)
+	list_reagents = list(get_random_reagent_id() = rand(10,50))
 	. = ..()
 	name = pick(names)
-	if(prob(30))
+	if(prob(20))
 		desc = pick(descs)
-
-/obj/item/reagent_containers/pill/maintenance/achievement/on_consumption(mob/M, mob/user)
-	. = ..()
-
-	M.client?.give_award(/datum/award/score/maintenance_pill, M)
 
 /obj/item/reagent_containers/pill/potassiodide
 	name = "potassium iodide pill"
@@ -306,61 +292,3 @@
 	icon_state = "pill8"
 	list_reagents = list(/datum/reagent/iron = 30)
 	rename_with_volume = TRUE
-
-/obj/item/reagent_containers/pill/gravitum
-	name = "gravitum pill"
-	desc = "Used in weight loss. In a way."
-	icon_state = "pill8"
-	list_reagents = list(/datum/reagent/gravitum = 5)
-	rename_with_volume = TRUE
-
-// Pill styles for chem master
-
-/obj/item/reagent_containers/pill/style
-	icon_state = "pill0"
-/obj/item/reagent_containers/pill/style/purplered
-	icon_state = "pill1"
-/obj/item/reagent_containers/pill/style/greenwhite
-	icon_state = "pill2"
-/obj/item/reagent_containers/pill/style/teal
-	icon_state = "pill3"
-/obj/item/reagent_containers/pill/style/red
-	icon_state = "pill4"
-/obj/item/reagent_containers/pill/style/redwhite
-	icon_state = "pill5"
-/obj/item/reagent_containers/pill/style/tealbrown
-	icon_state = "pill6"
-/obj/item/reagent_containers/pill/style/yellowflat
-	icon_state = "pill7"
-/obj/item/reagent_containers/pill/style/tealflat
-	icon_state = "pill8"
-/obj/item/reagent_containers/pill/style/whiteflat
-	icon_state = "pill9"
-/obj/item/reagent_containers/pill/style/purpleflat
-	icon_state = "pill10"
-/obj/item/reagent_containers/pill/style/limelat
-	icon_state = "pill11"
-/obj/item/reagent_containers/pill/style/redflat
-	icon_state = "pill12"
-/obj/item/reagent_containers/pill/style/greenpurpleflat
-	icon_state = "pill13"
-/obj/item/reagent_containers/pill/style/yellowpurpleflat
-	icon_state = "pill14"
-/obj/item/reagent_containers/pill/style/redyellowflat
-	icon_state = "pill15"
-/obj/item/reagent_containers/pill/style/bluetealflat
-	icon_state = "pill16"
-/obj/item/reagent_containers/pill/style/greenlimeflat
-	icon_state = "pill17"
-/obj/item/reagent_containers/pill/style/white
-	icon_state = "pill18"
-/obj/item/reagent_containers/pill/style/whitered
-	icon_state = "pill19"
-/obj/item/reagent_containers/pill/style/purpleyellow
-	icon_state = "pill20"
-/obj/item/reagent_containers/pill/style/blackwhite
-	icon_state = "pill21"
-/obj/item/reagent_containers/pill/style/limewhite
-	icon_state = "pill22"
-/obj/item/reagent_containers/pill/style/happy
-	icon_state = "pill_happy"

@@ -9,18 +9,17 @@
 	var/can_process = FALSE
 	var/mod_type = BIOWARE_GENERIC
 
-/datum/bioware/New(mob/living/carbon/human/new_owner)
-	owner = new_owner
-	for(var/datum/bioware/bioware as anything in owner.biowares)
-		if(bioware.mod_type == mod_type)
+/datum/bioware/New(mob/living/carbon/human/_owner)
+	owner = _owner
+	for(var/X in owner.bioware)
+		var/datum/bioware/B = X
+		if(B.mod_type == mod_type)
 			qdel(src)
 			return
-	LAZYADD(owner.biowares, src)
+	owner.bioware += src
 	on_gain()
 
 /datum/bioware/Destroy()
-	if(owner)
-		LAZYREMOVE(owner.biowares, src)
 	owner = null
 	if(active)
 		on_lose()

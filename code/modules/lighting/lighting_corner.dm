@@ -2,100 +2,91 @@
 // And corners get shared between multiple turfs (unless you're on the corners of the map, then 1 corner doesn't).
 // For the record: these should never ever ever be deleted, even if the turf doesn't have dynamic lighting.
 
+// This list is what the code that assigns corners listens to, the order in this list is the order in which corners are added to the /turf/corners list.
+GLOBAL_LIST_INIT(LIGHTING_CORNER_DIAGONAL, list(NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST))
+
 /datum/lighting_corner
+	var/list/turf/masters
 	var/list/datum/light_source/affecting // Light sources affecting us.
+	var/active                            = FALSE  // TRUE if one of our masters has dynamic lighting.
 
-	var/x = 0
-	var/y = 0
-	var/z = 0
+	var/x     = 0
+	var/y     = 0
 
-	var/turf/master_NE
-	var/turf/master_SE
-	var/turf/master_SW
-	var/turf/master_NW
-
-	//"raw" color values, changed by update_lumcount()
 	var/lum_r = 0
 	var/lum_g = 0
 	var/lum_b = 0
 
-	//true color values, guaranteed to be between 0 and 1
-	var/cache_r = LIGHTING_SOFT_THRESHOLD
-	var/cache_g = LIGHTING_SOFT_THRESHOLD
-	var/cache_b = LIGHTING_SOFT_THRESHOLD
-
-	///the maximum of lum_r, lum_g, and lum_b. if this is > 1 then the three cached color values are divided by this
-	var/largest_color_luminosity = 0
-
-	///whether we are to be added to SSlighting's corners_queue list for an update
 	var/needs_update = FALSE
 
-// Takes as an argument the coords to use as the bottom left (south west) of our corner
-/datum/lighting_corner/New(x, y, z)
+	var/cache_r  = LIGHTING_SOFT_THRESHOLD
+	var/cache_g  = LIGHTING_SOFT_THRESHOLD
+	var/cache_b  = LIGHTING_SOFT_THRESHOLD
+	var/cache_mx = 0
+
+/datum/lighting_corner/New(turf/new_turf, diagonal)
 	. = ..()
+	masters = list()
+	masters[new_turf] = turn(diagonal, 180)
 
-	src.x = x + 0.5
-	src.y = y + 0.5
-	src.z = z
+	var/vertical   = diagonal & ~(diagonal - 1) // The horizontal directions (4 and 8) are bigger than the vertical ones (1 and 2), so we can reliably say the lsb is the horizontal direction.
+	var/horizontal = diagonal & ~vertical       // Now that we know the horizontal one we can get the vertical one.
 
-	// Alright. We're gonna take a set of coords, and from them do a loop clockwise
-	// To build out the turfs adjacent to us. This is pretty fast
-	var/turf/process_next = locate(x, y, z)
-	if(process_next)
-		master_SW = process_next
-		process_next.lighting_corner_NE = src
-		// Now, we go north!
-		process_next = get_step(process_next, NORTH)
-	else
-		// Yes this is slightly slower then having a guarenteeed turf, but there aren't many null turfs
-		// So this is pretty damn fast
-		process_next = locate(x, y + 1, z)
+	x = new_turf.x + (horizontal == EAST  ? 0.5 : -0.5)
+	y = new_turf.y + (vertical   == NORTH ? 0.5 : -0.5)
 
-	// Ok, if we have a north turf, go there. otherwise, onto the next
-	if(process_next)
-		master_NW = process_next
-		process_next.lighting_corner_SE = src
-		// Now, TO THE EAST
-		process_next = get_step(process_next, EAST)
-	else
-		process_next = locate(x + 1, y + 1, z)
+	// My initial plan was to make this loop through a list of all the dirs (horizontal, vertical, diagonal).
+	// Issue being that the only way I could think of doing it was very messy, slow and honestly overengineered.
+	// So we'll have this hardcode instead.
+	var/turf/T
+	var/i
 
-	// Etc etc
-	if(process_next)
-		master_NE = process_next
-		process_next.lighting_corner_SW = src
-		// Now, TO THE SOUTH AGAIN (SE)
-		process_next = get_step(process_next, SOUTH)
-	else
-		process_next = locate(x + 1, y, z)
+	// Diagonal one is easy.
+	T = get_step(new_turf, diagonal)
+	if (T) // In case we're on the map's border.
+		if (!T.corners)
+			T.corners = list(null, null, null, null)
 
-	// anddd the last tile
-	if(process_next)
-		master_SE = process_next
-		process_next.lighting_corner_NW = src
+		masters[T]   = diagonal
+		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(diagonal, 180))
+		T.corners[i] = src
 
-/datum/lighting_corner/proc/self_destruct_if_idle()
-	if (!LAZYLEN(affecting))
-		qdel(src, force = TRUE)
+	// Now the horizontal one.
+	T = get_step(new_turf, horizontal)
+	if (T) // Ditto.
+		if (!T.corners)
+			T.corners = list(null, null, null, null)
 
-/datum/lighting_corner/proc/vis_update()
-	for (var/datum/light_source/light_source as anything in affecting)
-		light_source.vis_update()
+		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
+		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		T.corners[i] = src
 
-/datum/lighting_corner/proc/full_update()
-	for (var/datum/light_source/light_source as anything in affecting)
-		light_source.recalc_corner(src)
+	// And finally the vertical one.
+	T = get_step(new_turf, vertical)
+	if (T)
+		if (!T.corners)
+			T.corners = list(null, null, null, null)
+
+		masters[T]   = ((T.x > x) ? EAST : WEST) | ((T.y > y) ? NORTH : SOUTH) // Get the dir based on coordinates.
+		i            = GLOB.LIGHTING_CORNER_DIAGONAL.Find(turn(masters[T], 180))
+		T.corners[i] = src
+
+	update_active()
+
+/datum/lighting_corner/proc/update_active()
+	active = FALSE
+	var/turf/T
+	var/thing
+	for (thing in masters)
+		T = thing
+		if (T.lighting_object)
+			active = TRUE
+			return
 
 // God that was a mess, now to do the rest of the corner code! Hooray!
 /datum/lighting_corner/proc/update_lumcount(delta_r, delta_g, delta_b)
-
-#ifdef VISUALIZE_LIGHT_UPDATES
-	if (!SSlighting.allow_duped_values && !(delta_r || delta_g || delta_b)) // 0 is falsey ok
-		return
-#else
 	if (!(delta_r || delta_g || delta_b)) // 0 is falsey ok
 		return
-#endif
 
 	lum_r += delta_r
 	lum_g += delta_g
@@ -110,58 +101,30 @@
 	var/lum_r = src.lum_r
 	var/lum_g = src.lum_g
 	var/lum_b = src.lum_b
-	var/largest_color_luminosity = max(lum_r, lum_g, lum_b) // Scale it so one of them is the strongest lum, if it is above 1.
+	var/mx = max(lum_r, lum_g, lum_b) // Scale it so one of them is the strongest lum, if it is above 1.
 	. = 1 // factor
-	if (largest_color_luminosity > 1)
-		. = 1 / largest_color_luminosity
-
-	var/old_r = cache_r
-	var/old_g = cache_g
-	var/old_b = cache_b
+	if (mx > 1)
+		. = 1 / mx
 
 	#if LIGHTING_SOFT_THRESHOLD != 0
-	else if (largest_color_luminosity < LIGHTING_SOFT_THRESHOLD)
+	else if (mx < LIGHTING_SOFT_THRESHOLD)
 		. = 0 // 0 means soft lighting.
 
-	cache_r = round(lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_g = round(lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
-	cache_b = round(lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
+	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE) || LIGHTING_SOFT_THRESHOLD
 	#else
-	cache_r = round(lum_r * ., LIGHTING_ROUND_VALUE)
-	cache_g = round(lum_g * ., LIGHTING_ROUND_VALUE)
-	cache_b = round(lum_b * ., LIGHTING_ROUND_VALUE)
+	cache_r  = round(lum_r * ., LIGHTING_ROUND_VALUE)
+	cache_g  = round(lum_g * ., LIGHTING_ROUND_VALUE)
+	cache_b  = round(lum_b * ., LIGHTING_ROUND_VALUE)
 	#endif
+	cache_mx = round(mx, LIGHTING_ROUND_VALUE)
 
-	src.largest_color_luminosity = round(largest_color_luminosity, LIGHTING_ROUND_VALUE)
-#ifdef VISUALIZE_LIGHT_UPDATES
-	if(!SSlighting.allow_duped_corners && old_r == cache_r && old_g == cache_g && old_b == cache_b)
-		return
-#else
-	if(old_r == cache_r && old_g == cache_g && old_b == cache_b)
-		return
-#endif
-
-	var/datum/lighting_object/lighting_object = master_NE?.lighting_object
-	if (lighting_object && !lighting_object.needs_update)
-		lighting_object.needs_update = TRUE
-		SSlighting.objects_queue += lighting_object
-
-	lighting_object = master_SE?.lighting_object
-	if (lighting_object && !lighting_object.needs_update)
-		lighting_object.needs_update = TRUE
-		SSlighting.objects_queue += lighting_object
-
-	lighting_object = master_SW?.lighting_object
-	if (lighting_object && !lighting_object.needs_update)
-		lighting_object.needs_update = TRUE
-		SSlighting.objects_queue += lighting_object
-
-	lighting_object = master_NW?.lighting_object
-	if (lighting_object && !lighting_object.needs_update)
-		lighting_object.needs_update = TRUE
-		SSlighting.objects_queue += lighting_object
-
-	self_destruct_if_idle()
+	for (var/TT in masters)
+		var/turf/T = TT
+		if (T.lighting_object && !T.lighting_object.needs_update)
+			T.lighting_object.needs_update = TRUE
+			SSlighting.objects_queue += T.lighting_object
 
 
 /datum/lighting_corner/dummy/New()
@@ -171,59 +134,6 @@
 	if (!force)
 		return QDEL_HINT_LETMELIVE
 
-
-	for (var/datum/light_source/light_source as anything in affecting)
-		LAZYREMOVE(light_source.effect_str, src)
-	affecting = null
-
-	if (master_NE)
-		master_NE.lighting_corner_SW = null
-		master_NE.lighting_corners_initialised = FALSE
-	if (master_SE)
-		master_SE.lighting_corner_NW = null
-		master_SE.lighting_corners_initialised = FALSE
-	if (master_SW)
-		master_SW.lighting_corner_NE = null
-		master_SW.lighting_corners_initialised = FALSE
-	if (master_NW)
-		master_NW.lighting_corner_SE = null
-		master_NW.lighting_corners_initialised = FALSE
-	if (needs_update)
-		SSlighting.corners_queue -= src
+	stack_trace("Ok, Look, /tg/, I need you to find whatever fucker decided to call qdel on a fucking lighting corner, then tell him very nicely and politely that he is brain damaged and needs his head checked. Thanks. Send them my regards by the way.")
 
 	return ..()
-
-/// Debug proc to aid in understanding how corners work
-/datum/lighting_corner/proc/display(max_lum)
-	if(QDELETED(src))
-		return
-
-	var/turf/draw_to = master_SW || master_NE || master_SE || master_NW
-	var/mutable_appearance/display = mutable_appearance('icons/turf/debug.dmi', "corner_color", LIGHT_DEBUG_LAYER, draw_to, BALLOON_CHAT_PLANE)
-	if(x > draw_to.x)
-		display.pixel_x = 16
-	else
-		display.pixel_x = -16
-	if(y > draw_to.y)
-		display.pixel_y = 16
-	else
-		display.pixel_y = -16
-
-	display.color = rgb(cache_r * 255, cache_g * 255, cache_b * 255)
-
-	draw_to.add_overlay(display)
-
-/datum/lighting_corner/dummy/display()
-	return
-
-/// Makes all lighting corners visible, debug to aid in understanding
-/proc/display_corners()
-	var/list/corners = list()
-	var/max_lum = 0
-	for(var/datum/lighting_corner/corner) // I am so sorry
-		corners += corner
-		max_lum = max(max_lum, corner.largest_color_luminosity)
-
-
-	for(var/datum/lighting_corner/corner as anything in corners)
-		corner.display(max_lum)

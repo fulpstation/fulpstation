@@ -60,7 +60,7 @@
 "l" = (
 /obj/machinery/door/poddoor{
 	id = "QMLoaddoor2";
-	name = "Supply Dock Loading Door"
+	name = "supply dock loading door"
 	},
 /obj/machinery/conveyor{
 	dir = 8;
@@ -74,40 +74,47 @@
 /area/shuttle/supply)
 "o" = (
 /obj/machinery/door/airlock/titanium{
-	name = "Supply Shuttle Airlock"
+	name = "Supply Shuttle Airlock";
+	req_access_txt = "31"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/supply/general,
 /turf/open/floor/plating,
 /area/shuttle/supply)
 "p" = (
+/obj/machinery/button/door{
+	id = "QMLoaddoor2";
+	name = "Loading Doors";
+	pixel_x = 24;
+	pixel_y = 8
+	},
+/obj/machinery/button/door{
+	id = "QMLoaddoor";
+	name = "Loading Doors";
+	pixel_x = 24;
+	pixel_y = -8
+	},
 /obj/machinery/conveyor_switch/oneway{
 	id = "cargoshuttle"
 	},
-/obj/machinery/light/directional/east,
-/obj/machinery/button/door/directional/east{
-	id = "QMLoaddoor";
-	name = "Loading Doors";
-	pixel_y = -8
-	},
-/obj/machinery/button/door/directional/east{
-	id = "QMLoaddoor2";
-	name = "Loading Doors";
-	pixel_y = 8
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/supply)
 "q" = (
 /obj/machinery/door/airlock/titanium{
-	name = "Supply Shuttle Airlock"
+	name = "Supply Shuttle Airlock";
+	req_access_txt = "31"
 	},
-/obj/docking_port/mobile/supply,
-/obj/effect/mapping_helpers/airlock/access/all/supply/general,
+/obj/docking_port/mobile/supply{
+	dwidth = 3;
+	width = 10
+	},
 /turf/open/floor/plating,
 /area/shuttle/supply)
 "r" = (
 /obj/machinery/door/poddoor{
 	id = "QMLoaddoor";
-	name = "Supply Dock Loading Door"
+	name = "supply dock loading door"
 	},
 /obj/machinery/conveyor{
 	dir = 4;
@@ -116,19 +123,26 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/supply)
+"u" = (
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/obj/structure/shuttle/engine/heater,
+/turf/open/floor/plating/airless,
+/area/shuttle/supply)
 "w" = (
 /turf/template_noop,
 /area/template_noop)
 "x" = (
-/obj/machinery/power/shuttle_engine/propulsion/burst/left,
+/obj/structure/shuttle/engine/propulsion/burst/left,
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
 "y" = (
-/obj/machinery/power/shuttle_engine/propulsion,
+/obj/structure/shuttle/engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
 "z" = (
-/obj/machinery/power/shuttle_engine/propulsion/burst/right,
+/obj/structure/shuttle/engine/propulsion/burst/right,
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
 "A" = (
@@ -137,13 +151,16 @@
 	id = "cargoshuttle";
 	name = "cargo shuttle conveyor belt"
 	},
-/obj/machinery/light/directional/north,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
-"C" = (
-/obj/structure/window/reinforced/spawner/directional/north,
-/obj/machinery/power/shuttle_engine/heater,
-/turf/open/floor/plating/airless,
+"B" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium,
 /area/shuttle/supply)
 "G" = (
 /obj/machinery/conveyor{
@@ -187,7 +204,7 @@ e
 P
 R
 n
-n
+B
 n
 g
 b
@@ -202,7 +219,7 @@ n
 n
 n
 g
-C
+u
 y
 "}
 (4,1,1) = {"
@@ -214,7 +231,7 @@ n
 n
 n
 g
-C
+u
 y
 "}
 (5,1,1) = {"
@@ -226,7 +243,7 @@ n
 n
 n
 g
-C
+u
 y
 "}
 (6,1,1) = {"

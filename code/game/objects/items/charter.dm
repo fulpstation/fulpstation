@@ -1,7 +1,9 @@
+#define STATION_RENAME_TIME_LIMIT 3000
+
 /obj/item/station_charter
 	name = "station charter"
-	icon = 'icons/obj/scrolls.dmi'
-	icon_state = "charter"
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "scroll2"
 	desc = "An official document entrusting the governance of the station \
 		and surrounding space to the Captain."
 	var/used = FALSE
@@ -26,42 +28,38 @@
 
 /obj/item/station_charter/attack_self(mob/living/user)
 	if(used)
-		to_chat(user, span_warning("The [name_type] has already been named!"))
+		to_chat(user, "<span class='warning'>The [name_type] has already been named!</span>")
 		return
 	if(!ignores_timeout && (world.time-SSticker.round_start_time > STATION_RENAME_TIME_LIMIT)) //5 minutes
-		to_chat(user, span_warning("The crew has already settled into the shift. It probably wouldn't be good to rename the [name_type] right now."))
+		to_chat(user, "<span class='warning'>The crew has already settled into the shift. It probably wouldn't be good to rename the [name_type] right now.</span>")
 		return
 	if(response_timer_id)
-		to_chat(user, span_warning("You're still waiting for approval from your employers about your proposed name change, it'd be best to wait for now."))
+		to_chat(user, "<span class='warning'>You're still waiting for approval from your employers about your proposed name change, it'd be best to wait for now.</span>")
 		return
 
-	var/new_name = tgui_input_text(user, "What do you want to name \
+	var/new_name = stripped_input(user, message="What do you want to name \
 		[station_name()]? Keep in mind particularly terrible names may be \
-		rejected by your employers, while names using the standard format \
-		will be accepted automatically.", "Station Name", max_length = MAX_CHARTER_LEN)
+		rejected by your employers, while names using the standard format, \
+		will automatically be accepted.", max_length=MAX_CHARTER_LEN)
 
 	if(response_timer_id)
-		to_chat(user, span_warning("You're still waiting for approval from your employers about your proposed name change, it'd be best to wait for now."))
+		to_chat(user, "<span class='warning'>You're still waiting for approval from your employers about your proposed name change, it'd be best to wait for now.</span>")
 		return
 
 	if(!new_name)
 		return
-	user.log_message("has proposed to name the station as \
-		[new_name]", LOG_GAME)
+	log_game("[key_name(user)] has proposed to name the station as \
+		[new_name]")
 
 	if(standard_station_regex.Find(new_name))
-		to_chat(user, span_notice("Your name has been automatically approved."))
+		to_chat(user, "<span class='notice'>Your name has been automatically approved.</span>")
 		rename_station(new_name, user.name, user.real_name, key_name(user))
 		return
 
-	to_chat(user, span_notice("Your name has been sent to your employers for approval."))
+	to_chat(user, "<span class='notice'>Your name has been sent to your employers for approval.</span>")
 	// Autoapproves after a certain time
 	response_timer_id = addtimer(CALLBACK(src, PROC_REF(rename_station), new_name, user.name, user.real_name, key_name(user)), approval_time, TIMER_STOPPABLE)
-	to_chat(GLOB.admins, span_adminnotice("<b><font color=orange>CUSTOM STATION RENAME:</font></b>[ADMIN_LOOKUPFLW(user)] proposes to rename the [name_type] to [new_name] (will autoapprove in [DisplayTimeText(approval_time)]). [ADMIN_SMITE(user)] (<A HREF='?_src_=holder;[HrefToken(forceGlobal = TRUE)];reject_custom_name=[REF(src)]'>REJECT</A>) [ADMIN_CENTCOM_REPLY(user)]"))
-	for(var/client/admin_client in GLOB.admins)
-		if(admin_client.prefs.toggles & SOUND_ADMINHELP)
-			window_flash(admin_client, ignorepref = TRUE)
-			SEND_SOUND(admin_client, sound('sound/effects/gong.ogg'))
+	to_chat(GLOB.admins, "<span class='adminnotice'><b><font color=orange>CUSTOM STATION RENAME:</font></b>[ADMIN_LOOKUPFLW(user)] proposes to rename the [name_type] to [new_name] (will autoapprove in [DisplayTimeText(approval_time)]). [ADMIN_SMITE(user)] (<A HREF='?_src_=holder;[HrefToken(TRUE)];reject_custom_name=[REF(src)]'>REJECT</A>) [ADMIN_CENTCOM_REPLY(user)]</span>")
 
 /obj/item/station_charter/proc/reject_proposed(user)
 	if(!user)
@@ -81,7 +79,7 @@
 
 /obj/item/station_charter/proc/rename_station(designation, uname, ureal_name, ukey)
 	set_station_name(designation)
-	minor_announce("[ureal_name] has designated your station as [html_decode(station_name())]", "Captain's Charter") //decode station_name to avoid minor_announce double encode
+	minor_announce("[ureal_name] has designated your station as [station_name()]", "Captain's Charter", 0)
 	log_game("[ukey] has renamed the station as [station_name()].")
 
 	name = "station charter for [station_name()]"
@@ -96,7 +94,7 @@
 	ignores_timeout = TRUE
 
 
-/obj/item/station_charter/banner
+/obj/item/station_charter/flag
 	name = "\improper Nanotrasen banner"
 	icon = 'icons/obj/banner.dmi'
 	name_type = "planet"
@@ -104,16 +102,18 @@
 	inhand_icon_state = "banner"
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
-	desc = "A cunning device used to claim ownership of celestial bodies."
-	w_class = WEIGHT_CLASS_HUGE
+	desc = "A cunning device used to claim ownership of planets."
+	w_class = 5
 	force = 15
 
-/obj/item/station_charter/banner/rename_station(designation, uname, ureal_name, ukey)
+/obj/item/station_charter/flag/rename_station(designation, uname, ureal_name, ukey)
 	set_station_name(designation)
-	minor_announce("[ureal_name] has designated the [name_type] as [html_decode(station_name())]", "Captain's Banner") //decode station_name to avoid minor_announce double encode
-	log_game("[ukey] has renamed the [name_type] as [station_name()].")
+	minor_announce("[ureal_name] has designated the planet as [station_name()]", "Captain's Banner", 0)
+	log_game("[ukey] has renamed the planet as [station_name()].")
 	name = "banner of [station_name()]"
 	desc = "The banner bears the official coat of arms of Nanotrasen, signifying that [station_name()] has been claimed by Captain [uname] in the name of the company."
 	SSblackbox.record_feedback("text", "station_renames", 1, "[station_name()]")
 	if(!unlimited_uses)
 		used = TRUE
+
+#undef STATION_RENAME_TIME_LIMIT

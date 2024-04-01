@@ -3,7 +3,7 @@
 /datum/component/wearertargeting
 	var/list/valid_slots = list()
 	var/list/signals = list()
-	var/proctype = GLOBAL_PROC_REF(pass)
+	var/proctype = PROC_REF(pass)
 	var/mobtype = /mob/living
 
 /datum/component/wearertargeting/Initialize()
@@ -13,14 +13,10 @@
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 
 /datum/component/wearertargeting/proc/on_equip(datum/source, mob/equipper, slot)
-	SIGNAL_HANDLER
-
 	if((slot in valid_slots) && istype(equipper, mobtype))
-		RegisterSignals(equipper, signals, proctype, TRUE)
+		RegisterSignal(equipper, signals, proctype, TRUE)
 	else
 		UnregisterSignal(equipper, signals)
 
 /datum/component/wearertargeting/proc/on_drop(datum/source, mob/user)
-	SIGNAL_HANDLER
-
 	UnregisterSignal(user, signals)

@@ -3,7 +3,7 @@
 	demand_connects = NORTH
 	supply_connects = SOUTH | EAST | WEST //SOUTH is straight, EAST is left and WEST is right. We look from the perspective of the insert
 
-/datum/component/plumbing/filter/Initialize(start=TRUE, _ducting_layer, _turn_connects=TRUE, datum/reagents/custom_receiver)
+/datum/component/plumbing/filter/Initialize()
 	. = ..()
 	if(!istype(parent, /obj/machinery/plumbing/filter))
 		return COMPONENT_INCOMPATIBLE
@@ -31,7 +31,7 @@
 			direction = get_original_direction(text2num(A))
 			break
 	if(reagent)
-		reagents.trans_to(target.parent, amount, target_id = reagent)
+		reagents.trans_id_to(target.parent, reagent, amount)
 	else
 		for(var/A in reagents.reagent_list)
 			var/datum/reagent/R = A
@@ -40,7 +40,7 @@
 			var/new_amount
 			if(R.volume < amount)
 				new_amount = amount - R.volume
-			reagents.trans_to(target.parent, amount, target_id = R.type)
+			reagents.trans_id_to(target.parent, R.type, amount)
 			amount = new_amount
 			if(amount <= 0)
 				break

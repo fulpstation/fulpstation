@@ -1,2 +1,3 @@
 #!/bin/sh
-exec tools/bootstrap/python -m mapmerge2.precommit
+# `sh` must be used here instead of `bash` to support GitHub Desktop.
+exec tools/hooks/python.sh -m precommit

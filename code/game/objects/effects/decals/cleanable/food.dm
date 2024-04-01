@@ -32,23 +32,23 @@
 	icon_state = "salt_pile"
 	var/safepasses = 3 //how many times can this salt pile be passed before dissipating
 
-/obj/effect/decal/cleanable/food/salt/CanAllowThrough(atom/movable/mover, border_dir)
+/obj/effect/decal/cleanable/food/salt/CanAllowThrough(atom/movable/AM, turf/target)
 	. = ..()
-	if(is_species(mover, /datum/species/snail))
+	if(is_species(AM, /datum/species/snail))
 		return FALSE
 
 /obj/effect/decal/cleanable/food/salt/Bumped(atom/movable/AM)
 	. = ..()
 	if(is_species(AM, /datum/species/snail))
-		to_chat(AM, span_danger("Your path is obstructed by [span_phobia("salt")]."))
+		to_chat(AM, "<span class='danger'>Your path is obstructed by <span class='phobia'>salt</span>.</span>")
 
-/obj/effect/decal/cleanable/food/salt/on_entered(datum/source, atom/movable/AM)
-	. = ..()
+/obj/effect/decal/cleanable/food/salt/Crossed(atom/movable/AM)
+	..()
 	if(!isliving(AM))
 		return
 	if(iscarbon(AM))
 		var/mob/living/carbon/C = AM
-		if(C.move_intent == MOVE_INTENT_WALK)
+		if(C.m_intent == MOVE_INTENT_WALK)
 			return
 	safepasses--
 	if(safepasses <= 0 && !QDELETED(src))

@@ -1,10 +1,9 @@
-/area/station/ai_monitored
-	name = "\improper AI Monitored Area"
+/area/ai_monitored
+	name = "AI Monitored Area"
 	var/list/obj/machinery/camera/motioncameras = list()
 	var/list/datum/weakref/motionTargets = list()
-	sound_environment = SOUND_ENVIRONMENT_ROOM
 
-/area/station/ai_monitored/Initialize(mapload)
+/area/ai_monitored/Initialize(mapload)
 	. = ..()
 	if(mapload)
 		for (var/obj/machinery/camera/M in src)
@@ -14,20 +13,18 @@
 
 //Only need to use one camera
 
-/area/station/ai_monitored/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
-	. = ..()
-	if (ismob(arrived) && motioncameras.len)
-		for(var/obj/machinery/camera/cam as anything in motioncameras)
-			cam.newTarget(arrived)
-			return
-
-/area/station/ai_monitored/Exited(atom/movable/gone, atom/old_loc, list/atom/old_locs)
+/area/ai_monitored/Entered(atom/movable/O)
 	..()
-	if (ismob(gone) && motioncameras.len)
-		for(var/obj/machinery/camera/cam as anything in motioncameras)
-			cam.lostTargetRef(WEAKREF(gone))
+	if (ismob(O) && motioncameras.len)
+		for(var/X in motioncameras)
+			var/obj/machinery/camera/cam = X
+			cam.newTarget(O)
 			return
 
-/area/station/ai_monitored/turret_protected/ai/Initialize(mapload)
-	. = ..()
-	src.area_flags |= ABDUCTOR_PROOF
+/area/ai_monitored/Exited(atom/movable/O)
+	..()
+	if (ismob(O) && motioncameras.len)
+		for(var/X in motioncameras)
+			var/obj/machinery/camera/cam = X
+			cam.lostTargetRef(WEAKREF(O))
+			return

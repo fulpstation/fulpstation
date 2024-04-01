@@ -5,79 +5,71 @@
 	icon_state = "headpike"
 	density = FALSE
 	anchored = TRUE
+	var/bonespear = FALSE
 	var/obj/item/spear/spear
-	var/obj/item/spear/speartype = /obj/item/spear
 	var/obj/item/bodypart/head/victim
 
 /obj/structure/headpike/bone //for bone spears
 	icon_state = "headpike-bone"
-	speartype = /obj/item/spear/bonespear
-
-/obj/structure/headpike/bamboo //for bamboo spears
-	icon_state = "headpike-bamboo"
-	speartype = /obj/item/spear/bamboospear
+	bonespear = TRUE
 
 /obj/structure/headpike/Initialize(mapload)
 	. = ..()
 	if(mapload)
 		CheckParts()
-	pixel_x = rand(-8, 8)
+
+/obj/structure/headpike/CheckParts(list/parts_list)
+	..()
+	victim = locate(/obj/item/bodypart/head) in parts_list
+	if(!victim) //likely a mapspawned one
+		victim = new(src)
+		victim.real_name = random_unique_name(prob(50))
+	name = "[victim.real_name] on a spear"
+	update_icon()
+	spear = locate(bonespear ? /obj/item/spear/bonespear : /obj/item/spear) in parts_list
+	if(!spear)
+		spear = bonespear ? new/obj/item/spear/bonespear(src) : new/obj/item/spear(src)
 
 /obj/structure/headpike/Destroy()
 	QDEL_NULL(victim)
 	QDEL_NULL(spear)
 	return ..()
 
-/obj/structure/headpike/CheckParts(list/parts_list)
-	victim = locate() in parts_list
-	if(!victim) //likely a mapspawned one
-		victim = new(src)
-		victim.real_name = random_unique_name(prob(50))
-	spear = locate(speartype) in parts_list
-	if(!spear)
-		spear = new speartype(src)
-	update_appearance()
+/obj/structure/headpike/handle_atom_del(atom/A)
+	if(A == victim)
+		victim = null
+	if(A == spear)
+		spear = null
+	deconstruct(TRUE)
 	return ..()
 
-/obj/structure/headpike/update_name()
-	name = "[victim.real_name] on a [spear.name]"
+/obj/structure/headpike/deconstruct(disassembled)
+	if(!disassembled)
+		return ..()
+	if(victim)
+		victim.forceMove(drop_location())
+		victim = null
+	if(spear)
+		spear.forceMove(drop_location())
+		spear = null
 	return ..()
+
+/obj/structure/headpike/Initialize(mapload)
+	. = ..()
+	pixel_x = rand(-8, 8)
 
 /obj/structure/headpike/update_overlays()
 	. = ..()
-	if(!victim)
-		return
-	var/mutable_appearance/appearance = new()
-	appearance.copy_overlays(victim)
-	appearance.pixel_y = 12
-	appearance.layer = layer + 0.1
-	. += appearance
+	var/obj/item/bodypart/head/H = locate() in contents
+	if(H)
+		var/mutable_appearance/MA = new()
+		MA.copy_overlays(H)
+		MA.pixel_y = 12
+		. += H
 
-/obj/structure/headpike/Exited(atom/movable/gone, direction)
-	. = ..()
-	if(gone != victim && gone != spear)
-		return
-	if(gone == victim)
-		victim = null
-	if(gone == spear)
-		spear = null
-	if(!QDELETED(src))
-		deconstruct(TRUE)
-
-/obj/structure/headpike/deconstruct(disassembled)
-	var/obj/item/bodypart/head/our_head = victim
-	var/obj/item/spear/our_spear = spear
-	victim = null
-	spear = null
-	our_head?.forceMove(drop_location()) //Make sure the head always comes off
-	if(!disassembled)
-		return ..()
-	our_spear?.forceMove(drop_location())
-	return ..()
-
-/obj/structure/headpike/attack_hand(mob/user, list/modifiers)
+/obj/structure/headpike/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
-	to_chat(user, span_notice("You take down [src]."))
+	to_chat(user, "<span class='notice'>You take down [src].</span>")
 	deconstruct(TRUE)

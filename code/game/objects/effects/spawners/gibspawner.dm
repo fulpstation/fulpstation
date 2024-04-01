@@ -42,9 +42,9 @@
 		dna_to_add = list("Non-human DNA" = random_blood_type()) //else, generate a random bloodtype for it.
 
 
-	for(var/i in 1 to gibtypes.len)
+	for(var/i = 1, i<= gibtypes.len, i++)
 		if(gibamounts[i])
-			for(var/j in 1 to gibamounts[i])
+			for(var/j = 1, j<= gibamounts[i], j++)
 				var/gibType = gibtypes[i]
 				gib = new gibType(loc, diseases)
 
@@ -53,7 +53,7 @@
 				var/list/directions = gibdirections[i]
 				if(isturf(loc))
 					if(directions.len)
-						gib.streak(directions, mapload)
+						gib.streak(directions)
 
 	return INITIALIZE_HINT_QDEL
 
@@ -69,7 +69,7 @@
 	return ..()
 
 /obj/effect/gibspawner/generic/animal
-	gib_mob_type = /mob/living/basic/pet
+	gib_mob_type = /mob/living/simple_animal/pet
 
 
 
@@ -81,15 +81,7 @@
 
 /obj/effect/gibspawner/human/Initialize(mapload)
 	if(!gibdirections.len)
-		gibdirections = list(
-			list(NORTH, NORTHEAST, NORTHWEST),
-			list(SOUTH, SOUTHEAST, SOUTHWEST),
-			list(WEST, NORTHWEST, SOUTHWEST),
-			list(EAST, NORTHEAST, SOUTHEAST),
-			GLOB.alldirs,
-			GLOB.alldirs,
-			list(),
-		)
+		gibdirections = list(list(NORTH, NORTHEAST, NORTHWEST),list(SOUTH, SOUTHEAST, SOUTHWEST),list(WEST, NORTHWEST, SOUTHWEST),list(EAST, NORTHEAST, SOUTHEAST), GLOB.alldirs, GLOB.alldirs, list())
 	return ..()
 
 

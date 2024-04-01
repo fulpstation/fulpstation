@@ -11,18 +11,17 @@
 	key_third_person = "hisses"
 	message_alien = "hisses."
 	message_larva = "hisses softly."
-	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
 
 /datum/emote/living/alien/hiss/get_sound(mob/living/user)
 	if(isalienadult(user))
-		return SFX_HISS
+		return "hiss"
 
 /datum/emote/living/alien/roar
 	key = "roar"
 	key_third_person = "roars"
 	message_alien = "roars."
 	message_larva = "softly roars."
-	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	emote_type = EMOTE_AUDIBLE
 	vary = TRUE
 
 /datum/emote/living/alien/roar/get_sound(mob/living/user)

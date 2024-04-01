@@ -4,17 +4,17 @@
 #define AOE_SQUARES 4
 
 /**
- * # Pandora
- *
- * A box with a similar design to the Hierophant which trades large, single attacks for more frequent smaller ones.
- * As it's health gets lower, the time between it's attacks decrease.
- * It's attacks are as follows:
- * - Fires hierophant blasts in a straight line.  Can only fire in a straight line in 8 directions, being the diagonals and cardinals.
- * - Creates a box of hierophant blasts around the target.  If they try to run away to avoid it, they'll very likely get hit.
- * - Teleports the pandora from one location to another, almost identical to Hierophant.
- * - Spawns a 7x7 AOE at the location of choice, spreading out from the center.
- * Pandora's fight mirrors Hierophant's closely, but has stark differences in attack effects.  Instead of long-winded dodge times and long cooldowns, Pandora constantly attacks the opponent, but leaves itself open for attack.
- */
+  * # Pandora
+  *
+  * A box with a similar design to the Hierophant which trades large, single attacks for more frequent smaller ones.
+  * As it's health gets lower, the time between it's attacks decrease.
+  * It's attacks are as follows:
+  * - Fires hierophant blasts in a straight line.  Can only fire in a straight line in 8 directions, being the diagonals and cardinals.
+  * - Creates a box of hierophant blasts around the target.  If they try to run away to avoid it, they'll very likely get hit.
+  * - Teleports the pandora from one location to another, almost identical to Hierophant.
+  * - Spawns a 5x5 AOE at the location of choice, spreading out from the center.
+  * Pandora's fight mirrors Hierophant's closely, but has stark differences in attack effects.  Instead of long-winded dodge times and long cooldowns, Pandora constantly attacks the opponent, but leaves itself open for attack.
+  */
 
 /mob/living/simple_animal/hostile/asteroid/elite/pandora
 	name = "pandora"
@@ -33,11 +33,11 @@
 	attack_verb_simple = "smash into the side of"
 	attack_sound = 'sound/weapons/sonic_jackhammer.ogg'
 	throw_message = "merely dinks off of the"
-	speed = 3
+	speed = 4
 	move_to_delay = 10
 	mouse_opacity = MOUSE_OPACITY_ICON
-	death_sound = 'sound/magic/repulse.ogg'
-	death_message = "'s lights flicker, before its top part falls down."
+	deathsound = 'sound/magic/repulse.ogg'
+	deathmessage = "'s lights flicker, before its top part falls down."
 	loot_drop = /obj/item/clothing/accessory/pandora_hope
 
 	attack_action_types = list(/datum/action/innate/elite_attack/singular_shot,
@@ -95,16 +95,16 @@
 		if(AOE_SQUARES)
 			aoe_squares(target)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/Life(seconds_per_tick = SSMOBS_DT, times_fired)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/Life()
 	. = ..()
 	if(health >= maxHealth * 0.5)
-		cooldown_time = 2 SECONDS
+		cooldown_time = 20
 		return
 	if(health < maxHealth * 0.5 && health > maxHealth * 0.25)
-		cooldown_time = 1.5 SECONDS
+		cooldown_time = 15
 		return
 	else
-		cooldown_time = 1 SECONDS
+		cooldown_time = 10
 
 /mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/singular_shot(target)
 	ranged_cooldown = world.time + (cooldown_time * 0.5)
@@ -112,85 +112,82 @@
 	var/turf/T = get_step(get_turf(src), dir_to_target)
 	singular_shot_line(sing_shot_length, dir_to_target, T)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/singular_shot_line(procsleft, angleused, turf/T)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/singular_shot_line(var/procsleft, var/angleused, var/turf/T)
 	if(procsleft <= 0)
 		return
-	new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(T, src)
+	new /obj/effect/temp_visual/hierophant/blast/pandora(T, src)
 	T = get_step(T, angleused)
 	procsleft = procsleft - 1
-	addtimer(CALLBACK(src, PROC_REF(singular_shot_line), procsleft, angleused, T), cooldown_time * 0.1)
+	addtimer(CALLBACK(src, PROC_REF(singular_shot_line), procsleft, angleused, T), 2)
 
 /mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/magic_box(target)
 	ranged_cooldown = world.time + cooldown_time
 	var/turf/T = get_turf(target)
 	for(var/t in spiral_range_turfs(3, T))
 		if(get_dist(t, T) > 1)
-			new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(t, src)
+			new /obj/effect/temp_visual/hierophant/blast/pandora(t, src)
 
 /mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/pandora_teleport(target)
-	var/turf/turf_target = get_turf(target)
-	if(!(turf_target in view(12, src)))
-		return
 	ranged_cooldown = world.time + (cooldown_time * 2)
+	var/turf/T = get_turf(target)
 	var/turf/source = get_turf(src)
-	new /obj/effect/temp_visual/hierophant/telegraph(turf_target, src)
+	new /obj/effect/temp_visual/hierophant/telegraph(T, src)
 	new /obj/effect/temp_visual/hierophant/telegraph(source, src)
 	playsound(source,'sound/machines/airlockopen.ogg', 200, 1)
-	addtimer(CALLBACK(src, PROC_REF(pandora_teleport_2), turf_target, source), 2)
+	addtimer(CALLBACK(src, PROC_REF(pandora_teleport_2), T, source), 2)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/pandora_teleport_2(turf/T, turf/source)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/pandora_teleport_2(var/turf/T, var/turf/source)
 	new /obj/effect/temp_visual/hierophant/telegraph/teleport(T, src)
 	new /obj/effect/temp_visual/hierophant/telegraph/teleport(source, src)
 	for(var/t in RANGE_TURFS(1, T))
-		new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(t, src)
+		new /obj/effect/temp_visual/hierophant/blast/pandora(t, src)
 	for(var/t in RANGE_TURFS(1, source))
-		new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(t, src)
+		new /obj/effect/temp_visual/hierophant/blast/pandora(t, src)
 	animate(src, alpha = 0, time = 2, easing = EASE_OUT) //fade out
-	visible_message(span_hierophant_warning("[src] fades out!"))
-	ADD_TRAIT(src, TRAIT_UNDENSE, VANISHING_TRAIT)
+	visible_message("<span class='hierophant_warning'>[src] fades out!</span>")
+	density = FALSE
 	addtimer(CALLBACK(src, PROC_REF(pandora_teleport_3), T), 2)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/pandora_teleport_3(turf/T)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/pandora_teleport_3(var/turf/T)
 	forceMove(T)
 	animate(src, alpha = 255, time = 2, easing = EASE_IN) //fade IN
-	REMOVE_TRAIT(src, TRAIT_UNDENSE, VANISHING_TRAIT)
-	visible_message(span_hierophant_warning("[src] fades in!"))
+	density = TRUE
+	visible_message("<span class='hierophant_warning'>[src] fades in!</span>")
 
 /mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/aoe_squares(target)
 	ranged_cooldown = world.time + cooldown_time
 	var/turf/T = get_turf(target)
-	new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(T, src)
-	var/max_size = 3
+	new /obj/effect/temp_visual/hierophant/blast/pandora(T, src)
+	var/max_size = 2
 	addtimer(CALLBACK(src, PROC_REF(aoe_squares_2), T, 0, max_size), 2)
 
-/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/aoe_squares_2(turf/T, ring, max_size)
+/mob/living/simple_animal/hostile/asteroid/elite/pandora/proc/aoe_squares_2(var/turf/T, var/ring, var/max_size)
 	if(ring > max_size)
 		return
 	for(var/t in spiral_range_turfs(ring, T))
 		if(get_dist(t, T) == ring)
-			new /obj/effect/temp_visual/hierophant/blast/damaging/pandora(t, src)
-	addtimer(CALLBACK(src, PROC_REF(aoe_squares_2), T, (ring + 1), max_size), cooldown_time * 0.1)
+			new /obj/effect/temp_visual/hierophant/blast/pandora(t, src)
+	addtimer(CALLBACK(src, PROC_REF(aoe_squares_2), T, (ring + 1), max_size), 2)
 
 //The specific version of hiero's squares pandora uses
-/obj/effect/temp_visual/hierophant/blast/damaging/pandora
-	damage = 30
+/obj/effect/temp_visual/hierophant/blast/pandora
+	damage = 20
 	monster_damage_boost = FALSE
 
 //Pandora's loot: Hope
 /obj/item/clothing/accessory/pandora_hope
 	name = "Hope"
 	desc = "Found at the bottom of Pandora. After all the evil was released, this was the only thing left inside."
-	icon = 'icons/obj/mining_zones/elite_trophies.dmi'
+	icon = 'icons/obj/lavaland/elite_trophies.dmi'
 	icon_state = "hope"
 	resistance_flags = FIRE_PROOF
 
-/obj/item/clothing/accessory/pandora_hope/accessory_equipped(obj/item/clothing/under/clothes, mob/living/user)
-	user.add_mood_event("hope_lavaland", /datum/mood_event/hope_lavaland)
+/obj/item/clothing/accessory/pandora_hope/on_uniform_equip(obj/item/clothing/under/U, user)
+	var/mob/living/L = user
+	if(L && L.mind)
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "hope_lavaland", /datum/mood_event/hope_lavaland)
 
-/obj/item/clothing/accessory/pandora_hope/accessory_dropped(obj/item/clothing/under/clothes, mob/living/user)
-	user.clear_mood_event("hope_lavaland")
-
-#undef SINGULAR_SHOT
-#undef MAGIC_BOX
-#undef PANDORA_TELEPORT
-#undef AOE_SQUARES
+/obj/item/clothing/accessory/pandora_hope/on_uniform_dropped(obj/item/clothing/under/U, user)
+	var/mob/living/L = user
+	if(L && L.mind)
+		SEND_SIGNAL(L, COMSIG_CLEAR_MOOD_EVENT, "hope_lavaland")

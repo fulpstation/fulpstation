@@ -6,10 +6,9 @@ SUBSYSTEM_DEF(npcpool)
 
 	var/list/currentrun = list()
 
-/datum/controller/subsystem/npcpool/stat_entry(msg)
+/datum/controller/subsystem/npcpool/stat_entry()
 	var/list/activelist = GLOB.simple_animals[AI_ON]
-	msg = "NPCS:[length(activelist)]"
-	return ..()
+	..("NPCS:[activelist.len]")
 
 /datum/controller/subsystem/npcpool/fire(resumed = FALSE)
 
@@ -24,12 +23,12 @@ SUBSYSTEM_DEF(npcpool)
 		var/mob/living/simple_animal/SA = currentrun[currentrun.len]
 		--currentrun.len
 
-		if (QDELETED(SA)) // Some issue causes nulls to get into this list some times. This keeps it running, but the bug is still there.
+		if (!SA) // Some issue causes nulls to get into this list some times. This keeps it running, but the bug is still there.
 			GLOB.simple_animals[AI_ON] -= SA
-			stack_trace("Found a null in simple_animals active list [SA.type]!")
+			log_world("Found a null in simple_animals list!")
 			continue
 
-		if(!SA.ckey && !HAS_TRAIT(SA, TRAIT_NO_TRANSFORM))
+		if(!SA.ckey && !SA.notransform)
 			if(SA.stat != DEAD)
 				SA.handle_automated_movement()
 			if(SA.stat != DEAD)

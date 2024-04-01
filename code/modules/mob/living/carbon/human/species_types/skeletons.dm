@@ -1,67 +1,62 @@
 /datum/species/skeleton
 	// 2spooky
 	name = "Spooky Scary Skeleton"
-	id = SPECIES_SKELETON
-	sexes = FALSE
-	meat = /obj/item/food/meat/slab/human/mutant/skeleton
-	inherent_traits = list(
-		TRAIT_EASYDISMEMBER,
-		TRAIT_FAKEDEATH,
-		TRAIT_GENELESS,
-		TRAIT_LIMBATTACHMENT,
-		TRAIT_NOBLOOD,
-		TRAIT_NOBREATH,
-		TRAIT_NO_DNA_COPY,
-		TRAIT_NO_UNDERWEAR,
-		TRAIT_PIERCEIMMUNE,
-		TRAIT_RADIMMUNE,
-		TRAIT_RESISTCOLD,
-		TRAIT_RESISTHEAT,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_TOXIMMUNE,
-		TRAIT_UNHUSKABLE,
-		TRAIT_XENO_IMMUNE,
-	)
+	id = "skeleton"
+	say_mod = "rattles"
+	sexes = 0
+	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
+	species_traits = list(NOBLOOD, HAS_BONE)
+	inherent_traits = list(TRAIT_NOMETABOLISM,TRAIT_TOXIMMUNE,TRAIT_RESISTHEAT,TRAIT_NOBREATH,TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_RADIMMUNE,TRAIT_GENELESS,\
+	TRAIT_PIERCEIMMUNE,TRAIT_NOHUNGER,TRAIT_EASYDISMEMBER,TRAIT_LIMBATTACHMENT,TRAIT_FAKEDEATH,TRAIT_XENO_IMMUNE,TRAIT_NOCLONELOSS)
 	inherent_biotypes = MOB_UNDEAD|MOB_HUMANOID
-	mutanttongue = /obj/item/organ/internal/tongue/bone
-	mutantstomach = /obj/item/organ/internal/stomach/bone
-	mutantappendix = null
-	mutantheart = null
-	mutantliver = /obj/item/organ/internal/liver/bone
-	mutantlungs = null
+	mutanttongue = /obj/item/organ/tongue/bone
+	damage_overlay_type = ""//let's not show bloody wounds or burns over bones.
+	disliked_food = NONE
+	liked_food = GROSS | MEAT | RAW
 	//They can technically be in an ERT
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
-	species_cookie = /obj/item/reagent_containers/condiment/milk
 	species_language_holder = /datum/language_holder/skeleton
 
-	bodypart_overrides = list(
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/skeleton,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/skeleton,
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/skeleton,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/skeleton,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/skeleton,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/skeleton,
-	)
-
 /datum/species/skeleton/check_roundstart_eligible()
-	if(check_holidays(HALLOWEEN))
+	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
 		return TRUE
 	return ..()
 
-/datum/species/skeleton/get_physical_attributes()
-	return "These humerus folk lack any fleshy biology, which allows them to resist pressure, temperature, radiation, asphyxiation and even toxins. \
-		However, due to that same fact, it is quite hard to heal them as well. The calcium found in common space milk is highly effective at treating their wounds. \
-		Their limbs are easy to pop off their joints, but they can somehow just slot them back in."
-
-/datum/species/skeleton/get_species_description()
-	return "A rattling skeleton! They descend upon Space Station 13 \
-		Every year to spook the crew! \"I've got a BONE to pick with you!\""
-
-/datum/species/skeleton/get_species_lore()
-	return list(
-		"Skeletons want to be feared again! Their presence in media has been destroyed, \
-		or at least that's what they firmly believe. They're always the first thing fought in an RPG, \
-		they're Flanderized into pun rolling JOKES, and it's really starting to get to them. \
-		You could say they're deeply RATTLED. Hah."
-	)
+//Can still metabolize milk through meme magic
+/datum/species/skeleton/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+	. = ..()
+	if(chem.type == /datum/reagent/consumable/milk)
+		if(chem.volume > 10)
+			H.reagents.remove_reagent(chem.type, chem.volume - 10)
+			to_chat(H, "<span class='warning'>The excess milk is dripping off your bones!</span>")
+		for(var/i in H.all_wounds)
+			var/datum/wound/iter_wound = i
+			iter_wound.on_xadone(2)
+		H.heal_bodypart_damage(1,1, 0)
+		H.reagents.remove_reagent(chem.type, chem.metabolization_rate)
+		return TRUE
+	if(chem.type == /datum/reagent/toxin/bonehurtingjuice)
+		H.adjustStaminaLoss(7.5, 0)
+		H.adjustBruteLoss(0.5, 0)
+		if(prob(20))
+			switch(rand(1, 3))
+				if(1)
+					H.say(pick("oof.", "ouch.", "my bones.", "oof ouch.", "oof ouch my bones."), forced = /datum/reagent/toxin/bonehurtingjuice)
+				if(2)
+					H.emote("me", 1, pick("oofs silently.", "looks like their bones hurt.", "grimaces, as though their bones hurt."))
+				if(3)
+					to_chat(H, "<span class='warning'>Your bones hurt!</span>")
+		if(chem.overdosed)
+			if(prob(4) && iscarbon(H)) //big oof
+				var/selected_part = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG) //God help you if the same limb gets picked twice quickly.
+				var/obj/item/bodypart/bp = H.get_bodypart(selected_part) //We're so sorry skeletons, you're so misunderstood
+				if(bp)
+					playsound(H, get_sfx("desecration"), 50, TRUE, -1) //You just want to socialize
+					H.visible_message("<span class='warning'>[H] rattles loudly and flails around!!</span>", "<span class='danger'>Your bones hurt so much that your missing muscles spasm!!</span>")
+					H.say("OOF!!", forced=/datum/reagent/toxin/bonehurtingjuice)
+					bp.receive_damage(200, 0, 0) //But I don't think we should
+				else
+					to_chat(H, "<span class='warning'>Your missing arm aches from wherever you left it.</span>")
+					H.emote("sigh")
+		H.reagents.remove_reagent(chem.type, chem.metabolization_rate)
+		return TRUE

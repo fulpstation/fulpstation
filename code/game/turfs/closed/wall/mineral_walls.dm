@@ -2,246 +2,196 @@
 	name = "mineral wall"
 	desc = "This shouldn't exist"
 	icon_state = ""
-	smoothing_flags = SMOOTH_BITMASK
+	var/last_event = 0
+	var/active = null
 	canSmoothWith = null
-	rcd_memory = null
-	material_flags = MATERIAL_EFFECTS
+	smooth = SMOOTH_TRUE
 
 /turf/closed/wall/mineral/gold
 	name = "gold wall"
 	desc = "A wall with gold plating. Swag!"
 	icon = 'icons/turf/walls/gold_wall.dmi'
-	icon_state = "gold_wall-0"
-	base_icon_state = "gold_wall"
+	icon_state = "gold"
 	sheet_type = /obj/item/stack/sheet/mineral/gold
-	hardness = 65 //gold is soft
-	explosive_resistance = 0 //gold is a soft metal you dingus.
-	smoothing_groups = SMOOTH_GROUP_GOLD_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_GOLD_WALLS
-	custom_materials = list(/datum/material/gold = SHEET_MATERIAL_AMOUNT*2)
+	explosion_block = 0 //gold is a soft metal you dingus.
+	canSmoothWith = list(/turf/closed/wall/mineral/gold, /obj/structure/falsewall/gold)
 
 /turf/closed/wall/mineral/silver
 	name = "silver wall"
 	desc = "A wall with silver plating. Shiny!"
 	icon = 'icons/turf/walls/silver_wall.dmi'
-	icon_state = "silver_wall-0"
-	base_icon_state = "silver_wall"
+	icon_state = "silver"
 	sheet_type = /obj/item/stack/sheet/mineral/silver
-	hardness = 65 //silver is also soft according to moh's scale
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_SILVER_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_SILVER_WALLS
-	custom_materials = list(/datum/material/silver = SHEET_MATERIAL_AMOUNT*2)
+	canSmoothWith = list(/turf/closed/wall/mineral/silver, /obj/structure/falsewall/silver)
 
 /turf/closed/wall/mineral/diamond
 	name = "diamond wall"
 	desc = "A wall with diamond plating. You monster."
 	icon = 'icons/turf/walls/diamond_wall.dmi'
-	icon_state = "diamond_wall-0"
-	base_icon_state = "diamond_wall"
+	icon_state = "diamond"
 	sheet_type = /obj/item/stack/sheet/mineral/diamond
-	hardness = 5 //diamond is very hard
 	slicing_duration = 200   //diamond wall takes twice as much time to slice
-	explosive_resistance = 3
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_DIAMOND_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_DIAMOND_WALLS
-	custom_materials = list(/datum/material/diamond = SHEET_MATERIAL_AMOUNT*2)
+	explosion_block = 3
+	canSmoothWith = list(/turf/closed/wall/mineral/diamond, /obj/structure/falsewall/diamond)
 
-/turf/closed/wall/mineral/diamond/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, damage = 41)
+/turf/closed/wall/mineral/diamond/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, var/damage = 41)
 	return ..()
 
 /turf/closed/wall/mineral/bananium
 	name = "bananium wall"
 	desc = "A wall with bananium plating. Honk!"
 	icon = 'icons/turf/walls/bananium_wall.dmi'
-	icon_state = "bananium_wall-0"
-	base_icon_state = "bananium_wall"
+	icon_state = "bananium"
 	sheet_type = /obj/item/stack/sheet/mineral/bananium
-	hardness = 70 //it's banana
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_BANANIUM_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_BANANIUM_WALLS
-	custom_materials = list(/datum/material/bananium = SHEET_MATERIAL_AMOUNT*2)
+	canSmoothWith = list(/turf/closed/wall/mineral/bananium, /obj/structure/falsewall/bananium)
 
 /turf/closed/wall/mineral/sandstone
 	name = "sandstone wall"
 	desc = "A wall with sandstone plating. Rough."
 	icon = 'icons/turf/walls/sandstone_wall.dmi'
-	icon_state = "sandstone_wall-0"
-	base_icon_state = "sandstone_wall"
+	icon_state = "sandstone"
 	sheet_type = /obj/item/stack/sheet/mineral/sandstone
-	hardness = 50 //moh says this is apparently 6-7 on it's scale
-	explosive_resistance = 0
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_SANDSTONE_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_SANDSTONE_WALLS
-	custom_materials = list(/datum/material/sandstone = SHEET_MATERIAL_AMOUNT*2)
+	explosion_block = 0
+	canSmoothWith = list(/turf/closed/wall/mineral/sandstone, /obj/structure/falsewall/sandstone)
 
 /turf/closed/wall/mineral/uranium
 	article = "a"
 	name = "uranium wall"
 	desc = "A wall with uranium plating. This is probably a bad idea."
 	icon = 'icons/turf/walls/uranium_wall.dmi'
-	icon_state = "uranium_wall-0"
-	base_icon_state = "uranium_wall"
+	icon_state = "uranium"
 	sheet_type = /obj/item/stack/sheet/mineral/uranium
-	hardness = 40 //uranium is a 6 on moh's scale
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_URANIUM_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_URANIUM_WALLS
-	custom_materials = list(/datum/material/uranium = SHEET_MATERIAL_AMOUNT*2)
-
-	/// Mutex to prevent infinite recursion when propagating radiation pulses
-	var/active = null
-
-	/// The last time a radiation pulse was performed
-	var/last_event = 0
-
-/turf/closed/wall/mineral/uranium/Initialize(mapload)
-	. = ..()
-	RegisterSignal(src, COMSIG_ATOM_PROPAGATE_RAD_PULSE, PROC_REF(radiate))
+	canSmoothWith = list(/turf/closed/wall/mineral/uranium, /obj/structure/falsewall/uranium)
 
 /turf/closed/wall/mineral/uranium/proc/radiate()
-	SIGNAL_HANDLER
-	if(active)
-		return
-	if(world.time <= last_event + 1.5 SECONDS)
-		return
-	active = TRUE
-	radiation_pulse(
-		src,
-		max_range = 3,
-		threshold = RAD_LIGHT_INSULATION,
-		chance = URANIUM_IRRADIATION_CHANCE,
-		minimum_exposure_time = URANIUM_RADIATION_MINIMUM_EXPOSURE_TIME,
-	)
-	propagate_radiation_pulse()
-	last_event = world.time
-	active = FALSE
+	if(!active)
+		if(world.time > last_event+15)
+			active = 1
+			radiation_pulse(src, 40)
+			for(var/turf/closed/wall/mineral/uranium/T in orange(1,src))
+				T.radiate()
+			last_event = world.time
+			active = null
+			return
+	return
 
-/turf/closed/wall/mineral/uranium/attack_hand(mob/user, list/modifiers)
+/turf/closed/wall/mineral/uranium/attack_hand(mob/user)
 	radiate()
-	return ..()
+	. = ..()
 
 /turf/closed/wall/mineral/uranium/attackby(obj/item/W, mob/user, params)
 	radiate()
-	return ..()
+	..()
 
 /turf/closed/wall/mineral/uranium/Bumped(atom/movable/AM)
 	radiate()
-	return ..()
+	..()
 
-/turf/closed/wall/mineral/uranium/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, damage = 41)
+/turf/closed/wall/mineral/uranium/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, var/damage = 41)
 	return ..()
 
 /turf/closed/wall/mineral/plasma
 	name = "plasma wall"
 	desc = "A wall with plasma plating. This is definitely a bad idea."
 	icon = 'icons/turf/walls/plasma_wall.dmi'
-	icon_state = "plasma_wall-0"
-	base_icon_state = "plasma_wall"
+	icon_state = "plasma"
 	sheet_type = /obj/item/stack/sheet/mineral/plasma
-	hardness = 70 // I'll tentatively compare it to Bismuth
 	thermal_conductivity = 0.04
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_PLASMA_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_PLASMA_WALLS
-	custom_materials = list(/datum/material/plasma = SHEET_MATERIAL_AMOUNT*2)
+	canSmoothWith = list(/turf/closed/wall/mineral/plasma, /obj/structure/falsewall/plasma)
+
+/turf/closed/wall/mineral/plasma/attackby(obj/item/W, mob/user, params)
+	if(W.get_temperature() > 300)//If the temperature of the object is over 300, then ignite
+		message_admins("Plasma wall ignited by [ADMIN_LOOKUPFLW(user)] in [ADMIN_VERBOSEJMP(src)]")
+		log_game("Plasma wall ignited by [key_name(user)] in [AREACOORD(src)]")
+		ignite(W.get_temperature())
+		return
+	..()
+
+/turf/closed/wall/mineral/plasma/proc/PlasmaBurn(temperature)
+	new girder_type(src)
+	ScrapeAway()
+	var/turf/open/T = src
+	T.atmos_spawn_air("plasma=400;TEMP=[temperature]")
+
+/turf/closed/wall/mineral/plasma/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)//Doesn't fucking work because walls don't interact with air :(
+	if(exposed_temperature > 300)
+		PlasmaBurn(exposed_temperature)
+
+/turf/closed/wall/mineral/plasma/proc/ignite(exposed_temperature)
+	if(exposed_temperature > 300)
+		PlasmaBurn(exposed_temperature)
+
+/turf/closed/wall/mineral/plasma/bullet_act(obj/projectile/Proj)
+	if(istype(Proj, /obj/projectile/beam))
+		PlasmaBurn(2500)
+	else if(istype(Proj, /obj/projectile/ion))
+		PlasmaBurn(500)
+	. = ..()
 
 /turf/closed/wall/mineral/wood
 	name = "wooden wall"
 	desc = "A wall with wooden plating. Stiff."
 	icon = 'icons/turf/walls/wood_wall.dmi'
-	icon_state = "wood_wall-0"
-	base_icon_state = "wood_wall"
+	icon_state = "wood"
 	sheet_type = /obj/item/stack/sheet/mineral/wood
-	hardness = 80
-	turf_flags = IS_SOLID
-	explosive_resistance = 0
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_WOOD_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_WOOD_WALLS
-	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT*2)
+	hardness = 70
+	explosion_block = 0
+	canSmoothWith = list(/turf/closed/wall/mineral/wood, /obj/structure/falsewall/wood, /turf/closed/wall/mineral/wood/nonmetal)
 
 /turf/closed/wall/mineral/wood/attackby(obj/item/W, mob/user)
 	if(W.get_sharpness() && W.force)
-		var/duration = ((4.8 SECONDS)/W.force) * 2 //In seconds, for now.
+		var/duration = (48/W.force) * 2 //In seconds, for now.
 		if(istype(W, /obj/item/hatchet) || istype(W, /obj/item/fireaxe))
 			duration /= 4 //Much better with hatchets and axes.
-		if(do_after(user, duration * (1 SECONDS), target=src)) //Into deciseconds.
+		if(do_after(user, duration*10, target=src)) //Into deciseconds.
 			dismantle_wall(FALSE,FALSE)
 			return
 	return ..()
 
-/turf/closed/wall/mineral/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, damage = 0)
+/turf/closed/wall/mineral/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, var/damage = 0)
 	return ..() //No recoil damage, wood is weak
 
 /turf/closed/wall/mineral/wood/nonmetal
 	desc = "A solidly wooden wall. It's a bit weaker than a wall made with metal."
 	girder_type = /obj/structure/barricade/wooden
-	hardness = 67 //a bit weaker than iron (60)
-
-/turf/closed/wall/mineral/bamboo
-	name = "bamboo wall"
-	desc = "A wall with a bamboo finish."
-	icon = 'icons/turf/walls/bamboo_wall.dmi'
-	icon_state = "bamboo_wall-0"
-	base_icon_state = "bamboo_wall"
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_BAMBOO_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_BAMBOO_WALLS
-	sheet_type = /obj/item/stack/sheet/mineral/bamboo
-	hardness = 80 //it's not a mineral...
+	hardness = 50
+	canSmoothWith = list(/turf/closed/wall/mineral/wood, /obj/structure/falsewall/wood, /turf/closed/wall/mineral/wood/nonmetal)
 
 /turf/closed/wall/mineral/iron
-	name = "rough iron wall"
-	desc = "A wall with rough iron plating."
+	name = "rough metal wall"
+	desc = "A wall with rough metal plating."
 	icon = 'icons/turf/walls/iron_wall.dmi'
-	icon_state = "iron_wall-0"
-	base_icon_state = "iron_wall"
+	icon_state = "iron"
 	sheet_type = /obj/item/stack/rods
-	hardness = 60
-	sheet_amount = 5
-	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_IRON_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_IRON_WALLS
-	custom_materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT * 2.5)
+	canSmoothWith = list(/turf/closed/wall/mineral/iron, /obj/structure/falsewall/iron)
 
 /turf/closed/wall/mineral/snow
 	name = "packed snow wall"
 	desc = "A wall made of densely packed snow blocks."
 	icon = 'icons/turf/walls/snow_wall.dmi'
-	icon_state = "snow_wall-0"
-	base_icon_state = "snow_wall"
-	smoothing_flags = SMOOTH_BITMASK
+	icon_state = "snow"
 	hardness = 80
-	explosive_resistance = 0
+	explosion_block = 0
 	slicing_duration = 30
 	sheet_type = /obj/item/stack/sheet/mineral/snow
 	canSmoothWith = null
 	girder_type = null
 	bullet_sizzle = TRUE
 	bullet_bounce_sound = null
-	custom_materials = list(/datum/material/snow = SHEET_MATERIAL_AMOUNT*2)
 
-/turf/closed/wall/mineral/snow/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, damage = 0)
+/turf/closed/wall/mineral/snow/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, var/damage = 0)
 	return ..() //No recoil damage, snow is weak
 
 /turf/closed/wall/mineral/abductor
 	name = "alien wall"
 	desc = "A wall with alien alloy plating."
 	icon = 'icons/turf/walls/abductor_wall.dmi'
-	icon_state = "abductor_wall-0"
-	base_icon_state = "abductor_wall"
+	icon_state = "abductor"
+	smooth = SMOOTH_TRUE|SMOOTH_DIAGONAL
 	sheet_type = /obj/item/stack/sheet/mineral/abductor
-	hardness = 10
 	slicing_duration = 200   //alien wall takes twice as much time to slice
-	explosive_resistance = 3
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	smoothing_groups = SMOOTH_GROUP_ABDUCTOR_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_ABDUCTOR_WALLS
-	custom_materials = list(/datum/material/alloy/alien = SHEET_MATERIAL_AMOUNT*2)
+	explosion_block = 3
+	canSmoothWith = list(/turf/closed/wall/mineral/abductor, /obj/structure/falsewall/abductor)
 
 /////////////////////Titanium walls/////////////////////
 
@@ -249,35 +199,48 @@
 	name = "wall"
 	desc = "A light-weight titanium wall used in shuttles."
 	icon = 'icons/turf/walls/shuttle_wall.dmi'
-	icon_state = "shuttle_wall-0"
-	base_icon_state = "shuttle_wall"
-	explosive_resistance = 3
+	icon_state = "map-shuttle"
+	explosion_block = 3
 	flags_1 = CAN_BE_DIRTY_1
 	flags_ricochet = RICOCHET_SHINY | RICOCHET_HARD
 	sheet_type = /obj/item/stack/sheet/mineral/titanium
-	hardness = 40 //6 on moh's scale
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	smoothing_groups = SMOOTH_GROUP_TITANIUM_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_SHUTTLE_PARTS + SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_TITANIUM_WALLS
-	custom_materials = list(/datum/material/titanium = SHEET_MATERIAL_AMOUNT*2)
+	smooth = SMOOTH_MORE|SMOOTH_DIAGONAL
+	canSmoothWith = list(/turf/closed/wall/mineral/titanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/shuttle, /obj/structure/shuttle/engine/heater, /obj/structure/falsewall/titanium)
 
 /turf/closed/wall/mineral/titanium/rust_heretic_act()
 	return // titanium does not rust
 
 /turf/closed/wall/mineral/titanium/nodiagonal
-	icon = 'icons/turf/walls/shuttle_wall.dmi'
+	smooth = SMOOTH_MORE
 	icon_state = "map-shuttle_nd"
-	base_icon_state = "shuttle_wall"
-	smoothing_flags = SMOOTH_BITMASK
+
+/turf/closed/wall/mineral/titanium/nosmooth
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall"
+	smooth = SMOOTH_FALSE
 
 /turf/closed/wall/mineral/titanium/overspace
 	icon_state = "map-overspace"
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	fixed_underlay = list("space" = TRUE)
+	fixed_underlay = list("space"=1)
 
+//sub-type to be used for interior shuttle walls
+//won't get an underlay of the destination turf on shuttle move
 /turf/closed/wall/mineral/titanium/interior/copyTurf(turf/T)
-	. = ..()
+	if(T.type != type)
+		T.ChangeTurf(type)
+		if(underlays.len)
+			T.underlays = underlays
+	if(T.icon_state != icon_state)
+		T.icon_state = icon_state
+	if(T.icon != icon)
+		T.icon = icon
+	if(color)
+		T.atom_colours = atom_colours.Copy()
+		T.update_atom_colour()
+	if(T.dir != dir)
+		T.setDir(dir)
 	T.transform = transform
+	return T
 
 /turf/closed/wall/mineral/titanium/copyTurf(turf/T)
 	. = ..()
@@ -287,20 +250,15 @@
 	name = "pod wall"
 	desc = "An easily-compressable wall used for temporary shelter."
 	icon = 'icons/turf/walls/survival_pod_walls.dmi'
-	icon_state = "survival_pod_walls-0"
-	base_icon_state = "survival_pod_walls"
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	canSmoothWith = SMOOTH_GROUP_SHUTTLE_PARTS + SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_WINDOW_FULLTILE + SMOOTH_GROUP_TITANIUM_WALLS
+	icon_state = "smooth"
+	smooth = SMOOTH_MORE|SMOOTH_DIAGONAL
+	canSmoothWith = list(/turf/closed/wall/mineral/titanium/survival, /obj/machinery/door/airlock, /obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/shuttle, /obj/structure/shuttle/engine)
 
 /turf/closed/wall/mineral/titanium/survival/nodiagonal
-	icon = 'icons/turf/walls/survival_pod_walls.dmi'
-	icon_state = "survival_pod_walls-0"
-	base_icon_state = "survival_pod_walls"
-	smoothing_flags = SMOOTH_BITMASK
+	smooth = SMOOTH_MORE
 
 /turf/closed/wall/mineral/titanium/survival/pod
-	smoothing_groups = SMOOTH_GROUP_SURVIVAL_TITANIUM_POD + SMOOTH_GROUP_TITANIUM_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_SURVIVAL_TITANIUM_POD
+	canSmoothWith = list(/turf/closed/wall/mineral/titanium/survival, /obj/machinery/door/airlock/survival_pod, /obj/structure/window/shuttle/survival_pod)
 
 /////////////////////Plastitanium walls/////////////////////
 
@@ -308,38 +266,53 @@
 	name = "wall"
 	desc = "A durable wall made of an alloy of plasma and titanium."
 	icon = 'icons/turf/walls/plastitanium_wall.dmi'
-	icon_state = "plastitanium_wall-0"
-	base_icon_state = "plastitanium_wall"
-	explosive_resistance = 4
+	icon_state = "map-shuttle"
+	explosion_block = 4
 	sheet_type = /obj/item/stack/sheet/mineral/plastitanium
-	hardness = 25 //upgrade on titanium
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	smoothing_groups = SMOOTH_GROUP_PLASTITANIUM_WALLS + SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS
-	canSmoothWith = SMOOTH_GROUP_SHUTTLE_PARTS + SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_PLASTITANIUM_WALLS + SMOOTH_GROUP_SYNDICATE_WALLS
-	custom_materials = list(/datum/material/alloy/plastitanium = SHEET_MATERIAL_AMOUNT*2)
+	smooth = SMOOTH_MORE|SMOOTH_DIAGONAL
+	canSmoothWith = list(/turf/closed/wall/mineral/plastitanium, /obj/machinery/door/airlock/shuttle, /obj/machinery/door/airlock, /obj/structure/window/plasma/reinforced/plastitanium, /obj/structure/shuttle/engine, /obj/structure/falsewall/plastitanium)
 
 /turf/closed/wall/mineral/plastitanium/rust_heretic_act()
 	return // plastitanium does not rust
 
 /turf/closed/wall/mineral/plastitanium/nodiagonal
-	icon = 'icons/turf/walls/plastitanium_wall.dmi'
+	smooth = SMOOTH_MORE
 	icon_state = "map-shuttle_nd"
-	base_icon_state = "plastitanium_wall"
-	smoothing_flags = SMOOTH_BITMASK
+
+/turf/closed/wall/mineral/plastitanium/nosmooth
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall"
+	smooth = SMOOTH_FALSE
 
 /turf/closed/wall/mineral/plastitanium/overspace
 	icon_state = "map-overspace"
-	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
-	fixed_underlay = list("space" = TRUE)
-
+	fixed_underlay = list("space"=1)
 
 /turf/closed/wall/mineral/plastitanium/explosive/ex_act(severity)
 	var/obj/item/bombcore/large/bombcore = new(get_turf(src))
 	bombcore.detonate()
+	..()
+
+/turf/closed/wall/mineral/plastitanium/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, var/damage = 41)
 	return ..()
 
-/turf/closed/wall/mineral/plastitanium/hulk_recoil(obj/item/bodypart/arm, mob/living/carbon/human/hulkman, damage = 41)
-	return ..()
+//have to copypaste this code
+/turf/closed/wall/mineral/plastitanium/interior/copyTurf(turf/T)
+	if(T.type != type)
+		T.ChangeTurf(type)
+		if(underlays.len)
+			T.underlays = underlays
+	if(T.icon_state != icon_state)
+		T.icon_state = icon_state
+	if(T.icon != icon)
+		T.icon = icon
+	if(color)
+		T.atom_colours = atom_colours.Copy()
+		T.update_atom_colour()
+	if(T.dir != dir)
+		T.setDir(dir)
+	T.transform = transform
+	return T
 
 /turf/closed/wall/mineral/plastitanium/copyTurf(turf/T)
 	. = ..()

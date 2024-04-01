@@ -1,6 +1,6 @@
 /obj/item/chromosome
 	name = "blank chromosome"
-	icon = 'icons/obj/science/chromosomes.dmi'
+	icon = 'icons/obj/chromosomes.dmi'
 	icon_state = ""
 	desc = "A tube holding chromosomic data."
 	force = 0
@@ -34,13 +34,9 @@
 		HM.power_coeff = power_coeff
 	if(HM.energy_coeff != -1)
 		HM.energy_coeff = energy_coeff
-	HM.can_chromosome = CHROMOSOME_USED
+	HM.can_chromosome = 2
 	HM.chromosome_name = name
-
-	// Do the actual modification
-	if(HM.modify())
-		HM.modified = TRUE
-
+	HM.modify()
 	qdel(src)
 
 /proc/generate_chromosome()
@@ -52,7 +48,7 @@
 			if(!initial(CM.weight))
 				break
 			chromosomes[A] = initial(CM.weight)
-	return pick_weight(chromosomes)
+	return pickweight(chromosomes)
 
 
 /obj/item/chromosome/stabilizer
@@ -79,3 +75,18 @@
 	desc = "A chromosome that reduces action based mutation cooldowns by by 50%."
 	icon_state = "energy"
 	energy_coeff = 0.5
+
+/obj/item/chromosome/reinforcer
+	name = "reinforcement chromosome"
+	desc = "A chromosome that renders mutations immune to mutadone."
+	icon_state = "reinforcer"
+	weight = 3
+
+/obj/item/chromosome/reinforcer/can_apply(datum/mutation/human/HM)
+	if(!HM || !(HM.can_chromosome == CHROMOSOME_NONE))
+		return FALSE
+	return !HM.mutadone_proof
+
+/obj/item/chromosome/reinforcer/apply(datum/mutation/human/HM)
+	HM.mutadone_proof = TRUE
+	..()

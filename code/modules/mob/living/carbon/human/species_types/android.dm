@@ -1,53 +1,25 @@
 /datum/species/android
 	name = "Android"
-	id = SPECIES_ANDROID
-	examine_limb_id = SPECIES_HUMAN
-	inherent_traits = list(
-		TRAIT_GENELESS,
-		TRAIT_LIMBATTACHMENT,
-		TRAIT_LIVERLESS_METABOLISM,
-		TRAIT_NOBLOOD,
-		TRAIT_NOBREATH,
-		TRAIT_NOCRITDAMAGE,
-		TRAIT_NOFIRE,
-		TRAIT_NOHUNGER,
-		TRAIT_NO_DNA_COPY,
-		TRAIT_NO_PLASMA_TRANSFORM,
-		TRAIT_NO_UNDERWEAR,
-		TRAIT_OVERDOSEIMMUNE,
-		TRAIT_PIERCEIMMUNE,
-		TRAIT_RADIMMUNE,
-		TRAIT_RESISTCOLD,
-		TRAIT_RESISTHEAT,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_TOXIMMUNE,
-	)
-
+	id = "android"
+	say_mod = "states"
+	species_traits = list(NOBLOOD)
+	inherent_traits = list(TRAIT_NOMETABOLISM,TRAIT_TOXIMMUNE,TRAIT_RESISTHEAT,TRAIT_NOBREATH,TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_RADIMMUNE,TRAIT_GENELESS,TRAIT_NOFIRE,TRAIT_PIERCEIMMUNE,TRAIT_NOHUNGER,TRAIT_LIMBATTACHMENT,TRAIT_NOCLONELOSS)
 	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID
 	meat = null
-	mutantbrain = /obj/item/organ/internal/brain/cybernetic
-	mutanttongue = /obj/item/organ/internal/tongue/robot
-	mutantstomach = null
-	mutantappendix = null
-	mutantheart = null
-	mutantliver = null
-	mutantlungs = null
-	mutanteyes = /obj/item/organ/internal/eyes/robotic
-	mutantears = /obj/item/organ/internal/ears/cybernetic
+	damage_overlay_type = "synth"
+	mutanttongue = /obj/item/organ/tongue/robot
 	species_language_holder = /datum/language_holder/synthetic
+	limbs_id = "synth"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 
-	bodypart_overrides = list(
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/robot/android,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/robot/android,
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/robot/android,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/robot/android,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/robot/android,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/robot/android,
-	)
+/datum/species/android/on_species_gain(mob/living/carbon/C)
+	. = ..()
+	for(var/X in C.bodyparts)
+		var/obj/item/bodypart/O = X
+		O.change_bodypart_status(BODYPART_ROBOTIC, FALSE, TRUE)
 
-/datum/species/android/get_physical_attributes()
-	return "Androids are almost, but not quite, identical to fully augmented humans. \
-	Unlike those, though, they're completely immune to toxin damage, don't have blood or organs (besides their head), don't get hungry, and can reattach their limbs! \
-	That said, an EMP will devastate them and they cannot process any chemicals."
+/datum/species/android/on_species_loss(mob/living/carbon/C)
+	. = ..()
+	for(var/X in C.bodyparts)
+		var/obj/item/bodypart/O = X
+		O.change_bodypart_status(BODYPART_ORGANIC,FALSE, TRUE)

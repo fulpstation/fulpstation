@@ -1,38 +1,11 @@
-
-
-/mob/living/carbon/human/say(
-	message,
-	bubble_type,
-	list/spans = list(),
-	sanitize = TRUE,
-	datum/language/language,
-	ignore_spam = FALSE,
-	forced,
-	filterproof = FALSE,
-	message_range = 7,
-	datum/saymode/saymode,
-	list/message_mods = list(),
-)
-	if(!HAS_TRAIT(src, TRAIT_SPEAKS_CLEARLY))
-		var/static/regex/tongueless_lower = new("\[gdntke]+", "g")
-		var/static/regex/tongueless_upper = new("\[GDNTKE]+", "g")
-		if(message[1] != "*")
-			message = tongueless_lower.Replace(message, pick("aa","oo","'"))
-			message = tongueless_upper.Replace(message, pick("AA","OO","'"))
-	return ..()
-
-/mob/living/carbon/human/get_default_say_verb()
-	var/obj/item/organ/internal/tongue/tongue = get_organ_slot(ORGAN_SLOT_TONGUE)
-	if(isnull(tongue))
-		if(HAS_TRAIT(src, TRAIT_SIGN_LANG))
-			return "signs"
-		return "gurgles"
-	return  tongue.temp_say_mod || tongue.say_mod || ..()
+/mob/living/carbon/human/say_mod(input, list/message_mods = list())
+	verb_say = dna.species.say_mod
+	if(slurring)
+		return "slurs"
+	else
+		. = ..()
 
 /mob/living/carbon/human/GetVoice()
-	if(HAS_TRAIT(src, TRAIT_UNKNOWN))
-		return ("Unknown")
-
 	if(istype(wear_mask, /obj/item/clothing/mask/chameleon))
 		var/obj/item/clothing/mask/chameleon/V = wear_mask
 		if(V.voice_change && wear_id)
@@ -43,14 +16,27 @@
 				return real_name
 		else
 			return real_name
-
+	if(istype(wear_mask, /obj/item/clothing/mask/infiltrator))
+		var/obj/item/clothing/mask/infiltrator/V = wear_mask
+		if(V.voice_unknown)
+			return ("Unknown")
+		else
+			return real_name
 	if(mind)
 		var/datum/antagonist/changeling/changeling = mind.has_antag_datum(/datum/antagonist/changeling)
-		if(changeling?.mimicing)
+		if(changeling && changeling.mimicing )
 			return changeling.mimicing
 	if(GetSpecialVoice())
 		return GetSpecialVoice()
 	return real_name
+
+/mob/living/carbon/human/IsVocal()
+	// how do species that don't breathe talk? magic, that's what.
+	if(!HAS_TRAIT_FROM(src, TRAIT_NOBREATH, SPECIES_TRAIT) && !getorganslot(ORGAN_SLOT_LUNGS))
+		return FALSE
+	if(mind)
+		return !mind.miming
+	return TRUE
 
 /mob/living/carbon/human/proc/SetSpecialVoice(new_voice)
 	if(new_voice)
@@ -65,17 +51,17 @@
 	return special_voice
 
 /mob/living/carbon/human/binarycheck()
-	if(stat >= SOFT_CRIT || !ears)
-		return FALSE
-	var/obj/item/radio/headset/dongle = ears
-	if(!istype(dongle))
-		return FALSE
-	return dongle.translate_binary
+	if(ears)
+		var/obj/item/radio/headset/dongle = ears
+		if(!istype(dongle))
+			return FALSE
+		if(dongle.translate_binary)
+			return TRUE
 
 /mob/living/carbon/human/radio(message, list/message_mods = list(), list/spans, language) //Poly has a copy of this, lazy bastard
 	. = ..()
-	if(.)
-		return
+	if(. != FALSE)
+		return .
 
 	if(message_mods[MODE_HEADSET])
 		if(ears)
@@ -90,4 +76,8 @@
 			ears.talk_into(src, message, message_mods[RADIO_EXTENSION], spans, language, message_mods)
 			return ITALICS | REDUCE_RANGE
 
-	return FALSE
+	return 0
+
+/mob/living/carbon/human/get_alt_name()
+	if(name != GetVoice())
+		return " (as [get_id_name("Unknown")])"\

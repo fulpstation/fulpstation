@@ -1,491 +1,256 @@
 /datum/mood_event/handcuffed
-	description = "I guess my antics have finally caught up with me."
+	description = "<span class='warning'>I guess my antics have finally caught up with me.</span>\n"
 	mood_change = -1
 
 /datum/mood_event/broken_vow //Used for when mimes break their vow of silence
-	description = "I have brought shame upon my name, and betrayed my fellow mimes by breaking our sacred vow..."
-	mood_change = -4
-	timeout = 3 MINUTES
+  description = "<span class='boldwarning'>I have brought shame upon my name, and betrayed my fellow mimes by breaking our sacred vow...</span>\n"
+  mood_change = -8
 
 /datum/mood_event/on_fire
-	description = "I'M ON FIRE!!!"
+	description = "<span class='boldwarning'>I'M ON FIRE!!!</span>\n"
 	mood_change = -12
 
 /datum/mood_event/suffocation
-	description = "CAN'T... BREATHE..."
+	description = "<span class='boldwarning'>CAN'T... BREATHE...</span>\n"
 	mood_change = -12
 
 /datum/mood_event/burnt_thumb
-	description = "I shouldn't play with lighters..."
+	description = "<span class='warning'>I shouldn't play with lighters...</span>\n"
 	mood_change = -1
 	timeout = 2 MINUTES
 
 /datum/mood_event/cold
-	description = "It's way too cold in here."
+	description = "<span class='warning'>It's way too cold in here.</span>\n"
 	mood_change = -5
 
 /datum/mood_event/hot
-	description = "It's getting hot in here."
+	description = "<span class='warning'>It's getting hot in here.</span>\n"
 	mood_change = -5
 
 /datum/mood_event/creampie
-	description = "I've been creamed. Tastes like pie flavor."
+	description = "<span class='warning'>I've been creamed. Tastes like pie flavor.</span>\n"
 	mood_change = -2
 	timeout = 3 MINUTES
 
 /datum/mood_event/slipped
-	description = "I slipped. I should be more careful next time..."
+	description = "<span class='warning'>I slipped. I should be more careful next time...</span>\n"
 	mood_change = -2
 	timeout = 3 MINUTES
 
 /datum/mood_event/eye_stab
-	description = "I used to be an adventurer like you, until I took a screwdriver to the eye."
+	description = "<span class='boldwarning'>I used to be an adventurer like you, until I took a screwdriver to the eye.</span>\n"
 	mood_change = -4
 	timeout = 3 MINUTES
 
 /datum/mood_event/delam //SM delamination
-	description = "Those goddamn engineers can't do anything right..."
+	description = "<span class='boldwarning'>Those God damn engineers can't do anything right...</span>\n"
 	mood_change = -2
 	timeout = 4 MINUTES
 
-/datum/mood_event/cascade // Big boi delamination
-	description = "I never thought I'd see a resonance cascade, let alone experience one..."
-	mood_change = -8
-	timeout = 5 MINUTES
-
 /datum/mood_event/depression_minimal
-	description = "I feel a bit down."
+	description = "<span class='warning'>I feel a bit down.</span>\n"
 	mood_change = -10
 	timeout = 2 MINUTES
 
 /datum/mood_event/depression_mild
-	description = "I feel sad for no particular reason."
+	description = "<span class='warning'>I feel sad for no particular reason.</span>\n"
 	mood_change = -12
 	timeout = 2 MINUTES
 
 /datum/mood_event/depression_moderate
-	description = "I feel miserable."
+	description = "<span class='warning'>I feel miserable.</span>\n"
 	mood_change = -14
 	timeout = 2 MINUTES
 
 /datum/mood_event/depression_severe
-	description = "I've lost all hope."
+	description = "<span class='warning'>I've lost all hope.</span>\n"
 	mood_change = -16
 	timeout = 2 MINUTES
 
 /datum/mood_event/shameful_suicide //suicide_acts that return SHAME, like sord
-	description = "I can't even end it all!"
-	mood_change = -15
-	timeout = 60 SECONDS
+  description = "<span class='boldwarning'>I can't even end it all!</span>\n"
+  mood_change = -15
+  timeout = 60 SECONDS
 
 /datum/mood_event/dismembered
-	description = "AHH! MY LIMB! I WAS USING THAT!"
-	mood_change = -10
-	timeout = 8 MINUTES
-
-/datum/mood_event/dismembered/add_effects(obj/item/bodypart/limb)
-	if(limb)
-		description = "AHH! MY [uppertext(limb.plaintext_zone)]! I WAS USING THAT!"
-
-/datum/mood_event/reattachment
-	description = "Ouch! My limb feels like I fell asleep on it."
-	mood_change = -3
-	timeout = 2 MINUTES
-
-/datum/mood_event/reattachment/New(mob/M, ...)
-	if(HAS_TRAIT(M, TRAIT_ANALGESIA))
-		qdel(src)
-		return
-	return ..()
-
-/datum/mood_event/reattachment/add_effects(obj/item/bodypart/limb)
-	if(limb)
-		description = "Ouch! My [limb.plaintext_zone] feels like I fell asleep on it."
+  description = "<span class='boldwarning'>AHH! I WAS USING THAT LIMB!</span>\n"
+  mood_change = -10
+  timeout = 8 MINUTES
 
 /datum/mood_event/tased
-	description = "There's no \"z\" in \"taser\". It's in the zap."
+	description = "<span class='warning'>There's no \"z\" in \"taser\". It's in the zap.</span>\n"
 	mood_change = -3
 	timeout = 2 MINUTES
 
 /datum/mood_event/embedded
-	description = "Pull it out!"
+	description = "<span class='boldwarning'>Pull it out!</span>\n"
 	mood_change = -7
 
 /datum/mood_event/table
-	description = "Someone threw me on a table!"
+	description = "<span class='warning'>Someone threw me on a table!</span>\n"
 	mood_change = -2
 	timeout = 2 MINUTES
 
 /datum/mood_event/table/add_effects()
-	if(isfelinid(owner)) //Holy snowflake batman!
-		var/mob/living/carbon/human/feline = owner
-		feline.wag_tail(3 SECONDS)
-		description = "They want to play on the table!"
+	if(isfelinid(owner))
+		var/mob/living/carbon/human/H = owner
+		H.dna.species.start_wagging_tail(H)
+		addtimer(CALLBACK(H.dna.species, TYPE_PROC_REF(/datum/species, stop_wagging_tail), H), 30)
+		description = "<span class='nicegreen'>They want to play on the table!</span>\n"
 		mood_change = 2
 
 /datum/mood_event/table_limbsmash
-	description = "That fucking table, man that hurts..."
+	description = "<span class='warning'>That fucking table, man that hurts...</span>\n"
 	mood_change = -3
 	timeout = 3 MINUTES
 
-/datum/mood_event/table_limbsmash/New(mob/M, ...)
-	if(HAS_TRAIT(M, TRAIT_ANALGESIA))
-		qdel(src)
-		return
-	return ..()
-
 /datum/mood_event/table_limbsmash/add_effects(obj/item/bodypart/banged_limb)
 	if(banged_limb)
-		description = "My fucking [banged_limb.plaintext_zone], man that hurts..."
+		description = "<span class='warning'>My fucking [banged_limb.name], man that hurts...</span>\n"
 
 /datum/mood_event/brain_damage
-	mood_change = -3
+  mood_change = -3
 
 /datum/mood_event/brain_damage/add_effects()
-	var/damage_message = pick_list_replacements(BRAIN_DAMAGE_FILE, "brain_damage")
-	description = "Hurr durr... [damage_message]"
+  var/damage_message = pick_list_replacements(BRAIN_DAMAGE_FILE, "brain_damage")
+  description = "<span class='warning'>Hurr durr... [damage_message]</span>\n"
 
 /datum/mood_event/hulk //Entire duration of having the hulk mutation
-	description = "HULK SMASH!"
-	mood_change = -4
+  description = "<span class='warning'>HULK SMASH!</span>\n"
+  mood_change = -4
 
 /datum/mood_event/epilepsy //Only when the mutation causes a seizure
-	description = "I should have paid attention to the epilepsy warning."
-	mood_change = -3
-	timeout = 5 MINUTES
-
-/datum/mood_event/photophobia
-	description = "The lights are too bright..."
-	mood_change = -3
+  description = "<span class='warning'>I should have paid attention to the epilepsy warning.</span>\n"
+  mood_change = -3
+  timeout = 5 MINUTES
 
 /datum/mood_event/nyctophobia
-	description = "It sure is dark around here..."
+	description = "<span class='warning'>It sure is dark around here...</span>\n"
 	mood_change = -3
 
-/datum/mood_event/claustrophobia
-	description = "Why do I feel trapped?!  Let me out!!!"
-	mood_change = -7
-	timeout = 1 MINUTES
-
-/datum/mood_event/bright_light
-	description = "I hate it in the light...I need to find a darker place..."
-	mood_change = -12
-
 /datum/mood_event/family_heirloom_missing
-	description = "I'm missing my family heirloom..."
+	description = "<span class='warning'>I'm missing my family heirloom...</span>\n"
 	mood_change = -4
 
 /datum/mood_event/healsbadman
-	description = "I feel like I'm held together by flimsy string, and could fall apart at any moment!"
+	description = "<span class='warning'>I feel like I'm held together by flimsy string, and could fall apart at any moment!</span>\n"
 	mood_change = -4
 	timeout = 2 MINUTES
 
-/datum/mood_event/healsbadman/long_term
-	timeout = 10 MINUTES
-
 /datum/mood_event/jittery
-	description = "I'm nervous and on edge and I can't stand still!!"
+	description = "<span class='warning'>I'm nervous and on edge and I can't stand still!!</span>\n"
 	mood_change = -2
 
-/datum/mood_event/choke
-	description = "I CAN'T BREATHE!!!"
-	mood_change = -10
-
 /datum/mood_event/vomit
-	description = "I just threw up. Gross."
+	description = "<span class='warning'>I just threw up. Gross.</span>\n"
 	mood_change = -2
 	timeout = 2 MINUTES
 
 /datum/mood_event/vomitself
-	description = "I just threw up all over myself. This is disgusting."
+	description = "<span class='warning'>I just threw up all over myself. This is disgusting.</span>\n"
 	mood_change = -4
 	timeout = 3 MINUTES
 
 /datum/mood_event/painful_medicine
-	description = "Medicine may be good for me but right now it stings like hell."
+	description = "<span class='warning'>Medicine may be good for me but right now it stings like hell.</span>\n"
 	mood_change = -5
 	timeout = 60 SECONDS
 
-/datum/mood_event/painful_medicine/New(mob/M, ...)
-	if(HAS_TRAIT(M, TRAIT_ANALGESIA))
-		qdel(src)
-		return
-	return ..()
-
 /datum/mood_event/spooked
-	description = "The rattling of those bones... It still haunts me."
+	description = "<span class='warning'>The rattling of those bones...It still haunts me.</span>\n"
 	mood_change = -4
 	timeout = 4 MINUTES
 
 /datum/mood_event/loud_gong
-	description = "That loud gong noise really hurt my ears!"
+	description = "<span class='warning'>That loud gong noise really hurt my ears!</span>\n"
 	mood_change = -3
 	timeout = 2 MINUTES
 
 /datum/mood_event/notcreeping
-	description = "The voices are not happy, and they painfully contort my thoughts into getting back on task."
+	description = "<span class='warning'>The voices are not happy, and they painfully contort my thoughts into getting back on task.</span>\n"
 	mood_change = -6
-	timeout = 3 SECONDS
+	timeout = 30
 	hidden = TRUE
 
 /datum/mood_event/notcreepingsevere//not hidden since it's so severe
-	description = "THEY NEEEEEEED OBSESSIONNNN!!"
+	description = "<span class='boldwarning'>THEY NEEEEEEED OBSESSIONNNN!!</span>\n"
 	mood_change = -30
-	timeout = 3 SECONDS
+	timeout = 30
 
 /datum/mood_event/notcreepingsevere/add_effects(name)
 	var/list/unstable = list(name)
 	for(var/i in 1 to rand(3,5))
 		unstable += copytext_char(name, -1)
 	var/unhinged = uppertext(unstable.Join(""))//example Tinea Luxor > TINEA LUXORRRR (with randomness in how long that slur is)
-	description = "THEY NEEEEEEED [unhinged]!!"
+	description = "<span class='boldwarning'>THEY NEEEEEEED [unhinged]!!</span>\n"
 
-/datum/mood_event/tower_of_babel
-	description = "My ability to communicate is an incoherent babel..."
-	mood_change = -1
-	timeout = 15 SECONDS
+/datum/mood_event/sapped
+	description = "<span class='boldwarning'>Some unexplainable sadness is consuming me...</span>\n"
+	mood_change = -15
+	timeout = 90 SECONDS
 
 /datum/mood_event/back_pain
-	description = "Bags never sit right on my back, this hurts like hell!"
+	description = "<span class='boldwarning'>Bags never sit right on my back, this hurts like hell!</span>\n"
 	mood_change = -15
 
-/datum/mood_event/back_pain/New(mob/M, ...)
-	if(HAS_TRAIT(M, TRAIT_ANALGESIA))
-		qdel(src)
-		return
-	return ..()
-
 /datum/mood_event/sad_empath
-	description = "Someone seems upset..."
+	description = "<span class='warning'>Someone seems upset...</span>\n"
 	mood_change = -1
 	timeout = 60 SECONDS
 
 /datum/mood_event/sad_empath/add_effects(mob/sadtarget)
-	description = "[sadtarget.name] seems upset..."
+	description = "<span class='warning'>[sadtarget.name] seems upset...</span>\n"
 
 /datum/mood_event/sacrifice_bad
-	description = "Those darn savages!"
+	description ="<span class='warning'>Those darn savages!</span>\n"
 	mood_change = -5
 	timeout = 2 MINUTES
 
 /datum/mood_event/artbad
-	description = "I've produced better art than that from my ass."
+	description = "<span class='warning'>I've produced better art than that from my ass.</span>\n"
 	mood_change = -2
-	timeout = 2 MINUTES
+	timeout = 1200
 
 /datum/mood_event/graverobbing
-	description = "I just desecrated someone's grave... I can't believe I did that..."
+	description ="<span class='boldwarning'>I just desecrated someone's grave... I can't believe I did that...</span>\n"
 	mood_change = -8
 	timeout = 3 MINUTES
 
 /datum/mood_event/deaths_door
-	description = "This is it... I'm really going to die."
+	description = "<span class='boldwarning'>This is it... I'm really going to die.</span>\n"
 	mood_change = -20
 
 /datum/mood_event/gunpoint
-	description = "This guy is insane! I better be careful..."
+	description = "<span class='boldwarning'>This guy is insane! I better be careful....</span>\n"
 	mood_change = -10
 
 /datum/mood_event/tripped
-	description = "I can't believe I fell for the oldest trick in the book!"
-	mood_change = -5
+	description = "<span class='boldwarning'>I can't believe I fell for the oldest trick in the book!</span>\n"
+	mood_change = -10
 	timeout = 2 MINUTES
 
 /datum/mood_event/untied
-	description = "I hate when my shoes come untied!"
-	mood_change = -3
-	timeout = 60 SECONDS
+	description = "<span class='boldwarning'>I hate when my shoes come untied!</span>\n"
+	mood_change = -5
+	timeout = 1 MINUTES
 
 /datum/mood_event/gates_of_mansus
-	description = "I HAD A GLIMPSE OF THE HORROR BEYOND THIS WORLD. REALITY UNCOILED BEFORE MY EYES!"
+	description = "<span class='boldwarning'>LIVING IN A PERFORMANCE IS WORSE THAN DEATH</span>\n"
 	mood_change = -25
 	timeout = 4 MINUTES
 
-/datum/mood_event/high_five_alone
-	description = "I tried getting a high-five with no one around, how embarassing!"
-	mood_change = -2
-	timeout = 60 SECONDS
-
-/datum/mood_event/high_five_full_hand
-	description = "Oh god, I don't even know how to high-five correctly..."
-	mood_change = -1
-	timeout = 45 SECONDS
-
-/datum/mood_event/left_hanging
-	description = "But everyone loves high fives! Maybe people just... hate me?"
-	mood_change = -2
-	timeout = 90 SECONDS
-
-/datum/mood_event/too_slow
-	description = "NO! HOW COULD I BE... TOO SLOW???"
-	mood_change = -2 // multiplied by how many people saw it happen, up to 8, so potentially massive. the ULTIMATE prank carries a lot of weight
-	timeout = 2 MINUTES
-
-/datum/mood_event/too_slow/add_effects(param)
-	var/people_laughing_at_you = 1 // start with 1 in case they're on the same tile or something
-	for(var/mob/living/carbon/iter_carbon in oview(owner, 7))
-		if(iter_carbon.stat == CONSCIOUS)
-			people_laughing_at_you++
-			if(people_laughing_at_you > 7)
-				break
-
-	mood_change *= people_laughing_at_you
-	return ..()
-
 //These are unused so far but I want to remember them to use them later
 /datum/mood_event/surgery
-	description = "THEY'RE CUTTING ME OPEN!!"
+	description = "<span class='boldwarning'>HE'S CUTTING ME OPEN!!</span>\n"
 	mood_change = -8
+
+/datum/mood_event/nanite_sadness
+	description = "<span class='warning robot'>+++++++HAPPINESS SUPPRESSION+++++++</span>\n"
+	mood_change = -7
+
+/datum/mood_event/nanite_sadness/add_effects(message)
+	description = "<span class='warning robot'>+++++++[message]+++++++</span>\n"
 
 /datum/mood_event/bald
-	description = "I need something to cover my head..."
+	description ="<span class='warning'>I need something to cover my head...</span>\n"
 	mood_change = -3
-
-/datum/mood_event/bald_reminder
-	description = "I was reminded that I can't grow my hair back at all! This is awful!"
-	mood_change = -5
-	timeout = 4 MINUTES
-
-/datum/mood_event/bad_touch
-	description = "I don't like when people touch me."
-	mood_change = -3
-	timeout = 4 MINUTES
-
-/datum/mood_event/very_bad_touch
-	description = "I really don't like when people touch me."
-	mood_change = -5
-	timeout = 4 MINUTES
-
-/datum/mood_event/noogie
-	description = "Ow! This is like space high school all over again..."
-	mood_change = -2
-	timeout = 60 SECONDS
-
-/datum/mood_event/noogie_harsh
-	description = "OW!! That was even worse than a regular noogie!"
-	mood_change = -4
-	timeout = 60 SECONDS
-
-/datum/mood_event/aquarium_negative
-	description = "All the fish are dead..."
-	mood_change = -3
-	timeout = 90 SECONDS
-
-/datum/mood_event/tail_lost
-	description = "My tail!! Why?!"
-	mood_change = -8
-	timeout = 10 MINUTES
-
-/datum/mood_event/tail_balance_lost
-	description = "I feel off-balance without my tail."
-	mood_change = -2
-
-/datum/mood_event/tail_regained_right
-	description = "My tail is back, but that was traumatic..."
-	mood_change = -2
-	timeout = 5 MINUTES
-
-/datum/mood_event/tail_regained_wrong
-	description = "Is this some kind of sick joke?! This is NOT the right tail."
-	mood_change = -12 // -8 for tail still missing + -4 bonus for being frakenstein's monster
-	timeout = 5 MINUTES
-
-/datum/mood_event/burnt_wings
-	description = "MY PRECIOUS WINGS!!"
-	mood_change = -10
-	timeout = 10 MINUTES
-
-/datum/mood_event/holy_smite //punished
-	description = "I have been punished by my deity!"
-	mood_change = -5
-	timeout = 5 MINUTES
-
-/datum/mood_event/banished //when the chaplain is sus! (and gets forcably de-holy'd)
-	description = "I have been excommunicated!"
-	mood_change = -10
-	timeout = 10 MINUTES
-
-/datum/mood_event/heresy
-	description = "I can hardly breathe with all this HERESY going on!"
-	mood_change = -5
-	timeout = 5 MINUTES
-
-/datum/mood_event/soda_spill
-	description = "Cool! That's fine, I wanted to wear that soda, not drink it..."
-	mood_change = -2
-	timeout = 1 MINUTES
-
-/datum/mood_event/watersprayed
-	description = "I hate being sprayed with water!"
-	mood_change = -1
-	timeout = 30 SECONDS
-
-/datum/mood_event/gamer_withdrawal
-	description = "I wish I was gaming right now..."
-	mood_change = -5
-
-/datum/mood_event/gamer_lost
-	description = "If I'm not good at video games, can I truly call myself a gamer?"
-	mood_change = -10
-	timeout = 10 MINUTES
-
-/datum/mood_event/lost_52_card_pickup
-	description = "This is really embarrassing! I'm ashamed to pick up all these cards off the floor..."
-	mood_change = -3
-	timeout = 3 MINUTES
-
-/datum/mood_event/russian_roulette_lose
-	description = "I gambled my life and lost! I guess this is the end..."
-	mood_change = -20
-	timeout = 10 MINUTES
-
-/datum/mood_event/bad_touch_bear_hug
-	description = "I just got squeezed way too hard."
-	mood_change = -1
-	timeout = 2 MINUTES
-
-/datum/mood_event/rippedtail
-	description = "I ripped their tail right off, what have I done!"
-	mood_change = -5
-	timeout = 30 SECONDS
-
-/datum/mood_event/sabrage_fail
-	description = "Blast it! That stunt didn't go as planned!"
-	mood_change = -2
-	timeout = 4 MINUTES
-
-/datum/mood_event/body_purist
-	description = "I feel cybernetics attached to me, and I HATE IT!"
-
-/datum/mood_event/body_purist/add_effects(power)
-	mood_change = power
-
-/datum/mood_event/unsatisfied_nomad
-	description = "I've been here too long! I want to go out and explore space!"
-	mood_change = -3
-
-/datum/mood_event/moon_insanity
-	description = "THE MOON JUDGES AND FINDS ME WANTING!!!"
-	mood_change = -3
-	timeout = 5 MINUTES
-
-/datum/mood_event/amulette_insanity
-	description = "I sEe THe LiGHt, It mUsT BE stOPPed"
-	mood_change = -6
-	timeout = 5 MINUTES
-
-///Wizard cheesy grand finale - what everyone but the wizard gets
-/datum/mood_event/madness_despair
-	description = "UNWORTHY, UNWORTHY, UNWORTHY!!!"
-	mood_change = -200
-	special_screen_obj = "mood_despair"
-
-/datum/mood_event/all_nighter
-	description = "I didn't sleep at all last night. I'm exhausted."
-	mood_change = -5
-
-//Used by the Veteran Advisor trait job
-/datum/mood_event/desentized
-	description = "Nothing will ever rival with what I seen in the past..."
-	mood_change = -3
-	special_screen_obj = "mood_desentized"

@@ -1,10 +1,7 @@
-/// The alpha we give to stuff under tiles, if they want it
-#define ALPHA_UNDERTILE 128
-
 ///Add to an object if you want to be able to be hidden under tiles
 /datum/element/undertile
 	element_flags = ELEMENT_BESPOKE | COMPONENT_DUPE_HIGHLANDER
-	argument_hash_start_idx = 2
+	id_arg_index = 2
 
 	///the invisiblity trait applied, like TRAIT_T_RAY_VISIBLE
 	var/invisibility_trait
@@ -19,7 +16,6 @@
 
 /datum/element/undertile/Attach(datum/target, invisibility_trait, invisibility_level = INVISIBILITY_MAXIMUM, tile_overlay, use_alpha = TRUE, use_anchor = FALSE)
 	. = ..()
-
 	if(!ismovable(target))
 		return ELEMENT_INCOMPATIBLE
 
@@ -27,58 +23,37 @@
 
 	src.invisibility_trait = invisibility_trait
 	src.invisibility_level = invisibility_level
-	src.tile_overlay = tile_overlay
-	src.use_alpha = use_alpha
-	src.use_anchor = use_anchor
+	src.tile_overlay 		= tile_overlay
+	src.use_alpha			= use_alpha
+	src.use_anchor			= use_anchor
 
 ///called when a tile has been covered or uncovered
-/datum/element/undertile/proc/hide(atom/movable/source, underfloor_accessibility)
-	SIGNAL_HANDLER
-
-	if(underfloor_accessibility < UNDERFLOOR_VISIBLE)
-		source.SetInvisibility(invisibility_level, id=type)
-	else
-		source.RemoveInvisibility(type)
+/datum/element/undertile/proc/hide(atom/movable/source, covered)
+	source.invisibility = covered ? invisibility_level : 0
 
 	var/turf/T = get_turf(source)
 
-	if(underfloor_accessibility < UNDERFLOOR_INTERACTABLE)
-		SET_PLANE_IMPLICIT(source, FLOOR_PLANE) // We do this so that turfs that allow you to see what's underneath them don't have to be on the game plane (which causes ambient occlusion weirdness)
-		ADD_TRAIT(source, TRAIT_UNDERFLOOR, REF(src))
-
+	if(covered)
+		if(invisibility_trait)
+			ADD_TRAIT(source, invisibility_trait, TRAIT_GENERIC)
 		if(tile_overlay)
 			T.add_overlay(tile_overlay)
-
+		if(use_alpha)
+			source.alpha = ALPHA_UNDERTILE
 		if(use_anchor)
 			source.set_anchored(TRUE)
 
-		if(underfloor_accessibility < UNDERFLOOR_VISIBLE)
-			if(use_alpha)
-				source.alpha = ALPHA_UNDERTILE
-
-			if(invisibility_trait)
-				ADD_TRAIT(source, invisibility_trait, ELEMENT_TRAIT(type))
-
 	else
-		SET_PLANE_IMPLICIT(source, initial(source.plane))
-		REMOVE_TRAIT(source, TRAIT_UNDERFLOOR, REF(src))
-
 		if(invisibility_trait)
-			REMOVE_TRAIT(source, invisibility_trait, ELEMENT_TRAIT(type))
-
+			REMOVE_TRAIT(source, invisibility_trait, TRAIT_GENERIC)
 		if(tile_overlay)
 			T.overlays -= tile_overlay
-
 		if(use_alpha)
-			source.alpha = initial(source.alpha)
-
+			source.alpha = 255
 		if(use_anchor)
 			source.set_anchored(FALSE)
 
-/datum/element/undertile/Detach(atom/movable/source, visibility_trait, invisibility_level = INVISIBILITY_MAXIMUM)
+/datum/element/undertile/Detach(atom/movable/AM, visibility_trait, invisibility_level = INVISIBILITY_MAXIMUM)
 	. = ..()
 
-	hide(source, UNDERFLOOR_INTERACTABLE)
-	source.RemoveInvisibility(type)
-
-#undef ALPHA_UNDERTILE
+	hide(AM, FALSE)

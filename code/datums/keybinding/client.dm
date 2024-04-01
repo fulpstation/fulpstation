@@ -14,7 +14,7 @@
 	. = ..()
 	if(.)
 		return
-	user.adminhelp()
+	user.get_adminhelp()
 	return TRUE
 
 
@@ -29,7 +29,7 @@
 	. = ..()
 	if(.)
 		return
-	winset(user, null, "command=.auto")
+	winset(user, null, "command=.screenshot [!user.keys_held["shift"] ? "auto" : ""]")
 	return TRUE
 
 /datum/keybinding/client/minimal_hud

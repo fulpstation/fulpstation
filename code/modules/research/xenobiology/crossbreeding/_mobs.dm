@@ -4,51 +4,42 @@ Slimecrossing Mobs
 	Collected here for clarity.
 */
 
-/// Slime transformation power - from Burning Black
-/datum/action/cooldown/spell/shapeshift/slime_form
+//Slime transformation power - Burning Black
+/obj/effect/proc_holder/spell/targeted/shapeshift/slimeform
 	name = "Slime Transformation"
 	desc = "Transform from a human to a slime, or back again!"
-	button_icon_state = "transformslime"
-	cooldown_time = 0 SECONDS
-
-	invocation_type = INVOCATION_NONE
-	spell_requirements = NONE
-
-	convert_damage_type = TOX
-	possible_shapes = list(/mob/living/simple_animal/slime/transformed_slime)
-
-	/// If TRUE, we self-delete (remove ourselves) the next time we turn back into a human
+	action_icon_state = "transformslime"
+	cooldown_min = 0
+	charge_max = 0
+	invocation_type = "none"
+	shapeshift_type = /mob/living/simple_animal/slime/transformedslime
+	convert_damage = TRUE
+	convert_damage_type = CLONE
 	var/remove_on_restore = FALSE
 
-/datum/action/cooldown/spell/shapeshift/slime_form/do_unshapeshift(mob/living/caster)
-	. = ..()
-	if(!.)
-		return
-
+/obj/effect/proc_holder/spell/targeted/shapeshift/slimeform/Restore(mob/living/M)
 	if(remove_on_restore)
-		qdel(src)
+		if(M.mind)
+			M.mind.RemoveSpell(src)
+	..()
 
-/// Transformed slime - from Burning Black
-/mob/living/simple_animal/slime/transformed_slime
+//Transformed slime - Burning Black
+/mob/living/simple_animal/slime/transformedslime
 
-// Just in case.
-/mob/living/simple_animal/slime/transformed_slime/Reproduce()
-	to_chat(src, span_warning("I can't reproduce...")) // Mood
+/mob/living/simple_animal/slime/transformedslime/Reproduce() //Just in case.
+	to_chat(src, "<span class='warning'>I can't reproduce...</span>")
 	return
 
 //Slime corgi - Chilling Pink
-/mob/living/basic/pet/dog/corgi/puppy/slime
+/mob/living/simple_animal/pet/dog/corgi/puppy/slime
 	name = "\improper slime corgi puppy"
 	real_name = "slime corgi puppy"
 	desc = "An unbearably cute pink slime corgi puppy."
 	icon_state = "slime_puppy"
 	icon_living = "slime_puppy"
 	icon_dead = "slime_puppy_dead"
-	can_be_shaved = FALSE
+	nofur = TRUE
 	gold_core_spawnable = NO_SPAWN
 	speak_emote = list("blorbles", "bubbles", "borks")
-
-/mob/living/basic/pet/dog/corgi/puppy/slime/update_dog_speech(datum/ai_planning_subtree/random_speech/speech)
-	speech.speak = string_list(list())
-	speech.emote_hear = string_list(list("bubbles!", "splorts.", "splops!"))
-	speech.emote_see = string_list(list("gets goop everywhere.", "flops.", "jiggles!"))
+	emote_hear = list("bubbles!", "splorts.", "splops!")
+	emote_see = list("gets goop everywhere.", "flops.", "jiggles!")

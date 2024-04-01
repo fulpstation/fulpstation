@@ -1,23 +1,19 @@
+/area/awaymission/vr/murderdome
+	name = "Murderdome"
+	icon_state = "awaycontent8"
+	pacifist = FALSE
 
-/obj/structure/window/reinforced/fulltile/indestructible
+/obj/structure/window/reinforced/fulltile/indestructable
 	name = "robust window"
-	obj_flags = parent_type::obj_flags | NO_DECONSTRUCTION
-	flags_1 = PREVENT_CLICK_UNDER_1
+	flags_1 = PREVENT_CLICK_UNDER_1 | NODECONSTRUCT_1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
-/obj/structure/window/reinforced/fulltile/indestructible/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	return FALSE
-
-
-/obj/structure/grille/indestructible
-	obj_flags = CONDUCTS_ELECTRICITY | NO_DECONSTRUCTION
+/obj/structure/grille/indestructable
+	flags_1 = CONDUCT_1 | NODECONSTRUCT_1
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
-/obj/structure/grille/indestructible/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	return FALSE
-
-/obj/effect/spawner/structure/window/reinforced/indestructible
-	spawn_list = list(/obj/structure/grille/indestructible, /obj/structure/window/reinforced/fulltile/indestructible)
+/obj/effect/spawner/structure/window/reinforced/indestructable
+	spawn_list = list(/obj/structure/grille/indestructable, /obj/structure/window/reinforced/fulltile/indestructable)
 
 /obj/structure/barricade/security/murderdome
 	name = "respawnable barrier"
@@ -31,7 +27,7 @@
 /obj/effect/murderdome/dead_barricade
 	name = "dead barrier"
 	desc = "It provided cover in fire fights. And now it's gone."
-	icon = 'icons/obj/structures.dmi'
+	icon = 'icons/obj/objects.dmi'
 	icon_state = "barrier0"
 	alpha = 100
 

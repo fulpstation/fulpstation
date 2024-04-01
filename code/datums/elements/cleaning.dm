@@ -1,36 +1,40 @@
-/datum/element/cleaning
-
 /datum/element/cleaning/Attach(datum/target)
 	. = ..()
 	if(!ismovable(target))
 		return ELEMENT_INCOMPATIBLE
-	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(clean))
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(Clean))
 
 /datum/element/cleaning/Detach(datum/target)
 	. = ..()
 	UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
 
-/datum/element/cleaning/proc/clean(datum/source)
-	SIGNAL_HANDLER
-
-	var/atom/movable/atom_movable = source
-	var/turf/tile = atom_movable.loc
+/datum/element/cleaning/proc/Clean(datum/source)
+	var/atom/movable/AM = source
+	var/turf/tile = AM.loc
 	if(!isturf(tile))
 		return
 
-	tile.wash(CLEAN_SCRUB)
-	for(var/atom/cleaned as anything in tile)
-		// Clean small items that are lying on the ground
-		if(isitem(cleaned))
-			var/obj/item/cleaned_item = cleaned
-			if(cleaned_item.w_class <= WEIGHT_CLASS_SMALL)
-				cleaned_item.wash(CLEAN_SCRUB)
-			continue
-		// Clean humans that are lying down
-		if(!ishuman(cleaned))
-			continue
-		var/mob/living/carbon/human/cleaned_human = cleaned
-		if(cleaned_human.body_position == LYING_DOWN)
-			cleaned_human.wash(CLEAN_SCRUB)
-			cleaned_human.regenerate_icons()
-			to_chat(cleaned_human, span_danger("[atom_movable] cleans your face!"))
+	SEND_SIGNAL(tile, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+	for(var/A in tile)
+		if(is_cleanable(A))
+			qdel(A)
+		else if(istype(A, /obj/item))
+			var/obj/item/I = A
+			SEND_SIGNAL(I, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+			if(ismob(I.loc))
+				var/mob/M = I.loc
+				M.regenerate_icons()
+		else if(ishuman(A))
+			var/mob/living/carbon/human/cleaned_human = A
+			if(!(cleaned_human.mobility_flags & MOBILITY_STAND))
+				if(cleaned_human.head)
+					SEND_SIGNAL(cleaned_human.head, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+				if(cleaned_human.wear_suit)
+					SEND_SIGNAL(cleaned_human.wear_suit, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+				else if(cleaned_human.w_uniform)
+					SEND_SIGNAL(cleaned_human.w_uniform, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+				if(cleaned_human.shoes)
+					SEND_SIGNAL(cleaned_human.shoes, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+				SEND_SIGNAL(cleaned_human, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
+				cleaned_human.regenerate_icons()
+				to_chat(cleaned_human, "<span class='danger'>[AM] cleans your face!</span>")

@@ -16,17 +16,12 @@
 	var/last_progress = 0
 	///Variable to ensure smooth visual stacking on multiple progress bars.
 	var/listindex = 0
-	///The type of our last value for bar_loc, for debugging
-	var/location_type
-	///Where to draw the progress bar above the icon
-	var/offset_y
+
 
 /datum/progressbar/New(mob/User, goal_number, atom/target)
 	. = ..()
 	if (!istype(target))
-		stack_trace("Invalid target [target] passed in")
-		qdel(src)
-		return
+		EXCEPTION("Invalid target given")
 	if(QDELETED(User) || !istype(User))
 		stack_trace("/datum/progressbar created with [isnull(User) ? "null" : "invalid"] user")
 		qdel(src)
@@ -37,18 +32,12 @@
 		return
 	goal = goal_number
 	bar_loc = target
-	location_type = bar_loc.type
-
-	var/list/icon_offsets = target.get_oversized_icon_offsets()
-	var/offset_x = icon_offsets["x"]
-	offset_y = icon_offsets["y"]
-
-	bar = image('icons/effects/progressbar.dmi', bar_loc, "prog_bar_0", pixel_x = offset_x)
-	SET_PLANE_EXPLICIT(bar, ABOVE_HUD_PLANE, User)
+	bar = image('icons/effects/progessbar.dmi', bar_loc, "prog_bar_0", HUD_LAYER)
+	bar.plane = ABOVE_HUD_PLANE
 	bar.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	user = User
 
-	LAZYADDASSOCLIST(user.progressbars, bar_loc, src)
+	LAZYADDASSOC(user.progressbars, bar_loc, src)
 	var/list/bars = user.progressbars[bar_loc]
 	listindex = bars.len
 
@@ -56,7 +45,7 @@
 		user_client = user.client
 		add_prog_bar_image_to_client()
 
-	RegisterSignal(user, COMSIG_QDELETING, PROC_REF(on_user_delete))
+	RegisterSignal(user, COMSIG_PARENT_QDELETING, PROC_REF(on_user_delete))
 	RegisterSignal(user, COMSIG_MOB_LOGOUT, PROC_REF(clean_user_client))
 	RegisterSignal(user, COMSIG_MOB_LOGIN, PROC_REF(on_user_login))
 
@@ -69,8 +58,8 @@
 				continue
 			progress_bar.listindex--
 
-			progress_bar.bar.pixel_y = world.icon_size + offset_y + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1))
-			var/dist_to_travel = world.icon_size + offset_y + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1)) - PROGRESSBAR_HEIGHT
+			progress_bar.bar.pixel_y = 32 + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1))
+			var/dist_to_travel = 32 + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1)) - PROGRESSBAR_HEIGHT
 			animate(progress_bar.bar, pixel_y = dist_to_travel, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 
 		LAZYREMOVEASSOC(user.progressbars, bar_loc, src)
@@ -80,15 +69,15 @@
 		clean_user_client()
 
 	bar_loc = null
-	bar = null
+
+	if(bar)
+		QDEL_NULL(bar)
 
 	return ..()
 
 
 ///Called right before the user's Destroy()
 /datum/progressbar/proc/on_user_delete(datum/source)
-	SIGNAL_HANDLER
-
 	user.progressbars = null //We can simply nuke the list and stop worrying about updating other prog bars if the user itself is gone.
 	user = null
 	qdel(src)
@@ -96,8 +85,6 @@
 
 ///Removes the progress bar image from the user_client and nulls the variable, if it exists.
 /datum/progressbar/proc/clean_user_client(datum/source)
-	SIGNAL_HANDLER
-
 	if(!user_client) //Disconnected, already gone.
 		return
 	user_client.images -= bar
@@ -106,8 +93,6 @@
 
 ///Called by user's Login(), it transfers the progress bar image to the new client.
 /datum/progressbar/proc/on_user_login(datum/source)
-	SIGNAL_HANDLER
-
 	if(user_client)
 		if(user_client == user.client) //If this was not client handling I'd condemn this sanity check. But clients are fickle things.
 			return
@@ -123,7 +108,7 @@
 	bar.pixel_y = 0
 	bar.alpha = 0
 	user_client.images += bar
-	animate(bar, pixel_y = world.icon_size + offset_y + (PROGRESSBAR_HEIGHT * (listindex - 1)), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
+	animate(bar, pixel_y = 32 + (PROGRESSBAR_HEIGHT * (listindex - 1)), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 
 
 ///Updates the progress bar image visually.
@@ -144,13 +129,6 @@
 
 	QDEL_IN(src, PROGRESSBAR_ANIMATION_TIME)
 
-///Progress bars are very generic, and what hangs a ref to them depends heavily on the context in which they're used
-///So let's make hunting harddels easier yeah?
-/datum/progressbar/dump_harddel_info()
-	if(harddel_deets_dumped)
-		return
-	harddel_deets_dumped = TRUE
-	return "Owner's type: [location_type]"
 
 #undef PROGRESSBAR_ANIMATION_TIME
 #undef PROGRESSBAR_HEIGHT

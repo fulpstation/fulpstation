@@ -2,31 +2,14 @@
 	name = "energy gun"
 	desc = "A basic hybrid energy gun with two settings: disable and kill."
 	icon_state = "energy"
-	w_class = WEIGHT_CLASS_BULKY
-	inhand_icon_state = null //so the human update icon uses the icon_state instead.
+	inhand_icon_state = null	//so the human update icon uses the icon_state instead.
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
-	modifystate = TRUE
+	modifystate = 1
+	can_flashlight = TRUE
 	ammo_x_offset = 3
+	flight_x_offset = 15
+	flight_y_offset = 10
 	dual_wield_spread = 60
-
-/obj/item/gun/energy/e_gun/Initialize(mapload)
-	. = ..()
-	// Only actual eguns can be converted
-	if(type != /obj/item/gun/energy/e_gun)
-		return
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/advancedegun, /datum/crafting_recipe/tempgun, /datum/crafting_recipe/beam_rifle)
-
-	AddComponent(
-		/datum/component/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
-/obj/item/gun/energy/e_gun/add_seclight_point()
-	AddComponent(/datum/component/seclite_attachable, \
-		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
-		light_overlay = "flight", \
-		overlay_x = 15, \
-		overlay_y = 10)
 
 /obj/item/gun/energy/e_gun/mini
 	name = "miniature energy gun"
@@ -37,17 +20,14 @@
 	cell_type = /obj/item/stock_parts/cell/mini_egun
 	ammo_x_offset = 2
 	charge_sections = 3
-	single_shot_type_overlay = FALSE
+	can_flashlight = FALSE // Can't attach or detach the flashlight, and override it's icon update
+	gunlight_state = "mini-light"
+	flight_x_offset = 19
+	flight_y_offset = 13
 
-/obj/item/gun/energy/e_gun/mini/add_seclight_point()
-	// The mini energy gun's light comes attached but is unremovable.
-	AddComponent(/datum/component/seclite_attachable, \
-		starting_light = new /obj/item/flashlight/seclite(src), \
-		is_light_removable = FALSE, \
-		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
-		light_overlay = "mini-light", \
-		overlay_x = 19, \
-		overlay_y = 13)
+/obj/item/gun/energy/e_gun/mini/Initialize(mapload)
+	gun_light = new /obj/item/flashlight/seclite(src)
+	return ..()
 
 /obj/item/gun/energy/e_gun/stun
 	name = "tactical energy gun"
@@ -68,21 +48,16 @@
 	desc = "A modified version of the basic phaser gun, this one fires less concentrated energy bolts designed for target practice."
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser/practice)
 	icon_state = "decloner"
-	//You have no icons for energy types, you're a decloner
-	modifystate = FALSE
-	gun_flags = NOT_A_REAL_GUN
 
 /obj/item/gun/energy/e_gun/hos
 	name = "\improper X-01 MultiPhase Energy Gun"
 	desc = "This is an expensive, modern recreation of an antique laser gun. This gun has several unique firemodes, but lacks the ability to recharge over time."
 	cell_type = /obj/item/stock_parts/cell/hos_gun
 	icon_state = "hoslaser"
-	w_class = WEIGHT_CLASS_NORMAL
 	force = 10
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler/hos, /obj/item/ammo_casing/energy/laser/hos, /obj/item/ammo_casing/energy/ion/hos)
 	ammo_x_offset = 4
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
-	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 
 /obj/item/gun/energy/e_gun/dragnet
 	name = "\improper DRAGnet"
@@ -92,12 +67,8 @@
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	ammo_type = list(/obj/item/ammo_casing/energy/net, /obj/item/ammo_casing/energy/trap)
-	modifystate = FALSE
-	w_class = WEIGHT_CLASS_NORMAL
+	can_flashlight = FALSE
 	ammo_x_offset = 1
-
-/obj/item/gun/energy/e_gun/dragnet/add_seclight_point()
-	return
 
 /obj/item/gun/energy/e_gun/dragnet/snare
 	name = "Energy Snare Launcher"
@@ -113,18 +84,17 @@
 	w_class = WEIGHT_CLASS_HUGE
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	weapon_weight = WEAPON_HEAVY
+	can_flashlight = FALSE
 	trigger_guard = TRIGGER_GUARD_NONE
 	ammo_x_offset = 2
-
-/obj/item/gun/energy/e_gun/turret/add_seclight_point()
-	return
 
 /obj/item/gun/energy/e_gun/nuclear
 	name = "advanced energy gun"
 	desc = "An energy gun with an experimental miniaturized nuclear reactor that automatically charges the internal power cell."
 	icon_state = "nucgun"
 	inhand_icon_state = "nucgun"
-	charge_delay = 10
+	charge_delay = 5
+	pin = null
 	can_charge = FALSE
 	ammo_x_offset = 1
 	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
@@ -133,14 +103,14 @@
 	var/fail_tick = 0
 	var/fail_chance = 0
 
-/obj/item/gun/energy/e_gun/nuclear/process(seconds_per_tick)
+/obj/item/gun/energy/e_gun/nuclear/process()
 	if(fail_tick > 0)
-		fail_tick -= seconds_per_tick * 0.5
+		fail_tick--
 	..()
 
 /obj/item/gun/energy/e_gun/nuclear/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	failcheck()
-	update_appearance()
+	update_icon()
 	..()
 
 /obj/item/gun/energy/e_gun/nuclear/proc/failcheck()
@@ -149,13 +119,13 @@
 		switch(fail_tick)
 			if(0 to 200)
 				fail_tick += (2*(fail_chance))
-				M.adjustFireLoss(3)
-				to_chat(M, span_userdanger("Your [name] feels warmer."))
+				M.rad_act(40)
+				to_chat(M, "<span class='userdanger'>Your [name] feels warmer.</span>")
 			if(201 to INFINITY)
 				SSobj.processing.Remove(src)
-				M.adjustFireLoss(10)
+				M.rad_act(80)
 				reactor_overloaded = TRUE
-				to_chat(M, span_userdanger("Your [name]'s reactor overloads!"))
+				to_chat(M, "<span class='userdanger'>Your [name]'s reactor overloads!</span>")
 
 /obj/item/gun/energy/e_gun/nuclear/emp_act(severity)
 	. = ..()
@@ -167,15 +137,11 @@
 	. = ..()
 	if(reactor_overloaded)
 		. += "[icon_state]_fail_3"
-		return
-
-	switch(fail_tick)
-		if(0)
-			. += "[icon_state]_fail_0"
-		if(1 to 150)
-			. += "[icon_state]_fail_1"
-		if(151 to INFINITY)
-			. += "[icon_state]_fail_2"
-
-/obj/item/gun/energy/e_gun/lethal
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	else
+		switch(fail_tick)
+			if(0)
+				. += "[icon_state]_fail_0"
+			if(1 to 150)
+				. += "[icon_state]_fail_1"
+			if(151 to INFINITY)
+				. += "[icon_state]_fail_2"

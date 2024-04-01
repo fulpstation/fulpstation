@@ -1,9 +1,10 @@
 /obj/item/implant/krav_maga
 	name = "krav maga implant"
 	desc = "Teaches you the arts of Krav Maga in 5 short instructional videos beamed directly into your eyeballs."
-	icon = 'icons/obj/scrolls.dmi'
+	icon = 'icons/obj/wizard.dmi'
 	icon_state ="scroll2"
-	var/datum/martial_art/krav_maga/style
+	activated = 1
+	var/datum/martial_art/krav_maga/style = new
 
 /obj/item/implant/krav_maga/get_data()
 	var/dat = {"<b>Implant Specifications:</b><BR>
@@ -13,23 +14,17 @@
 				<b>Function:</b> Teaches even the clumsiest host the arts of Krav Maga."}
 	return dat
 
-/obj/item/implant/krav_maga/Initialize(mapload)
-	. = ..()
-	style = new()
-	style.allow_temp_override = FALSE
-
-/obj/item/implant/krav_maga/Destroy()
-	QDEL_NULL(style)
-	return ..()
-
 /obj/item/implant/krav_maga/activate()
 	. = ..()
-	if(isnull(imp_in.mind))
+	var/mob/living/carbon/human/H = imp_in
+	if(!ishuman(H))
 		return
-	if(style.fully_remove(imp_in))
+	if(!H.mind)
 		return
-
-	style.teach(imp_in, TRUE)
+	if(H.mind.has_martialart(MARTIALART_KRAVMAGA))
+		style.remove(H)
+	else
+		style.teach(H,1)
 
 /obj/item/implanter/krav_maga
 	name = "implanter (krav maga)"
@@ -39,3 +34,4 @@
 	name = "implant case - 'Krav Maga'"
 	desc = "A glass case containing an implant that can teach the user the arts of Krav Maga."
 	imp_type = /obj/item/implant/krav_maga
+

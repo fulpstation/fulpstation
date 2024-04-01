@@ -27,7 +27,7 @@ To add a crossbreed:
 /obj/item/slimecross //The base type for crossbred extracts. Mostly here for posterity, and to set base case things.
 	name = "crossbred slime extract"
 	desc = "An extremely potent slime extract, formed through crossbreeding."
-	icon = 'icons/obj/science/slimecrossing.dmi'
+	icon = 'icons/obj/slimecrossing.dmi'
 	icon_state = "base"
 	var/colour = "null"
 	var/effect = "null"
@@ -41,59 +41,59 @@ To add a crossbreed:
 /obj/item/slimecross/examine(mob/user)
 	. = ..()
 	if(effect_desc)
-		. += span_notice("[effect_desc]")
+		. += "<span class='notice'>[effect_desc]</span>"
 
 /obj/item/slimecross/Initialize(mapload)
 	. = ..()
-	name = effect + " " + colour + " extract"
+	name =  effect + " " + colour + " extract"
 	var/itemcolor = "#FFFFFF"
 	switch(colour)
-		if(SLIME_TYPE_ORANGE)
+		if("orange")
 			itemcolor = "#FFA500"
-		if(SLIME_TYPE_PURPLE)
+		if("purple")
 			itemcolor = "#B19CD9"
-		if(SLIME_TYPE_BLUE)
+		if("blue")
 			itemcolor = "#ADD8E6"
-		if(SLIME_TYPE_METAL)
+		if("metal")
 			itemcolor = "#7E7E7E"
-		if(SLIME_TYPE_YELLOW)
+		if("yellow")
 			itemcolor = "#FFFF00"
-		if(SLIME_TYPE_DARK_PURPLE)
+		if("dark purple")
 			itemcolor = "#551A8B"
-		if(SLIME_TYPE_DARK_BLUE)
+		if("dark blue")
 			itemcolor = "#0000FF"
-		if(SLIME_TYPE_SILVER)
+		if("silver")
 			itemcolor = "#D3D3D3"
-		if(SLIME_TYPE_BLUESPACE)
+		if("bluespace")
 			itemcolor = "#32CD32"
-		if(SLIME_TYPE_SEPIA)
+		if("sepia")
 			itemcolor = "#704214"
-		if(SLIME_TYPE_CERULEAN)
+		if("cerulean")
 			itemcolor = "#2956B2"
-		if(SLIME_TYPE_PYRITE)
+		if("pyrite")
 			itemcolor = "#FAFAD2"
-		if(SLIME_TYPE_RED)
+		if("red")
 			itemcolor = "#FF0000"
-		if(SLIME_TYPE_GREEN)
+		if("green")
 			itemcolor = "#00FF00"
-		if(SLIME_TYPE_PINK)
+		if("pink")
 			itemcolor = "#FF69B4"
-		if(SLIME_TYPE_GOLD)
+		if("gold")
 			itemcolor = "#FFD700"
-		if(SLIME_TYPE_OIL)
+		if("oil")
 			itemcolor = "#505050"
-		if(SLIME_TYPE_BLACK)
+		if("black")
 			itemcolor = "#000000"
-		if(SLIME_TYPE_LIGHT_PINK)
+		if("light pink")
 			itemcolor = "#FFB6C1"
-		if(SLIME_TYPE_ADAMANTINE)
+		if("adamantine")
 			itemcolor = "#008B8B"
 	add_atom_colour(itemcolor, FIXED_COLOUR_PRIORITY)
 
 /obj/item/slimecrossbeaker //To be used as a result for extract reactions that make chemicals.
 	name = "result extract"
 	desc = "You shouldn't see this."
-	icon = 'icons/obj/science/slimecrossing.dmi'
+	icon = 'icons/obj/slimecrossing.dmi'
 	icon_state = "base"
 	var/del_on_empty = TRUE
 	var/list/list_reagents
@@ -113,7 +113,7 @@ To add a crossbreed:
 
 /obj/item/slimecrossbeaker/process()
 	if(!reagents.total_volume)
-		visible_message(span_notice("[src] has been drained completely, and melts away."))
+		visible_message("<span class='notice'>[src] has been drained completely, and melts away.</span>")
 		qdel(src)
 
 /obj/item/slimecrossbeaker/bloodpack //Pack of 50u blood. Deletes on empty.
@@ -144,22 +144,22 @@ To add a crossbreed:
 
 /obj/item/slimecrossbeaker/autoinjector/attack(mob/living/M, mob/user)
 	if(!reagents.total_volume)
-		to_chat(user, span_warning("[src] is empty!"))
+		to_chat(user, "<span class='warning'>[src] is empty!</span>")
 		return
 	if(!iscarbon(M))
 		return
 	if(self_use_only && M != user)
-		to_chat(user, span_warning("This can only be used on yourself."))
+		to_chat(user, "<span class='warning'>This can only be used on yourself.</span>")
 		return
-	if(reagents.total_volume && (ignore_flags || M.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE)))
-		reagents.trans_to(M, reagents.total_volume, transferred_by = user)
+	if(reagents.total_volume && (ignore_flags || M.can_inject(user, 1)))
+		reagents.trans_to(M, reagents.total_volume, transfered_by = user)
 		if(user != M)
-			to_chat(M, span_warning("[user] presses [src] against you!"))
-			to_chat(user, span_notice("You press [src] against [M], injecting [M.p_them()]."))
+			to_chat(M, "<span class='warning'>[user] presses [src] against you!</span>")
+			to_chat(user, "<span class='notice'>You press [src] against [M], injecting [M.p_them()].</span>")
 		else
-			to_chat(user, span_notice("You press [src] against yourself, and it flattens against you!"))
+			to_chat(user, "<span class='notice'>You press [src] against yourself, and it flattens against you!</span>")
 	else
-		to_chat(user, span_warning("There's no place to stick [src]!"))
+		to_chat(user, "<span class='warning'>There's no place to stick [src]!</span>")
 
 /obj/item/slimecrossbeaker/autoinjector/regenpack
 	ignore_flags = TRUE //It is, after all, intended to heal.

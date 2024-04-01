@@ -6,45 +6,45 @@
 	agent = "Consuming Live Parasites"
 	spread_text = "Non-Biological"
 	viable_mobtypes = list(/mob/living/carbon/human)
-	spreading_modifier = 1
+	permeability_mod = 1
 	desc = "If left untreated the subject will passively lose nutrients, and eventually lose their liver."
 	severity = DISEASE_SEVERITY_HARMFUL
 	disease_flags = CAN_CARRY|CAN_RESIST
 	spread_flags = DISEASE_SPREAD_NON_CONTAGIOUS
-	required_organ = ORGAN_SLOT_LIVER
+	required_organs = list(/obj/item/organ/liver)
 	bypasses_immunity = TRUE
 
-/datum/disease/parasite/stage_act(seconds_per_tick, times_fired)
+/datum/disease/parasite/stage_act()
 	. = ..()
-	if(!.)
-		return
-
+	var/mob/living/carbon/C = affected_mob
+	var/obj/item/organ/liver/L = C.getorgan(/obj/item/organ/liver)
+	if(!L)
+		src.cure()
+		C.visible_message("<span class='notice'><B>[C]'s liver is covered in tiny larva! They quickly shrivel and die after being exposed to the open air.</B></span>")
 	switch(stage)
 		if(1)
-			if(SPT_PROB(2.5, seconds_per_tick))
+			if(prob(5))
 				affected_mob.emote("cough")
 		if(2)
-			if(SPT_PROB(5, seconds_per_tick))
+			if(prob(10))
 				if(prob(50))
-					to_chat(affected_mob, span_notice("You feel the weight loss already!"))
+					to_chat(affected_mob, "<span class='notice'>You feel the weight loss already!</span>")
 				affected_mob.adjust_nutrition(-3)
 		if(3)
-			if(SPT_PROB(10, seconds_per_tick))
+			if(prob(20))
 				if(prob(20))
-					to_chat(affected_mob, span_notice("You're... REALLY starting to feel the weight loss."))
+					to_chat(affected_mob, "<span class='notice'>You're... REALLY starting to feel the weight loss.</span>")
 				affected_mob.adjust_nutrition(-6)
 		if(4)
-			if(SPT_PROB(16, seconds_per_tick))
+			if(prob(30))
 				if(affected_mob.nutrition >= 100)
 					if(prob(10))
-						to_chat(affected_mob, span_warning("You feel like your body's shedding weight rapidly!"))
+						to_chat(affected_mob, "<span class='warning'>You feel like your body's shedding weight rapidly!</span>")
 					affected_mob.adjust_nutrition(-12)
 				else
-					to_chat(affected_mob, span_warning("You feel much, MUCH lighter!"))
-					affected_mob.vomit(VOMIT_CATEGORY_BLOOD, lost_nutrition = 20)
-					// disease code already checks if the liver exists otherwise it is cured
-					var/obj/item/organ/internal/liver/affected_liver = affected_mob.get_organ_slot(ORGAN_SLOT_LIVER)
-					affected_liver.Remove(affected_mob)
-					affected_liver.forceMove(get_turf(affected_mob))
-					cure()
-					return FALSE
+					var/turf/T = get_turf(C)
+					to_chat(affected_mob, "<span class='warning'>You feel much, MUCH lighter!</span>")
+					affected_mob.vomit(20, TRUE)
+					L.Remove(C)
+					L.forceMove(T)
+					src.cure()

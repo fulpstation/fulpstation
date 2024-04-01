@@ -6,7 +6,7 @@
 
 	if(I.tool_behaviour == TOOL_WIRECUTTER || I.tool_behaviour == TOOL_MULTITOOL)
 		return TRUE
-	if(isassembly(I))
+	if(istype(I, /obj/item/assembly))
 		var/obj/item/assembly/A = I
 		if(A.attachable)
 			return TRUE
@@ -20,26 +20,16 @@
 	return WIRE_INTERACTION_BLOCK
 
 /datum/wires
-	/// The holder (atom that contains these wires).
-	var/atom/holder = null
-	/// The holder's typepath (used for sanity checks to make sure the holder is the appropriate type for these wire sets).
-	var/holder_type = null
-	/// Key that enables wire assignments to be common across different holders. If null, will use the holder_type as a key.
-	var/dictionary_key = null
-	/// The display name for the wire set shown in station blueprints. Not shown in blueprints if randomize is TRUE or it's an item NT wouldn't know about (Explosives/Nuke). Also used in the hacking interface.
-	var/proper_name = "Unknown"
+	var/atom/holder = null // The holder (atom that contains these wires).
+	var/holder_type = null // The holder's typepath (used to make wire colors common to all holders).
+	var/proper_name = "Unknown" // The display name for the wire set shown in station blueprints. Not used if randomize is true or it's an item NT wouldn't know about (Explosives/Nuke)
 
-	/// List of all wires.
-	var/list/wires = list()
-	/// List of cut wires.
+	var/list/wires = list() // List of wires.
 	var/list/cut_wires = list() // List of wires that have been cut.
-	/// Dictionary of colours to wire.
-	var/list/colors = list()
-	/// List of attached assemblies.
-	var/list/assemblies = list()
-
-	/// If every instance of these wires should be random. Prevents wires from showing up in station blueprints.
-	var/randomize = FALSE
+	var/list/colors = list() // Dictionary of colors to wire.
+	var/list/assemblies = list() // List of attached assemblies.
+	var/randomize = 0 // If every instance of these wires should be random.
+					  // Prevents wires from showing up in station blueprints
 
 /datum/wires/New(atom/holder)
 	..()
@@ -47,29 +37,20 @@
 		CRASH("Wire holder is not of the expected type!")
 
 	src.holder = holder
-
-	// If there is a dictionary key set, we'll want to use that. Otherwise, use the holder type.
-	var/key = dictionary_key ? dictionary_key : holder_type
-
-	RegisterSignal(holder, COMSIG_QDELETING, PROC_REF(on_holder_qdel))
+	RegisterSignal(holder, COMSIG_PARENT_QDELETING, PROC_REF(on_holder_qdel))
 	if(randomize)
 		randomize()
 	else
-		if(!GLOB.wire_color_directory[key])
+		if(!GLOB.wire_color_directory[holder_type])
 			randomize()
-			GLOB.wire_color_directory[key] = colors
-			GLOB.wire_name_directory[key] = proper_name
+			GLOB.wire_color_directory[holder_type] = colors
+			GLOB.wire_name_directory[holder_type] = proper_name
 		else
-			colors = GLOB.wire_color_directory[key]
+			colors = GLOB.wire_color_directory[holder_type]
 
 /datum/wires/Destroy()
 	holder = null
-	//properly clear refs to avoid harddels & other problems
-	for(var/color in assemblies)
-		var/obj/item/assembly/assembly = assemblies[color]
-		assembly.holder = null
-		assembly.connected = null
-	LAZYCLEARLIST(assemblies)
+	assemblies = list()
 	return ..()
 
 /datum/wires/proc/add_duds(duds)
@@ -79,11 +60,11 @@
 			continue
 		wires += dud
 
+
 ///Called when holder is qdeleted for us to clean ourselves as not to leave any unlawful references.
 /datum/wires/proc/on_holder_qdel(atom/source, force)
-	SIGNAL_HANDLER
-
 	qdel(src)
+
 
 /datum/wires/proc/randomize()
 	var/static/list/possible_colors = list(
@@ -92,9 +73,8 @@
 	"crimson",
 	"cyan",
 	"gold",
-	"green",
 	"grey",
-	"lime",
+	"green",
 	"magenta",
 	"orange",
 	"pink",
@@ -103,7 +83,7 @@
 	"silver",
 	"violet",
 	"white",
-	"yellow",
+	"yellow"
 	)
 
 	var/list/my_possible_colors = possible_colors.Copy()
@@ -116,8 +96,7 @@
 	randomize()
 
 /datum/wires/proc/repair()
-	for(var/wire in cut_wires)
-		cut(wire) // I KNOW I KNOW OK
+	cut_wires.Cut()
 
 /datum/wires/proc/get_wire(color)
 	return colors[color]
@@ -153,38 +132,36 @@
 /datum/wires/proc/is_dud_color(color)
 	return is_dud(get_wire(color))
 
-/datum/wires/proc/cut(wire, source)
+/datum/wires/proc/cut(wire)
 	if(is_cut(wire))
 		cut_wires -= wire
-		SEND_SIGNAL(src, COMSIG_MEND_WIRE(wire), wire)
-		on_cut(wire, mend = TRUE, source = source)
+		on_cut(wire, mend = TRUE)
 	else
 		cut_wires += wire
-		SEND_SIGNAL(src, COMSIG_CUT_WIRE(wire), wire)
-		on_cut(wire, mend = FALSE, source = source)
+		on_cut(wire, mend = FALSE)
 
-/datum/wires/proc/cut_color(color, source)
-	cut(get_wire(color), source)
+/datum/wires/proc/cut_color(color)
+	cut(get_wire(color))
 
-/datum/wires/proc/cut_random(source)
-	cut(wires[rand(1, wires.len)], source)
+/datum/wires/proc/cut_random()
+	cut(wires[rand(1, wires.len)])
 
-/datum/wires/proc/cut_all(source)
+/datum/wires/proc/cut_all()
 	for(var/wire in wires)
-		cut(wire, source)
+		cut(wire)
 
-/datum/wires/proc/pulse(wire, user, force=FALSE)
-	if(!force && is_cut(wire))
+/datum/wires/proc/pulse(wire, user)
+	if(is_cut(wire))
 		return
 	on_pulse(wire, user)
 
-/datum/wires/proc/pulse_color(color, mob/living/user, force=FALSE)
-	pulse(get_wire(color), user, force)
+/datum/wires/proc/pulse_color(color, mob/living/user)
+	pulse(get_wire(color), user)
 
 /datum/wires/proc/pulse_assembly(obj/item/assembly/S)
 	for(var/color in assemblies)
 		if(S == assemblies[color])
-			pulse_color(color, force=TRUE)
+			pulse_color(color)
 			return TRUE
 
 /datum/wires/proc/attach_assembly(color, obj/item/assembly/S)
@@ -192,14 +169,14 @@
 		assemblies[color] = S
 		S.forceMove(holder)
 		S.connected = src
-		S.on_attach() // Notify assembly that it is attached
 		return S
 
 /datum/wires/proc/detach_assembly(color)
 	var/obj/item/assembly/S = get_attached(color)
 	if(S && istype(S))
 		assemblies -= color
-		S.on_detach()		// Notify the assembly.  This should remove the reference to our holder
+		S.connected = null
+		S.forceMove(holder.drop_location())
 		return S
 
 /// Called from [/atom/proc/emp_act]
@@ -216,15 +193,12 @@
 
 // Overridable Procs
 /datum/wires/proc/interactable(mob/user)
-	SHOULD_CALL_PARENT(TRUE)
-	if((SEND_SIGNAL(user, COMSIG_TRY_WIRES_INTERACT, holder) & COMPONENT_CANT_INTERACT_WIRES))
-		return FALSE
 	return TRUE
 
 /datum/wires/proc/get_status()
 	return list()
 
-/datum/wires/proc/on_cut(wire, mend = FALSE, source = null)
+/datum/wires/proc/on_cut(wire, mend = FALSE)
 	return
 
 /datum/wires/proc/on_pulse(wire, user)
@@ -240,44 +214,10 @@
 		if(istype(I) && I.on_found(user))
 			return
 
-/**
- * Checks whether wire assignments should be revealed.
- *
- * Returns TRUE if the wires should be revealed, FALSE otherwise.
- * Currently checks for admin ghost AI, abductor multitool and blueprints.
- * Arguments:
- * * user - The mob to check when deciding whether to reveal wires.
- */
-/datum/wires/proc/can_reveal_wires(mob/user)
-	// Admin ghost can see a purpose of each wire.
-	if(isAdminGhostAI(user))
-		return TRUE
-
-	// Same for anyone with an abductor multitool.
-	if(user.is_holding_item_of_type(/obj/item/multitool/abductor))
-		return TRUE
-
-	// Station blueprints do that too, but only if the wires are not randomized.
-	if(user.is_holding_item_of_type(/obj/item/areaeditor/blueprints) && !randomize)
-		return TRUE
-
-	return FALSE
-
-/**
- * Whether the given wire should always be revealed.
- *
- * Intended to be overridden. Allows for forcing a wire's assignmenmt to always be revealed
- * in the hacking interface.
- * Arguments:
- * * color - Color string of the wire to check.
- */
-/datum/wires/proc/always_reveal_wire(color)
-	return FALSE
-
 /datum/wires/ui_host()
 	return holder
 
-/datum/wires/ui_status(mob/user, datum/ui_state/state)
+/datum/wires/ui_status(mob/user)
 	if(interactable(user))
 		return ..()
 	return UI_CLOSE
@@ -294,23 +234,33 @@
 /datum/wires/ui_data(mob/user)
 	var/list/data = list()
 	var/list/payload = list()
-	var/reveal_wires = can_reveal_wires(user)
+	var/reveal_wires = FALSE
+
+	// Admin ghost can see a purpose of each wire.
+	if(isAdminGhostAI(user))
+		reveal_wires = TRUE
+
+	// Same for anyone with an abductor multitool.
+	else if(user.is_holding_item_of_type(/obj/item/multitool/abductor))
+		reveal_wires = TRUE
+
+	// Station blueprints do that too, but only if the wires are not randomized.
+	else if(user.is_holding_item_of_type(/obj/item/areaeditor/blueprints) && !randomize)
+		reveal_wires = TRUE
 
 	for(var/color in colors)
 		payload.Add(list(list(
 			"color" = color,
-			"wire" = (((reveal_wires || always_reveal_wire(color)) && !is_dud_color(color)) ? get_wire(color) : null),
+			"wire" = ((reveal_wires && !is_dud_color(color)) ? get_wire(color) : null),
 			"cut" = is_color_cut(color),
 			"attached" = is_attached(color)
 		)))
 	data["wires"] = payload
 	data["status"] = get_status()
-	data["proper_name"] = (proper_name != "Unknown") ? proper_name : null
 	return data
 
 /datum/wires/ui_act(action, params)
-	. = ..()
-	if(. || !interactable(usr))
+	if(..() || !interactable(usr))
 		return
 	var/target_wire = params["wire"]
 	var/mob/living/L = usr
@@ -321,10 +271,10 @@
 			if(I || isAdminGhostAI(usr))
 				if(I && holder)
 					I.play_tool_sound(holder, 20)
-				cut_color(target_wire, source = L)
+				cut_color(target_wire)
 				. = TRUE
 			else
-				to_chat(L, span_warning("You need wirecutters!"))
+				to_chat(L, "<span class='warning'>You need wirecutters!</span>")
 		if("pulse")
 			I = L.is_holding_tool_quality(TOOL_MULTITOOL)
 			if(I || isAdminGhostAI(usr))
@@ -333,7 +283,7 @@
 				pulse_color(target_wire, L)
 				. = TRUE
 			else
-				to_chat(L, span_warning("You need a multitool!"))
+				to_chat(L, "<span class='warning'>You need a multitool!</span>")
 		if("attach")
 			if(is_attached(target_wire))
 				I = detach_assembly(target_wire)
@@ -342,7 +292,7 @@
 					. = TRUE
 			else
 				I = L.get_active_held_item()
-				if(isassembly(I))
+				if(istype(I, /obj/item/assembly))
 					var/obj/item/assembly/A = I
 					if(A.attachable)
 						if(!L.temporarilyRemoveItemFromInventory(A))
@@ -351,6 +301,6 @@
 							A.forceMove(L.drop_location())
 						. = TRUE
 					else
-						to_chat(L, span_warning("You need an attachable assembly!"))
+						to_chat(L, "<span class='warning'>You need an attachable assembly!</span>")
 
 #undef MAXIMUM_EMP_WIRES

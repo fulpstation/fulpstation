@@ -22,11 +22,11 @@
 	apply_label()
 
 /datum/component/label/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(OnAttackby))
-	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(Examine))
+	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, PROC_REF(OnAttackby))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(Examine))
 
 /datum/component/label/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_ATOM_ATTACKBY, COMSIG_ATOM_EXAMINE))
+	UnregisterSignal(parent, list(COMSIG_PARENT_ATTACKBY, COMSIG_PARENT_EXAMINE))
 
 /**
 	This proc will fire after the parent is hit by a hand labeler which is trying to apply another label.
@@ -52,8 +52,6 @@
 	* user: The mob who is wielding the attacking object.
 */
 /datum/component/label/proc/OnAttackby(datum/source, obj/item/attacker, mob/user)
-	SIGNAL_HANDLER
-
 	// If the attacking object is not a hand labeler or its mode is 1 (has a label ready to apply), return.
 	// The hand labeler should be off (mode is 0), in order to remove a label.
 	var/obj/item/hand_labeler/labeler = attacker
@@ -62,7 +60,7 @@
 
 	remove_label()
 	playsound(parent, 'sound/items/poster_ripped.ogg', 20, TRUE)
-	to_chat(user, span_warning("You remove the label from [parent]."))
+	to_chat(user, "<span class='warning'>You remove the label from [parent].</span>")
 	qdel(src) // Remove the component from the object.
 
 /**
@@ -75,21 +73,15 @@
 	* examine_list: The current list of text getting passed from the parent's normal examine() proc.
 */
 /datum/component/label/proc/Examine(datum/source, mob/user, list/examine_list)
-	SIGNAL_HANDLER
-
-	examine_list += span_notice("It has a label with some words written on it. Use a hand labeler to remove it.")
+	examine_list += "<span class='notice'>It has a label with some words written on it. Use a hand labeler to remove it.</span>"
 
 /// Applies a label to the name of the parent in the format of: "parent_name (label)"
 /datum/component/label/proc/apply_label()
 	var/atom/owner = parent
 	owner.name += " ([label_name])"
-	ADD_TRAIT(owner, TRAIT_HAS_LABEL, REF(src))
-	owner.update_appearance(UPDATE_ICON)
 
 /// Removes the label from the parent's name
 /datum/component/label/proc/remove_label()
 	var/atom/owner = parent
 	owner.name = replacetext(owner.name, "([label_name])", "") // Remove the label text from the parent's name, wherever it's located.
 	owner.name = trim(owner.name) // Shave off any white space from the beginning or end of the parent's name.
-	REMOVE_TRAIT(owner, TRAIT_HAS_LABEL, REF(src))
-	owner.update_appearance(UPDATE_ICON)

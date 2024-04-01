@@ -3,21 +3,26 @@
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
-/obj/item/storage/pod/directional/west,
+/obj/item/storage/pod{
+	pixel_x = -24
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "r" = (
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "u" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
+/obj/structure/grille,
+/obj/structure/window/shuttle,
 /turf/open/floor/plating,
 /area/shuttle/pod_1)
 "A" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 8
 	},
-/obj/item/radio/intercom/directional/east,
+/obj/item/radio/intercom{
+	pixel_x = 30
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "B" = (
@@ -25,7 +30,9 @@
 /area/shuttle/pod_1)
 "C" = (
 /obj/machinery/computer/shuttle/monastery_shuttle,
-/obj/machinery/light/directional/north,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "H" = (
@@ -38,7 +45,9 @@
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
-/obj/machinery/status_display/evac/directional/west,
+/obj/machinery/status_display/evac{
+	pixel_x = -32
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "L" = (
@@ -51,21 +60,29 @@
 /obj/structure/chair/comfy/shuttle{
 	dir = 8
 	},
-/obj/machinery/status_display/evac/directional/east,
+/obj/machinery/status_display/evac{
+	pixel_x = 32
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "O" = (
 /obj/machinery/door/airlock/titanium{
 	name = "Shuttle Airlock"
 	},
-/obj/docking_port/mobile/monastery,
+/obj/docking_port/mobile/pod{
+	dwidth = 2;
+	height = 6;
+	id = "pod1";
+	port_direction = 2;
+	width = 5
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/pod_1)
 "W" = (
 /turf/template_noop,
 /area/template_noop)
 "Z" = (
-/obj/machinery/power/shuttle_engine/propulsion/burst,
+/obj/structure/shuttle/engine/propulsion/burst,
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/pod_1)
 

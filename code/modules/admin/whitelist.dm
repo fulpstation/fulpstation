@@ -1,6 +1,7 @@
 #define WHITELISTFILE "[global.config.directory]/whitelist.txt"
 
 GLOBAL_LIST(whitelist)
+GLOBAL_PROTECT(whitelist)
 
 /proc/load_whitelist()
 	GLOB.whitelist = list()
@@ -14,7 +15,7 @@ GLOBAL_LIST(whitelist)
 	if(!GLOB.whitelist.len)
 		GLOB.whitelist = null
 
-/proc/check_whitelist(ckey)
+/proc/check_whitelist(var/ckey)
 	if(!GLOB.whitelist)
 		return FALSE
 	. = (ckey in GLOB.whitelist)

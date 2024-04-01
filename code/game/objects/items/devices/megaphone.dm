@@ -1,25 +1,25 @@
 /obj/item/megaphone
 	name = "megaphone"
 	desc = "A device used to project your voice. Loudly."
-	icon = 'icons/obj/devices/voice.dmi'
+	icon = 'icons/obj/device.dmi'
 	icon_state = "megaphone"
 	inhand_icon_state = "megaphone"
-	lefthand_file = 'icons/mob/inhands/items/megaphone_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/items/megaphone_righthand.dmi'
+	lefthand_file = 'icons/mob/inhands/misc/megaphone_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/misc/megaphone_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	siemens_coefficient = 1
 	var/spamcheck = 0
 	var/list/voicespan = list(SPAN_COMMAND)
 
 /obj/item/megaphone/suicide_act(mob/living/carbon/user)
-	user.visible_message(span_suicide("[user] is uttering [user.p_their()] last words into \the [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
+	user.visible_message("<span class='suicide'>[user] is uttering [user.p_their()] last words into \the [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	spamcheck = 0//so they dont have to worry about recharging
 	user.say("AAAAAAAAAAAARGHHHHH", forced="megaphone suicide")//he must have died while coding this
 	return OXYLOSS
 
 /obj/item/megaphone/equipped(mob/M, slot)
 	. = ..()
-	if ((slot & ITEM_SLOT_HANDS) && !HAS_TRAIT(M, TRAIT_SIGN_LANG))
+	if (slot == ITEM_SLOT_HANDS)
 		RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	else
 		UnregisterSignal(M, COMSIG_MOB_SAY)
@@ -29,22 +29,20 @@
 	UnregisterSignal(M, COMSIG_MOB_SAY)
 
 /obj/item/megaphone/proc/handle_speech(mob/living/carbon/user, list/speech_args)
-	SIGNAL_HANDLER
 	if (user.get_active_held_item() == src)
 		if(spamcheck > world.time)
-			to_chat(user, span_warning("\The [src] needs to recharge!"))
+			to_chat(user, "<span class='warning'>\The [src] needs to recharge!</span>")
 		else
 			playsound(loc, 'sound/items/megaphone.ogg', 100, FALSE, TRUE)
 			spamcheck = world.time + 50
 			speech_args[SPEECH_SPANS] |= voicespan
 
-/obj/item/megaphone/emag_act(mob/user, obj/item/card/emag/emag_card)
+/obj/item/megaphone/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
-		return FALSE
-	balloon_alert(user, "voice synthesizer overloaded")
+		return
+	to_chat(user, "<span class='warning'>You overload \the [src]'s voice synthesizer.</span>")
 	obj_flags |= EMAGGED
 	voicespan = list(SPAN_REALLYBIG, "userdanger")
-	return TRUE
 
 /obj/item/megaphone/sec
 	name = "security megaphone"

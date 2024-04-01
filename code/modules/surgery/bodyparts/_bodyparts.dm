@@ -1,122 +1,61 @@
+
 /obj/item/bodypart
 	name = "limb"
 	desc = "Why is it detached..."
 	force = 3
 	throwforce = 3
 	w_class = WEIGHT_CLASS_SMALL
-	icon = 'icons/mob/human/bodyparts.dmi'
-	icon_state = "" //Leave this blank! Bodyparts are built using overlays
-	flags_1 = PREVENT_CONTENTS_EXPLOSION_1 //actually mindblowing
-	/// The icon for Organic limbs using greyscale
-	VAR_PROTECTED/icon_greyscale = DEFAULT_BODYPART_ICON_ORGANIC
-	///The icon for non-greyscale limbs
-	VAR_PROTECTED/icon_static = 'icons/mob/human/bodyparts.dmi'
-	///The icon for husked limbs
-	VAR_PROTECTED/icon_husk = 'icons/mob/human/bodyparts.dmi'
-	///The icon for invisible limbs
-	VAR_PROTECTED/icon_invisible = 'icons/mob/human/bodyparts.dmi'
-	///The type of husk for building an iconstate
-	var/husk_type = "humanoid"
-	///The color to multiply the greyscaled husk sprites by. Can be null. Old husk sprite chest color is #A6A6A6
-	var/husk_color = "#A6A6A6"
+	icon = 'icons/mob/human_parts.dmi'
+	icon_state = ""
 	layer = BELOW_MOB_LAYER //so it isn't hidden behind objects when on the floor
-	grind_results = list(/datum/reagent/bone_dust = 10, /datum/reagent/consumable/liquidgibs = 5) // robotic bodyparts and chests/heads cannot be ground
-	/// The mob that "owns" this limb
-	/// DO NOT MODIFY DIRECTLY. Use update_owner()
-	var/mob/living/carbon/owner
+	var/mob/living/carbon/owner = null
+	var/mob/living/carbon/original_owner = null
+	var/status = BODYPART_ORGANIC
+	var/needs_processing = FALSE
 
-	/// If this limb can be scarred.
-	var/scarrable = TRUE
-
-	/**
-	 * A bitfield of biological states, exclusively used to determine which wounds this limb will get,
-	 * as well as how easily it will happen.
-	 * Set to BIO_STANDARD_UNJOINTED because most species have both flesh bone and blood in their limbs.
-	 */
-	var/biological_state = BIO_STANDARD_UNJOINTED
-	///A bitfield of bodytypes for surgery, and misc information
-	var/bodytype = BODYTYPE_ORGANIC
-	///A bitfield of bodyshapes for clothing and other sprite information
-	var/bodyshape = BODYSHAPE_HUMANOID
-	///Defines when a bodypart should not be changed. Example: BP_BLOCK_CHANGE_SPECIES prevents the limb from being overwritten on species gain
-	var/change_exempt_flags = NONE
-	///Random flags that describe this bodypart
-	var/bodypart_flags = NONE
-
-	///Whether the bodypart (and the owner) is husked.
-	var/is_husked = FALSE
-	///Whether the bodypart (and the owner) is invisible through invisibleman trait.
-	var/is_invisible = FALSE
-	///The ID of a species used to generate the icon. Needs to match the icon_state portion in the limbs file!
-	var/limb_id = SPECIES_HUMAN
-	//Defines what sprite the limb should use if it is also sexually dimorphic.
-	var/limb_gender = "m"
-	///Is there a sprite difference between male and female?
-	var/is_dimorphic = FALSE
-	///The actual color a limb is drawn as, set by /proc/update_limb()
-	var/draw_color //NEVER. EVER. EDIT THIS VALUE OUTSIDE OF UPDATE_LIMB. I WILL FIND YOU. It ruins the limb icon pipeline.
-
-	/// BODY_ZONE_CHEST, BODY_ZONE_L_ARM, etc , used for def_zone
-	var/body_zone
-	/// The body zone of this part in english ("chest", "left arm", etc) without the species attached to it
-	var/plaintext_zone
+	var/body_zone //BODY_ZONE_CHEST, BODY_ZONE_L_ARM, etc , used for def_zone
 	var/aux_zone // used for hands
 	var/aux_layer
-	/// bitflag used to check which clothes cover this bodypart
-	var/body_part
-	/// List of obj/item's embedded inside us. Managed by embedded components, do not modify directly
+	var/body_part = null //bitflag used to check which clothes cover this bodypart
+	var/use_digitigrade = NOT_DIGITIGRADE //Used for alternate legs, useless elsewhere
 	var/list/embedded_objects = list()
-	/// are we a hand? if so, which one!
-	var/held_index = 0
-	/// A speed modifier we apply to the owner when attached, if any. Positive numbers make it move slower, negative numbers make it move faster.
-	var/speed_modifier = 0
+	var/held_index = 0 //are we a hand? if so, which one!
+	var/is_pseudopart = FALSE //For limbs that don't really exist, eg chainsaws
 
-	// Limb disabling variables
-	///Whether it is possible for the limb to be disabled whatsoever. TRUE means that it is possible.
-	var/can_be_disabled = FALSE //Defaults to FALSE, as only human limbs can be disabled, and only the appendages.
-	///Controls if the limb is disabled. TRUE means it is disabled (similar to being removed, but still present for the sake of targeted interactions).
-	var/bodypart_disabled = FALSE
-	///Handles limb disabling by damage. If 0 (0%), a limb can't be disabled via damage. If 1 (100%), it is disabled at max limb damage. Anything between is the percentage of damage against maximum limb damage needed to disable the limb.
-	var/disabling_threshold_percentage = 0
-
-	// Damage variables
-	///A mutiplication of the burn and brute damage that the limb's stored damage contributes to its attached mob's overall wellbeing.
-	var/body_damage_coeff = LIMB_BODY_DAMAGE_COEFFICIENT_TOTAL
-	///The current amount of brute damage the limb has
-	var/brute_dam = 0
-	///The current amount of burn damage the limb has
-	var/burn_dam = 0
-	///The maximum brute OR burn damage a bodypart can take. Once we hit this cap, no more damage of either type!
-	var/max_damage = 0
-
-	//Used in determining overlays for limb damage states. As the mob receives more burn/brute damage, their limbs update to reflect.
+	var/disabled = BODYPART_NOT_DISABLED //If disabled, limb is as good as missing
+	var/body_damage_coeff = 1 //Multiplier of the limb's damage that gets applied to the mob
+	var/stam_damage_coeff = 0.75
 	var/brutestate = 0
 	var/burnstate = 0
+	var/brute_dam = 0
+	var/burn_dam = 0
+	var/stamina_dam = 0
+	var/max_stamina_damage = 0
+	var/max_damage = 0
 
-	///Gradually increases while burning when at full damage, destroys the limb when at 100
-	var/cremation_progress = 0
+	var/cremation_progress = 0 //Gradually increases while burning when at full damage, destroys the limb when at 100
 
-	//Multiplicative damage modifiers
-	/// Brute damage gets multiplied by this on receive_damage()
-	var/brute_modifier = 1
-	/// Burn damage gets multiplied by this on receive_damage()
-	var/burn_modifier = 1
+	var/brute_reduction = 0 //Subtracted to brute damage taken
+	var/burn_reduction = 0	//Subtracted to burn damage taken
 
 	//Coloring and proper item icon update
 	var/skin_tone = ""
+	var/body_gender = ""
+	var/species_id = ""
+	var/should_draw_gender = FALSE
+	var/should_draw_greyscale = FALSE
 	var/species_color = ""
-	///Limbs need this information as a back-up incase they are generated outside of a carbon (limbgrower)
-	var/should_draw_greyscale = TRUE
-	///An "override" color that can be applied to ANY limb, greyscale or not.
-	var/variable_color = ""
+	var/mutation_color = ""
+	var/no_update = 0
+
+	var/animal_origin = null //for nonhuman bodypart (e.g. monkey)
+	var/dismemberable = 1 //whether it can be dismembered with a weapon.
 
 	var/px_x = 0
 	var/px_y = 0
 
-	///the type of damage overlay (if any) to use when this bodypart is bruised/burned.
-	var/dmg_overlay_type = "human"
-	/// If we're bleeding, which icon are we displaying on this part
-	var/bleed_overlay_icon
+	var/species_flags_list = list()
+	var/dmg_overlay_type //the type of damage overlay (if any) to use when this bodypart is bruised/burned.
 
 	//Damage messages used by help_shake_act()
 	var/light_brute_msg = "bruised"
@@ -127,13 +66,6 @@
 	var/medium_burn_msg = "blistered"
 	var/heavy_burn_msg = "peeling away"
 
-	//Damage messages used by examine(). the desc that is most common accross all bodyparts gets shown
-	var/list/damage_examines = list(
-		BRUTE = DEFAULT_BRUTE_EXAMINE_TEXT,
-		BURN = DEFAULT_BURN_EXAMINE_TEXT,
-	)
-
-	// Wounds related variables
 	/// The wounds currently afflicting this body part
 	var/list/wounds
 
@@ -151,337 +83,133 @@
 	var/scars_covered_by_clothes = TRUE
 	/// So we know if we need to scream if this limb hits max damage
 	var/last_maxed
-	/// Our current bleed rate. Cached, update with refresh_bleed_rate()
-	var/cached_bleed_rate = 0
 	/// How much generic bleedstacks we have on this bodypart
 	var/generic_bleedstacks
 	/// If we have a gauze wrapping currently applied (not including splints)
-	var/obj/item/stack/medical/gauze/current_gauze
-	/// If something is currently grasping this bodypart and trying to staunch bleeding (see [/obj/item/hand_item/self_grasp])
-	var/obj/item/hand_item/self_grasp/grasped_by
+	var/obj/item/stack/current_gauze
 
-	///A list of all bodypart overlays to draw
-	var/list/bodypart_overlays = list()
-
-	/// Type of an attack from this limb does. Arms will do punches, Legs for kicks, and head for bites. (TO ADD: tactical chestbumps)
-	var/attack_type = BRUTE
-	/// the verb used for an unarmed attack when using this limb, such as arm.unarmed_attack_verb = punch
-	var/unarmed_attack_verb = "bump"
-	/// if we have a special attack verb for hitting someone who is grappled by us, it goes here.
-	var/grappled_attack_verb
-	/// what visual effect is used when this limb is used to strike someone.
-	var/unarmed_attack_effect = ATTACK_EFFECT_PUNCH
-	/// Sounds when this bodypart is used in an umarmed attack
-	var/sound/unarmed_attack_sound = 'sound/weapons/punch1.ogg'
-	var/sound/unarmed_miss_sound = 'sound/weapons/punchmiss.ogg'
-	///Lowest possible punch damage this bodypart can give. If this is set to 0, unarmed attacks will always miss.
-	var/unarmed_damage_low = 1
-	///Highest possible punch damage this bodypart can ive.
-	var/unarmed_damage_high = 1
-	///Determines the accuracy bonus, armor penetration and knockdown probability.
-	var/unarmed_effectiveness = 10
-	/// How many pixels this bodypart will offset the top half of the mob, used for abnormally sized torsos and legs
-	var/top_offset = 0
-
-	/// Traits that are given to the holder of the part. If you want an effect that changes this, don't add directly to this. Use the add_bodypart_trait() proc
-	var/list/bodypart_traits = list()
-	/// The name of the trait source that the organ gives. Should not be altered during the events of gameplay, and will cause problems if it is.
-	var/bodypart_trait_source = BODYPART_TRAIT
-	/// List of the above datums which have actually been instantiated, managed automatically
-	var/list/feature_offsets = list()
-
-	/// In the case we dont have dismemberable features, or literally cant get wounds, we will use this percent to determine when we can be dismembered.
-	/// Compared to our ABSOLUTE maximum. Stored in decimal; 0.8 = 80%.
-	var/hp_percent_to_dismemberable = 0.8
-	/// If true, we will use [hp_percent_to_dismemberable] even if we are dismemberable via wounds. Useful for things with extreme wound resistance.
-	var/use_alternate_dismemberment_calc_even_if_mangleable = FALSE
-	/// If false, no wound that can be applied to us can mangle our exterior. Used for determining if we should use [hp_percent_to_dismemberable] instead of normal dismemberment.
-	var/any_existing_wound_can_mangle_our_exterior
-	/// If false, no wound that can be applied to us can mangle our interior. Used for determining if we should use [hp_percent_to_dismemberable] instead of normal dismemberment.
-	var/any_existing_wound_can_mangle_our_interior
-	/// get_damage() / total_damage must surpass this to allow our limb to be disabled, even temporarily, by an EMP.
-	var/robotic_emp_paralyze_damage_percent_threshold = 0.3
-
-/obj/item/bodypart/apply_fantasy_bonuses(bonus)
-	. = ..()
-	unarmed_damage_low = modify_fantasy_variable("unarmed_damage_low", unarmed_damage_low, bonus, minimum = 1)
-	unarmed_damage_high = modify_fantasy_variable("unarmed_damage_high", unarmed_damage_high, bonus, minimum = 1)
-	brute_modifier = modify_fantasy_variable("brute_modifier", brute_modifier, bonus * 0.02, minimum = 0.7)
-	burn_modifier = modify_fantasy_variable("burn_modifier", burn_modifier, bonus * 0.02, minimum = 0.7)
-	wound_resistance = modify_fantasy_variable("wound_resistance", wound_resistance, bonus)
-
-/obj/item/bodypart/remove_fantasy_bonuses(bonus)
-	unarmed_damage_low = reset_fantasy_variable("unarmed_damage_low", unarmed_damage_low)
-	unarmed_damage_high = reset_fantasy_variable("unarmed_damage_high", unarmed_damage_high)
-	brute_modifier = reset_fantasy_variable("brute_modifier", brute_modifier)
-	burn_modifier = reset_fantasy_variable("burn_modifier", burn_modifier)
-	wound_resistance = reset_fantasy_variable("wound_resistance", wound_resistance)
-	return ..()
-
-/obj/item/bodypart/Initialize(mapload)
-	. = ..()
-	if(can_be_disabled)
-		RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_gain))
-		RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_loss))
-
-	RegisterSignal(src, COMSIG_ATOM_RESTYLE, PROC_REF(on_attempt_feature_restyle))
-
-	if(!IS_ORGANIC_LIMB(src))
-		grind_results = null
-
-	name = "[limb_id] [parse_zone(body_zone)]"
-	update_icon_dropped()
-	refresh_bleed_rate()
-
-/obj/item/bodypart/Destroy()
-	if(owner && !QDELETED(owner))
-		forced_removal(special = FALSE, dismembered = TRUE, move_to_floor = FALSE)
-		update_owner(null)
-	for(var/wound in wounds)
-		qdel(wound) // wounds is a lazylist, and each wound removes itself from it on deletion.
-	if(length(wounds))
-		stack_trace("[type] qdeleted with [length(wounds)] uncleared wounds")
-		wounds.Cut()
-
-	owner = null
-
-	for(var/atom/movable/movable in contents)
-		qdel(movable)
-
-	QDEL_LIST_ASSOC_VAL(feature_offsets)
-
-	return ..()
-
-/obj/item/bodypart/ex_act(severity, target)
-	if(owner) //trust me bro you dont want this
-		return FALSE
-	return  ..()
-
-
-/obj/item/bodypart/proc/on_forced_removal(atom/old_loc, dir, forced, list/old_locs)
-	SIGNAL_HANDLER
-
-	forced_removal(special = FALSE, dismembered = TRUE, move_to_floor = FALSE)
-
-/// In-case someone, somehow only teleports someones limb
-/obj/item/bodypart/proc/forced_removal(special, dismembered, move_to_floor)
-	drop_limb(special, dismembered, move_to_floor)
-
-	update_icon_dropped()
 
 /obj/item/bodypart/examine(mob/user)
-	SHOULD_CALL_PARENT(TRUE)
-
 	. = ..()
 	if(brute_dam > DAMAGE_PRECISION)
-		. += span_warning("This limb has [brute_dam > 30 ? "severe" : "minor"] bruising.")
+		. += "<span class='warning'>This limb has [brute_dam > 30 ? "severe" : "minor"] bruising.</span>"
 	if(burn_dam > DAMAGE_PRECISION)
-		. += span_warning("This limb has [burn_dam > 30 ? "severe" : "minor"] burns.")
-
-	for(var/datum/wound/wound as anything in wounds)
-		var/wound_desc = wound.get_limb_examine_description()
-		if(wound_desc)
-			. += wound_desc
-
-/**
- * Called when a bodypart is checked for injuries.
- *
- * Modifies the check_list list with the resulting report of the limb's status.
- */
-/obj/item/bodypart/proc/check_for_injuries(mob/living/carbon/human/examiner, list/check_list)
-
-	var/list/limb_damage = list(BRUTE = brute_dam, BURN = burn_dam)
-
-	SEND_SIGNAL(src, COMSIG_BODYPART_CHECKED_FOR_INJURY, examiner, check_list, limb_damage)
-	SEND_SIGNAL(examiner, COMSIG_CARBON_CHECKING_BODYPART, src, check_list, limb_damage)
-
-	var/shown_brute = limb_damage[BRUTE]
-	var/shown_burn = limb_damage[BURN]
-	var/status = ""
-	var/self_aware = HAS_TRAIT(examiner, TRAIT_SELF_AWARE)
-
-	if(self_aware)
-		if(!shown_brute && !shown_burn)
-			status = "no damage"
-		else
-			status = "[shown_brute] brute damage and [shown_burn] burn damage"
-
-	else
-		if(shown_brute > (max_damage * 0.8))
-			status += heavy_brute_msg
-		else if(shown_brute > (max_damage * 0.4))
-			status += medium_brute_msg
-		else if(shown_brute > DAMAGE_PRECISION)
-			status += light_brute_msg
-
-		if(shown_brute > DAMAGE_PRECISION && shown_burn > DAMAGE_PRECISION)
-			status += " and "
-
-		if(shown_burn > (max_damage * 0.8))
-			status += heavy_burn_msg
-		else if(shown_burn > (max_damage * 0.2))
-			status += medium_burn_msg
-		else if(shown_burn > DAMAGE_PRECISION)
-			status += light_burn_msg
-
-		if(status == "")
-			status = "OK"
-
-	var/no_damage
-	if(status == "OK" || status == "no damage")
-		no_damage = TRUE
-
-	var/is_disabled = ""
-	if(bodypart_disabled)
-		is_disabled = " is disabled"
-		if(no_damage)
-			is_disabled += " but otherwise"
-		else
-			is_disabled += " and"
-
-	check_list += "\t <span class='[no_damage ? "notice" : "warning"]'>Your [name][is_disabled][self_aware ? " has " : " is "][status].</span>"
-
-	for(var/datum/wound/wound as anything in wounds)
-		switch(wound.severity)
-			if(WOUND_SEVERITY_TRIVIAL)
-				check_list += "\t [span_danger("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)].")]"
-			if(WOUND_SEVERITY_MODERATE)
-				check_list += "\t [span_warning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!")]"
-			if(WOUND_SEVERITY_SEVERE)
-				check_list += "\t [span_boldwarning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!!")]"
-			if(WOUND_SEVERITY_CRITICAL)
-				check_list += "\t [span_boldwarning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!!!")]"
-
-	for(var/obj/item/embedded_thing in embedded_objects)
-		var/stuck_word = embedded_thing.isEmbedHarmless() ? "stuck" : "embedded"
-		check_list += "\t <a href='?src=[REF(examiner)];embedded_object=[REF(embedded_thing)];embedded_limb=[REF(src)]' class='warning'>There is \a [embedded_thing] [stuck_word] in your [name]!</a>"
+		. += "<span class='warning'>This limb has [burn_dam > 30 ? "severe" : "minor"] burns.</span>"
 
 /obj/item/bodypart/blob_act()
-	receive_damage(max_damage, wound_bonus = CANT_WOUND)
+	take_damage(max_damage)
 
-/obj/item/bodypart/attack(mob/living/carbon/victim, mob/user)
-	SHOULD_CALL_PARENT(TRUE)
-
-	if(ishuman(victim))
-		var/mob/living/carbon/human/human_victim = victim
-		if(HAS_TRAIT(victim, TRAIT_LIMBATTACHMENT))
-			if(!human_victim.get_bodypart(body_zone))
-				user.temporarilyRemoveItemFromInventory(src, TRUE)
-				if(!try_attach_limb(victim))
-					to_chat(user, span_warning("[human_victim]'s body rejects [src]!"))
-					forceMove(human_victim.loc)
-					return
-				if(check_for_frankenstein(victim))
-					bodypart_flags |= BODYPART_IMPLANTED
-				if(human_victim == user)
-					human_victim.visible_message(span_warning("[human_victim] jams [src] into [human_victim.p_their()] empty socket!"),\
-					span_notice("You force [src] into your empty socket, and it locks into place!"))
-				else
-					human_victim.visible_message(span_warning("[user] jams [src] into [human_victim]'s empty socket!"),\
-					span_notice("[user] forces [src] into your empty socket, and it locks into place!"))
-				return
+/obj/item/bodypart/Destroy()
+	if(owner)
+		owner.bodyparts -= src
+		owner = null
 	return ..()
 
-/obj/item/bodypart/attackby(obj/item/weapon, mob/user, params)
-	SHOULD_CALL_PARENT(TRUE)
+/obj/item/bodypart/attack(mob/living/carbon/C, mob/user)
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		if(HAS_TRAIT(C, TRAIT_LIMBATTACHMENT))
+			if(!H.get_bodypart(body_zone) && !animal_origin)
+				user.temporarilyRemoveItemFromInventory(src, TRUE)
+				if(!attach_limb(C))
+					to_chat(user, "<span class='warning'>[H]'s body rejects [src]!</span>")
+					forceMove(H.loc)
+				if(H == user)
+					H.visible_message("<span class='warning'>[H] jams [src] into [H.p_their()] empty socket!</span>",\
+					"<span class='notice'>You force [src] into your empty socket, and it locks into place!</span>")
+				else
+					H.visible_message("<span class='warning'>[user] jams [src] into [H]'s empty socket!</span>",\
+					"<span class='notice'>[user] forces [src] into your empty socket, and it locks into place!</span>")
+				return
+	..()
 
-	if(weapon.get_sharpness())
+/obj/item/bodypart/attackby(obj/item/W, mob/user, params)
+	if(W.get_sharpness())
 		add_fingerprint(user)
 		if(!contents.len)
-			to_chat(user, span_warning("There is nothing left inside [src]!"))
+			to_chat(user, "<span class='warning'>There is nothing left inside [src]!</span>")
 			return
 		playsound(loc, 'sound/weapons/slice.ogg', 50, TRUE, -1)
-		user.visible_message(span_warning("[user] begins to cut open [src]."),\
-			span_notice("You begin to cut open [src]..."))
+		user.visible_message("<span class='warning'>[user] begins to cut open [src].</span>",\
+			"<span class='notice'>You begin to cut open [src]...</span>")
 		if(do_after(user, 54, target = src))
 			drop_organs(user, TRUE)
 	else
 		return ..()
 
 /obj/item/bodypart/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	SHOULD_CALL_PARENT(TRUE)
-
 	..()
-	if(IS_ORGANIC_LIMB(src))
+	if(status != BODYPART_ROBOTIC)
 		playsound(get_turf(src), 'sound/misc/splort.ogg', 50, TRUE, -1)
 	pixel_x = rand(-3, 3)
 	pixel_y = rand(-3, 3)
 
 //empties the bodypart from its organs and other things inside it
 /obj/item/bodypart/proc/drop_organs(mob/user, violent_removal)
-	SHOULD_CALL_PARENT(TRUE)
+	var/turf/T = get_turf(src)
+	if(status != BODYPART_ROBOTIC)
+		playsound(T, 'sound/misc/splort.ogg', 50, TRUE, -1)
+	if(current_gauze)
+		QDEL_NULL(current_gauze)
+	for(var/obj/item/organ/drop_organ in get_organs())
+		drop_organ.transfer_to_limb(src, owner)
+	for(var/obj/item/I in src)
+		I.forceMove(T)
 
-	var/atom/drop_loc = drop_location()
-	if(IS_ORGANIC_LIMB(src))
-		playsound(drop_loc, 'sound/misc/splort.ogg', 50, TRUE, -1)
+///since organs aren't actually stored in the bodypart themselves while attached to a person, we have to query the owner for what we should have
+/obj/item/bodypart/proc/get_organs()
+	if(!owner)
+		return
+	. = list()
+	for(var/i in owner.internal_organs) //internal organs inside the dismembered limb are dropped.
+		var/obj/item/organ/organ_check = i
+		if(check_zone(organ_check.zone) == body_zone)
+			. += organ_check
 
-	QDEL_NULL(current_gauze)
-
-	for(var/obj/item/organ/bodypart_organ in contents)
-		if(bodypart_organ.organ_flags & ORGAN_UNREMOVABLE)
-			continue
-		if(owner)
-			bodypart_organ.Remove(bodypart_organ.owner)
-		else
-			if(bodypart_organ.bodypart_remove(src))
-				if(drop_loc) //can be null if being deleted
-					bodypart_organ.forceMove(get_turf(drop_loc))
-
-	if(drop_loc) //can be null during deletion
-		for(var/atom/movable/movable as anything in src)
-			movable.forceMove(drop_loc)
-
-	update_icon_dropped()
+/obj/item/bodypart/proc/consider_processing()
+	if(stamina_dam > DAMAGE_PRECISION)
+		. = TRUE
+	//else if.. else if.. so on.
+	else
+		. = FALSE
+	needs_processing = .
 
 //Return TRUE to get whatever mob this is in to update health.
-/obj/item/bodypart/proc/on_life(seconds_per_tick, times_fired)
-	SHOULD_CALL_PARENT(TRUE)
+/obj/item/bodypart/proc/on_life(stam_regen)
+	if(stamina_dam > DAMAGE_PRECISION && stam_regen)					//DO NOT update health here, it'll be done in the carbon's life.
+		heal_damage(0, 0, INFINITY, null, FALSE)
+		. |= BODYPART_LIFE_UPDATE_HEALTH
 
-/**
- * #receive_damage
- *
- * called when a bodypart is taking damage
- * Damage will not exceed max_damage using this proc, and negative damage cannot be used to heal
- * Returns TRUE if damage icon states changes
- * Args:
- * brute - The amount of brute damage dealt.
- * burn - The amount of burn damage dealt.
- * blocked - The amount of damage blocked by armor.
- * update_health - Whether to update the owner's health from receiving the hit.
- * required_bodytype - A bodytype flag requirement to get this damage (ex: BODYTYPE_ORGANIC)
- * wound_bonus - Additional bonus chance to get a wound.
- * bare_wound_bonus - Additional bonus chance to get a wound if the bodypart is naked.
- * sharpness - Flag on whether the attack is edged or pointy
- * attack_direction - The direction the bodypart is attacked from, used to send blood flying in the opposite direction.
- * damage_source - The source of damage, typically a weapon.
- */
-/obj/item/bodypart/proc/receive_damage(brute = 0, burn = 0, blocked = 0, updating_health = TRUE, forced = FALSE, required_bodytype = null, wound_bonus = 0, bare_wound_bonus = 0, sharpness = NONE, attack_direction = null, damage_source)
-	SHOULD_CALL_PARENT(TRUE)
-
-	var/hit_percent = forced ? 1 : (100-blocked)/100
-	if((!brute && !burn) || hit_percent <= 0)
+//Applies brute and burn damage to the organ. Returns 1 if the damage-icon states changed at all.
+//Damage will not exceed max_damage using this proc
+//Cannot apply negative damage
+/obj/item/bodypart/proc/receive_damage(brute = 0, burn = 0, stamina = 0, blocked = 0, updating_health = TRUE, required_status = null, wound_bonus = 0, bare_wound_bonus = 0, sharpness = SHARP_NONE) // maybe separate BRUTE_SHARP and BRUTE_OTHER eventually somehow hmm
+	var/hit_percent = (100-blocked)/100
+	if((!brute && !burn && !stamina) || hit_percent <= 0)
 		return FALSE
-	if (!forced)
-		if(!isnull(owner))
-			if (owner.status_flags & GODMODE)
-				return FALSE
-			if (SEND_SIGNAL(owner, COMSIG_CARBON_LIMB_DAMAGED, src, brute, burn) & COMPONENT_PREVENT_LIMB_DAMAGE)
-				return FALSE
-		if(required_bodytype && !(bodytype & required_bodytype))
-			return FALSE
+	if(owner && (owner.status_flags & GODMODE))
+		return FALSE	//godmode
 
-	var/dmg_multi = CONFIG_GET(number/damage_multiplier) * hit_percent
-	brute = round(max(brute * dmg_multi * brute_modifier, 0), DAMAGE_PRECISION)
-	burn = round(max(burn * dmg_multi * burn_modifier, 0), DAMAGE_PRECISION)
+	if(required_status && (status != required_status))
+		return FALSE
 
-	if(!brute && !burn)
+	var/dmg_mlt = CONFIG_GET(number/damage_multiplier) * hit_percent
+	brute = round(max(brute * dmg_mlt, 0),DAMAGE_PRECISION)
+	burn = round(max(burn * dmg_mlt, 0),DAMAGE_PRECISION)
+	stamina = round(max(stamina * dmg_mlt, 0),DAMAGE_PRECISION)
+	brute = max(0, brute - brute_reduction)
+	burn = max(0, burn - burn_reduction)
+	//No stamina scaling.. for now..
+
+	if(!brute && !burn && !stamina)
 		return FALSE
 
 	brute *= wound_damage_multiplier
 	burn *= wound_damage_multiplier
 
-	if(bodytype & (BODYTYPE_ALIEN|BODYTYPE_LARVA_PLACEHOLDER)) //aliens take double burn //nothing can burn with so much snowflake code around
-		burn *= 2
+	switch(animal_origin)
+		if(ALIEN_BODYPART,LARVA_BODYPART) //aliens take double burn //nothing can burn with so much snowflake code around
+			burn *= 2
 
 	/*
 	// START WOUND HANDLING
@@ -491,48 +219,50 @@
 	var/wounding_type = (brute > burn ? WOUND_BLUNT : WOUND_BURN)
 	var/wounding_dmg = max(brute, burn)
 
-	if(wounding_type == WOUND_BLUNT && sharpness)
-		if(sharpness & SHARP_EDGED)
+	var/mangled_state = get_mangled_state()
+	var/bio_state = owner.get_biological_state()
+	var/easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER) // if we have easydismember, we don't reduce damage when redirecting damage to different types (slashing weapons on mangled/skinless limbs attack at 100% instead of 50%)
+
+	if(wounding_type == WOUND_BLUNT)
+		if(sharpness == SHARP_EDGED)
 			wounding_type = WOUND_SLASH
-		else if (sharpness & SHARP_POINTY)
+		else if(sharpness == SHARP_POINTY)
 			wounding_type = WOUND_PIERCE
 
-	if(owner) // i tried to modularize the below, but the modifications to wounding_dmg and wounding_type cant be extracted to a proc
-		var/mangled_state = get_mangled_state()
-		var/easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER) // if we have easydismember, we don't reduce damage when redirecting damage to different types (slashing weapons on mangled/skinless limbs attack at 100% instead of 50%)
-
-		var/bio_status = get_bio_state_status()
-
-		var/has_exterior = ((bio_status & ANATOMY_EXTERIOR))
-		var/has_interior = ((bio_status & ANATOMY_INTERIOR))
-
-		var/exterior_ready_to_dismember = (!has_exterior || ((mangled_state & BODYPART_MANGLED_EXTERIOR)))
-
+	//Handling for bone only/flesh only(none right now)/flesh and bone targets
+	switch(bio_state)
 		// if we're bone only, all cutting attacks go straight to the bone
-		if(!has_exterior && has_interior)
+		if(BIO_JUST_BONE)
 			if(wounding_type == WOUND_SLASH)
 				wounding_type = WOUND_BLUNT
-				wounding_dmg *= (easy_dismember ? 1 : 0.6)
+				wounding_dmg *= (easy_dismember ? 1 : 0.5)
 			else if(wounding_type == WOUND_PIERCE)
 				wounding_type = WOUND_BLUNT
 				wounding_dmg *= (easy_dismember ? 1 : 0.75)
-		else
+			if((mangled_state & BODYPART_MANGLED_BONE) && try_dismember(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus))
+				return
+		// note that there's no handling for BIO_JUST_FLESH since we don't have any that are that right now (slimepeople maybe someday)
+		// standard humanoids
+		if(BIO_FLESH_BONE)
 			// if we've already mangled the skin (critical slash or piercing wound), then the bone is exposed, and we can damage it with sharp weapons at a reduced rate
 			// So a big sharp weapon is still all you need to destroy a limb
-			if(has_interior && exterior_ready_to_dismember && !(mangled_state & BODYPART_MANGLED_INTERIOR) && sharpness)
+			if(mangled_state == BODYPART_MANGLED_FLESH && sharpness)
+				playsound(src, "sound/effects/wounds/crackandbleed.ogg", 100)
 				if(wounding_type == WOUND_SLASH && !easy_dismember)
-					wounding_dmg *= 0.6 // edged weapons pass along 60% of their wounding damage to the bone since the power is spread out over a larger area
+					wounding_dmg *= 0.5 // edged weapons pass along 50% of their wounding damage to the bone since the power is spread out over a larger area
 				if(wounding_type == WOUND_PIERCE && !easy_dismember)
 					wounding_dmg *= 0.75 // piercing weapons pass along 75% of their wounding damage to the bone since it's more concentrated
 				wounding_type = WOUND_BLUNT
-		if ((dismemberable_by_wound() || dismemberable_by_total_damage()) && try_dismember(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus))
-			return
-		// now we have our wounding_type and are ready to carry on with wounds and dealing the actual damage
-		if(wounding_dmg >= WOUND_MINIMUM_DAMAGE && wound_bonus != CANT_WOUND)
-			check_wounding(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus, attack_direction, damage_source = damage_source)
+			else if(mangled_state == BODYPART_MANGLED_BOTH && try_dismember(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus))
+				return
 
-	for(var/datum/wound/iter_wound as anything in wounds)
-		iter_wound.receive_damage(wounding_type, wounding_dmg, wound_bonus, damage_source)
+	// now we have our wounding_type and are ready to carry on with wounds and dealing the actual damage
+	if(owner && wounding_dmg >= WOUND_MINIMUM_DAMAGE && wound_bonus != CANT_WOUND)
+		check_wounding(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus)
+
+	for(var/i in wounds)
+		var/datum/wound/iter_wound = i
+		iter_wound.receive_damage(wounding_type, wounding_dmg, wound_bonus)
 
 	/*
 	// END WOUND HANDLING
@@ -547,813 +277,539 @@
 
 	if(can_inflict <= 0)
 		return FALSE
-	if(brute)
-		set_brute_dam(brute_dam + brute)
-	if(burn)
-		set_burn_dam(burn_dam + burn)
 
-	if(owner)
-		if(can_be_disabled)
-			update_disabled()
-		if(updating_health)
-			owner.updatehealth()
+	brute_dam += brute
+	burn_dam += burn
+
+	//We've dealt the physical damages, if there's room lets apply the stamina damage.
+	stamina_dam += round(clamp(stamina, 0, max_stamina_damage - stamina_dam), DAMAGE_PRECISION)
+
+	if(owner && updating_health)
+		owner.updatehealth()
+		if(stamina > DAMAGE_PRECISION)
+			owner.update_stamina()
+			owner.stam_regen_start_time = world.time + STAMINA_REGEN_BLOCK_TIME
+			. = TRUE
+	consider_processing()
+	update_disabled()
 	return update_bodypart_damage_state() || .
 
-/// Returns a bitflag using ANATOMY_EXTERIOR or ANATOMY_INTERIOR. Used to determine if we as a whole have a interior or exterior biostate, or both.
-/obj/item/bodypart/proc/get_bio_state_status()
-	SHOULD_BE_PURE(TRUE)
-
-	var/bio_status = NONE
-
-	for (var/state as anything in GLOB.bio_state_anatomy)
-		var/flag = text2num(state)
-		if (!(biological_state & flag))
-			continue
-
-		var/value = GLOB.bio_state_anatomy[state]
-		if (value & ANATOMY_EXTERIOR)
-			bio_status |= ANATOMY_EXTERIOR
-		if (value & ANATOMY_INTERIOR)
-			bio_status |= ANATOMY_INTERIOR
-
-		if ((bio_status & ANATOMY_EXTERIOR_AND_INTERIOR) == ANATOMY_EXTERIOR_AND_INTERIOR)
-			break
-
-	return bio_status
-
-/// Returns if our current mangling status allows us to be dismembered. Requires both no exterior/mangled exterior and no interior/mangled interior.
-/obj/item/bodypart/proc/dismemberable_by_wound()
-	SHOULD_BE_PURE(TRUE)
+/// Allows us to roll for and apply a wound without actually dealing damage. Used for aggregate wounding power with pellet clouds
+/obj/item/bodypart/proc/painless_wound_roll(wounding_type, phantom_wounding_dmg, wound_bonus, bare_wound_bonus, sharpness=SHARP_NONE)
+	if(!owner || phantom_wounding_dmg <= WOUND_MINIMUM_DAMAGE || wound_bonus == CANT_WOUND)
+		return
 
 	var/mangled_state = get_mangled_state()
+	var/bio_state = owner.get_biological_state()
+	var/easy_dismember = HAS_TRAIT(owner, TRAIT_EASYDISMEMBER) // if we have easydismember, we don't reduce damage when redirecting damage to different types (slashing weapons on mangled/skinless limbs attack at 100% instead of 50%)
 
-	var/bio_status = get_bio_state_status()
+	if(wounding_type == WOUND_BLUNT)
+		if(sharpness == SHARP_EDGED)
+			wounding_type = WOUND_SLASH
+		else if(sharpness == SHARP_POINTY)
+			wounding_type = WOUND_PIERCE
 
-	var/has_exterior = ((bio_status & ANATOMY_EXTERIOR))
-	var/has_interior = ((bio_status & ANATOMY_INTERIOR))
+	//Handling for bone only/flesh only(none right now)/flesh and bone targets
+	switch(bio_state)
+		// if we're bone only, all cutting attacks go straight to the bone
+		if(BIO_JUST_BONE)
+			if(wounding_type == WOUND_SLASH)
+				wounding_type = WOUND_BLUNT
+				phantom_wounding_dmg *= (easy_dismember ? 1 : 0.5)
+			else if(wounding_type == WOUND_PIERCE)
+				wounding_type = WOUND_BLUNT
+				phantom_wounding_dmg *= (easy_dismember ? 1 : 0.75)
+			if((mangled_state & BODYPART_MANGLED_BONE) && try_dismember(wounding_type, phantom_wounding_dmg, wound_bonus, bare_wound_bonus))
+				return
+		// note that there's no handling for BIO_JUST_FLESH since we don't have any that are that right now (slimepeople maybe someday)
+		// standard humanoids
+		if(BIO_FLESH_BONE)
+			// if we've already mangled the skin (critical slash or piercing wound), then the bone is exposed, and we can damage it with sharp weapons at a reduced rate
+			// So a big sharp weapon is still all you need to destroy a limb
+			if(mangled_state == BODYPART_MANGLED_FLESH && sharpness)
+				playsound(src, "sound/effects/wounds/crackandbleed.ogg", 100)
+				if(wounding_type == WOUND_SLASH && !easy_dismember)
+					phantom_wounding_dmg *= 0.5 // edged weapons pass along 50% of their wounding damage to the bone since the power is spread out over a larger area
+				if(wounding_type == WOUND_PIERCE && !easy_dismember)
+					phantom_wounding_dmg *= 0.75 // piercing weapons pass along 75% of their wounding damage to the bone since it's more concentrated
+				wounding_type = WOUND_BLUNT
+			else if(mangled_state == BODYPART_MANGLED_BOTH && try_dismember(wounding_type, phantom_wounding_dmg, wound_bonus, bare_wound_bonus))
+				return
 
-	var/exterior_ready_to_dismember = (!has_exterior || ((mangled_state & BODYPART_MANGLED_EXTERIOR)))
-	var/interior_ready_to_dismember = (!has_interior || ((mangled_state & BODYPART_MANGLED_INTERIOR)))
+	check_wounding(wounding_type, phantom_wounding_dmg, wound_bonus, bare_wound_bonus)
 
-	return (exterior_ready_to_dismember && interior_ready_to_dismember)
+/**
+  * check_wounding() is where we handle rolling for, selecting, and applying a wound if we meet the criteria
+  *
+  * We generate a "score" for how woundable the attack was based on the damage and other factors discussed in [/obj/item/bodypart/proc/check_wounding_mods], then go down the list from most severe to least severe wounds in that category.
+  * We can promote a wound from a lesser to a higher severity this way, but we give up if we have a wound of the given type and fail to roll a higher severity, so no sidegrades/downgrades
+  *
+  * Arguments:
+  * * woundtype- Either WOUND_BLUNT, WOUND_SLASH, WOUND_PIERCE, or WOUND_BURN based on the attack type.
+  * * damage- How much damage is tied to this attack, since wounding potential scales with damage in an attack (see: WOUND_DAMAGE_EXPONENT)
+  * * wound_bonus- The wound_bonus of an attack
+  * * bare_wound_bonus- The bare_wound_bonus of an attack
+  */
+/obj/item/bodypart/proc/check_wounding(woundtype, damage, wound_bonus, bare_wound_bonus)
+	// actually roll wounds if applicable
+	if(HAS_TRAIT(owner, TRAIT_EASYLIMBDISABLE))
+		damage *= 1.5
+	else
+		damage = min(damage, WOUND_MAX_CONSIDERED_DAMAGE)
+	if(HAS_TRAIT(owner,TRAIT_HARDLIMBDISABLE))
+		damage *= 0.8
 
-/// Returns TRUE if our total percent damage is more or equal to our dismemberable percentage, but FALSE if a wound can cause us to be dismembered.
-/obj/item/bodypart/proc/dismemberable_by_total_damage()
+	if(HAS_TRAIT(owner, TRAIT_EASYDISMEMBER))
+		damage *= 1.25
 
-	update_wound_theory()
+	var/base_roll = rand(1, round(damage ** WOUND_DAMAGE_EXPONENT))
+	var/injury_roll = base_roll
+	injury_roll += check_woundings_mods(woundtype, damage, wound_bonus, bare_wound_bonus)
+	var/list/wounds_checking = GLOB.global_wound_types[woundtype]
 
-	var/bio_status = get_bio_state_status()
-
-	var/has_interior = ((bio_status & ANATOMY_INTERIOR))
-	var/can_theoretically_be_dismembered_by_wound = (any_existing_wound_can_mangle_our_interior || (any_existing_wound_can_mangle_our_exterior && has_interior))
-
-	var/wound_dismemberable = dismemberable_by_wound()
-	var/ready_to_use_alternate_formula = (use_alternate_dismemberment_calc_even_if_mangleable || (!wound_dismemberable && !can_theoretically_be_dismembered_by_wound))
-
-	if (ready_to_use_alternate_formula)
-		var/percent_to_total_max = (get_damage() / max_damage)
-		if (percent_to_total_max >= hp_percent_to_dismemberable)
-			return TRUE
-
-	return FALSE
-
-/// Updates our "can be theoretically dismembered by wounds" variables by iterating through all wound static data.
-/obj/item/bodypart/proc/update_wound_theory()
-	// We put this here so we dont increase init time by doing this all at once on initialization
-	// Effectively, we "lazy load"
-	if (isnull(any_existing_wound_can_mangle_our_interior) || isnull(any_existing_wound_can_mangle_our_exterior))
-		any_existing_wound_can_mangle_our_interior = FALSE
-		any_existing_wound_can_mangle_our_exterior = FALSE
-		for (var/datum/wound/wound_type as anything in GLOB.all_wound_pregen_data)
-			var/datum/wound_pregen_data/pregen_data = GLOB.all_wound_pregen_data[wound_type]
-			if (!pregen_data.can_be_applied_to(src, random_roll = TRUE)) // we only consider randoms because non-randoms are usually really specific
-				continue
-			if (initial(pregen_data.wound_path_to_generate.wound_flags) & MANGLES_EXTERIOR)
-				any_existing_wound_can_mangle_our_exterior = TRUE
-			if (initial(pregen_data.wound_path_to_generate.wound_flags) & MANGLES_INTERIOR)
-				any_existing_wound_can_mangle_our_interior = TRUE
-
-			if (any_existing_wound_can_mangle_our_interior && any_existing_wound_can_mangle_our_exterior)
+	// quick re-check to see if bare_wound_bonus applies, for the benefit of log_wound(), see about getting the check from check_woundings_mods() somehow
+	if(ishuman(owner))
+		var/mob/living/carbon/human/human_wearer = owner
+		var/list/clothing = human_wearer.clothingonpart(src)
+		for(var/i in clothing)
+			var/obj/item/clothing/clothes_check = i
+			// unlike normal armor checks, we tabluate these piece-by-piece manually so we can also pass on appropriate damage the clothing's limbs if necessary
+			if(clothes_check.armor.getRating("wound"))
+				bare_wound_bonus = 0
 				break
+
+	//cycle through the wounds of the relevant category from the most severe down
+	for(var/PW in wounds_checking)
+		var/datum/wound/possible_wound = PW
+		var/datum/wound/replaced_wound
+		for(var/i in wounds)
+			var/datum/wound/existing_wound = i
+			if(existing_wound.type in wounds_checking)
+				if(existing_wound.severity >= initial(possible_wound.severity))
+					return
+				else
+					replaced_wound = existing_wound
+
+		if(initial(possible_wound.threshold_minimum) < injury_roll)
+			var/datum/wound/new_wound
+			if(replaced_wound)
+				new_wound = replaced_wound.replace_wound(possible_wound)
+				log_wound(owner, new_wound, damage, wound_bonus, bare_wound_bonus, base_roll) // dismembering wounds are logged in the apply_wound() for loss wounds since they delete themselves immediately, these will be immediately returned
+			else
+				new_wound = new possible_wound
+				new_wound.apply_wound(src)
+				log_wound(owner, new_wound, damage, wound_bonus, bare_wound_bonus, base_roll)
+			return new_wound
+
+// try forcing a specific wound, but only if there isn't already a wound of that severity or greater for that type on this bodypart
+/obj/item/bodypart/proc/force_wound_upwards(specific_woundtype, smited = FALSE)
+	var/datum/wound/potential_wound = specific_woundtype
+	for(var/i in wounds)
+		var/datum/wound/existing_wound = i
+		if(existing_wound.wound_type == initial(potential_wound.wound_type))
+			if(existing_wound.severity < initial(potential_wound.severity)) // we only try if the existing one is inferior to the one we're trying to force
+				existing_wound.replace_wound(potential_wound, smited)
+			return
+
+	var/datum/wound/new_wound = new potential_wound
+	new_wound.apply_wound(src, smited = smited)
+
+/**
+  * check_wounding_mods() is where we handle the various modifiers of a wound roll
+  *
+  * A short list of things we consider: any armor a human target may be wearing, and if they have no wound armor on the limb, if we have a bare_wound_bonus to apply, plus the plain wound_bonus
+  * We also flick through all of the wounds we currently have on this limb and add their threshold penalties, so that having lots of bad wounds makes you more liable to get hurt worse
+  * Lastly, we add the inherent wound_resistance variable the bodypart has (heads and chests are slightly harder to wound), and a small bonus if the limb is already disabled
+  *
+  * Arguments:
+  * * It's the same ones on [receive_damage]
+  */
+/obj/item/bodypart/proc/check_woundings_mods(wounding_type, damage, wound_bonus, bare_wound_bonus)
+	var/armor_ablation = 0
+	var/injury_mod = 0
+
+	if(owner && ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		var/list/clothing = H.clothingonpart(src)
+		for(var/c in clothing)
+			var/obj/item/clothing/C = c
+			// unlike normal armor checks, we tabluate these piece-by-piece manually so we can also pass on appropriate damage the clothing's limbs if necessary
+			armor_ablation += C.armor.getRating("wound")
+			if(wounding_type == WOUND_SLASH)
+				C.take_damage_zone(body_zone, damage, BRUTE, armour_penetration)
+			else if(wounding_type == WOUND_BURN && damage >= 10) // lazy way to block freezing from shredding clothes without adding another var onto apply_damage()
+				C.take_damage_zone(body_zone, damage, BURN, armour_penetration)
+
+		if(!armor_ablation)
+			injury_mod += bare_wound_bonus
+
+	injury_mod -= armor_ablation
+	injury_mod += wound_bonus
+
+	for(var/thing in wounds)
+		var/datum/wound/W = thing
+		injury_mod += W.threshold_penalty
+
+	var/part_mod = -wound_resistance
+	if(get_damage(TRUE) >= max_damage)
+		part_mod += disabled_wound_penalty
+
+	injury_mod += part_mod
+
+	return injury_mod
 
 //Heals brute and burn damage for the organ. Returns 1 if the damage-icon states changed at all.
 //Damage cannot go below zero.
 //Cannot remove negative damage (i.e. apply damage)
-/obj/item/bodypart/proc/heal_damage(brute, burn, updating_health = TRUE, forced = FALSE, required_bodytype)
-	SHOULD_CALL_PARENT(TRUE)
+/obj/item/bodypart/proc/heal_damage(brute, burn, stamina, required_status, updating_health = TRUE)
 
-	if(!forced && required_bodytype && !(bodytype & required_bodytype)) //So we can only heal certain kinds of limbs, ie robotic vs organic.
+	if(required_status && (status != required_status)) //So we can only heal certain kinds of limbs, ie robotic vs organic.
 		return
 
-	if(brute)
-		set_brute_dam(round(max(brute_dam - brute, 0), DAMAGE_PRECISION))
-	if(burn)
-		set_burn_dam(round(max(burn_dam - burn, 0), DAMAGE_PRECISION))
-
-	if(owner)
-		if(can_be_disabled)
-			update_disabled()
-		if(updating_health)
-			owner.updatehealth()
+	brute_dam	= round(max(brute_dam - brute, 0), DAMAGE_PRECISION)
+	burn_dam	= round(max(burn_dam - burn, 0), DAMAGE_PRECISION)
+	stamina_dam = round(max(stamina_dam - stamina, 0), DAMAGE_PRECISION)
+	if(owner && updating_health)
+		owner.updatehealth()
+	consider_processing()
+	update_disabled()
 	cremation_progress = min(0, cremation_progress - ((brute_dam + burn_dam)*(100/max_damage)))
 	return update_bodypart_damage_state()
 
-///Sets the damage of a bodypart when it is created.
-/obj/item/bodypart/proc/set_initial_damage(brute_damage, burn_damage)
-	set_brute_dam(brute_damage)
-	set_burn_dam(burn_damage)
-
-///Proc to hook behavior associated to the change of the brute_dam variable's value.
-/obj/item/bodypart/proc/set_brute_dam(new_value)
-	PROTECTED_PROC(TRUE)
-
-	if(brute_dam == new_value)
-		return
-	. = brute_dam
-	brute_dam = new_value
-
-///Proc to hook behavior associated to the change of the burn_dam variable's value.
-/obj/item/bodypart/proc/set_burn_dam(new_value)
-	PROTECTED_PROC(TRUE)
-
-	if(burn_dam == new_value)
-		return
-	. = burn_dam
-	burn_dam = new_value
-
 //Returns total damage.
-/obj/item/bodypart/proc/get_damage()
-	return brute_dam + burn_dam
+/obj/item/bodypart/proc/get_damage(include_stamina = FALSE)
+	var/total = brute_dam + burn_dam
+	if(include_stamina)
+		total = max(total, stamina_dam)
+	return total
 
 //Checks disabled status thresholds
 /obj/item/bodypart/proc/update_disabled()
-	SHOULD_CALL_PARENT(TRUE)
-
 	if(!owner)
 		return
+	set_disabled(is_disabled())
 
-	if(!can_be_disabled)
-		set_disabled(FALSE)
-		CRASH("update_disabled called with can_be_disabled false")
-
+/obj/item/bodypart/proc/is_disabled()
+	if(!owner)
+		return
 	if(HAS_TRAIT(src, TRAIT_PARALYSIS))
-		set_disabled(TRUE)
-		return
+		return BODYPART_DISABLED_PARALYSIS
+	for(var/i in wounds)
+		var/datum/wound/W = i
+		if(W.disabling)
+			return BODYPART_DISABLED_WOUND
+	if(can_dismember() && !HAS_TRAIT(owner, TRAIT_NOLIMBDISABLE))
+		. = disabled //inertia, to avoid limbs healing 0.1 damage and being re-enabled
 
-	var/total_damage = brute_dam + burn_dam
-
-	// this block of checks is for limbs that can be disabled, but not through pure damage (AKA limbs that suffer wounds, human/monkey parts and such)
-	if(!disabling_threshold_percentage)
-		if(total_damage < max_damage)
+		if(get_damage(TRUE) >= max_damage * (HAS_TRAIT(owner, TRAIT_EASYLIMBDISABLE) ? 0.6 : 1)) //Easy limb disable disables the limb at 40% health instead of 0%
+			if(!last_maxed)
+				owner.emote("scream")
+				last_maxed = TRUE
+			if(!is_organic_limb() || stamina_dam >= max_damage)
+				return BODYPART_DISABLED_DAMAGE
+		else if(disabled && (get_damage(TRUE) <= (max_damage * 0.8))) // reenabled at 80% now instead of 50% as of wounds update
 			last_maxed = FALSE
-		else
-			if(!last_maxed && owner.stat < UNCONSCIOUS)
-				INVOKE_ASYNC(owner, TYPE_PROC_REF(/mob, emote), "scream")
-			last_maxed = TRUE
-		set_disabled(FALSE) // we only care about the paralysis trait
-		return
+			return BODYPART_NOT_DISABLED
+	else
+		return BODYPART_NOT_DISABLED
+	return BODYPART_NOT_DISABLED
 
-	// we're now dealing solely with limbs that can be disabled through pure damage, AKA robot parts
-	if(total_damage >= max_damage * disabling_threshold_percentage)
-		if(!last_maxed)
-			if(owner.stat < UNCONSCIOUS)
-				INVOKE_ASYNC(owner, TYPE_PROC_REF(/mob, emote), "scream")
-			last_maxed = TRUE
-		set_disabled(TRUE)
-		return
-
-	if(bodypart_disabled && total_damage <= max_damage * 0.5) // reenable the limb at 50% health
-		last_maxed = FALSE
-		set_disabled(FALSE)
-
-///Proc to change the value of the `disabled` variable and react to the event of its change.
 /obj/item/bodypart/proc/set_disabled(new_disabled)
-	SHOULD_CALL_PARENT(TRUE)
-	PROTECTED_PROC(TRUE)
-
-	if(bodypart_disabled == new_disabled)
+	if(disabled == new_disabled || !owner)
 		return
-	. = bodypart_disabled
-	bodypart_disabled = new_disabled
-
-	if(!owner)
-		return
+	disabled = new_disabled
+	if(disabled && owner.get_item_for_held_index(held_index))
+		owner.dropItemToGround(owner.get_item_for_held_index(held_index))
 	owner.update_health_hud() //update the healthdoll
 	owner.update_body()
-
-/// Proc to change the value of the `owner` variable and react to the event of its change.
-/obj/item/bodypart/proc/update_owner(new_owner)
-	SHOULD_NOT_OVERRIDE(TRUE)
-
-	if(owner == new_owner)
-		return FALSE //`null` is a valid option, so we need to use a num var to make it clear no change was made.
-
-	SEND_SIGNAL(src, COMSIG_BODYPART_CHANGED_OWNER, new_owner, owner)
-
-	if(owner)
-		. = owner //return value is old owner
-		clear_ownership(owner)
-	if(new_owner)
-		apply_ownership(new_owner)
-
-	refresh_bleed_rate()
-	return .
-
-/// Run all necessary procs to remove a limbs ownership and remove the appropriate signals and traits
-/obj/item/bodypart/proc/clear_ownership(mob/living/carbon/old_owner)
-	SHOULD_CALL_PARENT(TRUE)
-
-	owner = null
-
-	if(speed_modifier)
-		old_owner.update_bodypart_speed_modifier()
-	if(length(bodypart_traits))
-		old_owner.remove_traits(bodypart_traits, bodypart_trait_source)
-
-	UnregisterSignal(old_owner, list(
-		SIGNAL_REMOVETRAIT(TRAIT_NOLIMBDISABLE),
-	SIGNAL_ADDTRAIT(TRAIT_NOLIMBDISABLE),
-		SIGNAL_REMOVETRAIT(TRAIT_NOBLOOD),
-		SIGNAL_ADDTRAIT(TRAIT_NOBLOOD),
-		))
-
-	UnregisterSignal(old_owner, COMSIG_ATOM_RESTYLE)
-
-/// Apply ownership of a limb to someone, giving the appropriate traits, updates and signals
-/obj/item/bodypart/proc/apply_ownership(mob/living/carbon/new_owner)
-	SHOULD_CALL_PARENT(TRUE)
-
-	owner = new_owner
-
-	if(speed_modifier)
-		owner.update_bodypart_speed_modifier()
-	if(length(bodypart_traits))
-		owner.add_traits(bodypart_traits, bodypart_trait_source)
-
-	if(initial(can_be_disabled))
-		if(HAS_TRAIT(owner, TRAIT_NOLIMBDISABLE))
-			set_can_be_disabled(FALSE)
-
-		// Listen to disable traits being added
-		RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_NOLIMBDISABLE), PROC_REF(on_owner_nolimbdisable_trait_loss))
-		RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_NOLIMBDISABLE), PROC_REF(on_owner_nolimbdisable_trait_gain))
-
-		// Listen to no blood traits being added
-		RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_NOBLOOD), PROC_REF(on_owner_nobleed_loss))
-		RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_NOBLOOD), PROC_REF(on_owner_nobleed_gain))
-
-	if(can_be_disabled)
-		update_disabled()
-
-	RegisterSignal(owner, COMSIG_ATOM_RESTYLE, PROC_REF(on_attempt_feature_restyle_mob))
-
-	forceMove(owner)
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_forced_removal)) //this must be set after we moved, or we insta gib
-
-/// Called on addition of a bodypart
-/obj/item/bodypart/proc/on_adding(mob/living/carbon/new_owner)
-	SHOULD_CALL_PARENT(TRUE)
-
-	item_flags |= ABSTRACT
-	ADD_TRAIT(src, TRAIT_NODROP, ORGAN_INSIDE_BODY_TRAIT)
-
-/// Called on removal of a bodypart.
-/obj/item/bodypart/proc/on_removal(mob/living/carbon/old_owner)
-	SHOULD_CALL_PARENT(TRUE)
-
-	UnregisterSignal(src, COMSIG_MOVABLE_MOVED)
-
-	item_flags &= ~ABSTRACT
-	REMOVE_TRAIT(src, TRAIT_NODROP, ORGAN_INSIDE_BODY_TRAIT)
-
-	if(!length(bodypart_traits))
-		return
-
-	owner.remove_traits(bodypart_traits, bodypart_trait_source)
-
-///Proc to change the value of the `can_be_disabled` variable and react to the event of its change.
-/obj/item/bodypart/proc/set_can_be_disabled(new_can_be_disabled)
-	PROTECTED_PROC(TRUE)
-	SHOULD_CALL_PARENT(TRUE)
-
-	if(can_be_disabled == new_can_be_disabled)
-		return
-	. = can_be_disabled
-	can_be_disabled = new_can_be_disabled
-	if(can_be_disabled)
-		if(owner)
-			if(HAS_TRAIT(owner, TRAIT_NOLIMBDISABLE))
-				CRASH("set_can_be_disabled to TRUE with for limb whose owner has TRAIT_NOLIMBDISABLE")
-			RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_gain))
-			RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_loss))
-		update_disabled()
-	else if(.)
-		if(owner)
-			UnregisterSignal(owner, list(
-				SIGNAL_ADDTRAIT(TRAIT_PARALYSIS),
-				SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS),
-				))
-		set_disabled(FALSE)
-
-///Called when TRAIT_PARALYSIS is added to the limb.
-/obj/item/bodypart/proc/on_paralysis_trait_gain(obj/item/bodypart/source)
-	PROTECTED_PROC(TRUE)
-	SIGNAL_HANDLER
-
-	if(can_be_disabled)
-		set_disabled(TRUE)
-
-///Called when TRAIT_PARALYSIS is removed from the limb.
-/obj/item/bodypart/proc/on_paralysis_trait_loss(obj/item/bodypart/source)
-	PROTECTED_PROC(TRUE)
-	SIGNAL_HANDLER
-
-	if(can_be_disabled)
-		update_disabled()
-
-///Called when TRAIT_NOLIMBDISABLE is added to the owner.
-/obj/item/bodypart/proc/on_owner_nolimbdisable_trait_gain(mob/living/carbon/source)
-	PROTECTED_PROC(TRUE)
-	SIGNAL_HANDLER
-
-	set_can_be_disabled(FALSE)
-
-///Called when TRAIT_NOLIMBDISABLE is removed from the owner.
-/obj/item/bodypart/proc/on_owner_nolimbdisable_trait_loss(mob/living/carbon/source)
-	PROTECTED_PROC(TRUE)
-	SIGNAL_HANDLER
-
-	set_can_be_disabled(initial(can_be_disabled))
+	owner.update_mobility()
+	return TRUE //if there was a change.
 
 //Updates an organ's brute/burn states for use by update_damage_overlays()
 //Returns 1 if we need to update overlays. 0 otherwise.
 /obj/item/bodypart/proc/update_bodypart_damage_state()
-	SHOULD_CALL_PARENT(TRUE)
-
-	var/tbrute = round( (brute_dam/max_damage)*3, 1 )
-	var/tburn = round( (burn_dam/max_damage)*3, 1 )
+	var/tbrute	= round( (brute_dam/max_damage)*3, 1 )
+	var/tburn	= round( (burn_dam/max_damage)*3, 1 )
 	if((tbrute != brutestate) || (tburn != burnstate))
 		brutestate = tbrute
 		burnstate = tburn
 		return TRUE
 	return FALSE
 
+//Change organ status
+/obj/item/bodypart/proc/change_bodypart_status(new_limb_status, heal_limb, change_icon_to_default)
+	status = new_limb_status
+	if(heal_limb)
+		burn_dam = 0
+		brute_dam = 0
+		brutestate = 0
+		burnstate = 0
+
+	if(change_icon_to_default)
+		if(status == BODYPART_ORGANIC)
+			icon = DEFAULT_BODYPART_ICON_ORGANIC
+		else if(status == BODYPART_ROBOTIC)
+			icon = DEFAULT_BODYPART_ICON_ROBOTIC
+
+	if(owner)
+		owner.updatehealth()
+		owner.update_body() //if our head becomes robotic, we remove the lizard horns and human hair.
+		owner.update_hair()
+		owner.update_damage_overlays()
+
+/obj/item/bodypart/proc/is_organic_limb()
+	return (status == BODYPART_ORGANIC)
+
 //we inform the bodypart of the changes that happened to the owner, or give it the informations from a source mob.
-//set is_creating to true if you want to change the appearance of the limb outside of mutation changes or forced changes.
-/obj/item/bodypart/proc/update_limb(dropping_limb = FALSE, is_creating = FALSE)
-	SHOULD_CALL_PARENT(TRUE)
-
-	if(IS_ORGANIC_LIMB(src))
-		if(!(bodypart_flags & BODYPART_UNHUSKABLE) && owner && HAS_TRAIT(owner, TRAIT_HUSK))
-			dmg_overlay_type = "" //no damage overlay shown when husked
-			is_husked = TRUE
-		else if(owner && HAS_TRAIT(owner, TRAIT_INVISIBLE_MAN))
-			dmg_overlay_type = "" //no damage overlay shown when invisible since the wounds themselves are invisible.
-			is_invisible = TRUE
-		else
-			dmg_overlay_type = initial(dmg_overlay_type)
-			is_husked = FALSE
-			is_invisible = FALSE
-
-	if(variable_color)
-		draw_color = variable_color
-	else if(should_draw_greyscale)
-		draw_color = species_color || (skin_tone ? skintone2hex(skin_tone) : null)
+/obj/item/bodypart/proc/update_limb(dropping_limb, mob/living/carbon/source)
+	var/mob/living/carbon/C
+	if(source)
+		C = source
+		if(!original_owner)
+			original_owner = source
 	else
-		draw_color = null
+		C = owner
+		if(original_owner && owner != original_owner) //Foreign limb
+			no_update = TRUE
+		else
+			no_update = FALSE
 
-	if(!is_creating || !owner)
+	if(HAS_TRAIT(C, TRAIT_HUSK) && is_organic_limb())
+		species_id = "husk" //overrides species_id
+		dmg_overlay_type = "" //no damage overlay shown when husked
+		should_draw_gender = FALSE
+		should_draw_greyscale = FALSE
+		no_update = TRUE
+
+	if(no_update)
 		return
 
-	// There should technically to be an ishuman(owner) check here, but it is absent because no basetype carbons use bodyparts
-	// No, xenos don't actually use bodyparts. Don't ask.
-	var/mob/living/carbon/human/human_owner = owner
+	if(!animal_origin)
+		var/mob/living/carbon/human/H = C
+		should_draw_greyscale = FALSE
 
-	limb_gender = (human_owner.physique == MALE) ? "m" : "f"
-	if(HAS_TRAIT(human_owner, TRAIT_USES_SKINTONES))
-		skin_tone = human_owner.skin_tone
-	else if(HAS_TRAIT(human_owner, TRAIT_MUTANT_COLORS))
-		skin_tone = ""
-		var/datum/species/owner_species = human_owner.dna.species
-		if(owner_species.fixed_mut_color)
-			species_color = owner_species.fixed_mut_color
+		var/datum/species/S = H.dna.species
+		species_id = S.limbs_id
+		species_flags_list = H.dna.species.species_traits
+
+		if(S.use_skintones)
+			skin_tone = H.skin_tone
+			should_draw_greyscale = TRUE
 		else
-			species_color = human_owner.dna.features["mcolor"]
-	else
-		skin_tone = ""
-		species_color = ""
+			skin_tone = ""
 
-	draw_color = variable_color
-	if(should_draw_greyscale) //Should the limb be colored?
-		draw_color ||= species_color || (skin_tone ? skintone2hex(skin_tone) : null)
+		body_gender = H.body_type
+		should_draw_gender = S.sexes
 
-	recolor_external_organs()
-	return TRUE
+		if((MUTCOLORS in S.species_traits) || (DYNCOLORS in S.species_traits))
+			if(S.fixed_mut_color)
+				species_color = S.fixed_mut_color
+			else
+				species_color = H.dna.features["mcolor"]
+			should_draw_greyscale = TRUE
+		else
+			species_color = ""
+
+		if(!dropping_limb && H.dna.check_mutation(HULK))
+			mutation_color = "00aa00"
+		else
+			mutation_color = ""
+
+		dmg_overlay_type = S.damage_overlay_type
+
+	else if(animal_origin == MONKEY_BODYPART) //currently monkeys are the only non human mob to have damage overlays.
+		dmg_overlay_type = animal_origin
+
+	if(status == BODYPART_ROBOTIC)
+		dmg_overlay_type = "robotic"
+
+	if(dropping_limb)
+		no_update = TRUE //when attached, the limb won't be affected by the appearance changes of its mob owner.
 
 //to update the bodypart's icon when not attached to a mob
 /obj/item/bodypart/proc/update_icon_dropped()
-	SHOULD_CALL_PARENT(TRUE)
-
 	cut_overlays()
-	var/list/standing = get_limb_icon(TRUE)
+	var/list/standing = get_limb_icon(1)
 	if(!standing.len)
 		icon_state = initial(icon_state)//no overlays found, we default back to initial icon.
 		return
-	for(var/image/img as anything in standing)
-		img.pixel_x += px_x
-		img.pixel_y += px_y
+	for(var/image/I in standing)
+		I.pixel_x = px_x
+		I.pixel_y = px_y
 	add_overlay(standing)
 
-///Generates an /image for the limb to be used as an overlay
+//Gives you a proper icon appearance for the dismembered limb
 /obj/item/bodypart/proc/get_limb_icon(dropped)
-	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
-
 	icon_state = "" //to erase the default sprite, we're building the visual aspects of the bodypart through overlays alone.
 
 	. = list()
 
-	var/image_dir = NONE
+	var/image_dir = 0
 	if(dropped)
 		image_dir = SOUTH
 		if(dmg_overlay_type)
 			if(brutestate)
-				. += image('icons/mob/effects/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0", -DAMAGE_LAYER, image_dir)
+				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0", -DAMAGE_LAYER, image_dir)
 			if(burnstate)
-				. += image('icons/mob/effects/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]", -DAMAGE_LAYER, image_dir)
+				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]", -DAMAGE_LAYER, image_dir)
 
 	var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
 	var/image/aux
-
-	// Handles invisibility (not alpha or actual invisibility but invisibility)
-	if(is_invisible)
-		limb.icon = icon_invisible
-		limb.icon_state = "invisible_[body_zone]"
-		. += limb
-		return .
-
-	// Normal non-husk handling
-		// This is the MEAT of limb icon code
-	limb.icon = icon_greyscale
-	if(!should_draw_greyscale || !icon_greyscale)
-		limb.icon = icon_static
-
-	if(is_dimorphic) //Does this type of limb have sexual dimorphism?
-		limb.icon_state = "[limb_id]_[body_zone]_[limb_gender]"
-	else
-		limb.icon_state = "[limb_id]_[body_zone]"
-
-	icon_exists(limb.icon, limb.icon_state, TRUE) //Prints a stack trace on the first failure of a given iconstate.
-
 	. += limb
 
-	if(aux_zone) //Hand shit
-		aux = image(limb.icon, "[limb_id]_[aux_zone]", -aux_layer, image_dir)
-		. += aux
-	draw_color = variable_color
-	if(should_draw_greyscale) //Should the limb be colored outside of a forced color?
-		draw_color ||= (species_color) || (skin_tone && skintone2hex(skin_tone))
+	if(animal_origin)
+		if(is_organic_limb())
+			limb.icon = 'icons/mob/animal_parts.dmi'
+			if(species_id == "husk")
+				limb.icon_state = "[animal_origin]_husk_[body_zone]"
+			else
+				limb.icon_state = "[animal_origin]_[body_zone]"
+		else
+			limb.icon = 'icons/mob/augmentation/augments.dmi'
+			limb.icon_state = "[animal_origin]_[body_zone]"
+		return
 
-	if(is_husked)
-		huskify_image(thing_to_husk = limb)
-		if(aux)
-			huskify_image(thing_to_husk = aux)
-		draw_color = husk_color
-	if(draw_color)
-		limb.color = "[draw_color]"
+	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
+
+	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
+		should_draw_gender = FALSE
+
+	if(is_organic_limb())
+		if(should_draw_greyscale)
+			switch(species_id)
+				if("beefman") //Fulp. If we ever add more unique races - this should be a list of them.
+					limb.icon = 'icons/Fulpicons/fulp_bodyparts.dmi'
+				else
+					limb.icon = 'icons/mob/human_parts_greyscale.dmi'
+
+			if(should_draw_gender)
+				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
+			else if(use_digitigrade)
+				limb.icon_state = "digitigrade_[use_digitigrade]_[body_zone]"
+			else
+				limb.icon_state = "[species_id]_[body_zone]"
+		else
+			switch(species_id)
+				if("beefman") //Fulp. If we ever add more unique races - this should be a list of them.
+					limb.icon = 'icons/Fulpicons/fulp_bodyparts.dmi'
+				else
+					limb.icon = 'icons/mob/human_parts.dmi'
+
+			if(should_draw_gender)
+				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
+			else
+				limb.icon_state = "[species_id]_[body_zone]"
 		if(aux_zone)
-			aux.color = "[draw_color]"
+			aux = image(limb.icon, "[species_id]_[aux_zone]", -aux_layer, image_dir)
+			. += aux
 
-		//EMISSIVE CODE START
-		// For some reason this was applied as an overlay on the aux image and limb image before.
-		// I am very sure that this is unnecessary, and i need to treat it as part of the return list
-		// to be able to mask it proper in case this limb is a leg.
-	if(!is_husked)
-		if(blocks_emissive != EMISSIVE_BLOCK_NONE)
-			var/atom/location = loc || owner || src
-			var/mutable_appearance/limb_em_block = emissive_blocker(limb.icon, limb.icon_state, location, layer = limb.layer, alpha = limb.alpha)
-			limb_em_block.dir = image_dir
-			. += limb_em_block
+	else
+		limb.icon = icon
+		if(should_draw_gender)
+			limb.icon_state = "[body_zone]_[icon_gender]"
+		else
+			limb.icon_state = "[body_zone]"
+		if(aux_zone)
+			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
+			. += aux
+		return
 
+
+	if(should_draw_greyscale)
+		var/draw_color = mutation_color || species_color || (skin_tone && skintone2hex(skin_tone))
+		if(draw_color)
+			limb.color = "#[draw_color]"
 			if(aux_zone)
-				var/mutable_appearance/aux_em_block = emissive_blocker(aux.icon, aux.icon_state, location, layer = aux.layer, alpha = aux.alpha)
-				aux_em_block.dir = image_dir
-				. += aux_em_block
-		//EMISSIVE CODE END
-
-	//No need to handle leg layering if dropped, we only face south anyways
-	if(!dropped && ((body_zone == BODY_ZONE_R_LEG) || (body_zone == BODY_ZONE_L_LEG)))
-		//Legs are a bit goofy in regards to layering, and we will need two images instead of one to fix that
-		var/obj/item/bodypart/leg/leg_source = src
-		for(var/image/limb_image in .)
-			//remove the old, unmasked image
-			. -= limb_image
-			//add two masked images based on the old one
-			. += leg_source.generate_masked_leg(limb_image, image_dir)
-
-	// And finally put bodypart_overlays on if not husked
-	if(!is_husked)
-		//Draw external organs like horns and frills
-		for(var/datum/bodypart_overlay/overlay as anything in bodypart_overlays)
-			if(!dropped && !overlay.can_draw_on_bodypart(owner)) //if you want different checks for dropped bodyparts, you can insert it here
-				continue
-			//Some externals have multiple layers for background, foreground and between
-			for(var/external_layer in overlay.all_layers)
-				if(overlay.layers & external_layer)
-					. += overlay.get_overlay(external_layer, src)
-
-	return .
-
-/obj/item/bodypart/proc/huskify_image(image/thing_to_husk, draw_blood = TRUE)
-	var/icon/husk_icon = new(thing_to_husk.icon)
-	husk_icon.ColorTone(HUSK_COLOR_TONE)
-	thing_to_husk.icon = husk_icon
-	if(draw_blood)
-		var/mutable_appearance/husk_blood = mutable_appearance(icon_husk, "[husk_type]_husk_[body_zone]")
-		husk_blood.blend_mode = BLEND_INSET_OVERLAY
-		husk_blood.appearance_flags |= RESET_COLOR
-		husk_blood.dir = thing_to_husk.dir
-		thing_to_husk.add_overlay(husk_blood)
-
-///Add a bodypart overlay and call the appropriate update procs
-/obj/item/bodypart/proc/add_bodypart_overlay(datum/bodypart_overlay/overlay)
-	bodypart_overlays += overlay
-	overlay.added_to_limb(src)
-
-///Remove a bodypart overlay and call the appropriate update procs
-/obj/item/bodypart/proc/remove_bodypart_overlay(datum/bodypart_overlay/overlay)
-	bodypart_overlays -= overlay
-	overlay.removed_from_limb(src)
+				aux.color = "#[draw_color]"
 
 /obj/item/bodypart/deconstruct(disassembled = TRUE)
-	SHOULD_CALL_PARENT(TRUE)
-
 	drop_organs()
-	return ..()
+	qdel(src)
 
-/// INTERNAL PROC, DO NOT USE
-/// Properly sets us up to manage an inserted embeded object
-/obj/item/bodypart/proc/_embed_object(obj/item/embed)
-	if(embed in embedded_objects) // go away
-		return
-	// We don't need to do anything with projectile embedding, because it will never reach this point
-	RegisterSignal(embed, COMSIG_ITEM_EMBEDDING_UPDATE, PROC_REF(embedded_object_changed))
-	embedded_objects += embed
-	refresh_bleed_rate()
-
-/// INTERNAL PROC, DO NOT USE
-/// Cleans up any attachment we have to the embedded object, removes it from our list
-/obj/item/bodypart/proc/_unembed_object(obj/item/unembed)
-	UnregisterSignal(unembed, COMSIG_ITEM_EMBEDDING_UPDATE)
-	embedded_objects -= unembed
-	refresh_bleed_rate()
-
-/obj/item/bodypart/proc/embedded_object_changed(obj/item/embedded_source)
-	SIGNAL_HANDLER
-	/// Embedded objects effect bleed rate, gotta refresh lads
-	refresh_bleed_rate()
-
-/// Sets our generic bleedstacks
-/obj/item/bodypart/proc/setBleedStacks(set_to)
-	SHOULD_CALL_PARENT(TRUE)
-	adjustBleedStacks(set_to - generic_bleedstacks)
-
-/// Modifies our generic bleedstacks. You must use this to change the variable
-/// Takes the amount to adjust by, and the lowest amount we're allowed to have post adjust
-/obj/item/bodypart/proc/adjustBleedStacks(adjust_by, minimum = -INFINITY)
-	if(!adjust_by)
-		return
-	var/old_bleedstacks = generic_bleedstacks
-	generic_bleedstacks = max(generic_bleedstacks + adjust_by, minimum)
-
-	// If we've started or stopped bleeding, we need to refresh our bleed rate
-	if((old_bleedstacks <= 0 && generic_bleedstacks > 0) \
-		|| old_bleedstacks > 0 && generic_bleedstacks <= 0)
-		refresh_bleed_rate()
-
-/obj/item/bodypart/proc/on_owner_nobleed_loss(datum/source)
-	SIGNAL_HANDLER
-	refresh_bleed_rate()
-
-/obj/item/bodypart/proc/on_owner_nobleed_gain(datum/source)
-	SIGNAL_HANDLER
-	refresh_bleed_rate()
-
-/// Refresh the cache of our rate of bleeding sans any modifiers
-/// ANYTHING ADDED TO THIS PROC NEEDS TO CALL IT WHEN IT'S EFFECT CHANGES
-/obj/item/bodypart/proc/refresh_bleed_rate()
-	SHOULD_NOT_OVERRIDE(TRUE)
-
-	var/old_bleed_rate = cached_bleed_rate
-	cached_bleed_rate = 0
-	if(!owner)
+/// Get whatever wound of the given type is currently attached to this limb, if any
+/obj/item/bodypart/proc/get_wound_type(checking_type)
+	if(isnull(wounds))
 		return
 
-	if(!can_bleed())
-		if(cached_bleed_rate != old_bleed_rate)
-			update_part_wound_overlay()
+	for(var/i in wounds)
+		if(istype(i, checking_type))
+			return i
+
+/**
+  * update_wounds() is called whenever a wound is gained or lost on this bodypart, as well as if there's a change of some kind on a bone wound possibly changing disabled status
+  *
+  * Covers tabulating the damage multipliers we have from wounds (burn specifically), as well as deleting our gauze wrapping if we don't have any wounds that can use bandaging
+  *
+  * Arguments:
+  * * replaced- If true, this is being called from the remove_wound() of a wound that's being replaced, so the bandage that already existed is still relevant, but the new wound hasn't been added yet
+  */
+/obj/item/bodypart/proc/update_wounds(replaced = FALSE)
+	var/dam_mul = 1 //initial(wound_damage_multiplier)
+
+	// we can (normally) only have one wound per type, but remember there's multiple types (smites like :B:loodless can generate multiple cuts on a limb)
+	for(var/i in wounds)
+		var/datum/wound/iter_wound = i
+		dam_mul *= iter_wound.damage_mulitplier_penalty
+
+	if(!LAZYLEN(wounds) && current_gauze && !replaced)
+		owner.visible_message("<span class='notice'>\The [current_gauze] on [owner]'s [name] fall away.</span>", "<span class='notice'>The [current_gauze] on your [name] fall away.</span>")
+		QDEL_NULL(current_gauze)
+
+	wound_damage_multiplier = dam_mul
+	update_disabled()
+
+/obj/item/bodypart/proc/get_bleed_rate()
+	if(status != BODYPART_ORGANIC) // maybe in the future we can bleed oil from aug parts, but not now
 		return
 
+	var/bleed_rate = 0
 	if(generic_bleedstacks > 0)
-		cached_bleed_rate += 0.5
+		bleed_rate++
 
+	//We want an accurate reading of .len
+	listclearnulls(embedded_objects)
 	for(var/obj/item/embeddies in embedded_objects)
 		if(!embeddies.isEmbedHarmless())
-			cached_bleed_rate += 0.25
+			bleed_rate += 0.5
 
-	for(var/datum/wound/iter_wound as anything in wounds)
-		cached_bleed_rate += iter_wound.blood_flow
+	for(var/thing in wounds)
+		var/datum/wound/W = thing
+		bleed_rate += W.blood_flow
 
-	// Our bleed overlay is based directly off bleed_rate, so go aheead and update that would you?
-	if(cached_bleed_rate != old_bleed_rate)
-		update_part_wound_overlay()
-
-	return cached_bleed_rate
-
-/// Returns our bleed rate, taking into account laying down and grabbing the limb
-/obj/item/bodypart/proc/get_modified_bleed_rate()
-	var/bleed_rate = cached_bleed_rate
-	if(owner.body_position == LYING_DOWN)
+	if(owner.mobility_flags & ~MOBILITY_STAND)
 		bleed_rate *= 0.75
-	if(grasped_by)
-		bleed_rate *= 0.7
 	return bleed_rate
 
-// how much blood the limb needs to be losing per tick (not counting laying down/self grasping modifiers) to get the different bleed icons
-#define BLEED_OVERLAY_LOW 0.5
-#define BLEED_OVERLAY_MED 1.5
-#define BLEED_OVERLAY_GUSH 3.25
-
-/obj/item/bodypart/proc/update_part_wound_overlay()
-	if(!owner)
-		return FALSE
-	if(!can_bleed())
-		if(bleed_overlay_icon)
-			bleed_overlay_icon = null
-			owner.update_wound_overlays()
-		return FALSE
-
-	var/bleed_rate = cached_bleed_rate
-	var/new_bleed_icon = null
-
-	switch(bleed_rate)
-		if(-INFINITY to BLEED_OVERLAY_LOW)
-			new_bleed_icon = null
-		if(BLEED_OVERLAY_LOW to BLEED_OVERLAY_MED)
-			new_bleed_icon = "[body_zone]_1"
-		if(BLEED_OVERLAY_MED to BLEED_OVERLAY_GUSH)
-			if(owner.body_position == LYING_DOWN || HAS_TRAIT(owner, TRAIT_STASIS) || owner.stat == DEAD)
-				new_bleed_icon = "[body_zone]_2s"
-			else
-				new_bleed_icon = "[body_zone]_2"
-		if(BLEED_OVERLAY_GUSH to INFINITY)
-			if(HAS_TRAIT(owner, TRAIT_STASIS) || owner.stat == DEAD)
-				new_bleed_icon = "[body_zone]_2s"
-			else
-				new_bleed_icon = "[body_zone]_3"
-
-	if(new_bleed_icon != bleed_overlay_icon)
-		bleed_overlay_icon = new_bleed_icon
-		owner.update_wound_overlays()
-
-#undef BLEED_OVERLAY_LOW
-#undef BLEED_OVERLAY_MED
-#undef BLEED_OVERLAY_GUSH
-
-/obj/item/bodypart/proc/can_bleed()
-	SHOULD_BE_PURE(TRUE)
-
-	return ((biological_state & BIO_BLOODED) && (!owner || !HAS_TRAIT(owner, TRAIT_NOBLOOD)))
-
 /**
- * apply_gauze() is used to- well, apply gauze to a bodypart
- *
- * As of the Wounds 2 PR, all bleeding is now bodypart based rather than the old bleedstacks system, and 90% of standard bleeding comes from flesh wounds (the exception is embedded weapons).
- * The same way bleeding is totaled up by bodyparts, gauze now applies to all wounds on the same part. Thus, having a slash wound, a pierce wound, and a broken bone wound would have the gauze
- * applying blood staunching to the first two wounds, while also acting as a sling for the third one. Once enough blood has been absorbed or all wounds with the ACCEPTS_GAUZE flag have been cleared,
- * the gauze falls off.
- *
- * Arguments:
- * * gauze- Just the gauze stack we're taking a sheet from to apply here
- */
-/obj/item/bodypart/proc/apply_gauze(obj/item/stack/medical/gauze/new_gauze)
-	if(!istype(new_gauze) || !new_gauze.absorption_capacity)
+  * apply_gauze() is used to- well, apply gauze to a bodypart
+  *
+  * As of the Wounds 2 PR, all bleeding is now bodypart based rather than the old bleedstacks system, and 90% of standard bleeding comes from flesh wounds (the exception is embedded weapons).
+  * The same way bleeding is totaled up by bodyparts, gauze now applies to all wounds on the same part. Thus, having a slash wound, a pierce wound, and a broken bone wound would have the gauze
+  * applying blood staunching to the first two wounds, while also acting as a sling for the third one. Once enough blood has been absorbed or all wounds with the ACCEPTS_GAUZE flag have been cleared,
+  * the gauze falls off.
+  *
+  * Arguments:
+  * * gauze- Just the gauze stack we're taking a sheet from to apply here
+  */
+/obj/item/bodypart/proc/apply_gauze(obj/item/stack/gauze)
+	if(!istype(gauze) || !gauze.absorption_capacity)
 		return
-	var/newly_gauzed = FALSE
-	if(!current_gauze)
-		newly_gauzed = TRUE
 	QDEL_NULL(current_gauze)
-	current_gauze = new new_gauze.type(src, 1)
-	new_gauze.use(1)
-	current_gauze.gauzed_bodypart = src
-	if(newly_gauzed)
-		SEND_SIGNAL(src, COMSIG_BODYPART_GAUZED, current_gauze, new_gauze)
+	current_gauze = new gauze.type(src, 1)
+	gauze.use(1)
 
 /**
- * seep_gauze() is for when a gauze wrapping absorbs blood or pus from wounds, lowering its absorption capacity.
- *
- * The passed amount of seepage is deducted from the bandage's absorption capacity, and if we reach a negative absorption capacity, the bandages falls off and we're left with nothing.
- *
- * Arguments:
- * * seep_amt - How much absorption capacity we're removing from our current bandages (think, how much blood or pus are we soaking up this tick?)
- */
+  * seep_gauze() is for when a gauze wrapping absorbs blood or pus from wounds, lowering its absorption capacity.
+  *
+  * The passed amount of seepage is deducted from the bandage's absorption capacity, and if we reach a negative absorption capacity, the bandages fall off and we're left with nothing.
+  *
+  * Arguments:
+  * * seep_amt - How much absorption capacity we're removing from our current bandages (think, how much blood or pus are we soaking up this tick?)
+  */
 /obj/item/bodypart/proc/seep_gauze(seep_amt = 0)
 	if(!current_gauze)
 		return
 	current_gauze.absorption_capacity -= seep_amt
-	if(current_gauze.absorption_capacity <= 0)
-		owner.visible_message(span_danger("\The [current_gauze.name] on [owner]'s [name] falls away in rags."), span_warning("\The [current_gauze.name] on your [name] falls away in rags."), vision_distance=COMBAT_MESSAGE_RANGE)
+	if(current_gauze.absorption_capacity < 0)
+		owner.visible_message("<span class='danger'>\The [current_gauze] on [owner]'s [name] fall away in rags.</span>", "<span class='warning'>\The [current_gauze] on your [name] fall away in rags.</span>", vision_distance=COMBAT_MESSAGE_RANGE)
 		QDEL_NULL(current_gauze)
-
-///Loops through all of the bodypart's external organs and update's their color.
-/obj/item/bodypart/proc/recolor_external_organs()
-	for(var/datum/bodypart_overlay/mutant/overlay in bodypart_overlays)
-		overlay.inherit_color(src, force = TRUE)
-
-///A multi-purpose setter for all things immediately important to the icon and iconstate of the limb.
-/obj/item/bodypart/proc/change_appearance(icon, id, greyscale, dimorphic)
-	var/icon_holder
-	if(greyscale)
-		icon_greyscale = icon
-		icon_holder = icon
-		should_draw_greyscale = TRUE
-	else
-		icon_static = icon
-		icon_holder = icon
-		should_draw_greyscale = FALSE
-
-	if(id) //limb_id should never be falsey
-		limb_id = id
-
-	if(!isnull(dimorphic))
-		is_dimorphic = dimorphic
-
-	if(owner)
-		owner.update_body_parts()
-	else
-		update_icon_dropped()
-
-	//This foot gun needs a safety
-	if(!icon_exists(icon_holder, "[limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]"))
-		reset_appearance()
-		stack_trace("change_appearance([icon], [id], [greyscale], [dimorphic]) generated null icon")
-
-///Resets the base appearance of a limb to it's default values.
-/obj/item/bodypart/proc/reset_appearance()
-	icon_static = initial(icon_static)
-	icon_greyscale = initial(icon_greyscale)
-	limb_id = initial(limb_id)
-	is_dimorphic = initial(is_dimorphic)
-	should_draw_greyscale = initial(should_draw_greyscale)
-
-	if(owner)
-		owner.update_body_parts()
-	else
-		update_icon_dropped()
-
-// Note: Does NOT return EMP protection value from parent call or pass it on to subtypes
-/obj/item/bodypart/emp_act(severity)
-	var/protection = ..()
-	if((protection & EMP_PROTECT_WIRES) || !IS_ROBOTIC_LIMB(src))
-		return FALSE
-
-	// with defines at the time of writing, this is 2 brute and 1.5 burn
-	// 2 + 1.5 = 3,5, with 6 limbs thats 21, on a heavy 42
-	// 42 * 0.8 = 33.6
-	// 3 hits to crit with an ion rifle on someone fully augged at a total of 100.8 damage, although im p sure mood can boost max hp above 100
-	// dont forget emps pierce armor, debilitate augs, and usually comes with splash damage e.g. ion rifles or grenades
-	var/time_needed = AUGGED_LIMB_EMP_PARALYZE_TIME
-	var/brute_damage = AUGGED_LIMB_EMP_BRUTE_DAMAGE
-	var/burn_damage = AUGGED_LIMB_EMP_BURN_DAMAGE
-	if(severity == EMP_HEAVY)
-		time_needed *= 2
-		brute_damage *= 2
-		burn_damage *= 2
-
-	receive_damage(brute_damage, burn_damage)
-	do_sparks(number = 1, cardinal_only = FALSE, source = owner || src)
-
-	if(can_be_disabled && (get_damage() / max_damage) >= robotic_emp_paralyze_damage_percent_threshold)
-		ADD_TRAIT(src, TRAIT_PARALYSIS, EMP_TRAIT)
-		addtimer(TRAIT_CALLBACK_REMOVE(src, TRAIT_PARALYSIS, EMP_TRAIT), time_needed)
-		owner?.visible_message(span_danger("[owner]'s [plaintext_zone] seems to malfunction!"))
-
-	return TRUE
-
-/// Returns the generic description of our BIO_EXTERNAL feature(s), prioritizing certain ones over others. Returns error on failure.
-/obj/item/bodypart/proc/get_external_description()
-	if (biological_state & BIO_FLESH)
-		return "flesh"
-	if (biological_state & BIO_WIRED)
-		return "wiring"
-
-	return "error"
-
-/// Returns the generic description of our BIO_INTERNAL feature(s), prioritizing certain ones over others. Returns error on failure.
-/obj/item/bodypart/proc/get_internal_description()
-	if (biological_state & BIO_BONE)
-		return "bone"
-	if (biological_state & BIO_METAL)
-		return "metal"
-
-	return "error"

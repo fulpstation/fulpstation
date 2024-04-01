@@ -1,12 +1,11 @@
 /obj/machinery/hypnochair
 	name = "enhanced interrogation chamber"
 	desc = "A device used to perform \"enhanced interrogation\" through invasive mental conditioning."
-	icon = 'icons/obj/machines/implant_chair.dmi'
+	icon = 'icons/obj/machines/implantchair.dmi'
 	icon_state = "hypnochair"
-	base_icon_state = "hypnochair"
 	circuit = /obj/item/circuitboard/machine/hypnochair
 	density = TRUE
-	opacity = FALSE
+	opacity = 0
 
 	var/mob/living/carbon/victim = null ///Keeps track of the victim to apply effects if it teleports away
 	var/interrogating = FALSE ///Is the device currently interrogating someone?
@@ -18,11 +17,11 @@
 /obj/machinery/hypnochair/Initialize(mapload)
 	. = ..()
 	open_machine()
-	update_appearance()
+	update_icon()
 
 /obj/machinery/hypnochair/attackby(obj/item/I, mob/user, params)
 	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, I))
-		update_appearance()
+		update_icon()
 		return
 	if(default_pry_open(I))
 		return
@@ -41,14 +40,13 @@
 
 /obj/machinery/hypnochair/ui_data()
 	var/list/data = list()
-	var/mob/living/mob_occupant = occupant
-
-	data["occupied"] = mob_occupant ? 1 : 0
+	data["occupied"] = occupant ? 1 : 0
 	data["open"] = state_open
 	data["interrogating"] = interrogating
 
 	data["occupant"] = list()
-	if(mob_occupant)
+	if(occupant)
+		var/mob/living/mob_occupant = occupant
 		data["occupant"]["name"] = mob_occupant.name
 		data["occupant"]["stat"] = mob_occupant.stat
 
@@ -57,10 +55,8 @@
 	return data
 
 /obj/machinery/hypnochair/ui_act(action, params)
-	. = ..()
-	if(.)
+	if(..())
 		return
-
 	switch(action)
 		if("door")
 			if(state_open)
@@ -91,46 +87,44 @@
 		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 25, TRUE)
 		return
 	victim = C
-	if(C.get_eye_protection() <= 0)
-		to_chat(C, span_warning("Strobing coloured lights assault you relentlessly! You're losing your ability to think straight!"))
-		C.become_blind(HYPNOCHAIR_TRAIT)
-		ADD_TRAIT(C, TRAIT_DEAF, HYPNOCHAIR_TRAIT)
+	if(!(C.get_eye_protection() > 0))
+		to_chat(C, "<span class='warning'>Strobing coloured lights assault you relentlessly! You're losing your ability to think straight!</span>")
+		C.become_blind("hypnochair")
+		ADD_TRAIT(C, TRAIT_DEAF, "hypnochair")
 	interrogating = TRUE
 	START_PROCESSING(SSobj, src)
 	start_time = world.time
-	update_appearance()
+	update_icon()
 	timerid = addtimer(CALLBACK(src, PROC_REF(finish_interrogation)), 450, TIMER_STOPPABLE)
 
-/obj/machinery/hypnochair/process(seconds_per_tick)
+/obj/machinery/hypnochair/process()
 	var/mob/living/carbon/C = occupant
 	if(!istype(C) || C != victim)
 		interrupt_interrogation()
 		return
-	if(SPT_PROB(5, seconds_per_tick) && !(C.get_eye_protection() > 0))
+	if(prob(10) && !(C.get_eye_protection() > 0))
 		to_chat(C, "<span class='hypnophrase'>[pick(\
-			"...blue... red... green... blue, red, green, blueredgreen[span_small("blueredgreen")]",\
+			"...blue... red... green... blue, red, green, blueredgreen<span class='small'>blueredgreen</span>",\
 			"...pretty colors...",\
 			"...you keep hearing words, but you can't seem to understand them...",\
 			"...so peaceful...",\
 			"...an annoying buzz in your ears..."\
 		)]</span>")
 
-	use_power(active_power_usage * seconds_per_tick)
-
 /obj/machinery/hypnochair/proc/finish_interrogation()
 	interrogating = FALSE
 	STOP_PROCESSING(SSobj, src)
-	update_appearance()
+	update_icon()
 	var/temp_trigger = trigger_phrase
 	trigger_phrase = "" //Erase evidence, in case the subject is able to look at the panel afterwards
-	audible_message(span_notice("[src] pings!"))
+	audible_message("<span class='notice'>[src] pings!</span>")
 	playsound(src, 'sound/machines/ping.ogg', 30, TRUE)
 
 	if(QDELETED(victim) || victim != occupant)
 		victim = null
 		return
-	victim.cure_blind(HYPNOCHAIR_TRAIT)
-	REMOVE_TRAIT(victim, TRAIT_DEAF, HYPNOCHAIR_TRAIT)
+	victim.cure_blind("hypnochair")
+	REMOVE_TRAIT(victim, TRAIT_DEAF, "hypnochair")
 	if(!(victim.get_eye_protection() > 0))
 		victim.cure_trauma_type(/datum/brain_trauma/severe/hypnotic_trigger, TRAUMA_RESILIENCE_SURGERY)
 		if(prob(90))
@@ -143,59 +137,68 @@
 	deltimer(timerid)
 	interrogating = FALSE
 	STOP_PROCESSING(SSobj, src)
-	update_appearance()
+	update_icon()
 
 	if(QDELETED(victim))
 		victim = null
 		return
-	victim.cure_blind(HYPNOCHAIR_TRAIT)
-	REMOVE_TRAIT(victim, TRAIT_DEAF, HYPNOCHAIR_TRAIT)
+	victim.cure_blind("hypnochair")
+	REMOVE_TRAIT(victim, TRAIT_DEAF, "hypnochair")
 	if(!(victim.get_eye_protection() > 0))
 		var/time_diff = world.time - start_time
 		switch(time_diff)
 			if(0 to 100)
-				victim.adjust_confusion(10 SECONDS)
-				victim.set_dizzy_if_lower(200 SECONDS)
-				victim.set_eye_blur_if_lower(10 SECONDS)
+				victim.confused += 10
+				victim.Dizzy(100)
+				victim.blur_eyes(5)
 			if(101 to 200)
-				victim.adjust_confusion(15 SECONDS)
-				victim.set_dizzy_if_lower(400 SECONDS)
-				victim.set_eye_blur_if_lower(20 SECONDS)
+				victim.confused += 15
+				victim.Dizzy(200)
+				victim.blur_eyes(10)
 				if(prob(25))
 					victim.apply_status_effect(/datum/status_effect/trance, rand(50,150), FALSE)
 			if(201 to INFINITY)
-				victim.adjust_confusion(20 SECONDS)
-				victim.set_dizzy_if_lower(600 SECONDS)
-				victim.set_eye_blur_if_lower(30 SECONDS)
+				victim.confused += 20
+				victim.Dizzy(300)
+				victim.blur_eyes(15)
 				if(prob(65))
 					victim.apply_status_effect(/datum/status_effect/trance, rand(50,150), FALSE)
 	victim = null
 
 /obj/machinery/hypnochair/update_icon_state()
-	icon_state = "[base_icon_state][state_open ? "_open" : null][occupant ? "_[interrogating ? "active" : "occupied"]" : null]"
-	return ..()
+	icon_state = initial(icon_state)
+	if(state_open)
+		icon_state += "_open"
+	if(occupant)
+		if(interrogating)
+			icon_state += "_active"
+		else
+			icon_state += "_occupied"
 
-/obj/machinery/hypnochair/container_resist_act(mob/living/user)
+/obj/machinery/hypnochair/container_resist(mob/living/user)
 	user.changeNext_move(CLICK_CD_BREAKOUT)
 	user.last_special = world.time + CLICK_CD_BREAKOUT
-	user.visible_message(span_notice("You see [user] kicking against the door of [src]!"), \
-		span_notice("You lean on the back of [src] and start pushing the door open... (this will take about [DisplayTimeText(600)].)"), \
-		span_hear("You hear a metallic creaking from [src]."))
+	user.visible_message("<span class='notice'>You see [user] kicking against the door of [src]!</span>", \
+		"<span class='notice'>You lean on the back of [src] and start pushing the door open... (this will take about [DisplayTimeText(600)].)</span>", \
+		"<span class='hear'>You hear a metallic creaking from [src].</span>")
 	if(do_after(user,(600), target = src))
 		if(!user || user.stat != CONSCIOUS || user.loc != src || state_open)
 			return
-		user.visible_message(span_warning("[user] successfully broke out of [src]!"), \
-			span_notice("You successfully break out of [src]!"))
+		user.visible_message("<span class='warning'>[user] successfully broke out of [src]!</span>", \
+			"<span class='notice'>You successfully break out of [src]!</span>")
 		open_machine()
 
-/obj/machinery/hypnochair/relaymove(mob/living/user, direction)
+/obj/machinery/hypnochair/relaymove(mob/user)
 	if(message_cooldown <= world.time)
 		message_cooldown = world.time + 50
-		to_chat(user, span_warning("[src]'s door won't budge!"))
-
+		to_chat(user, "<span class='warning'>[src]'s door won't budge!</span>")
 
 /obj/machinery/hypnochair/MouseDrop_T(mob/target, mob/user)
-	if(HAS_TRAIT(user, TRAIT_UI_BLOCKED) || !Adjacent(user) || !user.Adjacent(target) || !isliving(target) || !ISADVANCEDTOOLUSER(user))
+	if(user.stat || !Adjacent(user) || !user.Adjacent(target) || !isliving(target) || !user.IsAdvancedToolUser())
 		return
-
+	if(isliving(user))
+		var/mob/living/L = user
+		if(!(L.mobility_flags & MOBILITY_STAND))
+			return
 	close_machine(target)
+

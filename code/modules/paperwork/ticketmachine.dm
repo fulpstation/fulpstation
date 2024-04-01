@@ -3,9 +3,8 @@
 
 /obj/machinery/ticket_machine
 	name = "ticket machine"
-	icon = 'icons/obj/service/bureaucracy.dmi'
+	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "ticketmachine"
-	base_icon_state = "ticketmachine"
 	desc = "A marvel of bureaucratic engineering encased in an efficient plastic shell. It can be refilled with a hand labeler refill roll and linked to buttons with a multitool."
 	density = FALSE
 	maptext_height = 26
@@ -13,88 +12,54 @@
 	maptext_x = 7
 	maptext_y = 10
 	layer = HIGH_OBJ_LAYER
-	///Increment the ticket number whenever the HOP presses his button
-	var/ticket_number = 0
-	///What ticket number are we currently serving?
-	var/current_number = 0
-	///At this point, you need to refill it.
-	var/max_number = 100
-	var/cooldown = 5 SECONDS
+	var/ticket_number = 0 //Increment the ticket number whenever the HOP presses his button
+	var/current_number = 0 //What ticket number are we currently serving?
+	var/max_number = 100 //At this point, you need to refill it.
+	var/cooldown = 50
 	var/ready = TRUE
 	var/id = "ticket_machine_default" //For buttons
 	var/list/ticket_holders = list()
-	///List of tickets that exist currently
 	var/list/obj/item/ticket_machine_ticket/tickets = list()
-	///Current ticket to be served, essentially the head of the tickets queue
-	var/obj/item/ticket_machine_ticket/current_ticket
-
-/obj/machinery/ticket_machine/Initialize(mapload)
-	. = ..()
-	update_appearance()
-	find_and_hang_on_wall()
-
-/obj/machinery/ticket_machine/Destroy()
-	for(var/obj/item/ticket_machine_ticket/ticket in tickets)
-		ticket.source = null
-	tickets.Cut()
-	return ..()
-
-/obj/machinery/ticket_machine/on_deconstruction(disassembled = TRUE)
-	new /obj/item/wallframe/ticket_machine(loc)
-
-MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
-
-/obj/machinery/ticket_machine/examine(mob/user)
-	. = ..()
-	. += span_notice("The ticket machine shows that ticket #[current_number] is currently being served.")
-	. += span_notice("You can take a ticket out with <b>Left-Click</b> to be number [ticket_number + 1] in queue.")
 
 /obj/machinery/ticket_machine/multitool_act(mob/living/user, obj/item/I)
 	if(!multitool_check_buffer(user, I)) //make sure it has a data buffer
 		return
 	var/obj/item/multitool/M = I
-	M.set_buffer(src)
-	balloon_alert(user, "saved to multitool buffer")
+	M.buffer = src
+	to_chat(user, "<span class='notice'>You store linkage information in [I]'s buffer.</span>")
 	return TRUE
 
-/obj/machinery/ticket_machine/emag_act(mob/user, obj/item/card/emag/emag_card) //Emag the ticket machine to dispense burning tickets, as well as randomize its number to destroy the HoP's mind.
+/obj/machinery/ticket_machine/emag_act(mob/user) //Emag the ticket machine to dispense burning tickets, as well as randomize its number to destroy the HoP's mind.
 	if(obj_flags & EMAGGED)
-		return FALSE
-	balloon_alert(user, "bureaucratic nightmare engaged")
+		return
+	to_chat(user, "<span class='warning'>You overload [src]'s bureaucratic logic circuitry to its MAXIMUM setting.</span>")
 	ticket_number = rand(0,max_number)
 	current_number = ticket_number
 	obj_flags |= EMAGGED
 	if(tickets.len)
 		for(var/obj/item/ticket_machine_ticket/ticket in tickets)
-			ticket.audible_message(span_notice("\the [ticket] disperses!"), hearing_distance = SAMETILE_MESSAGE_RANGE)
+			ticket.audible_message("<span class='notice'>\the [ticket] disperses!</span>")
 			qdel(ticket)
 		tickets.Cut()
-	update_appearance()
-	return TRUE
+	update_icon()
 
-/obj/item/wallframe/ticket_machine
-	name = "ticket machine frame"
-	desc = "An unmounted ticket machine. Attach it to a wall to use."
-	icon = 'icons/obj/service/bureaucracy.dmi'
-	icon_state = "ticketmachine_off"
-	result_path = /obj/machinery/ticket_machine
-	pixel_shift = 32
+/obj/machinery/ticket_machine/Initialize(mapload)
+	. = ..()
+	update_icon()
 
-///Increments the counter by one, if there is a ticket after the current one we are serving.
-///If we have a current ticket, remove it from the top of our tickets list and replace it with the next one if applicable
 /obj/machinery/ticket_machine/proc/increment()
-	if(!(obj_flags & EMAGGED) && current_ticket)
-		current_ticket.audible_message(span_notice("\the [current_ticket] disperses!"), hearing_distance = SAMETILE_MESSAGE_RANGE)
-		tickets.Cut(1,2)
-		QDEL_NULL(current_ticket)
-	if(LAZYLEN(tickets))
-		current_ticket = tickets[1]
-		current_number++ //Increment the one we're serving.
+	if(current_number > ticket_number)
+		return
+	if(current_number && !(obj_flags & EMAGGED) && tickets[current_number])
+		tickets[current_number].audible_message("<span class='notice'>\the [tickets[current_number]] disperses!</span>")
+		qdel(tickets[current_number])
+	if(current_number < ticket_number)
+		current_number ++ //Increment the one we're serving.
 		playsound(src, 'sound/misc/announce_dig.ogg', 50, FALSE)
-		say("Now serving [current_ticket]!")
-		if(!(obj_flags & EMAGGED))
-			current_ticket.audible_message(span_notice("\the [current_ticket] vibrates!"), hearing_distance = SAMETILE_MESSAGE_RANGE)
-		update_appearance() //Update our icon here rather than when they take a ticket to show the current ticket number being served
+		say("Now serving ticket #[current_number]!")
+		if(!(obj_flags & EMAGGED) && tickets[current_number])
+			tickets[current_number].audible_message("<span class='notice'>\the [tickets[current_number]] vibrates!</span>")
+		update_icon() //Update our icon here rather than when they take a ticket to show the current ticket number being served
 
 /obj/machinery/button/ticket_machine
 	name = "increment ticket counter"
@@ -116,16 +81,15 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 		if(M.buffer && !istype(M.buffer, /obj/machinery/ticket_machine))
 			return
 		var/obj/item/assembly/control/ticket_machine/controller = device
-		controller.ticket_machine_ref = WEAKREF(M.buffer)
+		controller.linked = M.buffer
 		id = null
 		controller.id = null
-		to_chat(user, span_warning("You've linked [src] to [M.buffer]."))
+		to_chat(user, "<span class='warning'>You've linked [src] to [controller.linked].</span>")
 
 /obj/item/assembly/control/ticket_machine
 	name = "ticket machine controller"
 	desc = "A remote controller for the HoP's ticket machine."
-	///Weakref to our ticket machine
-	var/datum/weakref/ticket_machine_ref
+	var/obj/machinery/ticket_machine/linked //To whom are we linked?
 
 /obj/item/assembly/control/ticket_machine/Initialize(mapload)
 	..()
@@ -134,96 +98,91 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 /obj/item/assembly/control/ticket_machine/LateInitialize()
 	find_machine()
 
-/// Locate the ticket machine to which we're linked by our ID
-/obj/item/assembly/control/ticket_machine/proc/find_machine()
-	for(var/obj/machinery/ticket_machine/ticketsplease as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/ticket_machine))
+/obj/item/assembly/control/ticket_machine/proc/find_machine() //Locate the one to which we're linked
+	for(var/obj/machinery/ticket_machine/ticketsplease in GLOB.machines)
 		if(ticketsplease.id == id)
-			ticket_machine_ref = WEAKREF(ticketsplease)
-	if(ticket_machine_ref)
+			linked = ticketsplease
+	if(linked)
 		return TRUE
 	else
 		return FALSE
 
-/obj/item/assembly/control/ticket_machine/activate(mob/activator)
+/obj/item/assembly/control/ticket_machine/activate()
 	if(cooldown)
 		return
-	if(!ticket_machine_ref)
-		return
-	var/obj/machinery/ticket_machine/machine = ticket_machine_ref.resolve()
-	if(!machine)
+	if(!linked)
 		return
 	cooldown = TRUE
-	machine.increment()
-	if(isnull(machine.current_ticket))
-		to_chat(activator, span_notice("The button light indicates that there are no more tickets to be processed."))
+	linked.increment()
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 10)
 
 /obj/machinery/ticket_machine/update_icon()
-	. = ..()
+	switch(ticket_number) //Gives you an idea of how many tickets are left
+		if(0 to 49)
+			icon_state = "ticketmachine_100"
+		if(50 to 99)
+			icon_state = "ticketmachine_50"
+		if(100)
+			icon_state = "ticketmachine_0"
 	handle_maptext()
 
-/obj/machinery/ticket_machine/update_icon_state()
-	switch(ticket_number) //Gives you an idea of how many tickets are left
-		if(0 to 99)
-			icon_state = "[base_icon_state]"
-		if(100)
-			icon_state = "[base_icon_state]_empty"
-	return ..()
-
 /obj/machinery/ticket_machine/proc/handle_maptext()
-	switch(current_number) //This is here to handle maptext offsets so that the numbers align.
+	switch(ticket_number) //This is here to handle maptext offsets so that the numbers align.
 		if(0 to 9)
-			maptext_x = 9
+			maptext_x = 13
 		if(10 to 99)
-			maptext_x = 6
+			maptext_x = 10
 		if(100)
-			maptext_x = 4
-	maptext = MAPTEXT(current_number) //Finally, apply the maptext
+			maptext_x = 8
+	maptext = "[current_number]" //Finally, apply the maptext
 
 /obj/machinery/ticket_machine/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/hand_labeler_refill))
 		if(!(ticket_number >= max_number))
-			to_chat(user, span_notice("[src] refuses [I]! There [max_number - ticket_number == 1 ? "is" : "are"] still [max_number - ticket_number] ticket\s left!"))
+			to_chat(user, "<span class='notice'>[src] refuses [I]! There [max_number-ticket_number==1 ? "is" : "are"] still [max_number-ticket_number] ticket\s left!</span>")
 			return
-		to_chat(user, span_notice("You start to refill [src]'s ticket holder (doing this will reset its ticket count!)."))
+		to_chat(user, "<span class='notice'>You start to refill [src]'s ticket holder (doing this will reset its ticket count!).</span>")
 		if(do_after(user, 30, target = src))
-			to_chat(user, span_notice("You insert [I] into [src] as it whirs nondescriptly."))
+			to_chat(user, "<span class='notice'>You insert [I] into [src] as it whirs nondescriptly.</span>")
 			qdel(I)
 			ticket_number = 0
 			current_number = 0
 			if(tickets.len)
 				for(var/obj/item/ticket_machine_ticket/ticket in tickets)
-					ticket.audible_message(span_notice("\the [ticket] disperses!"), hearing_distance = SAMETILE_MESSAGE_RANGE)
+					ticket.audible_message("<span class='notice'>\the [ticket] disperses!</span>")
 					qdel(ticket)
 				tickets.Cut()
 			max_number = initial(max_number)
-			update_appearance()
+			update_icon()
 			return
 
 /obj/machinery/ticket_machine/proc/reset_cooldown()
 	ready = TRUE
 
-/obj/machinery/ticket_machine/attack_hand(mob/living/carbon/user, list/modifiers)
+/obj/machinery/ticket_machine/attack_hand(mob/living/carbon/user)
 	. = ..()
 	if(!ready)
-		to_chat(user,span_warning("You press the button, but nothing happens..."))
+		to_chat(user,"<span class='warning'>You press the button, but nothing happens...</span>")
 		return
 	if(ticket_number >= max_number)
-		to_chat(user,span_warning("Ticket supply depleted, please refill this unit with a hand labeller refill cartridge!"))
+		to_chat(user,"<span class='warning'>Ticket supply depleted, please refill this unit with a hand labeller refill cartridge!</span>")
 		return
-	var/user_ref = REF(user)
-	if((user_ref in ticket_holders) && !(obj_flags & EMAGGED))
-		to_chat(user, span_warning("You already have a ticket!"))
+	if((user in ticket_holders) && !(obj_flags & EMAGGED))
+		to_chat(user, "<span class='warning'>You already have a ticket!</span>")
 		return
 	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, FALSE)
-	ticket_number++
-	to_chat(user, span_notice("You take a ticket from [src], looks like you're number [ticket_number] in queue..."))
-	var/obj/item/ticket_machine_ticket/theirticket = new (get_turf(src), ticket_number)
+	ticket_number ++
+	to_chat(user, "<span class='notice'>You take a ticket from [src], looks like you're ticket number #[ticket_number]...</span>")
+	var/obj/item/ticket_machine_ticket/theirticket = new /obj/item/ticket_machine_ticket(get_turf(src))
+	theirticket.name = "Ticket #[ticket_number]"
+	theirticket.maptext = "<font color='#000000'>[ticket_number]</font>"
+	theirticket.saved_maptext = "<font color='#000000'>[ticket_number]</font>"
+	theirticket.ticket_number = ticket_number
 	theirticket.source = src
-	theirticket.owner_ref = user_ref
+	theirticket.owner = user
 	user.put_in_hands(theirticket)
-	ticket_holders += user_ref
+	ticket_holders += user
 	tickets += theirticket
 	if(obj_flags & EMAGGED) //Emag the machine to destroy the HOP's life.
 		ready = FALSE
@@ -231,40 +190,25 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 		theirticket.fire_act()
 		user.dropItemToGround(theirticket)
 		user.adjust_fire_stacks(1)
-		user.ignite_mob()
-	update_appearance()
+		user.IgniteMob()
+		return
 
 /obj/item/ticket_machine_ticket
-	name = "\improper ticket"
+	name = "Ticket"
 	desc = "A ticket which shows your place in the Head of Personnel's line. Made from Nanotrasen patented NanoPaper®. Though solid, its form seems to shimmer slightly. Feels (and burns) just like the real thing."
-	icon = 'icons/obj/service/bureaucracy.dmi'
+	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "ticket"
 	maptext_x = 7
 	maptext_y = 10
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
-	var/number
 	var/saved_maptext = null
-	var/owner_ref // A ref to our owner. Doesn't need to be weak because mobs have unique refs
+	var/mob/living/carbon/owner
 	var/obj/machinery/ticket_machine/source
+	var/ticket_number
 
-/obj/item/ticket_machine_ticket/Initialize(mapload, num)
-	. = ..()
-	number = num
-	if(!isnull(num))
-		name += " #[num]"
-		saved_maptext = MAPTEXT(num)
-		maptext = saved_maptext
-
-/obj/item/ticket_machine_ticket/examine(mob/user)
-	. = ..()
-	if(!isnull(number))
-		. += span_notice("The ticket reads shimmering text that tells you that you are number [number] in queue.")
-		if(source)
-			. += span_notice("Below that, you can see that you are [number - source.current_number] spot\s away from being served.")
-
-/obj/item/ticket_machine_ticket/attack_hand(mob/user, list/modifiers)
+/obj/item/ticket_machine_ticket/attack_hand(mob/user)
 	. = ..()
 	maptext = saved_maptext //For some reason, storage code removes all maptext off objs, this stops its number from being wiped off when taken out of storage.
 
@@ -274,11 +218,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 
 	return ..()
 
+/obj/item/paper/extinguish()
+	..()
+	update_icon()
+
 /obj/item/ticket_machine_ticket/Destroy()
-	if(source)
-		source.ticket_holders -= owner_ref
-		source.tickets -= src
-		if(source.current_ticket == src)
-			source.current_ticket = null
+	if(owner && source)
+		source.ticket_holders -= owner
+		source.tickets[ticket_number] = null
+		owner = null
 		source = null
 	return ..()
