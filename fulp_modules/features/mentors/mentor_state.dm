@@ -1,7 +1,7 @@
 /**
- * tgui state: admin_state
+ * tgui state: mentor_state
  *
- * Checks that the user is an admin, end-of-story.
+ * Checks that the user is a mentor, end-of-story.
  */
 
 GLOBAL_DATUM_INIT(mentor_state, /datum/ui_state/mentor_state, new)
