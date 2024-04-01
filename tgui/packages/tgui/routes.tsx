@@ -5,7 +5,7 @@
  */
 
 import { useBackend } from './backend';
-import { LoadingScreen } from './interfaces/common/LoadingToolbox';
+import { LoadingScreen } from './interfaces/LoadingToolbox';
 import { Window } from './layouts';
 
 const requireInterface = require.context('./interfaces');
@@ -68,6 +68,7 @@ export const getRoutedComponent = () => {
 
   const name = config?.interface;
   const interfacePathBuilders = [
+    (name: string) => `./${name}.js`,
     (name: string) => `./${name}.tsx`,
     (name: string) => `./${name}.jsx`,
     (name: string) => `./${name}/index.tsx`,
