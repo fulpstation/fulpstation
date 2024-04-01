@@ -23,6 +23,23 @@
 
 	var/static/regex/ic_filter_regex
 
+	///Hardcoded list of all antag weights since config won't exist.
+	var/static/list/antag_weight_probabilities = list(
+		"traitor" = 5,
+		"traitorbro" = 2,
+		"traitorchan" = 4,
+		"internal_affairs" = 4,
+		"nuclear" = 3,
+		"revolution" = 2,
+		"cult" = 4,
+		"changeling" = 3,
+		"wizard" = 1,
+		"secret_extended" = 1,
+		"clownops" = 1,
+		"bloodsucker" = 8,
+		"infiltration" = 4,
+	)
+
 /datum/controller/configuration/proc/admin_reload()
 	if(IsAdminAdvancedProcCall())
 		return
@@ -221,25 +238,19 @@
 	mode_reports = list()
 	mode_false_report_weight = list()
 	votable_modes = list()
-	var/list/probabilities = Get(/datum/config_entry/keyed_list/probability)
 	for(var/T in gamemode_cache)
 		// I wish I didn't have to instance the game modes in order to look up
 		// their information, but it is the only way (at least that I know of).
 		var/datum/game_mode/M = new T()
 
-		if(M.config_tag)
-			if(!(M.config_tag in modes))		// ensure each mode is added only once
-				modes += M.config_tag
-				mode_names[M.config_tag] = M.name
-				probabilities[M.config_tag] = M.probability
-				mode_reports[M.report_type] = M.generate_report()
-				if(probabilities[M.config_tag]>0)
-					mode_false_report_weight[M.report_type] = M.false_report_weight
-				else
-					//"impossible" modes will still falsly show up occasionally, else they'll stick out like a sore thumb if an admin decides to force a disabled gamemode.
-					mode_false_report_weight[M.report_type] = min(1, M.false_report_weight)
-				if(M.votable)
-					votable_modes += M.config_tag
+		if(!(M.config_tag in modes))		// ensure each mode is added only once
+			modes += M.config_tag
+			mode_names[M.config_tag] = M.name
+			mode_reports[M.report_type] = M.generate_report()
+			//"impossible" modes will still falsly show up occasionally, else they'll stick out like a sore thumb if an admin decides to force a disabled gamemode.
+			mode_false_report_weight[M.report_type] = min(1, M.false_report_weight)
+			if(M.votable)
+				votable_modes += M.config_tag
 		qdel(M)
 	votable_modes += "secret"
 
@@ -349,7 +360,7 @@ Example config:
 
 /datum/controller/configuration/proc/get_runnable_modes()
 	var/list/datum/game_mode/runnable_modes = new
-	var/list/probabilities = Get(/datum/config_entry/keyed_list/probability)
+	var/list/probabilities = config.antag_weight_probabilities
 	var/list/min_pop = Get(/datum/config_entry/keyed_list/min_pop)
 	var/list/max_pop = Get(/datum/config_entry/keyed_list/max_pop)
 	var/list/repeated_mode_adjust = Get(/datum/config_entry/number_list/repeated_mode_adjust)
@@ -379,7 +390,7 @@ Example config:
 
 /datum/controller/configuration/proc/get_runnable_midround_modes(crew)
 	var/list/datum/game_mode/runnable_modes = new
-	var/list/probabilities = Get(/datum/config_entry/keyed_list/probability)
+	var/list/probabilities = config.antag_weight_probabilities
 	var/list/min_pop = Get(/datum/config_entry/keyed_list/min_pop)
 	var/list/max_pop = Get(/datum/config_entry/keyed_list/max_pop)
 	for(var/T in (gamemode_cache - SSticker.mode.type))
