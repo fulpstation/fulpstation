@@ -180,6 +180,7 @@
 		return
 	if(power_flags & BP_AM_TOGGLE)
 		STOP_PROCESSING(SSprocessing, src)
+		STOP_PROCESSING(SSfastprocess, src)
 	if(power_flags & BP_AM_SINGLEUSE)
 		remove_after_use()
 		return
