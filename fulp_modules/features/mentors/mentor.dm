@@ -14,6 +14,7 @@ GLOBAL_PROTECT(mentor_href_token)
 	var/href_token
 	///The mob currently being followed with mfollow.
 	var/mob/following
+	///Saved /datum/client_colour between mentor follow
 	var/list/mentors_client_colours = list()
 	/// Are we a Contributor?
 	var/is_contributor = FALSE
