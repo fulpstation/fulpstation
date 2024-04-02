@@ -103,7 +103,7 @@
 		switch(rand(1, 20))
 			if(1 to 9)
 				newletter += "'"
-			if(10)
+			if(10 to 19)
 				newletter += "[newletter]"
 			if(20)
 				newletter += "[newletter][newletter]"

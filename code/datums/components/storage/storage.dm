@@ -167,7 +167,7 @@
 
 /datum/component/storage/proc/real_location()
 	var/datum/component/storage/concrete/master = master()
-	return master? master.real_location() : null
+	return master ? master.real_location() : null
 
 /datum/component/storage/proc/canreach_react(datum/source, list/next)
 	var/datum/component/storage/concrete/master = master()

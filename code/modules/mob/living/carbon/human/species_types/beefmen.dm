@@ -34,7 +34,7 @@
 	liked_food = RAW | MEAT // JUNKFOOD | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	attack_verb = "meat"
-	speedmod = -0.2	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
+	speedmod = -0.4	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
 	armor = -2		// overall defense for the race... or less defense, if it's negative.
 	punchdamagelow = 1       //lowest possible punch damage. if this is set to 0, punches will always miss
 	punchdamagehigh = 5 // 10      //highest possible punch damage

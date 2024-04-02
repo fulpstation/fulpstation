@@ -23,7 +23,7 @@
 
 	var/static/regex/ic_filter_regex
 
-	///Hardcoded list of all antag weights since config won't exist.
+	///Hardcoded list of all antag weights since config won't exist. OLD FULP EDIT: This replaces the antag weight configs.
 	var/static/list/antag_weight_probabilities = list(
 		"traitor" = 5,
 		"traitorbro" = 2,

@@ -61,7 +61,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	///Internal organs that are unique to this race, like a tail.
 	var/list/mutant_organs = list()
 	///Multiplier for the race's speed. Positive numbers make it move slower, negative numbers make it move faster.
-	var/speedmod = 0
+	var/speedmod = -0.2 //OLD FULP: Mimics old fulp speed
 	///Percentage modifier for overall defense of the race, or less defense, if it's negative.
 	var/armor = 0
 	///multiplier for brute damage
