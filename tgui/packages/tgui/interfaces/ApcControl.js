@@ -3,7 +3,7 @@ import { flow } from 'common/fp';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Dimmer, Flex, Icon, Table, Tabs } from '../components';
 import { Window } from '../layouts';
-import { pureComponentHooks, Fragment } from 'common/react';
+import { Fragment } from 'react';
 import { AreaCharge, powerRank } from './PowerMonitor';
 
 export const ApcControl = (props, context) => {
@@ -301,6 +301,3 @@ const statusChange = status => {
   // 0, 2, 3
   return status === 0 ? 2 : status === 2 ? 3 : 0;
 };
-
-AreaStatusColorButton.defaultHooks = pureComponentHooks;
-
