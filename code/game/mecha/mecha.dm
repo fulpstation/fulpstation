@@ -249,7 +249,7 @@
 	cell = new /obj/item/stock_parts/cell/high/plus(src)
 
 ///Adds a scanning module, for use in Map-spawned mechs, Nuke Ops mechs, and admin-spawned mechs. Mechs built by hand will replace this.
-/obj/mecha/proc/add_scanmod(var/obj/item/stock_parts/scanning_module/sm=null)
+/obj/mecha/proc/add_scanmod(obj/item/stock_parts/scanning_module/sm=null)
 	QDEL_NULL(scanmod)
 	if(sm)
 		sm.forceMove(src)

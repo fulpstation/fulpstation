@@ -961,7 +961,7 @@
 
 
 ///Proc for being washed by a shower
-/atom/proc/washed(var/atom/washer, wash_strength = CLEAN_WEAK)
+/atom/proc/washed(atom/washer, wash_strength = CLEAN_WEAK)
 	SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, wash_strength)
 	remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
 

@@ -122,33 +122,44 @@
 		if(typecache_include[A.type] && !typecache_exclude[A.type])
 			. += A
 
-//Like typesof() or subtypesof(), but returns a typecache instead of a list
-/proc/typecacheof(path, ignore_root_path, only_root_path = FALSE)
+/**
+ * Like typesof() or subtypesof(), but returns a typecache instead of a list.
+ *
+ * Arguments:
+ * - path: A typepath or list of typepaths.
+ * - only_root_path: Whether the typecache should be specifically of the passed types.
+ * - ignore_root_path: Whether to ignore the root path when caching subtypes.
+ */
+/proc/typecacheof(path, ignore_root_path = FALSE, only_root_path = FALSE)
+	if(isnull(path))
+		return
+
 	if(ispath(path))
-		var/list/types = list()
+		. = list()
 		if(only_root_path)
-			types = list(path)
-		else
-			types = ignore_root_path ? subtypesof(path) : typesof(path)
-		var/list/L = list()
-		for(var/T in types)
-			L[T] = TRUE
-		return L
-	else if(islist(path))
-		var/list/pathlist = path
-		var/list/L = list()
-		if(ignore_root_path)
-			for(var/P in pathlist)
-				for(var/T in subtypesof(P))
-					L[T] = TRUE
-		else
-			for(var/P in pathlist)
-				if(only_root_path)
-					L[P] = TRUE
-				else
-					for(var/T in typesof(P))
-						L[T] = TRUE
-		return L
+			.[path] = TRUE
+			return
+
+		for(var/subtype in (ignore_root_path ? subtypesof(path) : typesof(path)))
+			.[subtype] = TRUE
+		return
+
+	if(!islist(path))
+		CRASH("Tried to create a typecache of [path] which is neither a typepath nor a list.")
+
+	. = list()
+	var/list/pathlist = path
+	if(only_root_path)
+		for(var/current_path in pathlist)
+			.[current_path] = TRUE
+	else if(ignore_root_path)
+		for(var/current_path in pathlist)
+			for(var/subtype in subtypesof(current_path))
+				.[subtype] = TRUE
+	else
+		for(var/current_path in pathlist)
+			for(var/subpath in typesof(current_path))
+				.[subpath] = TRUE
 
 //Removes any null entries from the list
 //Returns TRUE if the list had nulls, FALSE otherwise

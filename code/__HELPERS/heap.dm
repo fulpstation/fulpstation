@@ -52,7 +52,7 @@
 
 //Returns the greater (relative to the comparison proc) of a node children
 //or 0 if there's no child
-/datum/heap/proc/GetGreaterChild(var/index)
+/datum/heap/proc/GetGreaterChild(index)
 	if(index * 2 > L.len)
 		return 0
 

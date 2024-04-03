@@ -440,7 +440,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/mob/proc/CheckBloodsuckerEatFood(var/food_nutrition)
+/mob/proc/CheckBloodsuckerEatFood(food_nutrition)
 	if (!isliving(src))
 		return
 	var/mob/living/L = src
@@ -451,7 +451,7 @@
 	bloodsuckerdatum.handle_eat_human_food(food_nutrition)
 
 
-/datum/antagonist/bloodsucker/proc/handle_eat_human_food(var/food_nutrition) // Called from snacks.dm and drinks.dm
+/datum/antagonist/bloodsucker/proc/handle_eat_human_food(food_nutrition) // Called from snacks.dm and drinks.dm
 	set waitfor = FALSE
 
 	if (!owner.current || !iscarbon(owner.current))

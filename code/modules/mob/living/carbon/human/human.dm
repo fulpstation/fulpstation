@@ -1103,7 +1103,7 @@
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown)
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying)
 
-/mob/living/carbon/human/washed(var/atom/washer)
+/mob/living/carbon/human/washed(atom/washer)
 	. = ..()
 	if(wear_suit && wear_suit.washed(washer))
 		update_inv_wear_suit()

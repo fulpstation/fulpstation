@@ -1,10 +1,12 @@
-/proc/make_types_fancy(var/list/types)
+/proc/make_types_fancy(list/types)
 	if (ispath(types))
 		types = list(types)
 	. = list()
 	for(var/type in types)
 		var/typename = "[type]"
-		var/static/list/TYPES_SHORTCUTS = list(
+		var/static/list/TYPES_SHORTCUTS
+		if(!length(TYPES_SHORTCUTS))
+			TYPES_SHORTCUTS = list(
 			/obj/effect/decal/cleanable = "CLEANABLE",
 			/obj/item/radio/headset = "HEADSET",
 			/obj/item/clothing/head/helmet/space = "SPESSHELMET",

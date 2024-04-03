@@ -2,13 +2,15 @@
 // Components which return COMPONENT_BLOCK_RADIATION prevent further searching into that object's contents. The object itself will get returned still.
 // The ignore list makes those objects never return at all
 /proc/get_rad_contents(atom/location)
-	var/static/list/ignored_things = typecacheof(list(
-		/mob/dead,
-		/mob/camera,
-		/obj/effect,
-		/obj/docking_port,
-		/atom/movable/lighting_object,
-		/obj/projectile,
+	var/static/list/ignored_things
+	if(!length(ignored_things))
+		ignored_things = typecacheof(list(
+			/mob/dead,
+			/mob/camera,
+			/obj/effect,
+			/obj/docking_port,
+			/atom/movable/lighting_object,
+			/obj/projectile,
 		))
 	var/list/processing_list = list(location)
 	. = list()

@@ -1168,7 +1168,7 @@
 //Mobs on Fire end
 
 //Washing
-/mob/living/washed(var/atom/washer)
+/mob/living/washed(atom/washer)
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 

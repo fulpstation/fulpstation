@@ -77,7 +77,9 @@
 
 /atom/movable/screen/movable/action_button/hide_toggle/Initialize(mapload)
 	. = ..()
-	var/static/list/icon_cache = list()
+	var/static/list/icon_cache
+	if(!icon_cache)
+		icon_cache = list()
 
 	var/cache_key = "[hide_icon][hide_state]"
 	hide_appearance = icon_cache[cache_key]

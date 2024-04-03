@@ -1106,7 +1106,7 @@
 		if(mood.sanity < SANITY_UNSTABLE)
 			return TRUE
 
-/mob/living/carbon/washed(var/atom/washer)
+/mob/living/carbon/washed(atom/washer)
 	. = ..()
 	SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
 
