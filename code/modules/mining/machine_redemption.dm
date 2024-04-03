@@ -1,6 +1,7 @@
 /**********************Ore Redemption Unit**************************/
 //Turns all the various mining machines into a single unit to speed up mining and establish a point system
 
+
 /obj/machinery/mineral/ore_redemption
 	name = "ore redemption machine"
 	desc = "A machine that accepts ore and instantly transforms it into workable material sheets. Points for ore are generated based on type and can be redeemed at a mining equipment vendor."
@@ -219,25 +220,17 @@
 	data["materials"] = list()
 	var/datum/component/material_container/mat_container = materials.mat_container
 	if (mat_container)
-		for(var/datum/material/material as anything in mat_container.materials)
-			var/amount = mat_container.materials[material]
+		for(var/mat in mat_container.materials)
+			var/datum/material/M = mat
+			var/amount = mat_container.materials[M]
 			var/sheet_amount = amount / MINERAL_MATERIAL_AMOUNT
-			data["materials"] += list(list(
-				"name" = material.name,
-				"id" = REF(material),
-				"amount" = sheet_amount,
-				"category" = "material",
-				"value" = ore_values[material.type],
-			))
+			var/ref = REF(M)
+			data["materials"] += list(list("name" = M.name, "id" = ref, "amount" = sheet_amount, "value" = ore_values[M.type]))
 
-		for(var/research in stored_research.researched_designs)
-			var/datum/design/alloy = SSresearch.techweb_design_by_id(research)
-			data["materials"] += list(list(
-				"name" = alloy.name,
-				"id" = alloy.id,
-				"category" = "alloy",
-				"amount" = can_smelt_alloy(alloy),
-			))
+		data["alloys"] = list()
+		for(var/v in stored_research.researched_designs)
+			var/datum/design/D = SSresearch.techweb_design_by_id(v)
+			data["alloys"] += list(list("name" = D.name, "id" = D.id, "amount" = can_smelt_alloy(D)))
 
 	if (!mat_container)
 		data["disconnected"] = "local mineral storage is unavailable"
@@ -256,23 +249,6 @@
 				if(thisdesign)
 					data["diskDesigns"] += list(list("name" = thisdesign.name, "index" = index, "canupload" = thisdesign.build_type&SMELTER))
 				index++
-
-	var/obj/item/card/id/card
-	if(isliving(user))
-		var/mob/living/customer = user
-		card = customer.get_idcard(hand_first = TRUE)
-		if(card?.registered_account)
-			data["user"] = list(
-				"name" = card.registered_account.account_holder,
-				"cash" = card.registered_account.account_balance,
-			)
-
-		else if(issilicon(user))
-			var/mob/living/silicon/silicon_player = user
-			data["user"] = list(
-				"name" = silicon_player.name,
-				"cash" = "No valid account",
-			)
 	return data
 
 /obj/machinery/mineral/ore_redemption/ui_act(action, params)
