@@ -34,7 +34,6 @@ export const CargoContent = (props) => {
   const { data } = useBackend();
   const [tab, setTab] = useSharedState('tab', 'catalog');
   const { cart = [], requests = [], requestonly } = data;
-  const cart_length = cart.reduce((total, entry) => total + entry.amount, 0);
 
   return (
     <Box>
@@ -60,11 +59,11 @@ export const CargoContent = (props) => {
             <>
               <Tabs.Tab
                 icon="shopping-cart"
-                textColor={tab !== 'cart' && cart_length > 0 && 'yellow'}
+                textColor={tab !== 'cart' && cart.length > 0 && 'yellow'}
                 selected={tab === 'cart'}
                 onClick={() => setTab('cart')}
               >
-                Checkout ({cart_length})
+                Checkout ({cart.length})
               </Tabs.Tab>
               <Tabs.Tab
                 icon="question"
@@ -88,7 +87,6 @@ export const CargoContent = (props) => {
 const CargoStatus = (props) => {
   const { act, data } = useBackend();
   const {
-    department,
     grocery,
     away,
     docked,
@@ -98,12 +96,11 @@ const CargoStatus = (props) => {
     message,
     points,
     requestonly,
-    can_send,
   } = data;
 
   return (
     <Section
-      title={department}
+      title="Cargo"
       buttons={
         <Box inline bold>
           <AnimatedNumber
@@ -116,7 +113,7 @@ const CargoStatus = (props) => {
     >
       <LabeledList>
         <LabeledList.Item label="Shuttle">
-          {(docked && !requestonly && can_send && (
+          {(docked && !requestonly && (
             <Button
               color={(grocery && 'orange') || 'green'}
               content={location}
@@ -175,10 +172,9 @@ export const CargoCatalog = (props) => {
   const { express } = props;
   const { act, data } = useBackend();
 
-  const { self_paid, app_cost } = data;
+  const { self_paid } = data;
 
   const supplies = Object.values(data.supplies);
-  const { amount_by_name = [], max_order } = data;
 
   const [activeSupplyName, setActiveSupplyName] = useSharedState(
     'supply',
@@ -274,24 +270,12 @@ export const CargoCatalog = (props) => {
                     {tags.join(', ')}
                   </Table.Cell>
                   <Table.Cell collapsing textAlign="right">
-                    <Button
-                      fluid
-                      tooltip={pack.desc}
-                      tooltipPosition="left"
-                      disabled={(amount_by_name[pack.name] || 0) >= max_order}
-                      onClick={() =>
-                        act('add', {
-                          id: pack.id,
-                        })
-                      }
-                    >
-                      {formatMoney(
-                        (self_paid && !pack.goody) || app_cost
-                          ? Math.round(pack.cost * 1.1)
-                          : pack.cost,
-                      )}
-                      {' cr'}
-                    </Button>
+                    {formatMoney(
+                      (self_paid && !pack.goody)
+                        ? Math.round(pack.cost * 1.1)
+                        : pack.cost,
+                    )}
+                    {' cr'}
                   </Table.Cell>
                 </Table.Row>
               );
@@ -305,7 +289,7 @@ export const CargoCatalog = (props) => {
 
 const CargoRequests = (props) => {
   const { act, data } = useBackend();
-  const { requestonly, can_send, can_approve_requests } = data;
+  const { requestonly } = data;
   const requests = data.requests || [];
   // Labeled list reimplementation to squeeze extra columns out of it
   return (
@@ -340,7 +324,7 @@ const CargoRequests = (props) => {
               <Table.Cell collapsing textAlign="right">
                 {formatMoney(request.cost)} cr
               </Table.Cell>
-              {(!requestonly || can_send) && can_approve_requests && (
+              {(!requestonly) && (
                 <Table.Cell collapsing>
                   <Button
                     icon="check"
@@ -372,7 +356,7 @@ const CargoRequests = (props) => {
 
 const CargoCartButtons = (props) => {
   const { act, data } = useBackend();
-  const { requestonly, can_send, can_approve_requests } = data;
+  const { requestonly } = data;
   const cart = data.cart || [];
   const total = cart.reduce((total, entry) => total + entry.cost, 0);
   return (
@@ -383,7 +367,7 @@ const CargoCartButtons = (props) => {
         {cart.length >= 2 && cart.length + ' items'}{' '}
         {total > 0 && `(${formatMoney(total)} cr)`}
       </Box>
-      {!requestonly && !!can_send && !!can_approve_requests && (
+      {!requestonly && (
         <Button
           icon="times"
           color="transparent"
@@ -419,9 +403,6 @@ const CargoCart = (props) => {
     away,
     docked,
     location,
-    can_send,
-    amount_by_name,
-    max_order,
   } = data;
   const cart = data.cart || [];
   return (
@@ -436,44 +417,28 @@ const CargoCart = (props) => {
                 #{entry.id}&nbsp;{entry.object}
               </Table.Cell>
               <Table.Cell inline ml="65px" width="40px">
-                {(can_send && entry.can_be_cancelled && (
-                  <RestrictedInput
-                    width="40px"
-                    minValue={0}
-                    maxValue={max_order}
-                    value={entry.amount}
-                    onEnter={(e, value) =>
-                      act('modify', {
-                        order_name: entry.object,
-                        amount: value,
-                      })
-                    }
-                  />
-                )) || <Input width="40px" value={entry.amount} disabled />}
-              </Table.Cell>
-              <Table.Cell inline ml="5px" width="10px">
-                {!!can_send && !!entry.can_be_cancelled && (
-                  <Button
-                    icon="plus"
-                    disabled={amount_by_name[entry.object] >= max_order}
-                    onClick={() =>
-                      act('add_by_name', { order_name: entry.object })
-                    }
-                  />
-                )}
+                <RestrictedInput
+                  width="40px"
+                  minValue={0}
+                  maxValue={50}
+                  value={entry.amount}
+                  onEnter={(e, value) =>
+                    act('modify', {
+                      order_name: entry.object,
+                      amount: value,
+                    })
+                  }
+                />
               </Table.Cell>
               <Table.Cell inline ml="15px" width="10px">
-                {!!can_send && !!entry.can_be_cancelled && (
-                  <Button
-                    icon="minus"
-                    onClick={() => act('remove', { order_name: entry.object })}
-                  />
-                )}
+                <Button
+                  icon="minus"
+                  onClick={() => act('remove', { order_name: entry.object })}
+                />
               </Table.Cell>
               <Table.Cell collapsing textAlign="right" inline ml="50px">
                 {entry.paid > 0 && <b>[Paid Privately x {entry.paid}]</b>}
                 {formatMoney(entry.cost)} {entry.cost_type}
-                {entry.dep_order > 0 && <b>[Department x {entry.dep_order}]</b>}
               </Table.Cell>
               <Table.Cell inline mt="20px" />
             </Table.Row>
@@ -502,21 +467,6 @@ const CargoCart = (props) => {
 const CargoHelp = (props) => {
   return (
     <>
-      <Section title="Department Orders">
-        Each department on the station will order crates from their own personal
-        consoles. These orders are ENTIRELY FREE! They do not come out of
-        cargo&apos;s budget, and rather put the consoles on cooldown. So
-        here&apos;s where you come in: The ordered crates will show up on your
-        supply console, and you need to deliver the crates to the orderers.
-        You&apos;ll actually be paid the full value of the department crate on
-        delivery if the crate was not tampered with, making the system a good
-        source of income.
-        <br />
-        <b>
-          Examine a department order crate to get specific details about where
-          the crate needs to go.
-        </b>
-      </Section>
       <Section title="MULEbots">
         MULEbots are slow but loyal delivery bots that will get crates delivered
         with minimal technician effort required. It is slow, though, and can be

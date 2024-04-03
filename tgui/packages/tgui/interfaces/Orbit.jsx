@@ -88,7 +88,7 @@ export const Orbit = (props, context) => {
     npcs,
   } = data;
 
-  const [searchText, setSearchText] = useLocalState(context, "searchText", "");
+  const [searchText, setSearchText] = useLocalState("searchText", '');
 
   const collatedAntagonists = {};
   for (const antagonist of antagonists) {

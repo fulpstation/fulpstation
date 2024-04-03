@@ -39,11 +39,7 @@ export const NtosWindow = (props, context) => {
       theme={theme}
       resizable={resizable}>
       <div className="NtosWindow">
-        <div
-          className="NtosWindow__header NtosHeader"
-          onMouseDown={() => {
-            refocusLayout();
-          }}>
+        <div className="NtosWindow__header NtosHeader">
           <div className="NtosHeader__left">
             <Box inline bold mr={2}>
               {PC_stationtime}

@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { classes } from 'common/react';
-import { Fragment } from 'react';
 import { uniqBy } from 'common/collections';
 import { useBackend, useSharedState } from '../backend';
 import { formatSiUnit, formatMoney } from '../format';
@@ -140,7 +140,7 @@ export const ExosuitFabricator = (props, context) => {
   const [
     displayMatCost,
     setDisplayMatCost,
-  ] = useSharedState(context, "display_mats");
+  ] = useSharedState("display_mats", '');
 
   return (
     <Window
@@ -241,14 +241,14 @@ const EjectMaterial = (props, context) => {
   const [
     removeMaterials,
     setRemoveMaterials,
-  ] = useSharedState(context, "remove_mats_" + name);
+  ] = useState(0);
 
   if ((removeMaterials > 1) && (sheets < removeMaterials)) {
     setRemoveMaterials(sheets || 1);
   }
 
   return (
-    <Fragment>
+    <>
       <NumberInput
         width="30px"
         animated
@@ -269,7 +269,7 @@ const EjectMaterial = (props, context) => {
           ref: ref,
           amount: removeMaterials,
         })} />
-    </Fragment>
+    </>
   );
 };
 
@@ -346,8 +346,8 @@ const PartSets = (props, context) => {
     selectedPartTab,
     setSelectedPartTab,
   ] = useSharedState(
-    context,
     "part_tab",
+    '',
   );
 
   return (
@@ -392,14 +392,14 @@ const PartLists = (props, context) => {
     selectedPartTab,
     setSelectedPartTab,
   ] = useSharedState(
-    context,
     "part_tab",
+    '',
   );
 
   const [
     searchText,
     setSearchText,
-  ] = useSharedState(context, "search_text");
+  ] = useSharedState("search_text", '');
 
   if (!selectedPartTab || !buildableParts[selectedPartTab]) {
     const validSet = getFirstValidPartSet(partSets);
@@ -437,7 +437,7 @@ const PartLists = (props, context) => {
 
 
   return (
-    <Fragment>
+    <>
       <Section>
         <Flex>
           <Flex.Item mr={1}>
@@ -467,7 +467,7 @@ const PartLists = (props, context) => {
             parts={partsList[category]} />
         ))
       )}
-    </Fragment>
+    </>
   );
 };
 
@@ -487,7 +487,7 @@ const PartCategory = (props, context) => {
 
   const [
     displayMatCost,
-  ] = useSharedState(context, "display_mats", false);
+  ] = useSharedState("display_mats", '');
 
   return (
     ((!!parts.length || forceShow) && (
@@ -505,8 +505,7 @@ const PartCategory = (props, context) => {
         }>
         {(!parts.length) && (placeholder)}
         {parts.map(part => (
-          <Fragment
-            key={part.name}>
+          <Box key={part.name}>
             <Flex
               align="center">
               <Flex.Item>
@@ -567,8 +566,7 @@ const PartCategory = (props, context) => {
                 ))}
               </Flex>
             ))}
-
-          </Fragment>
+          </Box>
         ))}
       </Section>
     ))
@@ -601,7 +599,7 @@ const Queue = (props, context) => {
           title="Queue"
           overflowY="auto"
           buttons={
-            <Fragment>
+            <>
               <Button.Confirm
                 disabled={!queue.length}
                 color="bad"
@@ -621,7 +619,7 @@ const Queue = (props, context) => {
                   icon="play"
                   onClick={() => act("build_queue")} />
               )}
-            </Fragment>
+            </>
           }>
           <Flex
             direction="column"
@@ -690,9 +688,9 @@ const QueueList = (props, context) => {
 
   if (!queue.length) {
     return (
-      <Fragment>
+      <>
         No parts in queue.
-      </Fragment>
+      </>
     );
   }
 
