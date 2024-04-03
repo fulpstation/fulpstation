@@ -1,150 +1,126 @@
-import { round } from 'common/math';
-import { BooleanLike } from 'common/react';
-
+import { Fragment } from 'react';
 import { useBackend } from '../backend';
-import {
-  AnimatedNumber,
-  Button,
-  LabeledList,
-  ProgressBar,
-  Section,
-} from '../components';
+import { AnimatedNumber, Button, LabeledList, ProgressBar, Section } from '../components';
+import { BeakerContents } from './common/BeakerContents';
 import { Window } from '../layouts';
-import { Beaker, BeakerSectionDisplay } from './common/BeakerDisplay';
 
 const damageTypes = [
   {
-    label: 'Brute',
-    type: 'bruteLoss',
+    label: "Brute",
+    type: "bruteLoss",
   },
   {
-    label: 'Respiratory',
-    type: 'oxyLoss',
+    label: "Respiratory",
+    type: "oxyLoss",
   },
   {
-    label: 'Toxin',
-    type: 'toxLoss',
+    label: "Toxin",
+    type: "toxLoss",
   },
   {
-    label: 'Burn',
-    type: 'fireLoss',
+    label: "Burn",
+    type: "fireLoss",
   },
-] as const;
-
-const stat_to_color = {
-  Dead: 'bad',
-  Conscious: 'bad',
-  Unconscious: 'good',
-} as const;
-
-type Occupant = {
-  name: string;
-  stat: string;
-  bodyTemperature: number;
-  health: number;
-  maxHealth: number;
-  bruteLoss: number;
-  oxyLoss: number;
-  toxLoss: number;
-  fireLoss: number;
-};
-
-type Data = {
-  isOperating: BooleanLike;
-  isOpen: BooleanLike;
-  autoEject: BooleanLike;
-  occupant: Occupant;
-  T0C: number;
-  cellTemperature: number;
-  beaker: Beaker;
-};
+];
 
 export const Cryo = () => {
-  const { act, data } = useBackend<Data>();
-  const { occupant, isOperating, isOpen } = data;
-
   return (
-    <Window width={400} height={550}>
+    <Window
+      width={400}
+      height={550}
+      resizable>
       <Window.Content scrollable>
-        <Section title="Occupant">
-          <LabeledList>
-            <LabeledList.Item label="Occupant">
-              {occupant?.name || 'No Occupant'}
-            </LabeledList.Item>
-            {!!occupant && (
-              <>
-                <LabeledList.Item
-                  label="State"
-                  color={stat_to_color[occupant.stat]}
-                >
-                  {occupant.stat}
-                </LabeledList.Item>
-                <LabeledList.Item
-                  label="Temperature"
-                  color={occupant.bodyTemperature < data.T0C ? 'good' : 'bad'} // Green if the mob can actually be healed by cryoxadone.
-                >
-                  <AnimatedNumber value={round(occupant.bodyTemperature, 0)} />
-                  {' K'}
-                </LabeledList.Item>
-                <LabeledList.Item label="Health">
-                  <ProgressBar
-                    value={round(occupant.health / occupant.maxHealth, 2)}
-                    color={occupant.health > 0 ? 'good' : 'average'}
-                  >
-                    <AnimatedNumber value={round(occupant.health, 0)} />
-                  </ProgressBar>
-                </LabeledList.Item>
-                {damageTypes.map((damageType) => (
-                  <LabeledList.Item
-                    key={damageType.type}
-                    label={damageType.label}
-                  >
-                    <ProgressBar
-                      value={round(data.occupant[damageType.type] / 100, 2)}
-                    >
-                      <AnimatedNumber
-                        value={round(data.occupant[damageType.type], 0)}
-                      />
-                    </ProgressBar>
-                  </LabeledList.Item>
-                ))}
-              </>
-            )}
-          </LabeledList>
-        </Section>
-        <Section title="Cell">
-          <LabeledList>
-            <LabeledList.Item label="Power">
-              <Button
-                icon={isOperating ? 'power-off' : 'times'}
-                disabled={isOpen}
-                onClick={() => act('power')}
-                color={isOperating && 'green'}
-              >
-                {isOperating ? 'On' : 'Off'}
-              </Button>
-            </LabeledList.Item>
-            <LabeledList.Item label="Temperature">
-              <AnimatedNumber value={round(data.cellTemperature, 0)} /> K
-            </LabeledList.Item>
-            <LabeledList.Item label="Door">
-              <Button
-                icon={isOpen ? 'unlock' : 'lock'}
-                onClick={() => act('door')}
-              >
-                {isOpen ? 'Open' : 'Closed'}
-              </Button>
-              <Button
-                icon={data.autoEject ? 'sign-out-alt' : 'sign-in-alt'}
-                onClick={() => act('autoeject')}
-              >
-                {data.autoEject ? 'Auto' : 'Manual'}
-              </Button>
-            </LabeledList.Item>
-          </LabeledList>
-        </Section>
-        <BeakerSectionDisplay beaker={data.beaker} showpH={false} />
+        <CryoContent />
       </Window.Content>
     </Window>
+  );
+};
+
+const CryoContent = (props, context) => {
+  const { act, data } = useBackend(context);
+  return (
+    <Fragment>
+      <Section title="Occupant">
+        <LabeledList>
+          <LabeledList.Item label="Occupant">
+            {data.occupant.name || 'No Occupant'}
+          </LabeledList.Item>
+          {!!data.hasOccupant && (
+            <Fragment>
+              <LabeledList.Item
+                label="State"
+                color={data.occupant.statstate}>
+                {data.occupant.stat}
+              </LabeledList.Item>
+              <LabeledList.Item
+                label="Temperature"
+                color={data.occupant.temperaturestatus}>
+                <AnimatedNumber
+                  value={data.occupant.bodyTemperature} />
+                {' K'}
+              </LabeledList.Item>
+              <LabeledList.Item label="Health">
+                <ProgressBar
+                  value={data.occupant.health / data.occupant.maxHealth}
+                  color={data.occupant.health > 0 ? 'good' : 'average'}>
+                  <AnimatedNumber
+                    value={data.occupant.health} />
+                </ProgressBar>
+              </LabeledList.Item>
+              {(damageTypes.map(damageType => (
+                <LabeledList.Item
+                  key={damageType.id}
+                  label={damageType.label}>
+                  <ProgressBar
+                    value={data.occupant[damageType.type]/100}>
+                    <AnimatedNumber
+                      value={data.occupant[damageType.type]} />
+                  </ProgressBar>
+                </LabeledList.Item>
+              )))}
+            </Fragment>
+          )}
+        </LabeledList>
+      </Section>
+      <Section title="Cell">
+        <LabeledList>
+          <LabeledList.Item label="Power">
+            <Button
+              icon={data.isOperating ? "power-off" : "times"}
+              disabled={data.isOpen}
+              onClick={() => act('power')}
+              color={data.isOperating && 'green'}>
+              {data.isOperating ? "On" : "Off"}
+            </Button>
+          </LabeledList.Item>
+          <LabeledList.Item label="Temperature">
+            <AnimatedNumber value={data.cellTemperature} /> K
+          </LabeledList.Item>
+          <LabeledList.Item label="Door">
+            <Button
+              icon={data.isOpen ? "unlock" : "lock"}
+              onClick={() => act('door')}
+              content={data.isOpen ? "Open" : "Closed"} />
+            <Button
+              icon={data.autoEject ? "sign-out-alt" : "sign-in-alt"}
+              onClick={() => act('autoeject')}
+              content={data.autoEject ? "Auto" : "Manual"} />
+          </LabeledList.Item>
+        </LabeledList>
+      </Section>
+      <Section
+        title="Beaker"
+        buttons={(
+          <Button
+            icon="eject"
+            disabled={!data.isBeakerLoaded}
+            onClick={() => act('ejectbeaker')}
+            content="Eject" />
+        )}>
+        <BeakerContents
+          beakerLoaded={data.isBeakerLoaded}
+          beakerContents={data.beakerContents} />
+      </Section>
+    </Fragment>
   );
 };

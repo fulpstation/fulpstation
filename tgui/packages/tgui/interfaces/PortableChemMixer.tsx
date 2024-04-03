@@ -3,13 +3,12 @@ import { sortBy } from 'common/collections';
 import { useBackend } from '../backend';
 import { Box, Button, Section } from '../components';
 import { Window } from '../layouts';
-import { Beaker, BeakerDisplay } from './common/BeakerDisplay';
+import { Beaker, BeakerContents } from './common/BeakerContents';
 
 type DispensableReagent = {
   title: string;
   id: string;
   volume: number;
-  pH: number;
 };
 
 type TransferableBeaker = Beaker & {
@@ -56,7 +55,6 @@ export const PortableChemMixer = (props) => {
                 icon="tint"
                 fluid
                 lineHeight={1.75}
-                tooltip={'pH: ' + chemical.pH}
                 onClick={() =>
                   act('dispense', {
                     reagent: chemical.id,
@@ -80,7 +78,7 @@ export const PortableChemMixer = (props) => {
             </Button>
           ))}
         >
-          <BeakerDisplay beaker={beaker} showpH />
+          <BeakerContents beaker={beaker} />
         </Section>
       </Window.Content>
     </Window>

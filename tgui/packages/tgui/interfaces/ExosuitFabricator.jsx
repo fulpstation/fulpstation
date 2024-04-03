@@ -1,8 +1,9 @@
 import { classes } from 'common/react';
+import { Fragment } from 'react';
 import { uniqBy } from 'common/collections';
 import { useBackend, useSharedState } from '../backend';
 import { formatSiUnit, formatMoney } from '../format';
-import { Flex, Section, Tabs, Box, Button, Fragment, ProgressBar, NumberInput, Icon, Input } from '../components';
+import { Flex, Section, Tabs, Box, Button, ProgressBar, NumberInput, Icon, Input } from '../components';
 import { Window } from '../layouts';
 import { createSearch } from 'common/string';
 
