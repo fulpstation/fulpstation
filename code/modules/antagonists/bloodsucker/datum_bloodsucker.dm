@@ -760,9 +760,9 @@
 #define ui_vamprank_display "WEST:6,CENTER-2:-5"   // 2 tiles down
 
 /datum/hud
-	var/obj/screen/bloodsucker/blood_counter/blood_display
-	var/obj/screen/bloodsucker/rank_counter/vamprank_display
-	var/obj/screen/bloodsucker/sunlight_counter/sunlight_display
+	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
+	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
+	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 /datum/antagonist/bloodsucker/proc/add_hud()
 	return
@@ -796,36 +796,36 @@
 			owner.current.hud_used.vamprank_display.icon_state = (vamplevel_unspent > 0) ? "rank_up" : "rank"
 
 
-/obj/screen/bloodsucker
+/atom/movable/screen/bloodsucker
 	invisibility = INVISIBILITY_ABSTRACT
 
-/obj/screen/bloodsucker/proc/clear()
+/atom/movable/screen/bloodsucker/proc/clear()
 	invisibility = INVISIBILITY_ABSTRACT
 
-/obj/screen/bloodsucker/proc/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/proc/update_counter(value, valuecolor)
 	invisibility = 0 // Make Visible
 
-/obj/screen/bloodsucker/blood_counter		// NOTE: Look up /obj/screen/devil/soul_counter  in _onclick / hud / human.dm
+/atom/movable/screen/bloodsucker/blood_counter		// NOTE: Look up /atom/movable/screen/devil/soul_counter  in _onclick / hud / human.dm
 	icon = 'icons/Fulpicons/fulpicons.dmi'//'icons/mob/screen_gen.dmi'
 	name = "Blood Consumed"
 	icon_state = "blood_display"//"power_display"
 	screen_loc = ui_blood_display
 
-/obj/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/blood_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
 
-/obj/screen/bloodsucker/rank_counter		// NOTE: Look up /obj/screen/devil/soul_counter  in _onclick / hud / human.dm
+/atom/movable/screen/bloodsucker/rank_counter		// NOTE: Look up /atom/movable/screen/devil/soul_counter  in _onclick / hud / human.dm
 	icon = 'icons/Fulpicons/fulpicons.dmi'//'icons/mob/screen_gen.dmi'
 	name = "Bloodsucker Rank"
 	icon_state = "rank" // Upgrade to "bloodsucker_rank_up"
 	screen_loc = ui_vamprank_display
 
-/obj/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/rank_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[round(value,1)]</font></div>"
 
-/obj/screen/bloodsucker/sunlight_counter
+/atom/movable/screen/bloodsucker/sunlight_counter
 	icon = 'icons/Fulpicons/fulpicons.dmi'//'icons/mob/screen_gen.dmi'
 	name = "Solar Flare Timer"
 	icon_state = "sunlight_night" // Upgrade to "bloodsucker_rank_up"
@@ -850,6 +850,6 @@
 		owner.current.hud_used.sunlight_display.icon_state = "sunlight_" + (amDay ? "day":"night")
 
 
-/obj/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
+/atom/movable/screen/bloodsucker/sunlight_counter/update_counter(value, valuecolor)
 	..()
 	maptext = "<div align='center' valign='bottom' style='position:relative; top:0px; left:6px'><font color='[valuecolor]'>[value]</font></div>"

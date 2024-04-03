@@ -46,8 +46,8 @@
 /mob/proc/update_blindness()
 	if(stat == UNCONSCIOUS || HAS_TRAIT(src, TRAIT_BLIND) || eye_blind) // UNCONSCIOUS or has blind trait, or has temporary blindness
 		if(stat == CONSCIOUS || stat == SOFT_CRIT)
-			throw_alert("blind", /obj/screen/alert/blind)
-		overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
+			throw_alert("blind", /atom/movable/screen/alert/blind)
+		overlay_fullscreen("blind", /atom/movable/screen/fullscreen/blind)
 		// You are blind why should you be able to make out details like color, only shapes near you
 		add_client_colour(/datum/client_colour/monochrome/blind)
 	else // CONSCIOUS no blind trait, no blindness
@@ -78,8 +78,8 @@
 /mob/proc/update_eye_blur()
 	if(!client)
 		return
-	var/obj/screen/plane_master/floor/OT = locate(/obj/screen/plane_master/floor) in client.screen
-	var/obj/screen/plane_master/game_world/GW = locate(/obj/screen/plane_master/game_world) in client.screen
+	var/atom/movable/screen/plane_master/floor/OT = locate(/atom/movable/screen/plane_master/floor) in client.screen
+	var/atom/movable/screen/plane_master/game_world/GW = locate(/atom/movable/screen/plane_master/game_world) in client.screen
 	GW.backdrop(src)
 	OT.backdrop(src)
 

@@ -27,13 +27,13 @@ SUBSYSTEM_DEF(overlays)
 	return output_text.Join("\n")
 
 /proc/iconstate2appearance(icon, iconstate)
-	var/image/stringbro = new()
+	var/static/image/stringbro = new()
 	stringbro.icon = icon
 	stringbro.icon_state = iconstate
 	return stringbro.appearance
 
 /proc/icon2appearance(icon)
-	var/image/iconbro = new()
+	var/static/image/iconbro = new()
 	iconbro.icon = icon
 	return iconbro.appearance
 
