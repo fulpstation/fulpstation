@@ -64,7 +64,6 @@
 	var/mutator_used = FALSE //So you can't shove a dozen mutators into a single slime
 	var/force_stasis = FALSE
 
-	var/static/regex/slime_name_regex = new("\\w+ (baby|adult) slime \\(\\d+\\)")
 	///////////TIME FOR SUBSPECIES
 
 	var/colour = "grey"
@@ -121,6 +120,8 @@
 	regenerate_icons()
 
 /mob/living/simple_animal/slime/proc/update_name()
+	///Checks if the slime has a generic name, in the format of baby/adult slime (123)
+	var/static/regex/slime_name_regex = new("\\w+ (baby|adult) slime \\(\\d+\\)")
 	if(slime_name_regex.Find(name))
 		number = rand(1, 1000)
 		name = "[colour] [is_adult ? "adult" : "baby"] slime ([number])"

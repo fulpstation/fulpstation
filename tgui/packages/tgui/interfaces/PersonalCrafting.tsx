@@ -18,6 +18,32 @@ import {
   Tooltip,
 } from '../components';
 import { Window } from '../layouts';
+import { Food } from './PreferencesMenu/data';
+
+const TYPE_ICONS = {
+  'Can Make': 'utensils',
+  [Food.Alcohol]: 'wine-glass',
+  [Food.Breakfast]: 'sun',
+  [Food.Bugs]: 'bug',
+  [Food.Cloth]: 'tshirt',
+  [Food.Dairy]: 'cheese',
+  [Food.Fried]: 'fire',
+  [Food.Fruit]: 'apple-alt',
+  [Food.Gore]: 'skull',
+  [Food.Grain]: 'wheat-awn',
+  [Food.Gross]: 'trash',
+  [Food.Junkfood]: 'pizza-slice',
+  [Food.Meat]: 'bacon',
+  [Food.Nuts]: 'seedling',
+  [Food.Oranges]: 'apple-alt',
+  [Food.Pineapple]: 'apple-alt',
+  [Food.Raw]: 'drumstick-bite',
+  [Food.Seafood]: 'fish',
+  [Food.Stone]: 'gem',
+  [Food.Sugar]: 'candy-cane',
+  [Food.Toxic]: 'biohazard',
+  [Food.Vegetables]: 'carrot',
+} as const;
 
 const CATEGORY_ICONS_CRAFTING = {
   'Can Make': 'hammer',
@@ -581,6 +607,9 @@ const FoodtypeContent = (props) => {
 
   return (
     <Stack>
+      <Stack.Item width="14px" textAlign="center">
+        <Icon name={TYPE_ICONS[type] || 'circle'} />
+      </Stack.Item>
       <Stack.Item grow style={{ textTransform: 'capitalize' }}>
         {type.toLowerCase()}
       </Stack.Item>

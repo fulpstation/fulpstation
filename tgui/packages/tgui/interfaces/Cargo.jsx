@@ -33,9 +33,8 @@ export const Cargo = (props) => {
 export const CargoContent = (props) => {
   const { data } = useBackend();
   const [tab, setTab] = useSharedState('tab', 'catalog');
-  const { requestonly } = data;
-  const requests = data.requests || [];
-  const cart = data.cart || [];
+  const { cart = [], requests = [], requestonly } = data;
+  const cart_length = cart.reduce((total, entry) => total + entry.amount, 0);
 
   return (
     <Box>
@@ -61,11 +60,11 @@ export const CargoContent = (props) => {
             <>
               <Tabs.Tab
                 icon="shopping-cart"
-                textColor={tab !== 'cart' && cart.length > 0 && 'yellow'}
+                textColor={tab !== 'cart' && cart_length > 0 && 'yellow'}
                 selected={tab === 'cart'}
                 onClick={() => setTab('cart')}
               >
-                Checkout ({cart.length})
+                Checkout ({cart_length})
               </Tabs.Tab>
               <Tabs.Tab
                 icon="question"

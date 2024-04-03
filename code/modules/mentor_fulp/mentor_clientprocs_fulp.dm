@@ -1,9 +1,9 @@
 /client/New()
 	. = ..()
 	mentor_datum_set()
-	hotkeys = "Hotkey"
-	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key)
-	user.client.update_movement_keys()
+	prefs.hotkeys = "Hotkey"
+	prefs.key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key)
+	update_movement_keys()
 
 /client/proc/mentor_client_procs(href_list)
 	if(href_list["mentor_msg"])
