@@ -1,6 +1,6 @@
 import { toTitleCase } from 'common/string';
-import { Fragment } from 'react';
-import { useBackend, useLocalState } from '../backend';
+import { Fragment, useState } from 'react';
+import { useBackend } from '../backend';
 import { BlockQuote, Box, Button, NumberInput, Section, Table } from '../components';
 import { Window } from '../layouts';
 
@@ -106,10 +106,7 @@ export const OreRedemptionMachine = (props, context) => {
 const MaterialRow = (props, context) => {
   const { material, onRelease } = props;
 
-  const [
-    amount,
-    setAmount,
-  ] = useLocalState(context, "amount" + material.name, 1);
+  const [amount_releasing, setAmount] = useState(1);
 
   const amountAvailable = Math.floor(material.amount);
   return (
@@ -134,12 +131,12 @@ const MaterialRow = (props, context) => {
           stepPixelSize={5}
           minValue={1}
           maxValue={50}
-          value={amount}
+          value={amount_releasing}
           onChange={(e, value) => setAmount(value)} />
         <Button
           disabled={amountAvailable < 1}
           content="Release"
-          onClick={() => onRelease(amount)} />
+          onClick={() => onRelease(amount_releasing)} />
       </Table.Cell>
     </Table.Row>
   );
