@@ -29,7 +29,7 @@
 	else if(holder)
 		new /datum/mentors(ckey)
 
-///Retusn whether or not this client is a Mentor (Or Admin, cause they are also Mentors).
+///Returns whether or not this client is a Mentor (Or Admin, cause they are also Mentors).
 /client/proc/is_mentor()
 	if(mentor_datum || holder)
 		return TRUE
