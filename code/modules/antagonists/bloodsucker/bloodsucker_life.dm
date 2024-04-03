@@ -501,7 +501,7 @@
 				C.Immobilize(20)
 			if (3)
 				to_chat(C, "<span class='warning'>You purge the food of the living from your viscera! You've never felt worse.</span>")
-				C.vomit(foodInGut * 4, foodInGut * 2, 0)  // (var/lost_nutrition = 10, var/blood = 0, var/stun = 1, var/distance = 0, var/message = 1, var/toxic = 0)
+				C.vomit(foodInGut * 4, foodInGut * 2, 0)  // (var/lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
 				C.blood_volume = max(0, C.blood_volume - foodInGut * 2)
 				C.Stun(30)
 				//C.Dizzy(50)

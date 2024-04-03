@@ -63,7 +63,7 @@
 	if (inFeatures["beefmouth"] == null || inFeatures["beefmouth"] == "")
 		inFeatures["beefmouth"] = pick(GLOB.mouths_beefman)
 
-/mob/living/carbon/human/proc/adjust_bl_all(var/type = "add", var/amount)
+/mob/living/carbon/human/proc/adjust_bl_all(var/type = "add", amount)
 	for(var/i in bodyparts)
 		var/obj/item/bodypart/BP = i
 		switch(type)

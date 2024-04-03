@@ -32,7 +32,7 @@
 */
 
 
-// From browser.dm:   /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, var/atom/nref = null)
+// From browser.dm:   /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, atom/nref = null)
 
 
 /*

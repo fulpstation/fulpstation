@@ -52,7 +52,7 @@ global procs
 	verb_say/verb_ask/verb_exclaim/verb_yell/verb_sing
 		These determine what the verb is for their respective action. Used in say_quote().
 
-	say(message, bubble_type, var/list/spans, sanitize, datum/language/language, ignore_spam, forced)
+	say(message, bubble_type, list/spans, sanitize, datum/language/language, ignore_spam, forced)
 		Say() is the "mother-proc". It calls all the other procs required for speaking, but does little itself.
 		At the atom/movable level, say() just calls send_speech.
 
@@ -96,7 +96,7 @@ global procs
 		Returns a bitflag representing who is trying to talk to the changeling hivemind.
 
 /mob/living
-	say(message, bubble_type, var/list/spans, sanitize, datum/language/languag, ignore_spam, forced)
+	say(message, bubble_type, list/spans, sanitize, datum/language/languag, ignore_spam, forced)
 		The say() of mob_living is significantly more complex than that of objects.
 		Most of the extra code has to do with radios and message treatment.
 

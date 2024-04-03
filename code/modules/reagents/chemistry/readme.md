@@ -27,13 +27,13 @@ The holder (reagents datum) is the datum that holds a list of all reagents curre
 		remove_all(var/amount)
 			This proc removes reagents from the holder equally.
 
-		trans_to(var/obj/target, var/amount)
+		trans_to(var/obj/target, amount)
 			This proc equally transfers the contents of the holder to another
 			objects holder. You need to pass it the object (not the holder) you want
 			to transfer to and the amount you want to transfer. Its return value is the
 			actual amount transfered (if one of the objects is full/empty)
 
-		trans_id_to(var/obj/target, var/reagent, var/amount)
+		trans_id_to(var/obj/target, reagent, amount)
 			Same as above but only for a specific reagent in the reagent list.
 			If the specified amount is greater than what is available, it will use
 			the amount of the reagent that is available. If no reagent exists, returns null.
@@ -64,7 +64,7 @@ The holder (reagents datum) is the datum that holds a list of all reagents curre
 		clear_reagents()
 			This proc removes ALL reagents from the holder.
 
-		reaction(var/atom/A, var/method=TOUCH, var/volume_modifier=0)
+		reaction(var/atom/A, method=TOUCH, volume_modifier=0)
 			This proc calls the appropriate reaction procs of the reagents.
 			I.e. if A is an object, it will call the reagents expose_obj
 			proc. The method var is used for reaction on mobs. It simply tells
@@ -78,15 +78,15 @@ The holder (reagents datum) is the datum that holds a list of all reagents curre
 			contact with the reagents of a holder. (in the 'splash' part of a beaker i.e.)
 			More on the reaction in the reagent part of this readme.
 
-		add_reagent(var/reagent, var/amount, var/data)
+		add_reagent(var/reagent, amount, data)
 			Attempts to add X of the matching reagent to the holder.
 			You won't use this much. Mostly in new procs for pre-filled
 			objects.
 
-		remove_reagent(var/reagent, var/amount)
+		remove_reagent(var/reagent, amount)
 			The exact opposite of the add_reagent proc.
 
-		has_reagent(var/reagent, var/amount)
+		has_reagent(var/reagent, amount)
 			Returns 1 if the holder contains this reagent.
 			Or 0 if not.
 			If you pass it an amount it will additionally check
@@ -116,7 +116,7 @@ The holder (reagents datum) is the datum that holds a list of all reagents curre
 # About Reagents:
 Reagents are all the things you can mix and fille in bottles etc. This can be anything from rejuvs over water to ... iron. Each reagent also has a few procs - i'll explain those below.
 ```
-		expose_mob(var/mob/living/L, var/method=TOUCH)
+		expose_mob(var/mob/living/L, method=TOUCH)
 			This is called by the holder's reation proc.
 			This version is only called when the reagent
 			reacts with a mob. The method var can be either
@@ -174,7 +174,7 @@ A good website for color calculations: http://www.psyclops.com/tools/rgb/
 # About Recipes:
 Recipes are simple datums that contain a list of required reagents and a result. They also have a proc that is called when the recipe is matched.
 ```
-		on_reaction(var/datum/reagents/holder, var/created_volume)
+		on_reaction(var/datum/reagents/holder, created_volume)
 			This proc is called when the recipe is matched.
 			You'll want to add explosions etc here.
 			To find the location you'll have to do something
