@@ -404,8 +404,9 @@
 /obj/item/cartridge/detective
 	access = CART_SECURITY | CART_MEDICAL | CART_MANIFEST | CART_REAGENT_SCANNER | CART_ATMOS
 
-/datum/techweb_node/integrated_HUDs
-	design_ids = list("health_hud", "security_hud", "diagnostic_hud", "scigoggles", "detective_glasses")
+/datum/techweb_node/integrated_hud/New()
+	. = ..()
+	design_ids += list("detective_glasses")
 
 /datum/design/detective_scanner
 	desc = "Used to remotely scan objects and biomass for DNA and fingerprints, and has an integrated health and reagent analyzer. Can print a report of its findings."
