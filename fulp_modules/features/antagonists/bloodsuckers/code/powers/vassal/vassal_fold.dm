@@ -56,7 +56,7 @@
 	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
 		if(length(revenge_vassal.ex_vassals) == 0)
-			to_chat(owner, "Your master has no ex-vassels.")
+			to_chat(owner, "Your master has no ex-vassels to revive.")
 			DeactivatePower()
 			return
 		for(var/datum/antagonist/ex_vassal/former_vassals as anything in revenge_vassal.ex_vassals)
