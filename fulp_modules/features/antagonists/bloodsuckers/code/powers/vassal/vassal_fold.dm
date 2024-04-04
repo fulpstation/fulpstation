@@ -24,7 +24,7 @@
 		return FALSE
 	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
 	if(!revenge_vassal)
-		CRASH("[user] has [src] action but is not a revenge vassal. This should not be happening!")
+		stack_trace("[user] has [src] action but is not a revenge vassal. This should not be happening!")
 		return FALSE
 
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
