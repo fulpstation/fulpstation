@@ -22,12 +22,13 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/ex_vassal)
-	if(revenge_vassal)
+	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
+	if(!revenge_vassal)
+		CRASH("[user] has [src] action but is not a revenge vassal. This should not be happening!")
 		return FALSE
 
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
-		if(!revenge_vassal.ex_vassals.len)
+		if(!length(revenge_vassal.ex_vassals))
 			owner.balloon_alert(owner, "no vassals!")
 			return FALSE
 		return TRUE
