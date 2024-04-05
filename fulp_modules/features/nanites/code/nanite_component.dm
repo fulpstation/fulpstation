@@ -127,7 +127,7 @@
 	STOP_PROCESSING(SSnanites, src)
 	QDEL_LIST(programs)
 	if(host_mob)
-		host_mob.hud_set_nanite_indicator()
+		host_mob.hud_set_nanite_indicator(remove = TRUE)
 		set_nanite_bar(remove = TRUE)
 	host_mob = null
 	linked_techweb = null
@@ -148,14 +148,14 @@
 		if(cloud_id && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
-	set_nanite_bar(remove = FALSE)
+	set_nanite_bar()
 
 /datum/component/nanites/proc/delete_nanites()
 	SIGNAL_HANDLER
 
 	qdel(src)
 
-//Syncs the nanite component to another, making it so programs are the same with the same programming (except activation status)
+///Syncs the nanite component to another, making it so programs are the same with the same programming (except activation status)
 /datum/component/nanites/proc/sync(datum/signal_source, datum/component/nanites/source, full_overwrite = TRUE, copy_activation = FALSE)
 	SIGNAL_HANDLER
 

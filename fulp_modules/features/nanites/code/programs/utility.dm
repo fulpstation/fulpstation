@@ -62,10 +62,12 @@
 /datum/nanite_program/stealth/enable_passive_effect()
 	. = ..()
 	nanites.stealth = TRUE
+	host_mob.hud_set_nanite_indicator(remove = TRUE)
 
 /datum/nanite_program/stealth/disable_passive_effect()
 	. = ..()
 	nanites.stealth = FALSE
+	host_mob.hud_set_nanite_indicator()
 
 /datum/nanite_program/reduced_diagnostics
 	name = "Reduced Diagnostics"

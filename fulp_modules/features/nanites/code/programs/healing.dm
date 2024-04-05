@@ -1,6 +1,8 @@
 /datum/nanite_program/regenerative
 	name = "Accelerated Regeneration"
-	desc = "The nanites boost the host's natural regeneration, increasing their healing speed. Does not consume nanites if the host is unharmed."
+	desc = "The nanites boost the host's natural regeneration, increasing their healing speed. \
+		Does not consume nanites if the host is unharmed. \
+		Works better in low-pressure environments."
 	use_rate = 0.5
 	rogue_types = list(/datum/nanite_program/necrotic)
 
@@ -15,17 +17,28 @@
 	return ..()
 
 /datum/nanite_program/regenerative/active_effect()
-	if(iscarbon(host_mob))
-		var/mob/living/carbon/host_carbon = host_mob
-		var/list/parts = host_carbon.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
-		if(!parts.len)
-			return
-		for(var/obj/item/bodypart/bodyparts as anything in parts)
-			if(bodyparts.heal_damage(0.5 / parts.len, 0.5 / parts.len, null, required_bodytype = BODYTYPE_ORGANIC))
-				host_mob.update_damage_overlays()
-	else
+	if(!iscarbon(host_mob))
 		host_mob.adjustBruteLoss(-0.5, TRUE)
 		host_mob.adjustFireLoss(-0.5, TRUE)
+		return
+	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1.2 : 0.6) // 0.6 on lavaland, 0.3 on station
+	host_mob.heal_overall_damage(brute = (0.5 * lavaland_bonus), brute = (0.5 * lavaland_bonus), required_bodytype = BODYTYPE_ORGANIC)
+
+/datum/nanite_program/regenerative_advanced
+	name = "Bio-Reconstruction"
+	desc = "The nanites manually repair and replace organic cells, acting much faster than normal regeneration. \
+			However, this program cannot detect the difference between harmed and unharmed, causing it to consume nanites even if it has no effect. \
+			Works better in low-pressure environments."
+	use_rate = 5.5
+	rogue_types = list(/datum/nanite_program/suffocating, /datum/nanite_program/necrotic)
+
+/datum/nanite_program/regenerative_advanced/active_effect()
+	if(!iscarbon(host_mob))
+		host_mob.adjustBruteLoss(-3, TRUE)
+		host_mob.adjustFireLoss(-3, TRUE)
+		return
+	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1.2 : 0.8) // 1.8 on Lavaland, 1.2 on station
+	host_mob.heal_overall_damage(brute = (1.5 * lavaland_bonus), brute = (1.5 * lavaland_bonus), required_bodytype = BODYTYPE_ROBOTIC)
 
 /datum/nanite_program/temperature
 	name = "Temperature Adjustment"
@@ -135,16 +148,7 @@
 		host_mob.adjustBruteLoss(-1.5, TRUE)
 		host_mob.adjustFireLoss(-1.5, TRUE)
 		return
-	var/mob/living/carbon/carbon_host = host_mob
-	var/list/parts = carbon_host.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ROBOTIC)
-	if(!parts.len)
-		return
-	var/update = FALSE
-	for(var/obj/item/bodypart/bodypart as anything in parts)
-		if(bodypart.heal_damage(1.5 / parts.len, 1.5 / parts.len, null, BODYTYPE_ROBOTIC)) //much faster than organic healing
-			update = TRUE
-	if(update)
-		host_mob.update_damage_overlays()
+	host_mob.heal_overall_damage(brute = 1.5, brute = 1.5, required_bodytype = BODYTYPE_ROBOTIC)
 
 /datum/nanite_program/purging_advanced
 	name = "Selective Blood Purification"
@@ -166,29 +170,6 @@
 	host_mob.adjustToxLoss(-1)
 	for(var/datum/reagent/toxin/toxic_reagents in host_mob.reagents.reagent_list)
 		host_mob.reagents.remove_reagent(toxic_reagents.type, 1)
-
-/datum/nanite_program/regenerative_advanced
-	name = "Bio-Reconstruction"
-	desc = "The nanites manually repair and replace organic cells, acting much faster than normal regeneration. \
-			However, this program cannot detect the difference between harmed and unharmed, causing it to consume nanites even if it has no effect."
-	use_rate = 5.5
-	rogue_types = list(/datum/nanite_program/suffocating, /datum/nanite_program/necrotic)
-
-/datum/nanite_program/regenerative_advanced/active_effect()
-	if(!iscarbon(host_mob))
-		host_mob.adjustBruteLoss(-3, TRUE)
-		host_mob.adjustFireLoss(-3, TRUE)
-		return
-	var/mob/living/carbon/carbon_host = host_mob
-	var/list/parts = carbon_host.get_damaged_bodyparts(brute = TRUE, burn = TRUE, required_bodytype = BODYTYPE_ORGANIC)
-	if(!parts.len)
-		return
-	var/update = FALSE
-	for(var/obj/item/bodypart/bodypart as anything in parts)
-		if(bodypart.heal_damage(3 / parts.len, 3 / parts.len, null, BODYTYPE_ORGANIC))
-			update = TRUE
-	if(update)
-		host_mob.update_damage_overlays()
 
 /datum/nanite_program/brain_heal_advanced
 	name = "Neural Reimaging"
