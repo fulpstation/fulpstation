@@ -79,7 +79,7 @@ GLOBAL_PROTECT(mentor_href_token)
 	set name = "Reload Mentors"
 	set category = "Mentor"
 
-	if(!src.holder)
+	if(!holder)
 		return
 
 	var/confirm = tgui_alert(usr, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
