@@ -23,7 +23,7 @@
 	if(!.)
 		return FALSE
 	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
-	if(!revenge_vassal)
+	if(isnull(revenge_vassal))
 		stack_trace("[user] has [src] action but is not a revenge vassal. This should not be happening!")
 		return FALSE
 
