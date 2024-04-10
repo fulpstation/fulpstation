@@ -133,7 +133,8 @@
 			if(bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
-			else if(user.blood_volume <= 0)
+		else
+			if(user.blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
 	return TRUE
