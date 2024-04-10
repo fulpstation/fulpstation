@@ -21,7 +21,7 @@
 		host_mob.adjustBruteLoss(-0.5, TRUE)
 		host_mob.adjustFireLoss(-0.5, TRUE)
 		return
-	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1.2 : 0.6) // 0.6 on lavaland, 0.3 on station
+	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1 : 0.6) // 0.5 on lavaland, 0.3 on station
 	host_mob.heal_overall_damage(brute = (0.5 * lavaland_bonus), brute = (0.5 * lavaland_bonus), required_bodytype = BODYTYPE_ORGANIC)
 
 /datum/nanite_program/regenerative_advanced
@@ -37,7 +37,7 @@
 		host_mob.adjustBruteLoss(-3, TRUE)
 		host_mob.adjustFireLoss(-3, TRUE)
 		return
-	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1.2 : 0.8) // 1.8 on Lavaland, 1.2 on station
+	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1 : 0.8) // 1.5 on Lavaland, 1.2 on station
 	host_mob.heal_overall_damage(brute = (1.5 * lavaland_bonus), brute = (1.5 * lavaland_bonus), required_bodytype = BODYTYPE_ROBOTIC)
 
 /datum/nanite_program/temperature
