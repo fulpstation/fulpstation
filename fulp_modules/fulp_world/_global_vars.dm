@@ -16,10 +16,10 @@ GLOBAL_LIST_INIT(mentor_verbs, list(
 
 // MUSIC //
 GLOBAL_LIST_INIT(credits_music, list(
-	'fulp_modules/sounds/sound/credits/fulp_piano.ogg' = 50,
-	'fulp_modules/sounds/sound/credits/fulp_piano_old.ogg' = 20,
+	'fulp_modules/sounds/credits/fulp_piano.ogg' = 50,
+	'fulp_modules/sounds/credits/fulp_piano_old.ogg' = 20,
 	//Made by Mokoshotar (@mokoshotar#9428)
-	'fulp_modules/sounds/sound/credits/shuttlesent.ogg' = 30,
+	'fulp_modules/sounds/credits/shuttlesent.ogg' = 30,
 ))
 
 // FULP BANS //

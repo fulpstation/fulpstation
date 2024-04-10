@@ -60,7 +60,7 @@
 	name = "beef station"
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "beef_station"
-	ambientsounds = list('fulp_modules/sounds/sound/ambience/beef_station.ogg')
+	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"
