@@ -14,8 +14,8 @@
 	//Remove mentor's blindness/color blindness
 	usr.hide_fullscreens()
 	for(var/datum/client_colour/colour in usr.client_colours)
-		mentor_datum.mentors_client_colours += colour
-		qdel(colour)
+		mentor_datum.mentors_client_colours += colour.type
+		usr.remove_client_colour(colour.type)
 
 /client/proc/mentor_unfollow()
 	set category = "Mentor"
@@ -29,6 +29,6 @@
 	mentor_datum.following = null
 	//Add back mentor's blindness/color blindness
 	usr.reload_fullscreen()
-	for(var/color in mentor_datum.mentors_client_colours)
-		usr.add_client_colour(color)
+	for(var/client_colour_type in mentor_datum.mentors_client_colours)
+		usr.add_client_colour(client_colour_type)
 	mentor_datum.mentors_client_colours = list()
