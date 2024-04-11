@@ -14,7 +14,7 @@
 	attack_verb_continuous = list("Tries to recharge the batong in")
 	attack_verb_simple = list("try to recharge the batong in")
 	// "the monkey (958) Tries to recharge the batong in you in the chest with the batong" people wanted this.
-	squeak_override = list('fulp_modules/features/toys/sound/batong.ogg' = 1)
+	squeak_override = list('fulp_modules/sounds/effects/batong.ogg' = 1)
 
 /obj/item/toy/plush/batong/Initialize(mapload)
 	. = ..()
@@ -39,7 +39,7 @@
 	icon_state = "pico"
 	attack_verb_continuous = list("flails at")
 	attack_verb_simple = list("flail at")
-	squeak_override = list('fulp_modules/features/toys/sound/pico.ogg'= 1)
+	squeak_override = list('fulp_modules/sounds/effects/pico.ogg'= 1)
 	custom_price = PAYCHECK_COMMAND
 
 /obj/item/toy/plush/fly
@@ -60,7 +60,7 @@
 	inhand_icon_state = null
 	attack_verb_continuous = list("jumpscares")
 	attack_verb_simple = list("jumpscare")
-	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
+	squeak_override = list('fulp_modules/sounds/effects/jumpscare.ogg'= 1)
 
 /obj/item/toy/plush/animatronic/chica
 	name = "Chica plushie"
@@ -82,7 +82,7 @@
 
 /obj/item/toy/plush/animatronic/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
+	playsound(loc, 'fulp_modules/sounds/effects/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
 	if(myhead)
 		myhead.dismember()
@@ -141,7 +141,7 @@
 	attack_verb_continuous = list("shrimps", "skitters")
 	attack_verb_simple = list("shrimp","skitter")
 	squeak_override = list(
-		'fulp_modules/sounds/sound/effects/kero.ogg' = 1
+		'fulp_modules/sounds/effects/kero.ogg' = 1
 	)
 	/// The rice the shrimp fried. The shrimp can only fry one rice
 	var/obj/item/food/fried_rice
