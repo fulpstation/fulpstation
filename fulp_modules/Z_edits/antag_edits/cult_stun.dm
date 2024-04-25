@@ -14,7 +14,7 @@
 		return
 	if(IS_CULTIST(user))
 		user.visible_message(span_warning("[user] holds up [user.p_their()] hand, which explodes in a flash of red light!"), \
-							span_cultitalic("You attempt to stun [target] with the spell!"))
+							span_cult_italic("You attempt to stun [target] with the spell!"))
 		user.mob_light(range = 3, color = LIGHT_COLOR_BLOOD_MAGIC, duration = 0.2 SECONDS)
 		if(IS_HERETIC(target))
 			to_chat(user, span_warning("Some force greater than you intervenes! [target] is protected by the Forgotten Gods!"))
@@ -26,7 +26,7 @@
 			to_chat(user, span_warning("The spell had no effect!"))
 		else if(HAS_TRAIT(target, TRAIT_MINDSHIELD)) // Mindshield just re-directs the stun's spell from their brain to their body.
 			var/mob/living/carbon/carbon_target = target
-			to_chat(user, span_cultitalic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
+			to_chat(user, span_cult_italic("Our spell fails to brainwash their strong mind, tearing their skull open!"))
 			carbon_target.adjust_timed_status_effect(10 SECONDS, /datum/status_effect/speech/stutter)
 			carbon_target.set_timed_status_effect(1 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 			carbon_target.bleed(30)
@@ -34,7 +34,7 @@
 			var/datum/wound/slash/flesh/moderate/crit_wound = new
 			crit_wound.apply_wound(head)
 		else
-			to_chat(user, span_cultitalic("In a brilliant flash of red, [target] falls to the ground!"))
+			to_chat(user, span_cult_italic("In a brilliant flash of red, [target] falls to the ground!"))
 			target.Paralyze(16 SECONDS)
 			target.flash_act(1, TRUE)
 			if(issilicon(target))

@@ -572,7 +572,7 @@
 	if(!user.mind || !IS_BLOODSUCKER(user))
 		return
 	var/message = speech_args[SPEECH_MESSAGE]
-	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
+	var/rendered = span_cult_large("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	for(var/datum/antagonist/vassal/receiver as anything in bloodsuckerdatum.vassals)
