@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/choice_beacon/halloween
 	name = "halloween delivery beacon"
 	desc = "Summon a box of halloween costumes to help you get spooky."
-	icon_state = "generic-delivery"
+	icon_state = "generic_delivery"
 
 /obj/item/choice_beacon/halloween/generate_display_names()
 	var/static/list/halloween_costumes
