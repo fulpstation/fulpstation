@@ -134,7 +134,7 @@
 	/// Prevents popup spam.
 	var/disloyalty_offered = FALSE
 
-/obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
+/obj/structure/bloodsucker/vassalrack/atom_deconstruct(disassembled = TRUE)
 	. = ..()
 	new /obj/item/stack/sheet/iron(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)
