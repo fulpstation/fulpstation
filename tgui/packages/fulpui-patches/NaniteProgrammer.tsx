@@ -58,7 +58,8 @@ const NaniteCodes = (props) => {
             width="47px"
             minValue={0}
             maxValue={9999}
-            onChange={(e, value) =>
+            step={1}
+            onChange={(value) =>
               act('set_code', {
                 target_code: 'activation',
                 code: value,
@@ -72,7 +73,8 @@ const NaniteCodes = (props) => {
             width="47px"
             minValue={0}
             maxValue={9999}
-            onChange={(e, value) =>
+            step={1}
+            onChange={(value) =>
               act('set_code', {
                 target_code: 'deactivation',
                 code: value,
@@ -86,7 +88,8 @@ const NaniteCodes = (props) => {
             width="47px"
             minValue={0}
             maxValue={9999}
-            onChange={(e, value) =>
+            step={1}
+            onChange={(value) =>
               act('set_code', {
                 target_code: 'kill',
                 code: value,
@@ -101,7 +104,8 @@ const NaniteCodes = (props) => {
               width="47px"
               minValue={0}
               maxValue={9999}
-              onChange={(e, value) =>
+              step={1}
+              onChange={(value) =>
                 act('set_code', {
                   target_code: 'trigger',
                   code: value,
@@ -134,7 +138,8 @@ const NaniteDelays = (props) => {
             width="57px"
             minValue={0}
             maxValue={3600}
-            onChange={(e, value) =>
+            step={1}
+            onChange={(value) =>
               act('set_restart_timer', {
                 delay: value,
               })
@@ -148,7 +153,8 @@ const NaniteDelays = (props) => {
             width="57px"
             minValue={0}
             maxValue={3600}
-            onChange={(e, value) =>
+            step={1}
+            onChange={(value) =>
               act('set_shutdown_timer', {
                 delay: value,
               })
@@ -164,7 +170,8 @@ const NaniteDelays = (props) => {
                 width="57px"
                 minValue={0}
                 maxValue={3600}
-                onChange={(e, value) =>
+                step={1}
+                onChange={(value) =>
                   act('set_trigger_timer', {
                     delay: value,
                   })
@@ -178,7 +185,8 @@ const NaniteDelays = (props) => {
                 width="57px"
                 minValue={0}
                 maxValue={3600}
-                onChange={(e, value) =>
+                step={1}
+                onChange={(value) =>
                   act('set_timer_trigger_delay', {
                     delay: value,
                   })
@@ -217,7 +225,8 @@ const NaniteExtraNumber = (props) => {
       minValue={min}
       maxValue={max}
       unit={unit}
-      onChange={(e, val) =>
+      step={1}
+      onChange={(val) =>
         act('set_extra_setting', {
           target_setting: name,
           value: val,
@@ -332,7 +341,7 @@ const NaniteProgrammerContent = (props) => {
       <Section title="Info">
         <Table>
           <Table.Cell>{desc}</Table.Cell>
-          <Table.Cell size={0.7}>
+          <Table.Cell>
             <LabeledList>
               <LabeledList.Item label="Use Rate">{use_rate}</LabeledList.Item>
               {!!can_trigger && (

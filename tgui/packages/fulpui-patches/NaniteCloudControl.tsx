@@ -113,7 +113,7 @@ const NaniteInfoBox = (props) => {
     >
       <Table>
         <Table.Cell mr={1}>{desc}</Table.Cell>
-        <Table.Cell size={0.5}>
+        <Table.Cell>
           <LabeledList>
             <LabeledList.Item label="Use Rate">{use_rate}</LabeledList.Item>
             {!!can_trigger && (
@@ -335,11 +335,12 @@ export const NaniteCloudControl = (props) => {
                 {'New Backup: '}
                 <NumberInput
                   value={new_backup_id}
+                  step={1}
                   minValue={1}
                   maxValue={100}
                   stepPixelSize={4}
                   width="39px"
-                  onChange={(e, value) =>
+                  onChange={(value) =>
                     act('update_new_backup_value', {
                       value: value,
                     })
