@@ -75,11 +75,8 @@ GLOBAL_PROTECT(mentor_href_token)
 		if(!GLOB.mentor_datums[admin.ckey])
 			new /datum/mentors(admin.ckey)
 
-/client/proc/reload_mentors()
-	set name = "Reload Mentors"
-	set category = "Mentor"
-
-	if(!holder)
+ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", "Mentor")
+	if(!user)
 		return
 
 	var/confirm = tgui_alert(usr, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
