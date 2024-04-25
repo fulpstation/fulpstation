@@ -446,8 +446,6 @@
 			new_sash = new /obj/item/clothing/under/bodysash/medical()
 		if(JOB_CHEMIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/chemist()
-		if(JOB_VIROLOGIST)
-			new_sash = new /obj/item/clothing/under/bodysash/medical/virologist()
 		if(JOB_PARAMEDIC)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 
