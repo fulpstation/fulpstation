@@ -25,7 +25,7 @@
 	eject()
 	return ..()
 
-/obj/machinery/computer/nanite_cloud_controller/LateInitialize()
+/obj/machinery/computer/nanite_cloud_controller/post_machine_initialize()
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)

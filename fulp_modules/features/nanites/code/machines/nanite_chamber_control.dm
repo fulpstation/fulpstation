@@ -11,7 +11,7 @@
 	///The techweb that hosts the nanites we're injecting into people.
 	var/datum/techweb/linked_techweb
 
-/obj/machinery/computer/nanite_chamber_control/LateInitialize()
+/obj/machinery/computer/nanite_chamber_control/post_machine_initialize()
 	. = ..()
 	find_chamber()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
