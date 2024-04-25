@@ -72,8 +72,7 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/bloodsucker/AltClick(mob/user)
-	. = ..()
+/obj/structure/bloodsucker/click_alt(mob/user)
 	if(user == owner && user.Adjacent(src))
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
