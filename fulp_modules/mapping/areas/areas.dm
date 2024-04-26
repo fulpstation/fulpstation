@@ -90,7 +90,6 @@
 
 
 
-
 /area/ruin/has_grav/prototype
 	requires_power = TRUE
 	outdoors = FALSE
