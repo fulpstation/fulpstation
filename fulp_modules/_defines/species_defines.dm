@@ -1,7 +1,8 @@
 /**
- * Beefman species define
+ * Species defines
  */
 #define SPECIES_BEEFMAN "beefman"
+#define SPECIES_PROTOGEN "protogen"
 
 /**
 * Beefman damage description defines
