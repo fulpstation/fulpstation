@@ -5,7 +5,17 @@
  * Instead of messing with people's minds and using some random area, we make our own.
  */
 
-// Station
+// Station/
+
+/area/station/ai_monitored/turret_protected/ai_upload_foyer/command
+	name = "\improper AI Upload Command Entrance"
+
+
+/area/station/service/hydroponics/kitchen
+	name = "\improper Kitchen Hydroponics"
+
+/area/station/engineering/atmos/crystallizer
+	name = "\improper Crystallizer"
 
 /area/station/science/nanite
 	name = "Nanite Lab"
@@ -62,6 +72,7 @@
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 
+
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"
 	icon_state = "green"
@@ -71,9 +82,7 @@
 	static_lighting = FALSE
 	base_lighting_alpha = 255
 
-/area/ruin/space/has_grav/powered/beef/atmos
-	name = "beef station atmos"
-	icon_state = "beef_station_atmos"
+
 
 /area/ruin/has_grav/prototype
 	requires_power = TRUE
