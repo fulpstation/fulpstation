@@ -233,7 +233,7 @@
 /obj/structure/closet/crate/coffin/click_alt(mob/user)
 	if(user in src)
 		LockMe(user, !locked)
-		return
+		return CLICK_ACTION_SUCCESS
 
 	if(user == resident && user.Adjacent(src))
 		balloon_alert(user, "unclaim coffin?")
@@ -244,6 +244,7 @@
 		switch(unclaim_response)
 			if("Yes")
 				unclaim_coffin(TRUE)
+		return CLICK_ACTION_SUCCESS
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 	if(user != resident)
