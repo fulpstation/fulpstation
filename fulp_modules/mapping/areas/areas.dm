@@ -72,6 +72,9 @@
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 
+/area/ruin/space/has_grav/powered/beef/atmos
+	name = "beef station atmos"
+	icon_state = "beef_station_atmos"
 
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"
