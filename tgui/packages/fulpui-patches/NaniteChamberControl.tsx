@@ -143,11 +143,12 @@ const NaniteChamberControlContent = (props) => {
                 <LabeledList>
                   <LabeledList.Item label="Safety Threshold">
                     <NumberInput
+                      step={1}
                       value={safety_threshold}
                       minValue={0}
                       maxValue={500}
                       width="39px"
-                      onChange={(e, value) =>
+                      onChange={(value) =>
                         act('set_safety', {
                           value: value,
                         })
@@ -162,7 +163,7 @@ const NaniteChamberControlContent = (props) => {
                       step={1}
                       stepPixelSize={3}
                       width="39px"
-                      onChange={(e, value) =>
+                      onChange={(value) =>
                         act('set_cloud', {
                           value: value,
                         })
@@ -183,7 +184,7 @@ const NaniteChamberControlContent = (props) => {
                     <Table>
                       <Table.Cell>{program.desc}</Table.Cell>
                       {scan_level >= 2 && (
-                        <Table.Cell size={0.6}>
+                        <Table.Cell>
                           <LabeledList>
                             <LabeledList.Item label="Activation Status">
                               <Box color={program.activated ? 'good' : 'bad'}>

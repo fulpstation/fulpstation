@@ -158,9 +158,9 @@
 		if(bloodsucker_structure.owner == resident)
 			bloodsucker_structure.unbolt()
 	if(manual)
-		to_chat(resident, span_cultitalic("You have unclaimed your coffin! This also unclaims all your other Bloodsucker structures!"))
+		to_chat(resident, span_cult_italic("You have unclaimed your coffin! This also unclaims all your other Bloodsucker structures!"))
 	else
-		to_chat(resident, span_cultitalic("You sense that the link with your coffin and your sacred lair has been broken! You will need to seek another."))
+		to_chat(resident, span_cult_italic("You sense that the link with your coffin and your sacred lair has been broken! You will need to seek another."))
 	// Remove resident. Because this object isnt removed from the game immediately (GC?) we need to give them a way to see they don't have a home anymore.
 	resident = null
 
@@ -230,11 +230,10 @@
 	return ..()
 
 /// Distance Check (Inside Of)
-/obj/structure/closet/crate/coffin/AltClick(mob/user)
-	. = ..()
+/obj/structure/closet/crate/coffin/click_alt(mob/user)
 	if(user in src)
 		LockMe(user, !locked)
-		return
+		return CLICK_ACTION_SUCCESS
 
 	if(user == resident && user.Adjacent(src))
 		balloon_alert(user, "unclaim coffin?")
@@ -245,6 +244,7 @@
 		switch(unclaim_response)
 			if("Yes")
 				unclaim_coffin(TRUE)
+		return CLICK_ACTION_SUCCESS
 
 /obj/structure/closet/crate/proc/LockMe(mob/user, inLocked = TRUE)
 	if(user != resident)

@@ -106,7 +106,7 @@
 				break
 	// Drop all necessary items (handcuffs, legcuffs, items if seen)
 	if(drop_item)
-		for(var/obj/item/literally_everything in user.get_all_worn_items())
+		for(var/obj/item/literally_everything in user.get_all_gear())
 			owner.dropItemToGround(literally_everything, TRUE)
 
 	playsound(current_turf, 'sound/magic/summon_karp.ogg', 60, 1)

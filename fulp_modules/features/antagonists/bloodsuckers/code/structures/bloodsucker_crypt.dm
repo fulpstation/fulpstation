@@ -72,8 +72,7 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/bloodsucker/AltClick(mob/user)
-	. = ..()
+/obj/structure/bloodsucker/click_alt(mob/user)
 	if(user == owner && user.Adjacent(src))
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
@@ -135,7 +134,7 @@
 	/// Prevents popup spam.
 	var/disloyalty_offered = FALSE
 
-/obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
+/obj/structure/bloodsucker/vassalrack/atom_deconstruct(disassembled = TRUE)
 	. = ..()
 	new /obj/item/stack/sheet/iron(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)
@@ -572,7 +571,7 @@
 	if(!user.mind || !IS_BLOODSUCKER(user))
 		return
 	var/message = speech_args[SPEECH_MESSAGE]
-	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
+	var/rendered = span_cult_large("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	for(var/datum/antagonist/vassal/receiver as anything in bloodsuckerdatum.vassals)

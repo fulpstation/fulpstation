@@ -628,8 +628,7 @@
 	set name = "Flip Peapod"
 	flip(usr)
 
-/obj/item/clothing/neck/costume_2020/papa_ross_squirrel/AltClick(mob/user)
-	. = ..()
+/obj/item/clothing/neck/costume_2020/papa_ross_squirrel/click_alt(mob/user)
 	if(!user.can_perform_action(src, NEED_DEXTERITY))
 		return
 	flip(user)

@@ -21,7 +21,7 @@
 	linked_techweb = null
 	return ..()
 
-/obj/machinery/nanite_program_hub/LateInitialize()
+/obj/machinery/nanite_program_hub/post_machine_initialize()
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)

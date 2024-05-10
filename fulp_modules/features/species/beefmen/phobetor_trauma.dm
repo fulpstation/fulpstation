@@ -23,6 +23,7 @@
 
 ///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
+	. = ..()
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
 	UnregisterSignal(owner, COMSIG_LIVING_REVIVE)

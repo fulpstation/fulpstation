@@ -73,7 +73,6 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
-	fixed_hair_color = user.dna.features["beef_color"]
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
@@ -163,9 +162,9 @@
 							else
 								accessory_overlay.color = source.dna.features["mcolor"]
 						if(HAIR_COLOR)
-							if(hair_color == "mutcolor")
+							if(hair_color_mode == USE_MUTANT_COLOR)
 								accessory_overlay.color = source.dna.features["mcolor"]
-							else if(hair_color == "fixedmutcolor")
+							else if(hair_color_mode == USE_FIXED_MUTANT_COLOR)
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.hair_color
@@ -202,7 +201,6 @@
 	if(isnull(my_color))
 		return
 	fixed_mut_color = my_color
-	fixed_hair_color = my_color
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -448,8 +446,6 @@
 			new_sash = new /obj/item/clothing/under/bodysash/medical()
 		if(JOB_CHEMIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/chemist()
-		if(JOB_VIROLOGIST)
-			new_sash = new /obj/item/clothing/under/bodysash/medical/virologist()
 		if(JOB_PARAMEDIC)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 
