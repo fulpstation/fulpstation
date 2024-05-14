@@ -89,7 +89,7 @@
 	if(!istype(bag, /obj/item/storage/backpack/snail))
 		if(new_fulpsnailperson.dropItemToGround(bag)) //returns TRUE even if its null
 			new_fulpsnailperson.equip_to_slot_or_del(new /obj/item/storage/backpack/snail(new_fulpsnailperson), ITEM_SLOT_BACK)
-	new_fulpsnailperson.AddElement(/datum/element/snailcrawl)
+	new_fulpsnailperson.AddElement(/datum/element/fulp_snailcrawl)
 
 /datum/species/fulp_snail/on_species_loss(mob/living/carbon/former_fulpsnailperson, datum/species/new_species, pref_load)
 	. = ..()
