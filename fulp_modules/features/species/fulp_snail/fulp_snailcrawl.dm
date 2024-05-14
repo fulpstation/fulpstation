@@ -1,4 +1,4 @@
-/datum/element/fulp_fulp_snailcrawl
+/datum/element/fulp_snailcrawl
 	element_flags = ELEMENT_DETACH_ON_HOST_DESTROY
 
 /datum/element/fulp_snailcrawl/Attach(datum/target)

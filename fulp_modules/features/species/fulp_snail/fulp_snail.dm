@@ -93,7 +93,7 @@
 
 /datum/species/fulp_snail/on_species_loss(mob/living/carbon/former_fulpsnailperson, datum/species/new_species, pref_load)
 	. = ..()
-	former_fulpsnailperson.RemoveElement(/datum/element/snailcrawl)
+	former_fulpsnailperson.RemoveElement(/datum/element/fulp_snailcrawl)
 	var/obj/item/storage/backpack/bag = former_fulpsnailperson.get_item_by_slot(ITEM_SLOT_BACK)
 	if(istype(bag, /obj/item/storage/backpack/snail))
 		bag.emptyStorage()
