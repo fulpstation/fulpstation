@@ -3,6 +3,7 @@
  */
 #define SPECIES_BEEFMAN "beefman"
 #define SPECIES_PROTOGEN "protogen"
+#define SPECIES_FULPSNAIL "sea snail"
 
 /**
 * Beefman damage description defines
