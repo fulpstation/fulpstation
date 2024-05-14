@@ -31,7 +31,8 @@
 	human.update_body(is_creating = TRUE)
 
 /datum/species/fulp_snail/get_physical_attributes()
-	return "Snailpeople emit a viscous, slippery ooze when crawling along the ground, which they are somewhat faster at than other species. \
+	return "Normally, snailpeople emit a viscous, slippery ooze when crawling along the ground, which they are somewhat faster at than other species. \
+		This one has been genetically modified to emit water instead. \
 		They are almost purely made of water, making them extremely susceptible to shocks, and salt will scour them heavily."
 
 /datum/species/fulp_snail/get_species_description()
@@ -49,7 +50,7 @@
 		SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 		SPECIES_PERK_ICON = FA_ICON_RUNNING,
 		SPECIES_PERK_NAME = "Turbo",
-		SPECIES_PERK_DESC = "Snailpeople walk and run very slow, but crawl around very fast. While crawling, they leave a trail of slippery slime behind them.",
+		SPECIES_PERK_DESC = "Snailpeople walk and run very slow, but crawl around very fast. While crawling, they leave a trail of water behind them.",
 	))
 	to_add += list(list(
 		SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
