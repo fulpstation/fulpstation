@@ -53,6 +53,13 @@
 	features["antennae_protogen"] = pick(GLOB.antennae_list_protogen)
 	return features
 
+/datum/species/protogen/prepare_human_for_preview(mob/living/carbon/human/human)
+	human.dna.features["mcolor"] = "#b7b4ab"
+	human.dna.features["snout_protogen"] = "Bolted"
+	human.dna.features["antennae_protogen"] = "Default"
+	human.eye_color_left = "#ffffff"
+	human.eye_color_right = "#ffffff"
+	human.update_body(is_creating = TRUE)
 
 /mob/living/carbon/human/species/protogen
 	race = /datum/species/protogen

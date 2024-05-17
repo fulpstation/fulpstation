@@ -1,9 +1,9 @@
 import {
   FeatureChoiced,
   FeatureChoicedServerData,
-  FeatureDropdownInput,
   FeatureValueProps,
 } from './base';
+import { FeatureDropdownInput } from './dropdowns';
 
 export const feature_protogen_tail: FeatureChoiced = {
   name: 'Tail',
