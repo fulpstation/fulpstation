@@ -60,19 +60,19 @@
 /// Lore and shit
 
 /datum/species/protogen/get_physical_attributes()
-	return "Suited with a visor and a full set of robotic organs, these critters are useful for most, if not all station jobs and can adapt to different workplaces efficiently. \
+	return "Suited with a visor and a full set of robotic organs, these critters are useful for most, if not all, station jobs and can adapt to different workplaces efficiently. \
 	That said, an EMP will devastate them if they come into contact with one."
 
 /datum/species/protogen/get_species_description()
-	return "The protogen are a cybernetically-augmented species meant for long space ventures,  \
-		hired by Nanotrasen in a collaborative effort due to their workplace efficiency and \
-		their main directive of obtaining knowledge through intergalactic exploration."
+	return "The protogen are a cybernetically-augmented species optimized for long space ventures.  \
+		They were hired by Nanotrasen in a collaborative effort thanks to their workplace efficiency and \
+		their innate motivation to obtain knowledge through intergalactic exploration."
 
 /datum/species/protogen/get_species_lore()
 	return list(
 		"Not much is known about this species, due to their very recent arrival on Nanotrasen vessels.",
 
-		"Crewmembers have reported that these new coworkers have been very helpful and \"eager to assist\". \
-		Their presence has alerted the remarks from technophobes, and although they raise some valid concerns due to the mysterious aura surrounding \
-		the species and their origins, it is nonetheless a very debated topic if they should stay or not.",
+		"Crewmembers have reported that their new coworkers have been very helpful and \"eager to assist\". \
+		Despite this, the protogens' presence has garnered harsh criticism regarding the mysterious aura surrounding \
+		the species and their origins. Their continued employment continues to be a hotly debated topic on Nanotrasen stations.",
 	)
