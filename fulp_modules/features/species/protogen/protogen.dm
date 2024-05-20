@@ -74,5 +74,5 @@
 
 		"Crewmembers have reported that their new coworkers have been very helpful and \"eager to assist\". \
 		Despite this, the protogens' presence has garnered harsh criticism regarding the mysterious aura surrounding \
-		the species and their origins. Their continued employment continues to be a hotly debated topic on Nanotrasen stations.",
+		the species and their origins. Their employment continues to be a hotly debated topic on Nanotrasen stations.",
 	)
