@@ -29,7 +29,7 @@
 
 	var/chosen_clan
 	if(person_selecting)
-		chosen_clan = tgui_input_list(person_selecting, "What Clan should [owner.current] be?", "Clan Selection", options)
+		chosen_clan = tgui_input_list(person_selecting, "What clan should [owner.current] be?", "Clan Selection", options)
 	else
 		chosen_clan = show_radial_menu(person_selecting, owner.current, radial_display)
 	chosen_clan = options[chosen_clan]
@@ -42,7 +42,7 @@
 
 /datum/antagonist/bloodsucker/proc/remove_clan(mob/admin)
 	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
-		to_chat(admin, span_announce("Removing a Bloodsucker from a Clan while they are in a Frenzy will break stuff, this action has been blocked."))
+		to_chat(admin, span_announce("Removing a Bloodsucker from a clan while they are in a Frenzy will break stuff. This action has been blocked."))
 		return
 	QDEL_NULL(my_clan)
 	to_chat(owner.current, span_announce("You have been forced out of your clan! You can re-enter one by regular means."))
