@@ -1,6 +1,11 @@
-ADMIN_VERB(trophy_manager, R_ADMIN, "Trophy Manager", "View all trophies.", ADMIN_CATEGORY_MAIN)
-	var/static/datum/trophy_manager/ui = new
-	ui.ui_interact(user.mob)
+/datum/admins/proc/trophy_manager()
+	set name = "Trophy Manager"
+	set category = "Admin"
+
+	if(!check_rights(R_ADMIN))
+		return
+	var/datum/trophy_manager/ui = new(usr)
+	ui.ui_interact(usr)
 
 /// Trophy Admin Management Panel
 /datum/trophy_manager

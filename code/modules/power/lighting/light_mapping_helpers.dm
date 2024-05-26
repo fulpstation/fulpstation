@@ -32,7 +32,7 @@
 	bulb_power = 0.6
 
 /obj/machinery/light/red
-	bulb_colour = COLOR_VIVID_RED
+	bulb_colour = "#FF3232"
 	nightshift_allowed = FALSE
 	no_low_power = TRUE
 
@@ -59,7 +59,7 @@
 	brightness = 4
 	nightshift_brightness = 4
 	fire_brightness = 4.5
-	bulb_colour = LIGHT_COLOR_TUNGSTEN
+	bulb_colour = "#FFD6AA"
 	fire_colour = "#bd3f46"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/light/bulb
@@ -77,7 +77,7 @@
 	brightness = 2.4
 
 /obj/machinery/light/small/red
-	bulb_colour = COLOR_VIVID_RED
+	bulb_colour = "#FF3232"
 	no_low_power = TRUE
 	nightshift_allowed = FALSE
 	fire_colour = "#ff1100"

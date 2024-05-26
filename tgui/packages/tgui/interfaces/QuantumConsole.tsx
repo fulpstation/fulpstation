@@ -1,6 +1,6 @@
 import { BooleanLike } from 'common/react';
 
-import { useBackend, useSharedState } from '../backend';
+import { useBackend } from '../backend';
 import {
   Button,
   Collapsible,
@@ -10,7 +10,6 @@ import {
   Section,
   Stack,
   Table,
-  Tabs,
   Tooltip,
 } from '../components';
 import { TableCell, TableRow } from '../components/Table';
@@ -29,8 +28,6 @@ type Data =
       ready: BooleanLike;
       retries_left: number;
       scanner_tier: number;
-      broadcasting: BooleanLike;
-      broadcasting_on_cd: BooleanLike;
     }
   | {
       connected: 0;
@@ -52,7 +49,6 @@ type Domain = {
   difficulty: number;
   id: string;
   is_modular: BooleanLike;
-  has_secondary_objectives: BooleanLike;
   name: string;
   reward: number | string;
 };
@@ -86,7 +82,7 @@ const getColor = (difficulty: number) => {
     case Difficulty.High:
       return 'bad';
     default:
-      return 'green';
+      return '';
   }
 };
 
@@ -105,7 +101,6 @@ export const QuantumConsole = (props) => {
 
 const AccessView = (props) => {
   const { act, data } = useBackend<Data>();
-  const [tab, setTab] = useSharedState('tab', 0);
 
   if (!isConnected(data)) {
     return <NoticeBox danger>No server connected!</NoticeBox>;
@@ -113,20 +108,14 @@ const AccessView = (props) => {
 
   const {
     available_domains = [],
-    broadcasting,
-    broadcasting_on_cd,
     generated_domain,
+    ready,
     occupants,
     points,
     randomized,
-    ready,
   } = data;
 
   const sorted = available_domains.sort((a, b) => a.cost - b.cost);
-
-  const filtered = sorted.filter((domain) => {
-    return domain.difficulty === tab;
-  });
 
   let selected;
   if (generated_domain) {
@@ -143,15 +132,6 @@ const AccessView = (props) => {
         <Section
           buttons={
             <>
-              <Button.Checkbox
-                checked={broadcasting}
-                disabled={broadcasting_on_cd}
-                onClick={() => act('broadcast')}
-                tooltip="Toggles whether you broadcast your
-                  bitrun to station Entertainment Monitors."
-              >
-                Broadcast
-              </Button.Checkbox>
               <Button
                 disabled={
                   !ready || occupants > 0 || points < 1 || !!generated_domain
@@ -159,8 +139,7 @@ const AccessView = (props) => {
                 icon="random"
                 onClick={() => act('random_domain')}
                 mr={1}
-                tooltip="Get a random domain for more rewards.
-                  Weighted towards your current points. Minimum: 1 point."
+                tooltip="Get a random domain for more rewards. Weighted towards your current points. Minimum: 1 point."
               >
                 Randomize
               </Button>
@@ -174,45 +153,7 @@ const AccessView = (props) => {
           scrollable
           title="Virtual Domains"
         >
-          <Tabs fluid>
-            <Tabs.Tab
-              backgroundColor={getColor(Difficulty.None)}
-              textColor="white"
-              selected={tab === 0}
-              onClick={() => setTab(0)}
-              icon="chevron-down"
-            >
-              Peaceful
-            </Tabs.Tab>
-            <Tabs.Tab
-              backgroundColor={getColor(Difficulty.Low)}
-              textColor="black"
-              selected={tab === 1}
-              onClick={() => setTab(1)}
-              icon="chevron-down"
-            >
-              Easy
-            </Tabs.Tab>
-            <Tabs.Tab
-              backgroundColor={getColor(Difficulty.Medium)}
-              textColor="white"
-              selected={tab === 2}
-              onClick={() => setTab(2)}
-              icon="chevron-down"
-            >
-              Medium
-            </Tabs.Tab>
-            <Tabs.Tab
-              backgroundColor={getColor(Difficulty.High)}
-              textColor="white"
-              selected={tab === 3}
-              onClick={() => setTab(3)}
-              icon="chevron-down"
-            >
-              Hard <Icon name="skull" ml={1} />{' '}
-            </Tabs.Tab>
-          </Tabs>
-          {filtered.map((domain) => (
+          {sorted.map((domain) => (
             <DomainEntry key={domain.id} domain={domain} />
           ))}
         </Section>
@@ -243,16 +184,7 @@ const AccessView = (props) => {
 
 const DomainEntry = (props: DomainEntryProps) => {
   const {
-    domain: {
-      cost,
-      desc,
-      difficulty,
-      id,
-      is_modular,
-      has_secondary_objectives,
-      name,
-      reward,
-    },
+    domain: { cost, desc, difficulty, id, is_modular, name, reward },
   } = props;
   const { act, data } = useBackend<Data>();
   if (!isConnected(data)) {
@@ -291,10 +223,8 @@ const DomainEntry = (props: DomainEntryProps) => {
       title={
         <>
           {name}
+          {difficulty === Difficulty.High && <Icon name="skull" ml={1} />}
           {!!is_modular && name !== '???' && <Icon name="cubes" ml={1} />}
-          {!!has_secondary_objectives && name !== '???' && (
-            <Icon name="gem" ml={1} />
-          )}
         </>
       }
     >
@@ -302,20 +232,19 @@ const DomainEntry = (props: DomainEntryProps) => {
         <Stack.Item color="label" grow={4}>
           {desc}
           {!!is_modular && ' (Modular)'}
-          {!!has_secondary_objectives && ' (Secondary Objective Available)'}
+          {difficulty === Difficulty.High && ' (Hard)'}
         </Stack.Item>
         <Stack.Divider />
         <Stack.Item grow>
           <Table>
             <TableRow>
-              <Tooltip content="Points cost for deploying domain.">
-                <DisplayDetails amount={cost} color="pink" icon="star" />
-              </Tooltip>
+              <DisplayDetails amount={cost} color="pink" icon="star" />
             </TableRow>
             <TableRow>
-              <Tooltip content="Reward for competing domain.">
-                <DisplayDetails amount={reward} color="gold" icon="coins" />
-              </Tooltip>
+              <DisplayDetails amount={difficulty} color="white" icon="skull" />
+            </TableRow>
+            <TableRow>
+              <DisplayDetails amount={reward} color="gold" icon="coins" />
             </TableRow>
           </Table>
         </Stack.Item>

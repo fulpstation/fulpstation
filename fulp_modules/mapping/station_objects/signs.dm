@@ -18,15 +18,3 @@
 
 /obj/structure/sign/map/fulp/selene/right
 	icon_state = "map-right-selene"
-
-/obj/structure/sign/map/fulp/directions/aft
-	icon_state = "aft_sign"
-
-/obj/structure/sign/map/fulp/directions/fore
-	icon_state = "fore_sign"
-
-/obj/structure/sign/map/fulp/directions/port
-	icon_state = "port_sign"
-
-/obj/structure/sign/map/fulp/directions/star
-	icon_state = "starboard_sign"

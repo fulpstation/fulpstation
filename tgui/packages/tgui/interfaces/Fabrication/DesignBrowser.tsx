@@ -229,9 +229,8 @@ export const DesignBrowser = <T extends Design = Design>(
                     </div>
                   </div>
 
-                  {sortBy(
+                  {sortBy((category: Category) => category.title)(
                     Object.values(root.subcategories),
-                    (category: Category) => category.title,
                   ).map((category) => (
                     <DesignBrowserTab
                       key={category.title}
@@ -273,9 +272,8 @@ export const DesignBrowser = <T extends Design = Design>(
               <Section fill style={{ overflow: 'auto' }}>
                 {searchText.length > 0 ? (
                   <VirtualList>
-                    {sortBy(
+                    {sortBy((design: T) => design.name)(
                       Object.values(root.descendants),
-                      (design: T) => design.name,
                     )
                       .filter((design) =>
                         design.name
@@ -292,9 +290,8 @@ export const DesignBrowser = <T extends Design = Design>(
                   </VirtualList>
                 ) : selectedCategory === ALL_CATEGORY ? (
                   <VirtualList>
-                    {sortBy(
+                    {sortBy((design: T) => design.name)(
                       Object.values(root.descendants),
-                      (design: T) => design.name,
                     ).map((design) =>
                       buildRecipeElement(
                         design,
@@ -383,9 +380,8 @@ const DesignBrowserTab = <T extends Design = Design>(
         Object.entries(category.subcategories).length > 0 &&
         selectedCategory === category.title && (
           <div className="FabricatorTabs">
-            {sortBy(
+            {sortBy((category: Category) => category.title)(
               Object.values(category.subcategories),
-              (category: Category) => category.title,
             ).map((subcategory) => (
               <DesignBrowserTab
                 key={subcategory.title}
@@ -466,7 +462,7 @@ const CategoryView = <T extends Design = Design>(
 
   const body = (
     <VirtualList>
-      {sortBy(category.children, (design: T) => design.name).map((design) =>
+      {sortBy((design: T) => design.name)(category.children).map((design) =>
         buildRecipeElement(
           design,
           availableMaterials || {},
@@ -496,7 +492,6 @@ const CategoryView = <T extends Design = Design>(
     <Section
       title={category.title}
       key={category.anchorKey}
-      container_id={category.anchorKey}
       buttons={categoryButtons && categoryButtons(category)}
     >
       {body}

@@ -63,6 +63,8 @@
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS
 
+/obj/vehicle/ridden/wheelchair/AltClick(mob/user)
+	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /obj/vehicle/ridden/wheelchair/update_overlays()
 	. = ..()

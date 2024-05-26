@@ -64,7 +64,7 @@
 		if(shock_cooldown)
 			return
 		shock_cooldown = TRUE
-		addtimer(VARSET_CALLBACK(src, shock_cooldown, FALSE), 10 SECONDS)
+		addtimer(VARSET_CALLBACK(src, shock_cooldown, FALSE), 100)
 		var/mob/living/L = loc
 		step(L, pick(GLOB.cardinals))
 

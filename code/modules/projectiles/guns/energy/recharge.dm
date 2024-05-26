@@ -30,7 +30,6 @@
 	. = ..()
 	if(!holds_charge)
 		empty()
-	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
 
 /obj/item/gun/energy/recharge/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	. = ..()
@@ -78,6 +77,9 @@
 	carried = max(carried, 1)
 	deltimer(recharge_timerid)
 	recharge_timerid = addtimer(CALLBACK(src, PROC_REF(reload)), set_recharge_time * carried, TIMER_STOPPABLE)
+
+/obj/item/gun/energy/recharge/emp_act(severity)
+	return
 
 /obj/item/gun/energy/recharge/proc/reload()
 	cell.give(cell.maxcharge)

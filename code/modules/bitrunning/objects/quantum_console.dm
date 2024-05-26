@@ -12,8 +12,11 @@
 	. = ..()
 	desc = "Even in the distant year [CURRENT_STATION_YEAR], Nanostrasen is still using REST APIs. How grim."
 
-/obj/machinery/computer/quantum_console/post_machine_initialize()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/quantum_console/LateInitialize()
 	. = ..()
+
 	find_server()
 
 /obj/machinery/computer/quantum_console/ui_interact(mob/user, datum/tgui/ui)
@@ -43,8 +46,6 @@
 	data["ready"] = server.is_ready && server.is_operational
 	data["scanner_tier"] = server.scanner_tier
 	data["retries_left"] = length(server.exit_turfs) - server.retries_spent
-	data["broadcasting"] = server.broadcasting
-	data["broadcasting_on_cd"] = !COOLDOWN_FINISHED(server, broadcast_toggle_cd)
 
 	return data
 
@@ -55,7 +56,7 @@
 	if(isnull(server))
 		return data
 
-	data["available_domains"] = SSbitrunning.get_available_domains(server.scanner_tier, server.points)
+	data["available_domains"] = server.get_available_domains()
 	data["avatars"] = server.get_avatar_data()
 
 	return data
@@ -81,9 +82,6 @@
 			return TRUE
 		if("stop_domain")
 			server.begin_shutdown(usr)
-			return TRUE
-		if("broadcast")
-			server.toggle_broadcast()
 			return TRUE
 
 	return FALSE

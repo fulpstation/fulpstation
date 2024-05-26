@@ -8,17 +8,18 @@
 		/datum/surgery_step/clamp_bleeders,
 		/datum/surgery_step/incise,
 		/datum/surgery_step/incise,
-		/datum/surgery_step/apply_bioware/ground_nerves,
+		/datum/surgery_step/ground_nerves,
 		/datum/surgery_step/close,
 	)
 
-	status_effect_gained = /datum/status_effect/bioware/nerves/grounded
+	bioware_target = BIOWARE_NERVES
 
-/datum/surgery_step/apply_bioware/ground_nerves
+/datum/surgery_step/ground_nerves
 	name = "ground nerves (hand)"
-	time = 15.5 SECONDS
+	accept_hand = TRUE
+	time = 155
 
-/datum/surgery_step/apply_bioware/ground_nerves/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+/datum/surgery_step/ground_nerves/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
 		user,
 		target,
@@ -28,7 +29,7 @@
 	)
 	display_pain(target, "Your entire body goes numb!")
 
-/datum/surgery_step/apply_bioware/ground_nerves/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
+/datum/surgery_step/ground_nerves/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	display_results(
 		user,
 		target,
@@ -37,4 +38,18 @@
 		span_notice("[user] finishes manipulating [target]'s nervous system."),
 	)
 	display_pain(target, "You regain feeling in your body! You feel energzed!")
+	new /datum/bioware/grounded_nerves(target)
 	return ..()
+
+/datum/bioware/grounded_nerves
+	name = "Grounded Nerves"
+	desc = "Nerves form a safe path for electricity to traverse, protecting the body from electric shocks."
+	mod_type = BIOWARE_NERVES
+
+/datum/bioware/grounded_nerves/on_gain()
+	..()
+	ADD_TRAIT(owner, TRAIT_SHOCKIMMUNE, EXPERIMENTAL_SURGERY_TRAIT)
+
+/datum/bioware/grounded_nerves/on_lose()
+	..()
+	REMOVE_TRAIT(owner, TRAIT_SHOCKIMMUNE, EXPERIMENTAL_SURGERY_TRAIT)

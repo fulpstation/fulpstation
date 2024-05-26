@@ -90,10 +90,10 @@ const ListItem = (props) => {
 
   return (
     <Table.Row className="candystripe">
-      <Table.Cell collapsing>
+      <Table.Cell collapsible>
         <Box color="label">{name}</Box>
       </Table.Cell>
-      <Table.Cell collapsing>
+      <Table.Cell collapsible>
         <Box color={ram < cost && 'bad'} textAlign="right">
           {!purchased && cost}{' '}
           <Icon
@@ -102,7 +102,7 @@ const ListItem = (props) => {
           />
         </Box>
       </Table.Cell>
-      <Table.Cell collapsing>
+      <Table.Cell collapsible>
         <Button
           fluid
           mb={0.5}

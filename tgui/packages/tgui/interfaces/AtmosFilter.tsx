@@ -40,13 +40,12 @@ export const AtmosFilter = (props) => {
             <LabeledList.Item label="Transfer Rate">
               <NumberInput
                 animated
-                step={1}
                 value={rate}
                 width="63px"
                 unit="L/s"
                 minValue={0}
                 maxValue={max_rate}
-                onDrag={(value) =>
+                onDrag={(_, value) =>
                   act('rate', {
                     rate: value,
                   })

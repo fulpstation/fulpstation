@@ -6,7 +6,7 @@
 
 import { EventEmitter } from 'common/events';
 import { classes } from 'common/react';
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 import { Tooltip } from 'tgui/components';
 import { createLogger } from 'tgui/logging';
 
@@ -168,7 +168,7 @@ class ChatRenderer {
     // Find scrollable parent
     this.scrollNode = findNearestScrollableParent(this.rootNode);
     this.scrollNode.addEventListener('scroll', this.handleScroll);
-    setTimeout(() => {
+    setImmediate(() => {
       this.scrollToBottom();
     });
     // Flush the queue
@@ -205,7 +205,7 @@ class ChatRenderer {
       const highlightWholeMessage = setting.highlightWholeMessage;
       const matchWord = setting.matchWord;
       const matchCase = setting.matchCase;
-      const allowedRegex = /^[a-zа-яё0-9_\-$/^[\s\]\\]+$/gi;
+      const allowedRegex = /^[a-z0-9_\-$/^[\s\]\\]+$/gi;
       const regexEscapeCharacters = /[!#$%^&*)(+=.<>{}[\]:;'"|~`_\-\\/]/g;
       const lines = String(text)
         .split(',')
@@ -413,16 +413,14 @@ class ChatRenderer {
             childNode.removeChild(childNode.firstChild);
           }
           const Element = TGUI_CHAT_COMPONENTS[targetName];
-
-          const reactRoot = createRoot(childNode);
-
           /* eslint-disable react/no-danger */
-          reactRoot.render(
+          render(
             <Element {...outputProps}>
               <span dangerouslySetInnerHTML={oldHtml} />
             </Element>,
             childNode,
           );
+          /* eslint-enable react/no-danger */
         }
 
         // Highlight text
@@ -457,9 +455,15 @@ class ChatRenderer {
       message.node = node;
       // Query all possible selectors to find out the message type
       if (!message.type) {
-        const typeDef = MESSAGE_TYPES.find(
-          (typeDef) => typeDef.selector && node.querySelector(typeDef.selector),
-        );
+        // IE8: Does not support querySelector on elements that
+        // are not yet in the document.
+
+        const typeDef =
+          !Byond.IS_LTE_IE8 &&
+          MESSAGE_TYPES.find(
+            (typeDef) =>
+              typeDef.selector && node.querySelector(typeDef.selector),
+          );
         message.type = typeDef?.type || MESSAGE_TYPE_UNKNOWN;
       }
       updateMessageBadge(message);
@@ -482,7 +486,7 @@ class ChatRenderer {
         this.rootNode.appendChild(fragment);
       }
       if (this.scrollTracking) {
-        setTimeout(() => this.scrollToBottom());
+        setImmediate(() => this.scrollToBottom());
       }
     }
     // Notify listeners that we have processed the batch
@@ -558,30 +562,11 @@ class ChatRenderer {
     });
   }
 
-  /**
-   * @clearChat
-   * @copyright 2023
-   * @author Cheffie
-   * @link https://github.com/CheffieGithub
-   * @license MIT
-   */
-  clearChat() {
-    const messages = this.visibleMessages;
-    this.visibleMessages = [];
-    for (let i = 0; i < messages.length; i++) {
-      const message = messages[i];
-      this.rootNode.removeChild(message.node);
-      // Mark this message as pruned
-      message.node = 'pruned';
-    }
-    // Remove pruned messages from the message array
-    this.messages = this.messages.filter(
-      (message) => message.node !== 'pruned',
-    );
-    logger.log(`Cleared chat`);
-  }
-
   saveToDisk() {
+    // Allow only on IE11
+    if (Byond.IS_LTE_IE10) {
+      return;
+    }
     // Compile currently loaded stylesheets as CSS text
     let cssText = '';
     const styleSheets = document.styleSheets;

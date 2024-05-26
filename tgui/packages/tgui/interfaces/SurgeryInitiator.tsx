@@ -19,8 +19,7 @@ type SurgeryInitiatorData = {
   target_name: string;
 };
 
-const sortSurgeries = (array: Surgery[]) =>
-  sortBy(array, (surgery) => surgery.name);
+const sortSurgeries = sortBy((surgery: Surgery) => surgery.name);
 
 type SurgeryInitiatorInnerState = {
   selectedSurgeryIndex: number;

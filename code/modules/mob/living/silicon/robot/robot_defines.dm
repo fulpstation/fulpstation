@@ -4,6 +4,7 @@
  * Definitions for /mob/living/silicon/robot and its children, including AI shells.
  *
  */
+
 /mob/living/silicon/robot
 	name = "Cyborg"
 	real_name = "Cyborg"
@@ -22,7 +23,7 @@
 	radio = /obj/item/radio/borg
 
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
-	light_system = OVERLAY_LIGHT_DIRECTIONAL
+	light_system = MOVABLE_LIGHT_DIRECTIONAL
 	light_on = FALSE
 
 
@@ -52,8 +53,6 @@
 	var/lamp_doom = FALSE
 	///Lamp brightness. Starts at 3, but can be 1 - 5.
 	var/lamp_intensity = 3
-	////Power consumption of the light per lamp_intensity.
-	var/lamp_power_consumption = BORG_LAMP_POWER_CONSUMPTION
 
 	var/mutable_appearance/eye_lights
 
@@ -106,7 +105,7 @@
 	///Random serial number generated for each cyborg upon its initialization
 	var/ident = 0
 	var/locked = TRUE
-	req_one_access = list(ACCESS_ROBOTICS)
+	var/list/req_access = list(ACCESS_ROBOTICS)
 
 	///Whether the robot has no charge left.
 	var/low_power_mode = FALSE

@@ -33,13 +33,12 @@ const FpsInput = (props: FeatureValueProps<number, number, FpsServerData>) => {
       <Stack.Item>
         {serverData && props.value !== -1 && (
           <NumberInput
-            onChange={(value) => {
+            onChange={(e, value) => {
               props.handleSetValue(value);
             }}
             minValue={1}
             maxValue={serverData.maximum}
             value={props.value}
-            step={1}
           />
         )}
       </Stack.Item>

@@ -193,7 +193,7 @@ export const TramController = (props) => {
                 width="98.5%"
                 options={destinations.map((id) => id.name)}
                 selected={tripDestination}
-                placeholder="Pick a Destination"
+                displayText={tripDestination || 'Pick a Destination'}
                 onSelected={(value) => setTripDestination(value)}
               />
               <Button

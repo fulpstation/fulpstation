@@ -93,9 +93,8 @@
 	hitsound = 'sound/items/welder.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
 	toolspeed = 0.7
-	light_system = OVERLAY_LIGHT
-	light_range = 1.5
-	light_power = 0.4
+	light_system = MOVABLE_LIGHT
+	light_range = 1
 	light_color = COLOR_SOFT_RED
 
 /obj/item/cautery/advanced/get_all_tool_behaviours()
@@ -121,13 +120,7 @@
 /obj/item/cautery/advanced/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 
-	if(active)
-		tool_behaviour = TOOL_DRILL
-		set_light_color(LIGHT_COLOR_BLUE)
-	else
-		tool_behaviour = TOOL_CAUTERY
-		set_light_color(LIGHT_COLOR_ORANGE)
-
+	tool_behaviour = (active ? TOOL_DRILL : TOOL_CAUTERY)
 	balloon_alert(user, "lenses set to [active ? "drill" : "mend"]")
 	playsound(user ? user : src, 'sound/weapons/tap.ogg', 50, TRUE)
 	return COMPONENT_NO_DEFAULT_MESSAGE
@@ -170,7 +163,7 @@
 
 /obj/item/surgicaldrill/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] rams [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to commit suicide!"))
-	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon, gib), null, null, TRUE, TRUE), 2.5 SECONDS)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon, gib), null, null, TRUE, TRUE), 25)
 	user.SpinAnimation(3, 10)
 	playsound(user, 'sound/machines/juicer.ogg', 20, TRUE)
 	return MANUAL_SUICIDE
@@ -293,7 +286,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb_continuous = list("slaps")
 	attack_verb_simple = list("slap")
-	interaction_flags_atom = parent_type::interaction_flags_atom | INTERACT_ATOM_IGNORE_MOBILITY
 
 /obj/item/surgical_drapes/Initialize(mapload)
 	. = ..()
@@ -386,9 +378,8 @@
 	force = 16
 	w_class = WEIGHT_CLASS_NORMAL
 	toolspeed = 0.7
-	light_system = OVERLAY_LIGHT
-	light_range = 1.5
-	light_power = 0.4
+	light_system = MOVABLE_LIGHT
+	light_range = 1
 	light_color = LIGHT_COLOR_BLUE
 	sharpness = SHARP_EDGED
 
@@ -419,10 +410,10 @@
 
 	if(active)
 		tool_behaviour = TOOL_SAW
-		set_light_color(LIGHT_COLOR_ORANGE)
+		set_light_range(2)
 	else
 		tool_behaviour = TOOL_SCALPEL
-		set_light_color(LIGHT_COLOR_BLUE)
+		set_light_range(1)
 
 	balloon_alert(user, "[active ? "enabled" : "disabled"] bone-cutting mode")
 	playsound(user ? user : src, 'sound/machines/click.ogg', 50, TRUE)

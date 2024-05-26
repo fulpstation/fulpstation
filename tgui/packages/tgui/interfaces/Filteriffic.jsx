@@ -26,10 +26,9 @@ const FilterIntegerEntry = (props) => {
       value={value}
       minValue={-500}
       maxValue={500}
-      step={1}
       stepPixelSize={5}
       width="39px"
-      onDrag={(value) =>
+      onDrag={(e, value) =>
         act('modify_filter_value', {
           name: filterName,
           new_data: {
@@ -56,7 +55,7 @@ const FilterFloatEntry = (props) => {
         step={step}
         format={(value) => toFixed(value, numberOfDecimalDigits(step))}
         width="80px"
-        onDrag={(value) =>
+        onDrag={(e, value) =>
           act('transition_filter_value', {
             name: filterName,
             new_data: {
@@ -73,7 +72,7 @@ const FilterFloatEntry = (props) => {
         step={0.001}
         format={(value) => toFixed(value, 4)}
         width="70px"
-        onChange={(value) => setStep(value)}
+        onChange={(e, value) => setStep(value)}
       />
     </>
   );
@@ -155,9 +154,10 @@ const FilterFlagsEntry = (props) => {
 
   const filterInfo = data.filter_info;
   const flags = filterInfo[filterType]['flags'];
-  return map(flags, (bitField, flagName) => (
+  return map((bitField, flagName) => (
     <Button.Checkbox
       checked={value & bitField}
+      content={flagName}
       onClick={() =>
         act('modify_filter_value', {
           name: filterName,
@@ -166,11 +166,8 @@ const FilterFlagsEntry = (props) => {
           },
         })
       }
-      key={flagName}
-    >
-      {flagName}
-    </Button.Checkbox>
-  ));
+    />
+  ))(flags);
 };
 
 const FilterDataEntry = (props) => {
@@ -232,10 +229,9 @@ const FilterEntry = (props) => {
         <>
           <NumberInput
             value={priority}
-            step={1}
             stepPixelSize={10}
             width="60px"
-            onChange={(value) =>
+            onChange={(e, value) =>
               act('change_priority', {
                 name: name,
                 new_priority: value,
@@ -342,9 +338,9 @@ export const Filteriffic = (props) => {
           {!hasFilters ? (
             <Box>No filters</Box>
           ) : (
-            map(filters, (entry, key) => (
+            map((entry, key) => (
               <FilterEntry filterDataEntry={entry} name={key} key={key} />
-            ))
+            ))(filters)
           )}
         </Section>
       </Window.Content>

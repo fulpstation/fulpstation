@@ -11,7 +11,7 @@
 	return FALSE;\
 }\
 ##Path/Read(savefile/savefile){\
-	del(src);\
+	qdel(src);\
 }\
 ##Path/Write(savefile/savefile){\
 	return;\
@@ -19,4 +19,3 @@
 #else
 #define GENERAL_PROTECT_DATUM(Path)
 #endif
-// we del instead of qdel because for security reasons we must ensure the datum does not exist if Read is called. qdel will not enforce this.

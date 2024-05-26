@@ -10,10 +10,9 @@
 	var/pick_range = 5
 
 /datum/action/cooldown/mob_cooldown/dash/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	dash_to(target_atom)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/dash/proc/dash_to(atom/dash_target)

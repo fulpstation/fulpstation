@@ -21,11 +21,9 @@ type NameWithKey = {
   name: Name;
 };
 
-const binaryInsertName = (collection: NameWithKey[], value: NameWithKey) =>
-  binaryInsertWith(collection, value, ({ key }) => key);
+const binaryInsertName = binaryInsertWith<NameWithKey>(({ key }) => key);
 
-const sortNameWithKeyEntries = (array: [string, NameWithKey[]][]) =>
-  sortBy(array, ([key]) => key);
+const sortNameWithKeyEntries = sortBy<[string, NameWithKey[]]>(([key]) => key);
 
 export const MultiNameInput = (props: {
   handleClose: () => void;

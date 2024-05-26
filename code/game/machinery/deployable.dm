@@ -17,13 +17,12 @@
 	var/proj_pass_rate = 50 //How many projectiles will pass the cover. Lower means stronger cover
 	var/bar_material = METAL
 
-/obj/structure/barricade/atom_deconstruct(disassembled = TRUE)
-	make_debris()
+/obj/structure/barricade/deconstruct(disassembled = TRUE)
+	if(!(obj_flags & NO_DECONSTRUCTION))
+		make_debris()
+	qdel(src)
 
-/// Spawn debris & stuff upon deconstruction
 /obj/structure/barricade/proc/make_debris()
-	PROTECTED_PROC(TRUE)
-
 	return
 
 /obj/structure/barricade/attackby(obj/item/I, mob/living/user, params)
@@ -78,7 +77,7 @@
 		else
 			to_chat(user, span_notice("You start adding [I] to [src]..."))
 			playsound(src, 'sound/items/hammering_wood.ogg', 50, vary = TRUE)
-			if(do_after(user, 5 SECONDS, target=src))
+			if(do_after(user, 50, target=src))
 				W.use(5)
 				var/turf/T = get_turf(src)
 				T.place_on_top(/turf/closed/wall/mineral/wood/nonmetal)
@@ -99,7 +98,7 @@
 /obj/structure/barricade/wooden/crude
 	name = "crude plank barricade"
 	desc = "This space is blocked off by a crude assortment of planks."
-	icon_state = "plankbarricade"
+	icon_state = "woodenbarricade-old"
 	drop_amount = 1
 	max_integrity = 50
 	proj_pass_rate = 65
@@ -107,7 +106,7 @@
 
 /obj/structure/barricade/wooden/crude/snow
 	desc = "This space is blocked off by a crude assortment of planks. It seems to be covered in a layer of snow."
-	icon_state = "plankbarricade_snow"
+	icon_state = "woodenbarricade-snow-old"
 	max_integrity = 75
 
 /obj/structure/barricade/wooden/make_debris()
@@ -180,9 +179,10 @@
 	. = ..()
 	. += span_notice("Alt-click to toggle modes.")
 
-/obj/item/grenade/barrier/click_alt(mob/living/carbon/user)
+/obj/item/grenade/barrier/AltClick(mob/living/carbon/user)
+	if(!istype(user) || !user.can_perform_action(src))
+		return
 	toggle_mode(user)
-	return CLICK_ACTION_SUCCESS
 
 /obj/item/grenade/barrier/proc/toggle_mode(mob/user)
 	switch(mode)

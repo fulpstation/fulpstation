@@ -9,10 +9,9 @@
 	var/max_cooldown_time = 10 SECONDS
 
 /datum/action/cooldown/mob_cooldown/transform_weapon/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	do_transform(target_atom)
 	StartCooldown(rand(cooldown_time, max_cooldown_time), 0)
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/transform_weapon/proc/do_transform(atom/target)

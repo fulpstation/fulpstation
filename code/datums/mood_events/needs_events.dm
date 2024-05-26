@@ -3,10 +3,6 @@
 	description = "<B>I'm so fat...</B>" //muh fatshaming
 	mood_change = -6
 
-/datum/mood_event/too_wellfed
-	description = "I think I've eaten too much."
-	mood_change = 0
-
 /datum/mood_event/wellfed
 	description = "I'm stuffed!"
 	mood_change = 8
@@ -66,7 +62,7 @@
 	mood_change = -12
 
 /datum/mood_event/disgust/dirty_food
-	description = "That was too dirty to eat..."
+	description = "It was too dirty to eat..."
 	mood_change = -6
 	timeout = 4 MINUTES
 

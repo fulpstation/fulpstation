@@ -25,7 +25,7 @@
  * conversion_target - Person being vassalized
  */
 /datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/conversion_target)
-	if(!iscarbon(conversion_target))
+	if(!iscarbon(conversion_target) || conversion_target.stat > UNCONSCIOUS)
 		return FALSE
 	// No Mind!
 	if(!conversion_target.mind)

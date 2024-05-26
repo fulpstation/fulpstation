@@ -41,7 +41,6 @@ FLOOR SAFES
 /obj/structure/safe/Initialize(mapload)
 	. = ..()
 
-	update_appearance(UPDATE_ICON)
 	// Combination generation
 	for(var/iterating in 1 to number_of_tumblers)
 		tumblers.Add(rand(0, 99))
@@ -58,8 +57,7 @@ FLOOR SAFES
 			inserting_item.forceMove(src)
 
 /obj/structure/safe/update_icon_state()
-	//uses the same icon as the captain's spare safe (therefore lockable storage) so keep it in line with that
-	icon_state = "[initial(icon_state)][open ? null : "_locked"]"
+	icon_state = "[initial(icon_state)][open ? "-open" : null]"
 	return ..()
 
 /obj/structure/safe/attackby(obj/item/attacking_item, mob/user, params)
@@ -248,14 +246,6 @@ FLOOR SAFES
 /obj/structure/safe/floor/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/undertile)
-
-///Special safe for the station's vault. Not explicitly required, but the piggy bank inside it is.
-/obj/structure/safe/vault
-
-/obj/structure/safe/vault/Initialize(mapload)
-	. = ..()
-	var/obj/item/piggy_bank/vault/piggy = new(src)
-	space += piggy.w_class
 
 #undef SOUND_CHANCE
 #undef BROKEN_THRESHOLD

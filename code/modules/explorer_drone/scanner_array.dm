@@ -181,7 +181,11 @@ GLOBAL_LIST_INIT(scan_conditions,init_scan_conditions())
 	failed_popup = TRUE
 	SStgui.update_uis(src)
 
-/obj/machinery/computer/exoscanner_control/post_machine_initialize()
+/obj/machinery/computer/exoscanner_control/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/computer/exoscanner_control/LateInitialize()
 	. = ..()
 	AddComponent(/datum/component/experiment_handler, \
 		allowed_experiments = list(/datum/experiment/exploration_scan), \

@@ -1,4 +1,5 @@
 import { filter, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { toFixed } from 'common/math';
 import { BooleanLike } from 'common/react';
 import { multiline } from 'common/string';
@@ -42,10 +43,10 @@ export const BluespaceSender = (props) => {
   const { act, data } = useBackend<Data>();
   const { gas_transfer_rate, credits, bluespace_network_gases = [], on } = data;
 
-  const gases: Gas[] = sortBy(
-    filter(bluespace_network_gases, (gas) => gas.amount >= 0.01),
-    (gas) => -gas.amount,
-  );
+  const gases: Gas[] = flow([
+    filter<Gas>((gas) => gas.amount >= 0.01),
+    sortBy<Gas>((gas) => -gas.amount),
+  ])(bluespace_network_gases);
 
   const gasMax = Math.max(1, ...gases.map((gas) => gas.amount));
 
@@ -78,7 +79,7 @@ export const BluespaceSender = (props) => {
                 unit="moles/S"
                 minValue={0}
                 maxValue={1}
-                onDrag={(value) =>
+                onDrag={(e, value) =>
                   act('rate', {
                     rate: value,
                   })
@@ -131,11 +132,10 @@ const GasDisplay = (props: GasDisplayProps) => {
             animated
             fluid
             value={price}
-            step={1}
             unit="per mole"
             minValue={0}
             maxValue={100}
-            onDrag={(value) =>
+            onDrag={(event, value) =>
               act('price', {
                 gas_price: value,
                 gas_type: id,

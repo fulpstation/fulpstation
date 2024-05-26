@@ -107,8 +107,7 @@
 	data["BossID"] = "boss[boss_id].gif"
 	return data
 
-/datum/computer_file/program/arcade/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
+/datum/computer_file/program/arcade/ui_act(action, list/params)
 	usr.played_game()
 	var/gamerSkillLevel = 0
 	var/gamerSkill = 0

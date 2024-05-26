@@ -55,7 +55,6 @@
 	loot = list(/obj/structure/closet/crate/necropolis/colossus)
 	death_message = "disintegrates, leaving a glowing core in its wake."
 	death_sound = 'sound/magic/demon_dies.ogg'
-	summon_line = "Your trial begins now."
 	/// Spiral shots ability
 	var/datum/action/cooldown/mob_cooldown/projectile_attack/spiral_shots/colossus/spiral_shots
 	/// Random shots ablity
@@ -155,8 +154,8 @@
 		return FALSE
 	if(isgolem(victim) && victim.has_status_effect(/datum/status_effect/golem/gold))
 		return TRUE
-
-	return istype(victim.mind?.martial_art, /datum/martial_art/the_sleeping_carp)
+	var/mob/living/carbon/human/human_victim = victim
+	return human_victim.mind && istype(human_victim.mind.martial_art, /datum/martial_art/the_sleeping_carp)
 
 /obj/effect/temp_visual/at_shield
 	name = "anti-toolbox field"
@@ -165,10 +164,8 @@
 	icon_state = "at_shield2"
 	layer = FLY_LAYER
 	plane = ABOVE_GAME_PLANE
-	light_system = OVERLAY_LIGHT
-	light_range = 2.5
-	light_power = 1.2
-	light_color = "#ffff66"
+	light_system = MOVABLE_LIGHT
+	light_range = 2
 	duration = 8
 	var/target
 
@@ -294,7 +291,6 @@
 		charge_animation()
 	COOLDOWN_START(src, cooldown_timer, cooldown_add)
 	playsound(user, activation_sound, 100, TRUE)
-	log_game("[src] activated by [key_name(user)] in [AREACOORD(src)]. The last fingerprints on the [src] was [fingerprintslast].")
 	return TRUE
 
 /obj/machinery/anomalous_crystal/proc/charge_animation()
@@ -318,9 +314,9 @@
 	ActivationReaction(null, ACTIVATE_BOMB)
 	return TRUE
 
-/obj/machinery/anomalous_crystal/honk //Revives the dead, but strips and equips them as a clown
-	observer_desc = "This crystal revives targets around it as clowns. Oh, that's horrible...."
-	activation_method = ACTIVATE_TOUCH
+/obj/machinery/anomalous_crystal/honk //Strips and equips you as a clown. I apologize for nothing
+	observer_desc = "This crystal strips and equips its targets as clowns."
+	possible_methods = list(ACTIVATE_MOB_BUMP, ACTIVATE_SPEECH)
 	activation_sound = 'sound/items/bikehorn.ogg'
 	use_time = 3 SECONDS
 	/// List of REFs to mobs that have been turned into a clown
@@ -331,30 +327,19 @@
 	if(!.)
 		return FALSE
 
-	for(var/atom/thing as anything in range(1, src))
-		if(isturf(thing))
-			new /obj/effect/decal/cleanable/confetti(thing)
-			continue
+	if(!ishuman(user))
+		return FALSE
+	if(!(user in viewers(src)))
+		return FALSE
+	var/clown_ref = REF(user)
+	if(clown_ref in clowned_mob_refs)
+		return FALSE
 
-		if(!ishuman(thing))
-			continue
-
-		var/mob/living/carbon/human/new_clown = thing
-
-		if(new_clown.stat != DEAD)
-			continue
-
-		new_clown.revive(ADMIN_HEAL_ALL, force_grab_ghost = TRUE)
-
-		var/clown_ref = REF(new_clown)
-		if(clown_ref in clowned_mob_refs) //one clowning per person
-			continue
-
-		for(var/obj/item/to_strip in new_clown.get_equipped_items())
-			new_clown.dropItemToGround(to_strip)
-		new_clown.dress_up_as_job(SSjob.GetJobType(/datum/job/clown))
-		clowned_mob_refs += clown_ref
-
+	var/mob/living/carbon/human/new_clown = user
+	for(var/obj/item/to_strip in new_clown.get_equipped_items())
+		new_clown.dropItemToGround(to_strip)
+	new_clown.dress_up_as_job(SSjob.GetJobType(/datum/job/clown))
+	clowned_mob_refs += clown_ref
 	return TRUE
 
 /// Transforms the area to look like a new one
@@ -370,7 +355,8 @@
 
 /obj/machinery/anomalous_crystal/theme_warp/Initialize(mapload)
 	. = ..()
-	terrain_theme = DSmaterials.dimensional_themes[pick(subtypesof(/datum/dimension_theme))]
+	var/terrain_type = pick(subtypesof(/datum/dimension_theme))
+	terrain_theme = new terrain_type()
 	observer_desc = "This crystal changes the area around it to match the theme of \"[terrain_theme.name]\"."
 
 /obj/machinery/anomalous_crystal/theme_warp/ActivationReaction(mob/user, method)
@@ -385,7 +371,7 @@
 	return TRUE
 
 /obj/machinery/anomalous_crystal/theme_warp/Destroy()
-	terrain_theme = null
+	QDEL_NULL(terrain_theme)
 	converted_areas.Cut()
 	return ..()
 
@@ -414,28 +400,21 @@
 /obj/machinery/anomalous_crystal/dark_reprise/ActivationReaction(mob/user, method)
 	. = ..()
 	if(!.)
-		return FALSE
-
+		return
 	for(var/atom/thing as anything in range(1, src))
 		if(isturf(thing))
 			new /obj/effect/temp_visual/cult/sparks(thing)
 			continue
 
-		if(!ishuman(thing))
-			continue
-
-		var/mob/living/carbon/human/to_revive = thing
-
-		if(to_revive.stat != DEAD)
-			continue
-
-		to_revive.set_species(/datum/species/shadow, TRUE)
-		to_revive.revive(ADMIN_HEAL_ALL, force_grab_ghost = TRUE)
-		//Free revives, but significantly limits your options for reviving except via the crystal
-		//except JK who cares about BADDNA anymore. this even heals suicides.
-		ADD_TRAIT(to_revive, TRAIT_BADDNA, MAGIC_TRAIT)
-
-	return TRUE
+		if(ishuman(thing))
+			var/mob/living/carbon/human/to_revive = thing
+			if(to_revive.stat != DEAD)
+				continue
+			to_revive.set_species(/datum/species/shadow, TRUE)
+			to_revive.revive(ADMIN_HEAL_ALL, force_grab_ghost = TRUE)
+			//Free revives, but significantly limits your options for reviving except via the crystal
+			//except JK who cares about BADDNA anymore. this even heals suicides.
+			ADD_TRAIT(to_revive, TRAIT_BADDNA, MAGIC_TRAIT)
 
 /obj/machinery/anomalous_crystal/helpers //Lets ghost spawn as helpful creatures that can only heal people slightly. Incredibly fragile and they can't converse with humans
 	observer_desc = "This crystal allows ghosts to turn into a fragile creature that can heal people."
@@ -517,7 +496,6 @@
 	if(isanimal_or_basicmob(loc))
 		holder_animal = loc
 		RegisterSignal(holder_animal, COMSIG_LIVING_DEATH, PROC_REF(on_holder_animal_death))
-	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
 
 /obj/structure/closet/stasis/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
@@ -545,6 +523,9 @@
 			holder_animal.gib(DROP_ALL_REMAINS)
 			return ..()
 	return ..()
+
+/obj/structure/closet/stasis/emp_act()
+	return
 
 /obj/structure/closet/stasis/ex_act()
 	return FALSE

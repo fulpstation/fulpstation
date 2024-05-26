@@ -65,9 +65,15 @@
 		make_tameable()
 
 /mob/living/basic/mining/wolf/proc/make_tameable()
-	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/meat/slab), tame_chance = 15, bonus_tame_chance = 5)
+	AddComponent(\
+		/datum/component/tameable,\
+		food_types = list(/obj/item/food/meat/slab),\
+		tame_chance = 15,\
+		bonus_tame_chance = 5,\
+		after_tame = CALLBACK(src, PROC_REF(tame_wolf)),\
+	)
 
-/mob/living/basic/mining/wolf/tamed(mob/living/tamer, atom/food)
+/mob/living/basic/mining/wolf/proc/tame_wolf()
 	new /obj/effect/temp_visual/heart(src.loc)
 	// ride wolf, life good
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/wolf)

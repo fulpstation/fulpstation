@@ -45,7 +45,7 @@ export const ProcCallMenu = (props) => {
                 <Stack.Item>
                   <Dropdown
                     width="100%"
-                    selected={expected_output}
+                    displayText={expected_output}
                     options={possible_types}
                     color={expected_output_color}
                     onSelected={(value) =>
@@ -139,7 +139,7 @@ const PortEntry = (props) => {
         </Stack.Item>
         <Stack.Item>
           <Dropdown
-            selected={datatype}
+            displayText={datatype}
             options={datatypeOptions}
             onSelected={onSetType}
             color={color}

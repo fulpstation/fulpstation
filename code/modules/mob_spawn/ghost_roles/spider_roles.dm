@@ -1,6 +1,5 @@
 /obj/structure/spider/eggcluster
 	name = "egg cluster"
-	icon = 'icons/effects/effects.dmi'
 	desc = "There's something alive in there, and sooner or later it's going to find its way out."
 	icon_state = "eggs"
 	/// Mob spawner handling the actual spawn of the spider
@@ -237,5 +236,5 @@
 		display_spiders[initial(spider.name)] = option
 	sort_list(display_spiders)
 
-	var/chosen_spider = show_radial_menu(user, egg, display_spiders, radius = 38, require_near = TRUE)
+	var/chosen_spider = show_radial_menu(user, egg, display_spiders, radius = 38)
 	return spider_list[chosen_spider]

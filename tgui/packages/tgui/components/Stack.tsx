@@ -17,23 +17,14 @@ import {
 } from './Flex';
 
 type Props = Partial<{
-  /** Fills available space. */
-  fill: boolean;
-  /** Reverses the stack. */
-  reverse: boolean;
-  /** Flex column */
   vertical: boolean;
-  /** Adds zebra striping to the stack. */
+  fill: boolean;
   zebra: boolean;
 }> &
   FlexProps;
 
-export function Stack(props: Props) {
-  const { className, vertical, fill, reverse, zebra, ...rest } = props;
-
-  const directionPrefix = vertical ? 'column' : 'row';
-  const directionSuffix = reverse ? '-reverse' : '';
-
+export const Stack = (props: Props) => {
+  const { className, vertical, fill, zebra, ...rest } = props;
   return (
     <div
       className={classes([
@@ -41,26 +32,24 @@ export function Stack(props: Props) {
         fill && 'Stack--fill',
         vertical ? 'Stack--vertical' : 'Stack--horizontal',
         zebra && 'Stack--zebra',
-        reverse && `Stack--reverse${vertical ? '--vertical' : ''}`,
         className,
         computeFlexClassName(props),
       ])}
       {...computeFlexProps({
-        direction: `${directionPrefix}${directionSuffix}`,
+        direction: vertical ? 'column' : 'row',
         ...rest,
       })}
     />
   );
-}
+};
 
 type StackItemProps = FlexItemProps &
   Partial<{
     innerRef: RefObject<HTMLDivElement>;
   }>;
 
-function StackItem(props: StackItemProps) {
+const StackItem = (props: StackItemProps) => {
   const { className, innerRef, ...rest } = props;
-
   return (
     <div
       className={classes([
@@ -72,7 +61,7 @@ function StackItem(props: StackItemProps) {
       {...computeFlexItemProps(rest)}
     />
   );
-}
+};
 
 Stack.Item = StackItem;
 
@@ -81,9 +70,8 @@ type StackDividerProps = FlexItemProps &
     hidden: boolean;
   }>;
 
-function StackDivider(props: StackDividerProps) {
+const StackDivider = (props: StackDividerProps) => {
   const { className, hidden, ...rest } = props;
-
   return (
     <div
       className={classes([
@@ -96,6 +84,6 @@ function StackDivider(props: StackDividerProps) {
       {...computeFlexItemProps(rest)}
     />
   );
-}
+};
 
 Stack.Divider = StackDivider;

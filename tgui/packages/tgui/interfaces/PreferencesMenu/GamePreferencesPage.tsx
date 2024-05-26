@@ -13,13 +13,11 @@ type PreferenceChild = {
   children: ReactNode;
 };
 
-const binaryInsertPreference = (
-  collection: PreferenceChild[],
-  value: PreferenceChild,
-) => binaryInsertWith(collection, value, (child) => child.name);
+const binaryInsertPreference = binaryInsertWith<PreferenceChild>(
+  (child) => child.name,
+);
 
-const sortByName = (array: [string, PreferenceChild[]][]) =>
-  sortBy(array, ([name]) => name);
+const sortByName = sortBy<[string, PreferenceChild[]]>(([name]) => name);
 
 export const GamePreferencesPage = (props) => {
   const { act, data } = useBackend<PreferencesMenuData>();

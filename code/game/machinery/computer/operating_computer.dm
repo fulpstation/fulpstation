@@ -20,7 +20,7 @@
 	find_table()
 	return INITIALIZE_HINT_LATELOAD
 
-/obj/machinery/computer/operating/post_machine_initialize()
+/obj/machinery/computer/operating/LateInitialize()
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
@@ -55,7 +55,7 @@
 			span_notice("You begin to load a surgery protocol from \the [O]..."), \
 			span_hear("You hear the chatter of a floppy drive."))
 		var/obj/item/disk/surgery/D = O
-		if(do_after(user, 1 SECONDS, target = src))
+		if(do_after(user, 10, target = src))
 			advanced_surgeries |= D.surgeries
 		return TRUE
 	return ..()
@@ -103,7 +103,6 @@
 
 	data["table"] = table
 	data["patient"] = list()
-	data["procedures"] = list()
 	if(!table.patient)
 		return data
 	var/mob/living/carbon/patient = table.patient
@@ -137,6 +136,7 @@
 	data["patient"]["fireLoss"] = patient.getFireLoss()
 	data["patient"]["toxLoss"] = patient.getToxLoss()
 	data["patient"]["oxyLoss"] = patient.getOxyLoss()
+	data["procedures"] = list()
 	if(patient.surgeries.len)
 		for(var/datum/surgery/procedure in patient.surgeries)
 			var/datum/surgery_step/surgery_step = procedure.get_surgery_step()
@@ -158,6 +158,8 @@
 				"alt_chems_needed" = alt_chems_needed
 			))
 	return data
+
+
 
 /obj/machinery/computer/operating/ui_act(action, params)
 	. = ..()

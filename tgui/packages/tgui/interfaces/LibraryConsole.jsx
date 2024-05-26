@@ -1,4 +1,5 @@
 import { map, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { classes } from 'common/react';
 import { useState } from 'react';
 
@@ -135,14 +136,14 @@ export const Inventory = (props) => {
 
 export const InventoryDetails = (props) => {
   const { act, data } = useBackend();
-  const inventory = sortBy(
-    map(data.inventory, (book, i) => ({
+  const inventory = flow([
+    map((book, i) => ({
       ...book,
       // Generate a unique id
       key: i,
     })),
-    (book) => book.key,
-  );
+    sortBy((book) => book.key),
+  ])(data.inventory);
   return (
     <Section>
       <Table>
@@ -260,14 +261,14 @@ export const CheckoutEntries = (props) => {
 
 const CheckoutModal = (props) => {
   const { act, data } = useBackend();
-  const inventory = sortBy(
-    map(data.inventory, (book, i) => ({
+  const inventory = flow([
+    map((book, i) => ({
       ...book,
       // Generate a unique id
       key: i,
     })),
-    (book) => book.key,
-  );
+    sortBy((book) => book.key),
+  ])(data.inventory);
 
   const [checkoutBook, setCheckoutBook] = useLocalState('CheckoutBook', false);
   const [bookName, setBookName] = useState('Insert Book name...');
@@ -282,7 +283,7 @@ const CheckoutModal = (props) => {
         over
         mb={1.7}
         width="100%"
-        selected={bookName}
+        displayText={bookName}
         options={inventory.map((book) => book.title)}
         value={bookName}
         onSelected={(e) => setBookName(e)}
@@ -300,7 +301,6 @@ const CheckoutModal = (props) => {
             value={checkoutPeriod}
             unit=" Minutes"
             minValue={1}
-            step={1}
             stepPixelSize={10}
             onChange={(e, value) => setCheckoutPeriod(value)}
           />
@@ -386,14 +386,14 @@ export const SearchAndDisplay = (props) => {
     params_changed,
     can_db_request,
   } = data;
-  const records = sortBy(
-    map(data.pages, (record, i) => ({
+  const records = flow([
+    map((record, i) => ({
       ...record,
       // Generate a unique id
       key: i,
     })),
-    (record) => record.key,
-  );
+    sortBy((record) => record.key),
+  ])(data.pages);
 
   return (
     <Box>
@@ -415,7 +415,6 @@ export const SearchAndDisplay = (props) => {
             </Stack.Item>
             <Stack.Item>
               <Dropdown
-                width="120px"
                 options={search_categories}
                 selected={category}
                 onSelected={(value) =>

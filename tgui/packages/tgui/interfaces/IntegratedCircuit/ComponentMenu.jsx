@@ -120,8 +120,7 @@ export class ComponentMenu extends Component {
                   currentLimit: DEFAULT_COMPONENT_MENU_LIMIT,
                 })
               }
-              selected={selectedTab}
-              placeholder="Category"
+              displayText={`Category: ${selectedTab}`}
               color="transparent"
               className="IntegratedCircuit__BlueBorder"
             />

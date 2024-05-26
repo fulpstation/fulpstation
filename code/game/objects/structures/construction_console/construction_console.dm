@@ -10,7 +10,7 @@
 /obj/machinery/computer/camera_advanced/base_construction
 	name = "generic base construction console"
 	desc = "An industrial computer integrated with a camera-assisted rapid construction drone."
-	networks = list(CAMERANET_NETWORK_SS13)
+	networks = list("ss13")
 	circuit = /obj/item/circuitboard/computer/base_construction
 	off_action = /datum/action/innate/camera_off/base_construction
 	jump_action = null
@@ -80,12 +80,12 @@
 /obj/machinery/computer/camera_advanced/base_construction/GrantActions(mob/living/user)
 	..()
 	//When the eye is in use, make it visible to players so they know when someone is building.
-	eyeobj.SetInvisibility(INVISIBILITY_NONE, id=type)
+	SetInvisibility(INVISIBILITY_NONE, id=type)
 
 /obj/machinery/computer/camera_advanced/base_construction/remove_eye_control(mob/living/user)
 	..()
 	//Set back to default invisibility when not in use.
-	eyeobj.RemoveInvisibility(type)
+	RemoveInvisibility(type)
 
 /**
  * A mob used by [/obj/machinery/computer/camera_advanced/base_construction] for building in specific areas.

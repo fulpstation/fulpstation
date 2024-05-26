@@ -6,8 +6,8 @@
 //NORTH default dir
 /obj/docking_port
 	invisibility = INVISIBILITY_ABSTRACT
-	icon = 'icons/effects/docking_ports.dmi'
-	icon_state = "static"
+	icon = 'icons/obj/devices/tracker.dmi'
+	icon_state = "pinonfar"
 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
@@ -436,7 +436,7 @@
 
 /obj/docking_port/mobile
 	name = "shuttle"
-	icon_state = "mobile"
+	icon_state = "pinonclose"
 
 	area_type = SHUTTLE_DEFAULT_SHUTTLE_AREA_TYPE
 

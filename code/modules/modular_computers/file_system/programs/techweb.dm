@@ -88,8 +88,7 @@
 		)
 	return data
 
-/datum/computer_file/program/science/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
+/datum/computer_file/program/science/ui_act(action, list/params)
 	// Check if the console is locked to block any actions occuring
 	if (locked && action != "toggleLock")
 		computer.say("Console is locked, cannot perform further actions.")
@@ -111,8 +110,7 @@
 
 /datum/computer_file/program/science/ui_static_data(mob/user)
 	. = list(
-		"static_data" = list(),
-		"point_types_abbreviations" = SSresearch.point_types,
+		"static_data" = list()
 	)
 
 	// Build node cache...
@@ -201,7 +199,7 @@
 		if(stored_research.research_node_id(id))
 			computer.say("Successfully researched [tech_node.display_name].")
 			var/logname = "Unknown"
-			if(HAS_AI_ACCESS(user))
+			if(isAI(user))
 				logname = "AI [user.name]"
 			if(iscyborg(user))
 				logname = "CYBORG [user.name]"
@@ -218,7 +216,7 @@
 						logname = "[id_card_of_human_user.registered_name]"
 			stored_research.research_logs += list(list(
 				"node_name" = tech_node.display_name,
-				"node_cost" = price[TECHWEB_POINT_TYPE_GENERIC],
+				"node_cost" = price["General Research"],
 				"node_researcher" = logname,
 				"node_research_location" = "[get_area(computer)] ([user.x],[user.y],[user.z])",
 			))

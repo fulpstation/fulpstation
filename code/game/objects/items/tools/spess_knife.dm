@@ -60,10 +60,10 @@
 		mistake_occured = TRUE
 
 	if(isnull(tool_behaviour))
-		update_weight_class(WEIGHT_CLASS_TINY)
+		w_class = WEIGHT_CLASS_TINY
 		balloon_alert(user, "folded")
 	else
-		update_weight_class(WEIGHT_CLASS_SMALL)
+		w_class = WEIGHT_CLASS_SMALL
 		balloon_alert(user, mistake_occured ? "oops! [tool_behaviour] out" : "[tool_behaviour] out")
 
 	update_tool_parameters()

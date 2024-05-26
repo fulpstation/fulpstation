@@ -1,12 +1,12 @@
 import { classes } from 'common/react';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { BoxProps, unit } from './Box';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { Popper } from './Popper';
 
-export type DropdownEntry = {
+type DropdownEntry = {
   displayText: ReactNode;
   value: string | number;
 };
@@ -19,11 +19,7 @@ type Props = {
   options: DropdownOption[];
   /** Called when a value is picked from the list, `value` is the value that was picked */
   onSelected: (value: any) => void;
-  /** Currently selected entry to display. Can be left stateless to permanently display this value. */
-  selected: DropdownOption | null | undefined;
 } & Partial<{
-  /** Whether to scroll automatically on open. Defaults to true */
-  autoScroll: boolean;
   /** Whether to display previous / next buttons */
   buttons: boolean;
   /** Whether to clip the selected text */
@@ -32,7 +28,7 @@ type Props = {
   color: string;
   /** Disables the dropdown */
   disabled: boolean;
-  /** Overwrites selection text with this. Good for objects etc. */
+  /** Text to always display in place of the selected text */
   displayText: ReactNode;
   /** Icon to display in dropdown button */
   icon: string;
@@ -48,18 +44,10 @@ type Props = {
   onClick: (event) => void;
   /** Dropdown renders over instead of below */
   over: boolean;
-  /** Text to show when nothing has been selected. */
-  placeholder: string;
+  /** Currently selected entry */
+  selected: string | number;
 }> &
   BoxProps;
-
-enum DIRECTION {
-  Previous = 'previous',
-  Next = 'next',
-  Current = 'current',
-}
-
-const NONE = -1;
 
 function getOptionValue(option: DropdownOption) {
   return typeof option === 'string' ? option : option.value;
@@ -67,7 +55,6 @@ function getOptionValue(option: DropdownOption) {
 
 export function Dropdown(props: Props) {
   const {
-    autoScroll = true,
     buttons,
     className,
     clipSelectedText = true,
@@ -83,64 +70,46 @@ export function Dropdown(props: Props) {
     onSelected,
     options = [],
     over,
-    placeholder = 'Select...',
     selected,
-    width = '15rem',
+    width,
   } = props;
 
   const [open, setOpen] = useState(false);
   const adjustedOpen = over ? !open : open;
   const innerRef = useRef<HTMLDivElement>(null);
 
-  const selectedIndex =
-    options.findIndex((option) => getOptionValue(option) === selected) || 0;
-
-  function scrollTo(position: number) {
-    let scrollPos = position;
-    if (position < selectedIndex) {
-      scrollPos = position < 2 ? 0 : position - 2;
-    } else {
-      scrollPos =
-        position > options.length - 3 ? options.length - 1 : position - 2;
-    }
-
-    const element = innerRef.current?.children[scrollPos];
-    element?.scrollIntoView({ block: 'nearest' });
-  }
-
   /** Update the selected value when clicking the left/right buttons */
-  function updateSelected(direction: DIRECTION) {
-    if (options.length < 1 || disabled) {
-      return;
-    }
+  const updateSelected = useCallback(
+    (direction: 'previous' | 'next') => {
+      if (options.length < 1 || disabled) {
+        return;
+      }
+      const startIndex = 0;
+      const endIndex = options.length - 1;
 
-    const startIndex = 0;
-    const endIndex = options.length - 1;
+      let selectedIndex = options.findIndex(
+        (option) => getOptionValue(option) === selected,
+      );
 
-    let newIndex: number;
-    if (selectedIndex < 0) {
-      newIndex = direction === 'next' ? endIndex : startIndex; // No selection yet
-    } else if (direction === 'next') {
-      newIndex = selectedIndex === endIndex ? startIndex : selectedIndex + 1; // Move to next option
-    } else {
-      newIndex = selectedIndex === startIndex ? endIndex : selectedIndex - 1; // Move to previous option
-    }
+      if (selectedIndex < 0) {
+        selectedIndex = direction === 'next' ? endIndex : startIndex;
+      }
 
-    if (open && autoScroll) {
-      scrollTo(newIndex);
-    }
-    onSelected?.(getOptionValue(options[newIndex]));
-  }
+      let newIndex = selectedIndex;
+      if (direction === 'next') {
+        newIndex = selectedIndex === endIndex ? startIndex : selectedIndex++;
+      } else {
+        newIndex = selectedIndex === startIndex ? endIndex : selectedIndex--;
+      }
+
+      onSelected?.(getOptionValue(options[newIndex]));
+    },
+    [disabled, onSelected, options, selected],
+  );
 
   /** Allows the menu to be scrollable on open */
   useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    if (autoScroll && selectedIndex !== NONE) {
-      scrollTo(selectedIndex);
-    }
+    if (!open) return;
 
     innerRef.current?.focus();
   }, [open]);
@@ -182,64 +151,69 @@ export function Dropdown(props: Props) {
         </div>
       }
     >
-      <div className="Dropdown" style={{ width: unit(width) }}>
-        <div
-          className={classes([
-            'Dropdown__control',
-            'Button',
-            'Button--dropdown',
-            'Button--color--' + color,
-            disabled && 'Button--disabled',
-            className,
-          ])}
-          onClick={(event) => {
-            if (disabled && !open) {
-              return;
-            }
-            setOpen(!open);
-            onClick?.(event);
-          }}
-        >
-          {icon && (
-            <Icon mr={1} name={icon} rotation={iconRotation} spin={iconSpin} />
-          )}
-          <span
-            className="Dropdown__selected-text"
-            style={{
-              overflow: clipSelectedText ? 'hidden' : 'visible',
+      <div>
+        <div className="Dropdown" style={{ width: unit(width) }}>
+          <div
+            className={classes([
+              'Dropdown__control',
+              'Button',
+              'Button--dropdown',
+              'Button--color--' + color,
+              disabled && 'Button--disabled',
+              className,
+            ])}
+            onClick={(event) => {
+              if (disabled && !open) {
+                return;
+              }
+              setOpen(!open);
+              onClick?.(event);
             }}
           >
-            {displayText ||
-              (selected && getOptionValue(selected)) ||
-              placeholder}
-          </span>
-          {!noChevron && (
-            <span className="Dropdown__arrow-button">
-              <Icon name={adjustedOpen ? 'chevron-up' : 'chevron-down'} />
+            {icon && (
+              <Icon
+                mr={1}
+                name={icon}
+                rotation={iconRotation}
+                spin={iconSpin}
+              />
+            )}
+            <span
+              className="Dropdown__selected-text"
+              style={{
+                overflow: clipSelectedText ? 'hidden' : 'visible',
+              }}
+            >
+              {displayText || selected}
             </span>
+            {!noChevron && (
+              <span className="Dropdown__arrow-button">
+                <Icon name={adjustedOpen ? 'chevron-up' : 'chevron-down'} />
+              </span>
+            )}
+          </div>
+          {buttons && (
+            <>
+              <Button
+                disabled={disabled}
+                height={1.8}
+                icon="chevron-left"
+                onClick={() => {
+                  updateSelected('previous');
+                }}
+              />
+
+              <Button
+                disabled={disabled}
+                height={1.8}
+                icon="chevron-right"
+                onClick={() => {
+                  updateSelected('next');
+                }}
+              />
+            </>
           )}
         </div>
-        {buttons && (
-          <>
-            <Button
-              disabled={disabled}
-              height={1.8}
-              icon="chevron-left"
-              onClick={() => {
-                updateSelected(DIRECTION.Previous);
-              }}
-            />
-
-            <Button
-              disabled={disabled}
-              height={1.8}
-              icon="chevron-right"
-              onClick={() => {
-                updateSelected(DIRECTION.Next);
-              }}
-            />
-          </>
-        )}
       </div>
     </Popper>
   );

@@ -28,9 +28,6 @@
 	if(!do_after(user, 3 SECONDS, target))
 		return
 
-	if(used)
-		return
-
 	var/obj/item/assembly/signaler/anomaly/core = target
 
 	if(!core.anomaly_type)
@@ -38,7 +35,6 @@
 
 	var/obj/effect/anomaly/anomaly = new core.anomaly_type(get_turf(core))
 	anomaly.stabilize()
-	log_combat(user, anomaly, "released", object = src, addition = "in [get_area(target)].")
 
 	if(infinite)
 		return

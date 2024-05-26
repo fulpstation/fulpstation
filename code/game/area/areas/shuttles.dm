@@ -118,9 +118,7 @@
 	if(SSshuttle.arrivals?.mode == SHUTTLE_CALL)
 		var/atom/movable/screen/splash/Spl = new(null, boarder.client, TRUE)
 		Spl.Fade(TRUE)
-		// Fulp edit - Plays ApproachingFulp instead of ApproachingTG
-		boarder.playsound_local(get_turf(boarder), 'fulp_modules/sounds/arrival/ApproachingFulp.ogg', 25)
-		// Fulp edit END
+		boarder.playsound_local(get_turf(boarder), 'fulp_modules/sounds/sound/arrival/ApproachingFulp.ogg', 25) // Fulp edit - Adding our music instead.
 	boarder.update_parallax_teleport()
 
 

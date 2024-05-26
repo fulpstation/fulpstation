@@ -8,8 +8,10 @@
 	holder.RegisterSignal(holder.marked_datum, COMSIG_QDELETING, TYPE_PROC_REF(/datum/admins, handle_marked_del))
 	vv_update_display(D, "marked", VV_MSG_MARKED)
 
-ADMIN_VERB_ONLY_CONTEXT_MENU(mark_datum, R_NONE, "Mark Object", datum/target as mob|obj|turf|area in view())
-	user.mark_datum(target)
+/client/proc/mark_datum_mapview(datum/D as mob|obj|turf|area in view(view))
+	set category = "Debug"
+	set name = "Mark Object"
+	mark_datum(D)
 
 /datum/admins/proc/handle_marked_del(datum/source)
 	SIGNAL_HANDLER

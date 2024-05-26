@@ -75,15 +75,15 @@
 	return "Unknown"
 
 //Returns "Unknown" if facially disfigured and real_name if not. Useful for setting name when Fluacided or when updating a human's name variable
-/mob/living/carbon/human/proc/get_face_name(if_no_face = "Unknown")
+/mob/living/carbon/human/proc/get_face_name(if_no_face="Unknown")
 	if(HAS_TRAIT(src, TRAIT_UNKNOWN))
 		return if_no_face //We're Unknown, no face information for you
-	for(var/obj/item/worn_item in get_equipped_items())
-		if(!(worn_item.flags_inv & HIDEFACE))
-			continue
+	if( wear_mask && (wear_mask.flags_inv&HIDEFACE) ) //Wearing a mask which hides our face, use id-name if possible
 		return if_no_face
-	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
-	if(isnull(head) || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || (head.brutestate + head.burnstate) > 2 || !real_name || HAS_TRAIT(src, TRAIT_INVISIBLE_MAN)) //disfigured. use id-name if possible
+	if( head && (head.flags_inv&HIDEFACE) )
+		return if_no_face //Likewise for hats
+	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_HEAD)
+	if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || (O.brutestate+O.burnstate)>2 || !real_name || HAS_TRAIT(src, TRAIT_INVISIBLE_MAN)) //disfigured. use id-name if possible
 		return if_no_face
 	return real_name
 
@@ -271,10 +271,8 @@
 /mob/living/carbon/human/proc/set_mob_height(new_height)
 	if(mob_height == new_height)
 		return FALSE
-	if(new_height == HUMAN_HEIGHT_DWARF || new_height == MONKEY_HEIGHT_DWARF)
-		CRASH("Don't set height to dwarf height directly, use dwarf trait instead.")
-	if(new_height == MONKEY_HEIGHT_MEDIUM)
-		CRASH("Don't set height to monkey height directly, use monkified gene/species instead.")
+	if(new_height == HUMAN_HEIGHT_DWARF)
+		CRASH("Don't set height to dwarf height directly, use dwarf trait")
 
 	mob_height = new_height
 	regenerate_icons()
@@ -289,13 +287,7 @@
  */
 /mob/living/carbon/human/proc/get_mob_height()
 	if(HAS_TRAIT(src, TRAIT_DWARF))
-		if(ismonkey(src))
-			return MONKEY_HEIGHT_DWARF
-		else
-			return HUMAN_HEIGHT_DWARF
-
-	else if(ismonkey(src))
-		return MONKEY_HEIGHT_MEDIUM
+		return HUMAN_HEIGHT_DWARF
 
 	return mob_height
 

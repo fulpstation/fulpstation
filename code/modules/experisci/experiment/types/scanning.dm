@@ -33,7 +33,8 @@
 /**
  * Checks if the scanning experiment is complete
  *
- * Returns TRUE/FALSE as to if the necessary number of atoms have been scanned.
+ * Returns TRUE/FALSE as to if the necessary number of atoms have been
+ * scanned.
  */
 /datum/experiment/scanning/is_complete()
 	. = TRUE
@@ -83,8 +84,8 @@
  * * target - The atom to attempt to scan
  */
 /datum/experiment/scanning/perform_experiment_actions(datum/component/experiment_handler/experiment_handler, atom/target)
-	var/contributing_index_value = experiment_requirements(experiment_handler, target)
-	if (!isnull(contributing_index_value))
+	var/contributing_index_value = get_contributing_index(target)
+	if (contributing_index_value)
 		if(traits & EXPERIMENT_TRAIT_TYPECACHE)
 			scanned[contributing_index_value][target.type] = TRUE
 		else
@@ -95,7 +96,7 @@
 		return TRUE
 
 /datum/experiment/scanning/actionable(datum/component/experiment_handler/experiment_handler, atom/target)
-	return ..() && !isnull(experiment_requirements(experiment_handler, target))
+	return ..() && get_contributing_index(target)
 
 /**
  * Attempts to get the typepath for an atom that would contribute to the experiment
@@ -105,11 +106,12 @@
  * Arguments:
  * * target - The atom to attempt to scan
  */
-/datum/experiment/scanning/proc/experiment_requirements(datum/component/experiment_handler/experiment_handler, atom/target)
-	var/destructive = (traits & EXPERIMENT_TRAIT_DESTRUCTIVE)
+/datum/experiment/scanning/proc/get_contributing_index(atom/target)
+	var/destructive = traits & EXPERIMENT_TRAIT_DESTRUCTIVE
 	for (var/req_atom in required_atoms)
 		if (!istype(target, req_atom))
 			continue
+
 		// Try to select a required atom that this scanned atom would contribute towards
 		var/selected
 		var/list/seen = scanned[req_atom]
@@ -117,20 +119,21 @@
 			selected = req_atom
 		else if (!destructive && seen.len < required_atoms[req_atom] && !(WEAKREF(target) in seen))
 			selected = req_atom
+
 		// Run any additonal checks if necessary
-		if (selected && final_contributing_index_checks(experiment_handler, target, selected))
+		if (selected && final_contributing_index_checks(target, selected))
 			return selected
 
 /**
  * Performs any additional checks against the atom being considered for selection as a contributing index
  *
  * This proc is intended to be used to add additional functionality to contributing index checks
- * without having to duplicate the iteration structure of experiment_requirements()
+ * without having to duplicate the iteration structure of get_contributing_index()
  * Arguments:
  * * target - The atom being scanned
  * * typepath - The typepath (selected index) of the target atom
  */
-/datum/experiment/scanning/proc/final_contributing_index_checks(datum/component/experiment_handler/experiment_handler, atom/target, typepath)
+/datum/experiment/scanning/proc/final_contributing_index_checks(atom/target, typepath)
 	return TRUE
 
 /**

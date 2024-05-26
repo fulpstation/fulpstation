@@ -45,7 +45,7 @@ export const ChemAcclimator = (props) => {
                 maxValue={1000}
                 step={5}
                 stepPixelSize={2}
-                onChange={(value) =>
+                onChange={(e, value) =>
                   act('set_target_temperature', {
                     temperature: value,
                   })
@@ -54,14 +54,13 @@ export const ChemAcclimator = (props) => {
             </LabeledList.Item>
             <LabeledList.Item label="Acceptable Temp. Difference">
               <NumberInput
-                step={1}
                 value={allowed_temperature_difference}
                 unit="K"
                 width="59px"
                 minValue={1}
                 maxValue={target_temperature}
                 stepPixelSize={2}
-                onChange={(value) => {
+                onChange={(e, value) => {
                   act('set_allowed_temperature_difference', {
                     temperature: value,
                   });
@@ -91,7 +90,7 @@ export const ChemAcclimator = (props) => {
                 maxValue={200}
                 step={2}
                 stepPixelSize={2}
-                onChange={(value) =>
+                onChange={(e, value) =>
                   act('change_volume', {
                     volume: value,
                   })

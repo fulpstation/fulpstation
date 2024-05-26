@@ -78,7 +78,7 @@ const AccountDisplay = (props) => {
 
   return (
     <Section>
-      <Table>
+      <Table fill>
         <Table.Row>
           <Table.Cell>
             <Box color="label">

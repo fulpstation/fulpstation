@@ -9,7 +9,7 @@ import {
   Section,
 } from '../components';
 import { Window } from '../layouts';
-import { CargoCatalog } from './Cargo/CargoCatalog';
+import { CargoCatalog } from './Cargo';
 import { InterfaceLockNoticeBox } from './common/InterfaceLockNoticeBox';
 
 type Data = {
@@ -24,7 +24,7 @@ type Data = {
   message: string;
 };
 
-export function CargoExpress(props) {
+export const CargoExpress = (props) => {
   const { data } = useBackend<Data>();
   const { locked } = data;
 
@@ -36,9 +36,9 @@ export function CargoExpress(props) {
       </Window.Content>
     </Window>
   );
-}
+};
 
-function CargoExpressContent(props) {
+const CargoExpressContent = (props) => {
   const { act, data } = useBackend<Data>();
   const {
     hasBeacon,
@@ -64,9 +64,11 @@ function CargoExpressContent(props) {
       >
         <LabeledList>
           <LabeledList.Item label="Landing Location">
-            <Button selected={!usingBeacon} onClick={() => act('LZCargo')}>
-              Cargo Bay
-            </Button>
+            <Button
+              content="Cargo Bay"
+              selected={!usingBeacon}
+              onClick={() => act('LZCargo')}
+            />
             <Button
               selected={usingBeacon}
               disabled={!hasBeacon}
@@ -74,9 +76,11 @@ function CargoExpressContent(props) {
             >
               {beaconzone} ({beaconName})
             </Button>
-            <Button disabled={!canBuyBeacon} onClick={() => act('printBeacon')}>
-              {printMsg}
-            </Button>
+            <Button
+              content={printMsg}
+              disabled={!canBuyBeacon}
+              onClick={() => act('printBeacon')}
+            />
           </LabeledList.Item>
           <LabeledList.Item label="Notice">{message}</LabeledList.Item>
         </LabeledList>
@@ -84,4 +88,4 @@ function CargoExpressContent(props) {
       <CargoCatalog express />
     </>
   );
-}
+};

@@ -10,14 +10,13 @@
 	integrity_failure = 0.25
 	light_range = 2
 	light_power = 0.7
-	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 3.6
-	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 0.72
+	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 2.4
+	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 0.48
 	anchored = TRUE
 	density = FALSE
-	interaction_flags_machine = INTERACT_MACHINE_OPEN
 	circuit = /obj/item/circuitboard/machine/crossing_signal
 	// pointless if it only takes 2 seconds to cross but updates every 2 seconds
-	subsystem_type = /datum/controller/subsystem/processing/fastprocess
+	subsystem_type = /datum/controller/subsystem/processing/transport
 	light_color = LIGHT_COLOR_BABY_BLUE
 	/// green, amber, or red for tram, blue if it's emag, tram missing, etc.
 	var/signal_state = XING_STATE_MALF
@@ -75,7 +74,8 @@
 	layer = TRAM_SIGNAL_LAYER
 	max_integrity = 250
 	integrity_failure = 0.25
-	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 3.6
+	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 2.4
+	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 0.74
 	anchored = TRUE
 	density = FALSE
 	light_range = 1.5
@@ -107,8 +107,9 @@
 	RegisterSignal(SStransport, COMSIG_COMMS_STATUS, PROC_REF(comms_change))
 	SStransport.crossing_signals += src
 	register_context()
+	return INITIALIZE_HINT_LATELOAD
 
-/obj/machinery/transport/crossing_signal/post_machine_initialize()
+/obj/machinery/transport/crossing_signal/LateInitialize(mapload)
 	. = ..()
 	link_tram()
 	link_sensor()
@@ -169,16 +170,18 @@
 	obj_flags |= EMAGGED
 	return TRUE
 
-/obj/machinery/transport/crossing_signal/click_alt(mob/living/user)
+/obj/machinery/transport/crossing_signal/AltClick(mob/living/user)
+	. = ..()
+
 	var/obj/item/tool = user.get_active_held_item()
 	if(!panel_open || tool?.tool_behaviour != TOOL_WRENCH)
-		return CLICK_ACTION_BLOCKING
+		return FALSE
 
 	tool.play_tool_sound(src, 50)
 	setDir(turn(dir,-90))
-	balloon_alert(user, "rotated")
+	to_chat(user, span_notice("You rotate [src]."))
 	find_uplink()
-	return CLICK_ACTION_SUCCESS
+	return TRUE
 
 /obj/machinery/transport/crossing_signal/attackby_secondary(obj/item/weapon, mob/user, params)
 	. = ..()
@@ -305,14 +308,13 @@
  * Returns whether we are still processing.
  */
 /obj/machinery/transport/crossing_signal/proc/update_operating()
+	use_power(idle_power_usage)
 	update_appearance()
 	// Immediately process for snappy feedback
 	var/should_process = process() != PROCESS_KILL
 	if(should_process)
-		update_use_power(ACTIVE_POWER_USE)
 		begin_processing()
 		return
-	update_use_power(IDLE_POWER_USE)
 	end_processing()
 
 /obj/machinery/transport/crossing_signal/process()
@@ -325,6 +327,8 @@
 		// Throw the error message (blue)
 		set_signal_state(XING_STATE_MALF, force = !is_operational)
 		return PROCESS_KILL
+
+	use_power(active_power_usage)
 
 	var/obj/structure/transport/linear/tram_part = tram.return_closest_platform_to(src)
 
@@ -495,7 +499,7 @@
 	icon_state = "sensor-base"
 	desc = "Uses an infrared beam to detect passing trams. Works when paired with a sensor on the other side of the track."
 	layer = TRAM_RAIL_LAYER
-	use_power = NO_POWER_USE
+	use_power = 0
 	circuit = /obj/item/circuitboard/machine/guideway_sensor
 	/// Sensors work in a married pair
 	var/datum/weakref/paired_sensor
@@ -505,8 +509,9 @@
 /obj/machinery/transport/guideway_sensor/Initialize(mapload)
 	. = ..()
 	SStransport.sensors += src
+	return INITIALIZE_HINT_LATELOAD
 
-/obj/machinery/transport/guideway_sensor/post_machine_initialize()
+/obj/machinery/transport/guideway_sensor/LateInitialize(mapload)
 	. = ..()
 	pair_sensor()
 	RegisterSignal(SStransport, COMSIG_TRANSPORT_ACTIVE, PROC_REF(wake_up))

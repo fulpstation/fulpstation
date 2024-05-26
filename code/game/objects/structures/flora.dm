@@ -263,11 +263,13 @@
 	var/matrix/M = matrix(transform)
 	transform = M.Turn(-previous_rotation)
 
-/obj/structure/flora/atom_deconstruct(disassembled = TRUE)
-	if(harvested)
-		return ..()
+/obj/structure/flora/deconstruct()
+	if(!(obj_flags & NO_DECONSTRUCTION))
+		if(harvested)
+			return ..()
 
-	harvest(product_amount_multiplier = 0.6)
+		harvest(product_amount_multiplier = 0.6)
+	. = ..()
 
 /*********
  * Trees *
@@ -449,6 +451,7 @@
 	icon_state = "pinepresents"
 	desc = "A wondrous decorated Christmas tree. It has presents!"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF //protected by the christmas spirit
+	obj_flags = /obj::obj_flags | NO_DECONSTRUCTION
 	var/gift_type = /obj/item/gift/anything
 	var/unlimited = FALSE
 	var/static/list/took_presents //shared between all xmas trees
@@ -1111,3 +1114,4 @@
 	. = ..()
 	icon_state = "lavarocks[rand(1, 3)]"
 	update_appearance()
+

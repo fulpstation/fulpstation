@@ -86,7 +86,7 @@
 	if(HAS_TRAIT(user, TRAIT_TAGGER))
 		wait_time *= 0.5
 
-	if(!do_after(user, wait_time, target, hidden = TRUE))
+	if(!do_after(user, wait_time, target))
 		user.balloon_alert(user, "interrupted!")
 		drawing_rune = FALSE
 		return FALSE

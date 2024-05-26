@@ -25,8 +25,6 @@
 	grind_results = list(/datum/reagent/consumable/flour = 0)
 	tastes = list("wheat" = 1)
 	distill_reagent = /datum/reagent/consumable/ethanol/beer
-	slot_flags = ITEM_SLOT_MASK
-	worn_icon = 'icons/mob/clothing/head/hydroponics.dmi'
 
 // Oat
 /obj/item/seeds/wheat/oat
@@ -91,12 +89,10 @@
 	gender = PLURAL
 	bite_consumption_mod = 0.5
 	seed = /obj/item/seeds/wheat/meat
-	foodtypes = MEAT
+	foodtypes = MEAT | GRAIN
 	grind_results = list(/datum/reagent/consumable/flour = 0, /datum/reagent/blood = 0)
 	tastes = list("meatwheat" = 1)
 	can_distill = FALSE
-	slot_flags = ITEM_SLOT_MASK
-	worn_icon = 'icons/mob/clothing/head/hydroponics.dmi'
 
 /obj/item/food/grown/meatwheat/attack_self(mob/living/user)
 	user.visible_message(span_notice("[user] crushes [src] into meat."), span_notice("You crush [src] into something that resembles meat."))

@@ -123,9 +123,10 @@ export function PresetsPage(props) {
             <span color="label"> Hue: </span>
             <NumberInput
               animated
+              inline
               maxValue={360}
               minValue={0}
-              onChange={(value) => setHue(value)}
+              onChange={(e, value) => setHue(value)}
               step={5}
               stepPixelSize={5}
               value={hue}

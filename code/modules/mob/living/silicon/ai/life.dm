@@ -12,6 +12,9 @@
 	if(isturf(loc) && (QDELETED(eyeobj) || !eyeobj.loc))
 		view_core()
 
+	if(machine)
+		machine.check_eye(src)
+
 	// Handle power damage (oxy)
 	if(aiRestorePowerRoutine)
 		// Lost power
@@ -28,7 +31,7 @@
 	if(!lacks_power())
 		var/area/home = get_area(src)
 		if(home.powered(AREA_USAGE_EQUIP))
-			home.apc?.terminal?.use_energy(500 WATTS * seconds_per_tick, channel = AREA_USAGE_EQUIP)
+			home.use_power(500 * seconds_per_tick, AREA_USAGE_EQUIP)
 
 		if(aiRestorePowerRoutine >= POWER_RESTORATION_SEARCH_APC)
 			ai_restore_power()
@@ -161,4 +164,4 @@
 	adjust_temp_blindness(2 SECONDS)
 	update_sight()
 	to_chat(src, span_alert("You've lost power!"))
-	addtimer(CALLBACK(src, PROC_REF(start_RestorePowerRoutine)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_RestorePowerRoutine)), 20)

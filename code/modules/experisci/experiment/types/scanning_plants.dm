@@ -21,14 +21,12 @@
 	return EXPERIMENT_PROG_INT("Scan samples of a harvested plant.", \
 		traits & EXPERIMENT_TRAIT_DESTRUCTIVE ? scanned[target] : seen_instances.len, required_atoms[target])
 
-/datum/experiment/scanning/random/plants/traits/final_contributing_index_checks(datum/component/experiment_handler/experiment_handler, atom/target, typepath)
+/datum/experiment/scanning/random/plants/traits/final_contributing_index_checks(atom/target, typepath)
 	if(!istype(target, /obj/item/food/grown))
 		return FALSE
 	var/obj/item/food/grown/crop = target
 	if(possible_plant_genes.len)
-		if(isnull(crop.seed.get_gene(required_genes[typepath])))
-			experiment_handler.announce_message("Scanned plant is missing required genetics. Please scan a plant with the proper genetics.")
-		return ..() && !isnull(crop.seed.get_gene(required_genes[typepath]))
+		return ..() && crop.seed.get_gene(required_genes[typepath])
 	return ..()
 
 /datum/experiment/scanning/random/plants/traits/serialize_progress_stage(atom/target, list/seen_instances)
@@ -37,5 +35,5 @@
 		return EXPERIMENT_PROG_INT("Scan samples of harvested plants with the trait: [initial(gene.name)].", \
 			traits & EXPERIMENT_TRAIT_DESTRUCTIVE ? scanned[target] : seen_instances.len, required_atoms[target])
 
-/datum/experiment/scanning/random/plants/wild/final_contributing_index_checks(datum/component/experiment_handler/experiment_handler, atom/target, typepath)
+/datum/experiment/scanning/random/plants/wild/final_contributing_index_checks(atom/target, typepath)
 	return ..() && HAS_TRAIT(target, TRAIT_PLANT_WILDMUTATE)

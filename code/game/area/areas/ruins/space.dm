@@ -33,7 +33,7 @@
 // Ruins of "onehalf" ship
 
 /area/ruin/space/has_grav/onehalf/hallway
-	name = "\improper Half-Station Hallway"
+	name = "\improper Hallway"
 
 /area/ruin/space/has_grav/onehalf/drone_bay
 	name = "\improper Mining Drone Bay"
@@ -42,7 +42,7 @@
 	name = "\improper Crew Quarters"
 
 /area/ruin/space/has_grav/onehalf/bridge
-	name = "\improper Half-Station Bridge"
+	name = "\improper Bridge"
 
 /area/ruin/space/has_grav/powered/dinner_for_two
 	name = "Dinner for Two"
@@ -638,25 +638,25 @@
 	name = "Waystation Maintenance"
 
 /area/ruin/space/has_grav/waystation/qm
-	name = "Waystation Quartermaster Office"
+	name = "Quartermaster Office"
 
 /area/ruin/space/has_grav/waystation/dorms
-	name = "Waystation Living Space"
+	name = "Living Space"
 
 /area/ruin/space/has_grav/waystation/kitchen
-	name = "Waystation Kitchen"
+	name = "Kitchen"
 
 /area/ruin/space/has_grav/waystation/cargobay
-	name = "Waystation Cargo Bay"
+	name = "Cargo Bay"
 
 /area/ruin/space/has_grav/waystation/securestorage
-	name = "Waystation Secure Storage"
+	name = "Secure Storage"
 
 /area/ruin/space/has_grav/waystation/cargooffice
-	name = "Waystation Cargo Office"
+	name = "Cargo Office"
 
 /area/ruin/space/has_grav/powered/waystation/assaultpod
-	name = "Waystation Assault Pod"
+	name = "Assault Pod"
 
 /area/ruin/space/has_grav/waystation/power
 	name = "Waystation Electrical"

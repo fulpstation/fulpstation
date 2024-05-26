@@ -67,13 +67,13 @@
 
 		var/list/supply = history["supply"]
 		if(connected_powernet)
-			supply += energy_to_power(connected_powernet.avail)
+			supply += connected_powernet.viewavail
 		if(supply.len > record_size)
 			supply.Cut(1, 2)
 
 		var/list/demand = history["demand"]
 		if(connected_powernet)
-			demand += energy_to_power(connected_powernet.load)
+			demand += connected_powernet.viewload
 		if(demand.len > record_size)
 			demand.Cut(1, 2)
 
@@ -84,8 +84,8 @@
 	data["interval"] = record_interval / 10
 	data["attached"] = connected_powernet ? TRUE : FALSE
 	if(connected_powernet)
-		data["supply"] = display_power(connected_powernet.avail)
-		data["demand"] = display_power(connected_powernet.load)
+		data["supply"] = display_power(connected_powernet.viewavail)
+		data["demand"] = display_power(connected_powernet.viewload)
 	data["history"] = history
 
 	data["areas"] = list()

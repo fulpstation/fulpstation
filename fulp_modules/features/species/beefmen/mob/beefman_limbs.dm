@@ -187,7 +187,7 @@
 	)
 	return ..()
 
-/obj/item/bodypart/arm/right/beef/drop_limb(special, dismembered, move_to_floor = TRUE)
+/obj/item/bodypart/arm/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -221,7 +221,7 @@
 	)
 	return ..()
 
-/obj/item/bodypart/arm/left/beef/drop_limb(special, dismembered, move_to_floor = TRUE)
+/obj/item/bodypart/arm/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -239,7 +239,7 @@
 	icon_state = "beefman_r_leg"
 	speed_modifier = -0.1
 
-/obj/item/bodypart/leg/right/beef/drop_limb(special, dismembered, move_to_floor = TRUE)
+/obj/item/bodypart/leg/right/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
@@ -257,7 +257,7 @@
 	icon_state = "beefman_l_leg"
 	speed_modifier = -0.1
 
-/obj/item/bodypart/leg/left/beef/drop_limb(special, dismembered, move_to_floor = TRUE)
+/obj/item/bodypart/leg/left/beef/drop_limb(special)
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)

@@ -295,7 +295,7 @@
 		return FALSE
 	tank_to_target = (tank_to_target == inserted_bomb.tank_one) ? inserted_bomb.tank_two : inserted_bomb.tank_one
 
-/obj/machinery/research/anomaly_refinery/on_deconstruction(disassembled)
+/obj/machinery/research/anomaly_refinery/on_deconstruction()
 	eject_bomb()
 	eject_core()
 	return ..()

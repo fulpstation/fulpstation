@@ -1,51 +1,51 @@
 /datum/mood_event/drankblood
-	description = span_nicegreen("I have fed greedly from that which nourishes me.")
+	description = "<span class='nicegreen'>I have fed greedly from that which nourishes me.</span>"
 	mood_change = 10
 	timeout = 8 MINUTES
 
 /datum/mood_event/drankblood_bad
-	description = span_boldwarning("I drank the blood of a lesser creature. Disgusting.")
+	description = "<span class='boldwarning'>I drank the blood of a lesser creature. Disgusting.</span>"
 	mood_change = -4
 	timeout = 3 MINUTES
 
 /datum/mood_event/drankblood_dead
-	description = span_boldwarning("I drank dead blood. I am better than this.")
+	description = "<span class='boldwarning'>I drank dead blood. I am better than this.</span>"
 	mood_change = -7
 	timeout = 8 MINUTES
 
 /datum/mood_event/drankblood_synth
-	description = span_boldwarning("I drank synthetic blood. What is wrong with me?")
+	description = "<span class='boldwarning'>I drank synthetic blood. What is wrong with me?</span>"
 	mood_change = -7
 	timeout = 8 MINUTES
 
 /datum/mood_event/drankkilled
-	description = span_boldwarning("I fed off of a dead person. I feel... less human.")
+	description = "<span class='boldwarning'>I fed off of a dead person. I feel... less human.</span>"
 	mood_change = -15
 	timeout = 10 MINUTES
 
 /datum/mood_event/madevamp
-	description = span_boldwarning("A mortal has reached an apotheosis- undeath- by my own hand.")
+	description = "<span class='boldwarning'>A mortal has reached an apotheosis- undeath- by my own hand.</span>"
 	mood_change = 15
 	timeout = 5 MINUTES
 
 /datum/mood_event/coffinsleep
-	description = span_nicegreen("I slept in a coffin during the day. I feel whole again.")
+	description = "<span class='nicegreen'>I slept in a coffin during the day. I feel whole again.</span>"
 	mood_change = 10
 	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_1
-	description = span_boldwarning("I slept poorly in a makeshift coffin during the day.")
+	description = "<span class='boldwarning'>I slept poorly in a makeshift coffin during the day.</span>"
 	mood_change = -3
 	timeout = 6 MINUTES
 
 /datum/mood_event/daylight_2
-	description = span_boldwarning("I have been scorched by the unforgiving rays of the sun.")
+	description = "<span class='boldwarning'>I have been scorched by the unforgiving rays of the sun.</span>"
 	mood_change = -6
 	timeout = 6 MINUTES
 
 ///Candelabrum's mood event to non Bloodsucker/Vassals
 /datum/mood_event/vampcandle
-	description = span_boldwarning("Something is making your mind feel... loose.")
+	description = "<span class='boldwarning'>Something is making your mind feel... loose.</span>"
 	mood_change = -15
 	timeout = 5 MINUTES
 

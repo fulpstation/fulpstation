@@ -39,8 +39,7 @@
 				/obj/item/storage/pill_bottle/lsd,
 				/obj/item/storage/pill_bottle/aranesp,
 				/obj/item/storage/pill_bottle/stimulant))
-	item = pillbottle
-	return ..()
+	return new pillbottle(loc)
 
 /datum/market_item/consumable/floor_pill
 	name = "Strange Pill"

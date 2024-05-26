@@ -125,7 +125,6 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 	GLOB.air_alarms += src
 	update_appearance()
 	find_and_hang_on_wall()
-	register_context()
 
 /obj/machinery/airalarm/process()
 	if(!COOLDOWN_FINISHED(src, warning_cooldown))
@@ -186,8 +185,8 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 		if(AIR_ALARM_BUILD_COMPLETE)
 			. += span_notice("Right-click to [locked ? "unlock" : "lock"] the interface.")
 
-/obj/machinery/airalarm/ui_status(mob/user, datum/ui_state/state)
-	if(HAS_SILICON_ACCESS(user) && aidisabled)
+/obj/machinery/airalarm/ui_status(mob/user)
+	if(user.has_unlimited_silicon_privilege && aidisabled)
 		to_chat(user, "AI control has been disabled.")
 	else if(!shorted)
 		return ..()
@@ -228,13 +227,11 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 	var/data = list()
 
 	data["locked"] = locked
-	data["siliconUser"] = HAS_SILICON_ACCESS(user)
+	data["siliconUser"] = user.has_unlimited_silicon_privilege
 	data["emagged"] = (obj_flags & EMAGGED ? 1 : 0)
 	data["dangerLevel"] = danger_level
 	data["atmosAlarm"] = !!my_area.active_alarms[ALARM_ATMOS]
 	data["fireAlarm"] = my_area.fire
-	data["faultStatus"] = my_area.fault_status
-	data["faultLocation"] = my_area.fault_location
 	data["sensor"] = !!connected_sensor
 	data["allowLinkChange"] = allow_link_change
 
@@ -289,7 +286,7 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 		singular_tlv["hazard_max"] = tlv.hazard_max
 		data["tlvSettings"] += list(singular_tlv)
 
-	if(!locked || HAS_SILICON_ACCESS(user))
+	if(!locked || user.has_unlimited_silicon_privilege)
 		data["vents"] = list()
 		for(var/obj/machinery/atmospherics/components/unary/vent_pump/vent as anything in my_area.air_vents)
 			data["vents"] += list(list(
@@ -346,7 +343,7 @@ GLOBAL_LIST_EMPTY_TYPED(air_alarms, /obj/machinery/airalarm)
 
 	if(. || buildstage != AIR_ALARM_BUILD_COMPLETE)
 		return
-	if((locked && !HAS_SILICON_ACCESS(usr)) || (HAS_SILICON_ACCESS(usr) && aidisabled))
+	if((locked && !usr.has_unlimited_silicon_privilege) || (usr.has_unlimited_silicon_privilege && aidisabled))
 		return
 
 	var/mob/user = usr

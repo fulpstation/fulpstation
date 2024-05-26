@@ -81,15 +81,17 @@
 		if(BURN)
 			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 
-/obj/structure/displaycase/atom_deconstruct(disassembled = TRUE)
-	dump()
-	if(!disassembled)
-		new /obj/item/shard(drop_location())
-		trigger_alarm()
+/obj/structure/displaycase/deconstruct(disassembled = TRUE)
+	if(!(obj_flags & NO_DECONSTRUCTION))
+		dump()
+		if(!disassembled)
+			new /obj/item/shard(drop_location())
+			trigger_alarm()
+	qdel(src)
 
 /obj/structure/displaycase/atom_break(damage_flag)
 	. = ..()
-	if(!broken)
+	if(!broken && !(obj_flags & NO_DECONSTRUCTION))
 		set_density(FALSE)
 		broken = TRUE
 		new /obj/item/shard(drop_location())
@@ -166,7 +168,7 @@
 			to_chat(user, span_warning("You need two glass sheets to fix the case!"))
 			return
 		to_chat(user, span_notice("You start fixing [src]..."))
-		if(do_after(user, 2 SECONDS, target = src))
+		if(do_after(user, 20, target = src))
 			glass_sheet.use(2)
 			broken = FALSE
 			atom_integrity = max_integrity
@@ -451,8 +453,8 @@
 		ui.open()
 
 /obj/item/key/displaycase
-	name = "curator key"
-	desc = "The key to the curator's display cases and arcade cabinets."
+	name = "display case key"
+	desc = "The key to the curator's display cases."
 
 /obj/item/showpiece_dummy
 	name = "holographic replica"
@@ -628,7 +630,7 @@
 	. = ..()
 	if(atom_integrity <= (integrity_failure * max_integrity))
 		to_chat(user, span_notice("You start recalibrating [src]'s hover field..."))
-		if(do_after(user, 2 SECONDS, target = src))
+		if(do_after(user, 20, target = src))
 			broken = FALSE
 			atom_integrity = max_integrity
 			update_appearance()
@@ -671,7 +673,7 @@
 
 /obj/structure/displaycase/forsale/atom_break(damage_flag)
 	. = ..()
-	if(!broken)
+	if(!broken && !(obj_flags & NO_DECONSTRUCTION))
 		broken = TRUE
 		playsound(src, SFX_SHATTER, 70, TRUE)
 		update_appearance()

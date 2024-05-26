@@ -28,7 +28,7 @@ export const ChemDebugSynthesizer = (props) => {
                   maxValue={beaker.maxVolume}
                   step={1}
                   stepPixelSize={2}
-                  onChange={(value) =>
+                  onChange={(e, value) =>
                     act('amount', {
                       amount: value,
                     })
@@ -41,7 +41,7 @@ export const ChemDebugSynthesizer = (props) => {
                   maxValue={120}
                   step={1}
                   stepPixelSize={2}
-                  onChange={(value) =>
+                  onChange={(e, value) =>
                     act('purity', {
                       amount: value,
                     })

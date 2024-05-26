@@ -1,9 +1,15 @@
-ADMIN_VERB(law_panel, R_ADMIN, "Law Panel", "View the AI laws.", ADMIN_CATEGORY_EVENTS)
-	if(!isobserver(user) && SSticker.HasRoundStarted())
-		message_admins("[key_name_admin(user)] checked AI laws via the Law Panel.")
-	var/datum/law_panel/tgui = new
-	tgui.ui_interact(user.mob)
+/client/proc/cmd_admin_law_panel()
+	set category = "Admin.Events"
+	set name = "Law Panel"
+
+	if(!check_rights(R_ADMIN))
+		return
+	if(!isobserver(usr) && SSticker.HasRoundStarted())
+		message_admins("[key_name_admin(usr)] checked AI laws via the Law Panel.")
+
 	BLACKBOX_LOG_ADMIN_VERB("Law Panel")
+	var/datum/law_panel/tgui = new()
+	tgui.ui_interact(usr)
 
 /datum/law_panel
 
@@ -205,7 +211,7 @@ ADMIN_VERB(law_panel, R_ADMIN, "Law Panel", "View the AI laws.", ADMIN_CATEGORY_
 
 	switch(action)
 		if("lawchange_logs")
-			ui.user?.client?.holder?.list_law_changes()
+			usr.client?.list_law_changes()
 			return FALSE
 
 		if("force_state_laws")

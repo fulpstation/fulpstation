@@ -6,10 +6,9 @@
 	cooldown_time = 3 SECONDS
 
 /datum/action/cooldown/mob_cooldown/meteors/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	create_meteors(target_atom)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/meteors/proc/create_meteors(atom/target)

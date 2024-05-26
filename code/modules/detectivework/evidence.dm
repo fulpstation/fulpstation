@@ -22,7 +22,7 @@
 /obj/item/evidencebag/Exited(atom/movable/gone, direction)
 	. = ..()
 	cut_overlays()
-	update_weight_class(initial(w_class))
+	w_class = initial(w_class)
 	icon_state = initial(icon_state)
 	desc = initial(desc)
 
@@ -78,7 +78,7 @@
 
 	desc = "An evidence bag containing [I]. [I.desc]"
 	I.forceMove(src)
-	update_weight_class(I.w_class)
+	w_class = I.w_class
 	return 1
 
 /obj/item/evidencebag/attack_self(mob/user)
@@ -88,7 +88,7 @@
 		span_hear("You hear someone rustle around in a plastic bag, and remove something."))
 		cut_overlays() //remove the overlays
 		user.put_in_hands(I)
-		update_weight_class(WEIGHT_CLASS_TINY)
+		w_class = WEIGHT_CLASS_TINY
 		icon_state = "evidenceobj"
 		desc = "An empty evidence bag."
 

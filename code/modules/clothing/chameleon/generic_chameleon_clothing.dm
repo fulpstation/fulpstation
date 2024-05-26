@@ -3,7 +3,6 @@
 do { \
 	var/datum/action/item_action/chameleon/change/_action = locate() in item.actions; \
 	_action?.emp_randomise(INFINITY); \
-	item.AddElement(/datum/element/empprotection, EMP_PROTECT_SELF); \
 } while(FALSE)
 
 // Cham jumpsuit
@@ -109,7 +108,6 @@ do { \
 	resistance_flags = NONE
 	armor_type = /datum/armor/gloves_chameleon
 	actions_types = list(/datum/action/item_action/chameleon/change/gloves)
-	clothing_traits = list(TRAIT_FAST_CUFFING)
 
 /obj/item/clothing/gloves/chameleon/broken
 

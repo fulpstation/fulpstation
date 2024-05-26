@@ -63,9 +63,10 @@ export const FaxMainPanel = (props) => {
         <Box fontSize="13px">
           <Dropdown
             textAlign="center"
-            placeholder="Choose fax machine..."
+            selected="Choose fax machine..."
             width="100%"
-            selected={fax}
+            noChevron
+            nowrap
             options={data.faxes}
             onSelected={(value) => setFax(value)}
           />
@@ -170,7 +171,7 @@ export const FaxMainPanel = (props) => {
                   minValue={0}
                   maxValue={300}
                   value={stampCoordX}
-                  onChange={(v) => setStampCoordX(v)}
+                  onChange={(_, v) => setStampCoordX(v)}
                 />
               </h4>
 
@@ -180,7 +181,7 @@ export const FaxMainPanel = (props) => {
                   width="45px"
                   minValue={0}
                   value={stampCoordY}
-                  onChange={(v) => setStampCoordY(v)}
+                  onChange={(_, v) => setStampCoordY(v)}
                 />
               </h4>
 

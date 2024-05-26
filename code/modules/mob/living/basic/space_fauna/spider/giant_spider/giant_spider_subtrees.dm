@@ -13,23 +13,25 @@
 	var/scan_range = 3
 
 /datum/ai_behavior/find_unwebbed_turf/perform(seconds_per_tick, datum/ai_controller/controller)
+	. = ..()
 	var/mob/living/spider = controller.pawn
 	var/atom/current_target = controller.blackboard[target_key]
 	if (current_target && !(locate(/obj/structure/spider/stickyweb) in current_target))
-		// Already got a target
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+		finish_action(controller, succeeded = FALSE) // Already got a target
+		return
 
 	controller.clear_blackboard_key(target_key)
 	var/turf/our_turf = get_turf(spider)
-	if (is_valid_web_turf(our_turf, spider))
+	if (is_valid_web_turf(our_turf))
 		controller.set_blackboard_key(target_key, our_turf)
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+		finish_action(controller, succeeded = TRUE)
+		return
 
 	var/list/turfs_by_range = list()
 	for (var/i in 1 to scan_range)
 		turfs_by_range["[i]"] = list()
 	for (var/turf/turf_in_view in oview(scan_range, our_turf))
-		if (!is_valid_web_turf(turf_in_view, spider))
+		if (!is_valid_web_turf(turf_in_view))
 			continue
 		turfs_by_range["[get_dist(our_turf, turf_in_view)]"] += turf_in_view
 
@@ -39,10 +41,11 @@
 			final_turfs = turfs_by_range[turf_list]
 			break
 	if (!length(final_turfs))
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+		finish_action(controller, succeeded = FALSE)
+		return
 
 	controller.set_blackboard_key(target_key, pick(final_turfs))
-	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+	finish_action(controller, succeeded = TRUE)
 
 /datum/ai_behavior/find_unwebbed_turf/proc/is_valid_web_turf(turf/target_turf, mob/living/spider)
 	if (locate(/obj/structure/spider/stickyweb) in target_turf)
@@ -79,10 +82,9 @@
 	return ..()
 
 /datum/ai_behavior/spin_web/perform(seconds_per_tick, datum/ai_controller/controller, action_key, target_key)
+	. = ..()
 	var/datum/action/cooldown/web_action = controller.blackboard[action_key]
-	if(web_action?.Trigger())
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
-	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+	finish_action(controller, succeeded = web_action?.Trigger(), action_key = action_key, target_key = target_key)
 
 /datum/ai_behavior/spin_web/finish_action(datum/ai_controller/controller, succeeded, action_key, target_key)
 	controller.clear_blackboard_key(target_key)

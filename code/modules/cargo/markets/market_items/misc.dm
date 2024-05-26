@@ -68,11 +68,9 @@
 	stock_max = 3
 	availability_prob = 40
 
-/datum/market_item/misc/holywater/spawn_item(loc, datum/market_purchase/purchase)
+/datum/market_item/misc/holywater/spawn_item(loc)
 	if (prob(6.66))
-		item = /obj/item/reagent_containers/cup/beaker/unholywater
-	else
-		item = initial(item)
+		return new /obj/item/reagent_containers/cup/beaker/unholywater(loc)
 	return ..()
 
 /datum/market_item/misc/strange_seed

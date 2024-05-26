@@ -282,6 +282,7 @@
 		/obj/item/camera/siliconcam,
 		/obj/item/door_remote/omni,
 		/obj/item/flashlight/emp/debug,
+		/obj/item/flashlight/eyelight/adapted,
 		/obj/item/flashlight/flare,
 		/obj/item/flashlight/lamp,
 		/obj/item/healthanalyzer/rad_laser,

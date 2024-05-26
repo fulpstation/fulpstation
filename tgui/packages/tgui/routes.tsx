@@ -5,7 +5,6 @@
  */
 
 import { useBackend } from './backend';
-import { useDebug } from './debug';
 import { LoadingScreen } from './interfaces/common/LoadingToolbox';
 import { Window } from './layouts';
 
@@ -53,9 +52,7 @@ const RefreshingWindow = () => {
 
 // Get the component for the current route
 export const getRoutedComponent = () => {
-  const { suspended, config } = useBackend();
-  const { kitchenSink = false } = useDebug();
-
+  const { suspended, config, debug } = useBackend();
   if (suspended) {
     return SuspendedWindow;
   }
@@ -64,7 +61,7 @@ export const getRoutedComponent = () => {
   }
   if (process.env.NODE_ENV !== 'production') {
     // Show a kitchen sink
-    if (kitchenSink) {
+    if (debug?.kitchenSink) {
       return require('./debug').KitchenSink;
     }
   }

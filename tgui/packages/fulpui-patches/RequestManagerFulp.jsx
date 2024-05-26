@@ -69,11 +69,6 @@ export const RequestManagerFulp = (props) => {
                   <RequestType requestType={request.req_type} />
                   {decodeHtmlEntities(request.message)}
                 </div>
-                {request.additional_info && (
-                  <div className="RequestManager__timestamp">
-                    {request.additional_info}
-                  </div>
-                )}
               </div>
               {request.owner !== null && <RequestControls request={request} />}
             </div>

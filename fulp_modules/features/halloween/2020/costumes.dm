@@ -386,7 +386,7 @@
 
 ///Gnoming stuff
 /datum/mood_event/gnomed
-	description = span_warning("I can't believe I got gnomed...")
+	description = "<span class='warning'>I can't believe I got gnomed!...</span>\n"
 	mood_change = -2
 	timeout = 5 MINUTES
 
@@ -628,7 +628,8 @@
 	set name = "Flip Peapod"
 	flip(usr)
 
-/obj/item/clothing/neck/costume_2020/papa_ross_squirrel/click_alt(mob/user)
+/obj/item/clothing/neck/costume_2020/papa_ross_squirrel/AltClick(mob/user)
+	. = ..()
 	if(!user.can_perform_action(src, NEED_DEXTERITY))
 		return
 	flip(user)

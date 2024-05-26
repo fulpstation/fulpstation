@@ -14,17 +14,16 @@
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Grant(mob/M)
 	. = ..()
-	M.add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), ACTION_TRAIT)
+	M.add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), REF(src))
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Remove(mob/M)
 	. = ..()
-	M.remove_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), ACTION_TRAIT)
+	M.remove_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), REF(src))
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	attack_sequence(target_atom)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/proc/attack_sequence(atom/target)
@@ -193,7 +192,7 @@
 	plane = GAME_PLANE
 	pixel_x = -32
 	pixel_y = -32
-	color = COLOR_RED
+	color = "#FF0000"
 	duration = 10
 
 /obj/effect/temp_visual/dragon_flight

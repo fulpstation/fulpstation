@@ -13,7 +13,7 @@ import { Window } from '../layouts';
 
 type Data = {
   mapRef: string;
-  currentColor: number[];
+  currentColor: string[];
 };
 
 const PREFIXES = ['r', 'g', 'b', 'a', 'c'] as const;
@@ -41,13 +41,12 @@ export const ColorMatrixEditor = (props) => {
                                 {`${PREFIXES[row]}${PREFIXES[col]}:`}
                               </Box>
                               <NumberInput
-                                minValue={-Infinity}
-                                maxValue={+Infinity}
+                                inline
                                 value={currentColor[row * 4 + col]}
                                 step={0.01}
                                 width="50px"
                                 format={(value) => toFixed(value, 2)}
-                                onDrag={(value) => {
+                                onDrag={(_, value) => {
                                   let retColor = currentColor;
                                   retColor[row * 4 + col] = value;
                                   act('transition_color', {

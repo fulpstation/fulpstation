@@ -22,13 +22,12 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/vassal/revenge)
-	if(isnull(revenge_vassal))
-		stack_trace("[user] has [src] action but is not a revenge vassal. This should not be happening!")
+	var/datum/antagonist/vassal/revenge/revenge_vassal = owner.mind.has_antag_datum(/datum/antagonist/ex_vassal)
+	if(revenge_vassal)
 		return FALSE
 
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
-		if(!length(revenge_vassal.ex_vassals))
+		if(!revenge_vassal.ex_vassals.len)
 			owner.balloon_alert(owner, "no vassals!")
 			return FALSE
 		return TRUE

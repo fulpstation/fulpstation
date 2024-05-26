@@ -47,7 +47,7 @@
 			"pinned" = module.pinned_to[REF(user)],
 			"idle_power" = module.idle_power_cost,
 			"active_power" = module.active_power_cost,
-			"use_energy" = module.use_energy_cost,
+			"use_power" = module.use_power_cost,
 			"module_complexity" = module.complexity,
 			"cooldown_time" = module.cooldown_time,
 			"cooldown" = round(COOLDOWN_TIMELEFT(module, cooldown_timer), 1 SECONDS),
@@ -80,23 +80,19 @@
 	if(.)
 		return
 	if(malfunctioning && prob(75))
-		balloon_alert(ui.user, "button malfunctions!")
+		balloon_alert(usr, "button malfunctions!")
 		return
 	switch(action)
 		if("lock")
-			if(!locked || allowed(ui.user))
-				locked = !locked
-				balloon_alert(ui.user, "[locked ? "locked" : "unlocked"]!")
-			else
-				balloon_alert(ui.user, "access insufficent!")
-				playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
+			locked = !locked
+			balloon_alert(usr, "[locked ? "locked" : "unlocked"]!")
 		if("call")
 			if(!mod_link.link_call)
-				call_link(ui.user, mod_link)
+				call_link(usr, mod_link)
 			else
 				mod_link.end_call()
 		if("activate")
-			toggle_activate(ui.user)
+			toggle_activate(usr)
 		if("select")
 			var/obj/item/mod/module/module = locate(params["ref"]) in modules
 			if(!module)
@@ -111,9 +107,9 @@
 			var/obj/item/mod/module/module = locate(params["ref"]) in modules
 			if(!module)
 				return
-			module.pin(ui.user)
+			module.pin(usr)
 		if("eject_pai")
-			if (!ishuman(ui.user))
+			if (!ishuman(usr))
 				return
-			remove_pai(ui.user)
+			remove_pai(usr)
 	return TRUE

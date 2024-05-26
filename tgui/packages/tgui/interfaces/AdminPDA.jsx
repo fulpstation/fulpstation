@@ -33,8 +33,7 @@ const ReceiverChoice = (props) => {
         <Dropdown
           disabled={spam}
           selected={user}
-          displayText={users[user]?.username}
-          placeholder="Pick a user..."
+          displayText={user ? users[user].username : 'Pick a user...'}
           options={receivers
             .filter((rcvr) => showInvisible || !rcvr.invisible)
             .map((rcvr) => ({

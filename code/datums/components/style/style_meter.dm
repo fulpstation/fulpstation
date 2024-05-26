@@ -17,6 +17,7 @@
 /obj/item/style_meter/Initialize(mapload)
 	. = ..()
 	meter_appearance = mutable_appearance(icon, icon_state)
+	RegisterSignal(src, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(on_multitool))
 
 /obj/item/style_meter/Destroy(force)
 	if(istype(loc, /obj/item/clothing/glasses))
@@ -27,30 +28,28 @@
 	. = ..()
 	. += span_notice("You feel like a <b>multitool</b> could be used on this.")
 
-/obj/item/style_meter/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if(!istype(interacting_with, /obj/item/clothing/glasses))
-		return NONE
+/obj/item/style_meter/afterattack(atom/movable/attacked_atom, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(!istype(attacked_atom, /obj/item/clothing/glasses))
+		return
 
-	. = ITEM_INTERACT_SUCCESS
-
-	forceMove(interacting_with)
-	interacting_with.add_overlay(meter_appearance)
-	RegisterSignal(interacting_with, COMSIG_ITEM_EQUIPPED, PROC_REF(check_wearing))
-	RegisterSignal(interacting_with, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
-	RegisterSignal(interacting_with, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
-	RegisterSignal(interacting_with, COMSIG_CLICK_ALT, PROC_REF(on_click_alt))
-	RegisterSignal(interacting_with, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(redirect_multitool))
+	forceMove(attacked_atom)
+	attacked_atom.add_overlay(meter_appearance)
+	RegisterSignal(attacked_atom, COMSIG_ITEM_EQUIPPED, PROC_REF(check_wearing))
+	RegisterSignal(attacked_atom, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
+	RegisterSignal(attacked_atom, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(attacked_atom, COMSIG_CLICK_ALT, PROC_REF(on_altclick))
+	RegisterSignal(attacked_atom, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(on_multitool))
 	balloon_alert(user, "style meter attached")
 	playsound(src, 'sound/machines/click.ogg', 30, TRUE)
-	if(!iscarbon(interacting_with.loc))
-		return .
+	if(!iscarbon(attacked_atom.loc))
+		return
 
-	var/mob/living/carbon/carbon_wearer = interacting_with.loc
-	if(carbon_wearer.glasses != interacting_with)
-		return .
+	var/mob/living/carbon/carbon_wearer = attacked_atom.loc
+	if(carbon_wearer.glasses != attacked_atom)
+		return
 
 	style_meter = carbon_wearer.AddComponent(/datum/component/style, multitooled)
-	return .
 
 /obj/item/style_meter/Moved(atom/old_loc, Dir, momentum_change)
 	. = ..()
@@ -90,27 +89,24 @@
 
 
 /// Signal proc to remove from glasses
-/obj/item/style_meter/proc/on_click_alt(datum/source, mob/user)
+/obj/item/style_meter/proc/on_altclick(datum/source, mob/user)
 	SIGNAL_HANDLER
 
-	if(!istype(loc, /obj/item/clothing/glasses))
-		return CLICK_ACTION_BLOCKING
+	if(istype(loc, /obj/item/clothing/glasses))
+		clean_up()
+		forceMove(get_turf(src))
 
-	clean_up()
-	forceMove(get_turf(src))
-	return CLICK_ACTION_SUCCESS
+	return COMPONENT_CANCEL_CLICK_ALT
 
-/obj/item/style_meter/multitool_act(mob/living/user, obj/item/tool)
+
+/// Signal proc for when the glasses or the meter is multitooled
+/obj/item/style_meter/proc/on_multitool(datum/source, mob/living/user, obj/item/tool, list/recipes)
 	multitooled = !multitooled
-	balloon_alert(user, "meter [multitooled ? "" : "un"]hacked")
-	style_meter?.multitooled = multitooled
-	return ITEM_INTERACT_SUCCESS
+	if(style_meter)
+		SEND_SIGNAL(style_meter, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), user, tool, recipes)
+	else
+		balloon_alert(user, "meter [multitooled ? "" : "un"]hacked")
 
-/// Redirect multitooling on our glasses to our style meter
-/obj/item/style_meter/proc/redirect_multitool(datum/source, mob/living/user, obj/item/tool, ...)
-	SIGNAL_HANDLER
-
-	return multitool_act(user, tool)
 
 /// Unregister signals and just generally clean up ourselves after being removed from glasses
 /obj/item/style_meter/proc/clean_up(atom/movable/old_location)

@@ -10,7 +10,6 @@
 	open_sound_volume = 25
 	close_sound_volume = 50
 	paint_jobs = null
-	cutting_tool = /obj/item/crowbar
 
 /obj/structure/closet/crate/wooden/toy
 	name = "toy box"

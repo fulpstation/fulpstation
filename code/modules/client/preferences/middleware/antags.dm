@@ -1,11 +1,3 @@
-// Antagonists that don't have a dynamic ruleset, but do have a preference
-GLOBAL_LIST_INIT(non_ruleset_antagonists, list(
-		ROLE_GLITCH = /datum/antagonist/bitrunning_glitch,
-		ROLE_FUGITIVE = /datum/antagonist/fugitive,
-		ROLE_LONE_OPERATIVE = /datum/antagonist/nukeop/lone,
-		ROLE_SENTIENCE = /datum/antagonist/sentient_creature,
-	))
-
 /datum/preference_middleware/antags
 	action_delegations = list(
 		"set_antags" = PROC_REF(set_antags),
@@ -77,12 +69,6 @@ GLOBAL_LIST_INIT(non_ruleset_antagonists, list(
 		if (is_banned_from(preferences.parent.ckey, list(antag_flag_override || antag_flag, ROLE_SYNDICATE)))
 			antag_bans += serialize_antag_name(antag_flag)
 
-	for(var/antag_key in GLOB.non_ruleset_antagonists)
-		var/datum/antagonist/antag = GLOB.non_ruleset_antagonists[antag_key]
-		var/antag_flag = initial(antag.job_rank)
-		if(is_banned_from(preferences.parent.ckey, list(antag_flag, ROLE_SYNDICATE)))
-			antag_bans += serialize_antag_name(antag_flag)
-
 	return antag_bans
 
 /datum/preference_middleware/antags/proc/get_antag_days_left()
@@ -100,17 +86,6 @@ GLOBAL_LIST_INIT(non_ruleset_antagonists, list(
 
 		var/days_needed = preferences.parent?.get_remaining_days(
 			GLOB.special_roles[antag_flag_override || antag_flag]
-		)
-
-		if (days_needed > 0)
-			antag_days_left[serialize_antag_name(antag_flag)] = days_needed
-
-	for(var/antag_key in GLOB.non_ruleset_antagonists)
-		var/datum/antagonist/antag = GLOB.non_ruleset_antagonists[antag_key]
-		var/antag_flag = initial(antag.job_rank)
-		
-		var/days_needed = preferences.parent?.get_remaining_days(
-			GLOB.special_roles[antag_flag]
 		)
 
 		if (days_needed > 0)
@@ -138,7 +113,15 @@ GLOBAL_LIST_INIT(non_ruleset_antagonists, list(
 	var/list/antag_icons = list()
 
 /datum/asset/spritesheet/antagonists/create_spritesheets()
-	var/list/antagonists = GLOB.non_ruleset_antagonists.Copy()
+	// Antagonists that don't have a dynamic ruleset, but do have a preference
+	var/static/list/non_ruleset_antagonists = list(
+		ROLE_GLITCH = /datum/antagonist/bitrunning_glitch,
+		ROLE_FUGITIVE = /datum/antagonist/fugitive,
+		ROLE_LONE_OPERATIVE = /datum/antagonist/nukeop/lone,
+		ROLE_SENTIENCE = /datum/antagonist/sentient_creature,
+	)
+
+	var/list/antagonists = non_ruleset_antagonists.Copy()
 
 	for (var/datum/dynamic_ruleset/ruleset as anything in subtypesof(/datum/dynamic_ruleset))
 		var/datum/antagonist/antagonist_type = initial(ruleset.antag_datum)
@@ -180,4 +163,4 @@ GLOBAL_LIST_INIT(non_ruleset_antagonists, list(
 /// Serializes an antag name to be used for preferences UI
 /proc/serialize_antag_name(antag_name)
 	// These are sent through CSS, so they need to be safe to use as class names.
-	return LOWER_TEXT(sanitize_css_class_name(antag_name))
+	return lowertext(sanitize_css_class_name(antag_name))

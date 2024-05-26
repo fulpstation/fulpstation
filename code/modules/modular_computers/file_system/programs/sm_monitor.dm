@@ -55,7 +55,6 @@
 	return data
 
 /datum/computer_file/program/supermatter_monitor/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
 	switch(action)
 		if("PRG_refresh")
 			refresh()

@@ -10,7 +10,7 @@
 /obj/item/poster/wanted
 	icon_state = "rolled_poster_legit"
 	var/postHeaderText = "WANTED" // MAX 7 Characters
-	var/postHeaderColor = COLOR_RED
+	var/postHeaderColor = "#FF0000"
 	var/background = "wanted_background"
 	var/postName = "wanted poster"
 	var/postDesc = "A wanted poster for"
@@ -19,7 +19,7 @@
 	postName = "missing poster"
 	postDesc = "A missing poster for"
 	postHeaderText = "MISSING" // MAX 7 Characters
-	postHeaderColor = COLOR_BLUE
+	postHeaderColor = "#0000FF"
 
 
 /obj/item/poster/wanted/Initialize(mapload, icon/person_icon, wanted_name, description, headerText, posterHeaderColor)
@@ -93,10 +93,9 @@
 		poster_icon.Blend(letter_icon, ICON_OVERLAY)
 		startX = startX + 4
 
-/obj/structure/sign/poster/wanted/roll_and_drop(atom/location, mob/user)
+/obj/structure/sign/poster/wanted/roll_and_drop(atom/location)
 	pixel_x = 0
 	pixel_y = 0
 	var/obj/item/poster/rolled_poster = new poster_item_type(location, original_icon, wanted_name, desc, posterHeaderText, posterHeaderColor)
-	if(!user?.put_in_hands(rolled_poster))
-		forceMove(rolled_poster)
+	forceMove(rolled_poster)
 	return rolled_poster

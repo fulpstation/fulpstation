@@ -111,7 +111,7 @@
 /datum/component/shielded/proc/on_equipped(datum/source, mob/user, slot)
 	SIGNAL_HANDLER
 
-	if(user.is_holding(parent) && !shield_inhand)
+	if((slot & ITEM_SLOT_HANDS) && !shield_inhand)
 		lost_wearer(source, user)
 		return
 	set_wearer(user)
@@ -154,14 +154,6 @@
 	SIGNAL_HANDLER
 
 	COOLDOWN_START(src, recently_hit_cd, recharge_start_delay)
-
-	//No wearer? No block.
-	if(isnull(wearer))
-		return
-
-	//if our wearer isn't the owner of the block, don't block
-	if(owner != wearer)
-		return
 
 	if(current_charges <= 0)
 		return

@@ -17,7 +17,7 @@
 	///Boolean on whether or not the app will make noise when flipping around the channels.
 	var/spying = FALSE
 
-	var/list/network = list(CAMERANET_NETWORK_SS13)
+	var/list/network = list("ss13")
 	///List of weakrefs of all users watching the program.
 	var/list/concurrent_users = list()
 
@@ -43,22 +43,6 @@
 	can_run_on_flags = PROGRAM_ALL
 	program_flags = PROGRAM_ON_SYNDINET_STORE | PROGRAM_UNIQUE_COPY
 
-	network = list(
-		CAMERANET_NETWORK_SS13,
-		CAMERANET_NETWORK_MINE,
-		CAMERANET_NETWORK_RD,
-		CAMERANET_NETWORK_LABOR,
-		CAMERANET_NETWORK_ORDNANCE,
-		CAMERANET_NETWORK_MINISAT,
-	)
-	spying = TRUE
-
-/datum/computer_file/program/secureye/human_ai
-	filename = "Overseer"
-	filedesc = "OverSeer"
-	run_access = list(ACCESS_MINISAT)
-	can_run_on_flags = PROGRAM_PDA
-	program_flags = PROGRAM_UNIQUE_COPY
 	network = list("ss13", "mine", "rd", "labor", "ordnance", "minisat")
 	spying = TRUE
 
@@ -70,13 +54,14 @@
 	// Convert networks to lowercase
 	for(var/i in network)
 		network -= i
-		network += LOWER_TEXT(i)
+		network += lowertext(i)
 	// Initialize map objects
 	cam_screen = new
 	cam_screen.generate_view(map_name)
 	cam_background = new
 	cam_background.assigned_map = map_name
 	cam_background.del_on_map_removal = FALSE
+	RegisterSignal(src, COMSIG_TRACKABLE_TRACKING_TARGET, PROC_REF(on_track_target))
 
 /datum/computer_file/program/secureye/Destroy()
 	QDEL_NULL(cam_screen)
@@ -104,7 +89,7 @@
 	cam_screen.display_to(user)
 	user.client.register_map_obj(cam_background)
 
-/datum/computer_file/program/secureye/ui_status(mob/user, datum/ui_state/state)
+/datum/computer_file/program/secureye/ui_status(mob/user)
 	. = ..()
 	if(. == UI_DISABLED)
 		return UI_CLOSE
@@ -118,7 +103,7 @@
 		data["activeCamera"] = list(
 			name = active_camera.c_tag,
 			ref = REF(active_camera),
-			status = active_camera.camera_enabled,
+			status = active_camera.status,
 		)
 	return data
 
@@ -153,8 +138,8 @@
 				playsound(computer, get_sfx(SFX_TERMINAL_TYPE), 25, FALSE)
 			if(isnull(camera_ref))
 				return TRUE
-			if(internal_tracker)
-				internal_tracker.reset_tracking()
+			if(internal_tracker && internal_tracker.tracking)
+				internal_tracker.set_tracking(FALSE)
 
 			update_active_camera_screen()
 			return TRUE
@@ -162,8 +147,7 @@
 		if("start_tracking")
 			if(!internal_tracker)
 				internal_tracker = new(src)
-				RegisterSignal(internal_tracker, COMSIG_TRACKABLE_TRACKING_TARGET, PROC_REF(on_track_target))
-			internal_tracker.track_input(usr)
+			internal_tracker.set_tracked_mob(usr)
 			return TRUE
 
 /datum/computer_file/program/secureye/proc/on_track_target(datum/trackable/source, mob/living/target)
@@ -185,8 +169,8 @@
 /datum/computer_file/program/secureye/ui_close(mob/user)
 	. = ..()
 	//don't track anyone while we're shutting off.
-	if(internal_tracker)
-		internal_tracker.reset_tracking()
+	if(internal_tracker && internal_tracker.tracking)
+		internal_tracker.set_tracking(FALSE)
 	var/user_ref = REF(user)
 	var/is_living = isliving(user)
 	// Living creature or not, we remove you anyway.

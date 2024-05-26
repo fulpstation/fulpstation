@@ -62,10 +62,10 @@ GLOBAL_LIST_INIT(potentialConfigRandomZlevels, generate_map_list_from_directory(
 		var/name = null
 
 		if (pos)
-			name = LOWER_TEXT(copytext(t, 1, pos))
+			name = lowertext(copytext(t, 1, pos))
 
 		else
-			name = LOWER_TEXT(t)
+			name = lowertext(t)
 
 		if (!name)
 			continue

@@ -2,10 +2,8 @@
 	///Name of the achievement, If null it won't show up in the achievement browser. (Handy for inheritance trees)
 	var/name
 	var/desc = "You did it."
-	///The dmi icon file that holds the award's icon state.
-	var/icon = ACHIEVEMENTS_SET
-	///The icon state for this award.
-	var/icon_state = "default"
+	///The icon state for this award. The icon file is found in ui_icons/achievements.
+	var/icon = "default"
 
 	var/category = "Normal"
 
@@ -82,7 +80,7 @@
 ///Achievements are one-off awards for usually doing cool things.
 /datum/award/achievement
 	desc = "Achievement for epic people"
-	icon_state = "" // This should warn contributors that do not declare an icon when contributing new achievements.
+	icon = "" // This should warn contributors that do not declare an icon when contributing new achievements.
 	///How many players have earned this achievement
 	var/times_achieved = 0
 
@@ -173,7 +171,7 @@
 /datum/award/score/achievements_score
 	name = "Achievements Unlocked"
 	desc = "Don't worry, metagaming is all that matters."
-	icon_state = "elephant" //Obey the reference
+	icon = "elephant" //Obey the reference
 	database_id = ACHIEVEMENTS_SCORE
 
 /datum/award/score/achievements_score/get_ui_data(key)

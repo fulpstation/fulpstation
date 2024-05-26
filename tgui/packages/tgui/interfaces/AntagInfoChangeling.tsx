@@ -133,7 +133,11 @@ const IntroductionSection = (props) => {
   const { act, data } = useBackend<Info>();
   const { true_name, hive_name, objectives, can_change_objective } = data;
   return (
-    <Section fill title="Intro" style={{ overflowY: 'auto' }}>
+    <Section
+      fill
+      title="Intro"
+      scrollable={!!objectives && objectives.length > 4}
+    >
       <Stack vertical fill>
         <Stack.Item fontSize="25px">
           You are {true_name} from the

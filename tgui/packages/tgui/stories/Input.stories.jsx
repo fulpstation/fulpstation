@@ -44,7 +44,7 @@ const Story = (props) => {
             value={number}
             minValue={-100}
             maxValue={100}
-            onChange={(value) => setNumber(value)}
+            onChange={(e, value) => setNumber(value)}
           />
         </LabeledList.Item>
         <LabeledList.Item label="NumberInput (onDrag)">
@@ -56,7 +56,7 @@ const Story = (props) => {
             value={number}
             minValue={-100}
             maxValue={100}
-            onDrag={(value) => setNumber(value)}
+            onDrag={(e, value) => setNumber(value)}
           />
         </LabeledList.Item>
         <LabeledList.Item label="Slider (onDrag)">

@@ -2,16 +2,16 @@
 	set category = "Mentor"
 	set name = "Mentorhelp"
 
-	if(prefs.muted & MUTE_ADMINHELP)
+	if(usr?.client?.prefs.muted & MUTE_ADMINHELP)
 		to_chat(src,
 			type = MESSAGE_TYPE_MODCHAT,
 			html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
 			confidential = TRUE)
 		return
-	//Cleans the input message
+	/// Cleans the input message
 	if(!msg)
 		return
-	//This shouldn't happen, but just in case.
+	/// This shouldn't happen, but just in case.
 	if(!mob)
 		return
 
@@ -19,21 +19,23 @@
 	var/mentor_msg = "<font color='purple'><span class='mentornotice'><b>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: </span><span class='message linkify'>[msg]</span></font>"
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
-	//Send the Mhelp to all Mentors/Admins
+	/// Send the Mhelp to all Mentors/Admins
 	for(var/client/honked_clients in GLOB.mentors | GLOB.admins)
-		SEND_SOUND(honked_clients, 'sound/items/bikehorn.ogg')
+		honked_clients << 'sound/items/bikehorn.ogg'
 		to_chat(honked_clients,
 			type = MESSAGE_TYPE_MODCHAT,
 			html = mentor_msg,
 			confidential = TRUE)
 
-	//Also show it to person Mhelping
+	/// Also show it to person Mhelping
 	to_chat(usr,
 		type = MESSAGE_TYPE_MODCHAT,
 		html = "<font color='purple'><span class='mentornotice'>PM to-<b>Mentors</b>:</span> <span class='message linkify'>[msg]</span></font>",
 		confidential = TRUE)
 
-	GLOB.mentor_requests.mentorhelp(src, msg)
+	GLOB.mentor_requests.mentorhelp(usr.client, msg)
+
+	return
 
 /proc/key_name_mentor(whom, include_link = null, include_name = TRUE, include_follow = TRUE, char_name_only = TRUE)
 	var/mob/user

@@ -44,7 +44,7 @@
 	block_chance = 20
 	on_force = 20
 	base_force = 17
-	light_system = OVERLAY_LIGHT
+	light_system = MOVABLE_LIGHT
 	light_color = "#59b3c9"
 	light_range = 2
 	light_power = 2
@@ -117,7 +117,7 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "plasmasoul"
 	damage = 25
-	light_system = OVERLAY_LIGHT
+	light_system = MOVABLE_LIGHT
 	light_range = 2
 	light_power = 1
 	light_color = "#44acb1"

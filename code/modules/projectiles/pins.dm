@@ -137,7 +137,7 @@
 /obj/item/firing_pin/clown
 	name = "hilarious firing pin"
 	desc = "Advanced clowntech that can convert any firearm into a far more useful object."
-	color = COLOR_YELLOW
+	color = "#FFFF00"
 	fail_message = "honk!"
 	force_replace = TRUE
 
@@ -221,7 +221,7 @@
 /obj/item/firing_pin/paywall
 	name = "paywall firing pin"
 	desc = "A firing pin with a built-in configurable paywall."
-	color = COLOR_GOLD
+	color = "#FFD700"
 	fail_message = ""
 	///list of account IDs which have accepted the license prompt. If this is the multi-payment pin, then this means they accepted the waiver that each shot will cost them money
 	var/list/gun_owners = list()
@@ -387,5 +387,4 @@
 /obj/item/firing_pin/Destroy()
 	if(gun)
 		gun.pin = null
-		gun = null
 	return ..()

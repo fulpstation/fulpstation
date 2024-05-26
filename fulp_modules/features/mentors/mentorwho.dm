@@ -52,12 +52,8 @@
 	var/returnable_list = list()
 
 	for(var/client/mentor_client in checkable_mentors)
-		//AFK people don't show up
-		if(mentor_client.is_afk())
-			continue
-		//Deadmins don't show up unless it's the pseudostaff cause they are generally expected to be.
-		if(GLOB.deadmins[mentor_client.ckey] && !(mentor_client.key == "[CONFIG_GET(string/headofpseudostaff)]"))
-			continue
+		if(mentor_client.is_afk() || GLOB.deadmins[mentor_client.ckey])
+			continue //Don't show afk or fakekeyed mentors to mentorwho
 
 		if(mentor_client.mentor_datum.is_contributor)
 			returnable_list += "• [mentor_client] is a Contributor"

@@ -19,8 +19,9 @@
 
 /obj/item/clothing/suit/costume/ghost_sheet/worn_overlays(mutable_appearance/standing, isinhands, icon_file)
 	. = ..()
-	if(!isinhands && check_holidays(HALLOWEEN))
-		. += emissive_appearance('icons/mob/simple/mob.dmi', "ghost", offset_spokesman = src, alpha = src.alpha)
+	if(check_holidays(HALLOWEEN))
+		if(!isinhands)
+			. += emissive_appearance('icons/mob/simple/mob.dmi', "ghost", offset_spokesman = src, alpha = src.alpha)
 
 /obj/item/clothing/suit/costume/ghost_sheet/spooky
 	name = "spooky ghost"

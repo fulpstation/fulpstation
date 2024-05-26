@@ -47,7 +47,12 @@
 	. += span_notice("<b>Alt-click</b> to [zipped ? "un" : ""]zip.")
 
 
-/obj/item/clothing/suit/hooded/wintercoat/click_alt(mob/user)
+/obj/item/clothing/suit/hooded/wintercoat/AltClick(mob/user)
+	. = ..()
+
+	if (. == FALSE) // Direct check for FALSE, because that's the specific case we want to propagate, not just null.
+		return FALSE
+
 	zipped = !zipped
 	worn_icon_state = "[initial(icon_state)][zipped ? "_t" : ""]"
 	balloon_alert(user, "[zipped ? "" : "un"]zipped")
@@ -55,7 +60,6 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/wearer = loc
 		wearer.update_worn_oversuit()
-	return CLICK_ACTION_SUCCESS
 
 /obj/item/clothing/head/hooded/winterhood
 	name = "winter hood"
@@ -516,9 +520,6 @@
 		/obj/item/pipe_dispenser,
 		/obj/item/storage/bag/construction,
 		/obj/item/t_scanner,
-		/obj/item/construction/rld,
-		/obj/item/construction/rtd,
-		/obj/item/gun/ballistic/rifle/rebarxbow
 	)
 	armor_type = /datum/armor/wintercoat_engineering
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/engineering

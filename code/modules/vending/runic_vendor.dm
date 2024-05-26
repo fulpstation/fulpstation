@@ -9,7 +9,6 @@
 	vend_reply = "Please, stand still near the vending machine for your special package!"
 	resistance_flags = FIRE_PROOF
 	light_mask = "RunicVendor-light-mask"
-	obj_flags = parent_type::obj_flags | NO_DEBRIS_AFTER_DECONSTRUCTION
 	/// How long the vendor stays up before it decays.
 	var/time_to_decay = 30 SECONDS
 	/// Area around the vendor that will pushback nearby mobs.
@@ -61,16 +60,15 @@
 
 	return .
 
-/obj/machinery/vending/runic_vendor/handle_deconstruct(disassembled)
-	SHOULD_NOT_OVERRIDE(TRUE)
 
+/obj/machinery/vending/runic_vendor/Destroy()
 	visible_message(span_warning("[src] flickers and disappears!"))
 	playsound(src,'sound/weapons/resonator_blast.ogg',25,TRUE)
 	return ..()
 
 /obj/machinery/vending/runic_vendor/proc/runic_explosion()
 	explosion(src, light_impact_range = 2)
-	deconstruct(FALSE)
+	qdel(src)
 
 /obj/machinery/vending/runic_vendor/proc/runic_pulse()
 	var/pulse_locs = spiral_range_turfs(pulse_distance, get_turf(src))
@@ -84,9 +82,10 @@
 			mob_to_be_pulsed_back.throw_at(target, 4, 4)
 
 /obj/machinery/vending/runic_vendor/screwdriver_act(mob/living/user, obj/item/I)
-	runic_explosion()
+	explosion(src, light_impact_range = 2)
+	qdel(src)
 
 /obj/machinery/vending/runic_vendor/proc/decay()
-	deconstruct(FALSE)
+	qdel(src)
 
 #undef PULSE_DISTANCE_RANGE

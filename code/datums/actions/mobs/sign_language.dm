@@ -42,17 +42,17 @@
 		SIGNAL_ADDTRAIT(TRAIT_MUTE),
 		SIGNAL_REMOVETRAIT(TRAIT_MUTE)
 	))
-	REMOVE_TRAIT(grant_to, TRAIT_SIGN_LANG, ACTION_TRAIT)
+	REMOVE_TRAIT(grant_to, TRAIT_SIGN_LANG, TRAIT_GENERIC)
 
 /datum/action/innate/sign_language/Activate()
 	active = TRUE
-	ADD_TRAIT(owner, TRAIT_SIGN_LANG, ACTION_TRAIT)
+	ADD_TRAIT(owner, TRAIT_SIGN_LANG, TRAIT_GENERIC)
 	to_chat(owner, span_green("You are now communicating with sign language."))
 	build_all_button_icons(UPDATE_BUTTON_BACKGROUND)
 
 /datum/action/innate/sign_language/Deactivate()
 	active = FALSE
-	REMOVE_TRAIT(owner, TRAIT_SIGN_LANG, ACTION_TRAIT)
+	REMOVE_TRAIT(owner, TRAIT_SIGN_LANG, TRAIT_GENERIC)
 	to_chat(owner, span_green("You have stopped using sign language."))
 	build_all_button_icons(UPDATE_BUTTON_BACKGROUND)
 

@@ -8,6 +8,7 @@
 	light_color = LIGHT_COLOR_DIM_YELLOW
 	use_power = ACTIVE_POWER_USE
 	circuit = /obj/item/circuitboard/computer/powermonitor
+	tgui_id = "PowerMonitor"
 
 	var/datum/weakref/attached_wire_ref
 	var/datum/weakref/local_apc_ref
@@ -61,13 +62,13 @@
 
 		var/list/supply = history["supply"]
 		if(connected_powernet)
-			supply += energy_to_power(connected_powernet.avail)
+			supply += connected_powernet.viewavail
 		if(supply.len > record_size)
 			supply.Cut(1, 2)
 
 		var/list/demand = history["demand"]
 		if(connected_powernet)
-			demand += energy_to_power(connected_powernet.load)
+			demand += connected_powernet.viewload
 		if(demand.len > record_size)
 			demand.Cut(1, 2)
 
@@ -88,8 +89,8 @@
 	data["areas"] = list()
 
 	if(connected_powernet)
-		data["supply"] = display_power(connected_powernet.avail)
-		data["demand"] = display_power(connected_powernet.load)
+		data["supply"] = display_power(connected_powernet.viewavail)
+		data["demand"] = display_power(connected_powernet.viewload)
 		for(var/obj/machinery/power/terminal/term in connected_powernet.nodes)
 			var/obj/machinery/power/apc/A = term.master
 			if(istype(A))

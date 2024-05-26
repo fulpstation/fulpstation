@@ -75,8 +75,7 @@ export const RadioactiveMicrolaser = (props) => {
                 width="40px"
                 minValue={1}
                 maxValue={20}
-                step={1}
-                onChange={(value) => {
+                onChange={(e, value) => {
                   return act('radintensity', {
                     target: value,
                   });
@@ -105,8 +104,7 @@ export const RadioactiveMicrolaser = (props) => {
                 width="40px"
                 minValue={0}
                 maxValue={120}
-                step={1}
-                onChange={(value) => {
+                onChange={(e, value) => {
                   return act('radwavelength', {
                     target: value,
                   });

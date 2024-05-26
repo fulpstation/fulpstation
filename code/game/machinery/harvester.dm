@@ -57,16 +57,20 @@
 	else if(!harvesting)
 		open_machine()
 
-/obj/machinery/harvester/click_alt(mob/user)
+/obj/machinery/harvester/AltClick(mob/user)
+	. = ..()
+	if(!user.can_perform_action(src))
+		return
 	if(panel_open)
 		output_dir = turn(output_dir, -90)
 		to_chat(user, span_notice("You change [src]'s output settings, setting the output to [dir2text(output_dir)]."))
-		return CLICK_ACTION_SUCCESS
-	if(harvesting || state_open || !can_harvest())
-		return CLICK_ACTION_BLOCKING
-
-	start_harvest()
-	return CLICK_ACTION_SUCCESS
+		return
+	if(!can_interact(user))
+		return
+	if(harvesting || !user || !isliving(user) || state_open)
+		return
+	if(can_harvest())
+		start_harvest()
 
 /obj/machinery/harvester/proc/can_harvest()
 	if(!powered() || state_open || !occupant || !iscarbon(occupant))
@@ -132,7 +136,7 @@
 				organ_to_remove.forceMove(target) //Some organs, like chest ones, are different so we need to manually move them
 		operation_order.Remove(limb_to_remove)
 		break
-	use_energy(active_power_usage)
+	use_power(active_power_usage)
 	addtimer(CALLBACK(src, PROC_REF(harvest)), interval)
 
 /obj/machinery/harvester/proc/end_harvesting(success = TRUE)
@@ -167,7 +171,7 @@
 		return TRUE
 
 /obj/machinery/harvester/default_pry_open(obj/item/tool) //wew
-	. = !(state_open || panel_open) && tool.tool_behaviour == TOOL_CROWBAR //We removed is_operational here
+	. = !(state_open || panel_open || (obj_flags & NO_DECONSTRUCTION)) && tool.tool_behaviour == TOOL_CROWBAR //We removed is_operational here
 	if(.)
 		tool.play_tool_sound(src, 50)
 		visible_message(span_notice("[usr] pries open \the [src]."), span_notice("You pry open [src]."))

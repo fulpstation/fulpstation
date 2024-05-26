@@ -11,7 +11,6 @@
 	butcher_results = list(/obj/item/food/meat/slab/corgi = 3, /obj/item/stack/sheet/animalhide/corgi = 1)
 	gold_core_spawnable = FRIENDLY_SPAWN
 	collar_icon_state = "corgi"
-	cult_icon_state = "narsian"
 	ai_controller = /datum/ai_controller/basic_controller/dog/corgi
 	///Access card for the corgi.
 	var/obj/item/card/id/access_card = null
@@ -508,7 +507,7 @@
 /mob/living/basic/pet/dog/corgi/narsie/narsie_act()
 	if(stat == DEAD) //Nar'Sie loves her doggy
 		visible_message(span_warning("[src] arises again, revived by the dark magicks!"), \
-		span_cult_large("RISE"))
+		span_cultlarge("RISE"))
 		revive(ADMIN_HEAL_ALL) //also means that a dead Nars-Ian can consume a pet and revive
 	adjustBruteLoss(-maxHealth)
 

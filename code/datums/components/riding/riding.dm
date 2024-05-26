@@ -30,8 +30,6 @@
 	var/list/allowed_turf_typecache
 	/// allow typecache for only certain turfs, forbid to allow all but those. allow only certain turfs will take precedence.
 	var/list/forbid_turf_typecache
-	/// additional traits to add to anyone riding this vehicle
-	var/list/rider_traits = list(TRAIT_NO_FLOATING_ANIM)
 	/// We don't need roads where we're going if this is TRUE, allow normal movement in space tiles
 	var/override_allow_spacemove = FALSE
 	/// can anyone other than the rider unbuckle the rider?
@@ -69,7 +67,6 @@
 	RegisterSignal(parent, COMSIG_BUCKLED_CAN_Z_MOVE, PROC_REF(riding_can_z_move))
 	RegisterSignals(parent, GLOB.movement_type_addtrait_signals, PROC_REF(on_movement_type_trait_gain))
 	RegisterSignals(parent, GLOB.movement_type_removetrait_signals, PROC_REF(on_movement_type_trait_loss))
-	RegisterSignal(parent, COMSIG_SUPERMATTER_CONSUMED, PROC_REF(on_entered_supermatter))
 	if(!can_force_unbuckle)
 		RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(force_unbuckle))
 
@@ -98,7 +95,7 @@
 	for (var/trait in GLOB.movement_type_trait_to_flag)
 		if (HAS_TRAIT(parent, trait))
 			REMOVE_TRAIT(rider, trait, REF(src))
-	rider.remove_traits(rider_traits, REF(src))
+	REMOVE_TRAIT(rider, TRAIT_NO_FLOATING_ANIM, REF(src))
 	if(!movable_parent.has_buckled_mobs())
 		qdel(src)
 
@@ -117,7 +114,7 @@
 	for (var/trait in GLOB.movement_type_trait_to_flag)
 		if (HAS_TRAIT(parent, trait))
 			ADD_TRAIT(rider, trait, REF(src))
-	rider.add_traits(rider_traits, REF(src))
+	ADD_TRAIT(rider, TRAIT_NO_FLOATING_ANIM, REF(src))
 
 /// This proc is called when the rider attempts to grab the thing they're riding, preventing them from doing so.
 /datum/component/riding/proc/on_rider_try_pull(mob/living/rider_pulling, atom/movable/target, force)
@@ -317,9 +314,3 @@
 	if((living_hitter in source.buckled_mobs))
 		return
 	return COMPONENT_CANCEL_ATTACK_CHAIN
-
-/// When we touch a crystal, kill everything inside us
-/datum/component/riding/proc/on_entered_supermatter(atom/movable/ridden, atom/movable/supermatter)
-	SIGNAL_HANDLER
-	for (var/mob/passenger as anything in ridden.buckled_mobs)
-		passenger.Bump(supermatter)

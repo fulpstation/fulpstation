@@ -1,6 +1,10 @@
-ADMIN_VERB(station_traits_panel, R_FUN, "Modify Station Traits", "Modify the station traits for the next round.", ADMIN_CATEGORY_EVENTS)
+/// Opens the station traits admin panel
+/datum/admins/proc/station_traits_panel()
+	set name = "Modify Station Traits"
+	set category = "Admin.Events"
+
 	var/static/datum/station_traits_panel/station_traits_panel = new
-	station_traits_panel.ui_interact(user.mob)
+	station_traits_panel.ui_interact(usr)
 
 /datum/station_traits_panel
 	var/static/list/future_traits

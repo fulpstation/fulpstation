@@ -4,7 +4,6 @@
 	program_icon = "signal"
 	program_open_overlay = "generic"
 	size = 1
-	circuit_comp_type = /obj/item/circuit_component/mod_program/status
 
 	extended_desc = "An app used to change the message on the station status displays."
 	tgui_id = "NtosStatus"
@@ -43,16 +42,16 @@
  * * upper - Top text
  * * lower - Bottom text
  */
-/datum/computer_file/program/status/proc/post_message(upper, lower, log_usr = key_name(usr))
+/datum/computer_file/program/status/proc/post_message(upper, lower)
 	post_status("message", upper, lower)
-	log_game("[log_usr] has changed the station status display message to \"[upper] [lower]\" [loc_name(usr)]")
+	log_game("[key_name(usr)] has changed the station status display message to \"[upper] [lower]\" [loc_name(usr)]")
 
 /**
  * Post a picture to status displays
  * Arguments:
  * * picture - The picture name
  */
-/datum/computer_file/program/status/proc/post_picture(picture, log_usr = key_name(usr))
+/datum/computer_file/program/status/proc/post_picture(picture)
 	if (!(picture in GLOB.status_display_approved_pictures))
 		return
 	if(picture in GLOB.status_display_state_pictures)
@@ -71,10 +70,9 @@
 		else
 			post_status("alert", picture)
 
-	log_game("[log_usr] has changed the station status display message to \"[picture]\" [loc_name(usr)]")
+	log_game("[key_name(usr)] has changed the station status display message to \"[picture]\" [loc_name(usr)]")
 
-/datum/computer_file/program/status/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
+/datum/computer_file/program/status/ui_act(action, list/params, datum/tgui/ui)
 	switch(action)
 		if("setStatusMessage")
 			upper_text = reject_bad_text(params["upperText"] || "", MAX_STATUS_LINE_LENGTH)
@@ -96,31 +94,3 @@
 	data["lowerText"] = lower_text
 
 	return data
-
-
-/obj/item/circuit_component/mod_program/status
-	associated_program = /datum/computer_file/program/status
-	circuit_flags = CIRCUIT_FLAG_INPUT_SIGNAL|CIRCUIT_FLAG_OUTPUT_SIGNAL
-
-	///When the trigger is signaled, this will be the upper text of status displays.
-	var/datum/port/input/upper_text
-	///When the trigger is signaled, this will be the bottom text.
-	var/datum/port/input/bottom_text
-	///A list port that, when signaled, will set the status image to one of its values
-	var/datum/port/input/status_display_pics
-
-/obj/item/circuit_component/mod_program/status/populate_ports()
-	. = ..()
-	upper_text = add_input_port("Upper text", PORT_TYPE_STRING)
-	bottom_text = add_input_port("Bottom text", PORT_TYPE_STRING)
-
-/obj/item/circuit_component/mod_program/status/populate_options()
-	status_display_pics = add_option_port("Set Status Display Picture", GLOB.status_display_approved_pictures, trigger = PROC_REF(set_picture))
-
-/obj/item/circuit_component/mod_program/status/proc/set_picture(datum/port/port)
-	var/datum/computer_file/program/status/status = associated_program
-	INVOKE_ASYNC(status, TYPE_PROC_REF(/datum/computer_file/program/status, post_picture), status_display_pics.value, parent.get_creator())
-
-/obj/item/circuit_component/mod_program/status/input_received(datum/port/port)
-	var/datum/computer_file/program/status/status = associated_program
-	INVOKE_ASYNC(status, TYPE_PROC_REF(/datum/computer_file/program/status, post_message), upper_text.value, bottom_text.value, parent.get_creator())

@@ -236,14 +236,10 @@
 	icon_state = "qm_coat"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-
-/obj/item/clothing/suit/jacket/quartermaster/Initialize(mapload)
-	. = ..()
-	allowed += list(
+	allowed = list(
 		/obj/item/stamp,
 		/obj/item/storage/bag/mail,
 		/obj/item/universal_scanner,
-		/obj/item/melee/baton/telescopic,
 	)
 
 /obj/item/clothing/suit/toggle/lawyer/greyscale
@@ -399,10 +395,7 @@
 
 /obj/item/clothing/suit/jacket/research_director/Initialize(mapload)
 	. = ..()
-	allowed += list(
-		/obj/item/storage/bag/xeno,
-		/obj/item/melee/baton/telescopic,
-	)
+	allowed += /obj/item/storage/bag/xeno
 
 // Atmos
 /obj/item/clothing/suit/atmos_overalls
@@ -425,7 +418,6 @@
 		/obj/item/t_scanner,
 		/obj/item/tank/internals/emergency_oxygen,
 		/obj/item/tank/internals/plasmaman,
-		/obj/item/extinguisher,
 	)
 
 /datum/armor/atmos_overalls

@@ -105,12 +105,8 @@
 /obj/item/clothing/shoes/jester_shoes
 	name = "jester shoes"
 	desc = "Shoes that jingle with every step!!"
-	icon_state = "jester_map"
+	icon_state = "green_jester_shoes"
 	inhand_icon_state = null
-	greyscale_colors = "#00ff00#ff0000"
-	greyscale_config = /datum/greyscale_config/jester_shoes
-	greyscale_config_worn = /datum/greyscale_config/jester_shoes/worn
-	flags_1 = IS_PLAYER_COLORABLE_1
 
 /obj/item/clothing/shoes/jester_shoes/Initialize(mapload)
 	. = ..()
@@ -132,8 +128,8 @@
 /obj/item/clothing/shoes/ducky_shoes/equipped(mob/living/user, slot)
 	. = ..()
 	if(slot & ITEM_SLOT_FEET)
-		user.AddElementTrait(TRAIT_WADDLING, SHOES_TRAIT, /datum/element/waddling)
+		user.AddElement(/datum/element/waddling)
 
 /obj/item/clothing/shoes/ducky_shoes/dropped(mob/living/user)
 	. = ..()
-	REMOVE_TRAIT(user, TRAIT_WADDLING, SHOES_TRAIT)
+	user.RemoveElement(/datum/element/waddling)

@@ -14,12 +14,10 @@
 /datum/surgery/organ_extraction/can_start(mob/user, mob/living/carbon/target)
 	if(!ishuman(user))
 		return FALSE
-	if(!..())
-		return FALSE
-	if(isabductor(user))
+	var/mob/living/carbon/human/H = user
+	if(H.dna.species.id == SPECIES_ABDUCTOR)
 		return TRUE
-	var/mob/living/non_abductor = user
-	if(locate(/obj/item/implant/abductor) in non_abductor.implants)
+	for(var/obj/item/implant/abductor/A in H.implants)
 		return TRUE
 	return FALSE
 

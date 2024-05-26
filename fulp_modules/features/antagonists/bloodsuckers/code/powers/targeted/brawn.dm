@@ -131,8 +131,7 @@
 		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
 		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(target.zone_selected))
-		var/blocked = target.run_armor_check(affecting, MELEE, armour_penetration = 20)	//20 AP, will ignore light armor but not heavy stuff
-		target.apply_damage(hitStrength, BRUTE, affecting, blocked)
+		target.apply_damage(hitStrength, BRUTE, affecting)
 		// Knockback
 		var/send_dir = get_dir(owner, target)
 		var/turf/turf_thrown_at = get_ranged_target_turf(target, send_dir, powerlevel)

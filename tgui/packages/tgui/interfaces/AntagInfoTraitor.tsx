@@ -36,7 +36,6 @@ type Info = {
   has_uplink: BooleanLike;
   uplink_intro: string;
   uplink_unlock_info: string;
-  given_uplink: BooleanLike;
   objectives: Objective[];
 };
 
@@ -224,7 +223,7 @@ const CodewordsSection = (props) => {
 
 export const AntagInfoTraitor = (props) => {
   const { data } = useBackend<Info>();
-  const { theme, given_uplink } = data;
+  const { theme } = data;
   return (
     <Window width={620} height={580} theme={theme}>
       <Window.Content>
@@ -239,11 +238,9 @@ export const AntagInfoTraitor = (props) => {
               </Stack.Item>
             </Stack>
           </Stack.Item>
-          {!!given_uplink && (
-            <Stack.Item>
-              <UplinkSection />
-            </Stack.Item>
-          )}
+          <Stack.Item>
+            <UplinkSection />
+          </Stack.Item>
           <Stack.Item>
             <CodewordsSection />
           </Stack.Item>

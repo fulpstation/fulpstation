@@ -35,9 +35,6 @@
 	wound_bonus = 30
 	embedding = list(embed_chance=70, ignore_throwspeed_threshold=TRUE, fall_chance=1)
 
-/obj/projectile/bullet/shrapnel/short_range
-	range = 5
-
 /obj/projectile/bullet/shrapnel/mega
 	name = "flying shrapnel hunk"
 	range = 45
@@ -46,15 +43,6 @@
 	ricochet_chance = 130
 	ricochet_incidence_leeway = 0
 	ricochet_decay_chance = 0.9
-
-/obj/projectile/bullet/shrapnel/ied
-	name = "flying glass shrapnel"
-	damage = 15
-	range = 6
-	ricochets_max = 1
-	ricochet_chance = 40
-	shrapnel_type = /obj/item/shard
-	ricochet_incidence_leeway = 60
 
 /obj/projectile/bullet/pellet/stingball
 	name = "stingball pellet"

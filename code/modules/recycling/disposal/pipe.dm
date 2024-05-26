@@ -170,24 +170,27 @@
 	return TRUE
 
 // called when pipe is cut with welder
-/obj/structure/disposalpipe/atom_deconstruct(disassembled = TRUE)
-	if(disassembled)
-		if(spawn_pipe)
-			var/obj/structure/disposalconstruct/construct = stored
-			if(!construct) // Don't have something? Make one now
-				construct = new /obj/structure/disposalconstruct(src, null, SOUTH, FALSE, src)
-			stored = null
-			construct.forceMove(loc)
-			transfer_fingerprints_to(construct)
-			construct.setDir(dir)
-			spawn_pipe = FALSE
-	else
-		var/turf/location = get_turf(src)
-		for(var/dir in GLOB.cardinals)
-			if(dir & dpdir)
-				var/obj/structure/disposalpipe/broken/pipe = new(location)
-				pipe.setDir(dir)
+/obj/structure/disposalpipe/deconstruct(disassembled = TRUE)
+	if(!(obj_flags & NO_DECONSTRUCTION))
+		if(disassembled)
+			if(spawn_pipe)
+				var/obj/structure/disposalconstruct/construct = stored
+				if(!construct) // Don't have something? Make one now
+					construct = new /obj/structure/disposalconstruct(src, null, SOUTH, FALSE, src)
+				stored = null
+				construct.forceMove(loc)
+				transfer_fingerprints_to(construct)
+				construct.setDir(dir)
+				spawn_pipe = FALSE
+		else
+			var/turf/T = get_turf(src)
+			for(var/D in GLOB.cardinals)
+				if(D & dpdir)
+					var/obj/structure/disposalpipe/broken/P = new(T)
+					P.setDir(D)
 	spew_forth()
+	qdel(src)
+
 
 /obj/structure/disposalpipe/singularity_pull(S, current_size)
 	..()
@@ -319,6 +322,9 @@
 	// i.e. will be treated as an empty turf
 	spawn_pipe = FALSE
 	anchored = FALSE
+
+/obj/structure/disposalpipe/broken/deconstruct()
+	qdel(src)
 
 /obj/structure/disposalpipe/rotator
 	icon_state = "pipe-r1"

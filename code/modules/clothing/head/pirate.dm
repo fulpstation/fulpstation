@@ -10,17 +10,20 @@
 
 /obj/item/clothing/head/costume/pirate/equipped(mob/user, slot)
 	. = ..()
-	if(!(slot_flags & slot))
+	if(!ishuman(user))
 		return
-	user.grant_language(/datum/language/piratespeak, source = LANGUAGE_HAT)
-	to_chat(user, span_boldnotice("You suddenly know how to speak like a pirate!"))
+	if(slot & ITEM_SLOT_HEAD)
+		user.grant_language(/datum/language/piratespeak/, source = LANGUAGE_HAT)
+		to_chat(user, span_boldnotice("You suddenly know how to speak like a pirate!"))
 
 /obj/item/clothing/head/costume/pirate/dropped(mob/user)
 	. = ..()
-	if(QDELETED(src)) //This can be called as a part of destroy
+	if(!ishuman(user))
 		return
-	user.remove_language(/datum/language/piratespeak, source = LANGUAGE_HAT)
-	to_chat(user, span_boldnotice("You can no longer speak like a pirate."))
+	var/mob/living/carbon/human/H = user
+	if(H.get_item_by_slot(ITEM_SLOT_HEAD) == src && !QDELETED(src)) //This can be called as a part of destroy
+		user.remove_language(/datum/language/piratespeak/, source = LANGUAGE_HAT)
+		to_chat(user, span_boldnotice("You can no longer speak like a pirate."))
 
 /obj/item/clothing/head/costume/pirate/armored
 	armor_type = /datum/armor/pirate_armored

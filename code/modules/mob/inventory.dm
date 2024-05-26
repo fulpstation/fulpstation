@@ -1,4 +1,4 @@
-//These procs handle putting stuff in your hands
+//These procs handle putting s tuff in your hands
 //as they handle all relevant stuff like adding it to the player's screen and updating their overlays.
 
 ///Returns the thing we're currently holding
@@ -429,10 +429,10 @@
 	var/obscured = NONE
 	var/hidden_slots = NONE
 
-	for(var/obj/item/equipped_item in get_equipped_items())
-		hidden_slots |= equipped_item.flags_inv
+	for(var/obj/item/I in get_all_worn_items())
+		hidden_slots |= I.flags_inv
 		if(transparent_protection)
-			hidden_slots |= equipped_item.transparent_protection
+			hidden_slots |= I.transparent_protection
 
 	if(hidden_slots & HIDENECK)
 		obscured |= ITEM_SLOT_NECK
@@ -467,12 +467,7 @@
 	if(M.active_storage?.attempt_insert(src, M))
 		return TRUE
 
-	var/list/obj/item/possible = list(
-		M.get_inactive_held_item(),
-		M.get_item_by_slot(ITEM_SLOT_BELT),
-		M.get_item_by_slot(ITEM_SLOT_DEX_STORAGE),
-		M.get_item_by_slot(ITEM_SLOT_BACK),
-	)
+	var/list/obj/item/possible = list(M.get_inactive_held_item(), M.get_item_by_slot(ITEM_SLOT_BELT), M.get_item_by_slot(ITEM_SLOT_DEX_STORAGE), M.get_item_by_slot(ITEM_SLOT_BACK))
 	for(var/i in possible)
 		if(!i)
 			continue
@@ -509,8 +504,12 @@
 	if(!I)
 		to_chat(src, span_warning("You are not holding anything to equip!"))
 		return
-	if(!QDELETED(I))
-		I.equip_to_best_slot(src)
+	if (temporarilyRemoveItemFromInventory(I) && !QDELETED(I))
+		if(I.equip_to_best_slot(src))
+			return
+		if(put_in_active_hand(I))
+			return
+		I.forceMove(drop_location())
 
 //used in code for items usable by both carbon and drones, this gives the proper back slot for each mob.(defibrillator, backpack watertank, ...)
 /mob/proc/getBackSlot()
@@ -563,7 +562,9 @@
 	while(i < length(processing_list))
 		var/atom/A = processing_list[++i]
 		if(A.atom_storage)
-			processing_list += A.atom_storage.return_inv()
+			var/list/item_stuff = list()
+			A.atom_storage.return_inv(item_stuff)
+			processing_list += item_stuff
 	return processing_list
 
 /// Returns a list of things that the provided mob has, including any storage-capable implants.

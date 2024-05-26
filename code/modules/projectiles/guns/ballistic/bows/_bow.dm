@@ -29,14 +29,13 @@
 	. = ..()
 	icon_state = chambered ? "[base_icon_state]_[drawn ? "drawn" : "nocked"]" : "[base_icon_state]"
 
-/obj/item/gun/ballistic/bow/click_alt(mob/user)
+/obj/item/gun/ballistic/bow/AltClick(mob/user)
 	if(isnull(chambered))
-		return CLICK_ACTION_BLOCKING
+		return ..()
 
 	user.put_in_hands(chambered)
 	chambered = magazine.get_round()
 	update_appearance()
-	return CLICK_ACTION_SUCCESS
 
 /obj/item/gun/ballistic/bow/proc/drop_arrow()
 	chambered.forceMove(drop_location())

@@ -44,10 +44,6 @@
 			user.balloon_alert(user, "too many bots on the pad!")
 			return
 		possible_bot = robot  // We don't change the launched_bot var here because we are not sure if there is another bot on the pad.
-
-	if(!use_energy(active_power_usage, force = FALSE))
-		balloon_alert(user, "not enough energy!")
-		return
 	launched_bot = WEAKREF(possible_bot)
 	podspawn(list(
 		"target" = get_turf(src),
@@ -55,6 +51,7 @@
 		"style" = STYLE_SEETHROUGH,
 		"reverse_dropoff_coords" = list(reverse_turf.x, reverse_turf.y, reverse_turf.z)
 	))
+	use_power(active_power_usage)
 
 /obj/machinery/botpad/proc/recall(mob/living/user)
 	var/atom/our_bot = launched_bot?.resolve()

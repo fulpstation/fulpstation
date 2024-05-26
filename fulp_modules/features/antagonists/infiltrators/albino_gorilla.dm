@@ -4,7 +4,7 @@
 	maxHealth = 170
 	health = 170
 
-/mob/living/basic/gorilla/albino/Initialize(mapload)
+/mob/living/basic/gorilla/Initialize(mapload)
 	var/datum/action/cooldown/mob_cooldown/charge/gorilla/tackle = new(src)
 	tackle.Grant(src)
 	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
@@ -102,9 +102,9 @@
 	bodypart_overlay = new /datum/bodypart_overlay/simple/muddied()
 
 	var/mob/living/carbon/human/man = parent
-	if(man.bodytype & BODYSHAPE_SNOUTED)
+	if(man.bodytype & BODYTYPE_SNOUTED)
 		bodypart_overlay.icon_state = "muddied_lizard"
-	else if(man.bodytype & BODYSHAPE_MONKEY)
+	else if(man.bodytype & BODYTYPE_MONKEY)
 		bodypart_overlay.icon_state = "muddied_monkey"
 	else
 		bodypart_overlay.icon_state = "muddied_human"

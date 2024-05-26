@@ -44,7 +44,7 @@
 	var/list/airs = islist(mixture) ? mixture : list(mixture)
 	var/list/new_gasmix_data = list()
 	for(var/datum/gas_mixture/air as anything in airs)
-		var/mix_name = capitalize(LOWER_TEXT(target.name))
+		var/mix_name = capitalize(lowertext(target.name))
 		if(airs.len != 1) //not a unary gas mixture
 			mix_name += " - Node [airs.Find(air)]"
 		new_gasmix_data += list(gas_mixture_parser(air, mix_name))
@@ -67,8 +67,7 @@
 			data["gasmixes"] = last_gasmix_data
 	return data
 
-/datum/computer_file/program/atmosscan/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
+/datum/computer_file/program/atmosscan/ui_act(action, list/params)
 	switch(action)
 		if("scantoggle")
 			if(atmozphere_mode == ATMOZPHERE_SCAN_CLICK)

@@ -66,7 +66,7 @@ Consuming extracts:
 		fed = TRUE
 	else
 		M.visible_message(span_danger("[user] tries to force [M] to eat [src]!"), span_userdanger("[user] tries to force you to eat [src]!"))
-		if(do_after(user, 2 SECONDS, target = M))
+		if(do_after(user, 20, target = M))
 			fed = TRUE
 			M.visible_message(span_danger("[user] forces [M] to eat [src]!"), span_warning("[user] forces you to eat [src]."))
 	if(fed)
@@ -293,7 +293,7 @@ Consuming extracts:
 	desc = "A yellow cookie with rainbow-colored icing. Reflects the light strangely."
 	icon_state = "pyrite"
 	taste = "vanilla and " //Randomly selected color dye.
-	var/colour = COLOR_WHITE
+	var/colour = "#FFFFFF"
 
 /obj/item/slime_cookie/pyrite/Initialize(mapload)
 	. = ..()
@@ -301,25 +301,25 @@ Consuming extracts:
 	switch(rand(1,7))
 		if(1)
 			tastemessage = "red dye"
-			colour = COLOR_RED
+			colour = "#FF0000"
 		if(2)
 			tastemessage = "orange dye"
 			colour = "#FFA500"
 		if(3)
 			tastemessage = "yellow dye"
-			colour = COLOR_YELLOW
+			colour = "#FFFF00"
 		if(4)
 			tastemessage = "green dye"
-			colour = COLOR_VIBRANT_LIME
+			colour = "#00FF00"
 		if(5)
 			tastemessage = "blue dye"
-			colour = COLOR_BLUE
+			colour = "#0000FF"
 		if(6)
 			tastemessage = "indigo dye"
 			colour = "#4B0082"
 		if(7)
 			tastemessage = "violet dye"
-			colour = COLOR_MAGENTA
+			colour = "#FF00FF"
 	taste += tastemessage
 
 /obj/item/slime_cookie/pyrite/do_effect(mob/living/M, mob/user)

@@ -19,10 +19,9 @@
 	return ..()
 
 /datum/action/cooldown/mob_cooldown/defensive_mode/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	activate_defence(owner)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/defensive_mode/proc/activate_defence(mob/living/basic/owner_mob)

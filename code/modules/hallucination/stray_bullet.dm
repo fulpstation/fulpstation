@@ -34,7 +34,6 @@
 	damage = 0
 	projectile_type = /obj/projectile/hallucination
 	log_override = TRUE
-	do_not_log = TRUE
 	/// Our parent hallucination that's created us
 	var/datum/hallucination/parent
 	/// The image that represents our projectile itself
@@ -224,7 +223,7 @@
 	name = "electrode"
 	damage_type = BURN
 	hal_icon_state = "spark"
-	color = COLOR_YELLOW
+	color = "#FFFF00"
 	hal_fire_sound = 'sound/weapons/taser.ogg'
 	hal_hitsound = 'sound/weapons/taserhit.ogg'
 	hal_hitsound_wall = null

@@ -1,4 +1,5 @@
 import { filter, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { capitalizeFirst, multiline } from 'common/string';
 import { useBackend, useLocalState } from 'tgui/backend';
 import {
@@ -203,13 +204,16 @@ const ObservableSection = (props: {
 
   const [searchQuery] = useLocalState<string>('searchQuery', '');
 
-  const filteredSection = sortBy(
-    filter(section, (observable) => isJobOrNameMatch(observable, searchQuery)),
-    (observable) =>
+  const filteredSection: Observable[] = flow([
+    filter<Observable>((observable) =>
+      isJobOrNameMatch(observable, searchQuery),
+    ),
+    sortBy<Observable>((observable) =>
       getDisplayName(observable.full_name, observable.name)
         .replace(/^"/, '')
         .toLowerCase(),
-  );
+    ),
+  ])(section);
 
   if (!filteredSection.length) {
     return null;

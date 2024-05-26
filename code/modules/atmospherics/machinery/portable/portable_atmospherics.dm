@@ -8,7 +8,6 @@
 	armor_type = /datum/armor/machinery_portable_atmospherics
 	anchored = FALSE
 	layer = ABOVE_OBJ_LAYER
-	interaction_flags_click = NEED_DEXTERITY
 
 	///Stores the gas mixture of the portable component. Don't access this directly, use return_air() so you support the temporary processing it provides
 	var/datum/gas_mixture/air_contents
@@ -44,19 +43,14 @@
 	air_contents.volume = volume
 	air_contents.temperature = T20C
 	SSair.start_processing_machine(src)
-	AddElement(/datum/element/climbable, climb_time = 3 SECONDS, climb_stun = 3 SECONDS)
-	AddElement(/datum/element/elevation, pixel_shift = 8)
-
-/obj/machinery/portable_atmospherics/on_deconstruction(disassembled)
-	if(nob_crystal_inserted)
-		new /obj/item/hypernoblium_crystal(src)
-
-	return ..()
 
 /obj/machinery/portable_atmospherics/Destroy()
 	disconnect()
 	air_contents = null
 	SSair.stop_processing_machine(src)
+
+	if(nob_crystal_inserted)
+		new /obj/item/hypernoblium_crystal(src)
 
 	return ..()
 
@@ -163,12 +157,14 @@
 	update_appearance()
 	return TRUE
 
-/obj/machinery/portable_atmospherics/click_alt(mob/living/user)
+/obj/machinery/portable_atmospherics/AltClick(mob/living/user)
+	. = ..()
+	if(!istype(user) || !user.can_perform_action(src, NEED_DEXTERITY) || !can_interact(user))
+		return
 	if(!holding)
-		return CLICK_ACTION_BLOCKING
+		return
 	to_chat(user, span_notice("You remove [holding] from [src]."))
 	replace_tank(user, TRUE)
-	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/portable_atmospherics/examine(mob/user)
 	. = ..()

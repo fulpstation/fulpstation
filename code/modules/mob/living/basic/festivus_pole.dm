@@ -1,6 +1,3 @@
-///how much charge we give off to cells around us when rubbed
-#define FESTIVUS_RECHARGE_VALUE (0.075 * STANDARD_CELL_CHARGE)
-
 /mob/living/basic/festivus
 	name = "festivus pole"
 	desc = "Serenity now... SERENITY NOW!"
@@ -40,6 +37,10 @@
 
 	ai_controller = /datum/ai_controller/basic_controller/festivus_pole
 
+	///how much charge we give off to cells around us when rubbed
+	var/recharge_value = 75
+
+
 /mob/living/basic/festivus/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/seethrough_mob)
@@ -70,16 +71,16 @@
 	for(var/atom/affected in range(2, get_turf(src)))
 		if(istype(affected, /obj/item/stock_parts/cell))
 			var/obj/item/stock_parts/cell/cell = affected
-			cell.give(FESTIVUS_RECHARGE_VALUE)
+			cell.give(recharge_value)
 			cell.update_appearance()
 		if(istype(affected, /mob/living/silicon/robot))
 			var/mob/living/silicon/robot/robot = affected
 			if(robot.cell)
-				robot.cell.give(FESTIVUS_RECHARGE_VALUE)
+				robot.cell.give(recharge_value)
 		if(istype(affected, /obj/machinery/power/apc))
 			var/obj/machinery/power/apc/apc_target = affected
 			if(apc_target.cell)
-				apc_target.cell.give(FESTIVUS_RECHARGE_VALUE)
+				apc_target.cell.give(recharge_value)
 
 /datum/ai_planning_subtree/find_and_hunt_target/look_for_apcs
 	hunting_behavior = /datum/ai_behavior/hunt_target/apcs
@@ -117,5 +118,3 @@
 			return FALSE
 
 	return can_see(source, dinner, radius)
-
-#undef FESTIVUS_RECHARGE_VALUE

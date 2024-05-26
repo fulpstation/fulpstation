@@ -160,9 +160,9 @@ const TransactionHistory = (props) => {
     <Section fill title="Transaction History">
       <Section fill scrollable title={<TableHeaders />}>
         <Table>
-          {transaction_list.map((log, index) => (
+          {transaction_list.map((log) => (
             <Table.Row
-              key={index}
+              key={log}
               className="candystripe"
               color={log.adjusted_money < 1 ? 'red' : 'green'}
             >

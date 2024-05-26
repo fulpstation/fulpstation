@@ -1,5 +1,17 @@
 #define CALL_BOT_COOLDOWN 900
 
+//Not sure why this is necessary...
+/proc/AutoUpdateAI(obj/subject)
+	var/is_in_use = 0
+	if (subject != null)
+		for(var/A in GLOB.ai_list)
+			var/mob/living/silicon/ai/M = A
+			if ((M.client && M.machine == subject))
+				is_in_use = 1
+				subject.attack_ai(M)
+	return is_in_use
+
+
 /mob/living/silicon/ai
 	name = "AI"
 	real_name = "AI"
@@ -18,7 +30,7 @@
 	radio = /obj/item/radio/headset/silicon/ai
 	can_buckle_to = FALSE
 	var/battery = 200 //emergency power if the AI's APC is off
-	var/list/network = list(CAMERANET_NETWORK_SS13)
+	var/list/network = list("ss13")
 	var/obj/machinery/camera/current
 	var/list/connected_robots = list()
 	var/aiRestorePowerRoutine = POWER_RESTORATION_OFF
@@ -65,7 +77,7 @@
 
 	var/mob/camera/ai_eye/eyeobj
 	var/sprint = 10
-	var/last_moved = 0
+	var/cooldown = 0
 	var/acceleration = TRUE
 
 	var/obj/structure/ai_core/deactivated/linked_core //For exosuit control
@@ -176,11 +188,10 @@
 	GLOB.shuttle_caller_list += src
 
 	builtInCamera = new (src)
-	builtInCamera.network = list(CAMERANET_NETWORK_SS13)
+	builtInCamera.network = list("ss13")
 
 	ai_tracking_tool = new(src)
-	RegisterSignal(ai_tracking_tool, COMSIG_TRACKABLE_TRACKING_TARGET, PROC_REF(on_track_target))
-	RegisterSignal(ai_tracking_tool, COMSIG_TRACKABLE_GLIDE_CHANGED, PROC_REF(tracked_glidesize_changed))
+	RegisterSignal(src, COMSIG_TRACKABLE_TRACKING_TARGET, PROC_REF(on_track_target))
 
 	add_traits(list(TRAIT_PULL_BLOCKED, TRAIT_HANDS_BLOCKED), ROUNDSTART_TRAIT)
 
@@ -200,7 +211,8 @@
 	switch(_key)
 		if("`", "0")
 			if(cam_prev)
-				ai_tracking_tool.reset_tracking()
+				if(ai_tracking_tool.tracking)
+					ai_tracking_tool.set_tracking(FALSE)
 				eyeobj.setLoc(cam_prev)
 			return
 		if("1", "2", "3", "4", "5", "6", "7", "8", "9")
@@ -211,7 +223,8 @@
 				return
 			if(cam_hotkeys[_key]) //if this is false, no hotkey for this slot exists.
 				cam_prev = eyeobj.loc
-				ai_tracking_tool.reset_tracking()
+				if(ai_tracking_tool.tracking)
+					ai_tracking_tool.set_tracking(FALSE)
 				eyeobj.setLoc(cam_hotkeys[_key])
 				return
 	return ..()
@@ -237,6 +250,7 @@
 	if(ai_voicechanger)
 		ai_voicechanger.owner = null
 		ai_voicechanger = null
+	UnregisterSignal(src, COMSIG_TRACKABLE_TRACKING_TARGET)
 	return ..()
 
 /// Removes all malfunction-related abilities from the AI
@@ -387,7 +401,7 @@
 	set name = "track"
 	set hidden = TRUE //Don't display it on the verb lists. This verb exists purely so you can type "track Oldman Robustin" and follow his ass
 
-	ai_tracking_tool.track_input(src)
+	ai_tracking_tool.set_tracked_mob(src)
 
 ///Called when an AI finds their tracking target.
 /mob/living/silicon/ai/proc/on_track_target(datum/trackable/source, mob/living/target)
@@ -396,12 +410,6 @@
 		eyeobj.setLoc(get_turf(target))
 	else
 		view_core()
-
-/// Keeps our rate of gliding in step with the mob we're following
-/mob/living/silicon/ai/proc/tracked_glidesize_changed(datum/trackable/source, mob/living/target, new_glide_size)
-	SIGNAL_HANDLER
-	if(eyeobj)
-		eyeobj.glide_size = new_glide_size
 
 /mob/living/silicon/ai/verb/toggle_anchor()
 	set category = "AI Commands"
@@ -488,6 +496,10 @@
 	if(incapacitated())
 		return
 
+	if (href_list["mach_close"])
+		var/t1 = "window=[href_list["mach_close"]]"
+		unset_machine()
+		src << browse(null, t1)
 	if (href_list["switchcamera"])
 		switchCamera(locate(href_list["switchcamera"]) in GLOB.cameranet.cameras)
 	if (href_list["showalerts"])
@@ -516,7 +528,7 @@
 		else
 			to_chat(src, span_notice("Unable to project to the holopad."))
 	if(href_list["track"])
-		ai_tracking_tool.track_name(src, href_list["track"])
+		ai_tracking_tool.set_tracked_mob(src, href_list["track"])
 		return
 	if (href_list["ai_take_control"]) //Mech domination
 		var/obj/vehicle/sealed/mecha/M = locate(href_list["ai_take_control"]) in GLOB.mechas_list
@@ -559,7 +571,8 @@
 		view_core()
 		return
 
-	ai_tracking_tool.reset_tracking()
+	if(ai_tracking_tool.tracking)
+		ai_tracking_tool.set_tracking(FALSE)
 
 	// ok, we're alive, camera is good and in our network...
 	eyeobj.setLoc(get_turf(C))
@@ -632,7 +645,9 @@
 /mob/living/silicon/ai/proc/ai_network_change()
 	set category = "AI Commands"
 	set name = "Jump To Network"
-	ai_tracking_tool.reset_tracking()
+	unset_machine()
+	if(ai_tracking_tool.tracking)
+		ai_tracking_tool.set_tracking(FALSE)
 	var/cameralist[0]
 
 	if(incapacitated())
@@ -644,11 +659,11 @@
 		var/turf/camera_turf = get_turf(C) //get camera's turf in case it's built into something so we don't get z=0
 
 		var/list/tempnetwork = C.network
-		if(!camera_turf || !(is_station_level(camera_turf.z) || is_mining_level(camera_turf.z) || (CAMERANET_NETWORK_SS13 in tempnetwork)))
+		if(!camera_turf || !(is_station_level(camera_turf.z) || is_mining_level(camera_turf.z) || ("ss13" in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue
-		tempnetwork.Remove(CAMERANET_NETWORK_RD, CAMERANET_NETWORK_ORDNANCE, CAMERANET_NETWORK_PRISON)
+		tempnetwork.Remove("rd", "ordnance", "prison")
 		if(length(tempnetwork))
 			for(var/i in C.network)
 				cameralist[i] = i
@@ -686,7 +701,7 @@
 				if("Station Member")
 					var/list/personnel_list = list()
 
-					for(var/datum/record/locked/record in GLOB.manifest.locked)//Look in data core locked.
+					for(var/datum/record/crew/record in GLOB.manifest.locked)//Look in data core locked.
 						personnel_list["[record.name]: [record.rank]"] = record.character_appearance//Pull names, rank, and image.
 
 					if(!length(personnel_list))
@@ -887,7 +902,7 @@
 	return get_dist(src, A) <= max(viewscale[1]*0.5,viewscale[2]*0.5)
 
 /mob/living/silicon/ai/proc/relay_speech(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
-	var/raw_translation = translate_language(speaker, message_language, raw_message, spans, message_mods)
+	var/raw_translation = translate_language(speaker, message_language, raw_message)
 	var/atom/movable/source = speaker.GetSource() || speaker // is the speaker virtual/radio
 	var/treated_message = source.say_quote(raw_translation, spans, message_mods)
 

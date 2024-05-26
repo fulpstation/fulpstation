@@ -8,8 +8,8 @@
 	name = "Sleepless Dreamer"
 	desc = "The patient, after undergoing untold psychological hardship, believes they can travel between the dreamscapes of this dimension."
 	scan_desc = "awoken sleeper"
-	gain_text = span_notice("Your mind snaps, and you wake up. You <i>really</i> wake up.")
-	lose_text = span_warning("You succumb once more to the sleepless dream of the unwoken.")
+	gain_text = "<span class='notice'>Your mind snaps, and you wake up. You <i>really</i> wake up."
+	lose_text = "<span class='warning'>You succumb once more to the sleepless dream of the unwoken."
 
 	///Created tears, only checking the FIRST one, not the one it's created to link to.
 	var/list/created_firsts = list()
@@ -23,7 +23,6 @@
 
 ///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
-	. = ..()
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
 	UnregisterSignal(owner, COMSIG_LIVING_REVIVE)

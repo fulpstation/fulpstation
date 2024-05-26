@@ -55,7 +55,7 @@
 	RefreshParts() //Recalculating local material sizes if the fab isn't linked
 	return ..()
 
-/obj/machinery/mecha_part_fabricator/post_machine_initialize()
+/obj/machinery/mecha_part_fabricator/LateInitialize()
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !stored_research)
 		CONNECT_TO_RND_SERVER_ROUNDSTART(stored_research, src)
@@ -127,12 +127,14 @@
 	if(panel_open)
 		. += span_notice("Alt-click to rotate the output direction.")
 
-/obj/machinery/mecha_part_fabricator/click_alt(mob/user)
-	if(!panel_open)
-		return CLICK_ACTION_BLOCKING
-	dir = turn(dir, -90)
-	balloon_alert(user, "rotated to [dir2text(dir)].")
-	return CLICK_ACTION_SUCCESS
+/obj/machinery/mecha_part_fabricator/AltClick(mob/user)
+	. = ..()
+	if(!user.can_perform_action(src))
+		return
+	if(panel_open)
+		dir = turn(dir, -90)
+		balloon_alert(user, "rotated to [dir2text(dir)].")
+		return TRUE
 
 /**
  * Updates the `final_sets` and `buildable_parts` for the current mecha fabricator.
@@ -472,7 +474,7 @@
 /obj/machinery/mecha_part_fabricator/proc/AfterMaterialInsert(item_inserted, id_inserted, amount_inserted)
 	var/datum/material/M = id_inserted
 	add_overlay("fab-load-[M.name]")
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, cut_overlay), "fab-load-[M.name]"), 1 SECONDS)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, cut_overlay), "fab-load-[M.name]"), 10)
 
 /obj/machinery/mecha_part_fabricator/screwdriver_act(mob/living/user, obj/item/I)
 	if(..())

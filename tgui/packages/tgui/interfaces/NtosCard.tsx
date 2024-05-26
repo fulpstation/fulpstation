@@ -191,12 +191,11 @@ const IdCardPage = (props) => {
             </Stack.Item>
             <Stack.Item>
               <NumberInput
-                step={1}
                 value={id_age || 0}
                 unit="Years"
                 minValue={17}
                 maxValue={85}
-                onChange={(value) => {
+                onChange={(e, value) => {
                   act('PRG_age', {
                     id_age: value,
                   });
@@ -240,7 +239,7 @@ const TemplateDropdown = (props) => {
       <Stack.Item grow>
         <Dropdown
           width="100%"
-          placeholder="Select a template..."
+          displayText={'Select a template...'}
           options={templateKeys.map((path) => {
             return templates[path];
           })}
@@ -249,7 +248,6 @@ const TemplateDropdown = (props) => {
               name: sel,
             })
           }
-          selected="None"
         />
       </Stack.Item>
     </Stack>

@@ -6,7 +6,7 @@
 
 - README.md > Replaces it with our own readme
 
-- tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
+- tgui/packages/tgui/routes.js > Add custom routing so fulp-specific interfaces can be found and loaded
 
 - tools/build/build.js > Adds our folder to be read for changes when compiling.
 
@@ -19,7 +19,6 @@
 #### Maps & Shuttles
 
 - _maps/map_files/Heliostation.dmm
-- _maps/shuttles/arrival_helio.dmm
 - _maps/shuttles/cargo_helio.dmm
 - _maps/shuttles/emergency_helio.dmm
 - _maps/shuttles/labour_helio.dmm
@@ -40,4 +39,3 @@
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/fulp_species_features.tsx

@@ -5,6 +5,7 @@
 	icon_state = "beacon_active"
 	base_icon_state = "beacon"
 	density = TRUE
+	obj_flags = /obj::obj_flags | NO_DECONSTRUCTION
 
 	/// Locked beacons cannot be jumped to by ships.
 	var/locked = FALSE
@@ -38,10 +39,9 @@
 	START_PROCESSING(SSmachines, src)
 	COOLDOWN_START(src, next_automatic_message_time, automatic_message_cooldown)
 
-/obj/machinery/spaceship_navigation_beacon/emp_act(severity)
-	. = ..()
+/obj/machinery/spaceship_navigation_beacon/emp_act()
 	locked = TRUE
-	update_appearance(UPDATE_ICON_STATE)
+	update_icon_state()
 
 /obj/machinery/spaceship_navigation_beacon/Destroy()
 	SSshuttle.beacon_list -= src

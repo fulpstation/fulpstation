@@ -27,12 +27,8 @@
 	var/datum/port/input/signal_on
 	var/datum/port/input/signal_off
 
-	/// Reference to the BCI we're implanted inside
 	var/obj/item/organ/internal/cyberimp/bci/bci
-
-	/// Assoc list of REF to the target atom to the overlay alt appearance it is using
 	var/list/active_overlays = list()
-
 	var/list/options_map
 
 /obj/item/circuit_component/object_overlay/populate_ports()
@@ -46,7 +42,8 @@
 	image_rotation = add_input_port("Overlay Rotation", PORT_TYPE_NUMBER)
 
 /obj/item/circuit_component/object_overlay/Destroy()
-	QDEL_LIST_ASSOC_VAL(active_overlays)
+	for(var/active_overlay in active_overlays)
+		QDEL_NULL(active_overlay)
 	return ..()
 
 /obj/item/circuit_component/object_overlay/populate_options()
@@ -81,24 +78,26 @@
 	var/mob/living/owner = bci.owner
 	var/atom/target_atom = target.value
 
-	if(!istype(owner) || !owner.client || isnull(target_atom))
+	if(!owner || !istype(owner) || !owner.client || !target_atom)
 		return
 
 	if(COMPONENT_TRIGGERED_BY(signal_on, port))
 		show_to_owner(target_atom, owner)
 
-	var/datum/atom_hud/existing_overlay = active_overlays[REF(target_atom)]
-	if(COMPONENT_TRIGGERED_BY(signal_off, port) && !isnull(existing_overlay))
-		qdel(existing_overlay)
-		active_overlays -= REF(target_atom)
+	if(COMPONENT_TRIGGERED_BY(signal_off, port) && (target_atom in active_overlays))
+		var/datum/weakref/overlay_ref = active_overlays[target_atom]
+		var/datum/atom_hud/overlay = overlay_ref?.resolve()
+		QDEL_NULL(overlay)
+		active_overlays.Remove(target_atom)
 
 /obj/item/circuit_component/object_overlay/proc/show_to_owner(atom/target_atom, mob/living/owner)
-	if(length(active_overlays) >= OBJECT_OVERLAY_LIMIT)
+	if(LAZYLEN(active_overlays) >= OBJECT_OVERLAY_LIMIT)
 		return
 
-	var/datum/atom_hud/existing_overlay = active_overlays[REF(target_atom)]
-	if(!isnull(existing_overlay))
-		qdel(existing_overlay)
+	if(active_overlays[target_atom])
+		var/datum/weakref/overlay_ref = active_overlays[target_atom]
+		var/datum/atom_hud/overlay = overlay_ref?.resolve()
+		QDEL_NULL(overlay)
 
 	var/image/cool_overlay = image(icon = 'icons/hud/screen_bci.dmi', loc = target_atom, icon_state = options_map[object_overlay_options.value], layer = RIPPLE_LAYER)
 	SET_PLANE_EXPLICIT(cool_overlay, ABOVE_LIGHTING_PLANE, target_atom)
@@ -118,16 +117,19 @@
 		/datum/atom_hud/alternate_appearance/basic/one_person,
 		"object_overlay_[REF(src)]",
 		cool_overlay,
-		null,
 		owner,
 	)
 	alt_appearance.show_to(owner)
 
-	active_overlays[REF(target_atom)] = alt_appearance
+	active_overlays[target_atom] = WEAKREF(alt_appearance)
 
 /obj/item/circuit_component/object_overlay/proc/on_organ_removed(datum/source, mob/living/carbon/owner)
 	SIGNAL_HANDLER
 
-	QDEL_LIST_ASSOC_VAL(active_overlays)
+	for(var/atom/target_atom in active_overlays)
+		var/datum/weakref/overlay_ref = active_overlays[target_atom]
+		var/datum/atom_hud/overlay = overlay_ref?.resolve()
+		QDEL_NULL(overlay)
+		active_overlays.Remove(target_atom)
 
 #undef OBJECT_OVERLAY_LIMIT

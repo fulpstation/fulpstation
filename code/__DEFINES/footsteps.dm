@@ -38,13 +38,14 @@
 #define STEP_SOUND_PRIORITY "step_sound_priority"
 
 /*
-Below is how the following lists are defined
 
 id = list(
 list(sounds),
 base volume,
 extra range addition
 )
+
+
 */
 
 GLOBAL_LIST_INIT(footstep, list(
@@ -101,7 +102,6 @@ GLOBAL_LIST_INIT(footstep, list(
 		'sound/effects/footstep/catwalk4.ogg',
 		'sound/effects/footstep/catwalk5.ogg'), 100, 1),
 ))
-
 //bare footsteps lists
 GLOBAL_LIST_INIT(barefootstep, list(
 	FOOTSTEP_WOOD_BAREFOOT = list(list(

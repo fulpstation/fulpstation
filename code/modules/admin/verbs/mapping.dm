@@ -1,5 +1,69 @@
-ADMIN_VERB_VISIBILITY(camera_view, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(camera_view, R_DEBUG, "Camera Range Display", "Shows the range of cameras on the station.", ADMIN_CATEGORY_MAPPING)
+//- Are all the floors with or without air, as they should be? (regular or airless)
+//- Does the area have an APC?
+//- Does the area have an Air Alarm?
+//- Does the area have a Request Console?
+//- Does the area have lights?
+//- Does the area have a light switch?
+//- Does the area have enough intercoms?
+//- Does the area have enough security cameras? (Use the 'Camera Range Display' verb under Debug)
+//- Is the area connected to the scrubbers air loop?
+//- Is the area connected to the vent air loop? (vent pumps)
+//- Is everything wired properly?
+//- Does the area have a fire alarm and firedoors?
+//- Do all pod doors work properly?
+//- Are accesses set properly on doors, pod buttons, etc.
+//- Are all items placed properly? (not below vents, scrubbers, tables)
+//- Does the disposal system work properly from all the disposal units in this room and all the units, the pipes of which pass through this room?
+//- Check for any misplaced or stacked piece of pipe (air and disposal)
+//- Check for any misplaced or stacked piece of wire
+//- Identify how hard it is to break into the area and where the weak points are
+//- Check if the area has too much empty space. If so, make it smaller and replace the rest with maintenance tunnels.
+
+GLOBAL_LIST_INIT(admin_verbs_debug_mapping, list(
+	/client/proc/camera_view, //-errorage
+	/client/proc/sec_camera_report, //-errorage
+	/client/proc/intercom_view, //-errorage
+	/client/proc/air_status, //Air things
+	/client/proc/Cell, //More air things
+	/client/proc/atmosscan, //check plumbing
+	/client/proc/powerdebug, //check power
+	/client/proc/count_objects_on_z_level,
+	/client/proc/count_objects_all,
+	/client/proc/cmd_assume_direct_control, //-errorage
+	/client/proc/cmd_give_direct_control,
+	/client/proc/set_server_fps, //allows you to set the ticklag.
+	/client/proc/cmd_admin_grantfullaccess,
+	/client/proc/cmd_admin_areatest_all,
+	/client/proc/cmd_admin_areatest_station,
+	/client/proc/cmd_admin_areatest_station_no_maintenance,
+	#ifdef TESTING
+	/client/proc/see_dirty_varedits,
+	#endif
+	/client/proc/cmd_admin_rejuvenate,
+	/datum/admins/proc/show_traitor_panel,
+	/client/proc/disable_communication,
+	/client/proc/show_map_reports,
+	/client/proc/cmd_show_at_list,
+	/client/proc/cmd_show_at_markers,
+	/client/proc/manipulate_organs,
+	/client/proc/start_line_profiling,
+	/client/proc/stop_line_profiling,
+	/client/proc/show_line_profiling,
+	/client/proc/create_mapping_job_icons,
+	/client/proc/debug_z_levels,
+	/client/proc/place_ruin,
+	/client/proc/station_food_debug,
+	/client/proc/station_stack_debug,
+	/client/proc/check_for_obstructed_atmospherics,
+	/client/proc/modify_lights,
+	/client/proc/visualize_lights,
+))
+GLOBAL_PROTECT(admin_verbs_debug_mapping)
+
+/client/proc/camera_view()
+	set category = "Mapping"
+	set name = "Camera Range Display"
+
 	var/on = FALSE
 	for(var/turf/T in world)
 		if(T.maptext)
@@ -18,20 +82,28 @@ ADMIN_VERB(camera_view, R_DEBUG, "Camera Range Display", "Shows the range of cam
 #ifdef TESTING
 GLOBAL_LIST_EMPTY(dirty_vars)
 
-ADMIN_VERB_VISIBILITY(see_dirty_varedits, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(see_dirty_varedits, R_DEBUG, "Dirty Varedits", "Shows all dirty varedits.", ADMIN_CATEGORY_MAPPING)
+/client/proc/see_dirty_varedits()
+	set category = "Mapping"
+	set name = "Dirty Varedits"
+
 	var/list/dat = list()
 	dat += "<h3>Abandon all hope ye who enter here</h3><br><br>"
 	for(var/thing in GLOB.dirty_vars)
 		dat += "[thing]<br>"
 		CHECK_TICK
-	var/datum/browser/popup = new(user, "dirty_vars", "Dirty Varedits", 900, 750)
+	var/datum/browser/popup = new(usr, "dirty_vars", "Dirty Varedits", 900, 750)
 	popup.set_content(dat.Join())
 	popup.open()
 #endif
 
-ADMIN_VERB_VISIBILITY(sec_camera_report, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(sec_camera_report, R_DEBUG, "Camera Report", "Get a printout of all camera issues.", ADMIN_CATEGORY_MAPPING)
+/client/proc/sec_camera_report()
+	set category = "Mapping"
+	set name = "Camera Report"
+
+	if(!Master)
+		tgui_alert(usr,"Master_controller not found.","Sec Camera Report")
+		return FALSE
+
 	var/list/obj/machinery/camera/CL = list()
 
 	for(var/obj/machinery/camera/C as anything in GLOB.cameranet.cameras)
@@ -61,13 +133,15 @@ ADMIN_VERB(sec_camera_report, R_DEBUG, "Camera Report", "Get a printout of all c
 					output += "<li><font color='red'>Camera not connected to wall at [ADMIN_VERBOSEJMP(C1)] Network: [json_encode(C1.network)]</font></li>"
 
 	output += "</ul>"
-	user << browse(output,"window=airreport;size=1000x500")
+	usr << browse(output,"window=airreport;size=1000x500")
 	BLACKBOX_LOG_ADMIN_VERB("Show Camera Report")
 
-ADMIN_VERB_VISIBILITY(intercom_view, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(intercom_view, R_DEBUG, "Intercom Range Display", "Shows the range of intercoms on the station.", ADMIN_CATEGORY_MAPPING)
+/client/proc/intercom_view()
+	set category = "Mapping"
+	set name = "Intercom Range Display"
+
 	var/static/intercom_range_display_status = FALSE
-	intercom_range_display_status = !intercom_range_display_status
+	intercom_range_display_status = !intercom_range_display_status //blame cyberboss if this breaks something //blamed
 
 	for(var/obj/effect/abstract/marker/intercom/marker in GLOB.all_abstract_markers)
 		qdel(marker)
@@ -79,17 +153,23 @@ ADMIN_VERB(intercom_view, R_DEBUG, "Intercom Range Display", "Shows the range of
 					new /obj/effect/abstract/marker/intercom(turf)
 	BLACKBOX_LOG_ADMIN_VERB("Show Intercom Range")
 
-ADMIN_VERB_VISIBILITY(show_map_reports, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(show_map_reports, R_DEBUG, "Show Map Reports", "Displays a list of map reports.", ADMIN_CATEGORY_MAPPING)
+/client/proc/show_map_reports()
+	set category = "Mapping"
+	set name = "Show map report list"
+	set desc = "Displays a list of map reports"
+
 	var/dat = {"<b>List of all map reports:</b><br>"}
 
 	for(var/datum/map_report/report as anything in GLOB.map_reports)
 		dat += "[report.tag] ([report.original_path]) - <a href='?src=[REF(report)];[HrefToken()];show=1'>View</a><br>"
 
-	user << browse(dat, "window=map_reports")
+	usr << browse(dat, "window=map_reports")
 
-ADMIN_VERB_VISIBILITY(cmd_show_at_list, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(cmd_show_at_list, R_DEBUG, "Show roundstart AT list", "Displays a list of active turfs coordinates at roundstart.", ADMIN_CATEGORY_MAPPING)
+/client/proc/cmd_show_at_list()
+	set category = "Mapping"
+	set name = "Show roundstart AT list"
+	set desc = "Displays a list of active turfs coordinates at roundstart"
+
 	var/dat = {"<b>Coordinate list of Active Turfs at Roundstart</b>
 		<br>Real-time Active Turfs list you can see in Air Subsystem at active_turfs var<br>"}
 
@@ -98,39 +178,50 @@ ADMIN_VERB(cmd_show_at_list, R_DEBUG, "Show roundstart AT list", "Displays a lis
 		dat += "[ADMIN_VERBOSEJMP(T)]\n"
 		dat += "<br>"
 
-	user << browse(dat, "window=at_list")
+	usr << browse(dat, "window=at_list")
 
 	BLACKBOX_LOG_ADMIN_VERB("Show Roundstart Active Turfs")
 
-ADMIN_VERB_VISIBILITY(cmd_show_at_markers, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(cmd_show_at_markers, R_DEBUG, "Show roundstart AT markers", "Places a marker on all active-at-roundstart turfs.", ADMIN_CATEGORY_MAPPING)
+/client/proc/cmd_show_at_markers()
+	set category = "Mapping"
+	set name = "Show roundstart AT markers"
+	set desc = "Places a marker on all active-at-roundstart turfs"
+
 	var/count = 0
 	for(var/obj/effect/abstract/marker/at/AT in GLOB.all_abstract_markers)
 		qdel(AT)
 		count++
 
 	if(count)
-		to_chat(user, "[count] AT markers removed.", confidential = TRUE)
+		to_chat(usr, "[count] AT markers removed.", confidential = TRUE)
 	else
 		for(var/t in GLOB.active_turfs_startlist)
 			new /obj/effect/abstract/marker/at(t)
 			count++
-		to_chat(user, "[count] AT markers placed.", confidential = TRUE)
+		to_chat(usr, "[count] AT markers placed.", confidential = TRUE)
 
 	BLACKBOX_LOG_ADMIN_VERB("Show Roundstart Active Turf Markers")
 
-ADMIN_VERB(enable_mapping_verbs, R_DEBUG, "Enable Mapping Verbs", "Enable all mapping verbs.", ADMIN_CATEGORY_MAPPING)
-	SSadmin_verbs.update_visibility_flag(user, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG, TRUE)
+/client/proc/enable_mapping_verbs()
+	set category = "Debug"
+	set name = "Mapping verbs - Enable"
+	if(!check_rights(R_DEBUG))
+		return
+	remove_verb(src, /client/proc/enable_mapping_verbs)
+	add_verb(src, list(/client/proc/disable_mapping_verbs, GLOB.admin_verbs_debug_mapping))
 	BLACKBOX_LOG_ADMIN_VERB("Enable Debug Verbs")
 
-ADMIN_VERB_VISIBILITY(disable_mapping_verbs, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(disable_mapping_verbs, R_DEBUG, "Disable Mapping Verbs", "Disable all mapping verbs.", ADMIN_CATEGORY_MAPPING)
-	SSadmin_verbs.update_visibility_flag(user, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG, FALSE)
+/client/proc/disable_mapping_verbs()
+	set category = "Debug"
+	set name = "Mapping verbs - Disable"
+	remove_verb(src, list(/client/proc/disable_mapping_verbs, GLOB.admin_verbs_debug_mapping))
+	add_verb(src, /client/proc/enable_mapping_verbs)
 	BLACKBOX_LOG_ADMIN_VERB("Disable Debug Verbs")
 
-ADMIN_VERB_VISIBILITY(count_objects_on_z_level, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(count_objects_on_z_level, R_DEBUG, "Count Objects On Z-Level", "Counts the number of objects of a certain type on a specific z-level.", ADMIN_CATEGORY_MAPPING)
-	var/level = input(user, "Which z-level?","Level?") as text|null
+/client/proc/count_objects_on_z_level()
+	set category = "Mapping"
+	set name = "Count Objects On Level"
+	var/level = input("Which z-level?","Level?") as text|null
 	if(!level)
 		return
 	var/num_level = text2num(level)
@@ -139,7 +230,7 @@ ADMIN_VERB(count_objects_on_z_level, R_DEBUG, "Count Objects On Z-Level", "Count
 	if(!isnum(num_level))
 		return
 
-	var/type_text = input(user, "Which type path?","Path?") as text|null
+	var/type_text = input("Which type path?","Path?") as text|null
 	if(!type_text)
 		return
 	var/type_path = text2path(type_text)
@@ -166,9 +257,11 @@ ADMIN_VERB(count_objects_on_z_level, R_DEBUG, "Count Objects On Z-Level", "Count
 	to_chat(world, "There are [count] objects of type [type_path] on z-level [num_level]", confidential = TRUE)
 	BLACKBOX_LOG_ADMIN_VERB("Count Objects Zlevel")
 
-ADMIN_VERB_VISIBILITY(count_objects_all, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(count_objects_all, R_DEBUG, "Count Objects All", "Counts the number of objects of a certain type in the game world.", ADMIN_CATEGORY_MAPPING)
-	var/type_text = input(user, "Which type path?","") as text|null
+/client/proc/count_objects_all()
+	set category = "Mapping"
+	set name = "Count Objects All"
+
+	var/type_text = input("Which type path?","") as text|null
 	if(!type_text)
 		return
 	var/type_path = text2path(type_text)
@@ -184,17 +277,23 @@ ADMIN_VERB(count_objects_all, R_DEBUG, "Count Objects All", "Counts the number o
 	to_chat(world, "There are [count] objects of type [type_path] in the game world", confidential = TRUE)
 	BLACKBOX_LOG_ADMIN_VERB("Count Objects All")
 
+
+//This proc is intended to detect lag problems relating to communication procs
 GLOBAL_VAR_INIT(say_disabled, FALSE)
-ADMIN_VERB_VISIBILITY(disable_communication, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(disable_communication, R_DEBUG, "Disable all communication verbs", "Disables all communication verbs.", ADMIN_CATEGORY_MAPPING)
+/client/proc/disable_communication()
+	set category = "Mapping"
+	set name = "Disable all communication verbs"
+
 	GLOB.say_disabled = !GLOB.say_disabled
 	if(GLOB.say_disabled)
-		message_admins("[key_name_admin(user)] used 'Disable all communication verbs', killing all communication methods.")
+		message_admins("[key] used 'Disable all communication verbs', killing all communication methods.")
 	else
-		message_admins("[key_name_admin(user)] used 'Disable all communication verbs', restoring all communication methods.")
+		message_admins("[key] used 'Disable all communication verbs', restoring all communication methods.")
 
-ADMIN_VERB_VISIBILITY(create_mapping_job_icons, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(create_mapping_job_icons, R_DEBUG, "Generate job landmarks icons", "Generates job starting location landmarks.", ADMIN_CATEGORY_MAPPING)
+//This generates the icon states for job starting location landmarks.
+/client/proc/create_mapping_job_icons()
+	set name = "Generate job landmarks icons"
+	set category = "Mapping"
 	var/icon/final = icon()
 	var/mob/living/carbon/human/dummy/D = new(locate(1,1,1)) //spawn on 1,1,1 so we don't have runtimes when items are deleted
 	D.setDir(SOUTH)
@@ -218,9 +317,11 @@ ADMIN_VERB(create_mapping_job_icons, R_DEBUG, "Generate job landmarks icons", "G
 		final.Insert(icon('icons/hud/screen_gen.dmi', "x[x_number == 1 ? "" : x_number]"), "x[x_number == 1 ? "" : x_number]")
 	fcopy(final, "icons/mob/landmarks.dmi")
 
-ADMIN_VERB_VISIBILITY(debug_z_levels, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(debug_z_levels, R_DEBUG, "Debug Z-Levels", "Displays a list of all z-levels and their linkages.", ADMIN_CATEGORY_MAPPING)
-	to_chat(user, examine_block(gather_z_level_information(append_grid = TRUE)), confidential = TRUE)
+/client/proc/debug_z_levels()
+	set name = "Debug Z-Levels"
+	set category = "Mapping"
+
+	to_chat(src, examine_block(gather_z_level_information(append_grid = TRUE)), confidential = TRUE)
 
 /// Returns all necessary z-level information. Argument `append_grid` allows the user to see a table showing all of the z-level linkages, which is only visible and useful in-game.
 /proc/gather_z_level_information(append_grid = FALSE)
@@ -282,8 +383,9 @@ ADMIN_VERB(debug_z_levels, R_DEBUG, "Debug Z-Levels", "Displays a list of all z-
 
 	return messages.Join("\n")
 
-ADMIN_VERB_VISIBILITY(station_food_debug, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(station_food_debug, R_DEBUG, "Count Station Food", "Counts the number of food items on the station.", ADMIN_CATEGORY_MAPPING)
+/client/proc/station_food_debug()
+	set name = "Count Station Food"
+	set category = "Mapping"
 	var/list/foodcount = list()
 	for(var/obj/item/food/fuck_me in world)
 		var/turf/location = get_turf(fuck_me)
@@ -300,12 +402,13 @@ ADMIN_VERB(station_food_debug, R_DEBUG, "Count Station Food", "Counts the number
 
 	var/page_style = "<style>table, th, td {border: 1px solid black;border-collapse: collapse;}</style>"
 	var/page_contents = "[page_style]<table style=\"width:100%\">[table_header][jointext(table_contents, "")]</table>"
-	var/datum/browser/popup = new(user.mob, "fooddebug", "Station Food Count", 600, 400)
+	var/datum/browser/popup = new(mob, "fooddebug", "Station Food Count", 600, 400)
 	popup.set_content(page_contents)
 	popup.open()
 
-ADMIN_VERB_VISIBILITY(station_stack_debug, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(station_stack_debug, R_DEBUG, "Count Station Stacks", "Count the stacks of materials on station.", ADMIN_CATEGORY_MAPPING)
+/client/proc/station_stack_debug()
+	set name = "Count Station Stacks"
+	set category = "Mapping"
 	var/list/stackcount = list()
 	for(var/obj/item/stack/fuck_me in world)
 		var/turf/location = get_turf(fuck_me)
@@ -322,13 +425,18 @@ ADMIN_VERB(station_stack_debug, R_DEBUG, "Count Station Stacks", "Count the stac
 
 	var/page_style = "<style>table, th, td {border: 1px solid black;border-collapse: collapse;}</style>"
 	var/page_contents = "[page_style]<table style=\"width:100%\">[table_header][jointext(table_contents, "")]</table>"
-	var/datum/browser/popup = new(user.mob, "stackdebug", "Station Stack Count", 600, 400)
+	var/datum/browser/popup = new(mob, "stackdebug", "Station Stack Count", 600, 400)
 	popup.set_content(page_contents)
 	popup.open()
 
-ADMIN_VERB_VISIBILITY(check_for_obstructed_atmospherics, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(check_for_obstructed_atmospherics, R_DEBUG, "Check For Obstructed Atmospherics", "Checks for obstructions on atmospherics machines.", ADMIN_CATEGORY_MAPPING)
-	message_admins(span_adminnotice("[key_name_admin(user)] is checking for obstructed atmospherics through the debug command."))
+/// Check all tiles with a vent or scrubber on it and ensure that nothing is covering it up.
+/client/proc/check_for_obstructed_atmospherics()
+	set name = "Check For Obstructed Atmospherics"
+	set category = "Mapping"
+	if(!holder)
+		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
+		return
+	message_admins(span_adminnotice("[key_name_admin(usr)] is checking for obstructed atmospherics through the debug command."))
 	BLACKBOX_LOG_ADMIN_VERB("Check For Obstructed Atmospherics")
 
 	var/list/results = list()
@@ -377,14 +485,17 @@ ADMIN_VERB(check_for_obstructed_atmospherics, R_DEBUG, "Check For Obstructed Atm
 			results += "There is an obstruction on top of an atmospherics machine at: [ADMIN_VERBOSEJMP(iterated_turf)].<br>"
 
 	if(results.len == 1) // only the header is in the list, we're good
-		to_chat(user, "No obstructions detected.", confidential = TRUE)
+		to_chat(src, "No obstructions detected.", confidential = TRUE)
 	else
-		var/datum/browser/popup = new(user.mob, "atmospherics_obstructions", "Atmospherics Obstructions", 900, 750)
+		var/datum/browser/popup = new(usr, "atmospherics_obstructions", "Atmospherics Obstructions", 900, 750)
 		popup.set_content(results.Join())
 		popup.open()
 
-ADMIN_VERB_VISIBILITY(modify_lights, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(modify_lights, R_DEBUG, "Toggle Light Debug", "Toggles light debug mode.", ADMIN_CATEGORY_MAPPING)
+/client/proc/modify_lights()
+	set name = "Toggle Light Debug"
+	set category = "Mapping"
+	if(!check_rights(R_DEBUG))
+		return
 	if(GLOB.light_debug_enabled)
 		undebug_sources()
 		return
@@ -396,6 +507,10 @@ ADMIN_VERB(modify_lights, R_DEBUG, "Toggle Light Debug", "Toggles light debug mo
 		CHECK_TICK
 	debug_sources()
 
-ADMIN_VERB_VISIBILITY(visualize_lights, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
-ADMIN_VERB(visualize_lights, R_DEBUG, "Visualize Lighting Corners", "Visualizes the corners of all lights on the station.", ADMIN_CATEGORY_MAPPING)
+/client/proc/visualize_lights()
+	set name = "Visualize Lighting Corners"
+	set category = "Mapping"
+	if(!check_rights(R_DEBUG))
+		return
+
 	display_corners()

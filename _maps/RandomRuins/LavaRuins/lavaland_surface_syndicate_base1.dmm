@@ -647,7 +647,8 @@
 /obj/machinery/door/window/left/directional/south{
 	name = "Chemistry"
 	},
-/obj/machinery/door/window/left/directional/north{
+/obj/machinery/door/window/left/directional/south{
+	dir = 1;
 	name = "Chemistry";
 	req_access = list("syndicate")
 	},
@@ -2632,7 +2633,7 @@
 "zC" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/stripes/end,
-/obj/machinery/door/window/brigdoor/left/directional/south{
+/obj/machinery/door/window/brigdoor{
 	name = "Turbine Access"
 	},
 /obj/machinery/light/small/directional/west,
@@ -2819,6 +2820,9 @@
 /obj/machinery/duct,
 /turf/open/floor/plating,
 /area/ruin/syndicate_lava_base/dormitories)
+"BU" = (
+/turf/closed/wall/mineral/plastitanium/explosive,
+/area/ruin/syndicate_lava_base/testlab)
 "BV" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -3124,7 +3128,10 @@
 /turf/open/floor/iron,
 /area/ruin/syndicate_lava_base/arrivals)
 "FX" = (
-/obj/machinery/door/window/right/directional/north{
+/obj/machinery/door/window/left/directional/south{
+	base_state = "right";
+	dir = 1;
+	icon_state = "right";
 	name = "Bar"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -5693,7 +5700,7 @@ pa
 pa
 ae
 ae
-ae
+BU
 ae
 ae
 ae
@@ -5992,7 +5999,7 @@ ab
 ab
 as
 as
-PW
+as
 dI
 NE
 ew

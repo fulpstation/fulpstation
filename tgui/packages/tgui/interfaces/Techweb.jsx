@@ -41,9 +41,9 @@ const selectRemappedStaticData = (data) => {
       ...node,
       id: remapId(id),
       costs,
-      prereq_ids: map(node.prereq_ids || [], remapId),
-      design_ids: map(node.design_ids || [], remapId),
-      unlock_ids: map(node.unlock_ids || [], remapId),
+      prereq_ids: map(remapId)(node.prereq_ids || []),
+      design_ids: map(remapId)(node.design_ids || []),
+      unlock_ids: map(remapId)(node.unlock_ids || []),
       required_experiments: node.required_experiments || [],
       discount_experiments: node.discount_experiments || [],
     };
@@ -85,6 +85,13 @@ const useRemappedBackend = () => {
     ...rest,
   };
 };
+
+// Utility Functions
+
+const abbreviations = {
+  'General Research': 'Gen. Res.',
+};
+const abbreviateName = (name) => abbreviations[name] ?? name;
 
 // Actual Components
 
@@ -251,11 +258,10 @@ const TechwebOverview = (props) => {
       );
     });
   } else {
-    displayedNodes = sortBy(
+    displayedNodes = sortBy((x) => node_cache[x.id].name)(
       tabIndex < 2
         ? nodes.filter((x) => x.tier === tabIndex)
         : nodes.filter((x) => x.tier >= tabIndex),
-      (x) => node_cache[x.id].name,
     );
   }
 
@@ -486,14 +492,7 @@ const TechNodeDetail = (props) => {
 
 const TechNode = (props) => {
   const { act, data } = useRemappedBackend();
-  const {
-    node_cache,
-    design_cache,
-    experiments,
-    points = [],
-    nodes,
-    point_types_abbreviations = [],
-  } = data;
+  const { node_cache, design_cache, experiments, points, nodes } = data;
   const { node, nodetails, nocontrols } = props;
   const { id, can_unlock, tier } = node;
   const {
@@ -598,7 +597,7 @@ const TechNode = (props) => {
                       : Math.min(1, (points[k.type] || 0) / reqPts)
                   }
                 >
-                  {point_types_abbreviations[k.type]} ({nodeProg}/{reqPts})
+                  {abbreviateName(k.type)} ({nodeProg}/{reqPts})
                 </ProgressBar>
               </Flex.Item>
             );

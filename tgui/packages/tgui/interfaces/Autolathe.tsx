@@ -19,16 +19,12 @@ import { MaterialCostSequence } from './Fabrication/MaterialCostSequence';
 import { Design, MaterialMap } from './Fabrication/Types';
 import { Material } from './Fabrication/Types';
 
-type AutolatheDesign = Design & {
-  customMaterials: BooleanLike;
-};
-
 type AutolatheData = {
   materials: Material[];
   materialtotal: number;
   materialsmax: number;
   SHEET_MATERIAL_AMOUNT: number;
-  designs: AutolatheDesign[];
+  designs: Design[];
   active: BooleanLike;
 };
 
@@ -178,7 +174,7 @@ const PrintButton = (props: PrintButtonProps) => {
 };
 
 type AutolatheRecipeProps = {
-  design: AutolatheDesign;
+  design: Design;
   availableMaterials: MaterialMap;
   SHEET_MATERIAL_AMOUNT: number;
 };
@@ -187,38 +183,7 @@ const AutolatheRecipe = (props: AutolatheRecipeProps) => {
   const { act } = useBackend<AutolatheData>();
   const { design, availableMaterials, SHEET_MATERIAL_AMOUNT } = props;
 
-  let maxmult = 0;
-  if (design.customMaterials) {
-    const largest_mat =
-      Object.entries(availableMaterials).reduce(
-        (accumulator: number, [material, amount]) => {
-          return Math.max(accumulator, amount);
-        },
-        0,
-      ) || 0;
-
-    if (largest_mat > 0) {
-      maxmult = Object.entries(design.cost).reduce(
-        (accumulator: number, [material, required]) => {
-          return Math.min(accumulator, largest_mat / required);
-        },
-        Infinity,
-      );
-    } else {
-      maxmult = 0;
-    }
-  } else {
-    maxmult = Object.entries(design.cost).reduce(
-      (accumulator: number, [material, required]) => {
-        return Math.min(
-          accumulator,
-          (availableMaterials[material] || 0) / required,
-        );
-      },
-      Infinity,
-    );
-  }
-  maxmult = Math.min(Math.floor(maxmult), 50);
+  const maxmult = design.maxmult;
   const canPrint = maxmult > 0;
 
   return (

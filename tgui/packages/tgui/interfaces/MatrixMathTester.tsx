@@ -9,13 +9,11 @@ const MatrixMathTesterInput = (props: { value: number; varName: string }) => {
   const { act } = useBackend();
   return (
     <NumberInput
-      minValue={-Infinity}
-      maxValue={Infinity}
       value={props.value}
       step={0.005}
       format={(value) => toFixed(value, 3)}
       fluid
-      onChange={(value) =>
+      onChange={(e, value) =>
         act('change_var', { var_name: props.varName, var_value: value })
       }
     />
@@ -113,24 +111,20 @@ export const MatrixMathTester = (props) => {
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={scaleX}
                   step={0.05}
                   format={(value) => toFixed(value, 2)}
                   fluid
-                  onChange={(value) => setScaleX(value)}
+                  onChange={(e, value) => setScaleX(value)}
                 />
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={scaleY}
                   step={0.05}
                   format={(value) => toFixed(value, 2)}
                   fluid
-                  onChange={(value) => setScaleY(value)}
+                  onChange={(e, value) => setScaleY(value)}
                 />
               </Table.Cell>
             </Table.Row>
@@ -148,24 +142,20 @@ export const MatrixMathTester = (props) => {
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={translateX}
                   step={1}
                   format={(value) => toFixed(value, 0)}
                   fluid
-                  onChange={(value) => setTranslateX(value)}
+                  onChange={(e, value) => setTranslateX(value)}
                 />
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={translateY}
                   step={1}
                   format={(value) => toFixed(value, 0)}
                   fluid
-                  onChange={(value) => setTranslateY(value)}
+                  onChange={(e, value) => setTranslateY(value)}
                 />
               </Table.Cell>
             </Table.Row>
@@ -181,24 +171,20 @@ export const MatrixMathTester = (props) => {
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={shearX}
                   step={0.005}
                   format={(value) => toFixed(value, 3)}
                   fluid
-                  onChange={(value) => setShearX(value)}
+                  onChange={(e, value) => setShearX(value)}
                 />
               </Table.Cell>
               <Table.Cell>
                 <NumberInput
-                  minValue={-Infinity}
-                  maxValue={Infinity}
                   value={shearY}
                   step={0.005}
                   format={(value) => toFixed(value, 3)}
                   fluid
-                  onChange={(value) => setShearY(value)}
+                  onChange={(e, value) => setShearY(value)}
                 />
               </Table.Cell>
             </Table.Row>
@@ -220,7 +206,7 @@ export const MatrixMathTester = (props) => {
                   minValue={-360}
                   format={(value) => toFixed(value, 1)}
                   fluid
-                  onChange={(value) => setAngle(value)}
+                  onChange={(e, value) => setAngle(value)}
                 />
               </Table.Cell>
               <Table.Cell>

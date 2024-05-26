@@ -208,7 +208,6 @@ no power level overlay is currently in the overlays list.
 	air_update_turf(TRUE, FALSE)
 	INVOKE_ASYNC(src, PROC_REF(cleanup))
 	addtimer(CALLBACK(src, PROC_REF(cool_down)), 5 SECONDS)
-	RemoveElement(/datum/element/give_turf_traits, string_list(list(TRAIT_CONTAINMENT_FIELD)))
 
 /obj/machinery/field/generator/proc/cool_down()
 	if(active || warming_up <= 0)
@@ -221,7 +220,6 @@ no power level overlay is currently in the overlays list.
 /obj/machinery/field/generator/proc/turn_on()
 	active = FG_CHARGING
 	addtimer(CALLBACK(src, PROC_REF(warm_up)), 5 SECONDS)
-	AddElement(/datum/element/give_turf_traits, string_list(list(TRAIT_CONTAINMENT_FIELD)))
 
 /obj/machinery/field/generator/proc/warm_up()
 	if(!active)
@@ -285,11 +283,11 @@ no power level overlay is currently in the overlays list.
 	set_explosion_block(INFINITY)
 	can_atmos_pass = ATMOS_PASS_NO
 	air_update_turf(TRUE, TRUE)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 1), 0.1 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 2), 0.2 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 4), 0.3 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(setup_field), 8), 0.4 SECONDS)
-	addtimer(VARSET_CALLBACK(src, active, FG_ONLINE), 0.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(setup_field), 1), 1)
+	addtimer(CALLBACK(src, PROC_REF(setup_field), 2), 2)
+	addtimer(CALLBACK(src, PROC_REF(setup_field), 4), 3)
+	addtimer(CALLBACK(src, PROC_REF(setup_field), 8), 4)
+	addtimer(VARSET_CALLBACK(src, active, FG_ONLINE), 5)
 
 /obj/machinery/field/generator/proc/setup_field(NSEW)
 	var/turf/current_turf = loc
@@ -414,14 +412,6 @@ no power level overlay is currently in the overlays list.
 /obj/machinery/field/generator/bump_field(atom/movable/AM as mob|obj)
 	if(fields.len)
 		..()
-
-/obj/machinery/field/generator/starts_on
-	anchored = TRUE
-	state = FG_WELDED
-
-/obj/machinery/field/generator/starts_on/Initialize(mapload)
-	. = ..()
-	turn_on()
 
 #undef FG_UNSECURED
 #undef FG_SECURED

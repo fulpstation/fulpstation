@@ -55,7 +55,7 @@ export const MaterialAccessBar = (props: MaterialAccessBarProps) => {
 
   return (
     <Flex wrap>
-      {sortBy(availableMaterials, (m: Material) => MATERIAL_RARITY[m.name]).map(
+      {sortBy((m: Material) => MATERIAL_RARITY[m.name])(availableMaterials).map(
         (material) => (
           <Flex.Item grow basis={4.5} key={material.name}>
             <MaterialCounter

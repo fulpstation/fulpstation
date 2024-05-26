@@ -1,6 +1,12 @@
+///Allows an admin to force an event
+/client/proc/forceEvent()
+	set name = "Trigger Event"
+	set category = "Admin.Events"
 
-ADMIN_VERB(force_event, R_FUN, "Trigger Event", "Forces an event to occur.", ADMIN_CATEGORY_EVENTS)
-	user.holder.forceEvent()
+	if(!holder || !check_rights(R_FUN))
+		return
+
+	holder.forceEvent()
 
 ///Opens up the Force Event Panel
 /datum/admins/proc/forceEvent()

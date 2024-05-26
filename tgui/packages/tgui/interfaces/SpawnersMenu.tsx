@@ -10,7 +10,6 @@ type SpawnersMenuContext = {
 type spawner = {
   name: string;
   amount_left: number;
-  infinite: boolean;
   desc?: string;
   you_are_text?: string;
   flavor_text?: string;
@@ -32,15 +31,9 @@ export const SpawnersMenu = (props) => {
                 title={capitalizeAll(spawner.name)}
                 buttons={
                   <Stack>
-                    {spawner.infinite ? (
-                      <Stack.Item fontSize="14px" color="green">
-                        Infinite
-                      </Stack.Item>
-                    ) : (
-                      <Stack.Item fontSize="14px" color="green">
-                        {spawner.amount_left} left
-                      </Stack.Item>
-                    )}
+                    <Stack.Item fontSize="14px" color="green">
+                      {spawner.amount_left} left
+                    </Stack.Item>
                     <Stack.Item>
                       <Button
                         content="Jump"

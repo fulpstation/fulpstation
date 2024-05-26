@@ -67,6 +67,10 @@
 	var/datum/client_colour/rave_screen
 	/// The current element in the rainbow_order list we are on.
 	var/rave_number = 1
+	/// The track we selected to play.
+	var/datum/track/selection
+	/// A list of all the songs we can play.
+	var/list/songs = list()
 	/// A list of the colors the module can take.
 	var/static/list/rainbow_order = list(
 		list(1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1, 0,0,0,0),
@@ -76,18 +80,23 @@
 		list(0,0,0,0, 0,0.5,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0),
 		list(1,0,0,0, 0,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0),
 	)
-	/// What actually plays music to us
-	var/datum/jukebox/single_mob/music_player
 
 /obj/item/mod/module/visor/rave/Initialize(mapload)
 	. = ..()
-	music_player = new(src)
-	music_player.sound_loops = TRUE
-
-/obj/item/mod/module/visor/rave/Destroy()
-	QDEL_NULL(music_player)
-	QDEL_NULL(rave_screen)
-	return ..()
+	var/list/tracks = flist("[global.config.directory]/jukebox_music/sounds/")
+	for(var/sound in tracks)
+		var/datum/track/track = new()
+		track.song_path = file("[global.config.directory]/jukebox_music/sounds/[sound]")
+		var/list/sound_params = splittext(sound,"+")
+		if(length(sound_params) != 3)
+			continue
+		track.song_name = sound_params[1]
+		track.song_length = text2num(sound_params[2])
+		track.song_beat = text2num(sound_params[3])
+		songs[track.song_name] = track
+	if(length(songs))
+		var/song_name = pick(songs)
+		selection = songs[song_name]
 
 /obj/item/mod/module/visor/rave/on_activation()
 	. = ..()
@@ -95,26 +104,24 @@
 		return
 	rave_screen = mod.wearer.add_client_colour(/datum/client_colour/rave)
 	rave_screen.update_colour(rainbow_order[rave_number])
-	music_player.start_music(mod.wearer)
+	if(selection)
+		mod.wearer.playsound_local(get_turf(src), null, 50, channel = CHANNEL_JUKEBOX, sound_to_use = sound(selection.song_path), use_reverb = FALSE)
 
 /obj/item/mod/module/visor/rave/on_deactivation(display_message = TRUE, deleting = FALSE)
 	. = ..()
 	if(!.)
 		return
 	QDEL_NULL(rave_screen)
-	if(isnull(music_player.active_song_sound))
-		return
-
-	music_player.unlisten_all()
-	QDEL_NULL(music_player)
-	if(deleting)
-		return
-	SEND_SOUND(mod.wearer, sound('sound/machines/terminal_off.ogg', volume = 50, channel = CHANNEL_JUKEBOX))
+	if(selection)
+		mod.wearer.stop_sound_channel(CHANNEL_JUKEBOX)
+		if(deleting)
+			return
+		SEND_SOUND(mod.wearer, sound('sound/machines/terminal_off.ogg', volume = 50, channel = CHANNEL_JUKEBOX))
 
 /obj/item/mod/module/visor/rave/generate_worn_overlay(mutable_appearance/standing)
 	. = ..()
 	for(var/mutable_appearance/appearance as anything in .)
-		appearance.color = isnull(music_player.active_song_sound) ? null : rainbow_order[rave_number]
+		appearance.color = active ? rainbow_order[rave_number] : null
 
 /obj/item/mod/module/visor/rave/on_active_process(seconds_per_tick)
 	rave_number++
@@ -125,20 +132,20 @@
 
 /obj/item/mod/module/visor/rave/get_configuration()
 	. = ..()
-	if(length(music_player.songs))
-		.["selection"] = add_ui_configuration("Song", "list", music_player.selection.song_name, music_player.songs)
+	if(length(songs))
+		.["selection"] = add_ui_configuration("Song", "list", selection.song_name, clean_songs())
 
 /obj/item/mod/module/visor/rave/configure_edit(key, value)
 	switch(key)
 		if("selection")
-			if(!isnull(music_player.active_song_sound))
+			if(active)
 				return
+			selection = songs[value]
 
-			var/datum/track/new_song = music_player.songs[value]
-			if(QDELETED(src) || !istype(new_song, /datum/track))
-				return
-
-			music_player.selection = new_song
+/obj/item/mod/module/visor/rave/proc/clean_songs()
+	. = list()
+	for(var/track in songs)
+		. += track
 
 ///Tanner - Tans you with spraytan.
 /obj/item/mod/module/tanner
@@ -148,7 +155,7 @@
 	icon_state = "tanning"
 	module_type = MODULE_USABLE
 	complexity = 1
-	use_energy_cost = DEFAULT_CHARGE_DRAIN * 5
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 5
 	incompatible_modules = list(/obj/item/mod/module/tanner)
 	cooldown_time = 30 SECONDS
 
@@ -162,7 +169,7 @@
 	holder.trans_to(mod.wearer, 10, methods = VAPOR)
 	if(prob(5))
 		SSradiation.irradiate(mod.wearer)
-	drain_power(use_energy_cost)
+	drain_power(use_power_cost)
 
 ///Balloon Blower - Blows a balloon.
 /obj/item/mod/module/balloon
@@ -171,7 +178,7 @@
 	icon_state = "bloon"
 	module_type = MODULE_USABLE
 	complexity = 1
-	use_energy_cost = DEFAULT_CHARGE_DRAIN * 0.5
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	incompatible_modules = list(/obj/item/mod/module/balloon)
 	cooldown_time = 15 SECONDS
 
@@ -185,7 +192,7 @@
 	playsound(src, 'sound/items/modsuit/inflate_bloon.ogg', 50, TRUE)
 	var/obj/item/toy/balloon/balloon = new(get_turf(src))
 	mod.wearer.put_in_hands(balloon)
-	drain_power(use_energy_cost)
+	drain_power(use_power_cost)
 
 ///Paper Dispenser - Dispenses (sometimes burning) paper sheets.
 /obj/item/mod/module/paper_dispenser
@@ -195,7 +202,7 @@
 	icon_state = "paper_maker"
 	module_type = MODULE_USABLE
 	complexity = 1
-	use_energy_cost = DEFAULT_CHARGE_DRAIN * 0.5
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	incompatible_modules = list(/obj/item/mod/module/paper_dispenser)
 	cooldown_time = 5 SECONDS
 	/// The total number of sheets created by this MOD. The more sheets, them more likely they set on fire.
@@ -227,7 +234,7 @@
 		crisp_paper.visible_message(span_warning("[crisp_paper] bursts into flames, it's too crisp!"))
 		crisp_paper.fire_act(1000, 100)
 
-	drain_power(use_energy_cost)
+	drain_power(use_power_cost)
 	num_sheets_dispensed++
 
 

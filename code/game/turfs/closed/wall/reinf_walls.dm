@@ -253,6 +253,11 @@
 	base_icon_state = "plastitanium_wall"
 	smoothing_flags = SMOOTH_BITMASK
 
+/turf/closed/wall/r_wall/syndicate/nosmooth
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall"
+	smoothing_flags = NONE
+
 /turf/closed/wall/r_wall/syndicate/overspace
 	icon_state = "map-overspace"
 	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS

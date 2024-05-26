@@ -177,9 +177,9 @@
 		to_chat(user, span_notice("You cannot pump [vent] if it's welded shut!"))
 		return
 
-	user.balloon_alert_to_viewers("plunging vent...", "plunging clogged vent...")
+	to_chat(user, span_notice("You begin pumping [vent] with your plunger."))
 	if(do_after(user, 6 SECONDS, target = vent))
-		user.balloon_alert_to_viewers("finished plunging")
+		to_chat(user, span_notice("You finish pumping [vent]."))
 		clear_signals()
 		kill()
 

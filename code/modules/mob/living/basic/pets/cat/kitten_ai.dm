@@ -30,15 +30,16 @@
 	action_cooldown = 5 SECONDS
 
 /datum/ai_behavior/beacon_for_food/perform(seconds_per_tick, datum/ai_controller/controller, target_key, meows_key)
+	. = ..()
 	var/atom/target = controller.blackboard[target_key]
 	if(QDELETED(target))
-		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+		finish_action(controller, FALSE)
 	var/mob/living/living_pawn = controller.pawn
 	var/list/meowing_list = controller.blackboard[meows_key]
 	if(length(meowing_list))
 		living_pawn.say(pick(meowing_list), forced = "ai_controller")
 	living_pawn._pointed(target)
-	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+	finish_action(controller, TRUE)
 
 /datum/ai_behavior/beacon_for_food/finish_action(datum/ai_controller/controller, success, target_key)
 	. = ..()

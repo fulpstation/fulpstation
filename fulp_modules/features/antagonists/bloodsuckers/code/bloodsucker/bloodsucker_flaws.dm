@@ -27,11 +27,7 @@
 		option.info = "[initial(all_clans.name)] - [span_boldnotice(initial(all_clans.join_description))]"
 		radial_display[initial(all_clans.name)] = option
 
-	var/chosen_clan
-	if(person_selecting)
-		chosen_clan = tgui_input_list(person_selecting, "What Clan should [owner.current] be?", "Clan Selection", options)
-	else
-		chosen_clan = show_radial_menu(person_selecting, owner.current, radial_display)
+	var/chosen_clan = show_radial_menu(person_selecting, owner.current, radial_display)
 	chosen_clan = options[chosen_clan]
 	if(QDELETED(src) || QDELETED(owner.current))
 		return FALSE

@@ -1,6 +1,5 @@
 /// Init this specific atom
 /datum/controller/subsystem/atoms/proc/InitAtom(atom/A, from_template = FALSE, list/arguments)
-
 	var/the_type = A.type
 
 	if(QDELING(A))
@@ -25,7 +24,7 @@
 
 	switch(result)
 		if (INITIALIZE_HINT_NORMAL)
-			EMPTY_BLOCK_GUARD // Pass
+			// pass
 		if(INITIALIZE_HINT_LATELOAD)
 			if(arguments[1]) //mapload
 				late_loaders += A
@@ -129,7 +128,7 @@
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
 
-	if (light_system == COMPLEX_LIGHT && light_power && light_range)
+	if (light_system == STATIC_LIGHT && light_power && light_range)
 		update_light()
 
 	SETUP_SMOOTHING()
@@ -162,5 +161,3 @@
  */
 /atom/proc/LateInitialize()
 	set waitfor = FALSE
-	SHOULD_CALL_PARENT(FALSE)
-	stack_trace("[src] ([type]) called LateInitialize but has nothing on it!")

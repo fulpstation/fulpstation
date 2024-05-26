@@ -14,7 +14,8 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
 	if(!bloodsuckerdatum)
 		return ..()
-	bloodsuckerdatum.AddBloodVolume(round(reac_volume, 0.1))
+	bloodsuckerdatum.bloodsucker_blood_volume = min(bloodsuckerdatum.bloodsucker_blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+
 
 /mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
 	. = ..()
@@ -24,7 +25,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return
-	bloodsuckerdatum.AddBloodVolume(-amount)
+	bloodsuckerdatum.bloodsucker_blood_volume -= amount
 
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)

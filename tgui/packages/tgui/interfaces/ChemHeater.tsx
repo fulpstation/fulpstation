@@ -17,7 +17,7 @@ import { COLORS } from '../constants';
 import { Window } from '../layouts';
 import { Beaker, BeakerSectionDisplay } from './common/BeakerDisplay';
 
-export type ActiveReaction = {
+type ActiveReaction = {
   name: string;
   danger: BooleanLike;
   overheat: BooleanLike;
@@ -40,142 +40,6 @@ type Data = {
   acidicBufferVol: number;
   basicBufferVol: number;
   dispenseVolume: number;
-};
-
-type ReactionDisplayProps = {
-  beaker: Beaker;
-  isFlashing: number;
-  activeReactions: ActiveReaction[];
-  highQualityDisplay: BooleanLike;
-  highDangerDisplay: BooleanLike;
-};
-
-export const ReactionDisplay = (props: ReactionDisplayProps) => {
-  const {
-    beaker,
-    isFlashing,
-    activeReactions,
-    highQualityDisplay,
-    highDangerDisplay,
-  } = props;
-
-  return (
-    <Section
-      title="Reactions"
-      buttons={
-        <Flex>
-          <Flex.Item color="label">
-            <AnimatedNumber
-              value={beaker.pH}
-              format={(value) => 'pH: ' + round(value, 3)}
-            />
-          </Flex.Item>
-          <Flex.Item>
-            <RoundGauge
-              size={1.6}
-              value={beaker.pH}
-              minValue={0}
-              maxValue={14}
-              alertAfter={isFlashing}
-              format={() => ''}
-              ranges={{
-                red: [-0.22, 1.5],
-                orange: [1.5, 3],
-                yellow: [3, 4.5],
-                olive: [4.5, 5],
-                good: [5, 6],
-                green: [6, 8.5],
-                teal: [8.5, 9.5],
-                blue: [9.5, 11],
-                purple: [11, 12.5],
-                violet: [12.5, 14],
-              }}
-            />
-          </Flex.Item>
-        </Flex>
-      }
-    >
-      {(activeReactions.length === 0 && (
-        <Box color="label">No active reactions.</Box>
-      )) || (
-        <Table>
-          <Table.Row>
-            <Table.Cell bold color="label">
-              Reaction
-            </Table.Cell>
-            <Table.Cell bold color="label">
-              {!highQualityDisplay ? 'Status' : 'Reaction quality'}
-            </Table.Cell>
-            <Table.Cell bold color="label">
-              Target
-            </Table.Cell>
-          </Table.Row>
-          {activeReactions.map((reaction) => (
-            <Table.Row key="reactions">
-              <Table.Cell width={'60px'} color={reaction.danger && 'red'}>
-                {reaction.name}
-              </Table.Cell>
-              <Table.Cell width={'100px'} pr={'10px'}>
-                {!highQualityDisplay ? (
-                  <Icon
-                    name={reaction.danger ? 'exclamation-triangle' : 'spinner'}
-                    color={reaction.danger && 'red'}
-                    spin={!reaction.danger}
-                    ml={2.5}
-                  />
-                ) : (
-                  <RoundGauge
-                    size={1.3}
-                    value={reaction.quality}
-                    minValue={0}
-                    maxValue={1}
-                    alertAfter={reaction.purityAlert}
-                    format={(value) => ''}
-                    ml={5}
-                    ranges={{
-                      red: [0, reaction.minPure],
-                      orange: [reaction.minPure, reaction.inverse],
-                      yellow: [reaction.inverse, 0.8],
-                      green: [0.8, 1],
-                    }}
-                  />
-                )}
-              </Table.Cell>
-              <Table.Cell width={'100px'}>
-                {highDangerDisplay ? (
-                  <>
-                    {!!reaction.overheat && (
-                      <Icon
-                        name="thermometer-full"
-                        color="red"
-                        style={{ transform: 'scale(1.7)' }}
-                        mr="5px"
-                      />
-                    )}
-                    <ProgressBar
-                      value={reaction.reactedVol}
-                      minValue={0}
-                      maxValue={reaction.targetVol}
-                      textAlign="center"
-                      width={8}
-                      color={reaction.overheat ? 'red' : 'label'}
-                    >
-                      {reaction.targetVol}u
-                    </ProgressBar>
-                  </>
-                ) : (
-                  <Box color={reaction.danger && 'red'} ml={2}>
-                    {reaction.targetVol}u
-                  </Box>
-                )}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-          <Table.Row />
-        </Table>
-      )}
-    </Section>
-  );
 };
 
 export const ChemHeater = (props) => {
@@ -230,7 +94,7 @@ export const ChemHeater = (props) => {
                   value={dispenseVolume}
                   minValue={1}
                   maxValue={10}
-                  onDrag={(value) =>
+                  onDrag={(e, value) =>
                     act('disp_vol', {
                       target: value,
                     })
@@ -251,7 +115,7 @@ export const ChemHeater = (props) => {
                   value={round(targetTemp, 0.1)}
                   minValue={0}
                   maxValue={1000}
-                  onDrag={(value) =>
+                  onDrag={(e, value) =>
                     act('temperature', {
                       target: value,
                     })
@@ -344,13 +208,125 @@ export const ChemHeater = (props) => {
           </Table>
         </Section>
         {!!isBeakerLoaded && (
-          <ReactionDisplay
-            beaker={beaker}
-            isFlashing={isFlashing}
-            activeReactions={activeReactions}
-            highQualityDisplay={upgradeLevel >= 4}
-            highDangerDisplay={upgradeLevel >= 2}
-          />
+          <Section
+            title="Reactions"
+            buttons={
+              <Flex>
+                <Flex.Item color="label">
+                  <AnimatedNumber
+                    value={beaker.pH}
+                    format={(value) => 'pH: ' + round(value, 3)}
+                  />
+                </Flex.Item>
+                <Flex.Item>
+                  <RoundGauge
+                    size={1.6}
+                    value={beaker.pH}
+                    minValue={0}
+                    maxValue={14}
+                    alertAfter={isFlashing}
+                    content={'test'}
+                    format={() => ''}
+                    ranges={{
+                      red: [-0.22, 1.5],
+                      orange: [1.5, 3],
+                      yellow: [3, 4.5],
+                      olive: [4.5, 5],
+                      good: [5, 6],
+                      green: [6, 8.5],
+                      teal: [8.5, 9.5],
+                      blue: [9.5, 11],
+                      purple: [11, 12.5],
+                      violet: [12.5, 14],
+                    }}
+                  />
+                </Flex.Item>
+              </Flex>
+            }
+          >
+            {(activeReactions.length === 0 && (
+              <Box color="label">No active reactions.</Box>
+            )) || (
+              <Table>
+                <Table.Row>
+                  <Table.Cell bold color="label">
+                    Reaction
+                  </Table.Cell>
+                  <Table.Cell bold color="label">
+                    {upgradeLevel < 4 ? 'Status' : 'Reaction quality'}
+                  </Table.Cell>
+                  <Table.Cell bold color="label">
+                    Target
+                  </Table.Cell>
+                </Table.Row>
+                {activeReactions.map((reaction) => (
+                  <Table.Row key="reactions">
+                    <Table.Cell width={'60px'} color={reaction.danger && 'red'}>
+                      {reaction.name}
+                    </Table.Cell>
+                    <Table.Cell width={'100px'} pr={'10px'}>
+                      {(upgradeLevel < 4 && (
+                        <Icon
+                          name={
+                            reaction.danger ? 'exclamation-triangle' : 'spinner'
+                          }
+                          color={reaction.danger && 'red'}
+                          spin={!reaction.danger}
+                          ml={2.5}
+                        />
+                      )) || (
+                        <RoundGauge
+                          size={1.3}
+                          value={reaction.quality}
+                          minValue={0}
+                          maxValue={1}
+                          alertAfter={reaction.purityAlert}
+                          content={'test'}
+                          format={(value) => ''}
+                          ml={5}
+                          ranges={{
+                            red: [0, reaction.minPure],
+                            orange: [reaction.minPure, reaction.inverse],
+                            yellow: [reaction.inverse, 0.8],
+                            green: [0.8, 1],
+                          }}
+                        />
+                      )}
+                    </Table.Cell>
+                    <Table.Cell width={'100px'}>
+                      {(upgradeLevel > 2 && (
+                        <>
+                          {!!reaction.overheat && (
+                            <Icon
+                              name="thermometer-full"
+                              color="red"
+                              style={{ transform: 'scale(1.7)' }}
+                              mr="5px"
+                            />
+                          )}
+                          <ProgressBar
+                            value={reaction.reactedVol}
+                            minValue={0}
+                            maxValue={reaction.targetVol}
+                            textAlign="center"
+                            width={8}
+                            color={reaction.overheat ? 'red' : 'label'}
+                          >
+                            {reaction.targetVol}u
+                          </ProgressBar>
+                        </>
+                      )) || (
+                        <Box color={reaction.danger && 'red'} ml={2}>
+                          {reaction.targetVol}u
+                        </Box>
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+                <Table.Row />
+              </Table>
+            )}
+          </Section>
         )}
         <BeakerSectionDisplay beaker={beaker} showpH={false} />
       </Window.Content>

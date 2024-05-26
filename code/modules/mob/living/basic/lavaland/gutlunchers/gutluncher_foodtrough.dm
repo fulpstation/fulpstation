@@ -22,8 +22,11 @@
 	list_of_materials -= mover.type
 	return ..()
 
-/obj/structure/ore_container/gutlunch_trough/atom_deconstruct(disassembled = TRUE)
+/obj/structure/ore_container/gutlunch_trough/deconstruct(disassembled = TRUE)
+	if(obj_flags & NO_DECONSTRUCTION)
+		return
 	new /obj/item/stack/sheet/mineral/wood(drop_location(), 5)
+	qdel(src)
 
 /obj/structure/ore_container/gutlunch_trough/update_overlays()
 	. = ..()

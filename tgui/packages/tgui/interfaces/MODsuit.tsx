@@ -19,7 +19,7 @@ import {
   Stack,
   Table,
 } from '../components';
-import { formatEnergy, formatPower, formatSiUnit } from '../format';
+import { formatSiUnit } from '../format';
 import { Window } from '../layouts';
 
 type MODsuitData = {
@@ -98,7 +98,7 @@ type Module = {
   pinned: BooleanLike;
   idle_power: number;
   active_power: number;
-  use_energy: number;
+  use_power: number;
   module_complexity: number;
   cooldown_time: number;
   cooldown: number;
@@ -120,8 +120,8 @@ export const MODsuit = (props) => {
   const { interface_break } = data.suit_status;
   return (
     <Window
-      width={800}
-      height={640}
+      width={600}
+      height={600}
       theme={ui_theme}
       title="MOD Interface Panel"
     >
@@ -171,10 +171,9 @@ const ConfigureNumberEntry = (props) => {
       value={value}
       minValue={-50}
       maxValue={50}
-      step={1}
       stepPixelSize={5}
       width="39px"
-      onChange={(value) =>
+      onChange={(e, value) =>
         act('configure', {
           key: name,
           value: value,
@@ -226,7 +225,7 @@ const ConfigureListEntry = (props) => {
   const { act } = useBackend();
   return (
     <Dropdown
-      selected={value}
+      displayText={value}
       options={values}
       onSelected={(value) =>
         act('configure', {
@@ -403,11 +402,11 @@ const SuitStatusSection = (props) => {
                 : cell_charge_current === 1e31
                   ? 'Infinite'
                   : `${formatSiUnit(
-                      cell_charge_current,
+                      cell_charge_current * 1000,
                       0,
                       'J',
                     )} of ${formatSiUnit(
-                      cell_charge_max,
+                      cell_charge_max * 1000,
                       0,
                       'J',
                     )} (${charge_percent}%)`}
@@ -689,7 +688,7 @@ const ModuleSection = (props) => {
       ) : (
         <Table>
           <Table.Row header>
-            <Table.Cell colSpan={3}>Actions</Table.Cell>
+            <Table.Cell colspan={3}>Actions</Table.Cell>
             <Table.Cell>Name</Table.Cell>
             <Table.Cell width={1} textAlign="center">
               <Button
@@ -711,7 +710,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="bolt"
-                tooltip="Use Energy Cost"
+                tooltip="Use Power Cost"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -782,45 +781,13 @@ const ModuleSection = (props) => {
                     />
                   )}
                 </Table.Cell>
+                <Table.Cell textAlign="center">{module.idle_power}</Table.Cell>
                 <Table.Cell textAlign="center">
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      width: '60px',
-                    }}
-                  >
-                    {formatPower(module.idle_power)}
-                  </div>
+                  {module.active_power}
                 </Table.Cell>
+                <Table.Cell textAlign="center">{module.use_power}</Table.Cell>
                 <Table.Cell textAlign="center">
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      width: '60px',
-                    }}
-                  >
-                    {formatPower(module.active_power)}
-                  </div>
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      width: '60px',
-                    }}
-                  >
-                    {formatEnergy(module.use_energy)}
-                  </div>
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  <div
-                    style={{
-                      display: 'inline-block',
-                      width: '10px',
-                    }}
-                  >
-                    {module.module_complexity}
-                  </div>
+                  {module.module_complexity}
                 </Table.Cell>
               </Table.Row>
             );

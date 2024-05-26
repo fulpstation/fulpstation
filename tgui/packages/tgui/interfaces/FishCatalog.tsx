@@ -1,4 +1,5 @@
 import { sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { classes } from 'common/react';
 import { capitalize } from 'common/string';
 import { useState } from 'react';
@@ -37,7 +38,9 @@ type FishCatalogData = {
 export const FishCatalog = (props) => {
   const { act, data } = useBackend<FishCatalogData>();
   const { fish_info, sponsored_by } = data;
-  const fish_by_name = sortBy(fish_info || [], (fish: FishInfo) => fish.name);
+  const fish_by_name = flow([sortBy((fish: FishInfo) => fish.name)])(
+    fish_info || [],
+  );
   const [currentFish, setCurrentFish] = useState<FishInfo | null>(null);
   return (
     <Window width={500} height={300}>

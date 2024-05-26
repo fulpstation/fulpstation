@@ -6,7 +6,7 @@
 /// Can be applied to those only with a trait conditionally.
 /datum/component/aura_healing
 	/// The range of which to heal
-	var/range = 5
+	var/range
 
 	/// Whether or not you must be a visible object of the parent
 	var/requires_visibility = TRUE
@@ -42,13 +42,12 @@
 	var/healing_color = COLOR_GREEN
 
 	/// A list of being healed to active alerts
-	var/list/mob/living/current_alerts = list()
+	var/list/current_alerts = list()
 
-	/// Cooldown between showing the heal effect
 	COOLDOWN_DECLARE(last_heal_effect_time)
 
 /datum/component/aura_healing/Initialize(
-	range = 5,
+	range,
 	requires_visibility = TRUE,
 	brute_heal = 0,
 	burn_heal = 0,
@@ -64,7 +63,7 @@
 	if (!isatom(parent))
 		return COMPONENT_INCOMPATIBLE
 
-	START_PROCESSING(SSaura, src)
+	START_PROCESSING(SSaura_healing, src)
 
 	src.range = range
 	src.requires_visibility = requires_visibility
@@ -80,10 +79,10 @@
 	src.healing_color = healing_color
 
 /datum/component/aura_healing/Destroy(force)
-	STOP_PROCESSING(SSaura, src)
+	STOP_PROCESSING(SSaura_healing, src)
 	var/alert_category = "aura_healing_[REF(src)]"
 
-	for(var/mob/living/alert_holder as anything in current_alerts)
+	for(var/mob/living/alert_holder in current_alerts)
 		alert_holder.clear_alert(alert_category)
 	current_alerts.Cut()
 
@@ -94,25 +93,20 @@
 	if (should_show_effect)
 		COOLDOWN_START(src, last_heal_effect_time, HEAL_EFFECT_COOLDOWN)
 
-	var/list/to_heal = list()
+	var/list/remove_alerts_from = current_alerts.Copy()
+
 	var/alert_category = "aura_healing_[REF(src)]"
 
-	if(requires_visibility)
-		for(var/mob/living/candidate in view(range, parent))
-			if (!isnull(limit_to_trait) && !HAS_TRAIT(candidate, limit_to_trait))
-				continue
-			to_heal[candidate] = TRUE
-	else
-		for(var/mob/living/candidate in range(range, parent))
-			if (!isnull(limit_to_trait) && !HAS_TRAIT(candidate, limit_to_trait))
-				continue
-			to_heal[candidate] = TRUE
+	for (var/mob/living/candidate in (requires_visibility ? view(range, parent) : range(range, parent)))
+		if (!isnull(limit_to_trait) && !HAS_TRAIT(candidate, limit_to_trait))
+			continue
 
-	for (var/mob/living/candidate as anything in to_heal)
-		if (!current_alerts[candidate])
+		remove_alerts_from -= candidate
+
+		if (!(candidate in current_alerts))
 			var/atom/movable/screen/alert/aura_healing/alert = candidate.throw_alert(alert_category, /atom/movable/screen/alert/aura_healing, new_master = parent)
 			alert.desc = "You are being healed by [parent]."
-			current_alerts[candidate] = TRUE
+			current_alerts += candidate
 
 		if (should_show_effect && candidate.health < candidate.maxHealth)
 			new /obj/effect/temp_visual/heal(get_turf(candidate), healing_color)
@@ -142,7 +136,7 @@
 
 		candidate.updatehealth()
 
-	for (var/mob/living/remove_alert_from as anything in current_alerts - to_heal)
+	for (var/mob/remove_alert_from as anything in remove_alerts_from)
 		remove_alert_from.clear_alert(alert_category)
 		current_alerts -= remove_alert_from
 

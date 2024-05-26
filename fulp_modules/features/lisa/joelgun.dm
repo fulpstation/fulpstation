@@ -81,7 +81,7 @@
 		victims.do_alert_animation()
 	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 6 SECONDS)
 
-/obj/item/gun/ballistic/revolver/joel/click_alt(mob/user)
+/obj/item/gun/ballistic/revolver/joel/AltClick(mob/user)
 	if(used_ability)
 		to_chat(user, span_warning("You have to wait before using an ability!"))
 		return

@@ -1,7 +1,5 @@
 /// Adds a list of fingerprints to the atom
 /atom/proc/add_fingerprint_list(list/fingerprints_to_add) //ASSOC LIST FINGERPRINT = FINGERPRINT
-	if (QDELETED(src))
-		return
 	if (isnull(fingerprints_to_add))
 		return
 	if (forensics)
@@ -12,7 +10,7 @@
 
 /// Adds a single fingerprint to the atom
 /atom/proc/add_fingerprint(mob/suspect, ignoregloves = FALSE) //Set ignoregloves to add prints irrespective of the mob having gloves on.
-	if (QDELETED(src))
+	if (QDELING(src))
 		return
 	if (isnull(forensics))
 		forensics = new(src)
@@ -21,8 +19,6 @@
 
 /// Add a list of fibers to the atom
 /atom/proc/add_fiber_list(list/fibers_to_add) //ASSOC LIST FIBERTEXT = FIBERTEXT
-	if (QDELETED(src))
-		return
 	if (isnull(fibers_to_add))
 		return
 	if (forensics)
@@ -33,8 +29,6 @@
 
 /// Adds a single fiber to the atom
 /atom/proc/add_fibers(mob/living/carbon/human/suspect)
-	if (QDELETED(src))
-		return
 	var/old = 0
 	if(suspect.gloves && istype(suspect.gloves, /obj/item/clothing))
 		var/obj/item/clothing/gloves/suspect_gloves = suspect.gloves
@@ -53,8 +47,6 @@
 
 /// Adds a list of hiddenprints to the atom
 /atom/proc/add_hiddenprint_list(list/hiddenprints_to_add) //NOTE: THIS IS FOR ADMINISTRATION FINGERPRINTS, YOU MUST CUSTOM SET THIS TO INCLUDE CKEY/REAL NAMES! CHECK FORENSICS.DM
-	if (QDELETED(src))
-		return
 	if (isnull(hiddenprints_to_add))
 		return
 	if (forensics)
@@ -65,8 +57,6 @@
 
 /// Adds a single hiddenprint to the atom
 /atom/proc/add_hiddenprint(mob/suspect)
-	if (QDELETED(src))
-		return
 	if (isnull(forensics))
 		forensics = new(src)
 	forensics.add_hiddenprint(suspect)
@@ -77,8 +67,6 @@
 	return FALSE
 
 /obj/add_blood_DNA(list/blood_DNA_to_add)
-	if (QDELETED(src))
-		return
 	. = ..()
 	if (isnull(blood_DNA_to_add))
 		return .
@@ -110,8 +98,6 @@
 	return FALSE
 
 /mob/living/carbon/human/add_blood_DNA(list/blood_DNA_to_add, list/datum/disease/diseases)
-	if (QDELETED(src))
-		return
 	if(wear_suit)
 		wear_suit.add_blood_DNA(blood_DNA_to_add)
 		update_worn_oversuit()

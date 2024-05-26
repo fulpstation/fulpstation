@@ -67,7 +67,7 @@
 
 	// Used for Bloodsucker Objectives
 	var/area/bloodsucker_lair_area
-	var/obj/structure/closet/crate/claimed_coffin
+	var/obj/structure/closet/crate/coffin
 	var/total_blood_drank = 0
 
 	///Blood display HUD

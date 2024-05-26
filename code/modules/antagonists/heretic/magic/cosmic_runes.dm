@@ -1,7 +1,6 @@
 /datum/action/cooldown/spell/cosmic_rune
 	name = "Cosmic Rune"
-	desc = "Creates a cosmic rune at your position, only two can exist at a time. Invoking one rune transports you to the other. \
-		Anyone with a star mark gets transported along with you."
+	desc = "Creates a cosmic rune at your position, only two can exist at a time. Invoking one rune transports you to the other."
 	background_icon_state = "bg_heretic"
 	overlay_icon_state = "bg_heretic_border"
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
@@ -113,7 +112,7 @@
 	var/oldcolor = rgb(255, 255, 255)
 	color = rgb(150, 50, 200)
 	animate(src, color = oldcolor, time = 5)
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 0.5 SECONDS)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 5)
 
 /// For linking a new rune
 /obj/effect/cosmic_rune/proc/link_rune(datum/weakref/new_rune)

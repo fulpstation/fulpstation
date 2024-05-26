@@ -4,7 +4,6 @@
 	var/give_traumas = TRUE
 
 /datum/species/human/felinid/nobraindamage
-	name = "Felinid Good Brain"
 	id = "felinid-nobraindamage"
 	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | ERT_SPAWN
 	brain_damage_to_give = 0

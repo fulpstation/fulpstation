@@ -113,17 +113,17 @@
 	//optional todo: hook up sending surface changed on aquarium changing layers
 	switch(layer_type)
 		if(AQUARIUM_LAYER_MODE_BEHIND_GLASS)
-			return layer + AQUARIUM_BELOW_GLASS_LAYER
+			return AQUARIUM_BELOW_GLASS_LAYER
 		if(AQUARIUM_LAYER_MODE_BOTTOM)
-			return layer + AQUARIUM_MIN_OFFSET
+			return AQUARIUM_MIN_OFFSET
 		if(AQUARIUM_LAYER_MODE_TOP)
-			return layer + AQUARIUM_MAX_OFFSET
+			return AQUARIUM_MAX_OFFSET
 		if(AQUARIUM_LAYER_MODE_AUTO)
 			var/chosen_layer = AQUARIUM_MIN_OFFSET + AQUARIUM_LAYER_STEP
 			while((chosen_layer in used_layers) && (chosen_layer <= AQUARIUM_MAX_OFFSET))
 				chosen_layer += AQUARIUM_LAYER_STEP
 			used_layers += chosen_layer
-			return layer + chosen_layer
+			return chosen_layer
 
 /obj/structure/aquarium/proc/free_layer(value)
 	used_layers -= value
@@ -149,9 +149,9 @@
 	var/suffix = fluid_type == AQUARIUM_FLUID_AIR ? "air" : "water"
 	if(broken)
 		suffix += "_broken"
-		. += mutable_appearance(icon, "aquarium_glass_cracks", layer = layer + AQUARIUM_BORDERS_LAYER)
-	. += mutable_appearance(icon, "aquarium_glass_[suffix]", layer = layer + AQUARIUM_GLASS_LAYER)
-	. += mutable_appearance(icon, "aquarium_borders", layer = layer + AQUARIUM_BORDERS_LAYER)
+		. += mutable_appearance(icon, "aquarium_glass_cracks", layer = AQUARIUM_BORDERS_LAYER)
+	. += mutable_appearance(icon, "aquarium_glass_[suffix]", layer = AQUARIUM_GLASS_LAYER)
+	. += mutable_appearance(icon, "aquarium_borders", layer = AQUARIUM_BORDERS_LAYER)
 
 /obj/structure/aquarium/examine(mob/user)
 	. = ..()
@@ -159,7 +159,10 @@
 	if(panel_open && reagents.total_volume)
 		. += span_notice("You can use a plunger to empty the feed storage.")
 
-/obj/structure/aquarium/click_alt(mob/living/user)
+/obj/structure/aquarium/AltClick(mob/living/user)
+	. = ..()
+	if(!user.can_perform_action(src))
+		return
 	panel_open = !panel_open
 	balloon_alert(user, "panel [panel_open ? "open" : "closed"]")
 	if(panel_open)
@@ -167,7 +170,6 @@
 	else
 		reagents.flags &= ~(TRANSPARENT|REFILLABLE)
 	update_appearance()
-	return CLICK_ACTION_SUCCESS
 
 /obj/structure/aquarium/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -177,9 +179,9 @@
 /obj/structure/aquarium/plunger_act(obj/item/plunger/P, mob/living/user, reinforced)
 	if(!panel_open)
 		return
-	user.balloon_alert_to_viewers("plunging...")
+	to_chat(user, span_notice("You start plunging [name]."))
 	if(do_after(user, 3 SECONDS, target = src))
-		user.balloon_alert_to_viewers("finished plunging")
+		to_chat(user, span_notice("You finish plunging the [name]."))
 		reagents.expose(get_turf(src), TOUCH) //splash on the floor
 		reagents.clear_reagents()
 

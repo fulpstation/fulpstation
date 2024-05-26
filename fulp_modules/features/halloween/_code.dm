@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/choice_beacon/halloween
 	name = "halloween delivery beacon"
 	desc = "Summon a box of halloween costumes to help you get spooky."
-	icon_state = "generic_delivery"
+	icon_state = "gangtool-white"
 
 /obj/item/choice_beacon/halloween/generate_display_names()
 	var/static/list/halloween_costumes
@@ -82,12 +82,6 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 
 /obj/item/storage/box/halloween/edition_22
 	year = 2022
-
-/obj/item/storage/box/halloween/edition_23
-	year = 2023
-
-/obj/item/storage/box/halloween/edition_24
-	year = 2024
 
 /**
  * Gift code

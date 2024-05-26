@@ -9,7 +9,6 @@
 	description = "As a Vassal, you are too young to enter a Clan of your own. \n\
 		Continue to help your Master advance in their aspirations."
 	joinable_clan = FALSE
-	shows_in_archives = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY //You drink the same as your Master.
 
 /datum/bloodsucker_clan/vassal/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)

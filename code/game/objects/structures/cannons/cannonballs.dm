@@ -29,7 +29,7 @@
 	name = "explosive shellballs"
 	singular_name = "explosive shellball"
 	desc = "An explosive anti-materiel and counter-battery projectile cannonball. Makes great work out of any wall, for easy entrances."
-	color = COLOR_RED
+	color = "#FF0000"
 	merge_type = /obj/item/stack/cannonball/shellball
 	projectile_type = /obj/projectile/bullet/cannonball/explosive
 

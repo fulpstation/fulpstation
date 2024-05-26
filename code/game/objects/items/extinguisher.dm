@@ -18,7 +18,6 @@
 	attack_verb_simple = list("slam", "whack", "bash", "thunk", "batter", "bludgeon", "thrash")
 	dog_fashion = /datum/dog_fashion/back
 	resistance_flags = FIRE_PROOF
-	interaction_flags_click = NEED_DEXTERITY|NEED_HANDS
 	/// The max amount of water this extinguisher can hold.
 	var/max_water = 50
 	/// Does the welder extinguisher start with water.
@@ -125,7 +124,6 @@
 	tanktype = /obj/structure/reagent_dispensers/foamtank
 	sprite_name = "foam_extinguisher"
 	precision = TRUE
-	max_water = 100
 
 /obj/item/extinguisher/advanced/empty
 	starting_water = FALSE
@@ -217,7 +215,7 @@
 		if(user.buckled && isobj(user.buckled) && !user.buckled.anchored)
 			var/obj/B = user.buckled
 			var/movementdirection = REVERSE_DIR(direction)
-			addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/item/extinguisher, move_chair), B, movementdirection), 0.1 SECONDS)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/item/extinguisher, move_chair), B, movementdirection), 1)
 		else
 			user.newtonian_move(REVERSE_DIR(direction))
 
@@ -258,7 +256,7 @@
 
 //Chair movement loop
 /obj/item/extinguisher/proc/move_chair(obj/buckled_object, movementdirection)
-	var/datum/move_loop/loop = DSmove_manager.move(buckled_object, movementdirection, 1, timeout = 9, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
+	var/datum/move_loop/loop = SSmove_manager.move(buckled_object, movementdirection, 1, timeout = 9, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
 	//This means the chair slowing down is dependant on the extinguisher existing, which is weird
 	//Couldn't figure out a better way though
 	RegisterSignal(loop, COMSIG_MOVELOOP_POSTPROCESS, PROC_REF(manage_chair_speed))
@@ -271,17 +269,23 @@
 		if(1 to 3)
 			source.delay = 3
 
-/obj/item/extinguisher/click_alt(mob/user)
+/obj/item/extinguisher/AltClick(mob/user)
+	if(!user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS))
+		return
 	if(!user.is_holding(src))
 		to_chat(user, span_notice("You must be holding the [src] in your hands do this!"))
-		return CLICK_ACTION_BLOCKING
+		return
 	EmptyExtinguisher(user)
-	return CLICK_ACTION_SUCCESS
 
 /obj/item/extinguisher/proc/EmptyExtinguisher(mob/user)
 	if(loc == user && reagents.total_volume)
-		reagents.expose(user.loc, TOUCH)
 		reagents.clear_reagents()
+
+		var/turf/T = get_turf(loc)
+		if(isopenturf(T))
+			var/turf/open/theturf = T
+			theturf.MakeSlippery(TURF_WET_WATER, min_wet_time = 10 SECONDS, wet_time_to_add = 5 SECONDS)
+
 		user.visible_message(span_notice("[user] empties out \the [src] onto the floor using the release valve."), span_info("You quietly empty out \the [src] using its release valve."))
 
 //firebot assembly
@@ -293,10 +297,3 @@
 		user.put_in_hands(new /obj/item/bot_assembly/firebot)
 	else
 		..()
-
-/obj/item/extinguisher/anti
-	name = "fire extender"
-	desc = "A traditional red fire extinguisher. Made in Britain... wait, what?"
-	chem = /datum/reagent/fuel
-	tanktype = /obj/structure/reagent_dispensers/fueltank
-	cooling_power = 0

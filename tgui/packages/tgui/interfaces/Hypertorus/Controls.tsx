@@ -237,10 +237,9 @@ export const HypertorusWasteRemove = (props) => {
             animated
             value={mod_filtering_rate}
             unit="mol/s"
-            step={1}
             minValue={5}
             maxValue={200}
-            onDrag={(value) =>
+            onDrag={(e, value) =>
               act('mod_filtering_rate', {
                 mod_filtering_rate: value,
               })

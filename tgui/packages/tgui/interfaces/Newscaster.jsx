@@ -6,6 +6,7 @@
  */
 
 import { decodeHtmlEntities } from 'common/string';
+import { marked } from 'marked';
 import { useState } from 'react';
 
 import { useBackend, useSharedState } from '../backend';
@@ -22,7 +23,7 @@ import {
   Tabs,
   TextArea,
 } from '../components';
-import { processedText } from '../process';
+import { sanitizeText } from '../sanitize';
 import { BountyBoardContent } from './BountyBoard';
 import { UserDetails } from './Vending';
 
@@ -89,8 +90,8 @@ const NewscasterChannelCreation = (props) => {
             <Box pb={1}>
               Enter channel name here:
               <Button
+                content="X"
                 color="red"
-                icon="times"
                 position="relative"
                 top="20%"
                 left="15%"
@@ -137,30 +138,27 @@ const NewscasterChannelCreation = (props) => {
               <Box pt={1}>
                 <Button
                   selected={!lockedmode}
+                  content="Public"
                   onClick={() => setLockedmode(false)}
-                >
-                  Public
-                </Button>
+                />
                 <Button
                   selected={!!lockedmode}
+                  content="Private"
                   onClick={() => setLockedmode(true)}
-                >
-                  Private
-                </Button>
+                />
               </Box>
             </Section>
           </Stack.Item>
           <Stack.Item>
             <Box>
               <Button
+                content="Submit Channel"
                 onClick={() =>
                   act('createChannel', {
                     lockedmode: lockedmode,
                   })
                 }
-              >
-                Submit Channel
-              </Button>
+              />
             </Box>
           </Stack.Item>
         </>
@@ -183,9 +181,9 @@ const NewscasterCommentCreation = (props) => {
           <Box pb={1}>
             Enter comment:
             <Button
+              content="X"
               color="red"
               position="relative"
-              icon="times"
               top="20%"
               left="25%"
               onClick={() => act('cancelCreation')}
@@ -210,14 +208,13 @@ const NewscasterCommentCreation = (props) => {
         <Stack.Item>
           <Box>
             <Button
+              content={'Submit Comment'}
               onClick={() =>
                 act('createComment', {
                   messageID: viewing_message,
                 })
               }
-            >
-              Submit Comment
-            </Button>
+            />
           </Box>
         </Stack.Item>
       </Stack>
@@ -239,7 +236,7 @@ const NewscasterWantedScreen = (props) => {
     return null;
   }
   return (
-    <Modal textAlign="center" mr={1} width={25}>
+    <Modal textAlign="center" mr={1.5} width={25}>
       {wanted.map((activeWanted) => (
         <>
           <Stack vertical>
@@ -249,27 +246,22 @@ const NewscasterWantedScreen = (props) => {
                   ? 'Active Wanted Issue:'
                   : 'Dismissed Wanted Issue:'}
                 <Button
+                  content="X"
                   color="red"
                   position="relative"
-                  icon="times"
                   top="20%"
-                  left="15%"
+                  left="18%"
                   onClick={() => act('cancelCreation')}
                 />
               </Box>
-              {!!activeWanted.criminal && (
-                <>
-                  <Section>
-                    <Box bold>{activeWanted.criminal}</Box>
-                    <Box italic>{activeWanted.crime}</Box>
-                  </Section>
-                  <Image src={activeWanted.image ? activeWanted.image : null} />
-                  <Box italic>
-                    Posted by{' '}
-                    {activeWanted.author ? activeWanted.author : 'N/A'}
-                  </Box>
-                </>
-              )}
+              <Section>
+                <Box bold>{activeWanted.criminal}</Box>
+                <Box italic>{activeWanted.crime}</Box>
+              </Section>
+              <Image src={activeWanted.image ? activeWanted.image : null} />
+              <Box italic>
+                Posted by {activeWanted.author ? activeWanted.author : 'N/A'}
+              </Box>
             </Stack.Item>
           </Stack>
           <Divider />
@@ -280,22 +272,20 @@ const NewscasterWantedScreen = (props) => {
           <LabeledList>
             <LabeledList.Item label="Criminal Name">
               <Button
+                content={criminal_name ? criminal_name : ' N/A'}
                 disabled={!security_mode}
                 icon="pen"
                 onClick={() => act('setCriminalName')}
-              >
-                {criminal_name ? criminal_name : ' N/A'}
-              </Button>
+              />
             </LabeledList.Item>
             <LabeledList.Item label="Criminal Activity">
               <Button
+                content={crime_description ? crime_description : ' N/A'}
                 nowrap={false}
                 disabled={!security_mode}
                 icon="pen"
                 onClick={() => act('setCrimeData')}
-              >
-                {crime_description ? crime_description : ' N/A'}
-              </Button>
+              />
             </LabeledList.Item>
           </LabeledList>
           <Section>
@@ -303,34 +293,29 @@ const NewscasterWantedScreen = (props) => {
               icon="camera"
               selected={photo_data}
               disabled={!security_mode}
+              content={photo_data ? 'Remove photo' : 'Attach photo'}
               onClick={() => act('togglePhoto')}
-            >
-              {photo_data ? 'Remove photo' : 'Attach photo'}
-            </Button>
+            />
             <Button
+              content={'Set Wanted Issue'}
               disabled={!security_mode}
               icon="volume-up"
               onClick={() => act('submitWantedIssue')}
-            >
-              Set Wanted Issue
-            </Button>
+            />
             <Button
+              content={'Clear Wanted'}
               disabled={!security_mode}
               icon="times"
               color="red"
               onClick={() => act('clearWantedIssue')}
-            >
-              Clear Wanted
-            </Button>
+            />
           </Section>
         </>
       ) : (
         <Box>
-          {wanted.map((activeWanted) =>
-            activeWanted.active
-              ? 'Please contact your local security officer if spotted.'
-              : 'No wanted issue posted. Have a secure day.',
-          )}
+          {wanted.active
+            ? 'Please contact your local security officer if spotted.'
+            : 'No wanted issue posted. Have a secure day.'}
         </Box>
       )}
     </Modal>
@@ -407,29 +392,28 @@ const NewscasterChannelBox = (props) => {
           <Box>
             <Button
               icon="print"
+              content="Submit Story"
               disabled={
                 (channelLocked && channelAuthor !== user.name) ||
                 channelCensored
               }
               onClick={() => act('createStory', { current: viewing_channel })}
               mt={1}
-            >
-              Submit Story
-            </Button>
+            />
             <Button
               icon="camera"
               selected={photo_data}
+              content="Select Photo"
               disabled={
                 (channelLocked && channelAuthor !== user.name) ||
                 channelCensored
               }
               onClick={() => act('togglePhoto')}
-            >
-              Select Photo
-            </Button>
+            />
             {!!admin_mode && (
               <Button
                 icon="ban"
+                content={'D-Notice'}
                 tooltip="Censor the whole channel and it's \
                   contents as dangerous to the station. Cannot be undone."
                 disabled={!admin_mode || !viewing_channel}
@@ -439,20 +423,16 @@ const NewscasterChannelBox = (props) => {
                     channel: viewing_channel,
                   })
                 }
-              >
-                D-Notice
-              </Button>
+              />
             )}
           </Box>
           <Box>
             <Button
               icon="newspaper"
-              tooltip={paper <= 0 ? 'Insert paper first!' : ''}
+              content="Print Newspaper"
               disabled={paper <= 0}
               onClick={() => act('printNewspaper')}
-            >
-              Print Newspaper
-            </Button>
+            />
           </Box>
         </Stack.Item>
       </Stack>
@@ -511,6 +491,20 @@ const NewscasterChannelSelector = (props) => {
       </Tabs>
     </Section>
   );
+};
+
+const processedText = (value) => {
+  const textHtml = {
+    __html: sanitizeText(
+      marked(value, {
+        breaks: true,
+        smartypants: true,
+        smartLists: true,
+        baseUrl: 'thisshouldbreakhttp',
+      }),
+    ),
+  };
+  return textHtml;
 };
 
 /** This is where the channels comments get spangled out (tm) */

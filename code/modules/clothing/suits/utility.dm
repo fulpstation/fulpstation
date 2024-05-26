@@ -99,11 +99,6 @@
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	resistance_flags = NONE
 
-/obj/item/clothing/head/utility/bomb_hood/Initialize(mapload)
-	. = ..()
-	if(flags_inv & HIDEFACE)
-		AddComponent(/datum/component/clothing_fov_visor, FOV_90_DEGREES)
-
 /datum/armor/utility_bomb_hood
 	melee = 20
 	laser = 20
@@ -173,11 +168,6 @@
 	equip_delay_other = 60
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	resistance_flags = NONE
-
-/obj/item/clothing/head/utility/radiation/Initialize(mapload)
-	. = ..()
-	if(flags_inv & HIDEFACE)
-		AddComponent(/datum/component/clothing_fov_visor, FOV_90_DEGREES)
 
 /datum/armor/utility_radiation
 	bio = 60

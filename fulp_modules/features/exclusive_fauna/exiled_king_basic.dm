@@ -641,8 +641,7 @@
 	name = "King Slayer"
 	desc = "We eating sushi tonight"
 	database_id = BOSS_MEDAL_EXILED
-	icon = 'fulp_modules/features/exclusive_fauna/icons/rewards.dmi'
-	icon_state = "exiled_king"
+	icon = "service_okay"
 
 
 /datum/award/score/king_score

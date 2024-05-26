@@ -19,7 +19,6 @@
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_MUTANT_COLORS,
 		TRAIT_AGENDER,
-		TRAIT_FIXED_HAIRCOLOR,
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
@@ -73,6 +72,7 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
+
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
@@ -162,9 +162,9 @@
 							else
 								accessory_overlay.color = source.dna.features["mcolor"]
 						if(HAIR_COLOR)
-							if(hair_color_mode == USE_MUTANT_COLOR)
+							if(hair_color == "mutcolor")
 								accessory_overlay.color = source.dna.features["mcolor"]
-							else if(hair_color_mode == USE_FIXED_MUTANT_COLOR)
+							else if(hair_color == "fixedmutcolor")
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.hair_color
@@ -197,10 +197,7 @@
 
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
-	var/my_color = beefman.dna.features["beef_color"]
-	if(isnull(my_color))
-		return
-	fixed_mut_color = my_color
+	fixed_mut_color = beefman.dna.features["beef_color"]
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
@@ -225,8 +222,8 @@
  */
 
 /datum/species/beefman/get_species_description()
-	return "Thanks to being made entirely out of beef, Beefman's brains are deeply flawed, \
-		causing them to suffer constant hallucinations and 'tears in reality'"
+	return "Made entirely out of beef, Beefmen are completely delusional \
+		through and through, with constant hallucinations and 'tears in reality'"
 
 /datum/species/beefman/get_species_lore()
 	return list(
@@ -255,7 +252,7 @@
 		//Positive
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
-			SPECIES_PERK_ICON = "handshake",
+			SPECIES_PERK_ICON = "meat",
 			SPECIES_PERK_NAME = "Beefy Limbs",
 			SPECIES_PERK_DESC = "Beefmen are able to tear off and put limbs back on at will. They do this by targetting their limb and right clicking.",
 		),
@@ -263,41 +260,41 @@
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "running",
 			SPECIES_PERK_NAME = "Runners",
-			SPECIES_PERK_DESC = "Beefmen are 20% faster than most other species.",
+			SPECIES_PERK_DESC = "Beefmen are 20% faster than other species by default, allowing them to outrun things that normal crewmembers cannot.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "temperature-low",
 			SPECIES_PERK_NAME = "Cold Loving",
-			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold. Low temperatures even prevent bleeding.",
+			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold, even helping them prevent bleeding.",
 		),
 		//Neutral
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "link",
 			SPECIES_PERK_NAME = "Phobetor Tears",
-			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor tears, small tears in reality, \
-				that teleport them to the other end of the tear. This can only be done when no one is watching.",
+			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor tears, small tears in reality that, \
+				When used, teleports you to the other end of the tear. This cannot if someone is near the start and end.",
 		),
 		//Negative
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "shield-alt",
 			SPECIES_PERK_NAME = "Boneless Meat",
-			SPECIES_PERK_DESC = "Beefmen's meat is not well guarded, causing them to take 20% more damage.",
+			SPECIES_PERK_DESC = "Beefmen's meat is not well guarded, taking 20% more damage than normal crew.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "tint",
 			SPECIES_PERK_NAME = "Juice Bleeding",
-			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above [BEEFMAN_BLEEDOUT_LEVEL-T0C] Celsius. \
-				Burn damage will prevent bleeding.",
+			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above [BEEFMAN_BLEEDOUT_LEVEL-T0C] Celsius, \
+				Though scaling burn damage will prevent the bleeding.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "briefcase-medical",
 			SPECIES_PERK_NAME = "Mentally unfit",
-			SPECIES_PERK_DESC = "Beefmen suffer from a permanent brain trauma \
+			SPECIES_PERK_DESC = "Beefmen suffer terribly from a permanent brain trauma. \
 				that can't be repaired under normal circumstances.",
 		),
 	)
@@ -334,6 +331,10 @@
  * ATTACK PROCS
  */
 /datum/species/beefman/help(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
+	bleed_over_target(user, target)
+	return ..()
+
+/datum/species/beefman/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	bleed_over_target(user, target)
 	return ..()
 
@@ -446,6 +447,8 @@
 			new_sash = new /obj/item/clothing/under/bodysash/medical()
 		if(JOB_CHEMIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/chemist()
+		if(JOB_VIROLOGIST)
+			new_sash = new /obj/item/clothing/under/bodysash/medical/virologist()
 		if(JOB_PARAMEDIC)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 

@@ -13,19 +13,36 @@
 // We also make SURE to fail loud, IE: if something stops the message from reaching the recipient, the sender HAS to know
 // If you "refactor" this to make it "cleaner" I will send you to hell
 
-ADMIN_VERB_ONLY_CONTEXT_MENU(cmd_admin_pm_context, R_NONE, "Admin PM Mob", mob/target in world)
-	if(!ismob(target))
-		to_chat(
-			src,
+/// Allows right clicking mobs to send an admin PM to their client, forwards the selected mob's client to cmd_admin_pm
+/client/proc/cmd_admin_pm_context(mob/M in GLOB.mob_list)
+	set category = null
+	set name = "Admin PM Mob"
+	if(!holder)
+		to_chat(src,
+			type = MESSAGE_TYPE_ADMINPM,
+			html = span_danger("Error: Admin-PM-Context: Only administrators may use this command."),
+			confidential = TRUE)
+		return
+	if(!ismob(M))
+		to_chat(src,
 			type = MESSAGE_TYPE_ADMINPM,
 			html = span_danger("Error: Admin-PM-Context: Target mob is not a mob, somehow."),
-			confidential = TRUE,
-		)
+			confidential = TRUE)
 		return
-	user.cmd_admin_pm(target.client, null)
+	cmd_admin_pm(M.client, null)
 	BLACKBOX_LOG_ADMIN_VERB("Admin PM Mob")
 
-ADMIN_VERB(cmd_admin_pm_panel, R_NONE, "Admin PM", "Show a list of clients to PM", ADMIN_CATEGORY_MAIN)
+/// Shows a list of clients we could send PMs to, then forwards our choice to cmd_admin_pm
+/client/proc/cmd_admin_pm_panel()
+	set category = "Admin"
+	set name = "Admin PM"
+	if(!holder)
+		to_chat(src,
+			type = MESSAGE_TYPE_ADMINPM,
+			html = span_danger("Error: Admin-PM-Panel: Only administrators may use this command."),
+			confidential = TRUE)
+		return
+
 	var/list/targets = list()
 	for(var/client/client in GLOB.clients)
 		var/nametag = ""
@@ -45,7 +62,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, "Admin PM", "Show a list of clients to PM
 	var/target = input(src,"To whom shall we send a message?", "Admin PM", null) as null|anything in sort_list(targets)
 	if (isnull(target))
 		return
-	user.cmd_admin_pm(targets[target], null)
+	cmd_admin_pm(targets[target], null)
 	BLACKBOX_LOG_ADMIN_VERB("Admin PM")
 
 /// Replys to some existing ahelp, reply to whom, which can be a client or ckey
@@ -612,7 +629,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, "Admin PM", "Show a list of clients to PM
 	// The ticket's id
 	var/ticket_id = ticket?.id
 
-	var/compliant_msg = trim(LOWER_TEXT(message))
+	var/compliant_msg = trim(lowertext(message))
 	var/tgs_tagged = "[sender](TGS/External)"
 	var/list/splits = splittext(compliant_msg, " ")
 	var/split_size = length(splits)

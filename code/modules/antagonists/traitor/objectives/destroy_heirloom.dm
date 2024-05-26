@@ -41,6 +41,7 @@
 	target_jobs = list(
 		// Medical
 		/datum/job/doctor,
+		/datum/job/virologist,
 		/datum/job/paramedic,
 		/datum/job/psychologist,
 		/datum/job/chemist,

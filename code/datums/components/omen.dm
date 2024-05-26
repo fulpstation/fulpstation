@@ -308,7 +308,6 @@
  * While it lasts, parent gets a cursed aura filter.
  */
 /datum/component/omen/bible
-	incidents_left = 1
 
 /datum/component/omen/bible/RegisterWithParent()
 	. = ..()

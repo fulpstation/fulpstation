@@ -1,7 +1,7 @@
 /obj/projectile/energy/electrode
 	name = "electrode"
 	icon_state = "spark"
-	color = COLOR_YELLOW
+	color = "#FFFF00"
 	paralyze = 10 SECONDS
 	stutter = 10 SECONDS
 	jitter = 40 SECONDS
@@ -22,7 +22,7 @@
 		if(C.dna && C.dna.check_mutation(/datum/mutation/human/hulk))
 			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced = "hulk")
 		else if(!C.check_stun_immunity(CANKNOCKDOWN))
-			addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 20), 0.5 SECONDS)
+			addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 20), 5)
 
 /obj/projectile/energy/electrode/on_range() //to ensure the bolt sparks when it reaches the end of its range if it didn't hit a target yet
 	do_sparks(1, TRUE, src)

@@ -102,15 +102,14 @@
 	if(pillow_trophy)
 		. += span_notice("Alt-click to remove the tag!")
 
-/obj/item/pillow/click_alt(mob/user)
-	if(!user.can_hold_items(src))
-		return CLICK_ACTION_BLOCKING
+/obj/item/pillow/AltClick(mob/user)
+	. = ..()
 	if(!pillow_trophy)
 		balloon_alert(user, "no tag!")
-		return CLICK_ACTION_BLOCKING
+		return
 	balloon_alert(user, "removing tag...")
 	if(!do_after(user, 2 SECONDS, src))
-		return CLICK_ACTION_BLOCKING
+		return
 	if(last_fighter)
 		pillow_trophy.desc = "A pillow tag taken from [last_fighter] after a gruesome pillow fight."
 	user.put_in_hands(pillow_trophy)
@@ -118,7 +117,6 @@
 	balloon_alert(user, "tag removed")
 	playsound(user,'sound/items/poster_ripped.ogg', 50)
 	update_appearance()
-	return CLICK_ACTION_SUCCESS
 
 /obj/item/pillow/update_appearance(updates)
 	. = ..()

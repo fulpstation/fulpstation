@@ -133,8 +133,7 @@
 			if(bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
-		else
-			if(user.blood_volume <= 0)
+			else if(user.blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
 	return TRUE
@@ -165,7 +164,7 @@
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power.frenzied)
 		return
-	bloodsuckerdatum_power.AddBloodVolume(-bloodcost)
+	bloodsuckerdatum_power.bloodsucker_blood_volume -= bloodcost
 	bloodsuckerdatum_power.update_hud()
 
 /datum/action/cooldown/bloodsucker/proc/ActivatePower(trigger_flags)

@@ -34,12 +34,11 @@ export const AtmosPump = (props) => {
                 <NumberInput
                   animated
                   value={rate}
-                  step={1}
                   width="63px"
                   unit="L/s"
                   minValue={0}
                   maxValue={max_rate}
-                  onChange={(value) =>
+                  onChange={(_, value) =>
                     act('rate', {
                       rate: value,
                     })
@@ -67,7 +66,7 @@ export const AtmosPump = (props) => {
                   minValue={0}
                   maxValue={max_pressure}
                   step={10}
-                  onChange={(value) =>
+                  onChange={(_, value) =>
                     act('pressure', {
                       pressure: value,
                     })

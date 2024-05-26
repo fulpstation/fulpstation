@@ -165,7 +165,7 @@
 	controls["cover_locked"] = cover_locked
 
 	data["locked"] = controls_locked
-	data["siliconUser"] = HAS_SILICON_ACCESS(user)
+	data["siliconUser"] = issilicon(user)
 	data["controls"] = controls
 
 	return data
@@ -190,7 +190,7 @@
 		controls_locked = !controls_locked
 		return TRUE
 
-	if(controls_locked && !HAS_SILICON_ACCESS(usr))
+	if(controls_locked && !issilicon(usr))
 		return
 
 	switch(action)

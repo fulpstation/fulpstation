@@ -88,6 +88,8 @@
 			to_chat(user, span_warning("[src] is already in good condition!"))
 		return
 
+/obj/structure/railing/AltClick(mob/user)
+	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /obj/structure/railing/wirecutter_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -96,14 +98,19 @@
 	deconstruct()
 	return TRUE
 
-/obj/structure/railing/atom_deconstruct(disassembled)
+/obj/structure/railing/deconstruct(disassembled)
+	if((obj_flags & NO_DECONSTRUCTION))
+		return ..()
 	var/rods_to_make = istype(src,/obj/structure/railing/corner) ? 1 : 2
 	var/obj/rod = new item_deconstruct(drop_location(), rods_to_make)
 	transfer_fingerprints_to(rod)
+	return ..()
 
 ///Implements behaviour that makes it possible to unanchor the railing.
 /obj/structure/railing/wrench_act(mob/living/user, obj/item/I)
 	. = ..()
+	if(obj_flags & NO_DECONSTRUCTION)
+		return
 	to_chat(user, span_notice("You begin to [anchored ? "unfasten the railing from":"fasten the railing to"] the floor..."))
 	if(I.use_tool(src, user, volume = 75, extra_checks = CALLBACK(src, PROC_REF(check_anchored), anchored)))
 		set_anchored(!anchored)

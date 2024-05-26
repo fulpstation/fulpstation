@@ -4,8 +4,10 @@
 	icon_state = "grinder_chemical"
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = ABOVE_GAME_PLANE
+
 	reagent_flags = TRANSPARENT | DRAINABLE
 	buffer = 400
+	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 2
 
 /obj/machinery/plumbing/grinder_chemical/Initialize(mapload, bolt, layer)
 	. = ..()
@@ -45,7 +47,7 @@
  * * [AM][atom] - the atom to grind or juice
  */
 /obj/machinery/plumbing/grinder_chemical/proc/grind(atom/AM)
-	if(!is_operational)
+	if(machine_stat & NOPOWER)
 		return
 	if(reagents.holder_full())
 		return
@@ -54,10 +56,11 @@
 
 	var/obj/item/I = AM
 	var/result
-	if(I.grind_results)
-		result = I.grind(reagents, usr)
-	else
-		result = I.juice(reagents, usr)
-	if(result)
-		use_energy(active_power_usage)
-		qdel(I)
+	if(I.grind_results || I.juice_typepath)
+		use_power(active_power_usage)
+		if(I.grind_results)
+			result = I.grind(reagents, usr)
+		else if (I.juice_typepath)
+			result = I.juice(reagents, usr)
+		if(result)
+			qdel(I)

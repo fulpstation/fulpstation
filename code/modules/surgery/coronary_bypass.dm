@@ -14,9 +14,10 @@
 
 /datum/surgery/coronary_bypass/can_start(mob/user, mob/living/carbon/target)
 	var/obj/item/organ/internal/heart/target_heart = target.get_organ_slot(ORGAN_SLOT_HEART)
-	if(isnull(target_heart) || target_heart.damage < 60 || target_heart.operated)
-		return FALSE
-	return ..()
+	if(target_heart)
+		if(target_heart.damage > 60 && !target_heart.operated)
+			return TRUE
+	return FALSE
 
 
 //an incision but with greater bleed, and a 90% base success chance

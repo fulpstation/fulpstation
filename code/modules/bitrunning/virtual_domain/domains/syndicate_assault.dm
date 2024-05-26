@@ -3,7 +3,7 @@
 	cost = BITRUNNER_COST_MEDIUM
 	desc = "Board the enemy ship and recover the stolen cargo."
 	difficulty = BITRUNNER_DIFFICULTY_MEDIUM
-	completion_loot = list(/obj/item/toy/plush/nukeplushie = 1)
+	extra_loot = list(/obj/item/toy/plush/nukeplushie = 1)
 	help_text = "A group of Syndicate operatives have stolen valuable cargo from the station. \
 	They have boarded their ship and are attempting to escape. Infiltrate their ship and recover \
 	the crate. 	Be careful, they are extremely armed."

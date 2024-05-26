@@ -3,8 +3,7 @@
 #define WAND_EMERGENCY "emergency"
 
 /obj/item/door_remote
-	icon_state = "remote"
-	base_icon_state = "remote"
+	icon_state = "gangtool-white"
 	inhand_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
@@ -12,8 +11,6 @@
 	name = "control wand"
 	desc = "A remote for controlling a set of airlocks."
 	w_class = WEIGHT_CLASS_TINY
-
-	var/department = "civilian"
 	var/mode = WAND_OPEN
 	var/region_access = REGION_GENERAL
 	var/list/access_list
@@ -21,7 +18,6 @@
 /obj/item/door_remote/Initialize(mapload)
 	. = ..()
 	access_list = SSid_access.get_region_access_list(list(region_access))
-	update_icon_state()
 
 /obj/item/door_remote/attack_self(mob/user)
 	var/static/list/desc = list(WAND_OPEN = "Open Door", WAND_BOLT = "Toggle Bolts", WAND_EMERGENCY = "Toggle Emergency Access")
@@ -32,7 +28,6 @@
 			mode = WAND_EMERGENCY
 		if(WAND_EMERGENCY)
 			mode = WAND_OPEN
-	update_icon_state()
 	balloon_alert(user, "mode: [desc[mode]]")
 
 // Airlock remote works by sending NTNet packets to whatever it's pointed at.
@@ -90,59 +85,46 @@
 			airlock.emergency = !airlock.emergency
 			airlock.update_appearance(UPDATE_ICON)
 
-/obj/item/door_remote/update_icon_state()
-	var/icon_state_mode
-	switch(mode)
-		if(WAND_OPEN)
-			icon_state_mode = "open"
-		if(WAND_BOLT)
-			icon_state_mode = "bolt"
-		if(WAND_EMERGENCY)
-			icon_state_mode = "emergency"
-
-	icon_state = "[base_icon_state]_[department]_[icon_state_mode]"
-	return ..()
-
 /obj/item/door_remote/omni
 	name = "omni door remote"
 	desc = "This control wand can access any door on the station."
-	department = "omni"
+	icon_state = "gangtool-yellow"
 	region_access = REGION_ALL_STATION
 
 /obj/item/door_remote/captain
 	name = "command door remote"
-	department = "command"
+	icon_state = "gangtool-yellow"
 	region_access = REGION_COMMAND
 
 /obj/item/door_remote/chief_engineer
 	name = "engineering door remote"
-	department = "engi"
+	icon_state = "gangtool-orange"
 	region_access = REGION_ENGINEERING
 
 /obj/item/door_remote/research_director
 	name = "research door remote"
-	department = "sci"
+	icon_state = "gangtool-purple"
 	region_access = REGION_RESEARCH
 
 /obj/item/door_remote/head_of_security
 	name = "security door remote"
-	department = "security"
+	icon_state = "gangtool-red"
 	region_access = REGION_SECURITY
 
 /obj/item/door_remote/quartermaster
 	name = "supply door remote"
 	desc = "Remotely controls airlocks. This remote has additional Vault access."
-	department = "cargo"
+	icon_state = "gangtool-green"
 	region_access = REGION_SUPPLY
 
 /obj/item/door_remote/chief_medical_officer
 	name = "medical door remote"
-	department = "med"
+	icon_state = "gangtool-blue"
 	region_access = REGION_MEDBAY
 
 /obj/item/door_remote/civilian
 	name = "civilian door remote"
-	department = "civilian"
+	icon_state = "gangtool-white"
 	region_access = REGION_GENERAL
 
 #undef WAND_OPEN

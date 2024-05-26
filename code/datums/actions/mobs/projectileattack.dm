@@ -18,10 +18,9 @@
 	var/projectile_speed_multiplier = 1
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/Activate(atom/target_atom)
-	disable_cooldown_actions()
+	StartCooldown(360 SECONDS, 360 SECONDS)
 	attack_sequence(owner, target_atom)
 	StartCooldown()
-	enable_cooldown_actions()
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/proc/attack_sequence(mob/living/firer, atom/target)

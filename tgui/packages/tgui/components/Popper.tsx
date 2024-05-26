@@ -20,10 +20,6 @@ type OptionalProps = Partial<{
   onClickOutside: () => void;
   /** Where to place the popper relative to the reference element */
   placement: Placement;
-  /** Base z-index of the popper div
-   * @default 5
-   */
-  baseZIndex: number;
 }>;
 
 type Props = RequiredProps & OptionalProps;
@@ -89,7 +85,7 @@ export function Popper(props: PropsWithChildren<Props>) {
             setPopperElement(node);
             popperRef.current = node;
           }}
-          style={{ ...styles.popper, zIndex: props.baseZIndex ?? 5 }}
+          style={{ ...styles.popper, zIndex: 5 }}
           {...attributes.popper}
         >
           {content}

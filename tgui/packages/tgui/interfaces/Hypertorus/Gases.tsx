@@ -1,4 +1,5 @@
 import { filter, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { toFixed } from 'common/math';
 import { useBackend } from 'tgui/backend';
 import {
@@ -89,10 +90,10 @@ const GasList = (props: GasListProps) => {
   } = props;
   const { start_power, start_cooling } = data;
 
-  const gases: HypertorusGas[] = sortBy(
-    filter(raw_gases, (gas) => gas.amount >= 0.01),
-    (gas) => -gas.amount,
-  );
+  const gases: HypertorusGas[] = flow([
+    filter((gas: HypertorusGas) => gas.amount >= 0.01),
+    sortBy((gas: HypertorusGas) => -gas.amount),
+  ])(raw_gases);
 
   if (stickyGases) {
     ensure_gases(gases, stickyGases);
@@ -117,12 +118,11 @@ const GasList = (props: GasListProps) => {
         />
         <NumberInput
           animated
-          step={1}
           value={parseFloat(data[input_rate])}
           unit="mol/s"
           minValue={input_min}
           maxValue={input_max}
-          onDrag={(v) => act(input_rate, { [input_rate]: v })}
+          onDrag={(_, v) => act(input_rate, { [input_rate]: v })}
         />
       </LabeledList.Item>
       {gases.map((gas) => {

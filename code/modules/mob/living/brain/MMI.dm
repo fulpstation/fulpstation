@@ -289,9 +289,10 @@
 				brainmob.emp_damage = min(brainmob.emp_damage + rand(0,10), 30)
 		brainmob.emote("alarm")
 
-/obj/item/mmi/atom_deconstruct(disassembled = TRUE)
+/obj/item/mmi/deconstruct(disassembled = TRUE)
 	if(brain)
 		eject_brain()
+	qdel(src)
 
 /obj/item/mmi/examine(mob/user)
 	. = ..()

@@ -1,9 +1,8 @@
 /datum/vote/map_vote
 	name = "Map"
 	message = "Vote for next round's map!"
-	count_method = VOTE_COUNT_METHOD_SINGLE
+	count_method = VOTE_COUNT_METHOD_MULTI
 	winner_method = VOTE_WINNER_METHOD_WEIGHTED_RANDOM
-	display_statistics = FALSE
 
 /datum/vote/map_vote/New()
 	. = ..()

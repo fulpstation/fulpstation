@@ -67,7 +67,7 @@
 	QDEL_NULL(stored_id_card)
 	return ..()
 
-/obj/machinery/pdapainter/on_deconstruction(disassembled)
+/obj/machinery/pdapainter/on_deconstruction()
 	// Don't use ejection procs as we're gonna be destroyed anyway, so no need to update icons or anything.
 	if(stored_pda)
 		stored_pda.forceMove(loc)

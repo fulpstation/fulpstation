@@ -99,9 +99,6 @@
 	catwalk_type = "smoothiron"
 
 //Airless variants of the above
-/turf/open/floor/catwalk_floor/airless
-	initial_gas_mix = AIRLESS_ATMOS
-
 /turf/open/floor/catwalk_floor/iron/airless
 	initial_gas_mix = AIRLESS_ATMOS
 
@@ -110,9 +107,6 @@
 
 /turf/open/floor/catwalk_floor/iron_dark/airless
 	initial_gas_mix = AIRLESS_ATMOS
-
-/turf/open/floor/catwalk_floor/iron_dark/telecomms
-	initial_gas_mix = TCOMMS_ATMOS
 
 /turf/open/floor/catwalk_floor/flat_white/airless
 	initial_gas_mix = AIRLESS_ATMOS

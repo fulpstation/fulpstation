@@ -8,11 +8,11 @@
 		/datum/surgery_step/clamp_bleeders,
 		/datum/surgery_step/incise,
 		/datum/surgery_step/incise,
-		/datum/surgery_step/apply_bioware/imprint_cortex,
+		/datum/surgery_step/imprint_cortex,
 		/datum/surgery_step/close,
 	)
 
-	status_effect_gained = /datum/status_effect/bioware/cortex/imprinted
+	bioware_target = BIOWARE_CORTEX
 
 /datum/surgery/advanced/bioware/cortex_imprint/can_start(mob/user, mob/living/carbon/target)
 	var/obj/item/organ/internal/brain/target_brain = target.get_organ_slot(ORGAN_SLOT_BRAIN)
@@ -20,10 +20,12 @@
 		return FALSE
 	return ..()
 
-/datum/surgery_step/apply_bioware/imprint_cortex
+/datum/surgery_step/imprint_cortex
 	name = "imprint cortex (hand)"
+	accept_hand = TRUE
+	time = 125
 
-/datum/surgery_step/apply_bioware/imprint_cortex/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+/datum/surgery_step/imprint_cortex/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
 		user,
 		target,
@@ -33,11 +35,7 @@
 	)
 	display_pain(target, "Your head throbs with gruesome pain, it's nearly too much to handle!")
 
-/datum/surgery_step/apply_bioware/imprint_cortex/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
-	. = ..()
-	if(!.)
-		return
-
+/datum/surgery_step/imprint_cortex/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	display_results(
 		user,
 		target,
@@ -46,8 +44,10 @@
 		span_notice("[user] completes the surgery on [target]'s brain."),
 	)
 	display_pain(target, "Your brain feels stronger... more resillient!")
+	new /datum/bioware/cortex_imprint(target)
+	return ..()
 
-/datum/surgery_step/apply_bioware/imprint_cortex/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+/datum/surgery_step/imprint_cortex/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(target.get_organ_slot(ORGAN_SLOT_BRAIN))
 		display_results(
 			user,
@@ -62,3 +62,12 @@
 	else
 		user.visible_message(span_warning("[user] suddenly notices that the brain [user.p_they()] [user.p_were()] working on is not there anymore."), span_warning("You suddenly notice that the brain you were working on is not there anymore."))
 	return FALSE
+
+/datum/bioware/cortex_imprint
+	name = "Cortex Imprint"
+	desc = "The cerebral cortex has been reshaped into a redundant neural pattern, making the brain able to bypass impediments caused by minor brain traumas."
+	mod_type = BIOWARE_CORTEX
+	can_process = TRUE
+
+/datum/bioware/cortex_imprint/process()
+	owner.cure_trauma_type(resilience = TRAUMA_RESILIENCE_BASIC)

@@ -221,7 +221,7 @@ const Entry = (props: EntryProps) => {
         <Stack.Item>
           {(options.length && (
             <Dropdown
-              selected={current_option}
+              displayText={current_option}
               options={options}
               onSelected={onSetOption}
             />

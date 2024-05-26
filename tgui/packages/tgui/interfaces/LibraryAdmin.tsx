@@ -1,4 +1,5 @@
 import { map, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 import { capitalize } from 'common/string';
 import { useState } from 'react';
 
@@ -80,14 +81,10 @@ type Book = {
   category: string;
   title: string;
   id: number;
-};
-
-type AdminBook = Book & {
-  author_ckey: string;
   deleted: boolean;
 };
 
-type DisplayAdminBook = AdminBook & {
+type DisplayBook = Book & {
   key: number;
 };
 
@@ -123,18 +120,14 @@ const SearchAndDisplay = (props) => {
     view_raw,
     show_deleted,
   } = data;
-  const books = sortBy(
-    map(
-      pages,
-      (book, i) =>
-        ({
-          ...book,
-          // Generate a unique id
-          key: i,
-        }) as DisplayAdminBook,
-    ),
-    (book) => book.key,
-  );
+  const books = flow([
+    map<Book, DisplayBook>((book, i) => ({
+      ...book,
+      // Generate a unique id
+      key: i,
+    })),
+    sortBy<DisplayBook>((book) => book.key),
+  ])(pages);
   return (
     <Section>
       <Stack justify="space-between">

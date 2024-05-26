@@ -23,10 +23,10 @@ type Category = {
 };
 
 type Data = {
-  current_volume: number;
+  current_volume: Number;
   product_name: string;
-  min_volume: number;
-  max_volume: number;
+  min_volume: Number;
+  max_volume: Number;
   packaging_category: string;
   packaging_types: Category[];
   packaging_type: string;
@@ -71,7 +71,7 @@ export const ChemPress = (props) => {
                 maxValue={max_volume}
                 step={1}
                 stepPixelSize={2}
-                onChange={(value) =>
+                onChange={(e, value) =>
                   act('change_current_volume', {
                     volume: value,
                   })

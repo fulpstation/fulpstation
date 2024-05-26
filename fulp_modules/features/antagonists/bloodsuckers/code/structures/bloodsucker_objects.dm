@@ -286,8 +286,6 @@
 	var/data = list()
 
 	for(var/datum/bloodsucker_clan/clans as anything in subtypesof(/datum/bloodsucker_clan))
-		if(!initial(clans.shows_in_archives))
-			continue
 		var/clan_data = list()
 		clan_data["clan_name"] = initial(clans.name)
 		clan_data["clan_desc"] = initial(clans.description)

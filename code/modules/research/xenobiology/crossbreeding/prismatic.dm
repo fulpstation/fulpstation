@@ -8,7 +8,7 @@ Prismatic extracts:
 	effect = "prismatic"
 	effect_desc = "When used it paints whatever it hits."
 	icon_state = "prismatic"
-	var/paintcolor = COLOR_WHITE
+	var/paintcolor = "#FFFFFF"
 
 /obj/item/slimecross/prismatic/afterattack(turf/target, mob/user, proximity)
 	if(!proximity)
@@ -47,15 +47,15 @@ Prismatic extracts:
 	colour = SLIME_TYPE_METAL
 
 /obj/item/slimecross/prismatic/yellow
-	paintcolor = COLOR_YELLOW
+	paintcolor = "#FFFF00"
 	colour = SLIME_TYPE_YELLOW
 
 /obj/item/slimecross/prismatic/darkpurple
-	paintcolor = COLOR_DARK_PURPLE
+	paintcolor = "#551A8B"
 	colour = SLIME_TYPE_DARK_PURPLE
 
 /obj/item/slimecross/prismatic/darkblue
-	paintcolor = COLOR_BLUE
+	paintcolor = "#0000FF"
 	colour = SLIME_TYPE_DARK_BLUE
 
 /obj/item/slimecross/prismatic/silver
@@ -63,7 +63,7 @@ Prismatic extracts:
 	colour = SLIME_TYPE_SILVER
 
 /obj/item/slimecross/prismatic/bluespace
-	paintcolor = COLOR_LIME
+	paintcolor = "#32CD32"
 	colour = SLIME_TYPE_BLUESPACE
 
 /obj/item/slimecross/prismatic/sepia
@@ -79,11 +79,11 @@ Prismatic extracts:
 	colour = SLIME_TYPE_PYRITE
 
 /obj/item/slimecross/prismatic/red
-	paintcolor = COLOR_RED
+	paintcolor = "#FF0000"
 	colour = SLIME_TYPE_RED
 
 /obj/item/slimecross/prismatic/green
-	paintcolor = COLOR_VIBRANT_LIME
+	paintcolor = "#00FF00"
 	colour = SLIME_TYPE_GREEN
 
 /obj/item/slimecross/prismatic/pink
@@ -91,7 +91,7 @@ Prismatic extracts:
 	colour = SLIME_TYPE_PINK
 
 /obj/item/slimecross/prismatic/gold
-	paintcolor = COLOR_GOLD
+	paintcolor = "#FFD700"
 	colour = SLIME_TYPE_GOLD
 
 /obj/item/slimecross/prismatic/oil
@@ -99,7 +99,7 @@ Prismatic extracts:
 	colour = SLIME_TYPE_OIL
 
 /obj/item/slimecross/prismatic/black
-	paintcolor = COLOR_BLACK
+	paintcolor = "#000000"
 	colour = SLIME_TYPE_BLACK
 
 /obj/item/slimecross/prismatic/lightpink
@@ -111,7 +111,7 @@ Prismatic extracts:
 	colour = SLIME_TYPE_ADAMANTINE
 
 /obj/item/slimecross/prismatic/rainbow
-	paintcolor = COLOR_WHITE
+	paintcolor = "#FFFFFF"
 	colour = SLIME_TYPE_RAINBOW
 
 /obj/item/slimecross/prismatic/rainbow/attack_self(mob/user)

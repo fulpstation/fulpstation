@@ -148,7 +148,7 @@
 	stopped_playing.set_output(COMPONENT_SIGNAL)
 
 /obj/item/circuit_component/synth/proc/import_song()
-	synth.song.ParseSong(new_song = song.value)
+	synth.song.ParseSong(song.value)
 
 /obj/item/circuit_component/synth/proc/set_repetitions()
 	synth.song.set_repeats(repetitions.value)
@@ -169,9 +169,7 @@
 	synth.song.note_shift = clamp(note_shift.value, synth.song.note_shift_min, synth.song.note_shift_max)
 
 /obj/item/circuit_component/synth/proc/set_sustain_mode()
-	if(!(sustain_mode.value in SSinstruments.note_sustain_modes))
-		return
-	synth.song.sustain_mode = sustain_mode.value
+	synth.song.sustain_mode = SSinstruments.note_sustain_modes[sustain_mode.value]
 
 /obj/item/circuit_component/synth/proc/set_sustain_value()
 	switch(synth.song.sustain_mode)

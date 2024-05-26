@@ -24,8 +24,6 @@
 	var/join_description = "The default, Classic Bloodsucker."
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
-	///Boolean on whether the clan shows up in the Archives of the Kindred.
-	var/shows_in_archives = TRUE
 
 	///How we will drink blood using Feed.
 	var/blood_drink_type = BLOODSUCKER_DRINK_NORMAL
@@ -255,7 +253,7 @@
 	if(QDELETED(src) || QDELETED(bloodsuckerdatum.owner.current) || QDELETED(vassaldatum.owner.current))
 		return FALSE
 	vassaldatum.make_special(vassal_response)
-	bloodsuckerdatum.AddBloodVolume(-150)
+	bloodsuckerdatum.bloodsucker_blood_volume -= 150
 	return TRUE
 
 /**
@@ -264,6 +262,6 @@
  * bloodsuckerdatum - antagonist datum of the Bloodsucker who turned them into a Vassal.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
  */
-/datum/bloodsucker_clan/proc/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
+/datum/bloodsucker_clan/proc/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
 	SIGNAL_HANDLER
 	vassaldatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/brawn)

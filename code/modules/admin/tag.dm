@@ -49,14 +49,21 @@
 					<font color='#00cc66'>[X.getToxLoss()]</font> \
 					<font color='#00cccc'>[X.getOxyLoss()]</font>"
 
-ADMIN_VERB(display_tags, R_ADMIN, "View Tags", "Display all of the tagged datums.", ADMIN_CATEGORY_GAME)
+/// Display all of the tagged datums
+/datum/admins/proc/display_tags()
+	set category = "Admin.Game"
+	set name = "View Tags"
+
+	if (!istype(src, /datum/admins))
+		src = usr.client.holder
+	if (!istype(src, /datum/admins))
+		to_chat(usr, "Error: you are not an admin!", confidential = TRUE)
+		return
+
 	var/index = 0
 	var/list/dat = list("<center><B>Tag Menu</B></center><hr>")
 
-	var/list/tagged_datums = user.holder.tagged_datums
-	var/list/marked_datum = user.holder.marked_datum
-
-	dat += "<br><A href='?src=[REF(user)];[HrefToken(forceGlobal = TRUE)];show_tags=1'>Refresh</a><br>"
+	dat += "<br><A href='?src=[REF(src)];[HrefToken(forceGlobal = TRUE)];show_tags=1'>Refresh</a><br>"
 	if(LAZYLEN(tagged_datums))
 		for(var/datum/iter_datum as anything in tagged_datums)
 			index++
@@ -64,7 +71,7 @@ ADMIN_VERB(display_tags, R_ADMIN, "View Tags", "Display all of the tagged datums
 
 			if(isnull(iter_datum))
 				dat += "\t[index]: Null reference - Check runtime logs!"
-				stack_trace("Null datum found in tagged datum menu! User: [user]")
+				stack_trace("Null datum found in tagged datum menu! User: [usr]")
 				continue
 			else if(iscarbon(iter_datum))
 				var/mob/living/carbon/resolved_carbon = iter_datum
@@ -92,7 +99,7 @@ ADMIN_VERB(display_tags, R_ADMIN, "View Tags", "Display all of the tagged datums
 		dat += "No datums tagged :("
 
 	dat = dat.Join("<br>")
-	user << browse(dat, "window=tag;size=800x480")
+	usr << browse(dat, "window=tag;size=800x480")
 
 #undef TAG_DEL
 #undef TAG_MARK

@@ -204,9 +204,8 @@
 /obj/effect/heretic_rune/big
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "transmutation_rune"
-	pixel_x = -30
-	pixel_y = 18
-	pixel_z = -48
+	pixel_x = -33 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -32
 	greyscale_config = /datum/greyscale_config/heretic_rune
 
 /obj/effect/heretic_rune/big/Initialize(mapload, path_colour)
@@ -218,9 +217,8 @@
 	duration = 30 SECONDS
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "transmutation_rune"
-	pixel_x = -30
-	pixel_y = 18
-	pixel_z = -48
+	pixel_x = -33
+	pixel_y = -32
 	plane = GAME_PLANE
 	layer = SIGIL_LAYER
 	greyscale_config = /datum/greyscale_config/heretic_rune

@@ -1,4 +1,5 @@
 import { map, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
 
 import { useBackend } from '../backend';
 import {
@@ -70,14 +71,14 @@ const SearchAndDisplay = (props) => {
     author,
     params_changed,
   } = data;
-  const records = sortBy(
-    map(data.pages, (record, i) => ({
+  const records = flow([
+    map((record, i) => ({
       ...record,
       // Generate a unique id
       key: i,
     })),
-    (record) => record.key,
-  );
+    sortBy((record) => record.key),
+  ])(data.pages);
   return (
     <Section>
       <Stack justify="space-between">

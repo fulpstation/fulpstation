@@ -57,7 +57,6 @@
 
 /datum/component/customizable_reagent_holder/Destroy(force)
 	QDEL_NULL(top_overlay)
-	LAZYCLEARLIST(ingredients)
 	return ..()
 
 
@@ -65,7 +64,6 @@
 	. = ..()
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(customizable_attack))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
-	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(food_exited))
 	RegisterSignal(parent, COMSIG_ATOM_PROCESSED, PROC_REF(on_processed))
 	RegisterSignal(parent, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM, PROC_REF(on_requesting_context_from_item))
 	ADD_TRAIT(parent, TRAIT_CUSTOMIZABLE_REAGENT_HOLDER, REF(src))
@@ -76,7 +74,6 @@
 	UnregisterSignal(parent, list(
 		COMSIG_ATOM_ATTACKBY,
 		COMSIG_ATOM_EXAMINE,
-		COMSIG_ATOM_EXITED,
 		COMSIG_ATOM_PROCESSED,
 		COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM,
 	))
@@ -94,13 +91,20 @@
 	SIGNAL_HANDLER
 
 	var/atom/atom_parent = parent
-	var/list/ingredients_listed = list()
-	for(var/obj/item/ingredient as anything in ingredients)
-		ingredients_listed += "\a [ingredient.name]"
-
-	examine_list += "It [LAZYLEN(ingredients) \
-		? "contains [english_list(ingredients_listed)] making a [custom_adjective()]-sized [initial(atom_parent.name)]" \
-		: "does not contain any ingredients"]."
+	var/ingredients_listed = ""
+	if (LAZYLEN(ingredients))
+		for (var/i in 1 to ingredients.len)
+			var/obj/item/ingredient = ingredients[i]
+			var/ending = ", "
+			switch(length(ingredients))
+				if (2)
+					if (i == 1)
+						ending = " and "
+				if (3 to INFINITY)
+					if (i == ingredients.len - 1)
+						ending = ", and "
+			ingredients_listed += "\a [ingredient.name][ending]"
+	examine_list += "It [LAZYLEN(ingredients) ? "contains [ingredients_listed]making a [custom_adjective()]-sized [initial(atom_parent.name)]" : "does not contain any ingredients"]."
 
 //// Proc that checks if an ingredient is valid or not, returning false if it isnt and true if it is.
 /datum/component/customizable_reagent_holder/proc/valid_ingredient(obj/ingredient)
@@ -206,7 +210,7 @@
 	if(isitem(atom_parent))
 		var/obj/item/item_parent = atom_parent
 		if(ingredient.w_class > item_parent.w_class)
-			item_parent.update_weight_class(ingredient.w_class)
+			item_parent.w_class = ingredient.w_class
 	atom_parent.name = "[custom_adjective()] [custom_type()] [initial(atom_parent.name)]"
 	SEND_SIGNAL(atom_parent, COMSIG_ATOM_CUSTOMIZED, ingredient)
 	SEND_SIGNAL(ingredient, COMSIG_ITEM_USED_AS_INGREDIENT, atom_parent)
@@ -285,8 +289,3 @@
 	context[SCREENTIP_CONTEXT_LMB] = "[screentip_verb] [held_item]"
 
 	return CONTEXTUAL_SCREENTIP_SET
-
-/// Clear refs if our food "goes away" somehow
-/datum/component/customizable_reagent_holder/proc/food_exited(datum/source, atom/movable/gone)
-	SIGNAL_HANDLER
-	LAZYREMOVE(ingredients, gone)

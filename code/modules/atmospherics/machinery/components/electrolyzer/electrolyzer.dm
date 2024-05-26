@@ -57,7 +57,7 @@
 		QDEL_NULL(cell)
 	return ..()
 
-/obj/machinery/electrolyzer/on_deconstruction(disassembled)
+/obj/machinery/electrolyzer/on_deconstruction()
 	if(cell)
 		LAZYADD(component_parts, cell)
 		cell = null
@@ -125,7 +125,7 @@
 
 	var/power_to_use = (5 * (3 * working_power) * working_power) / (efficiency + working_power)
 	if(anchored)
-		use_energy(power_to_use)
+		use_power(power_to_use)
 	else
 		cell.use(power_to_use)
 
@@ -187,12 +187,14 @@
 		return
 	return ..()
 
-/obj/machinery/electrolyzer/click_alt(mob/user)
+/obj/machinery/electrolyzer/AltClick(mob/user)
+	. = ..()
 	if(panel_open)
 		balloon_alert(user, "close panel!")
-		return CLICK_ACTION_BLOCKING
+		return
+	if(!can_interact(user))
+		return
 	toggle_power(user)
-	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/electrolyzer/proc/toggle_power(mob/user)
 	if(!anchored && !cell)

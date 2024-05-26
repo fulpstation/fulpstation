@@ -1,3 +1,6 @@
+///Requests from Mentorhelps
+#define REQUEST_MENTORHELP "request_mentorhelp"
+
 /// Verb for opening the requests manager panel
 /client/proc/mentor_requests()
 	set name = "Mentor Manager"
@@ -10,7 +13,7 @@
 GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 
 /datum/request_manager/mentor/ui_state(mob/user)
-	return GLOB.mentor_state
+	return GLOB.always_state
 
 /datum/request_manager/mentor/pray(client/C, message, is_chaplain)
 	return
@@ -88,3 +91,5 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 				"timestamp_str" = gameTimestamp(wtime = request.timestamp)
 			)
 			.["requests"] += list(data)
+
+#undef REQUEST_MENTORHELP
