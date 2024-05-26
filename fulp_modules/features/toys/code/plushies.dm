@@ -1,17 +1,24 @@
 /obj/item/toy/plush/batong
 	name = "batong"
-	desc = "A cheaply made toy. Looks like it need some recharge maybe security can help you"
-	icon = 'fulp_modules/features/toys/icons/toys.dmi'
-	icon_state = "batong"
-	worn_icon_state = "baton"
-	inhand_icon_state = "baton"
-	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
-	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
-	slot_flags = ITEM_SLOT_BELT
+	desc = "A cheaply made toy. It looks uncharged, maybe security can help you."
+
+	icon = /obj/item/melee/baton/security::icon
+	icon_state = /obj/item/melee/baton/security::icon_state
+	worn_icon = /obj/item/melee/baton/security::worn_icon
+	worn_icon_state = /obj/item/melee/baton/security::worn_icon_state
+	inhand_icon_state = /obj/item/melee/baton/security::inhand_icon_state
+	lefthand_file = /obj/item/melee/baton/security::lefthand_file
+	righthand_file = /obj/item/melee/baton/security::righthand_file
+	slot_flags = /obj/item/melee/baton/security::slot_flags
+
 	attack_verb_continuous = list("Tries to recharge the batong in")
-	attack_verb_simple = list("try to recharge the baton in")
+	attack_verb_simple = list("try to recharge the batong in")
 	// "the monkey (958) Tries to recharge the batong in you in the chest with the batong" people wanted this.
-	squeak_override = list('fulp_modules/features/toys/sound/batong.ogg'= 1)
+	squeak_override = list('fulp_modules/sounds/effects/batong.ogg' = 1)
+
+/obj/item/toy/plush/batong/Initialize(mapload)
+	. = ..()
+	add_filter("batong_outline", 1, list("type" = "outline", "color" = COLOR_RED, "size" = 1))
 
 /obj/item/toy/plush/supermatter
 	name = "Supermatter toy"
@@ -19,7 +26,7 @@
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "supermatter"
 	light_range = 3
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	color = LIGHT_COLOR_DIM_YELLOW
 	attack_verb_continuous = list("dust")
 	attack_verb_simple = list("dust")
@@ -32,7 +39,7 @@
 	icon_state = "pico"
 	attack_verb_continuous = list("flails at")
 	attack_verb_simple = list("flail at")
-	squeak_override = list('fulp_modules/features/toys/sound/pico.ogg'= 1)
+	squeak_override = list('fulp_modules/sounds/effects/pico.ogg'= 1)
 	custom_price = PAYCHECK_COMMAND
 
 /obj/item/toy/plush/fly
@@ -53,7 +60,7 @@
 	inhand_icon_state = null
 	attack_verb_continuous = list("jumpscares")
 	attack_verb_simple = list("jumpscare")
-	squeak_override = list('fulp_modules/features/toys/sound/jumpscare.ogg'= 1)
+	squeak_override = list('fulp_modules/sounds/effects/jumpscare.ogg'= 1)
 
 /obj/item/toy/plush/animatronic/chica
 	name = "Chica plushie"
@@ -75,7 +82,7 @@
 
 /obj/item/toy/plush/animatronic/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] is stuffing themselves into the suit! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'fulp_modules/features/toys/sound/jumpscare.ogg', 35, TRUE,)
+	playsound(loc, 'fulp_modules/sounds/effects/jumpscare.ogg', 35, TRUE,)
 	var/obj/item/bodypart/head/myhead = user.get_bodypart(BODY_ZONE_HEAD)
 	if(myhead)
 		myhead.dismember()
@@ -124,3 +131,24 @@
 	attack_verb_simple = list("bop","beat")
 	squeak_override = list(
 		'sound/effects/meow1.ogg' = 1)
+
+
+/obj/item/toy/plush/shrimp
+	name = "shrimp plushie"
+	desc = "You're telling me THIS GUY fried my rice?"
+	icon = 'fulp_modules/features/toys/icons/toys.dmi'
+	icon_state = "shrimp"
+	attack_verb_continuous = list("shrimps", "skitters")
+	attack_verb_simple = list("shrimp","skitter")
+	squeak_override = list(
+		'fulp_modules/sounds/effects/kero.ogg' = 1
+	)
+	/// The rice the shrimp fried. The shrimp can only fry one rice
+	var/obj/item/food/fried_rice
+	/// Whether the shrimp has fried any rice
+	var/has_fried = FALSE
+
+/obj/item/toy/plush/shrimp/examine(mob/user)
+	. = ..()
+	if(has_fried)
+		. += span_notice("[p_Theyre()] all tuckered out.")

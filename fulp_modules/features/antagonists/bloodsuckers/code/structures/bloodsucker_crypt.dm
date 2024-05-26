@@ -72,8 +72,7 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/bloodsucker/AltClick(mob/user)
-	. = ..()
+/obj/structure/bloodsucker/click_alt(mob/user)
 	if(user == owner && user.Adjacent(src))
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
@@ -135,7 +134,7 @@
 	/// Prevents popup spam.
 	var/disloyalty_offered = FALSE
 
-/obj/structure/bloodsucker/vassalrack/deconstruct(disassembled = TRUE)
+/obj/structure/bloodsucker/vassalrack/atom_deconstruct(disassembled = TRUE)
 	. = ..()
 	new /obj/item/stack/sheet/iron(src.loc, 4)
 	new /obj/item/stack/rods(loc, 4)
@@ -272,6 +271,10 @@
  */
 /obj/structure/bloodsucker/vassalrack/proc/torture_victim(mob/living/user, mob/living/target)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(target.stat > UNCONSCIOUS)
+		balloon_alert(user, "too badly injured!")
+		return FALSE
+
 	if(IS_VASSAL(target))
 		var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 		if(!vassaldatum.master.broke_masquerade)
@@ -321,7 +324,8 @@
 	// Convert to Vassal!
 	bloodsuckerdatum.AddBloodVolume(-TORTURE_CONVERSION_COST)
 	if(bloodsuckerdatum.make_vassal(target))
-		remove_loyalties(target)
+		for(var/obj/item/implant/mindshield/implant in target.implants)
+			implant.removed(target, silent = TRUE)
 		SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_MADE_VASSAL, user, target)
 
 /obj/structure/bloodsucker/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, mult = 1)
@@ -404,12 +408,6 @@
 		return VASSALIZATION_DISLOYAL
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(user)
 	return bloodsuckerdatum.AmValidAntag(target)
-
-/obj/structure/bloodsucker/vassalrack/proc/remove_loyalties(mob/living/target)
-	// Find Mind Implant & Destroy
-	for(var/obj/item/implant/all_implants as anything in target.implants)
-		if(all_implants.type == /obj/item/implant/mindshield)
-			all_implants.removed(target, silent = TRUE)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -495,15 +493,18 @@
 	ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
 	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
 	vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
-	hunter_desc = "This is a chair that hurts those that try to buckle themselves onto it, though the Undead have no problem latching on.\n\
-		While buckled, Monsters can use this to telepathically communicate with eachother."
-	var/mutable_appearance/armrest
+	hunter_desc = "This blood-red looking torture device latches onto anyone that sits onto its throne, but allows\n\
+		Monsters to telepathically communicate with others while contained in it."
+
+	///The static armrest that the throne has while someone is buckled onto it.
+	var/static/mutable_appearance/armrest
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
 	AddComponent(/datum/component/simple_rotation)
-	armrest = GetArmrest()
-	armrest.layer = ABOVE_MOB_LAYER
+	if(!armrest)
+		armrest = mutable_appearance('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+		armrest.layer = ABOVE_MOB_LAYER
 	return ..()
 
 /obj/structure/bloodsucker/bloodthrone/Destroy()
@@ -518,22 +519,16 @@
 	. = ..()
 	anchored = FALSE
 
-// Armrests
-/obj/structure/bloodsucker/bloodthrone/proc/GetArmrest()
-	return mutable_appearance('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
-
-/obj/structure/bloodsucker/bloodthrone/proc/update_armrest()
+/obj/structure/bloodsucker/bloodthrone/update_overlays()
+	. = ..()
 	if(has_buckled_mobs())
-		add_overlay(armrest)
-	else
-		cut_overlay(armrest)
+		. += armrest
 
 // Rotating
 /obj/structure/bloodsucker/bloodthrone/setDir(newdir)
 	. = ..()
 	if(has_buckled_mobs())
-		for(var/m in buckled_mobs)
-			var/mob/living/buckled_mob = m
+		for(var/mob/living/buckled_mob as anything in buckled_mobs)
 			buckled_mob.setDir(newdir)
 
 	if(has_buckled_mobs() && dir == NORTH)
@@ -551,35 +546,32 @@
 		span_notice("[user] sits down on [src]."),
 		span_boldnotice("You sit down onto [src]."),
 	)
-	if(IS_BLOODSUCKER(user))
-		RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-	else
-		unbuckle_mob(user)
-		user.Paralyze(10 SECONDS)
-		to_chat(user, span_cult("The power of the blood throne overwhelms you!"))
+	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
-	update_armrest()
 	target.pixel_y += 2
+	update_appearance(UPDATE_OVERLAYS)
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
-	src.visible_message(span_danger("[user] unbuckles themselves from [src]."))
-	if(IS_BLOODSUCKER(user))
-		UnregisterSignal(user, COMSIG_MOB_SAY)
-	. = ..()
+	UnregisterSignal(user, COMSIG_MOB_SAY)
+	return ..()
 
 /obj/structure/bloodsucker/bloodthrone/post_unbuckle_mob(mob/living/target)
+	. = ..()
 	target.pixel_y -= 2
+	update_appearance(UPDATE_OVERLAYS)
 
 // The speech itself
 /obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
 	SIGNAL_HANDLER
 
-	var/message = speech_args[SPEECH_MESSAGE]
 	var/mob/living/carbon/human/user = source
-	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
+	if(!user.mind || !IS_BLOODSUCKER(user))
+		return
+	var/message = speech_args[SPEECH_MESSAGE]
+	var/rendered = span_cult_large("<b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag=ROLE_BLOODSUCKER)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	for(var/datum/antagonist/vassal/receiver as anything in bloodsuckerdatum.vassals)

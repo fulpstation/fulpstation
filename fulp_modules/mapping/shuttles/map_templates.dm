@@ -5,7 +5,9 @@
 /**
  * CARGO
  */
-/datum/map_template/shuttle/cargo/fulp
+/datum/map_template/shuttle/cargo/fulp/fulp // Fulpstation
+	suffix = "fulp"
+	name = "supply shuttle (Fulp)"
 
 /datum/map_template/shuttle/cargo/fulp/selene // Selenestation
 	suffix = "selene"
@@ -20,9 +22,17 @@
  */
 /datum/map_template/shuttle/arrival/fulp
 
+/datum/map_template/shuttle/arrival/fulp/fulpstation
+	suffix = "fulp"
+	name = "arrival shuttle (Fulp)"
+
 /datum/map_template/shuttle/arrival/fulp/selene
 	suffix = "selene"
 	name = "arrival shuttle (Selene)"
+
+/datum/map_template/shuttle/arrival/fulp/helio
+	suffix = "helio"
+	name = "arrival shuttle (Helio)"
 
 /**
  * MINING

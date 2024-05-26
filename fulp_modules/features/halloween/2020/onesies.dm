@@ -102,7 +102,7 @@
 	RemoveElement(/datum/element/update_icon_updates_onmob)
 	return ..()
 
-/obj/item/clothing/suit/hooded/onesie/ethereal/AltClick(mob/living/user)
+/obj/item/clothing/suit/hooded/onesie/ethereal/click_alt(mob/living/user)
 	toggle_suit_light(user)
 
 /obj/item/clothing/suit/hooded/onesie/ethereal/update_icon_state()
@@ -133,7 +133,7 @@
 	RemoveElement(/datum/element/update_icon_updates_onmob)
 	return ..()
 
-/obj/item/clothing/head/hooded/onesie/ethereal/AltClick(mob/living/user)
+/obj/item/clothing/head/hooded/onesie/ethereal/click_alt(mob/living/user)
 	toggle_helmet_light(user)
 
 /obj/item/clothing/head/hooded/onesie/ethereal/proc/toggle_helmet_light(mob/living/user)
