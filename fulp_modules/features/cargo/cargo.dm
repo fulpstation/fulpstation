@@ -56,3 +56,8 @@
 	)
 	crate_name = "five nights at freddy's plushy crate"
 
+/datum/supply_pack/goody/shrimpplush
+	name = "Shrimp Plushie"
+	desc = "It really is just that shrimple."
+	cost = PAYCHECK_CREW * 4
+	contains = list(/obj/item/toy/plush/shrimp)
