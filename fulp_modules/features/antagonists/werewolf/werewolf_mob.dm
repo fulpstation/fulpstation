@@ -38,7 +38,8 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -52,12 +53,14 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
 	max_damage = 500
-	acceptable_bodytype = BODYTYPE_HUMANOID
+	acceptable_bodytype = BODYTYPE_ORGANIC
+	acceptable_bodyshape = BODYSHAPE_HUMANOID
 
 /obj/item/bodypart/arm/left/werewolf
 	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
@@ -67,7 +70,8 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -81,7 +85,8 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -95,7 +100,8 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -109,7 +115,8 @@
 	burn_modifier = WEREWOLF_LIMB_BURN_MODIFIER
 	wound_resistance = WEREWOLF_LIMB_WOUND_RESIST
 	limb_id = BODYPART_ID_WEREWOLF
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_ORGANIC
+	bodyshape = BODYSHAPE_HUMANOID
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
