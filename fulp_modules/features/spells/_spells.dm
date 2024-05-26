@@ -32,7 +32,7 @@
 	else
 		var/list/funky_turfs = RANGE_TURFS(1, owner)
 		for(var/turf/closed/solid in funky_turfs)
-			to_chat(owner, "<span class='warning'>You're too close to a wall.</span>")
+			to_chat(owner, span_warning("You're too close to a wall."))
 			return
 		dancefloor_exists = TRUE
 		var/i = 1

@@ -41,7 +41,7 @@
 	name = "prison fourcorner"
 
 /obj/effect/turf_decal/tile/security
-	color = "#FF0000"
+	color = COLOR_RED
 	name = "security corner"
 
 /obj/effect/turf_decal/tile/security/anticorner
@@ -61,7 +61,7 @@
 	name = "security fourcorner"
 
 /obj/effect/turf_decal/tile/engineering
-	color = "#FFD700"
+	color = COLOR_GOLD
 	name = "engineering corner"
 
 /obj/effect/turf_decal/tile/engineering/anticorner
@@ -135,7 +135,7 @@
 	icon_state =  "siding_plain_corner"
 
 /obj/effect/turf_decal/siding/engineering
-	color = "#FFD700"
+	color = COLOR_GOLD
 
 /obj/effect/turf_decal/siding/engineering/corner
 	icon_state =  "siding_plain_corner"
@@ -196,3 +196,37 @@
 
 /obj/effect/turf_decal/trimline/prison/filled/shrink_ccw
 	icon_state = "trimline_shrink_ccw"
+
+/// aft/fore/port/star directional plaques
+//****
+
+/obj/effect/turf_decal/fulp
+	icon = 'fulp_modules/mapping/icons/mapping.dmi'
+	icon_state = "aft"
+
+/obj/effect/turf_decal/fulp/floor_directions/aft
+	icon_state = "aft"
+
+/obj/effect/turf_decal/fulp/floor_directions/fore
+	icon_state = "fore"
+
+/obj/effect/turf_decal/fulp/floor_directions/port
+	icon_state = "port"
+
+/obj/effect/turf_decal/fulp/floor_directions/starboard
+	icon_state = "starboard"
+
+// with arrows
+
+/obj/effect/turf_decal/fulp/floor_directions/aft/directional
+	icon_state = "aft_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/fore/directional
+	icon_state = "fore_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/port/directional
+	icon_state = "port_directional"
+
+/obj/effect/turf_decal/fulp/floor_directions/starboard/directional
+	icon_state = "starboard_directional"
+
