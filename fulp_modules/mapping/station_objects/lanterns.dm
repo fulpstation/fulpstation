@@ -1,4 +1,4 @@
 // Unique lanterns
 
 /obj/item/flashlight/lantern/lit_lantern
-	light_on = 1
+	start_on = 1
