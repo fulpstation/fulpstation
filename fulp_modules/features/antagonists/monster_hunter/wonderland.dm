@@ -43,7 +43,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /obj/structure/blood_fountain
 	name = "blood fountain"
-	desc = "A huge resevoir of thick blood, perhaps drinking some of it would restore some vigor..."
+	desc = "A huge resevoir of thickened blood, perhaps drinking some of it would restore some vigor..."
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/blood_fountain.dmi'
 	icon_state = "blood_fountain"
 	plane = ABOVE_GAME_PLANE
