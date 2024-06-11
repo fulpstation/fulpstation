@@ -78,7 +78,7 @@
 			if(!objectives_completed || length(owner.rabbits) || used_up)
 				return
 			if(!is_station_level(loc.z))
-				to_chat(usr, span_warning("The pull of the ice moon isn't strong enough here..."))
+				to_chat(usr, span_warning("The pull of the Ice Moon isn't strong enough here..."))
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 			used_up = TRUE
