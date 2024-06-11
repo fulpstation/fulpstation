@@ -123,7 +123,7 @@
 
 /datum/hunter_weapons/hunter_axe
 	name = "Hunter's axe"
-	desc = "A simple but devestating axe for hunters that lean towards barbaric tactics, can be wielded as a double bladed axe."
+	desc = "A simple but devastating axe for hunters that lean towards barbaric tactics, can be wielded as a double bladed axe."
 	item = /obj/item/melee/trick_weapon/hunter_axe
 
 /datum/hunter_weapons/darkmoon_greatsword
