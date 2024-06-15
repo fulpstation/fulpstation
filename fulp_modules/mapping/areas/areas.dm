@@ -82,10 +82,17 @@
 	ambience_index = AMBIENCE_SPOOKY
 	sound_environment = SOUND_ENVIRONMENT_CAVE
 	area_flags = UNIQUE_AREA | NOTELEPORT | HIDDEN_AREA | BLOCK_SUICIDE
+	base_lighting_alpha = 128
+	base_lighting_color = "#FFDD77"
+
+/area/ruin/space/has_grav/wonderchess
+	name = "Wonderland Chess Board"
+	icon_state = "green"
+	ambience_index = AMBIENCE_SPOOKY
+	sound_environment = SOUND_ENVIRONMENT_CAVE
+	area_flags = UNIQUE_AREA | NOTELEPORT | HIDDEN_AREA | BLOCK_SUICIDE
 	static_lighting = FALSE
 	base_lighting_alpha = 255
-
-
 
 /area/ruin/has_grav/prototype
 	requires_power = TRUE
