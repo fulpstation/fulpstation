@@ -28,7 +28,7 @@
 	name = "Create Rabbit Hole"
 	button_icon_state = "hole_effect_button"
 	cooldown_time = 3 SECONDS
-	desc = "Trip down enemies through the rabbit holes!"
+	desc = "Create a small cascade of rabbit holes to trip your enemies!"
 	button_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
 	button_icon_state = "hole_effect_button"
 	spell_requirements = NONE

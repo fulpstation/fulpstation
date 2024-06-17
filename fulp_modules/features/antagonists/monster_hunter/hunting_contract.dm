@@ -1,6 +1,6 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
-	desc = "A contract detailing all the guidelines a good hunter needs."
+	desc = "A contract detailing a hunter's tasks and tools."
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
@@ -78,7 +78,7 @@
 			if(!objectives_completed || length(owner.rabbits) || used_up)
 				return
 			if(!is_station_level(loc.z))
-				to_chat(usr, span_warning("The pull of the ice moon isn't strong enough here...."))
+				to_chat(usr, span_warning("The pull of the Ice Moon isn't strong enough here..."))
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 			used_up = TRUE
@@ -117,18 +117,18 @@
 
 /datum/hunter_weapons/threaded_cane
 	name = "Threaded cane"
-	desc = "cane made out of heavy metal, can transform into a whip to strike foes from afar."
+	desc = "A cane made out of lighter metals, can transform into a whip to strike foes from afar."
 	item = /obj/item/melee/trick_weapon/threaded_cane
 
 
 /datum/hunter_weapons/hunter_axe
 	name = "Hunter's axe"
-	desc = "simple axe for hunters that lean towards barbarian tactics, can transform into a double bladed axe."
+	desc = "A simple but devastating axe for hunters that lean towards barbaric tactics, can be wielded as a double bladed axe."
 	item = /obj/item/melee/trick_weapon/hunter_axe
 
 /datum/hunter_weapons/darkmoon_greatsword
 	name = "Darkmoon greatsword"
-	desc = "a heavy sword hilt that would knock anyone out cold, can transform into the darkmoonlight greatsword. "
+	desc = "A sword that can fire beams of moonlight and be extended or withdrawn from its hilt. "
 	item = /obj/item/melee/trick_weapon/darkmoon
 
 
