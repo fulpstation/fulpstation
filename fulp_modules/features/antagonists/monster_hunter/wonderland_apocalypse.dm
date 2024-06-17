@@ -57,7 +57,7 @@
 
 /obj/structure/wonderland_rift
 	name = "Wonderland Door"
-	desc = "A door leading to a magical beautiful land."
+	desc = "A mostly one-way door leading to a magical, beautiful land."
 	armor_type = /datum/armor/wonderland_rift
 	max_integrity = 300
 	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'

@@ -7,12 +7,13 @@
 	preview_outfit = /datum/outfit/monsterhunter
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are the Monster Hunter, hired to rid this station of several troublesome creatures.",
-		"The contract paper provided to you details all the tasks our anonymous employers paid us to complete.",
-		"On this station are five white rabbits only you can see, use the accursed queen card to track them down!",
-		"One of the rabbits will provide you the gateway to Wonderland.",
+		"You are a Monster Hunter, hired to rid this station of several troublesome creatures.",
+		"The contract provided to you details all the tasks your anonymous employers have paid you to complete.",
+		"Five white rabbits that only you can see are scattered around the station, use the Accursed Red Queen card to track them down!",
+		"The first rabbit will provide you with a way to reach Wonderland.",
 		"You can upgrade your weapon in Wonderland by placing it on the weapon forge table and using a rabbit's eye on the table!",
-		"Only when all the rabbits are found and the monsters are terminated can we unleash the apocalypse."
+		"You can also make unique stakes for use against your more vampiric foes (assuming you have any...)",
+		"When all the rabbits are found and the monsters are terminated you can unleash the apocalypse with your contract."
 	)
 
 	///how many rabbits have we found
@@ -91,7 +92,7 @@
 	if(locator)
 		locator.hunter = null
 	locator = null
-	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer \a [name]."))
+	to_chat(owner.current, span_userdanger("Your hunt has ended: you enter retirement once again, and are no longer \a [name]."))
 	return ..()
 
 /datum/antagonist/monsterhunter/get_preview_icon()
@@ -160,10 +161,10 @@
 
 /datum/antagonist/monsterhunter/greet()
 	. = ..()
-	to_chat(owner.current, span_userdanger("After witnessing recent events on the station, we return to your old profession, we are a Monster Hunter!"))
-	to_chat(owner.current, span_announce("While we can kill anyone in our way to destroy the monsters lurking around, <b>causing property damage is unacceptable</b>."))
-	to_chat(owner.current, span_announce("However, security WILL detain us if they discover our mission."))
-	to_chat(owner.current, span_announce("In exchange for our services, it shouldn't matter if a few items are gone missing for our... personal collection."))
+	to_chat(owner.current, span_userdanger("After noticing several signs of the aberrant, you return to your old profession: you are a Monster Hunter!"))
+	to_chat(owner.current, span_announce("While you can kill anyone hindering you in your hunt, <b>causing property damage is unacceptable</b>."))
+	to_chat(owner.current, span_announce("However, security will likely detain you if they discover your mission."))
+	to_chat(owner.current, span_announce("In exchange for your services, it shouldn't matter if a few items go missing for your... personal collection."))
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/monster_hunter/sounds/monsterhunterintro.ogg', 75, FALSE, pressure_affected = FALSE)
 	owner.announce_objectives()
 
@@ -227,7 +228,7 @@
 		possible_targets -= target
 		kill_monster.target = target
 		prey += target
-		kill_monster.explanation_text = "A monster target is aboard the station, identify and eliminate this threat."
+		kill_monster.explanation_text = "An unknown monster is part of the crew, identify it with your Hunter Vision and slay it."
 		objectives += kill_monster
 
 
@@ -266,16 +267,16 @@
 
 	else
 		if(hunter_win)
-			parts += span_greentext("The hunter has eliminated all their prey!")
+			parts += span_greentext("The hunter has eliminated all of their prey!")
 		else
-			parts += span_redtext("The hunter has not eliminated all their prey...")
+			parts += span_redtext("The hunter has not eliminated all of their prey...")
 
 	return parts.Join("<br>")
 
 
 /datum/action/droppod_item
 	name = "Summon Monster Hunter tools"
-	desc = "Summon specific monster hunter tools that will aid us with our hunt."
+	desc = "Call in your equipment via droppod."
 	button_icon = 'icons/obj/devices/tracker.dmi'
 	button_icon_state = "beacon"
 	///path of item we are spawning
@@ -303,7 +304,7 @@
 
 /datum/action/cooldown/spell/track_monster
 	name = "Hunter Vision"
-	desc = "Detect monsters within vicinity"
+	desc = "Detect monsters within your vicinity"
 	button_icon_state = "blind"
 	cooldown_time = 5 SECONDS
 	spell_requirements = NONE
