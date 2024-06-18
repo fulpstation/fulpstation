@@ -242,7 +242,7 @@
 
 /obj/item/rabbit_eye
 	name = "Rabbit eye"
-	desc = "An item that resonates with trick weapons."
+	desc = "The bloodshot lenses of a lost rabbit."
 	icon_state = "rabbit_eye"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 
@@ -266,7 +266,7 @@
 
 /obj/item/gun/ballistic/revolver/hunter_revolver
 	name = "\improper Hunter's Revolver"
-	desc = "Does minimal damage but slows down the enemy."
+	desc = "A revolver delicately modified with some form of alchemical apparatus. It smells of rusted copper."
 	icon_state = "revolver"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
@@ -349,7 +349,7 @@
 
 /obj/item/clothing/mask/cursed_rabbit
 	name = "Damned Rabbit Mask"
-	desc = "Slip into wonderland."
+	desc = "An eerie visage covered with a light, almost reflective fur."
 	icon =  'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "rabbit_mask"
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
@@ -414,7 +414,7 @@
 
 /obj/item/rabbit_locator
 	name = "Accursed Red Queen card"
-	desc = "Hunts down the white rabbits."
+	desc = "A card bearing the sinister face of an unknown monarch. It is otherwise unremarkable."
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL

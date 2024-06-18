@@ -1,6 +1,6 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
-	desc = "A contract detailing a hunter's tasks and tools."
+	desc = "A contract written in an exotic language and marked with a red, queenly stamp.."
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
