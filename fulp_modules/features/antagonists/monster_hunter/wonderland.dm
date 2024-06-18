@@ -78,6 +78,12 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	item_flags = NOBLUDGEON
 	var/filled = FALSE ///does the bottle contain fluid
 
+/obj/item/blood_vial/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This vial can only be filled at the blood fountain in Wonderland. ")
+		. += span_notice("When full this vial can be <b>used in hand</b> to grant its user a short burst of speed and lingering healing.")
+
 /obj/item/blood_vial/proc/fill_vial(mob/living/user)
 	if(filled)
 		balloon_alert(user, "Vial already full!")

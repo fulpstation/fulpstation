@@ -18,6 +18,12 @@
 	var/enabled = FALSE
 
 
+/obj/item/melee/trick_weapon/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This is a trick weapon.")
+		. += span_notice("It will deal less damage to anyone who isn't sufficiently monstrous.")
+
 /obj/item/melee/trick_weapon/proc/upgrade_weapon()
 	SIGNAL_HANDLER
 
@@ -70,7 +76,10 @@
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
-
+/obj/item/melee/trick_weapon/darkmoon/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("<b>Right-click</b> a target when this weapon is active to fire a beam of moonlight at it.")
 
 /obj/item/melee/trick_weapon/darkmoon/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
@@ -157,6 +166,11 @@
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src,WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
+/obj/item/melee/trick_weapon/threaded_cane/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When transformed into a whip this weapon can hit enemies who are up to two tiles away.")
+
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
@@ -200,6 +214,11 @@
 	)
 	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
+/obj/item/melee/trick_weapon/hunter_axe/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When wielded in both hands this weapon deals more damage.")
+
 /obj/item/melee/trick_weapon/hunter_axe/upgrade_weapon()
 
 	upgrade_level++
@@ -227,6 +246,11 @@
 	icon_state = "rabbit_eye"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 
+/obj/item/rabbit_eye/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("Apply this to the weapon forge in Wonderland <b>with combat mode enabled</b> to upgrade any trick weapon currently on the forge.")
+
 /obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
 		user.balloon_alert(user, "Already at maximum upgrade!")
@@ -247,6 +271,11 @@
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
+
+/obj/item/gun/ballistic/revolver/hunter_revolver/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This revolver deals miniscule damage, but it will temporarily slow down any monster shot with it.")
 
 /datum/movespeed_modifier/silver_bullet
 	movetypes = GROUND
@@ -297,6 +326,11 @@
 	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 
+/obj/structure/rack/weaponsmith/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This forge can be used to upgrade trick weapons with rabbit eyes.")
+
 /obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
 	if(!istype(organ, /obj/item/rabbit_eye))
 		return ..()
@@ -333,6 +367,12 @@
 	. = ..()
 	generate_abilities()
 
+/obj/item/clothing/mask/cursed_rabbit/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("You can use this mask to teleport to Wonderland for a short period of time.")
+		. += span_notice("It can also be used to phase through reality by repeatedly transposing your location with that of a paradox rabbit.")
+		. += span_boldnotice("Do not leave it in Wonderland unless you wish to risk losing it forever.")
 
 /obj/item/clothing/mask/cursed_rabbit/proc/generate_abilities()
 	var/datum/action/cooldown/paradox/para = new
@@ -392,6 +432,12 @@
 		return
 	hunter = killer
 	hunter.locator = src
+
+/obj/item/rabbit_locator/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When <b>used in hand</b> this card will vaguely indicate your distance to a nearby rabbit on the station, allowing you to gradually deduce its location.")
+		. += span_boldnotice("This card cannot be replaced.")
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if (!COOLDOWN_FINISHED(src, locator_timer))
@@ -466,7 +512,10 @@
 	ex_light = 4
 	ex_flame = 2
 
-
+/obj/item/grenade/jack/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("<b>This is a bomb.</b> Use it with utmost caution.")
 
 /obj/item/grenade/jack/arm_grenade(mob/user, delayoverride, msg = TRUE, volume = 60)
 	log_grenade(user) //Inbuilt admin procs already handle null users
