@@ -24,7 +24,7 @@
 	timeout = 10 MINUTES
 
 /datum/mood_event/madevamp
-	description = span_boldwarning("A mortal has reached an apotheosis- undeath- by my own hand.")
+	description = span_boldwarning("A mortal has reached an apotheosis— undeath— by my own hand.")
 	mood_change = 15
 	timeout = 5 MINUTES
 

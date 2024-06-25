@@ -38,7 +38,7 @@ SUBSYSTEM_DEF(sunlight)
 			issued_XP = FALSE
 			//randomize the next sol timer
 			time_til_cycle = round(rand((TIME_BLOODSUCKER_NIGHT-TIME_BLOODSUCKER_SOL_DELAY), (TIME_BLOODSUCKER_NIGHT+TIME_BLOODSUCKER_SOL_DELAY)), 60)
-			message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to Night (Lasts for [time_til_cycle / 60] minutes.")
+			message_admins("BLOODSUCKER NOTICE: Daylight Ended. Resetting to night (Lasts for [time_til_cycle / 60] minutes.")
 			SEND_SIGNAL(src, COMSIG_SOL_END)
 			warn_daylight(
 				danger_level = DANGER_LEVEL_SOL_ENDED,

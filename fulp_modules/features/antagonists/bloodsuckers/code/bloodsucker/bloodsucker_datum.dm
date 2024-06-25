@@ -13,9 +13,9 @@
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Bloodsucker, an undead blood-seeking monster living aboard Space Station 13.",
-		"You regenerate your health slowly. You're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!",
-		"Use your Antagonist UI page to enter a clan and learn how your powers work.",
+		"You are a Bloodsucker, a type of vampire who has infiltrated Space Station 13.",
+		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a frenzy!",
+		"Use your antagonist UI page to enter a clan and learn how your powers work.",
 		"While not in a clan, you will be unable to rank up, feed, or do any other Bloodsucker activities.",
 	)
 
@@ -263,7 +263,7 @@
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
-		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
+		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus ranks, entering your claimed coffin allows you to spend a rank."))
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
@@ -275,11 +275,11 @@
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
-	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
+	var/levels = input("How many unspent ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
 	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
 	if(levels > 1)
 		bloodsucker_level_unspent = levels
-		msg += " with [levels] extra unspent Ranks."
+		msg += " with [levels] extra unspent ranks."
 	message_admins("[key_name_admin(usr)][msg]")
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
@@ -354,7 +354,7 @@
 
 	// Now list their vassals
 	if(vassals.len)
-		report += "<span class='header'>Their Vassals were...</span>"
+		report += "<span class='header'>Their vassals were...</span>"
 		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
 			if(!all_vassals.owner)
 				continue
