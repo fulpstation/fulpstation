@@ -1,10 +1,11 @@
 /datum/bloodsucker_clan/malkavian
 	name = CLAN_MALKAVIAN
-	description = "Little is documented about Malkavians. Complete insanity is the most common theme. \n\
-		The Favorite Vassal will suffer the same fate as the Master."
+	description = "The history of the Malkavian clan is not well known, even to most modern Malkavians. \n\
+		Complete insanity and an almost puritanical devotion to the Masquerade are the most common themes throughout the literature. \n\
+		Their favorite vassal suffers from insanity just as they do."
 	join_icon_state = "malkavian"
-	join_description = "Completely insane. You gain constant hallucinations, become a prophet with unintelligable rambling, \
-		and become the enforcer of the Masquerade code."
+	join_description = "Become completely insane, travel through tears in reality, ramble in whispers constantly, \
+		and become an enforcer of the Masquerade."
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
 /datum/bloodsucker_clan/malkavian/on_enter_frenzy(datum/antagonist/bloodsucker/source)
@@ -48,7 +49,7 @@
 	if(istype(carbonowner))
 		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 		carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	to_chat(vassaldatum.owner.current, span_notice("Additionally, you now suffer the same fate as your Master."))
+	to_chat(vassaldatum.owner.current, span_notice("Additionally, you now suffer the same fate as your master."))
 
 /datum/bloodsucker_clan/malkavian/on_exit_torpor(datum/antagonist/bloodsucker/source)
 	var/mob/living/carbon/carbonowner = bloodsuckerdatum.owner.current

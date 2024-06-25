@@ -1,13 +1,13 @@
 /datum/bloodsucker_clan/tremere
 	name = CLAN_TREMERE
-	description = "The Tremere Clan is extremely weak to True Faith, and will burn when entering areas considered such, like the Chapel. \n\
-		Additionally, a whole new moveset is learned, built on Blood magic rather than Blood abilities, which are upgraded overtime. \n\
-		More ranks can be gained by Vassalizing crewmembers. \n\
-		The Favorite Vassal gains the Batform spell, being able to morph themselves at will."
+	description = "The Tremere clan is extremely weak to True Faith, and will burn when entering hallowed areas. \n\
+		Additionally, the Tremere possess a unique moveset built on blood magic rather than blood abilities. \n\
+		They can gain extra ranks by vassalizing crewmembers, and level up their three default spells instead of gaining new ones. \n\
+		Their favorite vassal gains the Batform spell, which allows them to turn into a bat at will."
 	clan_objective = /datum/objective/tremere_clan_objective
 	join_icon_state = "tremere"
-	join_description = "You will burn if you enter the Chapel, lose all default powers, \
-		but gain Blood Magic instead, powers you level up overtime."
+	join_description = "You will burn if you enter the chapel, lose all default powers, \
+		but gain blood spells instead, which are individually leveled up over time."
 
 /datum/bloodsucker_clan/tremere/New(mob/living/carbon/user)
 	. = ..()
@@ -45,7 +45,7 @@
 		to_chat(bloodsuckerdatum.owner.current, span_notice("You grow more ancient by the night!"))
 	else
 		// Give them the UI to purchase a power.
-		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to grow more ancient. Select a power you wish to upgrade.", "Your Blood Thickens...", options)
+		var/choice = tgui_input_list(bloodsuckerdatum.owner.current, "You have the opportunity to grow more ancient. Select a spell you wish to upgrade.", "Your Blood Thickens...", options)
 		// Prevent Bloodsuckers from closing/reopning their coffin to spam Levels.
 		if(cost_rank && bloodsuckerdatum.bloodsucker_level_unspent <= 0)
 			return
@@ -55,7 +55,7 @@
 			return
 		// Prevent Bloodsuckers from purchasing a power while outside of their Coffin.
 		if(!istype(bloodsuckerdatum.owner.current.loc, /obj/structure/closet/crate/coffin))
-			to_chat(bloodsuckerdatum.owner.current, span_warning("You must be in your Coffin to purchase Powers."))
+			to_chat(bloodsuckerdatum.owner.current, span_warning("You must be in your coffin to purchase spells."))
 			return
 
 		// Good to go - Buy Power!
@@ -87,7 +87,7 @@
  */
 /datum/objective/tremere_clan_objective
 	name = "tremerepower"
-	explanation_text = "Upgrade a Blood Magic power to the maximum level, remember that Vassalizing gives more Ranks!"
+	explanation_text = "Upgrade a blood spell to the maximum level, remember that vassalizing gives more ranks!"
 
 /datum/objective/tremere_clan_objective/check_completion()
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)

@@ -1,9 +1,9 @@
 /datum/bloodsucker_clan/gangrel
 	name = CLAN_GANGREL
-	description = "Closer to Animals than Bloodsuckers, known as Werewolves waiting to happen, \n\
-		these are the most fearful of True Faith, being the most lethal thing they would ever see the night of. \n\
-		Full Moons do not seem to have an effect, despite common-told stories. \n\
-		The Favorite Vassal turns into a Werewolf whenever their Master does."
+	description = "Closer to animals than bloodsuckers and often improperly characterized as werewolves: \n\
+		these fearful Kindred are the most lethal to those who wield True Faith. \n\
+		Full moons do not seem to affect them, despite what folklore may suggest. \n\
+		Their favorite vassal turns into a werewolf whenever they do."
 	joinable_clan = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
@@ -17,31 +17,32 @@
 	. = ..()
 	var/area/current_area = get_area(bloodsuckerdatum.owner.current)
 	if(istype(current_area, /area/station/service/chapel))
-		to_chat(bloodsuckerdatum.owner.current, span_warning("You don't belong in holy areas! The Faith burns you to a crisp!"))
+		to_chat(bloodsuckerdatum.owner.current, span_warning("You don't belong in holy areas! The faith burns you to a crisp!"))
 		bloodsuckerdatum.owner.current.adjustFireLoss(20)
 		bloodsuckerdatum.owner.current.adjust_fire_stacks(2)
 		bloodsuckerdatum.owner.current.ignite_mob()
 
 /datum/bloodsucker_clan/toreador
 	name = CLAN_TOREADOR
-	description = "The most charming Clan of them all, allowing them to very easily disguise among the crew. \n\
-		More in touch with their morals, they suffer and benefit more strongly from humanity cost or gain of their actions. \n\
-		Known as 'The most humane kind of vampire', they have an obsession with perfectionism and beauty \n\
-		The Favorite Vassal gains the Mesmerize ability."
+	description = "The most charming clan, whose members may easily conceal themselves within the crew. \n\
+		More in touch with their morals, they are greatly impacted by the humanity of their actions. \n\
+		Known as the most \"humane\" kind of vampire, they are perfectionists obsessed with vanity. \n\
+		Their favorite vassal gains the Mesmerize ability."
 	joinable_clan = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
 
 /datum/bloodsucker_clan/brujah
 	name = CLAN_BRUJAH
-	description = "The Brujah Clan has proven to be the strongest in melee combat, boasting a powerful punch. \n\
-		They also appear to be more calm than the others, entering their 'frenzies' whenever they want, but dont seem affected much by them. \n\
-		Be wary, as they are fearsome warriors, rebels and anarchists, with an inclination towards Frenzy. \n\
-		The Favorite Vassal gains brawn and a massive increase in brute damage from punching."
+	description = "The Brujah clan has proven to be the strongest in melee combat, boasting a powerful punch. \n\
+		They appear to be calmer than their kin, entering their \"frenzies\" whenever they want but conversely being less affected by them. \n\
+		Be wary, as they are fearsome insurgents, rebels, and anarchists, with an inclination towards chaos. \n\
+		Their favorite vassal gains Brawn and substantially strengthened fists."
 	joinable_clan = FALSE
 
 /datum/bloodsucker_clan/tzimisce
 	name = CLAN_TZIMISCE
-	description = "The Tzimisce Clan has no knowledge about it. \n\
-		If you see one, you should probably run away.\n\
-		*the rest of the page is full of undecipherable scribbles...*"
+	description = "Much of the information about the Tzimisce clan has yet to be reliably confirmed. \n\
+		Most accounts indicate that they are amiable and often kinder than those of other clans, but when. . . \n\
+		. . .are also. . . \n\
+		. . .DO Ṉ̷̎O̶̯͂T UNDER ANY C̵I̸R̸C̶U̶M̷S̴T̸A̴N—. . ."
 	joinable_clan = FALSE
