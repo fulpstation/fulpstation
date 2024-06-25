@@ -1,12 +1,12 @@
 /datum/action/cooldown/bloodsucker/vassal_blood
 	name = "Help Vassal"
-	desc = "Bring an ex-Vassal back into the fold, or create blood using a bag. RMB: Check Vassal status."
+	desc = "Bring an ex-vassal back into the fold, or create blood using a bag. RMB: Check vassal status."
 	button_icon_state = "power_torpor"
-	power_explanation = "Help Vassal:\n\
-		Use this power while you have an ex-Vassal grabbed to bring them back into the fold. \
-		Use this power with a bloodbag in your hand to instead fill it with Vampiric Blood which \
+	power_explanation = "Help vassal:\n\
+		Use this power while you have an ex-vassal grabbed to bring them back into the fold. \
+		Use this power with a bloodbag in your hand to instead fill it with vampiric blood which \
 		can be used to reset ex-vassal deconversion timers. \
-		Right-Click will show the status of all Vassals."
+		Right-Click will show the status of all vassals."
 	power_flags = NONE
 	check_flags = NONE
 	purchase_flags = NONE
@@ -58,7 +58,7 @@
 	if(trigger_flags & TRIGGER_SECONDARY_ACTION)
 		for(var/datum/antagonist/ex_vassal/former_vassals as anything in revenge_vassal.ex_vassals)
 			var/information = "[former_vassals.owner.current]"
-			information += " - has [round(COOLDOWN_TIMELEFT(former_vassals, blood_timer) / 600)] minutes left of Blood"
+			information += " - has [round(COOLDOWN_TIMELEFT(former_vassals, blood_timer) / 600)] minutes left of blood"
 			var/turf/open/floor/target_area = get_area(owner)
 			if(target_area)
 				information += " - currently at [target_area]."

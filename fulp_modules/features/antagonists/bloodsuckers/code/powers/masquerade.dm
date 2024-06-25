@@ -15,12 +15,12 @@
 	desc = "Feign the vital signs of a mortal, and escape both casual and medical notice as the monster you truly are."
 	button_icon_state = "power_human"
 	power_explanation = "Masquerade:\n\
-		Activating Masquerade will forge your identity to be practically identical to that of a human;\n\
+		Activating Masquerade will physiologically make you identical to a human;\n\
 		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
 		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
-		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
-		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
-		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
+		- You gain a genetic sequence, and appear to have 100% blood when scanned by a health analyzer.\n\
+		- You will not appear as pale when examined. Anything further than pale, however, will not be hidden.\n\
+		At the end of Masquerade you will re-gain your vampiric qualities and lose any diseases or genetic alterations you might have."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
 	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
@@ -87,7 +87,7 @@
 
 /atom/movable/screen/alert/status_effect/masquerade
 	name = "Masquerade"
-	desc = "You are currently hiding your identity using the Masquerade power. This halts Vampiric healing."
+	desc = "You are currently hiding your true nature using the Masquerade power. This halts vampiric healing."
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	icon_state = "power_human"
 	alerttooltipstyle = "cult"
