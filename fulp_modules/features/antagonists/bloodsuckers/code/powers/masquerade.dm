@@ -17,7 +17,7 @@
 	power_explanation = "Masquerade:\n\
 		Activating Masquerade will physiologically make you identical to a human;\n\
 		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
-		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
+		- Your eyes become less vulnerable to bright lights.\n\
 		- You gain a genetic sequence, and appear to have 100% blood when scanned by a health analyzer.\n\
 		- You will not appear as pale when examined. Anything further than pale, however, will not be hidden.\n\
 		At the end of Masquerade you will re-gain your vampiric qualities and lose any diseases or genetic alterations you might have."
@@ -71,7 +71,7 @@
 	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.flash_protect = max(initial(eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
-	to_chat(user, span_notice("Your heart beats one final time, while your skin dries out and your icy pallor returns."))
+	to_chat(user, span_notice("Your heart beats one final time as your skin dries out and your icy pallor returns."))
 
 /**
  * # Status effect

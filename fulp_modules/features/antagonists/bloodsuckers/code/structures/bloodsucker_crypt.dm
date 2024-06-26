@@ -113,8 +113,8 @@
 	buckle_lying = 180
 	ghost_desc = "This is a persuassion rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
 	vamp_desc = "This is a persuassion rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
-		Simply drag a victim's sprite onto the rack to buckle them to it. Right-click on the vassal rack to unbuckle them.\n\
-		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs Blood to do.\n\
+		Simply drag a victim's sprite onto the rack to buckle them to it. Right-click on the rack to unbuckle them.\n\
+		To convert into a vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs nlood to do.\n\
 		Vassals can be turned into special ones by continuing to torture them once converted."
 	vassal_desc = "This is a persuassion rack, which allows your master to thrall crewmembers into their service.\n\
 		Aid your master in bringing their victims here and keeping them secure.\n\

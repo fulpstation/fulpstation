@@ -15,7 +15,7 @@
 	antag_tips = list(
 		"You are a Bloodsucker, a type of vampire who has infiltrated Space Station 13.",
 		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a frenzy!",
-		"Use your antagonist UI page to enter a clan and learn how your powers work.",
+		"Use your Antagonist UI page to enter a clan and learn how your powers work.",
 		"While not in a clan, you will be unable to rank up, feed, or do any other Bloodsucker activities.",
 	)
 
