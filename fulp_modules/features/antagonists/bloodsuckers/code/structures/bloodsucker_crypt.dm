@@ -104,24 +104,24 @@
 
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
-	desc = "If this wasn't meant for torture, then someone has some fairly horrifying hobbies."
+	desc = "This is clearly either meant for torture or correcting spinal injuries." //TODO: Make persuasion racks actually correct torso bone wounds
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "vassalrack"
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
 	buckle_lying = 180
-	ghost_desc = "This is a Vassal rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
-	vamp_desc = "This is the Vassal rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
-		Simply click and hold on a victim, and then drag their sprite on the vassal rack. Right-click on the vassal rack to unbuckle them.\n\
+	ghost_desc = "This is a persuassion rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
+	vamp_desc = "This is a persuassion rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
+		Simply drag a victim's sprite onto the rack to buckle them to it. Right-click on the vassal rack to unbuckle them.\n\
 		To convert into a Vassal, repeatedly click on the persuasion rack. The time required scales with the tool in your off hand. This costs Blood to do.\n\
 		Vassals can be turned into special ones by continuing to torture them once converted."
-	vassal_desc = "This is the vassal rack, which allows your master to thrall crewmembers into their minions.\n\
+	vassal_desc = "This is a persuassion rack, which allows your master to thrall crewmembers into their service.\n\
 		Aid your master in bringing their victims here and keeping them secure.\n\
-		You can secure victims to the vassal rack by click dragging the victim onto the rack while it is secured."
-	hunter_desc = "This is the vassal rack, which monsters use to brainwash crewmembers into their loyal slaves.\n\
+		You can secure victims to the rack by dragging their sprite onto the rack while it is secured."
+	hunter_desc = "This is a persuassion rack, which vampires use to brainwash crewmembers into their loyal slaves.\n\
 		They usually ensure that victims are handcuffed, to prevent them from running away.\n\
-		Their rituals take time, allowing us to disrupt it."
+		Their rituals take time, allowing us to disrupt them."
 
 #ifdef BLOODSUCKER_TESTING
 	var/convert_progress = 1
@@ -154,7 +154,7 @@
 	var/mob/living/living_target = movable_atom
 	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_danger("Until this rack is secured in place, it cannot serve its purpose."))
-		to_chat(user, span_announce("* Bloodsucker Tip: Examine the Persuasion Rack to understand how it functions!"))
+		to_chat(user, span_announce("* Bloodsucker Tip: Examine the persuasion rack to understand how it functions!"))
 		return
 	// Default checks
 	if(!isliving(movable_atom) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
@@ -190,7 +190,7 @@
 		return
 	user.visible_message(
 		span_notice("[user] straps [target] into the rack, immobilizing them."),
-		span_boldnotice("You secure [target] tightly in place. They won't escape you now."),
+		span_boldnotice("You secure [target] tightly in place. They won't escape now."),
 	)
 
 	playsound(loc, 'sound/effects/pop_expl.ogg', 25, 1)
@@ -209,7 +209,7 @@
 
 	if(buckled_mob == user)
 		buckled_mob.visible_message(
-			span_danger("[user] tries to release themself from the rack!"),
+			span_danger("[user] struggles to break off of the rack!"),
 			span_danger("You attempt to release yourself from the rack!"),
 			span_hear("You hear a squishy wet noise."))
 		if(!do_after(user, 20 SECONDS, buckled_mob))
@@ -249,7 +249,7 @@
 		user_unbuckle_mob(buckled_carbons, user)
 		return
 	if(!bloodsuckerdatum.my_clan)
-		to_chat(user, span_warning("You can't vassalize people until you enter a Clan (Through your Antagonist UI button)"))
+		to_chat(user, span_warning("You can't vassalize people until you enter a clan through your Antagonist UI button"))
 		user.balloon_alert(user, "join a clan first!")
 		return
 
@@ -413,7 +413,7 @@
 
 /obj/structure/bloodsucker/candelabrum
 	name = "candelabrum"
-	desc = "It burns slowly, but doesn't radiate any heat."
+	desc = "It burns slowly and doesn't radiate heat."
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	icon_state = "candelabrum"
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
@@ -421,14 +421,13 @@
 	light_range = 0 // to 2
 	density = FALSE
 	anchored = FALSE
-	ghost_desc = "This is a magical candle which drains at the sanity of non Bloodsuckers and Vassals.\n\
-		Vassals can turn the candle on manually, while Bloodsuckers can do it from a distance."
-	vamp_desc = "This is a magical candle which drains at the sanity of mortals who are not under your command while it is active.\n\
-		You can right-click on it from any range to turn it on remotely, or simply be next to it and click on it to turn it on and off normally."
-	vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master, as long as it is active.\n\
-		You can turn it on and off by clicking on it while you are next to it.\n\
-		If your Master is part of the Ventrue Clan, they utilize this to upgrade their Favorite Vassal."
-	hunter_desc = "This is a blue Candelabrum, which causes insanity to those near it while active."
+	ghost_desc = "This is a magical candle which drains the sanity of non-Bloodsuckers and non-vassals.\n\
+		Only bloodsuckers and their vassals can toggle it."
+	vamp_desc = "This is a magical candle which drains at the sanity of unvassalized mortals while it is active.\n\
+		Only you and your vassals can toggle it."
+	vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master while active.\n\
+		Only you, your master, and your master's other devotees may toggle it."
+	hunter_desc = "This is a blue candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
 
 /obj/structure/bloodsucker/candelabrum/Destroy()
@@ -483,18 +482,17 @@
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
-	desc = "Twisted metal shards jut from the arm rests. Very uncomfortable looking. It would take a masochistic sort to sit on this jagged piece of furniture."
+	desc = "Twisted metal shards jut from the arm rests, making it appear very uncomfortable. Still, it might sell well at an antique shop."
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi'
 	icon_state = "throne"
 	buckle_lying = 0
 	anchored = FALSE
 	density = TRUE
 	can_buckle = TRUE
-	ghost_desc = "This is a Bloodsucker throne, any Bloodsucker sitting on it can remotely speak to their Vassals by attempting to speak aloud."
+	ghost_desc = "This is a Bloodsucker's throne, any Bloodsucker sitting on it can remotely speak to their vassals by attempting to speak aloud."
 	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
-	vassal_desc = "This is a blood throne, it allows your Master to telepathically speak to you and others like you."
-	hunter_desc = "This blood-red looking torture device latches onto anyone that sits onto its throne, but allows\n\
-		Monsters to telepathically communicate with others while contained in it."
+	vassal_desc = "This is a blood throne, it allows your master to telepathically speak to you and others who work under them."
+	hunter_desc = "This blood-red seat allows vampires to telepathically communicate with those in their fold."
 
 	///The static armrest that the throne has while someone is buckled onto it.
 	var/static/mutable_appearance/armrest
