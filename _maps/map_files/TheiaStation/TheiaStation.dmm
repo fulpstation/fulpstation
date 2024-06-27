@@ -8223,7 +8223,6 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/supermatter/room)
 "doe" = (
-/obj/structure/window/spawner/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
 "dog" = (
@@ -14403,6 +14402,11 @@
 /mob/living/basic/rabbit/easter/space,
 /turf/open/space/basic,
 /area/space/nearstation)
+"fNU" = (
+/obj/effect/turf_decal/stripes/full,
+/obj/structure/window/spawner/directional/west,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/funeral)
 "fOa" = (
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/wood/large,
@@ -15154,13 +15158,9 @@
 	name = "chapel camera";
 	network = list("ss13","chapel")
 	},
-/obj/machinery/light/small/directional/south,
 /obj/machinery/airalarm/directional/south,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
-	},
-/obj/machinery/door/window/right/directional/east{
-	name = "Holy Driver"
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
@@ -27873,6 +27873,21 @@
 /obj/effect/turf_decal/tile/neutral/diagonal_centre,
 /turf/open/floor/iron/diagonal,
 /area/station/service/theater)
+"loW" = (
+/obj/machinery/computer/pod/old/mass_driver_controller/chapelgun{
+	pixel_x = -25
+	},
+/obj/structure/table/reinforced,
+/obj/item/clothing/under/misc/burial{
+	pixel_x = -5;
+	pixel_y = 2
+	},
+/obj/item/storage/box/bodybags{
+	pixel_x = 10;
+	pixel_y = 7
+	},
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/funeral)
 "lpk" = (
 /obj/effect/spawner/random/trash/grille_or_waste,
 /turf/open/floor/plating,
@@ -34230,6 +34245,9 @@
 /area/station/cargo/storage)
 "nZw" = (
 /obj/effect/turf_decal/stripes/full,
+/obj/structure/sign/warning/vacuum/directional/east,
+/obj/structure/window/spawner/directional/west,
+/obj/machinery/light/directional/east,
 /turf/open/floor/plating,
 /area/station/service/chapel/funeral)
 "nZy" = (
@@ -49587,12 +49605,13 @@
 /area/station/security/brig)
 "uKH" = (
 /obj/effect/turf_decal/stripes/full,
-/obj/machinery/mass_driver/chapelgun,
+/obj/machinery/mass_driver/chapelgun{
+	dir = 1
+	},
 /obj/item/radio/intercom/directional/south,
-/obj/machinery/light/directional/east,
-/obj/machinery/door/window/left/directional/north{
-	name = "Holy Driver";
-	req_access = list("chapel_office")
+/obj/item/toy/plush/whiny_plushie,
+/obj/machinery/door/window/right/directional/west{
+	name = "Holy Driver"
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
@@ -49976,6 +49995,25 @@
 	dir = 1
 	},
 /area/station/medical/pharmacy)
+"uRW" = (
+/obj/structure/table/reinforced,
+/obj/item/food/grown/poppy{
+	pixel_x = 7;
+	pixel_y = 7
+	},
+/obj/item/food/grown/harebell{
+	pixel_y = 9;
+	pixel_x = -6
+	},
+/obj/item/food/grown/harebell{
+	pixel_x = -6;
+	pixel_y = 2
+	},
+/obj/item/food/grown/poppy{
+	pixel_x = 7
+	},
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/funeral)
 "uRZ" = (
 /obj/machinery/duct,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -83826,7 +83864,7 @@ vQV
 vQV
 vQV
 vQV
-vQV
+nri
 nri
 nri
 qsd
@@ -84083,8 +84121,8 @@ vQV
 vQV
 vQV
 vQV
-vQV
 nri
+xar
 xar
 qsd
 bDS
@@ -84340,9 +84378,9 @@ vQV
 vQV
 vQV
 vQV
-vQV
 nri
 bMu
+loW
 dLp
 gdO
 qsd
@@ -84597,9 +84635,9 @@ vQV
 vQV
 vQV
 vQV
-vQV
-nri
+hXj
 bMu
+uRW
 doe
 gej
 qsd
@@ -84855,8 +84893,8 @@ vQV
 vQV
 vQV
 vQV
-vQV
 bbf
+fNU
 nZw
 uKH
 qsd
@@ -85111,7 +85149,7 @@ vQV
 vQV
 vQV
 vQV
-vQV
+hXj
 qsd
 qsd
 qsd
