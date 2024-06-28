@@ -75,6 +75,13 @@
 		w_class_on = WEIGHT_CLASS_BULKY)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
+	register_item_context()
+
+/obj/item/melee/trick_weapon/darkmoon/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
+	. = ..()
+	if(enabled)
+		context[SCREENTIP_CONTEXT_RMB] = "Fire Moonbeam"
+		return CONTEXTUAL_SCREENTIP_SET
 
 /obj/item/melee/trick_weapon/darkmoon/examine(mob/user)
 	. = ..()
@@ -326,25 +333,46 @@
 	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 
+/obj/structure/rack/weaponsmith/Initialize(mapload)
+	. = ..()
+	register_context()
+
 /obj/structure/rack/weaponsmith/examine(mob/user)
 	. = ..()
 	if(IS_MONSTERHUNTER(user))
 		. += span_notice("This forge can be used to upgrade trick weapons with rabbit eyes.")
 
-/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
-	if(!istype(organ, /obj/item/rabbit_eye))
-		return ..()
-	var/obj/item/rabbit_eye/eye = organ
+//Used to find a trick weapon placed on the smithing table and return it
+/obj/structure/rack/weaponsmith/proc/identify_weapon()
 	var/obj/item/melee/trick_weapon/tool
 	for(var/obj/item/weapon in src.loc.contents)
 		if(!istype(weapon, /obj/item/melee/trick_weapon))
 			continue
 		tool = weapon
 		break
-	if(!tool)
+	if(tool)
+		return tool
+
+/obj/structure/rack/weaponsmith/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	if(!istype(held_item, /obj/item/rabbit_eye))
+		return
+	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
+	if(weapon in source.loc.contents == FALSE)
+		return
+	if(weapon.upgrade_level >= 3)
+		return
+	context[SCREENTIP_CONTEXT_LMB] = "Upgrade Weapon with Combat Mode Active"
+	return CONTEXTUAL_SCREENTIP_SET
+
+/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
+	if(!istype(organ, /obj/item/rabbit_eye))
+		return ..()
+	var/obj/item/rabbit_eye/eye = organ
+	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
+	if(!weapon)
 		to_chat(user, span_warning ("Place your weapon upon the table before upgrading it!"))
 		return
-	eye.upgrade(tool,user)
+	eye.upgrade(weapon, user)
 
 
 /obj/item/clothing/mask/cursed_rabbit
