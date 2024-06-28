@@ -354,6 +354,7 @@
 		return tool
 
 /obj/structure/rack/weaponsmith/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
 	if(!istype(held_item, /obj/item/rabbit_eye))
 		return
 	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
