@@ -7,7 +7,7 @@
 	name = CLAN_VENTRUE
 	description = "The Ventrue are extremely snobby with their meals, and refuse to drink blood from people without a mind. \n\
 		They may only gain three abilities, with the rest of their progress being given to (and to some extent shared with,) their favorite vassal. \n\
-		Their favorite vassal will slowly turn more vampiric this way, until they finally lose their last bits of their humanity."
+		Their favorite vassal will slowly turn more vampiric this way, until they finally lose the last bits of their humanity and become a Fledgling."
 	clan_objective = /datum/objective/ventrue_clan_objective
 	join_icon_state = "ventrue"
 	join_description = "Lose the ability to drink from the mindless; become unable to gain more than three powers, \
