@@ -333,10 +333,6 @@
 	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 
-/obj/structure/rack/weaponsmith/Initialize(mapload)
-	. = ..()
-	register_context()
-
 /obj/structure/rack/weaponsmith/examine(mob/user)
 	. = ..()
 	if(IS_MONSTERHUNTER(user))
