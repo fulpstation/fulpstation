@@ -13,11 +13,11 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Vassal, enslaved to your Vampiric Master, you obey their instructions above all else.",
-		"You have the ability tp Recuperate, allowing you to heal at the exchange of your own Blood.",
-		"Fear Mindshields! You will get deconverted if you get mindshielded, resist them at all costs!",
-		"Help ensure your Master is safe from Daylight! Solar flares will bombard the station periodically, and if your Master is exposed, they will burn alive.",
-		"Your Master can optionally upgrade you into the Favorite Vassal. Depending on their Clan, you will get different benefits.",
+		"You are a Vassal, enslaved to your vampiric master, you obey their instructions above all else.",
+		"You have the ability to Recuperate, allowing you to heal at the cost of your blood, your master's blood, and some of your stamina.",
+		"Fear mindshield implants! You will get deconverted if you get mindshielded, resist them at all costs!",
+		"Help ensure your master is safe from daylight! Solar flares will bombard the station periodically, and if your master is exposed, they will burn alive.",
+		"Your master can optionally upgrade you into the Favorite Vassal. Depending on their clan, you will get different benefits.",
 	)
 
 	/// The Master Bloodsucker's antag datum.
@@ -71,7 +71,7 @@
 /// This is called when the antagonist is successfully mindshielded.
 /datum/antagonist/vassal/on_mindshield(mob/implanter, mob/living/mob_override)
 	owner.remove_antag_datum(/datum/antagonist/vassal)
-	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
+	owner.current.log_message("has been deconverted from vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
 /datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, examine_text)
@@ -183,7 +183,7 @@
 
 /datum/objective/vassal_objective
 	name = "vassal objective"
-	explanation_text = "Help your Master with whatever is requested of you."
+	explanation_text = "Help your master with whatever is requested of you."
 	martyr_compatible = TRUE
 
 /datum/objective/vassal_objective/check_completion()

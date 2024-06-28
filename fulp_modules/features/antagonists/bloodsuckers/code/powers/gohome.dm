@@ -15,10 +15,10 @@
 	active_background_icon_state = "vamp_power_off_oneshot"
 	base_background_icon_state = "vamp_power_off_oneshot"
 	power_explanation = "Vanishing Act: \n\
-		Activating Vanishing Act will, after a short delay, teleport the user to their Claimed Coffin. \n\
-		The power will cancel out if the Claimed Coffin is somehow destroyed. \n\
+		Activating Vanishing Act will, after a short delay, teleport the user to their claimed coffin. \n\
+		The power will cancel out if the claimed coffin is somehow destroyed. \n\
 		Immediately after activating, lights around the user will begin to flicker. \n\
-		Once the user teleports to their coffin, in their place will be a Rat or Bat."
+		Once the user teleports to their coffin, a rat or bat will appear at their prior location."
 	power_flags = BP_AM_TOGGLE|BP_AM_SINGLEUSE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_STAKED
 	purchase_flags = NONE

@@ -24,7 +24,7 @@
 
 /atom/movable/screen/alert/status_effect/frenzy
 	name = "Frenzy"
-	desc = "You are in a Frenzy! You are entirely feral and, depending on your clan, fighting for your life!"
+	desc = "You are in a frenzy! You are entirely feral and, depending on your clan, fighting for your life!"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
 	icon_state = "power_recover"
 	alerttooltipstyle = "cult"
@@ -41,7 +41,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
 
 /datum/status_effect/frenzy/get_examine_text()
-	return span_notice("They seem... inhumane, and feral!")
+	return span_notice("They seem inhuman and feral!")
 
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
@@ -53,8 +53,8 @@
 
 	// Disable ALL Powers and notify their entry
 	bloodsuckerdatum.DisableAllPowers(forced = TRUE)
-	to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need Blood, now! You enter a total Frenzy!"))
-	to_chat(owner, span_announce("* Bloodsucker Tip: While in Frenzy, you instantly aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
+	to_chat(owner, span_userdanger("<FONT size = 3>Blood! You need blood, <b>now</b>! You enter a total frenzy!"))
+	to_chat(owner, span_announce("* Bloodsucker Tip: While in a frenzy, you instantly aggresively grab, have stun resistance, cannot speak, hear, or use any powers outside of Feed and Trespass (If you have it)."))
 	owner.balloon_alert(owner, "you enter a frenzy!")
 	SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_ENTERS_FRENZY)
 

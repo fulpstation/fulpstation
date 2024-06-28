@@ -47,7 +47,7 @@
 		return
 	humanity_lost += value
 	frenzy_threshold = (FRENZY_MINIMUM_THRESHOLD_ENTER + humanity_lost * 10)
-	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity. You will now enter Frenzy at [frenzy_threshold] Blood."))
+	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity. You will now enter frenzy at [frenzy_threshold] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/handle_feeding(mob/living/carbon/target, mult=1, power_level)

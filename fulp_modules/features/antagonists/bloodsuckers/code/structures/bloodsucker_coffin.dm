@@ -19,7 +19,7 @@
 		owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 		owner.current.balloon_alert(owner.current, "new recipes learned!")
 	to_chat(owner, span_userdanger("You have claimed the [claimed] as your place of immortal rest! Your lair is now [bloodsucker_lair_area]."))
-	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Structures tab of the <i>Crafting Menu</i>, including the <i>Persuasion Rack</i> for converting crew into Vassals."))
+	to_chat(owner, span_announce("Bloodsucker Tip: Find new lair recipes in the Structures tab of the <i>Crafting Menu</i>, including the <i>persuasion rack</i> for converting crew into vassals."))
 	return TRUE
 
 /// From crate.dm
@@ -33,10 +33,10 @@
 /obj/structure/closet/crate/coffin/examine(mob/user)
 	. = ..()
 	if(user == resident)
-		. += span_cult("This is your Claimed Coffin.")
-		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent Ranks will allow you to spend one.")
-		. += span_cult("Alt-Click while inside the Coffin to Lock/Unlock.")
-		. += span_cult("Alt-Click while outside of your Coffin to Unclaim it, unwrenching it and all your other structures as a result.")
+		. += span_cult("This is your claimed coffin.")
+		. += span_cult("Rest in it while injured to enter Torpor. Entering it with unspent ranks will allow you to spend one.")
+		. += span_cult("Alt-Click while inside the coffin to lock/unlock.")
+		. += span_cult("Alt-Click while outside of your coffin to unclaim it, unanchoring it and all your other structures as a result.")
 
 /obj/structure/closet/crate/coffin/blackcoffin
 	name = "black coffin"
@@ -109,7 +109,7 @@
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
-	desc = "A big metal sardine can inside of another big metal sardine can, in space."
+	desc = "A big metal sardine can inside of another big metal sardine can— in <b>space</b>!"
 	icon_state = "metalcoffin"
 	base_icon_state = "metalcoffin"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
@@ -196,7 +196,7 @@
 		LockMe(user)
 		//Level up if possible.
 		if(!bloodsuckerdatum.my_clan)
-			to_chat(user, span_notice("You must enter a Clan to rank up."))
+			to_chat(user, span_notice("You must enter a clan to rank up."))
 		else
 			bloodsuckerdatum.SpendRank()
 		// You're in a Coffin, everything else is done, you're likely here to heal. Let's offer them the oppertunity to do so.
@@ -209,10 +209,10 @@
 		return ..()
 	if(user != resident)
 		if(istype(item, cutting_tool))
-			to_chat(user, span_notice("This is a much more complex mechanical structure than you thought. You don't know where to begin cutting [src]."))
+			to_chat(user, span_notice("This structure is much more difficult to deconstruct upon further inspection, but maybe a <b>prying tool</b> would help with opening it."))
 			return
 	if(anchored && (item.tool_behaviour == TOOL_WRENCH))
-		to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt-Click to unclaim and unwrench your Coffin." : ""]"))
+		to_chat(user, span_danger("The coffin won't come unanchored from the floor.[user == resident ? " You can Alt-Click to unclaim and unanchor your Coffin." : ""]"))
 		return
 
 	if(locked && (item.tool_behaviour == TOOL_CROWBAR))
@@ -257,7 +257,7 @@
 			to_chat(user, span_notice("You flip a secret latch and unlock [src]."))
 		return
 	// Broken? Let's fix it.
-	to_chat(resident, span_notice("The secret latch that would lock [src] from the inside is broken. You set it back into place..."))
+	to_chat(resident, span_notice("The secret latch that would lock [src] from the inside is broken. You start setting it back into place..."))
 	if(!do_after(resident, 5 SECONDS, src, timed_action_flags = IGNORE_INCAPACITATED))
 		to_chat(resident, span_notice("You fail to fix [src]'s mechanism."))
 		return

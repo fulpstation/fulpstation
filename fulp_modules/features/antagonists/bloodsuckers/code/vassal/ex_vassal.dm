@@ -75,7 +75,7 @@
 	SIGNAL_HANDLER
 
 	if(COOLDOWN_TIMELEFT(src, blood_timer) <= BLOOD_TIMER_HALWAY + 2 && COOLDOWN_TIMELEFT(src, blood_timer) >= BLOOD_TIMER_HALWAY - 2) //just about halfway
-		to_chat(owner.current, span_cult_bold("You need new blood from your Master!"))
+		to_chat(owner.current, span_cult_bold("You need new blood from your master!"))
 	if(!COOLDOWN_FINISHED(src, blood_timer))
 		return
 	to_chat(owner.current, span_cult_bold("You are out of blood!"))
@@ -94,7 +94,7 @@
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)
 	if(former_vassal)
-		to_chat(exposed_mob, span_cult("You feel the blood restore you... You feel safe."))
+		to_chat(exposed_mob, span_cult("You feel the blood restore you... you feel safe."))
 		COOLDOWN_RESET(former_vassal, blood_timer)
 		COOLDOWN_START(former_vassal, blood_timer, BLOOD_TIMER_REQUIREMENT)
 	return ..()
