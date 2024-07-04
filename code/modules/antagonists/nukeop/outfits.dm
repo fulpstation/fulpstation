@@ -120,10 +120,7 @@
 	head = /obj/item/clothing/head/helmet/space/plasmaman/syndie
 	uniform = /obj/item/clothing/under/plasmaman/syndicate
 	glasses = /obj/item/clothing/glasses/overwatch
-	suit = /obj/item/clothing/suit/jacket/letterman_syndie
 	r_hand = /obj/item/tank/internals/plasmaman/belt/full
-	command_radio = TRUE
-	tc = 0
 
 /datum/outfit/syndicate/reinforcement/gorlex
 	name = "Syndicate Operative - Gorlex Reinforcement"
@@ -139,7 +136,7 @@
 	suit = /obj/item/clothing/suit/jacket/oversized
 	gloves = /obj/item/clothing/gloves/fingerless
 	glasses = /obj/item/clothing/glasses/sunglasses
-	mask = /obj/item/clothing/mask/cigarette/cigar
+	mask = /obj/item/cigarette/cigar
 	faction = "Cybersun Industries"
 
 /datum/outfit/syndicate/reinforcement/donk
@@ -212,3 +209,4 @@
 	shoes = /obj/item/clothing/shoes/sandal
 	command_radio = TRUE
 	tc = 0
+	uplink_type = null

@@ -606,7 +606,7 @@
 	var/datum/radial_menu_choice/null_choice = new
 	null_choice.name = DIMENSION_CHOICE_RANDOM
 	choosable_dimensions[DIMENSION_CHOICE_RANDOM] = null_choice
-	for(var/datum/dimension_theme/theme as anything in DSmaterials.dimensional_themes)
+	for(var/datum/dimension_theme/theme as anything in SSmaterials.dimensional_themes)
 		var/datum/radial_menu_choice/theme_choice = new
 		theme_choice.image = image(initial(theme.icon), initial(theme.icon_state))
 		theme_choice.name = initial(theme.name)
@@ -628,21 +628,21 @@
 
 /obj/item/bombcore/dimensional/detonate()
 	var/list/affected_turfs = circle_range_turfs(src, range_heavy)
-	var/theme_count = length(DSmaterials.dimensional_themes)
+	var/theme_count = length(SSmaterials.dimensional_themes)
 	var/num_affected = 0
 	for(var/turf/affected as anything in affected_turfs)
 		var/datum/dimension_theme/theme_to_use
 		if(isnull(chosen_theme))
-			theme_to_use = DSmaterials.dimensional_themes[DSmaterials.dimensional_themes[rand(1, theme_count)]]
+			theme_to_use = SSmaterials.dimensional_themes[SSmaterials.dimensional_themes[rand(1, theme_count)]]
 		else
-			theme_to_use = DSmaterials.dimensional_themes[chosen_theme]
+			theme_to_use = SSmaterials.dimensional_themes[chosen_theme]
 		if(!theme_to_use.can_convert(affected))
 			continue
 		num_affected++
 		var/skip_sound = TRUE
 		if(num_affected % 5) //makes it play the sound more sparingly
 			skip_sound = FALSE
-		var/time_mult = round(get_dist_euclidian(get_turf(src), affected)) + 1
+		var/time_mult = round(get_dist_euclidean(get_turf(src), affected)) + 1
 		addtimer(CALLBACK(theme_to_use, TYPE_PROC_REF(/datum/dimension_theme, apply_theme), affected, skip_sound, TRUE), 0.1 SECONDS * time_mult)
 	qdel(src)
 

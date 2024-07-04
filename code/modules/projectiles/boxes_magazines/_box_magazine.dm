@@ -43,7 +43,7 @@
 
 /obj/item/ammo_box/Initialize(mapload)
 	. = ..()
-	custom_materials = DSmaterials.FindOrCreateMaterialCombo(custom_materials, 0.1)
+	custom_materials = SSmaterials.FindOrCreateMaterialCombo(custom_materials, 0.1)
 	if(!start_empty)
 		top_off(starting=TRUE)
 	update_icon_state()
@@ -94,7 +94,7 @@
 		stack_trace("Tried loading unsupported ammocasing type [load_type] into ammo box [type].")
 		return
 
-	for(var/i in max(1, stored_ammo.len) to max_ammo)
+	for(var/i in max(1, stored_ammo.len + 1) to max_ammo)
 		stored_ammo += new round_check(src)
 	update_appearance()
 
