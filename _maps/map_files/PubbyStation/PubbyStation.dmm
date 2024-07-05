@@ -3891,11 +3891,8 @@
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "aoS" = (
+/obj/machinery/computer/security/telescreen/prison,
 /obj/structure/table/reinforced,
-/obj/machinery/computer/security/telescreen/prison{
-	dir = 4;
-	pixel_x = -7
-	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
 "aoT" = (
@@ -3904,14 +3901,16 @@
 /obj/machinery/button/door/directional/west{
 	id = "Prison Gate";
 	name = "Permabrig Lockdown";
-	pixel_y = 6;
-	req_access = list("armory")
+	req_access = list("armory");
+	pixel_y = 9;
+	pixel_x = -23
 	},
 /obj/machinery/button/door/directional/west{
 	id = "Secure Gate";
 	name = "Entrance Lockdown";
-	pixel_y = -6;
-	req_access = list("armory")
+	pixel_y = 9;
+	req_access = list("armory");
+	pixel_x = -41
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
@@ -5755,15 +5754,10 @@
 	c_tag = "Dormitories Fore"
 	},
 /obj/machinery/light/directional/north,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the monastery.";
-	name = "Monastery Monitor";
-	network = list("monastery");
-	pixel_y = 32
-	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/machinery/computer/security/telescreen/monastery/directional/north,
 /turf/open/floor/iron,
 /area/station/commons/dorms)
 "avm" = (
@@ -7476,12 +7470,7 @@
 /area/station/command/heads_quarters/hop)
 "aBC" = (
 /obj/structure/closet/secure_closet/hop,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the monastery.";
-	name = "Monastery Monitor";
-	network = list("monastery");
-	pixel_y = 32
-	},
+/obj/machinery/computer/security/telescreen/monastery/directional/north,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hop)
 "aBD" = (
@@ -17597,17 +17586,13 @@
 /turf/open/floor/iron/white,
 /area/station/medical/pharmacy)
 "buk" = (
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for monitoring medbay to ensure patient safety.";
-	dir = 1;
-	name = "Medbay Monitor";
-	network = list("medbay");
-	pixel_y = -30
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/machinery/computer/security/telescreen/cmo/directional/south{
+	name = "Medbay Monitor"
+	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/medical)
 "bun" = (
@@ -18945,16 +18930,10 @@
 /area/station/hallway/secondary/entry)
 "bzB" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the monastery.";
-	dir = 8;
-	name = "Monastery Monitor";
-	network = list("monastery");
-	pixel_x = 28
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/machinery/computer/security/telescreen/monastery/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/entry)
 "bzC" = (
@@ -20799,11 +20778,6 @@
 /obj/machinery/atmospherics/components/tank/air,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
-"bIY" = (
-/obj/structure/lattice,
-/obj/structure/window/reinforced/spawner/directional/west,
-/turf/open/space/basic,
-/area/space/nearstation)
 "bIZ" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -21424,11 +21398,6 @@
 /obj/machinery/mass_driver/ordnance,
 /turf/open/floor/plating,
 /area/station/science/ordnance/testlab)
-"bMr" = (
-/obj/structure/window/reinforced/spawner/directional/south,
-/obj/structure/window/reinforced/spawner/directional/east,
-/turf/open/space/basic,
-/area/space/nearstation)
 "bMu" = (
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/dock)
@@ -22218,11 +22187,6 @@
 	},
 /turf/open/misc/asteroid,
 /area/station/service/chapel/asteroid/monastery)
-"bQi" = (
-/obj/structure/window/reinforced/spawner/directional/west,
-/obj/structure/lattice,
-/turf/open/space,
-/area/space/nearstation)
 "bQj" = (
 /obj/effect/landmark/blobstart,
 /turf/open/floor/iron/freezer,
@@ -22895,11 +22859,6 @@
 "bSY" = (
 /turf/open/floor/engine/plasma,
 /area/station/engineering/atmos)
-"bSZ" = (
-/obj/structure/lattice,
-/obj/structure/window/reinforced/spawner/directional/west,
-/turf/open/space,
-/area/space/nearstation)
 "bTa" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -23429,16 +23388,10 @@
 /obj/machinery/light/directional/west,
 /obj/item/paper_bin,
 /obj/structure/cable,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the engine containment area.";
-	dir = 4;
-	name = "Engine Monitor";
-	network = list("engine");
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/computer/security/telescreen/engine/directional/west,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/engineering)
 "bUW" = (
@@ -23570,10 +23523,6 @@
 /obj/machinery/portable_atmospherics/canister/carbon_dioxide,
 /turf/open/floor/engine/co2,
 /area/station/engineering/atmos)
-"bVp" = (
-/obj/structure/window/reinforced/spawner/directional/east,
-/turf/open/space/basic,
-/area/space/nearstation)
 "bVs" = (
 /obj/structure/mop_bucket,
 /obj/item/mop,
@@ -25338,12 +25287,6 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/transit_tube)
 "ceU" = (
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching telecomms.";
-	name = "Telecomms Telescreen";
-	network = list("tcomms");
-	pixel_y = 28
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -25351,6 +25294,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
 	},
+/obj/machinery/computer/security/telescreen/tcomms/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/engineering/transit_tube)
 "ceV" = (
@@ -27440,11 +27384,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
-"cre" = (
-/obj/structure/window/reinforced/spawner/directional/south,
-/obj/structure/window/reinforced/spawner/directional/west,
-/turf/open/space/basic,
-/area/space/nearstation)
 "crg" = (
 /obj/structure/chair/wood,
 /turf/open/floor/iron/dark,
@@ -28212,18 +28151,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
-"cwM" = (
-/obj/structure/window/reinforced/spawner/directional/east,
-/turf/open/space,
-/area/space/nearstation)
 "cwO" = (
 /obj/item/flashlight/lantern,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
-"cwR" = (
-/obj/structure/window/reinforced/spawner/directional/west,
-/turf/open/space/basic,
-/area/space/nearstation)
 "cwS" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
@@ -34121,15 +34052,9 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/engine_smes)
 "hnV" = (
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the turbine vent.";
-	dir = 4;
-	name = "turbine vent monitor";
-	network = list("turbine");
-	pixel_x = -29
-	},
 /obj/structure/closet/radiation,
 /obj/effect/turf_decal/tile/yellow/fourcorners,
+/obj/machinery/computer/security/telescreen/turbine/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
 "hnY" = (
@@ -41079,13 +41004,8 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "nIm" = (
-/obj/machinery/computer/security/telescreen{
-	dir = 8;
-	name = "Test Chamber Monitor";
-	network = list("xeno");
-	pixel_y = 2
-	},
 /obj/structure/table/reinforced,
+/obj/machinery/computer/security/telescreen/test_chamber,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
 "nIt" = (
@@ -49087,13 +49007,7 @@
 "uco" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the engine containment area.";
-	dir = 1;
-	name = "Engine Monitor";
-	network = list("engine");
-	pixel_y = -32
-	},
+/obj/machinery/computer/security/telescreen/engine/directional/south,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "ucA" = (
@@ -64824,7 +64738,7 @@ slf
 slf
 slf
 slf
-cwM
+bGD
 bIT
 aaa
 aaa
@@ -65564,7 +65478,7 @@ aaa
 aaa
 aaa
 aaa
-bVp
+bIT
 cfN
 cfN
 bZY
@@ -67138,7 +67052,7 @@ slf
 slf
 slf
 xep
-cwR
+crO
 aaa
 aaa
 aaa
@@ -68380,7 +68294,7 @@ bGD
 bIT
 bJZ
 bIT
-bMr
+aJS
 bNs
 bOw
 bOw
@@ -70954,7 +70868,7 @@ bNw
 bNA
 bNw
 cqS
-bQi
+bMy
 bQR
 bNs
 bNs
@@ -71204,8 +71118,8 @@ aaa
 aaa
 aaa
 aaa
-bIY
-bIY
+wWO
+wWO
 bLs
 bMy
 bNB
@@ -72247,9 +72161,9 @@ abI
 abI
 aht
 abI
-bSZ
-bSZ
-cre
+bLs
+bLs
+bHN
 bNs
 bXN
 bNs
@@ -72507,7 +72421,7 @@ aaa
 aaa
 abI
 aaa
-bSZ
+bLs
 ahi
 bNs
 bOw
@@ -73023,7 +72937,7 @@ aht
 abI
 abI
 ahi
-bSZ
+bLs
 crO
 crO
 crO

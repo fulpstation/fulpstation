@@ -1411,10 +1411,8 @@
 /area/station/security/interrogation)
 "agK" = (
 /obj/structure/table,
-/obj/machinery/computer/security/telescreen/interrogation{
-	dir = 1
-	},
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/interrogation,
 /turf/open/floor/iron/grimy,
 /area/station/security/interrogation)
 "agL" = (
@@ -11926,11 +11924,9 @@
 "bgY" = (
 /obj/structure/table,
 /obj/item/toy/gun,
-/obj/machinery/computer/security/telescreen/entertainment{
-	pixel_y = 30
-	},
 /obj/machinery/light/directional/north,
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/entertainment/directional/north,
 /turf/open/floor/iron,
 /area/station/commons/lounge)
 "bgZ" = (
@@ -14522,14 +14518,11 @@
 /obj/item/wallframe/camera,
 /obj/item/wallframe/camera,
 /obj/item/assault_pod/mining,
-/obj/machinery/computer/security/telescreen/auxbase{
-	dir = 1;
-	pixel_y = -25
-	},
 /obj/effect/turf_decal/siding/yellow{
 	color = "#FFD700";
 	name = "engineering yellow"
 	},
+/obj/machinery/computer/security/telescreen/auxbase/directional/south,
 /turf/open/floor/iron,
 /area/station/construction/mining/aux_base)
 "bqw" = (
@@ -14785,12 +14778,6 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/medical)
 "bru" = (
-/obj/machinery/computer/security/telescreen{
-	dir = 1;
-	name = "Security Medbay monitor";
-	network = list("medbay");
-	pixel_y = -30
-	},
 /obj/machinery/newscaster/directional/east,
 /obj/effect/turf_decal/tile/red/anticorner/contrasted,
 /obj/machinery/camera/directional/south{
@@ -14803,6 +14790,9 @@
 /obj/item/radio/off,
 /obj/item/screwdriver,
 /obj/item/book/manual/wiki/security_space_law,
+/obj/machinery/computer/security/telescreen/cmo/directional/south{
+	name = "Medbay Monitor"
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/medical)
 "brw" = (
@@ -17969,16 +17959,6 @@
 /obj/item/pen,
 /turf/open/floor/iron,
 /area/station/service/bar)
-"bHJ" = (
-/obj/structure/table/reinforced,
-/obj/machinery/computer/security/telescreen/entertainment,
-/obj/machinery/door/poddoor/shutters/preopen{
-	dir = 8;
-	id = "bar";
-	name = "Bar Shutters"
-	},
-/turf/open/floor/carpet,
-/area/station/service/bar)
 "bHP" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -18200,6 +18180,7 @@
 	name = "Bar Shutters"
 	},
 /obj/effect/landmark/navigate_destination/bar,
+/obj/machinery/computer/security/telescreen/entertainment/directional/south,
 /turf/open/floor/carpet,
 /area/station/service/bar)
 "bJd" = (
@@ -22051,9 +22032,6 @@
 /area/station/science/xenobiology)
 "cuy" = (
 /obj/item/radio/intercom/directional/east,
-/obj/machinery/computer/security/telescreen/minisat{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
@@ -22061,6 +22039,9 @@
 	dir = 8
 	},
 /obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/folder/blue,
+/obj/item/pen,
 /turf/open/floor/iron/smooth,
 /area/station/engineering/transit_tube)
 "cuz" = (
@@ -22575,14 +22556,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
 "czi" = (
-/obj/machinery/computer/security/telescreen{
-	dir = 1;
-	name = "QM's Telescreen";
-	network = list("cargo");
-	pixel_x = 1;
-	pixel_y = -27;
-	req_one_access = list("qm")
-	},
+/obj/machinery/computer/security/telescreen/cargo_sec/directional/south,
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/qm)
 "czk" = (
@@ -25150,6 +25124,7 @@
 	dir = 10
 	},
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/minisat/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/engineering/transit_tube)
 "cRd" = (
@@ -25164,9 +25139,6 @@
 /turf/open/floor/iron/dark,
 /area/station/engineering/transit_tube)
 "cRh" = (
-/obj/item/clipboard,
-/obj/item/folder/blue,
-/obj/item/pen,
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
@@ -36145,6 +36117,7 @@
 	},
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/test_chamber/directional/south,
 /turf/open/floor/iron/white,
 /area/station/science/xenobiology)
 "gXS" = (
@@ -39818,12 +39791,6 @@
 /obj/machinery/computer/records/medical/laptop{
 	dir = 1
 	},
-/obj/machinery/computer/security/telescreen{
-	dir = 1;
-	name = "Virology Telescreen";
-	network = list("viro");
-	pixel_y = -32
-	},
 /obj/effect/turf_decal/trimline/green/filled/line,
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /turf/open/floor/iron/white,
@@ -40517,6 +40484,7 @@
 /obj/structure/table,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/light/directional/east,
+/obj/machinery/computer/security/telescreen/ordnance/directional/east,
 /turf/open/floor/iron/dark/textured,
 /area/station/science/ordnance/testlab)
 "iCY" = (
@@ -41812,9 +41780,6 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "jdh" = (
-/obj/machinery/computer/security/telescreen/ordnance{
-	pixel_y = -29
-	},
 /obj/machinery/research/anomaly_refinery,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark/textured,
@@ -42126,10 +42091,6 @@
 /turf/open/floor/iron,
 /area/station/security/courtroom)
 "jjA" = (
-/obj/machinery/computer/security/telescreen{
-	network = list("xeno");
-	pixel_y = 32
-	},
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 1
 	},
@@ -50459,13 +50420,8 @@
 	dir = 4
 	},
 /obj/machinery/power/apc/auto_name/directional/west,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching the ai_upload.";
-	name = "AI Upload Monitor";
-	network = list("aiupload");
-	pixel_y = 32
-	},
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/aiupload/directional/north,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai_monitored/turret_protected/ai_upload_foyer)
 "myR" = (
@@ -57690,11 +57646,8 @@
 	},
 /obj/structure/table/wood,
 /obj/machinery/recharger,
-/obj/machinery/computer/security/telescreen/vault{
-	dir = 1;
-	pixel_y = -30
-	},
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/vault/directional/south,
 /turf/open/floor/wood/large,
 /area/station/command/heads_quarters/hop)
 "pkk" = (
@@ -59119,14 +59072,10 @@
 /area/station/maintenance/port/greater)
 "pOd" = (
 /obj/structure/closet/secure_closet/security/engine,
-/obj/machinery/computer/security/telescreen{
-	name = "Security Engineering monitor";
-	network = list("engineering","atmos");
-	pixel_y = 30
-	},
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/effect/turf_decal/bot,
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/engine/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
 "pOr" = (
@@ -68927,9 +68876,6 @@
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
 /obj/item/pen,
-/obj/machinery/computer/security/telescreen/research{
-	pixel_y = -32
-	},
 /obj/effect/turf_decal/siding/red{
 	dir = 8
 	},
@@ -68937,6 +68883,7 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/machinery/computer/security/telescreen/research/directional/south,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/checkpoint/science/research)
 "tDS" = (
@@ -69121,15 +69068,10 @@
 "tGr" = (
 /obj/structure/table,
 /obj/machinery/recharger,
-/obj/machinery/computer/security/telescreen{
-	dir = 4;
-	name = "Security Cargo monitor";
-	network = list("cargo");
-	pixel_x = -30
-	},
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/computer/security/telescreen/cargo_sec/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/supply)
 "tGD" = (
@@ -72991,13 +72933,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/siding/wood,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching Prison Wing holding areas.";
-	dir = 1;
-	name = "Prison Monitor";
-	network = list("prison");
-	pixel_y = -30
-	},
+/obj/machinery/computer/security/telescreen/prison/directional/south,
 /turf/open/floor/carpet/blue,
 /area/station/service/lawoffice)
 "vnc" = (
@@ -75189,14 +75125,12 @@
 /obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
 	dir = 8
 	},
-/obj/machinery/computer/security/telescreen/rd{
-	pixel_y = 32
-	},
 /obj/machinery/button/door/directional/west{
 	id = "rdoffice";
 	name = "Privacy Control";
 	req_access = list("rd")
 	},
+/obj/machinery/computer/security/telescreen/rd/directional/north,
 /turf/open/floor/iron/dark/textured,
 /area/station/command/heads_quarters/rd)
 "wdg" = (
@@ -111917,7 +111851,7 @@ bBN
 bDC
 hbK
 bFf
-bHJ
+bFf
 bIZ
 hMM
 hMM
