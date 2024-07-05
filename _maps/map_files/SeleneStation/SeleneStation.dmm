@@ -2706,6 +2706,7 @@
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/computer/security/telescreen/ordnance/directional/west,
 /turf/open/floor/iron,
 /area/station/science/ordnance)
 "aWD" = (
@@ -3372,10 +3373,7 @@
 /turf/open/floor/iron,
 /area/station/security/brig)
 "bjx" = (
-/obj/machinery/computer/security/telescreen/prison{
-	dir = 1;
-	pixel_y = -27
-	},
+/obj/machinery/computer/security/telescreen/ordnance/directional/south,
 /turf/open/floor/carpet/blue,
 /area/station/service/lawoffice)
 "bjI" = (
@@ -3800,6 +3798,14 @@
 	network = list("ss13","engineering")
 	},
 /obj/effect/turf_decal/tile/yellow/half,
+/obj/structure/rack,
+/obj/item/multitool{
+	pixel_x = 8
+	},
+/obj/item/flatpack{
+	board = /obj/item/circuitboard/machine/flatpacker;
+	pixel_x = -5
+	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
 "bsq" = (
@@ -6657,13 +6663,10 @@
 /obj/machinery/computer/robotics{
 	dir = 1
 	},
-/obj/machinery/computer/security/telescreen/rd{
-	dir = 1;
-	pixel_y = -28
-	},
 /obj/effect/turf_decal/tile/science/anticorner{
 	dir = 8
 	},
+/obj/machinery/computer/security/telescreen/rd/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
 "crU" = (
@@ -9428,9 +9431,6 @@
 "dto" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/machinery/computer/security/telescreen/entertainment{
-	pixel_x = 32
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "bar";
 	name = "Bar Shutters"
@@ -9438,6 +9438,7 @@
 /obj/structure/displaycase/forsale/kitchen{
 	pixel_y = 5
 	},
+/obj/machinery/computer/security/telescreen/entertainment/directional/east,
 /turf/open/floor/carpet/black,
 /area/station/service/bar)
 "dty" = (
@@ -13554,13 +13555,10 @@
 /obj/item/wallframe/camera,
 /obj/item/wallframe/camera,
 /obj/item/assault_pod/mining,
-/obj/machinery/computer/security/telescreen/auxbase{
-	dir = 8;
-	pixel_x = 30
-	},
 /obj/effect/turf_decal/tile/engineering/half{
 	dir = 4
 	},
+/obj/machinery/computer/security/telescreen/auxbase/directional/east,
 /turf/open/floor/iron,
 /area/station/construction/mining/aux_base)
 "eUj" = (
@@ -13934,10 +13932,6 @@
 	dir = 8
 	},
 /obj/machinery/light/directional/east,
-/obj/machinery/computer/security/telescreen/research{
-	dir = 8;
-	pixel_x = 30
-	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -13950,6 +13944,7 @@
 /obj/effect/turf_decal/tile/security/half{
 	dir = 4
 	},
+/obj/machinery/computer/security/telescreen/research/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/science)
 "fbc" = (
@@ -17555,9 +17550,6 @@
 /area/station/ai_monitored/turret_protected/ai)
 "gsw" = (
 /obj/structure/table/reinforced,
-/obj/machinery/computer/security/telescreen/ordnance{
-	dir = 8
-	},
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 4
@@ -21264,13 +21256,10 @@
 /turf/open/floor/wood,
 /area/station/commons/vacant_room/office)
 "hNu" = (
-/obj/machinery/computer/security/telescreen/cmo{
-	dir = 8;
-	pixel_x = 25
-	},
 /obj/effect/turf_decal/tile/medical/half{
 	dir = 4
 	},
+/obj/machinery/computer/security/telescreen/cmo/directional/east,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
 "hNB" = (
@@ -21664,6 +21653,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/maintenance/department/crew_quarters/dorms)
+"hVm" = (
+/obj/machinery/portable_atmospherics/pipe_scrubber,
+/turf/open/space/basic,
+/area/space)
 "hVA" = (
 /obj/machinery/status_display/evac/directional/north,
 /obj/structure/table/reinforced,
@@ -26588,11 +26581,11 @@
 	req_access = list("armory")
 	},
 /obj/structure/rack,
-/obj/item/gun/energy/e_gun/dragnet,
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 1
 	},
 /obj/machinery/light/directional/north,
+/obj/effect/spawner/random/armory/dragnet,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "jLy" = (
@@ -26785,6 +26778,7 @@
 "jNE" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/computer/security/telescreen/interrogation/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/detectives_office)
 "jNK" = (
@@ -30071,9 +30065,6 @@
 /area/station/maintenance/starboard/aft)
 "kTP" = (
 /obj/machinery/light_switch/directional/north,
-/obj/machinery/camera/directional/north{
-	c_tag = "Public - Restroom"
-	},
 /obj/machinery/light/directional/north,
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -39710,6 +39701,15 @@
 /obj/effect/turf_decal/tile/science/half{
 	dir = 4
 	},
+/obj/item/multitool{
+	pixel_x = 8
+	},
+/obj/item/flatpack{
+	board = /obj/item/circuitboard/machine/flatpacker;
+	pixel_x = -6;
+	pixel_y = 5
+	},
+/obj/structure/rack,
 /turf/open/floor/iron/white,
 /area/station/science/research)
 "ooC" = (
@@ -44905,6 +44905,7 @@
 /obj/machinery/camera/directional/south{
 	c_tag = "Supply - Security Post"
 	},
+/obj/machinery/computer/security/telescreen/cargo_sec/directional/south,
 /turf/open/floor/iron,
 /area/station/security/checkpoint/supply)
 "qny" = (
@@ -51233,6 +51234,7 @@
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/portable_atmospherics/pipe_scrubber,
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
 "sFM" = (
@@ -53281,6 +53283,7 @@
 /obj/machinery/light/directional/east,
 /obj/structure/window/reinforced/spawner/directional/north,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/portable_atmospherics/pipe_scrubber,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "ttL" = (
@@ -61320,9 +61323,6 @@
 /obj/effect/turf_decal/tile/security/anticorner{
 	dir = 4
 	},
-/obj/machinery/computer/security/telescreen/interrogation{
-	pixel_y = 30
-	},
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/structure/chair/plastic{
 	dir = 8
@@ -64027,13 +64027,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "xql" = (
-/obj/machinery/computer/security/telescreen/vault{
-	dir = 8;
-	pixel_x = 26
-	},
 /obj/machinery/computer/accounting{
 	dir = 8
 	},
+/obj/machinery/computer/security/telescreen/vault/directional/east,
 /turf/open/floor/carpet/purple,
 /area/station/command/heads_quarters/hop)
 "xqA" = (
@@ -64074,6 +64071,9 @@
 	},
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/simple/orange/visible,
+/obj/machinery/power/apc/auto_name/directional/east{
+	areastring = "/area/station/science/ordnance/burnchamber"
+	},
 /turf/open/floor/engine,
 /area/station/science/ordnance)
 "xrm" = (
@@ -70581,7 +70581,7 @@ iQW
 iQW
 iQW
 iQW
-iQW
+hVm
 iQW
 iQW
 iQW
