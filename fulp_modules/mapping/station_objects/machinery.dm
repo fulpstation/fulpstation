@@ -7,7 +7,7 @@
 // For Pubby's chapel
 
 /obj/machinery/computer/security/telescreen/monastery
-		name = "monastery monitor"
+	name = "monastery monitor"
 	desc = "A telescreen that connects to the monastery's camera network."
 	network = list(CAMERANET_NETWORK_MONASTERY)
 	frame_type = /obj/item/wallframe/telescreen/monastery
