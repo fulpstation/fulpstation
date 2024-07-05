@@ -48,9 +48,9 @@
 
 /datum/species/protogen/randomize_features()
 	var/list/features = ..()
-	features["tail_protogen"] = pick(GLOB.tails_list_protogen)
-	features["snout_protogen"] = pick(GLOB.snouts_list_protogen)
-	features["antennae_protogen"] = pick(GLOB.antennae_list_protogen)
+	features["tail_protogen"] = pick(SSaccessories.tails_list_protogen)
+	features["snout_protogen"] = pick(SSaccessories.snouts_list_protogen)
+	features["antennae_protogen"] = pick(SSaccessories.antennae_list_protogen)
 	return features
 
 /datum/species/protogen/prepare_human_for_preview(mob/living/carbon/human/human)

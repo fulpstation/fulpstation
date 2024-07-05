@@ -87,7 +87,7 @@
 /obj/item/melee/trick_weapon/darkmoon/attack_secondary(atom/target, mob/living/user, clickparams)
 	return SECONDARY_ATTACK_CONTINUE_CHAIN
 
-/obj/item/melee/trick_weapon/darkmoon/afterattack_secondary(atom/target, mob/living/user, clickparams)
+/obj/item/melee/trick_weapon/darkmoon/ranged_interact_with_atom_secondary(atom/target, mob/living/user, clickparams)
 	if(!enabled)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(!COOLDOWN_FINISHED(src, moonbeam_fire))
@@ -98,7 +98,7 @@
 	fire_moonbeam(target, user, clickparams)
 	user.changeNext_move(CLICK_CD_MELEE)
 	COOLDOWN_START(src, moonbeam_fire, 4 SECONDS)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/melee/trick_weapon/darkmoon/proc/fire_moonbeam(atom/target, mob/living/user, clickparams)
 	var/modifiers = params2list(clickparams)

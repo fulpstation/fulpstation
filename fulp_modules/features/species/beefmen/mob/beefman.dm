@@ -81,8 +81,8 @@
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
 	features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	features["beef_eyes"] = pick(GLOB.eyes_beefman)
-	features["beef_mouth"] = pick(GLOB.mouths_beefman)
+	features["beef_eyes"] = pick(SSaccessories.eyes_beefman)
+	features["beef_mouth"] = pick(SSaccessories.mouths_beefman)
 	return features
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
@@ -133,9 +133,9 @@
 			switch(bodypart)
 				if("beef_eyes")
 					if(source.get_organ_slot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
+						accessory = SSaccessories.eyes_beefman[source.dna.features["beef_eyes"]]
 				if("beef_mouth")
-					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
+					accessory = SSaccessories.mouths_beefman[source.dna.features["beef_mouth"]]
 
 			if(!accessory || accessory.icon_state == "none")
 				continue
