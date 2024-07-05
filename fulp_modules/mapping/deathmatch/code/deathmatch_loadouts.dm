@@ -25,7 +25,7 @@
 	suit = /obj/item/clothing/suit/costume_2021/alucard_suit
 	head = /obj/item/clothing/head/costume/powdered_wig
 	r_hand = /obj/item/melee/sabre
-	
+
 	granted_spells = list(
 		/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two,
 		)
@@ -140,14 +140,14 @@
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	gloves = /obj/item/clothing/gloves/cut
 	l_pocket = /obj/item/reagent_containers/hypospray/medipen/methamphetamine
-	r_pocket = /obj/item/stock_parts/cell/high
+	r_pocket = /obj/item/stock_parts/power_store/cell/high
 	belt = /obj/item/storage/belt/utility/full
 
 /datum/outfit/deathmatch_loadout/dmabductor
 	name = "Deathmatch: Abductor"
 	display_name = "Abductor"
 	desc = "We come in peace."
-	
+
 	species_override = /datum/species/abductor
 	uniform = /obj/item/clothing/under/abductor
 	head = /obj/item/clothing/head/helmet/abductor
@@ -249,7 +249,7 @@
 	gloves = /obj/item/clothing/gloves/fingerless
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	r_hand = /obj/item/boxcutter
-	
+
 /datum/outfit/deathmatch_loadout/maintenance
 	name = "Deathmatch: Maintenance"
 	display_name = "Maintenance"

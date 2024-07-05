@@ -211,12 +211,6 @@
 
 	return features
 
-/datum/species/beefman/random_name(gender, unique, lastname)
-	if(unique)
-		return random_unique_beefman_name()
-	var/randname = beefman_name()
-	return randname
-
 /mob/living/carbon/human/species/beefman
 	race = /datum/species/beefman
 

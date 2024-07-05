@@ -24,6 +24,19 @@
 		/datum/language/russian = list(LANGUAGE_ATOM),
 	)
 
+/datum/language/russian/get_random_name(
+	gender = NEUTER,
+	name_count = default_name_count,
+	syllable_min = default_name_syllable_min,
+	syllable_max = default_name_syllable_max,
+	force_use_syllables = FALSE,
+)
+	if(force_use_syllables)
+		return ..()
+
+	// Had to kill beefmen (Experiment, Subject, etc.) names for this. Oh well.
+	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
+
 /obj/item/organ/internal/tongue/beefman
 	name = "meaty tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."

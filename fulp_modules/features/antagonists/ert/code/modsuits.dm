@@ -2,7 +2,7 @@
 #define FULP_MOD_ICON_WORN_ERT 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
 
 /obj/item/mod/control/pre_equipped/fulp/ert
-	applied_cell = /obj/item/stock_parts/cell/hyper
+	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
 
 /obj/item/mod/control/pre_equipped/fulp/ert/commander/medical
 	theme = /datum/mod_theme/responsory/fulp
@@ -49,7 +49,7 @@
 	name = "responsory commander"
 	desc = "A high-speed suit by Nanotrasen, intended for its' emergency response teams' top-of-the-line commanders."
 	default_skin = "medert_commander"
-	skins = list(
+	variants = list(
 		"medert_commander" = list(
 			MOD_ICON_OVERRIDE = FULP_MOD_ICON_ERT,
 			MOD_WORN_ICON_OVERRIDE = FULP_MOD_ICON_WORN_ERT,
