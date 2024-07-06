@@ -11506,7 +11506,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry/upper)
 "bfE" = (
@@ -17720,6 +17719,9 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/east,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry/upper)
 "bFV" = (
@@ -22939,6 +22941,7 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "cCr" = (
@@ -23373,7 +23376,7 @@
 /area/station/maintenance/department/eva/abandoned)
 "cFG" = (
 /obj/machinery/camera/directional/south{
-	c_tag = "Aft Primary Hallway - South";
+	c_tag = "Cargo - Mining Foyer";
 	name = "Hallway Camera";
 	network = list("ss13","cargo")
 	},
@@ -27684,6 +27687,7 @@
 /obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "dtl" = (
@@ -40019,6 +40023,11 @@
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/department/eva/abandoned)
+"iuw" = (
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/station/science/ordnance)
 "iuU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/stripes/line,
@@ -40359,6 +40368,7 @@
 /area/station/maintenance/department/medical)
 "iBO" = (
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable,
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
@@ -42762,6 +42772,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "jwI" = (
@@ -44712,6 +44723,7 @@
 /obj/machinery/shower/directional/south,
 /obj/structure/window/reinforced/tinted/spawner/directional/east,
 /obj/structure/curtain,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/plastic,
 /area/station/security/prison/shower)
 "kiV" = (
@@ -48094,6 +48106,14 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/cmo)
+"lEI" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/station/science/ordnance)
 "lEL" = (
 /obj/structure/girder,
 /turf/open/floor/plating/airless,
@@ -49546,6 +49566,7 @@
 /turf/open/floor/iron/white,
 /area/station/science/lobby)
 "mhE" = (
+/obj/structure/cable,
 /turf/open/floor/iron/stairs/right{
 	dir = 4
 	},
@@ -50826,8 +50847,12 @@
 	},
 /obj/machinery/airalarm/directional/east,
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access,
+/obj/effect/mapping_helpers/airalarm/tlv_no_checks,
+/obj/effect/mapping_helpers/airalarm/link{
+	chamber_id = "ordnancefreezer"
+	},
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/freezerchamber)
+/area/station/science/ordnance)
 "mHB" = (
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/iron/dark/small,
@@ -52969,8 +52994,9 @@
 	dir = 4
 	},
 /obj/machinery/power/apc/auto_name/directional/north{
-	areastring = "/area/station/science/ordnance/burnchamber"
+	areastring = sssss
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "nAg" = (
@@ -53619,6 +53645,7 @@
 /turf/open/floor/wood,
 /area/station/service/library)
 "nKi" = (
+/obj/structure/cable,
 /turf/open/floor/iron/stairs/left{
 	dir = 8
 	},
@@ -59640,6 +59667,7 @@
 	dir = 8;
 	name = "Waste Release"
 	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "qaq" = (
@@ -59648,6 +59676,7 @@
 	},
 /obj/machinery/atmospherics/components/binary/valve/digital,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "qar" = (
@@ -60607,6 +60636,7 @@
 	},
 /obj/structure/cable,
 /obj/machinery/portable_atmospherics/pipe_scrubber,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "quw" = (
@@ -65704,6 +65734,10 @@
 	name = "science camera";
 	network = list("ss13","rd")
 	},
+/obj/machinery/power/apc/auto_name/directional/north{
+	areastring = "/area/station/science/ordnance/freezerchamber"
+	},
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance)
 "swX" = (
@@ -68579,6 +68613,7 @@
 /obj/item/assembly/signaler{
 	pixel_y = 8
 	},
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/testlab)
 "tyl" = (
@@ -70631,6 +70666,10 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/xenobiology)
+"umM" = (
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/station/science/ordnance)
 "umN" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -79414,8 +79453,12 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/airalarm/directional/west,
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access,
+/obj/effect/mapping_helpers/airalarm/tlv_no_checks,
+/obj/effect/mapping_helpers/airalarm/link{
+	chamber_id = "ordnanceburn"
+	},
 /turf/open/floor/iron/dark,
-/area/station/science/ordnance/burnchamber)
+/area/station/science/ordnance)
 "xNJ" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -79867,7 +79910,9 @@
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hop)
 "xWc" = (
-/obj/machinery/atmospherics/components/unary/bluespace_sender,
+/obj/machinery/atmospherics/components/unary/bluespace_sender{
+	dir = 8
+	},
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -80043,6 +80088,7 @@
 /obj/effect/mapping_helpers/airlock/access/all/science/ordnance,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor,
+/obj/structure/cable,
 /obj/structure/cable,
 /turf/open/floor/iron/white/smooth_half,
 /area/station/science/ordnance/storage)
@@ -129082,14 +129128,14 @@ pkk
 bVN
 nWK
 tDS
-wsh
-mbH
-mbH
-mbH
-mbH
+lEI
+iuw
+iuw
+iuw
+iuw
 dsY
 cCl
-cgc
+umM
 rHQ
 fwZ
 mej
@@ -130108,7 +130154,7 @@ poi
 jQr
 xxa
 bxD
-cgc
+umM
 lZK
 vNd
 aak

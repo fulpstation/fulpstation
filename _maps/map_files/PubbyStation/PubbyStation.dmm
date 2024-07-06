@@ -843,7 +843,7 @@
 "aea" = (
 /obj/machinery/light/small/directional/north,
 /obj/machinery/camera/directional/north{
-	c_tag = "MiniSat Bridge Starboard Fore";
+	c_tag = "MiniSat Bridge Port Fore";
 	network = list("minisat")
 	},
 /turf/open/floor/plating/airless,
@@ -7895,7 +7895,9 @@
 /obj/effect/turf_decal/tile/green/half/contrasted{
 	dir = 8
 	},
-/obj/machinery/camera/directional/west,
+/obj/machinery/camera/directional/west{
+	c_tag = "Security - Court Breakroom"
+	},
 /turf/open/floor/iron,
 /area/station/security/courtroom)
 "aDy" = (
@@ -8588,7 +8590,9 @@
 /turf/open/floor/iron,
 /area/station/security/courtroom)
 "aFv" = (
-/obj/machinery/camera/directional/east,
+/obj/machinery/camera/directional/east{
+	c_tag = "Security - Courtroom"
+	},
 /turf/open/floor/iron,
 /area/station/security/courtroom)
 "aFw" = (
@@ -8940,9 +8944,8 @@
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/restrooms)
 "aGH" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/camera/directional/east{
-	c_tag = "Cargo Bay"
+/obj/machinery/camera/directional/west{
+	c_tag = "Drone Bay Ext."
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
@@ -10152,7 +10155,9 @@
 /area/station/commons/storage/art)
 "aMY" = (
 /obj/structure/table,
-/obj/machinery/camera/directional/west,
+/obj/machinery/camera/directional/west{
+	c_tag = "Primary Tool Storage"
+	},
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 8
 	},
@@ -11539,7 +11544,7 @@
 /obj/item/stack/sheet/cardboard,
 /obj/item/stack/sheet/cardboard,
 /obj/machinery/camera/directional/east{
-	c_tag = "Cargo Bay";
+	c_tag = "Cargo Bay - West";
 	dir = 8
 	},
 /turf/open/floor/iron,
@@ -13597,6 +13602,7 @@
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/machinery/light/directional/east,
 /obj/structure/cable,
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/restrooms)
 "bbP" = (
@@ -20359,6 +20365,7 @@
 "bGq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/visible,
 /obj/effect/turf_decal/tile/purple/half/contrasted,
+/obj/structure/cable,
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
 "bGr" = (
@@ -20726,8 +20733,12 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/yellow/visible,
 /obj/machinery/airalarm/directional/south,
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access,
+/obj/effect/mapping_helpers/airalarm/link{
+	chamber_id = "ordnanceburn"
+	},
+/obj/effect/mapping_helpers/airalarm/tlv_no_checks,
 /turf/open/floor/iron/white,
-/area/station/science/ordnance/burnchamber)
+/area/station/science/ordnance)
 "bIM" = (
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
@@ -24141,14 +24152,11 @@
 /turf/open/floor/plating,
 /area/station/service/chapel/asteroid/monastery)
 "bXO" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/camera/directional/west{
-	c_tag = "Drone Bay Ext."
-	},
-/turf/open/floor/plating,
-/area/station/cargo/drone_bay)
+/obj/effect/turf_decal/sand/plating,
+/obj/machinery/power/apc/auto_name/directional/south,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/station/service/chapel/asteroid/monastery)
 "bXU" = (
 /obj/effect/spawner/random/maintenance,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -35085,6 +35093,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/light/small/directional/west,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "ipI" = (
@@ -35145,6 +35154,11 @@
 /obj/structure/girder,
 /turf/open/floor/plating,
 /area/station/maintenance/department/science/central)
+"iso" = (
+/obj/effect/turf_decal/sand/plating,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/station/service/chapel/asteroid/monastery)
 "isC" = (
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=Dorms";
@@ -37219,6 +37233,10 @@
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 4
 	},
+/obj/machinery/power/apc/auto_name/directional/south{
+	areastring = "/area/station/science/ordnance/freezerchamber"
+	},
+/obj/structure/cable,
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
 "kqc" = (
@@ -37950,6 +37968,14 @@
 "kVO" = (
 /turf/closed/wall/r_wall,
 /area/station/maintenance/central)
+"kWA" = (
+/obj/machinery/door/airlock/grunge{
+	name = "Chapel Access"
+	},
+/obj/machinery/door/firedoor,
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/monastery)
 "kXe" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -41607,8 +41633,13 @@
 	},
 /obj/machinery/airalarm/directional/west,
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access,
+/obj/structure/cable,
+/obj/effect/mapping_helpers/airalarm/link{
+	chamber_id = "ordnancefreezer"
+	},
+/obj/effect/mapping_helpers/airalarm/tlv_no_checks,
 /turf/open/floor/engine,
-/area/station/science/ordnance/freezerchamber)
+/area/station/science/ordnance)
 "okX" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
@@ -45207,9 +45238,6 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
-	},
-/obj/machinery/camera/directional/west{
-	c_tag = "Drone Bay Ext."
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
@@ -50964,6 +50992,7 @@
 "vDX" = (
 /obj/machinery/light/small/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
 "vEA" = (
@@ -51250,7 +51279,9 @@
 	pixel_x = -8;
 	pixel_y = 10
 	},
-/obj/machinery/camera/directional/east,
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo - Shuttle Access"
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "vRm" = (
@@ -52042,6 +52073,7 @@
 	name = "Chapel Access"
 	},
 /obj/machinery/door/firedoor,
+/obj/structure/cable,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
 "wvp" = (
@@ -53051,6 +53083,7 @@
 /obj/machinery/power/apc/auto_name/directional/west{
 	areastring = "/area/station/science/ordnance/burnchamber"
 	},
+/obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/science/ordnance)
 "xeB" = (
@@ -53744,6 +53777,10 @@
 "xEg" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/window/reinforced/spawner/directional/north,
+/obj/machinery/camera/directional/east{
+	c_tag = "Cargo Bay - East";
+	pixel_y = -24
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "xEt" = (
@@ -69601,7 +69638,7 @@ dyo
 ket
 rVU
 dNH
-rfa
+oTb
 qOh
 fRM
 ctN
@@ -69858,7 +69895,7 @@ lMK
 vAa
 eVA
 hzy
-rfa
+oTb
 fWh
 fRM
 csS
@@ -70115,7 +70152,7 @@ mnr
 epO
 rfa
 vxj
-rfa
+oTb
 kKf
 fRM
 csS
@@ -70886,7 +70923,7 @@ bUC
 bOw
 bQg
 cfl
-csS
+qFp
 lgj
 cfm
 ctP
@@ -71141,9 +71178,9 @@ bOw
 bOw
 bOw
 bOw
-bQg
-cfl
-csS
+iso
+kWA
+qFp
 vFs
 cfm
 cfm
@@ -71398,7 +71435,7 @@ bQg
 ccL
 bOw
 bOw
-bQg
+bXO
 bWV
 csT
 cen
@@ -96258,7 +96295,7 @@ aMw
 aQo
 rCu
 euT
-aGH
+euT
 euT
 euT
 bcV
@@ -98058,7 +98095,7 @@ aEj
 aEj
 aEj
 bbG
-cCB
+aGH
 cCB
 sPU
 myc
@@ -100110,7 +100147,7 @@ aFi
 odG
 aEj
 wmE
-bXO
+wmE
 ofR
 qfa
 sZh
