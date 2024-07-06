@@ -81,8 +81,8 @@
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
 	features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	features["beef_eyes"] = pick(SSaccessories.eyes_beefman)
-	features["beef_mouth"] = pick(SSaccessories.mouths_beefman)
+	features["beef_eyes"] = pick(SSaccessories.eyes_beefman_list)
+	features["beef_mouth"] = pick(SSaccessories.mouths_beefman_list)
 	return features
 
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
@@ -108,7 +108,7 @@
 	return ..()
 
 /datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
-	. = ..()
+	..()
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
 	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 	var/list/standing = list()
@@ -119,6 +119,13 @@
 
 	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
 		return
+
+	var/obj/item/bodypart/head/noggin = source.get_bodypart(BODY_ZONE_HEAD)
+
+
+	if(mutant_bodyparts["ears"])
+		if(!source.dna.features["ears"] || source.dna.features["ears"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin || IS_ROBOTIC_LIMB(noggin))
+			bodyparts_to_add -= "ears"
 
 	if(!bodyparts_to_add)
 		return
@@ -132,10 +139,9 @@
 			var/datum/sprite_accessory/accessory
 			switch(bodypart)
 				if("beef_eyes")
-					if(source.get_organ_slot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = SSaccessories.eyes_beefman[source.dna.features["beef_eyes"]]
+					accessory = SSaccessories.eyes_beefman_list[source.dna.features["beef_eyes"]]
 				if("beef_mouth")
-					accessory = SSaccessories.mouths_beefman[source.dna.features["beef_mouth"]]
+					accessory = SSaccessories.mouths_beefman_list[source.dna.features["beef_mouth"]]
 
 			if(!accessory || accessory.icon_state == "none")
 				continue
@@ -148,7 +154,7 @@
 				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
 
 			if(accessory.em_block)
-				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, accessory_overlay.alpha)
+				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, source, accessory_overlay.alpha)
 
 			if(accessory.center)
 				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
@@ -157,19 +163,11 @@
 				if(!forced_colour)
 					switch(accessory.color_src)
 						if(MUTANT_COLOR)
-							if(fixed_mut_color)
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.dna.features["mcolor"]
+							accessory_overlay.color = fixed_mut_color || source.dna.features["mcolor"]
 						if(HAIR_COLOR)
-							if(hair_color_mode == USE_MUTANT_COLOR)
-								accessory_overlay.color = source.dna.features["mcolor"]
-							else if(hair_color_mode == USE_FIXED_MUTANT_COLOR)
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.hair_color
+							accessory_overlay.color = get_fixed_hair_color(source) || source.hair_color
 						if(FACIAL_HAIR_COLOR)
-							accessory_overlay.color = source.facial_hair_color
+							accessory_overlay.color = get_fixed_hair_color(source) || source.facial_hair_color
 						if(EYE_COLOR)
 							accessory_overlay.color = source.eye_color_left
 				else

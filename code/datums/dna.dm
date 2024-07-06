@@ -469,7 +469,8 @@ GLOBAL_LIST_INIT(total_uf_len_by_block, populate_total_uf_len_by_block())
 		generate_dna_blocks()
 	if(randomize_features)
 		for(var/species_type in GLOB.species_prototypes)
-			features |= GLOB.species_prototypes[species_type].randomize_features()
+		// Temporary fulp edit. Should be overwritten on next TGU when this is fixed upstream.
+			features += GLOB.species_prototypes[species_type].randomize_features()
 
 		features["mcolor"] = "#[random_color()]"
 
