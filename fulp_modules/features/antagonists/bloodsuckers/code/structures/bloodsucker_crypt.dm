@@ -284,7 +284,6 @@
 
 	var/disloyalty_requires = RequireDisloyalty(user, target)
 	if(disloyalty_requires == VASSALIZATION_BANNED)
-		balloon_alert(user, "can't be vassalized!")
 		return FALSE
 
 	// Conversion Process
