@@ -159,19 +159,6 @@
 			if(accessory.center)
 				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
 
-			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
-				if(!forced_colour)
-					switch(accessory.color_src)
-						if(MUTANT_COLOR)
-							accessory_overlay.color = fixed_mut_color || source.dna.features["mcolor"]
-						if(HAIR_COLOR)
-							accessory_overlay.color = get_fixed_hair_color(source) || source.hair_color
-						if(FACIAL_HAIR_COLOR)
-							accessory_overlay.color = get_fixed_hair_color(source) || source.facial_hair_color
-						if(EYE_COLOR)
-							accessory_overlay.color = source.eye_color_left
-				else
-					accessory_overlay.color = forced_colour
 			standing += accessory_overlay
 
 			if(accessory.hasinner)
