@@ -1,11 +1,12 @@
 /datum/action/cooldown/bloodsucker/veil
 	name = "Veil of Many Faces"
-	desc = "Disguise yourself in the illusion of another identity."
+	desc = "Disguise yourself under a random identity."
 	button_icon_state = "power_veil"
 	power_explanation = "Veil of Many Faces: \n\
-		Activating Veil of Many Faces will shroud you in smoke and forge you a new identity.\n\
-		Your name and appearance will be completely randomized, and turning the ability off again will undo it all.\n\
-		Clothes, gear, and Security/Medical HUD status is kept the same while this power is active."
+		Activating Veil of Many Faces will shroud you in smoke and change your identity.\n\
+		Your name, voice, and appearance will be completely randomized. \n\
+		Turning the ability off again will undo its effects.\n\
+		Clothing, gear, and security/medical HUD status is kept the same while this power is active."
 	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_FRENZY
 	purchase_flags = BLOODSUCKER_DEFAULT_POWER
@@ -45,7 +46,7 @@
 /datum/action/cooldown/bloodsucker/veil/proc/veil_user()
 	// Change Name/Voice
 	var/mob/living/carbon/human/user = owner
-	to_chat(owner, span_warning("You mystify the air around your person. Your identity is now altered."))
+	to_chat(owner, span_warning("You mystify the air around your person: your identity is now altered."))
 
 	// Store Prev Appearance
 	disguise_name = user.dna.species.random_name(user.gender)
