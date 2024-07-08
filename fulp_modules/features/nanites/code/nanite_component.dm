@@ -4,7 +4,7 @@
 #define NANITE_DEFAULT_SAFETY_THRESHOLD 50
 
 ///The default amount of nanite research points to generate per person per tick, if unmodified.
-#define NANITE_BASE_RESEARCH 1.5
+#define NANITE_BASE_RESEARCH 0.15
 ///The chance at a Nanite program randomly failing when it cannot sync
 #define NANITE_FAILURE_CHANCE 8
 ///The max amount of nanite programs you can have in a cloud at once.
