@@ -1,11 +1,11 @@
 /datum/action/cooldown/bloodsucker/targeted/trespass
 	name = "Trespass"
-	desc = "Become mist and advance two tiles in one direction. Useful for skipping past doors and barricades."
+	desc = "Become mist and advance up to two tiles away. Useful for skipping past doors and barricades— or making a stylish entrance."
 	button_icon_state = "power_tres"
 	power_explanation = "Trespass:\n\
-		Click anywhere from 1-2 tiles away from you to teleport.\n\
-		This power goes through all obstacles except Walls.\n\
-		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
+		Click anywhere within one to two tiles to teleport there.\n\
+		This power goes through all obstacles except walls.\n\
+		Higher levels make the power faster and quieter."
 	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY

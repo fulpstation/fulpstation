@@ -6,8 +6,8 @@
  */
 /datum/bloodsucker_clan/vassal
 	name = CLAN_VASSAL
-	description = "As a Vassal, you are too young to enter a Clan of your own. \n\
-		Continue to help your Master advance in their aspirations."
+	description = "As a vassal, you are too young to enter a clan of your own. \n\
+		Continue to help your master advance in their aspirations."
 	joinable_clan = FALSE
 	shows_in_archives = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY //You drink the same as your Master.

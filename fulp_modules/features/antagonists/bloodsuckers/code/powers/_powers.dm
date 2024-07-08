@@ -43,9 +43,9 @@
 /datum/action/cooldown/bloodsucker/New(Target)
 	. = ..()
 	if(bloodcost > 0)
-		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
+		desc += "<br><br><b>COST:</b> [bloodcost] blood"
 	if(constant_bloodcost > 0)
-		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
+		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] blood maintain active.</i>"
 	if(power_flags & BP_AM_SINGLEUSE)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
@@ -113,7 +113,7 @@
 		return FALSE
 	// Frenzy?
 	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.frenzied))
-		to_chat(user, span_warning("You cannot use powers while in a Frenzy!"))
+		to_chat(user, span_warning("You cannot use powers while in a frenzy!"))
 		return FALSE
 	// Stake?
 	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.am_staked())

@@ -1,14 +1,14 @@
 /datum/action/cooldown/bloodsucker/targeted/lunge
 	name = "Predatory Lunge"
-	desc = "Spring at your target to grapple them without warning, or tear the dead's heart out. Attacks from concealment or the rear may even knock them down if strong enough."
+	desc = "Spring at your target to grapple them without warning, or tear their heart out if they're dead. Attacks from concealment or the rear may even knock them down if strong enough."
 	button_icon_state = "power_lunge"
 	power_explanation = "Predatory Lunge:\n\
-		Click any player to start spinning wildly and, after a short delay, dash at them.\n\
-		When lunging at someone, you will grab them, immediately starting off at aggressive.\n\
-		Riot gear and Monster Hunters are protected and will only be passively grabbed.\n\
-		You cannot use the Power if you are already grabbing someone, or are being grabbed.\n\
-		If you grab from behind, or from darkness (Cloak of Darkness works), you will knock the target down.\n\
-		If used on a dead body, will tear their heart out.\n\
+		Click any person to start spinning wildly and, after a short delay, dash at them.\n\
+		When the dash is complete you will have an aggressive hold on your target.\n\
+		Monster Hunters and those with riot gear are protected and will only be passively grabbed.\n\
+		You cannot use this power if you are already grabbing someone, or are being grabbed.\n\
+		If you grab from behind, or from darkness (Cloak of Darkness works,) you will knock the target down.\n\
+		If used on a dead body, you will tear its heart out.\n\
 		Higher levels increase the knockdown dealt to enemies.\n\
 		At level 4, you will no longer spin, but you will be limited to tackling from only 6 tiles away."
 	power_flags = NONE
