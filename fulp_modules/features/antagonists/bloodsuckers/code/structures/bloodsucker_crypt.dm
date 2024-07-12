@@ -421,7 +421,8 @@
 	ghost_desc = "This magical light drains the sanity of non-Bloodsuckers and non-vassals.\n\
 		Only bloodsuckers and their vassals can toggle it."
 	vamp_desc = "This magical light drains the sanity of unvassalized mortals while active.\n\
-		Only you and your vassals can toggle it."
+		Only you and your vassals can toggle it.\n\
+		You alone can also toggle it from afar by <b>double-clicking</b> it."
 	vassal_desc = "This is magical light drains the sanity of those fools who havent yet accepted your master while active.\n\
 		Only you, your master, and your master's other devotees may toggle it."
 	hunter_desc = "This light causes insanity to those near it while active."
@@ -456,6 +457,15 @@
 		toggle()
 	return ..()
 
+/obj/structure/bloodsucker/lighting/DblClick()
+	. = ..()
+	if(in_range(src, usr))
+		return
+	if(anchored && IS_BLOODSUCKER(usr))
+		toggle()
+		usr.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
+		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
+
 /obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
 	if(lit)
@@ -467,6 +477,7 @@
 		desc = "Despite not being lit, it makes your skin crawl."
 		set_light(0)
 		STOP_PROCESSING(SSobj, src)
+		playsound(loc, 'sound/effects/bamf.ogg', 20, FALSE, 0, 2)
 	update_icon()
 
 /obj/structure/bloodsucker/lighting/process()
