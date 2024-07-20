@@ -76,6 +76,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/filled = FALSE ///does the bottle contain fluid
 
 /obj/item/blood_vial/examine(mob/user)
