@@ -305,7 +305,7 @@
 	if(locked_object.check_access_list(all_access))
 		return ACCESS_ALLOWED
 
-	return ACCESS_DISALLOWED
+	return
 
 /datum/component/nanites/proc/set_volume(datum/source, amount)
 	SIGNAL_HANDLER
