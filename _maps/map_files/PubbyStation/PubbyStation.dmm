@@ -534,15 +534,29 @@
 /turf/closed/wall,
 /area/station/engineering/storage_shared)
 "acW" = (
-/obj/machinery/computer/station_alert,
+/obj/structure/table/glass,
+/obj/item/stack/sheet/iron,
+/obj/item/stack/sheet/glass{
+	amount = 20;
+	pixel_x = 3;
+	pixel_y = -4
+	},
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/mmi,
+/obj/item/assembly/prox_sensor{
+	pixel_x = -8;
+	pixel_y = 4
+	},
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_ap)
 "acX" = (
-/obj/machinery/computer/monitor,
+/obj/machinery/light/small/directional/north,
+/obj/machinery/modular_computer/preset/civilian,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_ap)
 "acY" = (
-/obj/machinery/computer/atmos_alert,
+/obj/machinery/mecha_part_fabricator,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_ap)
 "adb" = (
@@ -563,29 +577,16 @@
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai)
 "ade" = (
-/obj/structure/table/glass,
-/obj/item/stack/sheet/iron,
-/obj/item/stack/sheet/glass{
-	amount = 20;
-	pixel_x = 3;
-	pixel_y = -4
-	},
-/obj/item/assembly/flash/handheld,
-/obj/item/assembly/flash/handheld,
-/obj/item/mmi,
-/obj/item/assembly/prox_sensor{
-	pixel_x = -8;
-	pixel_y = 4
-	},
+/obj/machinery/computer/station_alert,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "adf" = (
-/obj/machinery/light/small/directional/north,
-/obj/machinery/modular_computer/preset/civilian,
+/obj/machinery/computer/monitor,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "adg" = (
-/obj/machinery/mecha_part_fabricator,
+/obj/machinery/computer/atmos_alert,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "adh" = (
@@ -655,6 +656,7 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "ads" = (
@@ -832,6 +834,7 @@
 	},
 /obj/machinery/light/small/directional/north,
 /obj/structure/lattice,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/space/basic,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "adX" = (
@@ -848,6 +851,7 @@
 	network = list("minisat")
 	},
 /obj/structure/lattice,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/space/basic,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "aec" = (
@@ -885,6 +889,7 @@
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "ael" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
+/obj/machinery/light/small/directional/west,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "aem" = (
@@ -26753,12 +26758,7 @@
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
 "cnD" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 8
-	},
-/obj/structure/cable,
-/obj/machinery/light/small/directional/east,
+/obj/structure/closet/emcloset,
 /turf/open/floor/plating,
 /area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "cnE" = (
@@ -34922,6 +34922,12 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron,
 /area/station/medical/treatment_center)
+"idt" = (
+/obj/structure/rack,
+/obj/structure/rack,
+/obj/effect/spawner/random/maintenance,
+/turf/open/floor/plating,
+/area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "idA" = (
 /obj/machinery/power/port_gen/pacman,
 /obj/structure/cable,
@@ -40136,6 +40142,11 @@
 "mKg" = (
 /turf/open/floor/iron/white,
 /area/station/medical/surgery/theatre)
+"mKi" = (
+/obj/machinery/light/small/directional/east,
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/plating,
+/area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "mKl" = (
 /obj/structure/weightmachine,
 /turf/open/floor/iron,
@@ -43824,6 +43835,21 @@
 /obj/structure/table,
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
+"pMr" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/door/airlock/maintenance_hatch{
+	name = "MiniSat Maintenance"
+	},
+/obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "ai-sat-right"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/engineering/external,
+/turf/open/floor/plating,
+/area/station/ai_monitored/turret_protected/ai_sat_ext_as)
 "pMG" = (
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -89376,10 +89402,10 @@ acU
 adg
 uyY
 gAY
-aeS
+pMr
 szb
 szb
-cnD
+szb
 szb
 szb
 aeS
@@ -89635,10 +89661,10 @@ acU
 mdk
 acU
 acU
-acU
-acU
-acU
-acU
+cnD
+xEA
+mKi
+idt
 acU
 afm
 afB
