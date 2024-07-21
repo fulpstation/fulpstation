@@ -404,6 +404,7 @@
 	icon_state = "rabbit_mask"
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
+	clothing_flags = MASKINTERNALS
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	flash_protect = FLASH_PROTECTION_WELDER
