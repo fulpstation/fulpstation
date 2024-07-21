@@ -95,4 +95,4 @@
 	enemy_spawned = TRUE
 	var/mob/living/basic/red_rabbit/evil_rabbit = new(get_turf(src))
 	evil_rabbit.key = user.key
-	to_chat(evil_rabbit, span_boldwarning("Destroy everything, spare no one."))
+	to_chat(evil_rabbit, span_boldwarning("Destroy everything. Spare only the harbinger of Wonderland who brought you here, but know that you do not answer to them."))
