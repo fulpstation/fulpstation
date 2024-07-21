@@ -661,6 +661,10 @@
 	name = "Short Bangs"
 	icon_state = "hair_shortbangs"
 
+/datum/sprite_accessory/hair/shortbangs2
+	name = "Short Bangs 2"
+	icon_state = "hair_shortbangs2"
+
 /datum/sprite_accessory/hair/short
 	name = "Short Hair"
 	icon_state = "hair_a"
@@ -1776,6 +1780,13 @@
 	icon = 'icons/mob/human/cat_features.dmi'
 	icon_state = "default"
 	color_src = HAIR_COLOR
+
+/datum/sprite_accessory/tails/human/fox
+	name = "Fox"
+	icon_state = "fox"
+	icon = 'icons/mob/human/cat_features.dmi'
+	color_src = HAIR_COLOR
+	locked = TRUE
 
 /datum/sprite_accessory/tails/monkey/default
 	name = "Monkey"

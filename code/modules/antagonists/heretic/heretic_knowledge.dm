@@ -155,7 +155,9 @@
 		return FALSE
 
 	for(var/result in result_atoms)
-		new result(loc)
+		var/atom/result_item = new result(loc)
+		if(isitem(result_item))
+			ADD_TRAIT(result_item, TRAIT_CONTRABAND, INNATE_TRAIT)
 	return TRUE
 
 /**
@@ -582,7 +584,6 @@
 
 	var/datum/antagonist/heretic_monster/heretic_monster = summoned.mind.add_antag_datum(/datum/antagonist/heretic_monster)
 	heretic_monster.set_owner(user.mind)
-	summoned.RegisterSignal(user, COMSIG_LIVING_DEATH, TYPE_PROC_REF(/mob/living/, on_master_death))
 
 	var/datum/objective/heretic_summon/summon_objective = locate() in user.mind.get_all_objectives()
 	summon_objective?.num_summoned++
