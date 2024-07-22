@@ -287,7 +287,6 @@
 	icon_state = "breather_mask"
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEHAIR|HIDESNOUT
 	clothing_flags = MASKINTERNALS
-	modifies_speech = TRUE
 
 /obj/item/clothing/mask/costume_2021/breather_mask/blue
 	desc = "A tight blue balaclava with breathing apparatus strapped to the front. Only has one eye socket."
@@ -297,12 +296,14 @@
 	. = ..()
 	if(slot != ITEM_SLOT_MASK)
 		return
+	RegisterSignal(user, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 	START_PROCESSING(SSobj, src)
 
 /obj/item/clothing/mask/costume_2021/breather_mask/dropped(mob/user)
 	. = ..()
 	if(user.get_item_by_slot(ITEM_SLOT_MASK) == src)
 		STOP_PROCESSING(SSobj, src)
+		UnregisterSignal(user, COMSIG_MOB_SAY)
 
 /obj/item/clothing/mask/costume_2021/breather_mask/process(seconds_per_tick)
 	var/mob/living/breather_boy = loc
@@ -313,7 +314,7 @@
 		breather_boy.emote("gasp")
 		breather_boy.emote("gasp")
 
-/obj/item/clothing/mask/costume_2021/breather_mask/handle_speech(datum/source, mob/speech_args)
+/obj/item/clothing/mask/costume_2021/breather_mask/proc/handle_speech(datum/source, mob/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message)
 		var/list/message_split = splittext(message, " ")
