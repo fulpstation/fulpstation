@@ -407,7 +407,7 @@
 	return bloodsuckerdatum.AmValidAntag(target)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Subtype for bloodsucker lighting structures (candelbrum and blazier)
+//Subtype for bloodsucker lighting structures (candelabrum and blazier)
 
 /obj/structure/bloodsucker/lighting
 	name = "NONDESCRIPT BLOODSUCKER LIGHTING FIXTURE THAT SHOULDN'T EXIST"
@@ -472,10 +472,14 @@
 		desc = initial(desc)
 		set_light(active_light_range, light_power, light_color)
 		playsound(loc, 'sound/items/match_strike.ogg', 25)
+		if(name == "brazier")
+			particles = new /particles/brazier
 		START_PROCESSING(SSobj, src)
 	else
 		desc = "Despite not being lit, it makes your skin crawl."
 		set_light(0)
+		if(name == "brazier")
+			QDEL_NULL(particles)
 		STOP_PROCESSING(SSobj, src)
 		playsound(loc, 'sound/effects/bamf.ogg', 20, FALSE, 0, 2)
 	update_icon()
