@@ -32,6 +32,10 @@
 - _maps/selenestation.json
 - _maps/map_files/PubbyStation.dmm
 - _maps/pubbystation.json
+- _maps/map_files/TheiaStation.dmm
+- _maps/shuttles/arrival_fulp.dmm
+- _maps/shuttles/emergency_theia.dmm
+- _maps/theiastation.json
 
 #### TGUI
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
