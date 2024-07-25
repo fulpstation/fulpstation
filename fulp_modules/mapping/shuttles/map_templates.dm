@@ -72,7 +72,7 @@
 	name = "Theia Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "A mid-sized shuttle with lots of open space; equipped with all essential amenities and a coffee shop!"
-	occupancy_limit = "40"
+	occupancy_limit = "45"
 
 /**
  * LABOUR SHUTTLE
