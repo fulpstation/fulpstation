@@ -411,31 +411,41 @@
 
 /obj/structure/bloodsucker/lighting
 	name = "NONDESCRIPT BLOODSUCKER LIGHTING FIXTURE THAT SHOULDN'T EXIST"
-	desc = "It burns slowly and doesn't radiate any heat"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
 	light_power = 1
 	light_range = 0
 	density = FALSE
 	anchored = FALSE
-	ghost_desc = "This magical light drains the sanity of non-Bloodsuckers and non-vassals.\n\
-		Only bloodsuckers and their vassals can toggle it."
-	vamp_desc = "This magical light drains the sanity of unvassalized mortals while active.\n\
-		Only you and your vassals can toggle it.\n\
-		You alone can also toggle it from afar by <b>double-clicking</b> it."
-	vassal_desc = "This is magical light drains the sanity of those fools who havent yet accepted your master while active.\n\
-		Only you, your master, and your master's other devotees may toggle it."
-	hunter_desc = "This light causes insanity to those near it while active."
 	var/lit = FALSE
 	var/active_light_range = 3
+
+/obj/structure/bloodsucker/lighting/Initialize()
+	. = ..()
+	register_context()
+	update_appearance()
+	desc = "Its proportions seem... <i>off</i>."
 
 /obj/structure/bloodsucker/lighting/Destroy()
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
 
+/obj/structure/bloodsucker/lighting/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	. = ..()
+	if(!anchored)
+		return
+	if(in_range(source, user))
+		if(IS_BLOODSUCKER(user) || IS_VASSAL(user))
+			context[SCREENTIP_CONTEXT_LMB] = "[lit ? "Extinguish":"Ignite"]"
+			return CONTEXTUAL_SCREENTIP_SET
+	else
+		if(IS_BLOODSUCKER(user))
+			context[SCREENTIP_CONTEXT_CTRL_LMB] = "[lit ? "Extinguish":"Ignite"]"
+			return CONTEXTUAL_SCREENTIP_SET
+
 /obj/structure/bloodsucker/lighting/update_icon_state()
 	. = ..()
-	icon_state = "[name][lit ? "_lit" : ""]"
+	icon_state = "[base_icon_state][lit ? "_lit" : ""]"
 
 /obj/structure/bloodsucker/lighting/bolt()
 	. = ..()
@@ -457,7 +467,7 @@
 		toggle()
 	return ..()
 
-/obj/structure/bloodsucker/lighting/DblClick()
+/obj/structure/bloodsucker/lighting/CtrlClick(mob/user)
 	. = ..()
 	if(in_range(src, usr))
 		return
@@ -465,6 +475,8 @@
 		toggle()
 		usr.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
 		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
+		return
+	return
 
 /obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
@@ -472,28 +484,19 @@
 		desc = initial(desc)
 		set_light(active_light_range, light_power, light_color)
 		playsound(loc, 'sound/items/match_strike.ogg', 25)
-		if(name == "brazier")
-			particles = new /particles/brazier
 		START_PROCESSING(SSobj, src)
 	else
-		desc = "Despite not being lit, it makes your skin crawl."
+		desc = "Its proportions seem... <i>off</i>."
 		set_light(0)
-		if(name == "brazier")
-			QDEL_NULL(particles)
-		STOP_PROCESSING(SSobj, src)
 		playsound(loc, 'sound/effects/bamf.ogg', 20, FALSE, 0, 2)
+		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
 /obj/structure/bloodsucker/lighting/process()
 	if(!lit)
 		STOP_PROCESSING(SSobj, src)
 		return
-	for(var/mob/living/carbon/nearly_people in viewers(7, src))
-		/// We dont want Bloodsuckers or Vassals affected by this
-		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
-			continue
-		nearly_people.adjust_hallucinations(5 SECONDS)
-		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -501,16 +504,41 @@
 /obj/structure/bloodsucker/lighting/candelabrum
 	name = "candelabrum"
 	desc = "It burns slowly and doesn't radiate heat."
-	icon_state = "candelabrum"
+	icon_state = "candelabrum_lit"
+	base_icon_state = "candelabrum"
 	active_light_range = 3
+	ghost_desc = "This magical candle causes hallucinations and negatively affects the mood of those who are neither bloodsuckers nor vassals."
+	vamp_desc = "This magical candle drains the sanity of unvassalized mortals while active.\n\
+		You alone can toggle it from afar by <b>ctrl-clicking</b> it."
+	vassal_desc = "This magical candle drains the sanity of those fools who havent yet accepted your master while active."
+	hunter_desc = "This magical candle causes insanity to those near it while active."
 
-// Brazier - An alternate version of the candelbraum with roughly the brightness of a bonfire
+/obj/structure/bloodsucker/lighting/cendelabrum/process()
+	. = ..()
+	for(var/mob/living/carbon/nearly_people in viewers(7, src))
+		/// We dont want Bloodsuckers or Vassals affected by this
+		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
+			continue
+		nearly_people.adjust_hallucinations(5 SECONDS)
+		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
+
+// Brazier - Currently nothing more than an aesthetic light with roughly the brightness of a bonfire
 /obj/structure/bloodsucker/lighting/brazier
 	name = "brazier"
-	desc = "It burns slowly, but doesn't radiate any heat."
-	icon_state = "brazier"
+	desc = "It's bright and crackling, yet there's a hint of constraint to its somber flame."
+	icon_state = "brazier_lit"
+	base_icon_state = "brazier"
 	light_power = 1.125
 	active_light_range = 6
+	vamp_desc = "You alone can toggle this from afar by <b>ctrl-clicking</b> it."
+	vassal_desc = "You can toggle this by <b>clicking</b> it."
+
+/obj/structure/bloodsucker/lighting/brazier/toggle(mob/user)
+	. = ..()
+	if(lit)
+		particles = new /particles/brazier
+	else
+		QDEL_NULL(particles)
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
