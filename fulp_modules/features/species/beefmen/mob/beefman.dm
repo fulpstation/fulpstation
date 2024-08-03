@@ -23,6 +23,7 @@
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
+	hair_color_mode = USE_FIXED_MUTANT_COLOR
 	species_language_holder = /datum/language_holder/russian
 	mutantbrain = /obj/item/organ/internal/brain/beefman
 	mutanttongue = /obj/item/organ/internal/tongue/beefman
