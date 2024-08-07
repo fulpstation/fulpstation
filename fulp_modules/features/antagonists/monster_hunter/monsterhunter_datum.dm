@@ -295,7 +295,7 @@
 		return FALSE
 	podspawn(list(
 		"target" = get_turf(owner),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = item_path,
 	))
 	qdel(src)

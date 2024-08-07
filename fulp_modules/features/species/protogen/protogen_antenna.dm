@@ -16,10 +16,10 @@
 /datum/bodypart_overlay/mutant/protogen_antennae
 	feature_key = "antennae_protogen"
 	layers = EXTERNAL_ADJACENT
-	color_source = ORGAN_COLOR_HAIR
+	color_source = ORGAN_COLOR_INHERIT
 
 /datum/bodypart_overlay/mutant/protogen_antennae/get_global_feature_list()
-	return GLOB.antennae_list_protogen
+	return SSaccessories.antennae_list_protogen
 
 //Sprites
 /datum/sprite_accessory/protogen/antennae

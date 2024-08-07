@@ -12,11 +12,11 @@ NOTE: If you plan on Contributing to Fulpstation, you may want to instead read t
 
 ## Modular Code/Modularity
 
-Modular, as we use it, is described as "Doesn't touch Core TG files/folders". 
+Modular, as we use it, is described as "Doesn't touch Core TG files/folders".
 
 ### What is a TG file and why does it matter?
 
-- a TG file is a file that we share with our upstream, TGstation. Every time we update, all our files get updated to whatever TG has them set to. 
+- a TG file is a file that we share with our upstream, TGstation. Every time we update, all our files get updated to whatever TG has them set to.
 - To counter this, we have our a fulp_modules folder, containing all the fulp files.
 - There is one exception, our TGUI files, which is placed in the same folder as TG's. It is placed there because of some dumb tgui stuff who cares no one really knows, it just does. Ok?
 
@@ -36,7 +36,7 @@ We are incredibly strict in modularity, and Pull Requests can (and will) be quic
 
 ## Readme & TG edits
 
-Any Pull Request that touches a TG file, or uses TG sprites/sounds, MUST include a readme.MD page in it's folder to explain such.
+Any Pull Request that touches a TG file, or uses TG sprites/sounds, MUST include a readme.MD page in its folder to explain such.
 Additionally, edits to TG files MUST be documented in tg_edits.md - This is because it is the primary file Contributors will look at to ensure all Fulp code persists through TGUs.
 
 ![image](https://i.imgur.com/4p3iTRx.jpg)

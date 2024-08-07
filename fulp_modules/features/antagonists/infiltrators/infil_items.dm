@@ -114,7 +114,7 @@
 	var/reward = pick(reward_items)
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = reward,
 		))
 	log_uplink("[key_name(user)] received \a [reward] through [src].")
