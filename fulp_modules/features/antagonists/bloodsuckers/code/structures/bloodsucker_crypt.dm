@@ -93,9 +93,6 @@
 /obj/structure/bloodsucker/bloodportrait
 	name = "oil portrait"
 	desc = "A disturbingly familiar face stares back at you. Those reds don't seem to be painted in oil..."
-/obj/structure/bloodsucker/bloodbrazier
-	name = "lit brazier"
-	desc = "It burns slowly, but doesn't radiate any heat."
 /obj/structure/bloodsucker/bloodmirror
 	name = "faded mirror"
 	desc = "You get the sense that the foggy reflection looking back at you has an alien intelligence to it."
@@ -410,45 +407,59 @@
 	return bloodsuckerdatum.AmValidAntag(target)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Subtype for bloodsucker lighting structures (candelabrum and blazier)
 
-/obj/structure/bloodsucker/candelabrum
-	name = "candelabrum"
-	desc = "It burns slowly and doesn't radiate heat."
+/obj/structure/bloodsucker/lighting
+	name = "NONDESCRIPT BLOODSUCKER LIGHTING FIXTURE THAT SHOULDN'T EXIST"
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
-	icon_state = "candelabrum"
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
-	light_power = 3
-	light_range = 0 // to 2
+	light_power = 1
+	light_range = 0
 	density = FALSE
 	anchored = FALSE
-	ghost_desc = "This is a magical candle which drains the sanity of non-Bloodsuckers and non-vassals.\n\
-		Only bloodsuckers and their vassals can toggle it."
-	vamp_desc = "This is a magical candle which drains at the sanity of unvassalized mortals while it is active.\n\
-		Only you and your vassals can toggle it."
-	vassal_desc = "This is a magical candle which drains at the sanity of the fools who havent yet accepted your master while active.\n\
-		Only you, your master, and your master's other devotees may toggle it."
-	hunter_desc = "This is a blue candelabrum, which causes insanity to those near it while active."
 	var/lit = FALSE
+	var/active_light_range = 3
 
-/obj/structure/bloodsucker/candelabrum/Destroy()
+/obj/structure/bloodsucker/lighting/Initialize()
+	. = ..()
+	register_context()
+	update_appearance()
+	desc = "Its proportions seem... <i>off</i>."
+
+/obj/structure/bloodsucker/lighting/Destroy()
+	. = ..()
 	STOP_PROCESSING(SSobj, src)
-	return ..()
 
-/obj/structure/bloodsucker/candelabrum/update_icon_state()
-	icon_state = "candelabrum[lit ? "_lit" : ""]"
-	return ..()
+/obj/structure/bloodsucker/lighting/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	. = ..()
+	if(!anchored)
+		return
+	if(in_range(source, user))
+		if(IS_BLOODSUCKER(user) || IS_VASSAL(user))
+			context[SCREENTIP_CONTEXT_LMB] = "[lit ? "Extinguish":"Ignite"]"
+			return CONTEXTUAL_SCREENTIP_SET
+	else
+		if(IS_BLOODSUCKER(user))
+			context[SCREENTIP_CONTEXT_CTRL_LMB] = "[lit ? "Extinguish":"Ignite"]"
+			return CONTEXTUAL_SCREENTIP_SET
 
-/obj/structure/bloodsucker/candelabrum/bolt()
+/obj/structure/bloodsucker/lighting/update_icon_state()
+	. = ..()
+	icon_state = "[base_icon_state][lit ? "_lit" : ""]"
+
+/obj/structure/bloodsucker/lighting/bolt()
 	. = ..()
 	set_anchored(TRUE)
 	density = TRUE
 
-/obj/structure/bloodsucker/candelabrum/unbolt()
+/obj/structure/bloodsucker/lighting/unbolt()
 	. = ..()
 	set_anchored(FALSE)
 	density = FALSE
+	if(lit)
+		toggle()
 
-/obj/structure/bloodsucker/candelabrum/attack_hand(mob/living/user, list/modifiers)
+/obj/structure/bloodsucker/lighting/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
 	if(!.)
 		return
@@ -456,28 +467,78 @@
 		toggle()
 	return ..()
 
-/obj/structure/bloodsucker/candelabrum/proc/toggle(mob/user)
+/obj/structure/bloodsucker/lighting/CtrlClick(mob/user)
+	. = ..()
+	if(in_range(src, usr))
+		return
+	if(anchored && IS_BLOODSUCKER(usr))
+		toggle()
+		usr.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
+		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
+		return
+	return
+
+/obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
 	if(lit)
 		desc = initial(desc)
-		set_light(2, 3, "#66FFFF")
+		set_light(active_light_range, light_power, light_color)
+		playsound(loc, 'sound/items/match_strike.ogg', 25)
 		START_PROCESSING(SSobj, src)
 	else
-		desc = "Despite not being lit, it makes your skin crawl."
+		desc = "Its proportions seem... <i>off</i>."
 		set_light(0)
+		playsound(loc, 'sound/effects/bamf.ogg', 20, FALSE, 0, 2)
 		STOP_PROCESSING(SSobj, src)
 	update_icon()
 
-/obj/structure/bloodsucker/candelabrum/process()
+/obj/structure/bloodsucker/lighting/process()
 	if(!lit)
 		STOP_PROCESSING(SSobj, src)
 		return
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Candelabrum - Drains the sanity of non-bloodsuckers/non-vassals near it, has the brightness of a lightbulb
+/obj/structure/bloodsucker/lighting/candelabrum
+	name = "candelabrum"
+	desc = "It burns slowly and doesn't radiate heat."
+	icon_state = "candelabrum_lit"
+	base_icon_state = "candelabrum"
+	active_light_range = 3
+	ghost_desc = "This magical candle causes hallucinations and negatively affects the mood of those who are neither bloodsuckers nor vassals."
+	vamp_desc = "This magical candle drains the sanity of unvassalized mortals while active.\n\
+		You alone can toggle it from afar by <b>ctrl-clicking</b> it."
+	vassal_desc = "This magical candle drains the sanity of those fools who havent yet accepted your master while active."
+	hunter_desc = "This magical candle causes insanity to those near it while active."
+
+/obj/structure/bloodsucker/lighting/cendelabrum/process()
+	. = ..()
 	for(var/mob/living/carbon/nearly_people in viewers(7, src))
 		/// We dont want Bloodsuckers or Vassals affected by this
 		if(IS_VASSAL(nearly_people) || IS_BLOODSUCKER(nearly_people))
 			continue
 		nearly_people.adjust_hallucinations(5 SECONDS)
 		nearly_people.add_mood_event("vampcandle", /datum/mood_event/vampcandle)
+
+// Brazier - Currently nothing more than an aesthetic light with roughly the brightness of a bonfire
+/obj/structure/bloodsucker/lighting/brazier
+	name = "brazier"
+	desc = "It's bright and crackling, yet there's a hint of constraint to its somber flame."
+	icon_state = "brazier_lit"
+	base_icon_state = "brazier"
+	light_power = 1.125
+	active_light_range = 6
+	vamp_desc = "You alone can toggle this from afar by <b>ctrl-clicking</b> it."
+	vassal_desc = "You can toggle this by <b>clicking</b> it."
+
+/obj/structure/bloodsucker/lighting/brazier/toggle(mob/user)
+	. = ..()
+	if(lit)
+		particles = new /particles/brazier
+	else
+		QDEL_NULL(particles)
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
