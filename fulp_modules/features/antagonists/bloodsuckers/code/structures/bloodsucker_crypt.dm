@@ -467,7 +467,7 @@
 		toggle()
 	return ..()
 
-/obj/structure/bloodsucker/lighting/CtrlClick(mob/user)
+/obj/structure/bloodsucker/lighting/click_ctrl(mob/user)
 	. = ..()
 	if(in_range(src, usr))
 		return
