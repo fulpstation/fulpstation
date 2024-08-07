@@ -10,10 +10,10 @@
 	///The name of the clan we're in.
 	var/name = CLAN_NONE
 	///Description of what the clan is, given when joining and through your antag UI.
-	var/description = "The Caitiff is as basic as you can get with Bloodsuckers. \n\
-		Entirely Clan-less, they are blissfully unaware of who they really are. \n\
-		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \n\
-		The Favorite Vassal will gain the Brawn ability, to help in combat."
+	var/description = "The Caitiff are as basic as you can get with Bloodsuckers. \n\
+		Entirely clanless, they are blissfully unaware of the greater clan structure. \n\
+		No additional abilities are gained, none are lost: if you want a plain Bloodsucker then this is it. \n\
+		The favorite vassal will gain the Brawn ability to help in combat."
 	///The clan objective that is required to greentext.
 	var/datum/objective/clan_objective
 	///The icon of the radial icon to join this clan.
@@ -21,7 +21,7 @@
 	///Same as join_icon, but the state
 	var/join_icon_state = "caitiff"
 	///Description shown when trying to join the clan.
-	var/join_description = "The default, Classic Bloodsucker."
+	var/join_description = "The default, classic Bloodsucker."
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
 	///Boolean on whether the clan shows up in the Archives of the Kindred.
@@ -229,7 +229,7 @@
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
 	if(!vassaldatum.owner.can_make_special(creator = bloodsuckerdatum.owner))
-		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a Special rank due to innate features."))
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a special rank due to innate features."))
 		return FALSE
 
 	var/list/options = list()

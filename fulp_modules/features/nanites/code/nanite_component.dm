@@ -5,6 +5,8 @@
 
 ///The default amount of nanite research points to generate per person per tick, if unmodified.
 #define NANITE_BASE_RESEARCH 1.5
+///The factor by which we multiply node costs to balance the higher production of nanite points compared to general points.
+#define NANITE_POINT_CONVERSION_RATE 10
 ///The chance at a Nanite program randomly failing when it cannot sync
 #define NANITE_FAILURE_CHANCE 8
 ///The max amount of nanite programs you can have in a cloud at once.
@@ -305,7 +307,7 @@
 	if(locked_object.check_access_list(all_access))
 		return ACCESS_ALLOWED
 
-	return ACCESS_DISALLOWED
+	return
 
 /datum/component/nanites/proc/set_volume(datum/source, amount)
 	SIGNAL_HANDLER

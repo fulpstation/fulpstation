@@ -1,13 +1,13 @@
 /datum/action/cooldown/bloodsucker/targeted/brawn
 	name = "Brawn"
-	desc = "Snap restraints, break lockers and doors, or deal terrible damage with your bare hands."
+	desc = "Snap restraints, break lockers and doors, or deal substantial damage with your bare hands."
 	button_icon_state = "power_strength"
 	power_explanation = "Brawn:\n\
-		Click any person to bash into them, break restraints you have or knocking a grabber down. Only one of these can be done per use.\n\
-		Punching a Cyborg will heavily EMP them in addition to deal damage.\n\
-		At level 3, you get the ability to break closets open, additionally can both break restraints AND knock a grabber down in the same use.\n\
-		At level 4, you get the ability to bash airlocks open, as long as they aren't bolted.\n\
-		Higher levels will increase the damage and knockdown when punching someone."
+		Click a person to bash into them. Use while restrained or grabbed to break restraints or knock your grabber down. Only one of these can be done per use.\n\
+		Punching a cyborg will heavily EMP them in addition to dealing damage.\n\
+		At level 3, this ability will break closets open. Additionally you may both break restraints <i>and</i> knock a grabber down in the same use.\n\
+		At level 4, this ability wlil bash airlocks open as long as they aren't bolted.\n\
+		Higher levels will increase this ability's damage and knockdown."
 	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
@@ -53,8 +53,8 @@
 	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 	if(!used && (istype(cuffs) || istype(legcuffs)))
 		user.visible_message(
-			span_warning("[user] discards their restraints like it's nothing!"),
-			span_warning("We break through our restraints!"),
+			span_warning("[user] breaks their restraint like it's nothing!"),
+			span_warning("We break through our restraint!"),
 		)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)

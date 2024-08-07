@@ -42,23 +42,6 @@ GLOBAL_LIST_INIT(color_list_beefman, list(
 	BEEF_COLOR_WELL_DONE = "#d36b75",
 ))
 
-// Taken from _HELPERS/mobs.dm
-GLOBAL_LIST_INIT(eyes_beefman, list(
-	BEEF_EYES_CAPERS,
-	BEEF_EYES_CLOVES,
-	BEEF_EYES_OLIVES,
-	BEEF_EYES_PEPPERCORNS,
-))
-
-GLOBAL_LIST_INIT(mouths_beefman, list(
-	BEEF_MOUTH_FROWN,
-	BEEF_MOUTH_DISSAPOINTED,
-	BEEF_MOUTH_GRIT,
-	BEEF_MOUTH_GRITTING_SMILE,
-	BEEF_MOUTH_SMILE,
-	BEEF_MOUTH_SMIRK,
-))
-
 GLOBAL_LIST_INIT(experiment_names, list(
 	"Experiment",
 	"Attempt",
@@ -218,7 +201,3 @@ GLOBAL_LIST_INIT(russian_names, list(
 	"Volski",
 	"Zakharov",
 ))
-
-GLOBAL_LIST_EMPTY(tails_list_protogen)
-GLOBAL_LIST_EMPTY(snouts_list_protogen)
-GLOBAL_LIST_EMPTY(antennae_list_protogen)

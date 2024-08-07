@@ -1,6 +1,6 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
-	desc = "A contract detailing a hunter's tasks and tools."
+	desc = "A contract written in an exotic language and marked with a red, queenly stamp.."
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
@@ -24,6 +24,20 @@
 		weapons += new items
 	if(hunter)
 		owner = hunter
+
+/obj/item/hunting_contract/examine(mob/user)
+	. = ..()
+	if(user.mind == owner.owner) //If the examining mob's mind is the mind owning the antag datum that owns the contract
+		. += span_notice("This is your hunting contract.")
+		. += span_notice("You may use it to call in one trick weapon of your choosing.")
+		. += span_notice("<b>Do not lose it</b> if you intend to achieve something greater as a harbinger of Wonderland.")
+		return
+	if(IS_HERETIC_OR_MONSTER(user))
+		. += span_notice("This is the contract of a heathen who may hunt Mansus scholars.")
+	if(IS_BLOODSUCKER(user))
+		. += span_cult("This is the contract of a mortal who may hunt the Kindred in all of their forms.")
+	if(IS_CHANGELING(user))
+		. += span_changeling("This is the contract of an audacious lesser organism who may hunt those of our kind.")
 
 /obj/item/hunting_contract/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!IS_MONSTERHUNTER(user))
@@ -98,7 +112,7 @@
 
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = purchased,
 		))
 

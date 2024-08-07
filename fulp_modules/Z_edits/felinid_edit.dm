@@ -40,8 +40,8 @@
 		return
 	return ..()
 
-/obj/item/clothing/head/costume/kitty/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
-	if(at_peace_check(usr))
+/obj/item/clothing/head/costume/kitty/mouse_drop_dragged(atom/over_object, mob/user, src_location, over_location, params)
+	if(at_peace_check(user))
 		return
 	return ..()
 

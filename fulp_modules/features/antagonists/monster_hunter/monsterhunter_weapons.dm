@@ -18,6 +18,12 @@
 	var/enabled = FALSE
 
 
+/obj/item/melee/trick_weapon/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This is a trick weapon.")
+		. += span_notice("It will deal less damage to anyone who isn't sufficiently monstrous.")
+
 /obj/item/melee/trick_weapon/proc/upgrade_weapon()
 	SIGNAL_HANDLER
 
@@ -69,8 +75,18 @@
 		w_class_on = WEIGHT_CLASS_BULKY)
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
+	register_item_context()
 
+/obj/item/melee/trick_weapon/darkmoon/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
+	. = ..()
+	if(enabled)
+		context[SCREENTIP_CONTEXT_RMB] = "Fire Moonbeam"
+		return CONTEXTUAL_SCREENTIP_SET
 
+/obj/item/melee/trick_weapon/darkmoon/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("<b>Right-click</b> a target when this weapon is active to fire a beam of moonlight at it.")
 
 /obj/item/melee/trick_weapon/darkmoon/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
@@ -87,7 +103,7 @@
 /obj/item/melee/trick_weapon/darkmoon/attack_secondary(atom/target, mob/living/user, clickparams)
 	return SECONDARY_ATTACK_CONTINUE_CHAIN
 
-/obj/item/melee/trick_weapon/darkmoon/afterattack_secondary(atom/target, mob/living/user, clickparams)
+/obj/item/melee/trick_weapon/darkmoon/ranged_interact_with_atom_secondary(atom/target, mob/living/user, clickparams)
 	if(!enabled)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(!COOLDOWN_FINISHED(src, moonbeam_fire))
@@ -98,7 +114,7 @@
 	fire_moonbeam(target, user, clickparams)
 	user.changeNext_move(CLICK_CD_MELEE)
 	COOLDOWN_START(src, moonbeam_fire, 4 SECONDS)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/melee/trick_weapon/darkmoon/proc/fire_moonbeam(atom/target, mob/living/user, clickparams)
 	var/modifiers = params2list(clickparams)
@@ -157,6 +173,11 @@
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
 	RegisterSignal(src,WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
+/obj/item/melee/trick_weapon/threaded_cane/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When transformed into a whip this weapon can hit enemies who are up to two tiles away.")
+
 /obj/item/melee/trick_weapon/threaded_cane/proc/on_transform(obj/item/source, mob/user, active)
 	SIGNAL_HANDLER
 	balloon_alert(user, active ? "extended" : "collapsed")
@@ -200,6 +221,11 @@
 	)
 	RegisterSignal(src, WEAPON_UPGRADE, PROC_REF(upgrade_weapon))
 
+/obj/item/melee/trick_weapon/hunter_axe/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When wielded in both hands this weapon deals more damage.")
+
 /obj/item/melee/trick_weapon/hunter_axe/upgrade_weapon()
 
 	upgrade_level++
@@ -223,9 +249,14 @@
 
 /obj/item/rabbit_eye
 	name = "Rabbit eye"
-	desc = "An item that resonates with trick weapons."
+	desc = "The bloodshot lenses of a lost rabbit."
 	icon_state = "rabbit_eye"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+
+/obj/item/rabbit_eye/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("Apply this to the weapon forge in Wonderland <b>with combat mode enabled</b> to upgrade any trick weapon currently on the forge.")
 
 /obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
@@ -242,11 +273,16 @@
 
 /obj/item/gun/ballistic/revolver/hunter_revolver
 	name = "\improper Hunter's Revolver"
-	desc = "Does minimal damage but slows down the enemy."
+	desc = "A revolver delicately modified with some form of alchemical apparatus. It smells of rusted copper."
 	icon_state = "revolver"
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
+
+/obj/item/gun/ballistic/revolver/hunter_revolver/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This revolver deals miniscule damage, but it will temporarily slow down any monster shot with it.")
 
 /datum/movespeed_modifier/silver_bullet
 	movetypes = GROUND
@@ -297,25 +333,48 @@
 	icon_state = "altar"
 	resistance_flags = INDESTRUCTIBLE
 
-/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
-	if(!istype(organ, /obj/item/rabbit_eye))
-		return ..()
-	var/obj/item/rabbit_eye/eye = organ
+/obj/structure/rack/weaponsmith/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("This forge can be used to upgrade trick weapons with rabbit eyes.")
+
+//Used to find a trick weapon placed on the smithing table and return it
+/obj/structure/rack/weaponsmith/proc/identify_weapon()
 	var/obj/item/melee/trick_weapon/tool
 	for(var/obj/item/weapon in src.loc.contents)
 		if(!istype(weapon, /obj/item/melee/trick_weapon))
 			continue
 		tool = weapon
 		break
-	if(!tool)
+	if(tool)
+		return tool
+
+/obj/structure/rack/weaponsmith/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
+	if(!istype(held_item, /obj/item/rabbit_eye))
+		return
+	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
+	if(weapon in source.loc.contents == FALSE)
+		return
+	if(weapon.upgrade_level >= 3)
+		return
+	context[SCREENTIP_CONTEXT_LMB] = "Upgrade Weapon with Combat Mode Active"
+	return CONTEXTUAL_SCREENTIP_SET
+
+/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
+	if(!istype(organ, /obj/item/rabbit_eye))
+		return ..()
+	var/obj/item/rabbit_eye/eye = organ
+	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
+	if(!weapon)
 		to_chat(user, span_warning ("Place your weapon upon the table before upgrading it!"))
 		return
-	eye.upgrade(tool,user)
+	eye.upgrade(weapon, user)
 
 
 /obj/item/clothing/mask/cursed_rabbit
 	name = "Damned Rabbit Mask"
-	desc = "Slip into wonderland."
+	desc = "An eerie visage covered with a light, almost reflective fur."
 	icon =  'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "rabbit_mask"
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
@@ -333,6 +392,12 @@
 	. = ..()
 	generate_abilities()
 
+/obj/item/clothing/mask/cursed_rabbit/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("You can use this mask to teleport to Wonderland for a short period of time.")
+		. += span_notice("It can also be used to phase through reality by repeatedly transposing your location with that of a paradox rabbit.")
+		. += span_boldnotice("Do not leave it in Wonderland unless you wish to risk losing it forever.")
 
 /obj/item/clothing/mask/cursed_rabbit/proc/generate_abilities()
 	var/datum/action/cooldown/paradox/para = new
@@ -374,7 +439,7 @@
 
 /obj/item/rabbit_locator
 	name = "Accursed Red Queen card"
-	desc = "Hunts down the white rabbits."
+	desc = "A card bearing the sinister face of an unknown monarch. It is otherwise unremarkable."
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
@@ -392,6 +457,12 @@
 		return
 	hunter = killer
 	hunter.locator = src
+
+/obj/item/rabbit_locator/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("When <b>used in hand</b> this card will vaguely indicate your distance to a nearby rabbit on the station, allowing you to gradually deduce its location.")
+		. += span_boldnotice("This card cannot be replaced.")
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if (!COOLDOWN_FINISHED(src, locator_timer))
@@ -466,7 +537,10 @@
 	ex_light = 4
 	ex_flame = 2
 
-
+/obj/item/grenade/jack/examine(mob/user)
+	. = ..()
+	if(IS_MONSTERHUNTER(user))
+		. += span_notice("<b>This is a bomb.</b> Use it with utmost caution.")
 
 /obj/item/grenade/jack/arm_grenade(mob/user, delayoverride, msg = TRUE, volume = 60)
 	log_grenade(user) //Inbuilt admin procs already handle null users
