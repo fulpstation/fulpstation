@@ -64,8 +64,15 @@
 	name = "Helio Station Emergency Shuttle"
 	credit_cost = CARGO_CRATE_VALUE * 4
 	description = "For when you're not quite ready to say goodbye to your home station. Big shuttle with lots of space."
-	admin_notes = "Comes with an inmortal barmaid and bardrone."
+	admin_notes = "Comes with an immortal barmaid and bardrone."
 	occupancy_limit = "50"
+
+/datum/map_template/shuttle/emergency/fulp/theia
+	suffix = "theia"
+	name = "Theia Station Emergency Shuttle"
+	credit_cost = CARGO_CRATE_VALUE * 4
+	description = "A mid-sized shuttle with lots of open space; equipped with all essential amenities and a coffee shop!"
+	occupancy_limit = "45"
 
 /**
  * LABOUR SHUTTLE

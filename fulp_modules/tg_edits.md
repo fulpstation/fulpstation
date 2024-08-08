@@ -38,6 +38,7 @@
 - _maps/theiastation.json
 - _maps/shuttles/arrival_fulp.dmm
 - _maps/shuttles/cargo_fulp.dmm
+- _maps/shuttles/emergency_theia.dmm
 
 #### TGUI
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
