@@ -20,6 +20,8 @@
 	var/rabbits_spotted = 0
 	///the list of white rabbits
 	var/list/obj/effect/client_image_holder/white_rabbit/rabbits = list()
+	///a list of monster hunter action/spell names; currently only used to make the on_remove() proc functional
+	var/list/monster_hunter_actions = list("Summon Monster Hunter tools", "Hunter Vision", "Recall Threaded Cane", "Recall Hunter's Axe", "Recall Darkmoon Greatsword")
 	///the red card tied to this trauma if any
 	var/obj/item/rabbit_locator/locator
 	///a list of our prey
@@ -32,12 +34,14 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
 	owner.unconvertable = TRUE
+	current_mob.faction |= FACTION_RABBITS
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
 	owner.unconvertable = FALSE
+	current_mob.faction -= FACTION_RABBITS
 
 /datum/antagonist/monsterhunter/on_gain()
 	//Give Hunter Objective
@@ -83,15 +87,20 @@
 		contract.owner = src
 	summon_contract.Grant(owner.current)
 
-/datum/antagonist/monsterhunter/on_removal()
+/datum/antagonist/monsterhunter/on_removal() //M̶a̶y̶ ̶n̶e̶e̶d Probably needs further improvements
 	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
 	UnregisterSignal(src, COMSIG_BEASTIFY)
-	for(var/obj/effect/client_image_holder/white_rabbit/white as anything in rabbits)
-		rabbits -= white
-		qdel(white)
+	owner.forget_crafting_recipe(/datum/crafting_recipe/hardened_stake)
+	owner.forget_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	if(locator)
 		locator.hunter = null
 	locator = null
+	for(var/datum/action/specific_action in owner.current.actions)
+		if(specific_action.name in monster_hunter_actions)
+			qdel(specific_action)
+	for(var/obj/effect/client_image_holder/white_rabbit/white as anything in rabbits)
+		rabbits -= white
+		qdel(white)
 	to_chat(owner.current, span_userdanger("Your hunt has ended: you enter retirement once again, and are no longer \a [name]."))
 	return ..()
 

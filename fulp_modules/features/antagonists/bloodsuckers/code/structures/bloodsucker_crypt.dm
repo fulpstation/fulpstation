@@ -417,7 +417,8 @@
 	light_range = 0
 	density = FALSE
 	anchored = FALSE
-	var/lit = FALSE
+	interaction_flags_click = BYPASS_ADJACENCY // Needed for the Ctrl+Click ranged interaction.
+	var/lit = FALSE 						  //I'm sure it will have no unforeseen consequences, none whatsoever
 	var/active_light_range = 3
 
 /obj/structure/bloodsucker/lighting/Initialize()
@@ -468,15 +469,12 @@
 	return ..()
 
 /obj/structure/bloodsucker/lighting/click_ctrl(mob/user)
-	. = ..()
-	if(in_range(src, usr))
-		return
-	if(anchored && IS_BLOODSUCKER(usr))
+	if(!in_range(src, user) && anchored && IS_BLOODSUCKER(user))
 		toggle()
-		usr.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
+		user.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
 		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
-		return
-	return
+		return CLICK_ACTION_SUCCESS
+	return CLICK_ACTION_BLOCKING
 
 /obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
