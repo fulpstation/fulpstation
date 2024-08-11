@@ -7291,6 +7291,11 @@
 	dir = 4
 	},
 /obj/machinery/light/directional/west,
+/obj/machinery/button/door/directional/west{
+	id = "armory";
+	name = "Armory Shutters";
+	req_access = list("armory")
+	},
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "cTm" = (
@@ -7340,11 +7345,6 @@
 	dir = 1;
 	id = "QMLoad"
 	},
-/obj/machinery/camera/directional/east{
-	c_tag = "Science - Robotics Lab";
-	name = "science camera";
-	network = list("ss13","rd")
-	},
 /turf/open/floor/iron/dark,
 /area/station/science/robotics/lab)
 "cUq" = (
@@ -7376,6 +7376,11 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Security - Warden's Office";
 	name = "camera"
+	},
+/obj/machinery/button/door/directional/east{
+	name = "Armory Shutters";
+	id = "armory";
+	req_access = list("armory")
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
@@ -7708,6 +7713,13 @@
 /area/station/security/prison/toilet)
 "ddN" = (
 /obj/structure/showcase/cyborg,
+/obj/machinery/turretid{
+	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
+	name = "Foyer Turret Control";
+	pixel_x = -4;
+	req_access = list("minisat");
+	pixel_y = -23
+	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/ai_monitored/turret_protected/aisat/foyer)
 "ddP" = (
@@ -14063,6 +14075,7 @@
 /obj/machinery/vending/wardrobe/cargo_wardrobe,
 /obj/effect/turf_decal/tile/brown/fourcorners,
 /obj/machinery/light/small/directional/west,
+/obj/machinery/camera/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/office)
 "fDn" = (
@@ -17548,6 +17561,18 @@
 	},
 /turf/open/floor/carpet/donk,
 /area/station/service/library/printer)
+"gXP" = (
+/obj/effect/turf_decal/trimline/red/filled/line{
+	dir = 4
+	},
+/obj/machinery/camera/directional/east,
+/obj/machinery/button/door/directional/east{
+	id = "armory";
+	name = "Armory Shutters";
+	req_access = list("armory")
+	},
+/turf/open/floor/iron,
+/area/station/security/brig)
 "gXQ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -21126,6 +21151,10 @@
 	},
 /turf/open/floor/iron/large,
 /area/station/cargo/storage)
+"iBI" = (
+/obj/machinery/camera/directional/south,
+/turf/open/floor/iron,
+/area/station/cargo/warehouse)
 "iBP" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -29500,6 +29529,10 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/virology,
 /turf/open/floor/iron/white,
 /area/station/medical/virology)
+"lYf" = (
+/obj/machinery/telecomms/processor/preset_two,
+/turf/open/floor/circuit/red/telecomms,
+/area/station/tcommsat/server)
 "lYh" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -32679,10 +32712,6 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "nqv" = (
-/obj/item/wallframe/telescreen/research{
-	pixel_x = -32;
-	pixel_y = 32
-	},
 /obj/effect/landmark/start/depsec/engineering,
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -32690,6 +32719,10 @@
 	},
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 9
+	},
+/obj/machinery/computer/security/telescreen/engine/directional/north{
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /turf/open/floor/iron,
 /area/station/security/checkpoint/engineering)
@@ -36801,11 +36834,6 @@
 /area/station/hallway/primary/fore)
 "pba" = (
 /obj/machinery/light/directional/west,
-/obj/machinery/camera/directional/west{
-	c_tag = "Cargo - warehouse";
-	name = "cargo camera";
-	network = list("ss13","cargo")
-	},
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
 "pbz" = (
@@ -40275,6 +40303,7 @@
 	},
 /obj/item/hand_labeler,
 /obj/item/pen,
+/obj/item/holosign_creator/robot_seat/bar,
 /turf/open/floor/iron/dark/textured,
 /area/station/service/bar)
 "qEn" = (
@@ -43721,6 +43750,7 @@
 	},
 /obj/item/radio/intercom/directional/north,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/camera/directional/north,
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
 "sbB" = (
@@ -43732,12 +43762,6 @@
 	},
 /obj/machinery/light/small/directional/east,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/turretid{
-	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
-	name = "Foyer Turret Control";
-	pixel_x = -28;
-	req_access = list("minisat")
-	},
 /obj/structure/cable,
 /obj/structure/cable/layer3,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -50927,15 +50951,15 @@
 /turf/open/floor/iron/white,
 /area/station/science/lobby)
 "vhI" = (
-/obj/item/wallframe/telescreen/research{
-	pixel_x = -32;
-	pixel_y = 32
-	},
 /obj/effect/turf_decal/tile/purple/fourcorners,
 /obj/effect/landmark/start/depsec/science,
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 4
+	},
+/obj/machinery/computer/security/telescreen/research/directional/north{
+	pixel_x = -32;
+	pixel_y = 32
 	},
 /turf/open/floor/iron/white,
 /area/station/security/checkpoint/science)
@@ -67397,7 +67421,7 @@ ljK
 wOt
 wxw
 umD
-nso
+lYf
 veB
 iyE
 wSz
@@ -79497,7 +79521,7 @@ kJv
 ljs
 oPN
 iWg
-iWg
+iBI
 oaJ
 oaJ
 oaJ
@@ -99238,7 +99262,7 @@ qSU
 yjU
 kbz
 fdw
-gVe
+gXP
 gVe
 xOr
 gVe
