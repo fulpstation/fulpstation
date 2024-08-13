@@ -39,7 +39,6 @@
 	id = "wumbo_inflated"
 	duration = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/inflated
-	show_duration = TRUE
 
 /atom/movable/screen/alert/status_effect/inflated
 	name = "WUMBO"

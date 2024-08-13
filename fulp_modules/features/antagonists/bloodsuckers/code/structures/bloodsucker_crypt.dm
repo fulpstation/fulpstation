@@ -111,7 +111,6 @@
 	density = TRUE
 	can_buckle = TRUE
 	buckle_lying = 180
-	buckle_prevents_pull = TRUE
 	ghost_desc = "This is a persuassion rack, which allows Bloodsuckers to thrall crewmembers into loyal minions."
 	vamp_desc = "This is a persuassion rack, which allows you to thrall crewmembers into loyal minions in your service.\n\
 		Simply drag a victim's sprite onto the rack to buckle them to it. Right-click on the rack to unbuckle them.\n\
@@ -151,14 +150,14 @@
 	density = TRUE
 	anchored = FALSE
 
-/obj/structure/bloodsucker/vassalrack/mouse_drop_receive(atom/target, mob/user, params)
-	var/mob/living/living_target = target
+/obj/structure/bloodsucker/vassalrack/MouseDrop_T(atom/movable/movable_atom, mob/user)
+	var/mob/living/living_target = movable_atom
 	if(!anchored && IS_BLOODSUCKER(user))
 		to_chat(user, span_danger("Until this rack is secured in place, it cannot serve its purpose."))
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine the persuasion rack to understand how it functions!"))
 		return
 	// Default checks
-	if(!isliving(target) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
+	if(!isliving(movable_atom) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
 		return
 	// Don't buckle Silicon to it please.
 	if(issilicon(living_target))
@@ -284,6 +283,7 @@
 
 	var/disloyalty_requires = RequireDisloyalty(user, target)
 	if(disloyalty_requires == VASSALIZATION_BANNED)
+		balloon_alert(user, "can't be vassalized!")
 		return FALSE
 
 	// Conversion Process

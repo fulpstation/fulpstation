@@ -301,24 +301,11 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	/// The offer we're linked to, yes this is suspiciously like a status effect alert
 	var/datum/status_effect/offering/offer
 	/// Additional text displayed in the description of the alert.
-	var/additional_desc_text = "Click this alert to take it, or shift click it to examiante it."
-	/// Text to override what appears in screentips for the alert
-	var/screentip_override_text
-	/// Whether the offered item can be examined by shift-clicking the alert
-	var/examinable = TRUE
-
-/atom/movable/screen/alert/give/Initialize(mapload, datum/hud/hud_owner)
-	. = ..()
-	register_context()
+	var/additional_desc_text = "Click this alert to take it."
 
 /atom/movable/screen/alert/give/Destroy()
 	offer = null
 	return ..()
-
-/atom/movable/screen/alert/give/add_context(atom/source, list/context, obj/item/held_item, mob/user)
-	context[SCREENTIP_CONTEXT_LMB] = screentip_override_text || "Take [offer.offered_item.name]"
-	context[SCREENTIP_CONTEXT_SHIFT_LMB] = "Examine"
-	return CONTEXTUAL_SCREENTIP_SET
 
 /**
  * Handles assigning most of the variables for the alert that pops up when an item is offered
@@ -370,16 +357,6 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 	handle_transfer()
 
-/atom/movable/screen/alert/give/examine(mob/user)
-	if(!examinable)
-		return ..()
-
-	return list(
-		span_boldnotice(name),
-		span_info("[offer.owner] is offering you the following item (click the alert to take it!):"),
-		"<hr>[jointext(offer.offered_item.examine(user), "\n")]",
-	)
-
 /// An overrideable proc used simply to hand over the item when claimed, this is a proc so that high-fives can override them since nothing is actually transferred
 /atom/movable/screen/alert/give/proc/handle_transfer()
 	var/mob/living/carbon/taker = owner
@@ -390,8 +367,6 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 /atom/movable/screen/alert/give/highfive
 	additional_desc_text = "Click this alert to slap it."
-	screentip_override_text = "High Five"
-	examinable = FALSE
 	/// Tracks active "to slow"ing so we can't spam click
 	var/too_slowing_this_guy = FALSE
 
@@ -449,10 +424,6 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 	if(QDELETED(offer.offered_item))
 		examine_list += span_warning("[source]'s arm appears tensed up, as if [source.p_they()] plan on pulling it back suddenly...")
-
-/atom/movable/screen/alert/give/hand
-	screentip_override_text = "Take Hand"
-	examinable = FALSE
 
 /atom/movable/screen/alert/give/hand/get_receiving_name(mob/living/carbon/taker, mob/living/carbon/offerer, obj/item/receiving)
 	additional_desc_text = "Click this alert to take it and let [offerer.p_them()] pull you around!"
@@ -525,7 +496,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	alerttooltipstyle = "cult"
 	var/static/image/narnar
 	var/angle = 0
-	var/mob/living/basic/construct/construct_owner
+	var/mob/living/basic/construct/Cviewer
 
 /atom/movable/screen/alert/bloodsense/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
@@ -533,7 +504,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	START_PROCESSING(SSprocessing, src)
 
 /atom/movable/screen/alert/bloodsense/Destroy()
-	construct_owner = null
+	Cviewer = null
 	STOP_PROCESSING(SSprocessing, src)
 	return ..()
 
@@ -543,53 +514,45 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	if(!owner.mind)
 		return
 
-	if(isconstruct(owner))
-		construct_owner = owner
-	else
-		construct_owner = null
-
-	// construct track
-	if(construct_owner?.seeking && construct_owner.construct_master)
-		blood_target = construct_owner.construct_master
-		desc = "Your blood sense is leading you to [construct_owner.construct_master]"
-
-	// cult track
 	var/datum/antagonist/cult/antag = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
-	if(antag)
-		var/datum/objective/sacrifice/sac_objective = locate() in antag.cult_team.objectives
-		if(antag.cult_team.blood_target)
-			if(!get_turf(antag.cult_team.blood_target))
-				antag.cult_team.unset_blood_target()
-			else
-				blood_target = antag.cult_team.blood_target
-		if(!blood_target)
-			if(sac_objective && !sac_objective.check_completion())
-				if(icon_state == "runed_sense0")
-					return
-				animate(src, transform = null, time = 1, loop = 0)
-				angle = 0
-				cut_overlays()
-				icon_state = "runed_sense0"
-				desc = "Nar'Sie demands that [sac_objective.target] be sacrificed before the summoning ritual can begin."
-				add_overlay(sac_objective.sac_image)
-			else
-				var/datum/objective/eldergod/summon_objective = locate() in antag.cult_team.objectives
-				if(!summon_objective)
-					return
-				var/list/location_list = list()
-				for(var/area/area_to_check in summon_objective.summon_spots)
-					location_list += area_to_check.get_original_area_name()
-				desc = "The sacrifice is complete, summon Nar'Sie! The summoning can only take place in [english_list(location_list)]!"
-				if(icon_state == "runed_sense1")
-					return
-				animate(src, transform = null, time = 1, loop = 0)
-				angle = 0
-				cut_overlays()
-				icon_state = "runed_sense1"
-				add_overlay(narnar)
-			return
+	if(!antag)
+		return
+	var/datum/objective/sacrifice/sac_objective = locate() in antag.cult_team.objectives
 
-	// actual tracking
+	if(antag.cult_team.blood_target)
+		if(!get_turf(antag.cult_team.blood_target))
+			antag.cult_team.unset_blood_target()
+		else
+			blood_target = antag.cult_team.blood_target
+	if(Cviewer?.seeking && Cviewer.master)
+		blood_target = Cviewer.master
+		desc = "Your blood sense is leading you to [Cviewer.master]"
+	if(!blood_target)
+		if(sac_objective && !sac_objective.check_completion())
+			if(icon_state == "runed_sense0")
+				return
+			animate(src, transform = null, time = 1, loop = 0)
+			angle = 0
+			cut_overlays()
+			icon_state = "runed_sense0"
+			desc = "Nar'Sie demands that [sac_objective.target] be sacrificed before the summoning ritual can begin."
+			add_overlay(sac_objective.sac_image)
+		else
+			var/datum/objective/eldergod/summon_objective = locate() in antag.cult_team.objectives
+			if(!summon_objective)
+				return
+			var/list/location_list = list()
+			for(var/area/area_to_check in summon_objective.summon_spots)
+				location_list += area_to_check.get_original_area_name()
+			desc = "The sacrifice is complete, summon Nar'Sie! The summoning can only take place in [english_list(location_list)]!"
+			if(icon_state == "runed_sense1")
+				return
+			animate(src, transform = null, time = 1, loop = 0)
+			angle = 0
+			cut_overlays()
+			icon_state = "runed_sense1"
+			add_overlay(narnar)
+		return
 	var/turf/P = get_turf(blood_target)
 	var/turf/Q = get_turf(owner)
 	if(!P || !Q || (P.z != Q.z)) //The target is on a different Z level, we cannot sense that far.
@@ -601,7 +564,6 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 		desc = "You are currently tracking [real_target.real_name] in [get_area_name(blood_target)]."
 	else
 		desc = "You are currently tracking [blood_target] in [get_area_name(blood_target)]."
-
 	var/target_angle = get_angle(Q, P)
 	var/target_dist = get_dist(P, Q)
 	cut_overlays()
@@ -1095,7 +1057,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 		return FALSE
 	var/list/modifiers = params2list(params)
 	if(LAZYACCESS(modifiers, SHIFT_CLICK)) // screen objects don't do the normal Click() stuff so we'll cheat
-		to_chat(usr, examine_block(jointext(examine(usr), "\n")))
+		to_chat(usr, span_boldnotice("[name]</span> - <span class='info'>[desc]"))
 		return FALSE
 	var/datum/our_master = master_ref?.resolve()
 	if(our_master && click_master)
@@ -1109,9 +1071,3 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	master_ref = null
 	owner = null
 	screen_loc = ""
-
-/atom/movable/screen/alert/examine(mob/user)
-	return list(
-		span_boldnotice(name),
-		span_info(desc),
-	)

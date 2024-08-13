@@ -8,7 +8,7 @@
 	base_icon_state = "foamdart"
 	range = 10
 	shrapnel_type = null
-	embed_type = null
+	embedding = null
 	var/modified = FALSE
 	var/obj/item/pen/pen = null
 

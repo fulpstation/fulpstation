@@ -1,9 +1,9 @@
+import { KEY } from 'common/keys';
+import { BooleanLike } from 'common/react';
 import { KeyboardEvent, useState } from 'react';
-import { Autofocus, Box, Button, Section, Stack } from 'tgui-core/components';
-import { isEscape, KEY } from 'tgui-core/keys';
-import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
+import { Autofocus, Box, Button, Section, Stack } from '../components';
 import { Window } from '../layouts';
 import { Loader } from './common/Loader';
 
@@ -55,6 +55,9 @@ export function AlertModal(props) {
       case KEY.Enter:
         act('choose', { choice: buttons[selected] });
         return;
+      case KEY.Escape:
+        act('cancel');
+        return;
       case KEY.Left:
         event.preventDefault();
         onKey(DIRECTION.Decrement);
@@ -64,12 +67,6 @@ export function AlertModal(props) {
         event.preventDefault();
         onKey(DIRECTION.Increment);
         return;
-
-      default:
-        if (isEscape(event.key)) {
-          act('cancel');
-          return;
-        }
     }
   }
 

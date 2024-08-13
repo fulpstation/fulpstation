@@ -1,9 +1,11 @@
+import { multiline } from 'common/string';
+
 import { CheckboxInput, CheckboxInputInverse, FeatureToggle } from '../base';
 
 export const admin_ignore_cult_ghost: FeatureToggle = {
   name: 'Prevent being summoned as a cult ghost',
   category: 'ADMIN',
-  description: `
+  description: multiline`
     When enabled and observing, prevents Spirit Realm from forcing you
     into a cult ghost.
   `,

@@ -78,7 +78,6 @@ GLOBAL_LIST_EMPTY(gravity_generators)
 /obj/machinery/gravity_generator/part/Destroy()
 	atom_break()
 	if(main_part)
-		main_part.generator_parts -= src
 		UnregisterSignal(main_part, COMSIG_ATOM_UPDATED_ICON)
 		main_part = null
 	return ..()

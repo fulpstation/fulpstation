@@ -15,7 +15,6 @@
 		return COMPONENT_INCOMPATIBLE
 
 	var/atom/atom_parent = parent
-	atom_parent.flags_1 |= HAS_CONTEXTUAL_SCREENTIPS_1
 
 	src.toggle_noun = toggle_noun
 	src.base_icon_state = atom_parent.base_icon_state || atom_parent.icon_state
@@ -23,10 +22,9 @@
 /datum/component/toggle_icon/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(on_click_alt))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
-	RegisterSignal(parent, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM, PROC_REF(on_adding_context))
 
 /datum/component/toggle_icon/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_CLICK_ALT, COMSIG_ATOM_EXAMINE, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM))
+	UnregisterSignal(parent, list(COMSIG_CLICK_ALT, COMSIG_ATOM_EXAMINE))
 
 /*
  * Signal proc for COMSIG_CLICK_ALT.
@@ -36,15 +34,24 @@
  * source - the atom being clicked on
  * user - the mob doing the click
  */
-/datum/component/toggle_icon/proc/on_click_alt(atom/source, mob/living/living_user)
+/datum/component/toggle_icon/proc/on_click_alt(atom/source, mob/user)
 	SIGNAL_HANDLER
 
-	if(!isliving(living_user) || !living_user.can_perform_action(source))
+	if(!isliving(user))
 		return
 
-	if(living_user.usable_hands <= 0)
-		source.balloon_alert(living_user, "you don't have hands!")
+	var/mob/living/living_user = user
+
+	if(!living_user.Adjacent(source))
 		return
+
+	if(living_user.incapacitated())
+		source.balloon_alert(user, "you're incapacitated!")
+		return CLICK_ACTION_BLOCKING
+
+	if(living_user.usable_hands <= 0)
+		source.balloon_alert(user, "you don't have hands!")
+		return CLICK_ACTION_BLOCKING
 
 	do_icon_toggle(source, living_user)
 	return CLICK_ACTION_SUCCESS
@@ -61,21 +68,6 @@
 	SIGNAL_HANDLER
 
 	examine_list += span_notice("Alt-click on [source] to toggle the [toggle_noun].")
-
-/*
- * Signal proc for COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM.
- * Adds usage context for toggling the parent open or closed.
- *
- * source - the atom context is requested from (parent)
- * context - the list of usage contexts set
- * held_item - the item held by the requesting mob
- * user - the mob requesting context
- */
-/datum/component/toggle_icon/proc/on_adding_context(atom/source, list/context, obj/item/held_item, mob/user)
-	SIGNAL_HANDLER
-
-	context[SCREENTIP_CONTEXT_ALT_LMB] = "Toggle [toggle_noun]"
-	return CONTEXTUAL_SCREENTIP_SET
 
 /*
  * Actually do the toggle of the icon.

@@ -12,20 +12,16 @@
 	var/datum/species/selected_species
 	var/valid_species = list()
 
-/obj/item/debug/human_spawner/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	return interact_with_atom(interacting_with, user, modifiers)
-
-/obj/item/debug/human_spawner/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if(isturf(interacting_with))
-		var/mob/living/carbon/human/H = new /mob/living/carbon/human(interacting_with)
+/obj/item/debug/human_spawner/afterattack(atom/target, mob/user, proximity)
+	..()
+	if(isturf(target))
+		var/mob/living/carbon/human/H = new /mob/living/carbon/human(target)
 		if(selected_species)
 			H.set_species(selected_species)
-		return ITEM_INTERACT_SUCCESS
-	return NONE
 
 /obj/item/debug/human_spawner/attack_self(mob/user)
 	..()
-	var/choice = input("Select a species", "Human Spawner", null) in sortTim(GLOB.species_list, GLOBAL_PROC_REF(cmp_text_asc))
+	var/choice = input("Select a species", "Human Spawner", null) in GLOB.species_list
 	selected_species = GLOB.species_list[choice]
 
 /obj/item/debug/omnitool
@@ -143,10 +139,6 @@
 		if("Wire Brush")
 			tool_behaviour = TOOL_RUSTSCRAPER
 
-/obj/item/debug/omnitool/item_spawner
-	name = "spawntool"
-	color = COLOR_ADMIN_PINK
-
 /obj/item/debug/omnitool/item_spawner/attack_self(mob/user)
 	if(!user || !user.client)
 		return
@@ -176,3 +168,4 @@
 	var/turf/loc_turf = get_turf(src)
 	for(var/spawn_atom in (choice == "No" ? typesof(path) : subtypesof(path)))
 		new spawn_atom(loc_turf)
+

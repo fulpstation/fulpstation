@@ -83,8 +83,7 @@
 #define FACTION_TURRET "turret"
 /// Vines, lots of overlap with plants
 #define FACTION_VINES "vines"
-///raptor factions
-#define FACTION_RAPTOR "raptor"
+
 // Antagonist factions
 
 /// Cultists and their constructs

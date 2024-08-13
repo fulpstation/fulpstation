@@ -37,11 +37,6 @@ Intended to push a creepy, mad scientist/doctor vibe, or someone who is downrigh
 	mood_change = 3
 	timeout = 6 MINUTES
 
-/datum/mood_event/morbid_aquarium_good
-	description = "Eh eh, all the fish are sleeping..."
-	mood_change = 3
-	timeout = 90 SECONDS
-
 // Negative Events - We helped someone stay alive.
 
 /datum/mood_event/morbid_tend_wounds
@@ -54,7 +49,3 @@ Intended to push a creepy, mad scientist/doctor vibe, or someone who is downrigh
 	mood_change = -6
 	timeout = 2 MINUTES
 
-/datum/mood_event/morbid_aquarium_bad
-	description = "Watching fish in an aquarium is lousy."
-	mood_change = -3
-	timeout = 90 SECONDS

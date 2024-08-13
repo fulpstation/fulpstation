@@ -1,6 +1,8 @@
+import { multiline } from 'common/string';
+
 import { Antagonist, Category } from '../base';
 
-export const MALF_AI_MECHANICAL_DESCRIPTION = `
+export const MALF_AI_MECHANICAL_DESCRIPTION = multiline`
     With a law zero to complete your objectives at all costs, combine your
     omnipotence and malfunction modules to wreak havoc across the station.
     Go delta to destroy the station and all those who opposed you.

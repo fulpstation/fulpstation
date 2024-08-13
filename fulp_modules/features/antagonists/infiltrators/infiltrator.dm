@@ -142,7 +142,7 @@
 	suit = /obj/item/clothing/suit/jacket/oversized
 	gloves = /obj/item/clothing/gloves/fingerless
 	glasses = /obj/item/clothing/glasses/sunglasses
-	mask = /obj/item/cigarette/cigar
+	mask = /obj/item/clothing/mask/cigarette/cigar
 	ears = /obj/item/radio/headset
 	back = /obj/item/storage/backpack
 	backpack_contents = list(

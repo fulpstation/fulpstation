@@ -89,10 +89,6 @@
 	if(!unlucky_server.validate_mutation_candidates())
 		return WAITING_FOR_SOMETHING
 
-	var/mob/spawned = unlucky_server.setup_glitch(forced_role)
-	if(isnull(spawned))
-		return  WAITING_FOR_SOMETHING
-
-	spawned_mobs += spawned
+	spawned_mobs = unlucky_server.setup_glitch(forced_role)
 
 	return SUCCESSFUL_SPAWN

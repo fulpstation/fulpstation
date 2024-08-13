@@ -7,10 +7,8 @@
 	medical_record_text = "Patient can communicate with sign language."
 	mail_goodies = list(/obj/item/clothing/gloves/radio)
 
-/datum/quirk/item_quirk/signer/add(client/client_source)
-	quirk_holder.AddComponent(/datum/component/sign_language)
-
 /datum/quirk/item_quirk/signer/add_unique(client/client_source)
+	quirk_holder.AddComponent(/datum/component/sign_language)
 	var/obj/item/clothing/gloves/gloves_type = /obj/item/clothing/gloves/radio
 	if(isplasmaman(quirk_holder))
 		gloves_type = /obj/item/clothing/gloves/color/plasmaman/radio

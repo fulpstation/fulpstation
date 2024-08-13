@@ -88,17 +88,17 @@
 	else
 		icon_state = "[base_icon_state]-off"
 
-/obj/machinery/atmospherics/components/binary/crystallizer/click_ctrl(mob/user)
-	if(!is_operational)
-		return CLICK_ACTION_BLOCKING
+/obj/machinery/atmospherics/components/binary/crystallizer/CtrlClick(mob/living/user)
+	if(!can_interact(user))
+		return
 	if(panel_open)
 		balloon_alert(user, "close panel!")
-		return CLICK_ACTION_BLOCKING
+		return
 	on = !on
 	balloon_alert(user, "turned [on ? "on" : "off"]")
 	investigate_log("was turned [on ? "on" : "off"] by [key_name(user)]", INVESTIGATE_ATMOS)
 	update_icon()
-	return CLICK_ACTION_SUCCESS
+	return ..()
 
 ///Checks if the reaction temperature is inside the range of temperature + a little deviation
 /obj/machinery/atmospherics/components/binary/crystallizer/proc/check_temp_requirements()

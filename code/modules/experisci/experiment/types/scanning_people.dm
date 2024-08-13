@@ -18,15 +18,15 @@
 		return FALSE
 	if(!ishuman(target))
 		return FALSE
-	return is_valid_scan_target(target, experiment_handler)
+	return is_valid_scan_target(target)
 
 /// Checks that the passed mob is valid human to scan
-/datum/experiment/scanning/people/proc/is_valid_scan_target(mob/living/carbon/human/check, datum/component/experiment_handler/experiment_handler)
+/datum/experiment/scanning/people/proc/is_valid_scan_target(mob/living/carbon/human/check)
 	SHOULD_CALL_PARENT(TRUE)
 	if(!mind_required || !isnull(check.mind))
 		return TRUE
 	if(isliving(usr))
-		experiment_handler.announce_message("Subject is mindless!")
+		check.balloon_alert(usr, "subject is mindless!")
 	return FALSE
 
 /datum/experiment/scanning/people/serialize_progress_stage(atom/target, list/seen_instances)

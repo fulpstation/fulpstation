@@ -35,7 +35,6 @@ export type Supply = {
   id: string;
   name: string;
   small_item: BooleanLike;
-  contraband: BooleanLike;
 };
 
 type CartEntry = {

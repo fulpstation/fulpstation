@@ -23,15 +23,11 @@
 	var/virus_suspectibility = 1
 	///This var defines how much % the organism grows per process(), without modifiers, if you have all required reagents
 	var/growth_rate = 4
-	///This var defines how many units of every reagent is consumed during growth per process()
-	var/consumption_rate = REAGENTS_METABOLISM
-	///Resulting atom from growing this cell line
-	var/atom/resulting_atom
-	///The number of resulting atoms
-	var/resulting_atom_count = 1
+	///Resulting atoms from growing this cell line. List is assoc atom type || amount
+	var/list/resulting_atoms = list()
 
 ///Handles growth of the micro_organism. This only runs if the micro organism is in the growing vat. Reagents is the growing vats reagents
-/datum/micro_organism/cell_line/proc/handle_growth(obj/machinery/vatgrower/vat)
+/datum/micro_organism/cell_line/proc/handle_growth(obj/machinery/plumbing/growing_vat/vat)
 	if(!try_eat(vat.reagents))
 		return FALSE
 	growth = max(growth, growth + calculate_growth(vat.reagents, vat.biological_sample)) //Prevent you from having minus growth.
@@ -45,7 +41,7 @@
 		if(!reagents.has_reagent(i))
 			return FALSE
 	for(var/i in required_reagents) //Delete the required reagents if used
-		reagents.remove_reagent(i, consumption_rate)
+		reagents.remove_reagent(i, REAGENTS_METABOLISM)
 	return TRUE
 
 ///Apply modifiers on growth_rate based on supplementary and supressive reagents. Reagents is the growing vats reagents
@@ -54,27 +50,27 @@
 
 	//Handle growth based on supplementary reagents here.
 	for(var/i in supplementary_reagents)
-		if(!reagents.has_reagent(i, consumption_rate))
+		if(!reagents.has_reagent(i, REAGENTS_METABOLISM))
 			continue
 		. += supplementary_reagents[i]
-		reagents.remove_reagent(i, consumption_rate)
+		reagents.remove_reagent(i, REAGENTS_METABOLISM)
 
 	//Handle degrowth based on supressive reagents here.
 	for(var/i in suppressive_reagents)
-		if(!reagents.has_reagent(i, consumption_rate))
+		if(!reagents.has_reagent(i, REAGENTS_METABOLISM))
 			continue
 		. += suppressive_reagents[i]
-		reagents.remove_reagent(i, consumption_rate)
+		reagents.remove_reagent(i, REAGENTS_METABOLISM)
 
 	//Handle debuffing growth based on viruses here.
 	for(var/datum/micro_organism/virus/active_virus in biological_sample.micro_organisms)
-		if(reagents.has_reagent(/datum/reagent/medicine/spaceacillin, consumption_rate))
-			reagents.remove_reagent(/datum/reagent/medicine/spaceacillin, consumption_rate)
+		if(reagents.has_reagent(/datum/reagent/medicine/spaceacillin, REAGENTS_METABOLISM))
+			reagents.remove_reagent(/datum/reagent/medicine/spaceacillin, REAGENTS_METABOLISM)
 			continue //This virus is stopped, We have antiviral stuff
 		. -= virus_suspectibility
 
 ///Called once a cell line reaches 100 growth. Then we check if any cell_line is too far so we can perform an epic fail roll
-/datum/micro_organism/cell_line/proc/finish_growing(obj/machinery/vatgrower/vat)
+/datum/micro_organism/cell_line/proc/finish_growing(obj/machinery/plumbing/growing_vat/vat)
 	var/risk = 0 //Penalty for failure, goes up based on how much growth the other cell_lines have
 
 	for(var/datum/micro_organism/cell_line/cell_line in vat.biological_sample.micro_organisms)
@@ -90,7 +86,7 @@
 	succeed_growing(vat)
 	return TRUE
 
-/datum/micro_organism/cell_line/proc/fuck_up_growing(obj/machinery/vatgrower/vat)
+/datum/micro_organism/cell_line/proc/fuck_up_growing(obj/machinery/plumbing/growing_vat/vat)
 	vat.visible_message(span_warning("The biological sample in [vat] seems to have dissipated!"))
 	if(prob(50))
 		new /obj/effect/gibspawner/generic(get_turf(vat)) //Spawn some gibs.
@@ -98,32 +94,33 @@
 		return
 	QDEL_NULL(vat.biological_sample)
 
-/datum/micro_organism/cell_line/proc/succeed_growing(obj/machinery/vatgrower/vat)
+/datum/micro_organism/cell_line/proc/succeed_growing(obj/machinery/plumbing/growing_vat/vat)
 	var/datum/effect_system/fluid_spread/smoke/smoke = new
 	smoke.set_up(0, holder = vat, location = vat.loc)
 	smoke.start()
-	for(var/x in 1 to resulting_atom_count)
-		var/atom/thing = new resulting_atom(get_turf(vat))
-		ADD_TRAIT(thing, TRAIT_VATGROWN, "vatgrowing")
-		vat.visible_message(span_nicegreen("[thing] pops out of [vat]!"))
+	for(var/created_thing in resulting_atoms)
+		for(var/x in 1 to resulting_atoms[created_thing])
+			var/atom/thing = new created_thing(get_turf(vat))
+			ADD_TRAIT(thing, TRAIT_VATGROWN, "vatgrowing")
+			vat.visible_message(span_nicegreen("[thing] pops out of [vat]!"))
 	if(SEND_SIGNAL(vat.biological_sample, COMSIG_SAMPLE_GROWTH_COMPLETED) & SPARE_SAMPLE)
 		return
 	QDEL_NULL(vat.biological_sample)
 
 ///Overriden to show more info like needs, supplementary and supressive reagents and also growth.
 /datum/micro_organism/cell_line/get_details(show_details)
-	. += "[span_notice("[desc] - growth progress: [growth]%")]"
+	. += "[span_notice("[desc] - growth progress: [growth]%")]\n"
 	if(show_details)
-		. += "\n- " + return_reagent_text("Requires:", required_reagents)
-		. += "\n- " + return_reagent_text("Likes:", supplementary_reagents)
-		. += "\n- " + return_reagent_text("Hates:", suppressive_reagents)
+		. += return_reagent_text("It requires:", required_reagents)
+		. += return_reagent_text("It likes:", supplementary_reagents)
+		. += return_reagent_text("It hates:", suppressive_reagents)
 
 ///Return a nice list of all the reagents in a specific category with a specific prefix. This needs to be reworked because the formatting sucks ass.
 /datum/micro_organism/cell_line/proc/return_reagent_text(prefix_text = "It requires:", list/reagentlist)
 	if(!reagentlist.len)
 		return
-	var/list/reagent_names = list()
+	var/all_reagents_text
 	for(var/i in reagentlist)
 		var/datum/reagent/reagent = i
-		reagent_names += initial(reagent.name)
-	return span_notice("[prefix_text] [jointext(reagent_names, ", ")]")
+		all_reagents_text += " - [initial(reagent.name)]\n"
+	return span_notice("[prefix_text]\n[all_reagents_text]")

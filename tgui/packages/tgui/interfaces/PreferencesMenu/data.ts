@@ -1,7 +1,6 @@
 import { BooleanLike } from 'common/react';
 
 import { sendAct } from '../../backend';
-import { LoadoutCategory, LoadoutList } from './loadout/base';
 import { Gender } from './preferences/gender';
 
 export enum Food {
@@ -148,8 +147,6 @@ export type PreferencesMenuData = {
       gender: Gender;
       joblessrole: JoblessRole;
       species: string;
-      loadout_list: LoadoutList;
-      job_clothes: BooleanLike;
     };
 
     randomization: Record<string, RandomSetting>;
@@ -193,9 +190,6 @@ export type ServerData = {
   quirks: QuirkInfo;
   random: {
     randomizable: string[];
-  };
-  loadout: {
-    loadout_tabs: LoadoutCategory[];
   };
   species: Record<string, Species>;
   [otheyKey: string]: unknown;

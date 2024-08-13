@@ -1,5 +1,4 @@
-import { DmIcon, Icon, Image } from 'tgui-core/components';
-
+import { DmIcon, Icon, Image } from '../../components';
 import { SearchItem } from './types';
 
 type Props = {
@@ -15,10 +14,6 @@ export function IconDisplay(props: Props) {
 
   if (!icon) {
     return fallback;
-  }
-
-  if (icon === 'n/a') {
-    return <Icon name="dumpster-fire" size={2} color="gray" />;
   }
 
   if (icon_state) {

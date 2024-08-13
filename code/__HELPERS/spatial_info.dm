@@ -283,7 +283,7 @@
 	return atoms
 
 ///Returns the distance between two atoms
-/proc/get_dist_euclidean(atom/first_location, atom/second_location)
+/proc/get_dist_euclidian(atom/first_location as turf|mob|obj, atom/second_location as turf|mob|obj)
 	var/dx = first_location.x - second_location.x
 	var/dy = first_location.y - second_location.y
 
@@ -468,8 +468,5 @@
 		if(possible_spawn in inner)
 			continue
 		peel += possible_spawn
-
-	if(!length(peel))
-		return center //Offer the center only as a default case when we don't have a valid circle.
 	return peel
 

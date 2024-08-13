@@ -10,8 +10,6 @@
 	harmful = FALSE
 	var/modified = FALSE
 	var/static/list/insertable_items_hint = list(/obj/item/pen)
-	///For colored magazine overlays.
-	var/tip_color = "blue"
 
 /obj/item/ammo_casing/foam_dart/Initialize(mapload)
 	. = ..()
@@ -58,5 +56,4 @@
 	projectile_type = /obj/projectile/bullet/foam_dart/riot
 	icon_state = "foamdart_riot"
 	base_icon_state = "foamdart_riot"
-	tip_color = "red"
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT* 1.125)

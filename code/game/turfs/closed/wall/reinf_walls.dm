@@ -14,7 +14,6 @@
 	girder_type = /obj/structure/girder/reinforced
 	explosive_resistance = 2
 	rad_insulation = RAD_HEAVY_INSULATION
-	rust_resistance = RUST_RESISTANCE_REINFORCED
 	heat_capacity = 312500 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall. also indicates the temperature at wich the wall will melt (currently only able to melt with H/E pipes)
 	///Dismantled state, related to deconstruction.
 	var/d_state = INTACT
@@ -223,9 +222,11 @@
 	if(the_rcd.canRturf || rcd_data["[RCD_DESIGN_MODE]"] == RCD_WALLFRAME)
 		return ..()
 
-/turf/closed/wall/r_wall/rust_turf()
+/turf/closed/wall/r_wall/rust_heretic_act()
+	if(prob(50))
+		return
 	if(HAS_TRAIT(src, TRAIT_RUSTY))
-		ChangeTurf(/turf/closed/wall/rust)
+		ScrapeAway()
 		return
 	return ..()
 
@@ -242,7 +243,6 @@
 	smoothing_flags = SMOOTH_BITMASK | SMOOTH_DIAGONAL_CORNERS
 	smoothing_groups = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_CLOSED_TURFS + SMOOTH_GROUP_SYNDICATE_WALLS
 	canSmoothWith = SMOOTH_GROUP_SHUTTLE_PARTS + SMOOTH_GROUP_AIRLOCK + SMOOTH_GROUP_PLASTITANIUM_WALLS + SMOOTH_GROUP_SYNDICATE_WALLS
-	rust_resistance = RUST_RESISTANCE_TITANIUM
 
 /turf/closed/wall/r_wall/syndicate/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	return FALSE

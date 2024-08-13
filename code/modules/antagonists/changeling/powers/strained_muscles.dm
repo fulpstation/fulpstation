@@ -11,7 +11,6 @@
 	req_human = TRUE
 	var/stacks = 0 //Increments every 5 seconds; damage increases over time
 	active = FALSE //Whether or not you are a hedgehog
-	disabled_by_fire = FALSE
 
 /datum/action/changeling/strained_muscles/sting_action(mob/living/carbon/user)
 	..()

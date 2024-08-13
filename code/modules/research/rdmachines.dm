@@ -35,6 +35,7 @@
 	if(stored_research)
 		log_research("[src] disconnected from techweb [stored_research] (destroyed).")
 		stored_research = null
+	QDEL_NULL(wires)
 	return ..()
 
 /obj/machinery/rnd/examine(mob/user)
@@ -71,7 +72,7 @@
 			return CONTEXTUAL_SCREENTIP_SET
 	else
 		if(held_item.tool_behaviour == TOOL_MULTITOOL)
-			var/obj/item/multitool/tool = held_item.get_proxy_attacker_for(src, user)
+			var/obj/item/multitool/tool = held_item
 			if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
 				context[SCREENTIP_CONTEXT_LMB] = "Upload Techweb"
 				context[SCREENTIP_CONTEXT_RMB] = "Upload Techweb"
@@ -106,6 +107,7 @@
 	return screwdriver_act(user, tool)
 
 /obj/machinery/rnd/multitool_act(mob/living/user, obj/item/multitool/tool)
+	. = ITEM_INTERACT_BLOCKING
 	if(panel_open)
 		wires.interact(user)
 		return ITEM_INTERACT_SUCCESS

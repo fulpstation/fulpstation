@@ -103,24 +103,28 @@ const PatientStateView = (props) => {
           <LabeledList>
             <LabeledList.Item label="Next Step">
               {procedure.next_step}
-            </LabeledList.Item>
-            {procedure.chems_needed && (
-              <LabeledList.Item label="Required Chems">
-                <NoticeBox success={procedure.chems_present ? true : false}>
+              {procedure.chems_needed && (
+                <>
+                  <br />
+                  <br />
+                  <b>Required Chemicals:</b>
+                  <br />
                   {procedure.chems_needed}
-                </NoticeBox>
-              </LabeledList.Item>
-            )}
+                </>
+              )}
+            </LabeledList.Item>
             {procedure.alternative_step && (
               <LabeledList.Item label="Alternative Step">
                 {procedure.alternative_step}
-              </LabeledList.Item>
-            )}
-            {procedure.alt_chems_needed && (
-              <LabeledList.Item label="Required Chems">
-                <NoticeBox success={procedure.alt_chems_present ? true : false}>
-                  {procedure.alt_chems_needed}
-                </NoticeBox>
+                {procedure.alt_chems_needed && (
+                  <>
+                    <br />
+                    <br />
+                    <b>Required Chemicals:</b>
+                    <br />
+                    {procedure.alt_chems_needed}
+                  </>
+                )}
               </LabeledList.Item>
             )}
           </LabeledList>

@@ -4,7 +4,7 @@
 	icon = 'icons/obj/weapons/guns/projectiles.dmi'
 	icon_state = "bluespace"
 	density = TRUE
-	anomaly_core = /obj/item/assembly/signaler/anomaly/bluespace
+	aSignal = /obj/item/assembly/signaler/anomaly/bluespace
 	///range from which we can teleport someone
 	var/teleport_range = 1
 	///Distance we can teleport someone passively
@@ -85,7 +85,7 @@
 	immortal = TRUE
 	teleport_range = 2
 	teleport_distance = 12
-	anomaly_core = null
+	aSignal = null
 
 /obj/effect/anomaly/bluespace/big/Initialize(mapload, new_lifespan, drops_core)
 	. = ..()

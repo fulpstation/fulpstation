@@ -42,8 +42,9 @@
 
 /obj/item/reagent_containers/cup/glass/bottle/Initialize(mapload, vol)
 	. = ..()
-	var/static/list/recipes =  list(/datum/crafting_recipe/molotov)
-	AddElement(/datum/element/slapcrafting, recipes)
+	AddComponent(/datum/component/slapcrafting,\
+		slapcraft_recipes = list(/datum/crafting_recipe/molotov)\
+	)
 
 /obj/item/reagent_containers/cup/glass/bottle/small
 	name = "small glass bottle"

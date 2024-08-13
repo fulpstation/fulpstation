@@ -36,33 +36,40 @@
 	user.balloon_alert(user, "[activated ? "activated" : "deactivated"]")
 	return TRUE
 
-/obj/item/bee_smoker/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+/obj/item/bee_smoker/afterattack(atom/attacked_atom, mob/living/user, proximity)
+	. = ..()
+
+	if(!proximity)
+		return
+
+	. |= AFTERATTACK_PROCESSED_ITEM
+
 	if(!activated)
 		user.balloon_alert(user, "not activated!")
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	if(current_herb_fuel < single_use_cost)
 		user.balloon_alert(user, "not enough fuel!")
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	current_herb_fuel -= single_use_cost
 	playsound(src, 'sound/effects/spray2.ogg', 100, TRUE)
-	var/turf/target_turf = get_turf(interacting_with)
+	var/turf/target_turf = get_turf(attacked_atom)
 	new /obj/effect/temp_visual/mook_dust(target_turf)
+
 	for(var/mob/living/basic/bee/friend in target_turf)
 		if(friend.flags_1 & HOLOGRAM_1)
 			continue
 		friend.befriend(user)
 
-	if(!istype(interacting_with, /obj/structure/beebox))
-		return ITEM_INTERACT_BLOCKING
+	if(!istype(attacked_atom, /obj/structure/beebox))
+		return
 
-	var/obj/structure/beebox/hive = interacting_with
+	var/obj/structure/beebox/hive = attacked_atom
 	for(var/mob/living/bee as anything in hive.bees)
 		if(bee.flags_1 & HOLOGRAM_1)
 			continue
 		bee.befriend(user)
-	return ITEM_INTERACT_SUCCESS
 
 /obj/item/bee_smoker/attackby(obj/item/herb, mob/living/carbon/human/user, list/modifiers)
 	. = ..()

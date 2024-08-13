@@ -30,14 +30,15 @@
 	if(default_deconstruction_crowbar(tool))
 		return TRUE
 
-/obj/machinery/mechpad/multitool_act(mob/living/user, obj/item/multitool/multitool)
-	. = NONE
+/obj/machinery/mechpad/multitool_act(mob/living/user, obj/item/tool)
 	if(!panel_open)
 		return
-
+	if(!multitool_check_buffer(user, tool))
+		return
+	var/obj/item/multitool/multitool = tool
 	multitool.set_buffer(src)
 	balloon_alert(user, "saved to multitool buffer")
-	return ITEM_INTERACT_SUCCESS
+	return TRUE
 
 /obj/machinery/mechpad/wirecutter_act(mob/living/user, obj/item/tool)
 	if(!panel_open)
@@ -56,13 +57,13 @@
 	podspawn(list(
 		"target" = get_turf(src),
 		"path" = /obj/structure/closet/supplypod/mechpod,
-		"style" = /datum/pod_style/seethrough,
+		"style" = STYLE_SEETHROUGH,
 		"reverse_dropoff_coords" = list(reverse_turf.x, reverse_turf.y, reverse_turf.z)
 	))
 	use_energy(active_power_usage)
 
 /obj/structure/closet/supplypod/mechpod
-	style = /datum/pod_style/seethrough
+	style = STYLE_SEETHROUGH
 	explosionSize = list(0,0,0,0)
 	reversing = TRUE
 	reverse_option_list = list("Mobs"=FALSE,"Objects"=FALSE,"Anchored"=FALSE,"Underfloor"=FALSE,"Wallmounted"=FALSE,"Floors"=FALSE,"Walls"=FALSE,"Mecha"=TRUE)

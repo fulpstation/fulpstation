@@ -205,7 +205,8 @@
 	SIGNAL_HANDLER
 	var/datum/job_department/department = SSjob.joinable_departments_by_type[/datum/job_department/silicon]
 	department.remove_job(/datum/job/ai)
-	if(GLOB.triple_ai_controller)
+	var/datum/station_trait/triple_ai/triple_ais = locate() in SSstation.station_traits
+	if(triple_ais)
 		position_amount = 3
 
 /// Gives the AI SAT a fax machine if it doesn't have one. This is copy pasted from Bridge Assistant's coffee maker.

@@ -8,7 +8,7 @@
 	dismemberment = 0
 	paralyze = 5 SECONDS
 	stutter = 20 SECONDS
-	embed_type = null
+	embedding = null
 	hitsound = 'sound/effects/meteorimpact.ogg'
 	hitsound_wall = 'sound/weapons/sonic_jackhammer.ogg'
 	/// If our cannonball hits something, it reduces the damage by this value.

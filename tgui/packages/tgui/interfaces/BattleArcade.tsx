@@ -1,7 +1,6 @@
-import { Box, Button, Image, Section } from 'tgui-core/components';
-
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
+import { Box, Button, Image, Section } from '../components';
 import { Window } from '../layouts';
 
 type Data = {

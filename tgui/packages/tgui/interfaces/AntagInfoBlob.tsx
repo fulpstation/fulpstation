@@ -1,3 +1,4 @@
+import { useBackend } from '../backend';
 import {
   Box,
   Collapsible,
@@ -5,9 +6,7 @@ import {
   LabeledList,
   Section,
   Stack,
-} from 'tgui-core/components';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 import { Objective } from './common/Objectives';
 

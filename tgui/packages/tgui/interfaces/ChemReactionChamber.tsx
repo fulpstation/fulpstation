@@ -1,4 +1,7 @@
+import { round, toFixed } from 'common/math';
 import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import {
   AnimatedNumber,
   Box,
@@ -8,10 +11,7 @@ import {
   RoundGauge,
   Section,
   Stack,
-} from 'tgui-core/components';
-import { round, toFixed } from 'tgui-core/math';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 import { MixingData } from './ChemMixingChamber';
 

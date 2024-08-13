@@ -201,14 +201,14 @@ GLOBAL_LIST_EMPTY(order_console_products)
 					ordered_paths += item.item_path
 			podspawn(list(
 				"target" = get_turf(living_user),
-				"style" = /datum/pod_style/advanced,
+				"style" = STYLE_BLUESPACE,
 				"spawn" = ordered_paths,
 			))
 			grocery_list.Cut()
 	return TRUE
 
 /**
- * Checks if an ID card is able to afford the total cost of the current console's groceries
+ * Checks if an ID card is able to afford the total cost of the current console's grocieries
  * and deducts the cost if they can.
  * Args:
  * card - The ID card we check for balance

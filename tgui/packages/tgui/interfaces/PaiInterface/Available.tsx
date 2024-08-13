@@ -15,15 +15,7 @@ import { PaiData } from './types';
 /**
  * Renders a list of available software and the ram with which to download it
  */
-export function AvailableDisplay(props) {
-  const { data } = useBackend<PaiData>();
-  const { available } = data;
-
-  const entries = Object.entries(available);
-  if (entries.length === 0) {
-    return null;
-  }
-
+export const AvailableDisplay = () => {
   return (
     <Section
       buttons={<MemoryDisplay />}
@@ -31,17 +23,13 @@ export function AvailableDisplay(props) {
       scrollable
       title="Available Software"
     >
-      <Table>
-        {entries?.map(([name, cost]) => {
-          return <ListItem cost={cost} key={name} name={name} />;
-        })}
-      </Table>
+      <SoftwareList />
     </Section>
   );
-}
+};
 
 /** Displays the remaining RAM left as a progressbar. */
-function MemoryDisplay(props) {
+const MemoryDisplay = (props) => {
   const { data } = useBackend<PaiData>();
   const { ram } = data;
 
@@ -62,55 +50,70 @@ function MemoryDisplay(props) {
                 bad: [0, 33],
               }}
               value={ram}
-              width={5}
-            >
-              {ram}
-            </ProgressBar>
+            />
           </Table.Cell>
         </Table.Row>
       </Table>
     </Tooltip>
   );
-}
+};
 
-type ListItemProps = {
-  cost: number;
-  name: string;
+/** A list of available software.
+ *  creates table rows for each, like a vendor.
+ */
+const SoftwareList = (props) => {
+  const { data } = useBackend<PaiData>();
+  const { available } = data;
+  if (!available) {
+    return null;
+  }
+  const entries = Object.entries(available);
+  if (entries.length === 0) {
+    return null;
+  }
+
+  return (
+    <Table>
+      {entries?.map(([name, cost], index) => {
+        return <ListItem cost={cost} key={index} name={name} />;
+      })}
+    </Table>
+  );
 };
 
 /** A row for an individual software listing. */
-function ListItem(props: ListItemProps) {
+const ListItem = (props) => {
   const { act, data } = useBackend<PaiData>();
   const { installed, ram } = data;
   const { cost, name } = props;
-
   const purchased = installed.includes(name);
-  const tooExpensive = ram < cost;
 
   return (
-    <Tooltip content={SOFTWARE_DESC[name]} position="bottom-start">
-      <Table.Row className="candystripe">
-        <Table.Cell>
-          <Box color="label">{name}</Box>
-        </Table.Cell>
-        <Table.Cell collapsing>
-          <Box color={tooExpensive && 'bad'} textAlign="right">
-            {!purchased && cost}{' '}
-            <Icon
-              color={purchased || ram >= cost ? 'purple' : 'bad'}
-              name={purchased ? 'check' : 'microchip'}
-            />
-          </Box>
-        </Table.Cell>
-        <Table.Cell collapsing>
-          <Button
-            icon="download"
-            mb={0.5}
-            disabled={tooExpensive || purchased}
-            onClick={() => act('buy', { selection: name })}
+    <Table.Row className="candystripe">
+      <Table.Cell collapsing>
+        <Box color="label">{name}</Box>
+      </Table.Cell>
+      <Table.Cell collapsing>
+        <Box color={ram < cost && 'bad'} textAlign="right">
+          {!purchased && cost}{' '}
+          <Icon
+            color={purchased || ram >= cost ? 'purple' : 'bad'}
+            name={purchased ? 'check' : 'microchip'}
           />
-        </Table.Cell>
-      </Table.Row>
-    </Tooltip>
+        </Box>
+      </Table.Cell>
+      <Table.Cell collapsing>
+        <Button
+          fluid
+          mb={0.5}
+          disabled={ram < cost || purchased}
+          onClick={() => act('buy', { selection: name })}
+          tooltip={SOFTWARE_DESC[name]}
+          tooltipPosition="bottom-start"
+        >
+          <Icon ml={1} mr={-2} name="download" />
+        </Button>
+      </Table.Cell>
+    </Table.Row>
   );
-}
+};

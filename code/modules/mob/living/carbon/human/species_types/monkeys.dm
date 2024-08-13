@@ -1,7 +1,7 @@
 #define MONKEY_SPEC_ATTACK_BITE_MISS_CHANCE 25
 
 /datum/species/monkey
-	name = "\improper Monkey"
+	name = "Monkey"
 	id = SPECIES_MONKEY
 	external_organs = list(
 		/obj/item/organ/external/tail/monkey = "Monkey",
@@ -22,7 +22,6 @@
 	)
 	no_equip_flags = ITEM_SLOT_OCLOTHING | ITEM_SLOT_GLOVES | ITEM_SLOT_FEET | ITEM_SLOT_SUITSTORE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | ERT_SPAWN | SLIME_EXTRACT
-	species_cookie = /obj/item/food/grown/banana
 	inherent_factions = list(FACTION_MONKEY)
 	sexes = FALSE
 	species_language_holder = /datum/language_holder/monkey
@@ -41,6 +40,9 @@
 
 	payday_modifier = 1.5
 	ai_controlled_species = TRUE
+
+/datum/species/monkey/random_name(gender,unique,lastname)
+	return "monkey ([rand(1, 999)])"
 
 /datum/species/monkey/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load)
 	. = ..()
@@ -63,7 +65,15 @@
 	return ..()
 
 /datum/species/monkey/get_scream_sound(mob/living/carbon/human/monkey)
-	return get_sfx(SFX_SCREECH)
+	return pick(
+		'sound/creatures/monkey/monkey_screech_1.ogg',
+		'sound/creatures/monkey/monkey_screech_2.ogg',
+		'sound/creatures/monkey/monkey_screech_3.ogg',
+		'sound/creatures/monkey/monkey_screech_4.ogg',
+		'sound/creatures/monkey/monkey_screech_5.ogg',
+		'sound/creatures/monkey/monkey_screech_6.ogg',
+		'sound/creatures/monkey/monkey_screech_7.ogg',
+	)
 
 /datum/species/monkey/get_physical_attributes()
 	return "Monkeys are slippery, can crawl into vents, and are more dextrous than humans.. but only when stealing things. \
@@ -158,17 +168,24 @@
 
 /obj/item/organ/internal/brain/primate/on_mob_insert(mob/living/carbon/primate)
 	. = ..()
-	RegisterSignal(primate, COMSIG_LIVING_MOB_BUMPED, PROC_REF(on_mob_bump))
+	RegisterSignal(primate, COMSIG_MOVABLE_CROSS, PROC_REF(on_crossed))
 
 /obj/item/organ/internal/brain/primate/on_mob_remove(mob/living/carbon/primate)
 	. = ..()
-	UnregisterSignal(primate, COMSIG_LIVING_MOB_BUMPED)
+	UnregisterSignal(primate, COMSIG_MOVABLE_CROSS)
 
-/obj/item/organ/internal/brain/primate/proc/on_mob_bump(mob/source, mob/living/crossing_mob)
+/obj/item/organ/internal/brain/primate/proc/on_crossed(datum/source, atom/movable/crossed)
 	SIGNAL_HANDLER
-	if(!tripping || !crossing_mob.combat_mode)
+	if(!tripping)
 		return
-	crossing_mob.knockOver(owner)
+	if(IS_DEAD_OR_INCAP(owner) || !isliving(crossed))
+		return
+	var/mob/living/in_the_way_mob = crossed
+	if(iscarbon(in_the_way_mob) && !in_the_way_mob.combat_mode)
+		return
+	if(in_the_way_mob.pass_flags & PASSMOB)
+		return
+	in_the_way_mob.knockOver(owner)
 
 /obj/item/organ/internal/brain/primate/get_attacking_limb(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(owner, TRAIT_ADVANCEDTOOLUSER))

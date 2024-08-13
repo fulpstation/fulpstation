@@ -5,7 +5,7 @@
 	/// The MOD core we apply to the suit.
 	var/applied_core = /obj/item/mod/core/standard
 	/// The cell we apply to the core. Only applies to standard core suits.
-	var/applied_cell = /obj/item/stock_parts/power_store/cell/super
+	var/applied_cell = /obj/item/stock_parts/cell/high
 	/// List of modules we spawn with.
 	var/list/applied_modules = list()
 	/// Modules that we pin when the suit is installed for the first time, for convenience, can be applied or theme inbuilt modules.
@@ -40,14 +40,6 @@
 		default_pins -= old_module
 
 /obj/item/mod/control/pre_equipped/standard
-	applied_modules = list(
-		/obj/item/mod/module/storage,
-		/obj/item/mod/module/welding,
-		/obj/item/mod/module/flashlight,
-	)
-
-/obj/item/mod/control/pre_equipped/civilian
-	theme = /datum/mod_theme/civilian
 	applied_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/welding,
@@ -90,7 +82,7 @@
 
 /obj/item/mod/control/pre_equipped/advanced
 	theme = /datum/mod_theme/advanced
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
@@ -123,7 +115,7 @@
 	theme = /datum/mod_theme/mining
 	applied_core = /obj/item/mod/core/plasma
 	applied_modules = list(
-		/obj/item/mod/module/storage/large_capacity,
+		/obj/item/mod/module/storage,
 		/obj/item/mod/module/gps,
 		/obj/item/mod/module/orebag,
 		/obj/item/mod/module/clamp,
@@ -147,7 +139,7 @@
 
 /obj/item/mod/control/pre_equipped/rescue
 	theme = /datum/mod_theme/rescue
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/flashlight,
@@ -157,7 +149,7 @@
 
 /obj/item/mod/control/pre_equipped/research
 	theme = /datum/mod_theme/research
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/welding,
@@ -173,19 +165,16 @@
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/flashlight,
-		/obj/item/mod/module/jetpack,
 		/obj/item/mod/module/pepper_shoulders,
 		/obj/item/mod/module/criminalcapture,
+		/obj/item/mod/module/dispenser/mirage,
 		/obj/item/mod/module/quick_cuff,
 		/obj/item/mod/module/headprotector,
-	)
-	default_pins = list(
-		/obj/item/mod/module/jetpack,
 	)
 
 /obj/item/mod/control/pre_equipped/safeguard
 	theme = /datum/mod_theme/safeguard
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/magnetic_harness,
@@ -203,18 +192,18 @@
 
 /obj/item/mod/control/pre_equipped/magnate
 	theme = /datum/mod_theme/magnate
-	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
+	applied_cell = /obj/item/stock_parts/cell/hyper
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
 		/obj/item/mod/module/hat_stabilizer,
 		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/pathfinder,
 		/obj/item/mod/module/quick_cuff,
 		/obj/item/mod/module/headprotector,
 	)
 	default_pins = list(
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 	)
 
 /obj/item/mod/control/pre_equipped/cosmohonk
@@ -223,16 +212,15 @@
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/waddle,
 		/obj/item/mod/module/bikehorn,
-		/obj/item/mod/module/balloon/advanced,
+		/obj/item/mod/module/balloon_advanced,
 	)
 
 /obj/item/mod/control/pre_equipped/traitor
 	theme = /datum/mod_theme/syndicate
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
-		/obj/item/mod/module/shock_absorber,
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/jetpack,
@@ -250,13 +238,12 @@
 /obj/item/mod/control/pre_equipped/traitor_elite
 	theme = /datum/mod_theme/elite
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/bluespace
+	applied_cell = /obj/item/stock_parts/cell/bluespace
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
-		/obj/item/mod/module/shock_absorber,
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/dna_lock,
@@ -265,21 +252,20 @@
 	)
 	default_pins = list(
 		/obj/item/mod/module/armor_booster,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 	)
 
 /obj/item/mod/control/pre_equipped/nuclear
 	theme = /datum/mod_theme/syndicate
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
+	applied_cell = /obj/item/stock_parts/cell/hyper
 	req_access = list(ACCESS_SYNDICATE)
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
-		/obj/item/mod/module/shock_absorber,
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/hat_stabilizer/syndicate,
@@ -287,14 +273,14 @@
 	)
 	default_pins = list(
 		/obj/item/mod/module/armor_booster,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 	)
 
 /obj/item/mod/control/pre_equipped/nuclear/no_jetpack
 
 /obj/item/mod/control/pre_equipped/nuclear/no_jetpack/Initialize(mapload, new_theme, new_skin, new_core)
-	applied_modules -= list(/obj/item/mod/module/jetpack, /obj/item/mod/module/jump_jet)
+	applied_modules -= list(/obj/item/mod/module/jetpack/advanced, /obj/item/mod/module/jump_jet)
 	return ..()
 
 /obj/item/mod/control/pre_equipped/nuclear/plasmaman
@@ -309,14 +295,13 @@
 /obj/item/mod/control/pre_equipped/elite
 	theme = /datum/mod_theme/elite
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/bluespace
+	applied_cell = /obj/item/stock_parts/cell/bluespace
 	req_access = list(ACCESS_SYNDICATE)
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
-		/obj/item/mod/module/shock_absorber,
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/hat_stabilizer/syndicate,
@@ -324,18 +309,17 @@
 	)
 	default_pins = list(
 		/obj/item/mod/module/armor_booster,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 	)
 
 /obj/item/mod/control/pre_equipped/elite/flamethrower
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
-		/obj/item/mod/module/shock_absorber,
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/thermal_regulator,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/hat_stabilizer/syndicate,
@@ -344,7 +328,7 @@
 	)
 	default_pins = list(
 		/obj/item/mod/module/armor_booster,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/jump_jet,
 		/obj/item/mod/module/flamethrower,
 	)
@@ -352,7 +336,7 @@
 /obj/item/mod/control/pre_equipped/infiltrator
 	theme = /datum/mod_theme/infiltrator
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
 		/obj/item/mod/module/emp_shield,
 		/obj/item/mod/module/magnetic_harness,
@@ -362,16 +346,12 @@
 		/obj/item/mod/module/quick_cuff,
 	)
 
-/obj/item/mod/control/pre_equipped/infiltrator/Initialize(mapload, new_theme, new_skin, new_core)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_CONTRABAND_BLOCKER, INNATE_TRAIT)
 
 /obj/item/mod/control/pre_equipped/interdyne
 	theme = /datum/mod_theme/interdyne
 	starting_frequency = MODLINK_FREQ_SYNDICATE
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	applied_modules = list(
-		/obj/item/mod/module/organizer,
 		/obj/item/mod/module/defibrillator/combat,
 		/obj/item/mod/module/flashlight,
 		/obj/item/mod/module/health_analyzer,
@@ -397,7 +377,7 @@
 /obj/item/mod/control/pre_equipped/ninja
 	theme = /datum/mod_theme/ninja
 	starting_frequency = null
-	applied_cell = /obj/item/stock_parts/power_store/cell/ninja
+	applied_cell = /obj/item/stock_parts/cell/ninja
 	applied_modules = list(
 		/obj/item/mod/module/storage,
 		/obj/item/mod/module/noslip,
@@ -433,27 +413,10 @@
 		/obj/item/mod/module/anomaly_locked/kinesis/prototype,
 	)
 
-/obj/item/mod/control/pre_equipped/glitch
-	theme = /datum/mod_theme/glitch
-	starting_frequency = null
-	applied_cell = /obj/item/stock_parts/power_store/cell/bluespace
-	applied_modules = list(
-		/obj/item/mod/module/storage,
-		/obj/item/mod/module/magnetic_harness,
-		/obj/item/mod/module/jetpack,
-		/obj/item/mod/module/jump_jet,
-		/obj/item/mod/module/flashlight,
-	)
-	default_pins = list(
-		/obj/item/mod/module/armor_booster,
-		/obj/item/mod/module/jetpack,
-		/obj/item/mod/module/jump_jet,
-	)
-
 /obj/item/mod/control/pre_equipped/responsory
 	theme = /datum/mod_theme/responsory
 	starting_frequency = MODLINK_FREQ_CENTCOM
-	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
+	applied_cell = /obj/item/stock_parts/cell/hyper
 	req_access = list(ACCESS_CENT_GENERAL)
 	applied_modules = list(
 		/obj/item/mod/module/storage/large_capacity,
@@ -518,7 +481,7 @@
 /obj/item/mod/control/pre_equipped/responsory/inquisitory/syndie
 	starting_frequency = MODLINK_FREQ_SYNDICATE
 	req_access = null
-	applied_cell = /obj/item/stock_parts/power_store/cell/super
+	applied_cell = /obj/item/stock_parts/cell/super
 	theme = /datum/mod_theme/responsory/traitor
 	applied_modules = list(
 		/obj/item/mod/module/storage/syndicate,
@@ -553,7 +516,7 @@
 /obj/item/mod/control/pre_equipped/apocryphal
 	theme = /datum/mod_theme/apocryphal
 	starting_frequency = MODLINK_FREQ_CENTCOM
-	applied_cell = /obj/item/stock_parts/power_store/cell/bluespace
+	applied_cell = /obj/item/stock_parts/cell/bluespace
 	req_access = list(ACCESS_CENT_SPECOPS)
 	applied_modules = list(
 		/obj/item/mod/module/storage/bluespace,
@@ -633,11 +596,10 @@
 		/obj/item/mod/module/storage/bluespace,
 		/obj/item/mod/module/emp_shield/advanced,
 		/obj/item/mod/module/welding,
-		/obj/item/mod/module/rad_protection,
 		/obj/item/mod/module/stealth/ninja,
 		/obj/item/mod/module/quick_carry/advanced,
 		/obj/item/mod/module/magboot/advanced,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/anomaly_locked/kinesis/admin,
 		/obj/item/mod/module/shove_blocker,
 		/obj/item/mod/module/quick_cuff,
@@ -645,7 +607,7 @@
 	default_pins = list(
 		/obj/item/mod/module/stealth/ninja,
 		/obj/item/mod/module/magboot/advanced,
-		/obj/item/mod/module/jetpack,
+		/obj/item/mod/module/jetpack/advanced,
 		/obj/item/mod/module/anomaly_locked/kinesis/admin,
 	)
 

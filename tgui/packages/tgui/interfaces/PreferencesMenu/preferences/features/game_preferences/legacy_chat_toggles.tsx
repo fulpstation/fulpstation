@@ -1,3 +1,5 @@
+import { multiline } from 'common/string';
+
 import { CheckboxInput, FeatureToggle } from '../base';
 
 export const chat_bankcard: FeatureToggle = {
@@ -16,7 +18,7 @@ export const chat_dead: FeatureToggle = {
 export const chat_ghostears: FeatureToggle = {
   name: 'Hear all messages',
   category: 'GHOST',
-  description: `
+  description: multiline`
     When enabled, you will be able to hear all speech as a ghost.
     When disabled, you will only be able to hear nearby speech.
   `,
@@ -54,7 +56,7 @@ export const chat_ghostsight: FeatureToggle = {
 export const chat_ghostwhisper: FeatureToggle = {
   name: 'See all whispers',
   category: 'GHOST',
-  description: `
+  description: multiline`
     When enabled, you will be able to hear all whispers as a ghost.
     When disabled, you will only be able to hear nearby whispers.
   `,

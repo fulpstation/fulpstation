@@ -27,7 +27,6 @@ type FishInfo = {
   weight: string;
   size: string;
   icon: string;
-  beauty: string;
 };
 
 type FishCatalogData = {
@@ -93,9 +92,6 @@ export const FishCatalog = (props) => {
                   </LabeledList.Item>
                   <LabeledList.Item label="Average weight">
                     {currentFish.weight} g
-                  </LabeledList.Item>
-                  <LabeledList.Item label="Aquarium Beauty Score">
-                    {currentFish.beauty}
                   </LabeledList.Item>
                   <LabeledList.Item label="Fishing and Aquarium tips">
                     <LabeledList>

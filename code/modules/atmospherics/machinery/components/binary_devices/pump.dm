@@ -35,14 +35,13 @@
 	context[SCREENTIP_CONTEXT_ALT_LMB] = "Maximize target pressure"
 	return CONTEXTUAL_SCREENTIP_SET
 
-/obj/machinery/atmospherics/components/binary/pump/click_ctrl(mob/user)
-	if(is_operational)
+/obj/machinery/atmospherics/components/binary/pump/CtrlClick(mob/user)
+	if(can_interact(user))
 		set_on(!on)
 		balloon_alert(user, "turned [on ? "on" : "off"]")
 		investigate_log("was turned [on ? "on" : "off"] by [key_name(user)]", INVESTIGATE_ATMOS)
 		update_appearance()
-		return CLICK_ACTION_SUCCESS
-	return CLICK_ACTION_BLOCKING
+	return ..()
 
 /obj/machinery/atmospherics/components/binary/pump/click_alt(mob/user)
 	if(target_pressure == MAX_OUTPUT_PRESSURE)
@@ -61,11 +60,10 @@
 	if(!on || !is_operational)
 		return
 
-	var/datum/gas_mixture/input_air = airs[1]
-	var/datum/gas_mixture/output_air = airs[2]
-	var/datum/gas_mixture/output_pipenet_air = parents[2].air
+	var/datum/gas_mixture/air1 = airs[1]
+	var/datum/gas_mixture/air2 = airs[2]
 
-	if(input_air.pump_gas_to(output_air, target_pressure, output_pipenet_air = output_pipenet_air))
+	if(air1.pump_gas_to(air2, target_pressure))
 		update_parents()
 
 /obj/machinery/atmospherics/components/binary/pump/ui_interact(mob/user, datum/tgui/ui)

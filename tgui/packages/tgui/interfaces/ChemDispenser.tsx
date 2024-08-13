@@ -1,4 +1,8 @@
+import { BooleanLike } from 'common/react';
+import { toTitleCase } from 'common/string';
 import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import {
   Box,
   Button,
@@ -6,11 +10,7 @@ import {
   LabeledList,
   ProgressBar,
   Section,
-} from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
-import { toTitleCase } from 'tgui-core/string';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 import { Beaker, BeakerDisplay } from './common/BeakerDisplay';
 
@@ -30,8 +30,8 @@ type Data = {
   amount: number;
   energy: number;
   maxEnergy: number;
-  displayedUnits: string;
-  displayedMaxUnits: string;
+  displayedEnergy: string;
+  displayedMaxEnergy: string;
   chemicals: DispensableReagent[];
   recipes: string[];
   recordingRecipe: string[];
@@ -93,10 +93,7 @@ export const ChemDispenser = (props) => {
           <LabeledList>
             <LabeledList.Item label="Energy">
               <ProgressBar value={data.energy / data.maxEnergy}>
-                {data.displayedUnits +
-                  ' / ' +
-                  data.displayedMaxUnits +
-                  ' units'}
+                {data.displayedEnergy + ' / ' + data.displayedMaxEnergy}
               </ProgressBar>
             </LabeledList.Item>
           </LabeledList>

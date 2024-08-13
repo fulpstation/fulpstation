@@ -255,8 +255,10 @@
 	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/power/apc/attack_ai_secondary(mob/living/silicon/user, list/modifiers)
-	if(can_use(user, loud = TRUE))
-		togglelock(user)
+	if(!can_use(user, loud = TRUE))
+		return
+
+	togglelock(user)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /* AI Turrets */

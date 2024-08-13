@@ -8,7 +8,6 @@
 	req_human = TRUE
 	req_stat = DEAD
 	ignores_fakedeath = TRUE
-	disabled_by_fire = FALSE
 
 /datum/action/changeling/headcrab/sting_action(mob/living/user)
 	set waitfor = FALSE

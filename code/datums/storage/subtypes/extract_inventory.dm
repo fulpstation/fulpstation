@@ -7,8 +7,6 @@
 	locked = STORAGE_FULLY_LOCKED
 	rustle_sound = FALSE
 	silent = TRUE
-	// Snowflake so you can feed it
-	insert_on_attack = FALSE
 
 /datum/storage/extract_inventory/New(
 	atom/parent,

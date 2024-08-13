@@ -49,7 +49,7 @@
 	to_chat(owner, span_warning("You mystify the air around your person: your identity is now altered."))
 
 	// Store Prev Appearance
-	disguise_name = user.generate_random_mob_name()
+	disguise_name = user.dna.species.random_name(user.gender)
 	prev_gender = user.gender
 	prev_skin_tone = user.skin_tone
 	prev_hair_style = user.hairstyle
@@ -65,7 +65,7 @@
 
 	// Change Appearance
 	user.gender = pick(MALE, FEMALE, PLURAL, NEUTER)
-	user.skin_tone = pick(GLOB.skin_tones)
+	user.skin_tone = random_skin_tone()
 	user.hairstyle = random_hairstyle(user.gender)
 	user.facial_hairstyle = pick(random_facial_hairstyle(user.gender), "Shaved")
 	user.hair_color = "#[random_short_color()]"

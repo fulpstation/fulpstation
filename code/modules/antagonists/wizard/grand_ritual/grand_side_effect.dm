@@ -335,7 +335,7 @@
 /obj/effect/abstract/local_food_rain/proc/drop_food(turf/landing_zone)
 	podspawn(list(
 			"target" = landing_zone,
-			"style" = /datum/pod_style/seethrough,
+			"style" = STYLE_SEETHROUGH,
 			"spawn" = get_random_food(),
 			"delays" = list(POD_TRANSIT = 0, POD_FALLING = (3 SECONDS), POD_OPENING = 0, POD_LEAVING = 0),
 			"effectStealth" = TRUE,

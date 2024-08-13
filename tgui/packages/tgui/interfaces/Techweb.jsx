@@ -10,7 +10,6 @@ import {
   Flex,
   Icon,
   Input,
-  LabeledList,
   Modal,
   ProgressBar,
   Section,
@@ -148,8 +147,6 @@ export const TechwebContent = (props) => {
     t_disk,
     d_disk,
     locked,
-    queue_nodes = [],
-    node_cache,
   } = data;
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
   const [lastPoints, setLastPoints] = useState({});
@@ -159,35 +156,27 @@ export const TechwebContent = (props) => {
       <Flex.Item className="Techweb__HeaderSection">
         <Flex className="Techweb__HeaderContent">
           <Flex.Item>
-            <LabeledList>
-              <LabeledList.Item label="Security">
-                <span
-                  className={`Techweb__SecProtocol ${
-                    !!sec_protocols && 'engaged'
-                  }`}
-                >
-                  {sec_protocols ? 'Engaged' : 'Disengaged'}
-                </span>
-              </LabeledList.Item>
-              {Object.keys(points).map((k) => (
-                <LabeledList.Item key={k} label="Points">
-                  <b>{points[k]}</b>
-                  {!!points_last_tick[k] && ` (+${points_last_tick[k]}/sec)`}
-                </LabeledList.Item>
-              ))}
-              <LabeledList.Item label="Queue">
-                {queue_nodes.length !== 0
-                  ? Object.keys(queue_nodes).map((node_id) => (
-                      <Button
-                        key={node_id}
-                        tooltip={`Added by: ${queue_nodes[node_id]}`}
-                      >
-                        {node_cache[node_id].name}
-                      </Button>
-                    ))
-                  : 'Empty'}
-              </LabeledList.Item>
-            </LabeledList>
+            <Box>
+              Available points:
+              <ul className="Techweb__PointSummary">
+                {Object.keys(points).map((k) => (
+                  <li key={k}>
+                    <b>{k}</b>: {points[k]}
+                    {!!points_last_tick[k] && ` (+${points_last_tick[k]}/sec)`}
+                  </li>
+                ))}
+              </ul>
+            </Box>
+            <Box>
+              Security protocols:
+              <span
+                className={`Techweb__SecProtocol ${
+                  !!sec_protocols && 'engaged'
+                }`}
+              >
+                {sec_protocols ? 'Engaged' : 'Disengaged'}
+              </span>
+            </Box>
           </Flex.Item>
           <Flex.Item grow={1} />
           <Flex.Item>
@@ -504,17 +493,9 @@ const TechNode = (props) => {
     points = [],
     nodes,
     point_types_abbreviations = [],
-    queue_nodes = [],
   } = data;
   const { node, nodetails, nocontrols } = props;
-  const {
-    id,
-    can_unlock,
-    have_experiments_done,
-    tier,
-    enqueued_by_user,
-    is_free,
-  } = node;
+  const { id, can_unlock, tier } = node;
   const {
     name,
     description,
@@ -574,40 +555,6 @@ const TechNode = (props) => {
       buttons={
         !nocontrols && (
           <>
-            {tier > 0 &&
-              (!!can_unlock && (is_free || queue_nodes.length === 0) ? (
-                <Button
-                  icon="lightbulb"
-                  disabled={!can_unlock || tier > 1 || queue_nodes.length > 0}
-                  onClick={() => act('researchNode', { node_id: id })}
-                >
-                  Research
-                </Button>
-              ) : enqueued_by_user ? (
-                <Button
-                  icon="trash"
-                  color="bad"
-                  onClick={() => act('dequeueNode', { node_id: id })}
-                >
-                  Dequeue
-                </Button>
-              ) : id in queue_nodes && !enqueued_by_user ? (
-                <Button icon="check" color="good">
-                  Queued
-                </Button>
-              ) : (
-                <Button
-                  icon="lightbulb"
-                  disabled={
-                    !have_experiments_done ||
-                    id in queue_nodes ||
-                    techcompl < prereq_ids.length
-                  }
-                  onClick={() => act('enqueueNode', { node_id: id })}
-                >
-                  Enqueue
-                </Button>
-              ))}
             {!nodetails && (
               <Button
                 icon="tasks"
@@ -617,6 +564,15 @@ const TechNode = (props) => {
                 }}
               >
                 Details
+              </Button>
+            )}
+            {tier > 0 && (
+              <Button
+                icon="lightbulb"
+                disabled={!can_unlock || tier > 1}
+                onClick={() => act('researchNode', { node_id: id })}
+              >
+                Research
               </Button>
             )}
           </>
@@ -665,7 +621,7 @@ const TechNode = (props) => {
       <Box className="Techweb__NodeUnlockedDesigns" mb={2}>
         {design_ids.map((k, i) => (
           <Button
-            key={k}
+            key={id}
             className={`${design_cache[k].class} Techweb__DesignIcon`}
             tooltip={design_cache[k].name}
             tooltipPosition={i % 15 < 7 ? 'right' : 'left'}

@@ -204,11 +204,7 @@
 		if(weapon.w_class + total_weight > maximum_weight)
 			to_chat(user, span_warning("[weapon] is too big to fit into [src]."))
 			continue
-
-		//try to remove the right way
-		if(!user.transferItemToLoc(weapon, src))
-			continue
-
+		weapon.forceMove(src)
 		total_weight += weapon.w_class
 		items_transfered += 1
 		to_chat(user, span_notice("[weapon] was loaded into [src]."))
@@ -216,8 +212,8 @@
 	return items_transfered
 
 /obj/machinery/reagentgrinder/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	if(user.combat_mode || (tool.item_flags & ABSTRACT) || (tool.flags_1 & HOLOGRAM_1))
-		return ITEM_INTERACT_SKIP_TO_ATTACK
+	if(user.combat_mode || (tool.item_flags & ABSTRACT) || (tool.flags_1 & HOLOGRAM_1) || !can_interact(user) || !user.can_perform_action(src, ALLOW_SILICON_REACH))
+		return NONE
 
 	//add the beaker
 	if (is_reagent_container(tool) && tool.is_open_container())
@@ -426,7 +422,7 @@
 
 	var/duration = time / speed
 
-	Shake(pixelshiftx = 1, pixelshifty = 0, duration = duration)
+	Shake(duration = duration)
 	operating = TRUE
 	if(!juicing)
 		playsound(src, 'sound/machines/blender.ogg', 50, TRUE)
@@ -494,7 +490,7 @@
 
 	var/duration = time / speed
 
-	Shake(pixelshiftx = 1, pixelshifty = 0, duration = duration)
+	Shake(duration = duration)
 	operating = TRUE
 	playsound(src, 'sound/machines/juicer.ogg', 20, TRUE)
 

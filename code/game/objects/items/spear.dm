@@ -12,7 +12,7 @@
 	throwforce = 20
 	throw_speed = 4
 	demolition_mod = 0.75
-	embed_type = /datum/embed_data/spear
+	embedding = list("impact_pain_mult" = 2, "remove_pain_mult" = 4, "jostle_chance" = 2.5)
 	armour_penetration = 10
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/glass= HALF_SHEET_MATERIAL_AMOUNT * 2)
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -31,11 +31,6 @@
 	var/force_unwielded = 10
 	/// How much damage to do wielded
 	var/force_wielded = 18
-
-/datum/embed_data/spear
-	impact_pain_mult = 2
-	remove_pain_mult = 4
-	jostle_chance = 2.5
 
 /datum/armor/item_spear
 	fire = 50
@@ -66,8 +61,8 @@
 /obj/item/spear/proc/add_headpike_component()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpike)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
 
@@ -172,27 +167,30 @@
 	return CLICK_ACTION_SUCCESS
 
 
-/obj/item/spear/explosive/afterattack(atom/movable/target, mob/user, click_parameters)
-	if(!HAS_TRAIT(src, TRAIT_WIELDED) || !istype(target))
+/obj/item/spear/explosive/afterattack(atom/movable/AM, mob/user, proximity)
+	. = ..()
+	if(!proximity || !HAS_TRAIT(src, TRAIT_WIELDED) || !istype(AM))
 		return
-	if(target.resistance_flags & INDESTRUCTIBLE) //due to the lich incident of 2021, embedding grenades inside of indestructible structures is forbidden
-		return
-	if(ismob(target))
-		var/mob/mob_target = target
+	. |= AFTERATTACK_PROCESSED_ITEM
+	if(AM.resistance_flags & INDESTRUCTIBLE) //due to the lich incident of 2021, embedding grenades inside of indestructible structures is forbidden
+		return .
+	if(ismob(AM))
+		var/mob/mob_target = AM
 		if(mob_target.status_flags & GODMODE) //no embedding grenade phylacteries inside of ghost poly either
-			return
-	if(iseffect(target)) //and no accidentally wasting your moment of glory on graffiti
-		return
+			return .
+	if(iseffect(AM)) //and no accidentally wasting your moment of glory on graffiti
+		return .
 	user.say("[war_cry]", forced="spear warcry")
 	if(isliving(user))
 		var/mob/living/living_user = user
 		living_user.set_resting(new_resting = TRUE, silent = TRUE, instant = TRUE)
-		living_user.Move(get_turf(target))
+		living_user.Move(get_turf(AM))
 		explosive.forceMove(get_turf(living_user))
 		explosive.detonate(lanced_by=user)
 		if(!QDELETED(living_user))
 			living_user.set_resting(new_resting = FALSE, silent = TRUE, instant = TRUE)
 	qdel(src)
+	return .
 
 //GREY TIDE
 /obj/item/spear/grey_tide
@@ -203,25 +201,27 @@
 	force_unwielded = 15
 	force_wielded = 25
 
-/obj/item/spear/grey_tide/afterattack(atom/movable/target, mob/living/user, click_parameters)
+/obj/item/spear/grey_tide/afterattack(atom/movable/AM, mob/living/user, proximity)
+	. = ..()
+	if(!proximity)
+		return
 	user.faction |= "greytide([REF(user)])"
-	if(!isliving(target))
-		return
-	var/mob/living/stabbed = target
-	if(istype(stabbed, /mob/living/simple_animal/hostile/illusion))
-		return
-	if(stabbed.stat == CONSCIOUS && prob(50))
-		var/mob/living/simple_animal/hostile/illusion/fake_clone = new(user.loc)
-		fake_clone.faction = user.faction.Copy()
-		fake_clone.Copy_Parent(user, 100, user.health/2.5, 12, 30)
-		fake_clone.GiveTarget(stabbed)
+	if(isliving(AM))
+		var/mob/living/L = AM
+		if(istype (L, /mob/living/simple_animal/hostile/illusion))
+			return
+		if(!L.stat && prob(50))
+			var/mob/living/simple_animal/hostile/illusion/M = new(user.loc)
+			M.faction = user.faction.Copy()
+			M.Copy_Parent(user, 100, user.health/2.5, 12, 30)
+			M.GiveTarget(L)
 
 //MILITARY
 /obj/item/spear/military
 	icon_state = "military_spear0"
 	base_icon_state = "military_spear0"
 	icon_prefix = "military_spear"
-	name = "military javelin"
+	name = "military Javelin"
 	desc = "A stick with a seemingly blunt spearhead on its end. Looks like it might break bones easily."
 	attack_verb_continuous = list("attacks", "pokes", "jabs")
 	attack_verb_simple = list("attack", "poke", "jab")
@@ -236,8 +236,8 @@
 /obj/item/spear/military/add_headpike_component()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikemilitary)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
 
@@ -260,8 +260,8 @@
 /obj/item/spear/bonespear/add_headpike_component()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikebone)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
 
@@ -284,7 +284,7 @@
 /obj/item/spear/bamboospear/add_headpike_component()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikebamboo)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)

@@ -38,31 +38,42 @@
 
 /** Sets the mob as "thinking" - with indicator and the TRAIT_THINKING_IN_CHARACTER trait */
 /datum/tgui_say/proc/start_thinking()
-	if(!window_open)
+	if(!window_open || !client.typing_indicators)
 		return FALSE
-	return client.start_thinking()
+	/// Special exemptions
+	if(isabductor(client.mob))
+		return FALSE
+	ADD_TRAIT(client.mob, TRAIT_THINKING_IN_CHARACTER, CURRENTLY_TYPING_TRAIT)
+	client.mob.create_thinking_indicator()
 
 /** Removes typing/thinking indicators and flags the mob as not thinking */
 /datum/tgui_say/proc/stop_thinking()
-	return client.stop_thinking()
+	client.mob?.remove_all_indicators()
 
 /**
  * Handles the user typing. After a brief period of inactivity,
  * signals the client mob to revert to the "thinking" icon.
  */
 /datum/tgui_say/proc/start_typing()
-	if(!window_open)
+	var/mob/client_mob = client.mob
+	client_mob.remove_thinking_indicator()
+	if(!window_open || !client.typing_indicators || !HAS_TRAIT(client_mob, TRAIT_THINKING_IN_CHARACTER))
 		return FALSE
-	return client.start_typing()
+	client_mob.create_typing_indicator()
+	addtimer(CALLBACK(src, PROC_REF(stop_typing)), 5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_STOPPABLE)
 
 /**
- * Remove the typing indicator after a brief period of inactivity or during say events.
+ * Callback to remove the typing indicator after a brief period of inactivity.
  * If the user was typing IC, the thinking indicator is shown.
  */
 /datum/tgui_say/proc/stop_typing()
-	if(!window_open)
+	if(isnull(client?.mob))
 		return FALSE
-	client.stop_typing()
+	var/mob/client_mob = client.mob
+	client_mob.remove_typing_indicator()
+	if(!window_open || !client.typing_indicators || !HAS_TRAIT(client_mob, TRAIT_THINKING_IN_CHARACTER))
+		return FALSE
+	client_mob.create_thinking_indicator()
 
 /// Overrides for overlay creation
 /mob/living/create_thinking_indicator()

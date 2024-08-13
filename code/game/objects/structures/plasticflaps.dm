@@ -26,7 +26,6 @@
 	. = ..()
 	alpha = 0
 	gen_overlay()
-	air_update_turf(TRUE, TRUE)
 
 /obj/structure/plasticflaps/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)
 	if(same_z_layer)
@@ -127,6 +126,10 @@
 
 /obj/structure/plasticflaps/atom_deconstruct(disassembled = TRUE)
 	new /obj/item/stack/sheet/plastic/five(loc)
+
+/obj/structure/plasticflaps/Initialize(mapload)
+	. = ..()
+	air_update_turf(TRUE, TRUE)
 
 /obj/structure/plasticflaps/Destroy()
 	var/atom/oldloc = loc

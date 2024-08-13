@@ -8,6 +8,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/rods
 	name = "Iron Rod"
@@ -19,6 +20,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/glass
 	name = "Glass"
@@ -30,6 +32,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/rglass
 	name = "Reinforced Glass"
@@ -41,6 +44,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 /datum/design/silver
@@ -53,6 +57,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/gold
 	name = "Gold"
@@ -64,6 +69,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/diamond
 	name = "Diamond"
@@ -75,6 +81,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/plasma
 	name = "Plasma"
@@ -86,6 +93,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/uranium
 	name = "Uranium"
@@ -97,6 +105,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/bananium
 	name = "Bananium"
@@ -108,6 +117,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/titanium
 	name = "Titanium"
@@ -119,6 +129,7 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50
 
 /datum/design/plastic
 	name = "Plastic"
@@ -130,3 +141,4 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MATERIALS,
 	)
+	maxstack = 50

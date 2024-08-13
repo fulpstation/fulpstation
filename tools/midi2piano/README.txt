@@ -29,4 +29,5 @@ Additional notes:
 
 This tool is considered final.
 
-Made by Delta Epsilon from Animus Station, ss13.ru
+Made by EditorRUS/Delta Epsilon from Animus Station, ss13.ru
+Contact me in Discord if you find any major issues: DeltaEpsilon#7787

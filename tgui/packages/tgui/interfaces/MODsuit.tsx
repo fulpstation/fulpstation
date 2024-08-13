@@ -19,7 +19,7 @@ import {
   Stack,
   Table,
 } from '../components';
-import { formatSiUnit } from '../format';
+import { formatEnergy, formatPower, formatSiUnit } from '../format';
 import { Window } from '../layouts';
 
 type MODsuitData = {
@@ -27,17 +27,15 @@ type MODsuitData = {
   ui_theme: string;
   control: string;
   complexity_max: number;
-  parts: PartData[];
+  helmet: string;
+  chestplate: string;
+  gauntlets: string;
+  boots: string;
   // Dynamic
   suit_status: SuitStatus;
   user_status: UserStatus;
   module_custom_status: ModuleCustomStatus;
   module_info: Module[];
-};
-
-type PartData = {
-  slot: string;
-  name: string;
 };
 
 type SuitStatus = {
@@ -122,8 +120,8 @@ export const MODsuit = (props) => {
   const { interface_break } = data.suit_status;
   return (
     <Window
-      width={600}
-      height={600}
+      width={800}
+      height={640}
       theme={ui_theme}
       title="MOD Interface Panel"
     >
@@ -479,7 +477,7 @@ const SuitStatusSection = (props) => {
 
 const HardwareSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
-  const { control } = data;
+  const { control, helmet, chestplate, gauntlets, boots } = data;
   const { ai_name, core_name } = data.suit_status;
   return (
     <Section title="Hardware" style={{ textTransform: 'capitalize' }}>
@@ -491,25 +489,16 @@ const HardwareSection = (props) => {
           {core_name || 'No Core Detected'}
         </LabeledList.Item>
         <LabeledList.Item label="Control Unit">{control}</LabeledList.Item>
-        <ModParts />
+        <LabeledList.Item label="Helmet">{helmet || 'None'}</LabeledList.Item>
+        <LabeledList.Item label="Chestplate">
+          {chestplate || 'None'}
+        </LabeledList.Item>
+        <LabeledList.Item label="Gauntlets">
+          {gauntlets || 'None'}
+        </LabeledList.Item>
+        <LabeledList.Item label="Boots">{boots || 'None'}</LabeledList.Item>
       </LabeledList>
     </Section>
-  );
-};
-
-const ModParts = (props) => {
-  const { act, data } = useBackend<MODsuitData>();
-  const { parts } = data;
-  return (
-    <>
-      {parts.map((part) => {
-        return (
-          <LabeledList.Item key={part.slot} label={part.slot + ' Slot'}>
-            {part.name}
-          </LabeledList.Item>
-        );
-      })}
-    </>
   );
 };
 
@@ -706,7 +695,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="plug"
-                tooltip="Idle Power Cost (Watts)"
+                tooltip="Idle Power Cost"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -714,7 +703,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="lightbulb"
-                tooltip="Active Power Cost (Watts)"
+                tooltip="Active Power Cost"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -722,7 +711,7 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="bolt"
-                tooltip="Use Energy Cost (Joules)"
+                tooltip="Use Energy Cost"
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -794,16 +783,44 @@ const ModuleSection = (props) => {
                   )}
                 </Table.Cell>
                 <Table.Cell textAlign="center">
-                  {formatSiUnit(module.idle_power, 0)}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      width: '60px',
+                    }}
+                  >
+                    {formatPower(module.idle_power)}
+                  </div>
                 </Table.Cell>
                 <Table.Cell textAlign="center">
-                  {formatSiUnit(module.active_power, 0)}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      width: '60px',
+                    }}
+                  >
+                    {formatPower(module.active_power)}
+                  </div>
                 </Table.Cell>
                 <Table.Cell textAlign="center">
-                  {formatSiUnit(module.use_energy, 0)}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      width: '60px',
+                    }}
+                  >
+                    {formatEnergy(module.use_energy)}
+                  </div>
                 </Table.Cell>
                 <Table.Cell textAlign="center">
-                  {module.module_complexity}
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      width: '10px',
+                    }}
+                  >
+                    {module.module_complexity}
+                  </div>
                 </Table.Cell>
               </Table.Row>
             );

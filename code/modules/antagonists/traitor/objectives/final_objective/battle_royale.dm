@@ -38,6 +38,6 @@
 	equipped = TRUE
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = /datum/pod_style/syndicate,
+		"style" = STYLE_SYNDICATE,
 		"spawn" = /obj/item/storage/box/syndie_kit/battle_royale,
 	))

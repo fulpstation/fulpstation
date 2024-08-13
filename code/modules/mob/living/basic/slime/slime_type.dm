@@ -1,8 +1,6 @@
 /datum/slime_type
 	///Our slime's colour as text. Used by both description, and icon
 	var/colour
-	///Whether the slime icons should be semi-transparent
-	var/transparent = FALSE
 	///The type our slime spawns
 	var/core_type
 	///The possible mutations of our slime
@@ -14,7 +12,6 @@
 
 /datum/slime_type/grey
 	colour = SLIME_TYPE_GREY
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/grey
 	mutations = list(
 		/datum/slime_type/blue = 1,
@@ -24,11 +21,11 @@
 	)
 	rgb_code = COLOR_SLIME_GREY
 
+
 //TIER 1
 
 /datum/slime_type/blue
 	colour = SLIME_TYPE_BLUE
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/blue
 	mutations = list(
 		/datum/slime_type/darkblue = 1,
@@ -49,7 +46,6 @@
 
 /datum/slime_type/purple
 	colour = SLIME_TYPE_PURPLE
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/purple
 	mutations = list(
 		/datum/slime_type/darkblue = 1,
@@ -60,7 +56,6 @@
 
 /datum/slime_type/orange
 	colour = SLIME_TYPE_ORANGE
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/orange
 	mutations = list(
 		/datum/slime_type/darkpurple = 1,
@@ -73,7 +68,6 @@
 
 /datum/slime_type/darkblue
 	colour = SLIME_TYPE_DARK_BLUE
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/darkblue
 	mutations = list(
 		/datum/slime_type/blue = 1,
@@ -104,7 +98,6 @@
 
 /datum/slime_type/yellow
 	colour = SLIME_TYPE_YELLOW
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/yellow
 	mutations = list(
 		/datum/slime_type/bluespace = 2,
@@ -126,7 +119,6 @@
 
 /datum/slime_type/cerulean
 	colour = SLIME_TYPE_CERULEAN
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/cerulean
 	mutations = list(
 		/datum/slime_type/cerulean = 1,
@@ -143,7 +135,6 @@
 
 /datum/slime_type/sepia
 	colour = SLIME_TYPE_SEPIA
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/sepia
 	mutations = list(
 		/datum/slime_type/sepia = 1,
@@ -163,7 +154,6 @@
 
 /datum/slime_type/green
 	colour = SLIME_TYPE_GREEN
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/green
 	mutations = list(
 		/datum/slime_type/black = 1,
@@ -173,7 +163,6 @@
 
 /datum/slime_type/pink
 	colour = SLIME_TYPE_PINK
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/pink
 	mutations = list(
 		/datum/slime_type/lightpink = 1,
@@ -183,7 +172,6 @@
 
 /datum/slime_type/red
 	colour = SLIME_TYPE_RED
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/red
 	mutations = list(
 		/datum/slime_type/oil = 1,
@@ -203,7 +191,6 @@
 
 /datum/slime_type/black
 	colour = SLIME_TYPE_BLACK
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/black
 	mutations = list(
 		/datum/slime_type/black = 1,
@@ -212,7 +199,6 @@
 
 /datum/slime_type/lightpink
 	colour = SLIME_TYPE_LIGHT_PINK
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/lightpink
 	mutations = list(
 		/datum/slime_type/lightpink = 1,
@@ -231,7 +217,6 @@
 
 /datum/slime_type/rainbow
 	colour = SLIME_TYPE_RAINBOW
-	transparent = TRUE
 	core_type = /obj/item/slime_extract/rainbow
 	mutations = list(
 		/datum/slime_type/rainbow = 1,

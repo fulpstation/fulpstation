@@ -21,7 +21,8 @@
 /area/shuttle/sbc_starfury)
 "ad" = (
 /obj/machinery/door/poddoor/preopen{
-	id = "syndie_battlecruier_bridge_blast"
+	id = "syndie_battlecruier_bridge_blast";
+	layer = 3
 	},
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
@@ -408,7 +409,8 @@
 /area/shuttle/sbc_starfury)
 "bx" = (
 /obj/machinery/door/poddoor/preopen{
-	id = "syndie_battlecruier_bridge_blast"
+	id = "syndie_battlecruier_bridge_blast";
+	layer = 3
 	},
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
 /obj/structure/cable,
@@ -642,6 +644,14 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
+/area/shuttle/sbc_starfury)
+"cy" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/effect/turf_decal/siding/thinplating_new/dark,
+/obj/effect/turf_decal/stripes/red/line,
+/turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/sbc_starfury)
 "cz" = (
 /obj/machinery/newscaster/directional/south,
@@ -987,6 +997,7 @@
 /obj/structure/sign/warning/secure_area/directional/east{
 	desc = "A warning sign which reads 'KEEP CLEAR: SHUTTLE BAY'";
 	icon_state = "space";
+	layer = 4;
 	name = "KEEP CLEAR: SHUTTLE BAY"
 	},
 /obj/effect/turf_decal/stripes/red/line,
@@ -996,6 +1007,7 @@
 /obj/structure/sign/warning/secure_area/directional/west{
 	desc = "A warning sign which reads 'KEEP CLEAR: SHUTTLE BAY'";
 	icon_state = "space";
+	layer = 4;
 	name = "KEEP CLEAR: SHUTTLE BAY"
 	},
 /obj/effect/turf_decal/stripes/red/line,
@@ -1580,15 +1592,6 @@
 /obj/machinery/door/airlock/multi_tile/public/glass,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
-"fE" = (
-/obj/structure/table/reinforced,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/shuttle/sbc_starfury)
 "fF" = (
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /obj/machinery/door/firedoor/heavy,
@@ -1610,14 +1613,6 @@
 /obj/machinery/door/airlock/hatch,
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/showroomfloor,
-/area/shuttle/sbc_starfury)
-"fR" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/effect/turf_decal/siding/thinplating_new/dark,
-/obj/effect/turf_decal/stripes/red/line,
-/turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/sbc_starfury)
 "fS" = (
 /obj/structure/cable,
@@ -1646,6 +1641,7 @@
 /obj/structure/sign/warning/secure_area/directional/east{
 	desc = "A warning sign which reads 'KEEP CLEAR: SHUTTLE BAY'";
 	icon_state = "space";
+	layer = 4;
 	name = "KEEP CLEAR: SHUTTLE BAY"
 	},
 /obj/effect/turf_decal/stripes/red/line{
@@ -1686,6 +1682,7 @@
 /obj/structure/sign/warning/secure_area/directional/west{
 	desc = "A warning sign which reads 'KEEP CLEAR: SHUTTLE BAY'";
 	icon_state = "space";
+	layer = 4;
 	name = "KEEP CLEAR: SHUTTLE BAY"
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -1734,6 +1731,19 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
+/area/shuttle/sbc_starfury)
+"gN" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/structure/cable,
+/obj/effect/turf_decal/siding/thinplating_new/dark{
+	dir = 8
+	},
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/sbc_starfury)
 "gO" = (
 /obj/effect/turf_decal/tile/red/half/contrasted{
@@ -2186,7 +2196,8 @@
 /area/shuttle/sbc_starfury)
 "hZ" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/gun/ballistic/automatic/m90{
 	pixel_x = -3;
@@ -2201,7 +2212,8 @@
 /area/shuttle/sbc_starfury)
 "ia" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/gun/ballistic/shotgun/bulldog{
 	pixel_x = -3;
@@ -2245,6 +2257,21 @@
 	},
 /obj/structure/extinguisher_cabinet/directional/east,
 /turf/open/floor/pod/light,
+/area/shuttle/sbc_starfury)
+"ic" = (
+/obj/machinery/computer/security/telescreen/entertainment{
+	pixel_x = -31
+	},
+/obj/item/book/manual/wiki/barman_recipes,
+/obj/item/reagent_containers/cup/glass/shaker{
+	pixel_x = 10
+	},
+/obj/structure/table/reinforced/plastitaniumglass,
+/obj/effect/turf_decal/siding/dark{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/bar,
+/turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "id" = (
 /obj/item/toy/cards/deck/syndicate{
@@ -2362,7 +2389,8 @@
 /area/shuttle/sbc_starfury)
 "io" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/gun/ballistic/revolver/syndicate{
 	pixel_x = 2;
@@ -2442,7 +2470,8 @@
 /area/shuttle/sbc_starfury)
 "ix" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/storage/belt/military,
 /obj/item/ammo_box/magazine/m7mm,
@@ -2508,7 +2537,7 @@
 	pixel_x = -5;
 	pixel_y = 2
 	},
-/obj/item/cigarette/cigar{
+/obj/item/clothing/mask/cigarette/cigar{
 	pixel_x = 5;
 	pixel_y = 7
 	},
@@ -2549,7 +2578,8 @@
 /area/shuttle/sbc_starfury)
 "iN" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/mod/control/pre_equipped/elite{
 	pixel_x = 1;
@@ -3165,6 +3195,7 @@
 /obj/structure/sign/warning/secure_area/directional/north{
 	desc = "A warning sign which reads 'EXTERNAL AIRLOCK'";
 	icon_state = "space";
+	layer = 4;
 	name = "EXTERNAL AIRLOCK"
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -3236,6 +3267,7 @@
 /obj/structure/sign/warning/secure_area/directional/north{
 	desc = "A warning sign which reads 'EXTERNAL AIRLOCK'";
 	icon_state = "space";
+	layer = 4;
 	name = "EXTERNAL AIRLOCK"
 	},
 /obj/effect/turf_decal/stripes/line{
@@ -3243,6 +3275,15 @@
 	},
 /obj/machinery/light/small/red/directional/north,
 /turf/open/floor/plating,
+/area/shuttle/sbc_starfury)
+"lg" = (
+/obj/structure/table/reinforced,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
+	dir = 8
+	},
+/turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
 "lh" = (
 /obj/effect/turf_decal/tile/yellow{
@@ -4536,19 +4577,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron/dark/textured,
 /area/shuttle/sbc_starfury)
-"Dy" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/structure/cable,
-/obj/effect/turf_decal/siding/thinplating_new/dark{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 8
-	},
-/turf/open/floor/mineral/plastitanium/red,
-/area/shuttle/sbc_starfury)
 "Dz" = (
 /obj/item/crowbar/red,
 /obj/structure/cable,
@@ -4874,7 +4902,8 @@
 /area/shuttle/sbc_starfury)
 "Jl" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/machinery/airalarm/directional/east,
 /obj/item/storage/belt/military,
@@ -4914,7 +4943,8 @@
 /area/shuttle/sbc_starfury)
 "JL" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/card/emag{
 	pixel_x = -2;
@@ -5057,6 +5087,17 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/small/red/directional/north,
 /turf/open/floor/plating,
+/area/shuttle/sbc_starfury)
+"MQ" = (
+/obj/structure/closet/crate,
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high{
+	pixel_x = -3;
+	pixel_y = -3
+	},
+/obj/item/inducer/syndicate,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "MR" = (
 /obj/effect/turf_decal/stripes/line{
@@ -5330,19 +5371,6 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/engine,
 /area/shuttle/sbc_starfury)
-"RX" = (
-/obj/item/book/manual/wiki/barman_recipes,
-/obj/item/reagent_containers/cup/glass/shaker{
-	pixel_x = 10
-	},
-/obj/structure/table/reinforced/plastitaniumglass,
-/obj/effect/turf_decal/siding/dark{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/bar,
-/obj/machinery/computer/security/telescreen/entertainment/directional/west,
-/turf/open/floor/iron/dark,
-/area/shuttle/sbc_starfury)
 "Sb" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/centcom{
@@ -5602,17 +5630,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/side,
-/area/shuttle/sbc_starfury)
-"WI" = (
-/obj/structure/closet/crate,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stock_parts/power_store/cell/high{
-	pixel_x = -3;
-	pixel_y = -3
-	},
-/obj/item/inducer/syndicate,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "WV" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -6049,7 +6066,7 @@ ce
 ae
 hd
 hD
-RX
+ic
 iq
 iy
 ae
@@ -6469,7 +6486,7 @@ Jf
 ae
 kz
 kO
-fE
+lg
 ae
 ae
 Fc
@@ -6703,7 +6720,7 @@ ay
 ag
 dY
 UB
-fR
+cy
 ec
 eB
 aH
@@ -7269,7 +7286,7 @@ ST
 ae
 ae
 gB
-Dy
+gN
 gY
 Fl
 hS
@@ -7755,7 +7772,7 @@ mQ
 ae
 nR
 Xr
-WI
+MQ
 ae
 ko
 ae

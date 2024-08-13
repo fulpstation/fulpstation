@@ -30,7 +30,7 @@
 		quirk_holder.client.give_award(/datum/award/achievement/misc/debt_extinguished, quirk_holder)
 	podspawn(list(
 		"target" = get_turf(quirk_holder),
-		"style" = /datum/pod_style/advanced,
+		"style" = STYLE_BLUESPACE,
 		"spawn" = /obj/item/clothing/accessory/debt_payer_pin,
 	))
 

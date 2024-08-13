@@ -10,9 +10,6 @@
 	/// Cooldown for freakouts to prevent permastunning.
 	COOLDOWN_DECLARE(scare_cooldown)
 
-	///What mood event to apply when we see the thing & freak out.
-	var/datum/mood_event/mood_event_type
-
 	var/regex/trigger_regex
 	//instead of cycling every atom, only cycle the relevant types
 	var/list/trigger_mobs
@@ -36,10 +33,6 @@
 	trigger_turfs = GLOB.phobia_turfs[phobia_type]
 	trigger_species = GLOB.phobia_species[phobia_type]
 	..()
-
-/datum/brain_trauma/mild/phobia/on_lose(silent)
-	owner.clear_mood_event("phobia_[phobia_type]")
-	return ..()
 
 /datum/brain_trauma/mild/phobia/on_life(seconds_per_tick, times_fired)
 	..()
@@ -114,8 +107,6 @@
 	COOLDOWN_START(src, scare_cooldown, 12 SECONDS)
 	if(owner.stat == DEAD)
 		return
-	if(mood_event_type)
-		owner.add_mood_event("phobia_[phobia_type]", mood_event_type)
 	var/message = pick("spooks you to the bone", "shakes you up", "terrifies you", "sends you into a panic", "sends chills down your spine")
 	if(reason)
 		to_chat(owner, span_userdanger("Seeing [span_phobia(reason.name)] [message]!"))
@@ -202,7 +193,6 @@
 
 /datum/brain_trauma/mild/phobia/heresy
 	phobia_type = "heresy"
-	mood_event_type = /datum/mood_event/heresy
 	random_gain = FALSE
 
 /datum/brain_trauma/mild/phobia/insects
@@ -227,7 +217,6 @@
 
 /datum/brain_trauma/mild/phobia/skeletons
 	phobia_type = "skeletons"
-	mood_event_type = /datum/mood_event/spooked
 	random_gain = FALSE
 
 /datum/brain_trauma/mild/phobia/snakes

@@ -143,7 +143,6 @@
 	effectiveness = 40, \
 	)
 	//it's sharp, so it works, but barely.
-	AddElement(/datum/element/gravedigger)
 
 /obj/item/shovel/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] begins digging their own grave! It looks like [user.p_theyre()] trying to commit suicide!"))
@@ -224,7 +223,6 @@
 /obj/item/trench_tool/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
-	AddElement(/datum/element/gravedigger)
 
 /obj/item/trench_tool/examine(mob/user)
 	. = ..()

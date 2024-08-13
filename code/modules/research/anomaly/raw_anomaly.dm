@@ -91,13 +91,7 @@
 /obj/item/raw_anomaly_core/proc/create_core(newloc, del_self = FALSE, count_towards_limit = FALSE)
 	. = new anomaly_type(newloc)
 	if(count_towards_limit)
-		SSresearch.increment_existing_anomaly_cores(anomaly_type)
+		var/existing = SSresearch.created_anomaly_types[anomaly_type] || 0
+		SSresearch.created_anomaly_types[anomaly_type] = existing + 1
 	if(del_self)
 		qdel(src)
-
-/// Doesn't do anything, consolation prize if you neu
-/obj/item/inert_anomaly
-	name = "inert anomaly core"
-	desc = "A chunk of fused exotic materials. Useless to you, but some other lab might purchase it."
-	icon = 'icons/obj/devices/new_assemblies.dmi'
-	icon_state = "rawcore_inert"

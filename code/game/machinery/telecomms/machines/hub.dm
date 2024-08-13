@@ -63,6 +63,7 @@
 		"s_relay",
 		"m_relay",
 		"r_relay",
+		"h_relay",
 		"science",
 		"medical",
 		"supply",

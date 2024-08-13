@@ -64,7 +64,8 @@
 
 			if(yawning)
 				M.emote("yawn")
-				A.airborne_spread(6)
+				if(M.CanSpreadAirborneDisease())
+					A.spread(6)
 
 		if(5)
 			if(prob(50))
@@ -74,4 +75,5 @@
 
 			if(yawning)
 				M.emote("yawn")
-				A.airborne_spread(6)
+				if(M.CanSpreadAirborneDisease())
+					A.spread(6)

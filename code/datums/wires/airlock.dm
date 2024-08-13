@@ -74,7 +74,7 @@
 	if(!..())
 		return FALSE
 	var/obj/machinery/door/airlock/airlock = holder
-	if(!HAS_SILICON_ACCESS(user) && !isdrone(user) && airlock.isElectrified() && airlock.hasPower())
+	if(!HAS_SILICON_ACCESS(user) && !isdrone(user) && airlock.isElectrified())
 		var/mob/living/carbon/carbon_user = user
 		if (!istype(carbon_user) || carbon_user.should_electrocute(get_area(airlock)))
 			return FALSE
@@ -126,7 +126,7 @@
 			A.update_appearance()
 		if(WIRE_IDSCAN) // Pulse to disable emergency access and flash the red lights.
 			if(A.hasPower() && A.density)
-				A.run_animation(DOOR_DENY_ANIMATION)
+				A.do_animate("deny")
 				if(A.emergency)
 					A.emergency = FALSE
 					A.update_appearance()

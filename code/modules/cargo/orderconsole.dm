@@ -178,7 +178,6 @@
 			"desc" = P.desc || P.name, // If there is a description, use it. Otherwise use the pack's name.
 			"goody" = P.goody,
 			"access" = P.access,
-			"contraband" = P.contraband,
 		))
 	return data
 

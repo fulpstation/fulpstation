@@ -48,7 +48,7 @@
 			sent_satellites = TRUE
 			podspawn(list(
 				"target" = get_turf(user),
-				"style" = /datum/pod_style/syndicate,
+				"style" = STYLE_SYNDICATE,
 				"spawn" = /obj/structure/closet/crate/engineering/smuggled_meteor_shields,
 			))
 

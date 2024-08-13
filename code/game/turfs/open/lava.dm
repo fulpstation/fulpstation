@@ -42,7 +42,6 @@
 	var/fish_source_type = /datum/fish_source/lavaland
 	/// The color we use for our immersion overlay
 	var/immerse_overlay_color = "#a15e1b"
-	rust_resistance = RUST_RESISTANCE_ABSOLUTE
 
 /turf/open/lava/Initialize(mapload)
 	. = ..()
@@ -170,6 +169,9 @@
 		return TRUE
 	return FALSE
 
+/turf/open/lava/rust_heretic_act()
+	return FALSE
+
 /turf/open/lava/singularity_act()
 	return
 
@@ -205,8 +207,8 @@
 			to_chat(user, span_warning("You need one rod to build a heatproof lattice."))
 		return
 	// Light a cigarette in the lava
-	if(istype(C, /obj/item/cigarette))
-		var/obj/item/cigarette/ciggie = C
+	if(istype(C, /obj/item/clothing/mask/cigarette))
+		var/obj/item/clothing/mask/cigarette/ciggie = C
 		if(ciggie.lit)
 			to_chat(user, span_warning("The [ciggie.name] is already lit!"))
 			return TRUE

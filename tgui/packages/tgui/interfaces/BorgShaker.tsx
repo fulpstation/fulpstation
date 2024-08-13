@@ -1,6 +1,5 @@
-import { Button, NoticeBox, Section } from 'tgui-core/components';
-
 import { useBackend } from '../backend';
+import { Button, NoticeBox, Section } from '../components';
 import { Window } from '../layouts';
 
 type BorgShakerContext = {

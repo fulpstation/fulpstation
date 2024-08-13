@@ -1,4 +1,7 @@
+import { createSearch, decodeHtmlEntities } from 'common/string';
 import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import {
   Button,
   Icon,
@@ -8,10 +11,7 @@ import {
   Stack,
   Table,
   Tooltip,
-} from 'tgui-core/components';
-import { createSearch, decodeHtmlEntities } from 'tgui-core/string';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { TableCell, TableRow } from '../components/Table';
 import { Window } from '../layouts';
 import { InputButtons } from './common/InputButtons';

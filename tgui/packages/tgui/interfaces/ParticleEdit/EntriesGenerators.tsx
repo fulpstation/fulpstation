@@ -1,7 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
-import { useContext } from 'react';
-
-import { useBackend } from '../../backend';
+import { useBackend, useLocalState } from '../../backend';
 import {
   Button,
   ColorBox,
@@ -10,7 +8,6 @@ import {
   NumberInput,
   Stack,
 } from '../../components';
-import { ParticleContext } from '.';
 import {
   EntryGeneratorNumbersListProps,
   FloatGeneratorColorProps,
@@ -23,8 +20,8 @@ import { GeneratorListEntry } from './Generators';
 import { isStringArray } from './helpers';
 
 export const FloatGenerator = (props: FloatGeneratorProps) => {
-  const { act } = useBackend<ParticleUIData>();
-  const { setDesc } = useContext(ParticleContext);
+  const { act, data } = useBackend<ParticleUIData>();
+  const [desc, setdesc] = useLocalState('desc', '');
   const { name, var_name, float } = props;
   return (
     <LabeledList.Item label={name}>
@@ -32,7 +29,7 @@ export const FloatGenerator = (props: FloatGeneratorProps) => {
         <Stack.Item>
           <Button
             icon={'question'}
-            onClick={() => setDesc(var_name)}
+            onClick={() => setdesc(var_name)}
             tooltip={'View details'}
           />
         </Stack.Item>
@@ -76,8 +73,8 @@ export const FloatGenerator = (props: FloatGeneratorProps) => {
 };
 
 export const FloatGeneratorColor = (props: FloatGeneratorColorProps) => {
-  const { act } = useBackend<ParticleUIData>();
-  const { setDesc } = useContext(ParticleContext);
+  const { act, data } = useBackend<ParticleUIData>();
+  const [desc, setdesc] = useLocalState('desc', '');
   const { name, var_name, float } = props;
   return (
     <LabeledList.Item label={name}>
@@ -85,7 +82,7 @@ export const FloatGeneratorColor = (props: FloatGeneratorColorProps) => {
         <Stack.Item>
           <Button
             icon={'question'}
-            onClick={() => setDesc(var_name)}
+            onClick={() => setdesc(var_name)}
             tooltip={'View details'}
           />
         </Stack.Item>
@@ -132,8 +129,8 @@ export const FloatGeneratorColor = (props: FloatGeneratorColorProps) => {
 export const EntryGeneratorNumbersList = (
   props: EntryGeneratorNumbersListProps,
 ) => {
-  const { act } = useBackend<ParticleUIData>();
-  const { setDesc } = useContext(ParticleContext);
+  const { act, data } = useBackend<ParticleUIData>();
+  const [desc, setdesc] = useLocalState('desc', '');
   const { name, var_name, allow_z, input } = props;
   return (
     <LabeledList.Item label={name}>
@@ -141,7 +138,7 @@ export const EntryGeneratorNumbersList = (
         <Stack.Item>
           <Button
             icon={'question'}
-            onClick={() => setDesc(var_name)}
+            onClick={() => setdesc(var_name)}
             tooltip={'View details'}
           />
         </Stack.Item>

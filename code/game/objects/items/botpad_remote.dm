@@ -16,35 +16,34 @@
 	return ..()
 
 /obj/item/botpad_remote/attack_self(mob/living/user)
-	playsound(src, SFX_TERMINAL_TYPE, 25, FALSE)
+	playsound(src, get_sfx(SFX_TERMINAL_TYPE), 25, FALSE)
 	try_launch(user)
 	return
 
 /obj/item/botpad_remote/attack_self_secondary(mob/living/user)
-	playsound(src, SFX_TERMINAL_TYPE, 25, FALSE)
+	playsound(src, get_sfx(SFX_TERMINAL_TYPE), 25, FALSE)
 	if(connected_botpad)
 		connected_botpad.recall(user)
 		return
 	user?.balloon_alert(user, "no connected pad!")
 	return
 
-/obj/item/botpad_remote/multitool_act(mob/living/user, obj/item/multitool/multitool)
-	. = NONE
-	if(!istype(multitool.buffer, /obj/machinery/botpad))
+/obj/item/botpad_remote/multitool_act(mob/living/user, obj/item/tool)
+	if(!multitool_check_buffer(user, tool))
 		return
-
-	var/obj/machinery/botpad/buffered_remote = multitool.buffer
-	if(buffered_remote == connected_botpad)
-		to_chat(user, span_warning("Controller cannot connect to its own botpad!"))
-		return ITEM_INTERACT_BLOCKING
-
-	if(!connected_botpad && istype(buffered_remote, /obj/machinery/botpad))
-		connected_botpad = buffered_remote
-		connected_botpad.connected_remote = src
-		connected_botpad.id = id
-		multitool.set_buffer(null)
-		to_chat(user, span_notice("You connect the controller to the pad with data from the [multitool.name]'s buffer."))
-		return ITEM_INTERACT_SUCCESS
+	var/obj/item/multitool/multitool = tool
+	if(istype(multitool.buffer, /obj/machinery/botpad))
+		var/obj/machinery/botpad/buffered_remote = multitool.buffer
+		if(buffered_remote == connected_botpad)
+			to_chat(user, span_warning("Controller cannot connect to its own botpad!"))
+		else if(!connected_botpad && istype(buffered_remote, /obj/machinery/botpad))
+			connected_botpad = buffered_remote
+			connected_botpad.connected_remote = src
+			connected_botpad.id = id
+			multitool.set_buffer(null)
+			to_chat(user, span_notice("You connect the controller to the pad with data from the [multitool.name]'s buffer."))
+		else
+			to_chat(user, span_warning("Unable to upload!"))
 
 /obj/item/botpad_remote/proc/try_launch(mob/living/user)
 	if(!connected_botpad)

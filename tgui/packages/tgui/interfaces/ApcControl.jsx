@@ -1,6 +1,8 @@
 import { map, sortBy } from 'common/collections';
 import { flow } from 'common/fp';
 import { useState } from 'react';
+
+import { useBackend, useLocalState } from '../backend';
 import {
   Box,
   Button,
@@ -10,9 +12,7 @@ import {
   Stack,
   Table,
   Tabs,
-} from 'tgui-core/components';
-
-import { useBackend, useLocalState } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 import { AreaCharge, powerRank } from './PowerMonitor';
 

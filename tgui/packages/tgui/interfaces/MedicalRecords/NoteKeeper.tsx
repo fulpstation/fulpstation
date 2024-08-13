@@ -1,3 +1,4 @@
+import { multiline } from 'common/string';
 import { useBackend, useLocalState } from 'tgui/backend';
 import {
   BlockQuote,
@@ -117,7 +118,7 @@ const NoteTabs = (props) => {
         </Tabs.Tab>
       ))}
       <Tooltip
-        content={`Add a new note. Press enter or escape to exit view.`}
+        content={multiline`Add a new note. Press enter or escape to exit view.`}
         position="bottom"
       >
         <Tabs.Tab onClick={composeNew} selected={writing}>

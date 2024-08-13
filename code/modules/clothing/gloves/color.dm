@@ -9,24 +9,16 @@
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	resistance_flags = NONE
 	cut_type = /obj/item/clothing/gloves/fingerless
+	clothing_traits = list(TRAIT_FAST_CUFFING)
 
 /obj/item/clothing/gloves/color/black/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/radiogloves)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
-
-/obj/item/clothing/gloves/color/black/security
-	name = "security gloves"
-	desc = "These security gloves come with microchips that help the user quickly restrain suspects."
-	icon_state = "sec"
-	clothing_traits = list(TRAIT_FAST_CUFFING)
-
-/obj/item/clothing/gloves/color/black/security/blu
-	icon_state = "sec_blu"
 
 /obj/item/clothing/gloves/fingerless
 	name = "fingerless gloves"
@@ -45,8 +37,8 @@
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gripperoffbrand)
 
-	AddElement(
-		/datum/element/slapcrafting,\
+	AddComponent(
+		/datum/component/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 	)
 

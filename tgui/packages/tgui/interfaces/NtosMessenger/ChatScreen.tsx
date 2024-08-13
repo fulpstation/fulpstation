@@ -1,4 +1,5 @@
 import { BooleanLike } from 'common/react';
+import { decodeHtmlEntities } from 'common/string';
 import { Component, createRef, RefObject } from 'react';
 
 import { useBackend } from '../../backend';
@@ -401,14 +402,12 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { message, everyone, outgoing, photoPath, timestamp, onPreviewImage } =
     props;
 
-  const messageHTML = {
-    __html: `${message}`,
-  };
+  const displayMessage = decodeHtmlEntities(message);
 
   return (
     <Box className={`NtosChatMessage${outgoing ? '_outgoing' : ''}`}>
       <Box className="NtosChatMessage__content">
-        <Box as="span" dangerouslySetInnerHTML={messageHTML} />
+        <Box as="span">{displayMessage}</Box>
         <Tooltip content={timestamp} position={outgoing ? 'left' : 'right'}>
           <Icon
             className="NtosChatMessage__timestamp"

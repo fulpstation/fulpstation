@@ -230,12 +230,9 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 		SSevents.reschedule()
 		if(user)
-			message_admins("[ADMIN_LOOKUPFLW(user)] [ismob(user) ? "":"admin triggered "]intensified summon events!")
-			if(ismob(user))
-				to_chat(user, span_warning("You have intensified summon events, causing them to occur more often!"))
-				user.log_message("intensified events!", LOG_GAME)
-			else //admin triggered
-				log_admin("[key_name(user)] intensified summon events.")
+			to_chat(user, span_warning("You have intensified summon events, causing them to occur more often!"))
+			message_admins("[ADMIN_LOOKUPFLW(user)] intensified summon events!")
+			user.log_message("intensified events!", LOG_GAME)
 		else
 			log_game("Summon Events was intensified!")
 
@@ -248,12 +245,9 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 		SSevents.toggleWizardmode()
 		SSevents.reschedule()
 		if(user)
-			message_admins("[ADMIN_LOOKUPFLW(user)] [ismob(user) ? "summoned":"admin triggered summon"] events!")
-			if(ismob(user))
-				to_chat(user, span_warning("You have cast summon events!"))
-				user.log_message("summoned events!", LOG_GAME)
-			else //admin triggered
-				log_admin("[key_name(user)] summoned events.")
+			to_chat(user, span_warning("You have cast summon events!"))
+			message_admins("[ADMIN_LOOKUPFLW(user)] summoned events!")
+			user.log_message("summoned events!", LOG_GAME)
 		else
 			message_admins("Summon Events was triggered!")
 			log_game("Summon Events was triggered!")

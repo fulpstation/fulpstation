@@ -298,7 +298,7 @@
 		/mob/living/basic/mushroom,
 		/mob/living/basic/viscerator,
 		/mob/living/simple_animal/hostile/retaliate/goose, //Janitors HATE geese.
-		/mob/living/basic/pet/gondola,
+		/mob/living/simple_animal/pet/gondola,
 	)
 	return pick(mob_list)
 

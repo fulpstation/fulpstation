@@ -11,11 +11,8 @@
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "aZ" = (
+/obj/machinery/suit_storage_unit/pirate,
 /obj/effect/turf_decal/bot_red,
-/obj/machinery/suit_storage_unit/pirate{
-	helmet_type = /obj/item/clothing/head/helmet/space/pirate/tophat;
-	suit_type = /obj/item/clothing/suit/space/pirate/silverscale
-	},
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "bp" = (
@@ -33,6 +30,9 @@
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "de" = (
+/obj/machinery/door/airlock/external/glass/ruin{
+	id_tag = "pirateportexternal"
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -40,9 +40,6 @@
 	dir = 8
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/external/glass/ruin{
-	id_tag = "pirateportexternal"
-	},
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "dI" = (
@@ -54,18 +51,20 @@
 	anchored = 1
 	},
 /obj/structure/cable,
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "dT" = (
+/obj/item/ammo_box/strilka310{
+	pixel_y = 2
+	},
+/obj/item/ammo_box/strilka310,
+/obj/item/grenade/c4{
+	pixel_x = -13
+	},
 /obj/structure/table,
-/obj/item/grenade/c4,
-/obj/item/grenade/c4{
-	pixel_x = 9
-	},
-/obj/item/grenade/c4{
-	pixel_x = -9
-	},
 /turf/open/floor/iron/dark,
 /area/shuttle/pirate)
 "ei" = (
@@ -78,6 +77,10 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/trimline/yellow/warning,
+/turf/open/floor/plating/airless,
+/area/shuttle/pirate)
+"eK" = (
+/obj/machinery/power/shuttle_engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/pirate)
 "eU" = (
@@ -119,14 +122,6 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/shuttle/pirate)
-"gw" = (
-/mob/living/basic/bot/medbot/nukie{
-	name = "Mortimer";
-	faction = list("pirate");
-	desc = "A lowly medibot serving as the Silverscales' live-in manservant/butler/coat rack. They recently discovered it can heal people as well."
-	},
-/turf/open/floor/carpet/royalblack,
 /area/shuttle/pirate)
 "ht" = (
 /obj/machinery/door/airlock/silver,
@@ -252,13 +247,13 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/pirate)
 "nY" = (
+/obj/machinery/door/airlock/external/glass/ruin{
+	id_tag = "pirateportexternal"
+	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/external/glass/ruin{
-	id_tag = "pirateportexternal"
-	},
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "pk" = (
@@ -342,13 +337,10 @@
 	dir = 6
 	},
 /turf/open/floor/plating/airless,
-/area/shuttle/pirate)
+/area/template_noop)
 "xj" = (
 /obj/structure/table/glass,
 /obj/item/storage/medkit/brute,
-/obj/item/storage/medkit/fire{
-	pixel_y = 5
-	},
 /turf/open/floor/carpet/royalblack,
 /area/shuttle/pirate)
 "xs" = (
@@ -363,7 +355,8 @@
 /area/shuttle/pirate)
 "xR" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/melee/energy/sword/saber/purple{
 	pixel_y = 12
@@ -409,6 +402,9 @@
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "zQ" = (
+/obj/machinery/door/airlock/external/glass/ruin{
+	id_tag = "piratestarboardexternal"
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -416,9 +412,6 @@
 	dir = 8
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/external/glass/ruin{
-	id_tag = "piratestarboardexternal"
-	},
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "Ae" = (
@@ -457,6 +450,9 @@
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "Bl" = (
+/obj/machinery/door/airlock/external/glass/ruin{
+	id_tag = "piratestarboardexternal"
+	},
 /obj/docking_port/stationary{
 	dir = 4;
 	dwidth = 13;
@@ -466,7 +462,7 @@
 	width = 26
 	},
 /obj/docking_port/mobile/pirate{
-	dir = 8;
+	dir = 4;
 	launch_status = 0;
 	movement_force = list("KNOCKDOWN"=0,"THROW"=0);
 	name = "Silverscale Cruiser";
@@ -476,9 +472,6 @@
 	dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/external/glass/ruin{
-	id_tag = "piratestarboardexternal"
-	},
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "Ch" = (
@@ -507,12 +500,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
-/obj/machinery/button/door/directional/north{
-	specialfunctions = 4;
-	normaldoorcontrol = 1;
-	name = "External Bolt Control";
-	id = "piratestarboardexternal"
-	},
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "Fl" = (
@@ -554,14 +543,6 @@
 	id = "silverbridge"
 	},
 /turf/open/floor/plating,
-/area/shuttle/pirate)
-"Id" = (
-/obj/structure/guncase,
-/obj/item/gun/energy/laser/luxurypaywall{
-	projectile_damage_multiplier = 1.30;
-	desc = "A laser gun modified to cost 20 credits to fire. Someone on the station should have an ID that works with this thing."
-	},
-/turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "Ig" = (
 /obj/structure/table/glass,
@@ -671,9 +652,8 @@
 "Mo" = (
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/pirate{
 	dir = 8;
-	x_offset = 12;
-	y_offset = 5;
-	view_range = 10
+	x_offset = 10;
+	y_offset = 5
 	},
 /turf/open/floor/iron/dark/side{
 	dir = 8
@@ -715,10 +695,12 @@
 	pixel_y = 10
 	},
 /obj/item/reagent_containers/cup/glass/bottle/hcider{
+	layer = 3.1;
 	pixel_x = -6;
 	pixel_y = 8
 	},
 /obj/item/reagent_containers/cup/glass/bottle/rum{
+	layer = 3.2;
 	pixel_x = -15;
 	pixel_y = 4
 	},
@@ -731,6 +713,7 @@
 	pixel_y = 15
 	},
 /obj/item/reagent_containers/cup/glass/bottle/wine{
+	layer = 3.1;
 	pixel_x = 3;
 	pixel_y = 5
 	},
@@ -801,27 +784,18 @@
 /area/shuttle/pirate)
 "RO" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
+	},
+/obj/item/ammo_box/strilka310,
+/obj/item/ammo_box/strilka310{
+	pixel_y = 3
 	},
 /obj/effect/turf_decal/bot,
-/obj/item/ammo_box/strilka310/phasic{
-	pixel_y = -5;
-	pixel_x = 5
-	},
-/obj/item/ammo_box/strilka310/phasic{
-	pixel_x = 5
-	},
-/obj/item/ammo_box/strilka310/phasic{
-	pixel_x = -5;
-	pixel_y = -5
-	},
-/obj/item/ammo_box/strilka310/phasic{
-	pixel_x = -5
-	},
+/obj/item/gun/ballistic/rifle/boltaction/prime,
 /obj/item/gun/ballistic/rifle/boltaction/prime{
 	pixel_y = 4
 	},
-/obj/item/gun/ballistic/rifle/boltaction/prime,
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "RU" = (
@@ -913,26 +887,12 @@
 /area/shuttle/pirate)
 "UV" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/all_access,
 /turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "Vw" = (
 /obj/structure/table,
 /obj/machinery/recharger,
 /turf/open/floor/iron/dark,
-/area/shuttle/pirate)
-"Wd" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
-	dir = 4
-	},
-/obj/machinery/button/door/directional/south{
-	id = "pirateportexternal";
-	name = "External Bolt Control";
-	normaldoorcontrol = 1;
-	specialfunctions = 4
-	},
-/turf/open/floor/pod/dark,
 /area/shuttle/pirate)
 "Ww" = (
 /obj/machinery/power/shuttle_engine/heater{
@@ -982,7 +942,8 @@
 /area/shuttle/pirate)
 "Yj" = (
 /obj/structure/rack{
-	dir = 8
+	dir = 8;
+	layer = 2.9
 	},
 /obj/item/storage/box/lethalshot,
 /obj/item/storage/box/lethalshot,
@@ -1061,7 +1022,7 @@ rB
 Ww
 Ww
 Ww
-Ww
+eK
 Ww
 Ww
 Ww
@@ -1094,7 +1055,7 @@ TV
 rB
 rB
 dQ
-Wd
+Si
 rB
 aZ
 aZ
@@ -1140,7 +1101,7 @@ fR
 Ox
 Qm
 wa
-Id
+Qm
 rB
 UV
 wa
@@ -1232,7 +1193,7 @@ xs
 Ai
 am
 am
-gw
+am
 am
 am
 Ai

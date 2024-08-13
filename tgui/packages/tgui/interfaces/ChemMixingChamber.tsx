@@ -1,4 +1,8 @@
+import { round, toFixed } from 'common/math';
+import { BooleanLike } from 'common/react';
 import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import {
   AnimatedNumber,
   Box,
@@ -6,11 +10,7 @@ import {
   NumberInput,
   Section,
   Stack,
-} from 'tgui-core/components';
-import { round, toFixed } from 'tgui-core/math';
-import { BooleanLike } from 'tgui-core/react';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 
 type Reagent = {

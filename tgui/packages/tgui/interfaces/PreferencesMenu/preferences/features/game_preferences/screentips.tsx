@@ -1,3 +1,5 @@
+import { multiline } from 'common/string';
+
 import {
   CheckboxInput,
   Feature,
@@ -10,7 +12,7 @@ import { FeatureDropdownInput } from '../dropdowns';
 export const screentip_color: Feature<string> = {
   name: 'Screentips: Screentips color',
   category: 'UI',
-  description: `
+  description: multiline`
     The color of screen tips, the text you see when hovering over something.
   `,
   component: FeatureColorInput,
@@ -19,7 +21,7 @@ export const screentip_color: Feature<string> = {
 export const screentip_images: FeatureToggle = {
   name: 'Screentips: Allow images',
   category: 'UI',
-  description: `When enabled, screentip hints use images for
+  description: multiline`When enabled, screentip hints use images for
     the mouse button rather than LMB/RMB.`,
   component: CheckboxInput,
 };
@@ -27,7 +29,7 @@ export const screentip_images: FeatureToggle = {
 export const screentip_pref: FeatureChoiced = {
   name: 'Screentips: Enable screentips',
   category: 'UI',
-  description: `
+  description: multiline`
     Enables screen tips, the text you see when hovering over something.
     When set to "Only with tips", will only show when there is more information
     than just the name, such as what right-clicking it does.

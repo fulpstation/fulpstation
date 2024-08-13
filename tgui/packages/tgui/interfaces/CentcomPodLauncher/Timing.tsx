@@ -1,3 +1,5 @@
+import { multiline } from 'common/string';
+
 import { useBackend } from '../../backend';
 import { Button, Divider, Section } from '../../components';
 import { DELAYS, REV_DELAYS } from './constants';
@@ -16,7 +18,7 @@ export function Timing(props) {
             color="transparent"
             icon="undo"
             onClick={() => act('resetTiming')}
-            tooltip={`
+            tooltip={multiline`
             Reset all pod
             timings/delays`}
             tooltipPosition="bottom-end"
@@ -27,7 +29,7 @@ export function Timing(props) {
             icon={custom_rev_delay === 1 ? 'toggle-on' : 'toggle-off'}
             onClick={() => act('toggleRevDelays')}
             selected={custom_rev_delay}
-            tooltip={`
+            tooltip={multiline`
             Toggle Reverse Delays
             Note: Top set is
             normal delays, bottom set

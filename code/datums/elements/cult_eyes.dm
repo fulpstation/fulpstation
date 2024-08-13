@@ -1,4 +1,4 @@
-/***
+/**
  * # Cult eyes element
  *
  * Applies and removes the glowing cult eyes
@@ -16,7 +16,8 @@
 
 /**
  * Cult eye setter proc
- * * Changes the eye color, and adds the glowing eye trait to the mob.
+ *
+ * Changes the eye color, and adds the glowing eye trait to the mob.
  */
 /datum/element/cult_eyes/proc/set_eyes(mob/living/target)
 	SIGNAL_HANDLER

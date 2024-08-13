@@ -4,13 +4,13 @@
 	name = "slime extract"
 	desc = "Goo extracted from a slime. Legends claim these to have \"magical powers\"."
 	icon = 'icons/mob/simple/slimes.dmi'
-	icon_state = "grey-core"
+	icon_state = "grey slime extract"
 	force = 0
 	w_class = WEIGHT_CLASS_TINY
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 6
-	grind_results = list(/datum/reagent/toxin/slimejelly = 20)
+	grind_results = list()
 	///uses before it goes inert
 	var/extract_uses = 1
 	///deletion timer, for delayed reactions
@@ -43,6 +43,11 @@
 /obj/item/slime_extract/Initialize(mapload)
 	. = ..()
 	create_reagents(100, INJECTABLE | DRAWABLE)
+
+/obj/item/slime_extract/on_grind()
+	. = ..()
+	if(extract_uses)
+		grind_results[/datum/reagent/toxin/slimejelly] = 20
 
 /**
 * Effect when activated by a Luminescent.
@@ -88,7 +93,7 @@
 
 /obj/item/slime_extract/grey
 	name = "grey slime extract"
-	icon_state = "grey-core"
+	icon_state = "grey slime extract"
 	crossbreed_modification = "reproductive"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -113,7 +118,7 @@
 
 /obj/item/slime_extract/gold
 	name = "gold slime extract"
-	icon_state = "gold-core"
+	icon_state = "gold slime extract"
 	crossbreed_modification = "symbiont"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -144,7 +149,7 @@
 
 /obj/item/slime_extract/silver
 	name = "silver slime extract"
-	icon_state = "silver-core"
+	icon_state = "silver slime extract"
 	crossbreed_modification = "consuming"
 	activate_reagents = list(/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -172,7 +177,7 @@
 
 /obj/item/slime_extract/metal
 	name = "metal slime extract"
-	icon_state = "metal-core"
+	icon_state = "metal slime extract"
 	crossbreed_modification = "industrial"
 	activate_reagents = list(/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -196,7 +201,7 @@
 
 /obj/item/slime_extract/purple
 	name = "purple slime extract"
-	icon_state = "purple-core"
+	icon_state = "purple slime extract"
 	crossbreed_modification = "regenerative"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
@@ -215,7 +220,7 @@
 
 /obj/item/slime_extract/darkpurple
 	name = "dark purple slime extract"
-	icon_state = "dark-purple-core"
+	icon_state = "dark purple slime extract"
 	crossbreed_modification = "self-sustaining"
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 
@@ -238,7 +243,7 @@
 
 /obj/item/slime_extract/orange
 	name = "orange slime extract"
-	icon_state = "orange-core"
+	icon_state = "orange slime extract"
 	crossbreed_modification = "burning"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -258,7 +263,7 @@
 
 /obj/item/slime_extract/yellow
 	name = "yellow slime extract"
-	icon_state = "yellow-core"
+	icon_state = "yellow slime extract"
 	crossbreed_modification = "charged"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -281,7 +286,7 @@
 
 /obj/item/slime_extract/red
 	name = "red slime extract"
-	icon_state = "red-core"
+	icon_state = "red slime extract"
 	crossbreed_modification = "sanguine"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -301,7 +306,7 @@
 
 /obj/item/slime_extract/blue
 	name = "blue slime extract"
-	icon_state = "blue-core"
+	icon_state = "blue slime extract"
 	crossbreed_modification = "stabilized"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -320,7 +325,7 @@
 
 /obj/item/slime_extract/darkblue
 	name = "dark blue slime extract"
-	icon_state = "dark-blue-core"
+	icon_state = "dark blue slime extract"
 	crossbreed_modification = "chilling"
 	activate_reagents = list(/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -343,7 +348,7 @@
 
 /obj/item/slime_extract/pink
 	name = "pink slime extract"
-	icon_state = "pink-core"
+	icon_state = "pink slime extract"
 	crossbreed_modification = "gentle"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
@@ -371,7 +376,7 @@
 
 /obj/item/slime_extract/green
 	name = "green slime extract"
-	icon_state = "green-core"
+	icon_state = "green slime extract"
 	crossbreed_modification = "mutative"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/uranium/radium)
 
@@ -395,7 +400,7 @@
 
 /obj/item/slime_extract/lightpink
 	name = "light pink slime extract"
-	icon_state = "light-pink-core"
+	icon_state = "light pink slime extract"
 	crossbreed_modification = "loyal"
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 
@@ -419,7 +424,7 @@
 
 /obj/item/slime_extract/black
 	name = "black slime extract"
-	icon_state = "black-core"
+	icon_state = "black slime extract"
 	crossbreed_modification = "transformative"
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 
@@ -440,7 +445,7 @@
 
 /obj/item/slime_extract/oil
 	name = "oil slime extract"
-	icon_state = "oil-core"
+	icon_state = "oil slime extract"
 	crossbreed_modification = "detonating"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
@@ -464,7 +469,7 @@
 
 /obj/item/slime_extract/adamantine
 	name = "adamantine slime extract"
-	icon_state = "adamantine-core"
+	icon_state = "adamantine slime extract"
 	crossbreed_modification = "crystalline"
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 
@@ -494,7 +499,7 @@
 
 /obj/item/slime_extract/bluespace
 	name = "bluespace slime extract"
-	icon_state = "bluespace-core"
+	icon_state = "bluespace slime extract"
 	crossbreed_modification = "warping"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 	var/teleport_ready = FALSE
@@ -530,7 +535,7 @@
 
 /obj/item/slime_extract/pyrite
 	name = "pyrite slime extract"
-	icon_state = "pyrite-core"
+	icon_state = "pyrite slime extract"
 	crossbreed_modification = "prismatic"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
@@ -557,7 +562,7 @@
 
 /obj/item/slime_extract/cerulean
 	name = "cerulean slime extract"
-	icon_state = "cerulean-core"
+	icon_state = "cerulean slime extract"
 	crossbreed_modification = "recurring"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
@@ -577,7 +582,7 @@
 
 /obj/item/slime_extract/sepia
 	name = "sepia slime extract"
-	icon_state = "sepia-core"
+	icon_state = "sepia slime extract"
 	crossbreed_modification = "lengthened"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
@@ -599,7 +604,7 @@
 
 /obj/item/slime_extract/rainbow
 	name = "rainbow slime extract"
-	icon_state = "rainbow-core"
+	icon_state = "rainbow slime extract"
 	crossbreed_modification = "hyperchromatic"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,"lesser plasma",/datum/reagent/toxin/slimejelly,"holy water and uranium") //Curse this snowflake reagent list.
 
@@ -639,12 +644,13 @@
 	desc = "A hard yet gelatinous capsule excreted by a slime, containing mysterious substances."
 	w_class = WEIGHT_CLASS_TINY
 
-/obj/item/slimepotion/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	if(is_reagent_container(interacting_with))
-		to_chat(user, span_warning("You cannot transfer [src] to [interacting_with]! \
-			It appears the potion must be given directly to a slime to absorb.") )
-		return ITEM_INTERACT_BLOCKING
-	return NONE
+/obj/item/slimepotion/afterattack(obj/item/reagent_containers/target, mob/user , proximity)
+	. = ..()
+	if(!proximity)
+		return
+	if (istype(target))
+		to_chat(user, span_warning("You cannot transfer [src] to [target]! It appears the potion must be given directly to a slime to absorb.") )
+		return
 
 /obj/item/slimepotion/slime/docility
 	name = "docility potion"
@@ -715,10 +721,13 @@
 	if(!dumb_mob.compare_sentience_type(sentience_type)) // Will also return false if not a basic or simple mob, which are the only two we want anyway
 		balloon_alert(user, "invalid creature!")
 		return
+	if(isnull(potion_reason))
+		balloon_alert(user, "no reason for offering set!")
+		return
 	balloon_alert(user, "offering...")
 	being_used = TRUE
 	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(
-		question = "[span_danger(user.name)] is offering [span_notice(dumb_mob.name)] an intelligence potion![potion_reason ? " Reason: [span_boldnotice(potion_reason)]" : ""]",
+		question = "[span_danger(user.name)] is offering [span_notice(dumb_mob.name)] an intelligence potion! Reason: [span_boldnotice(potion_reason)]",
 		check_jobban = ROLE_SENTIENCE,
 		poll_time = 20 SECONDS,
 		checked_target = dumb_mob,
@@ -769,36 +778,33 @@
 	var/prompted = 0
 	var/animal_type = SENTIENCE_ORGANIC
 
-/obj/item/slimepotion/transference/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	. = ..()
-	if(. & ITEM_INTERACT_ANY_BLOCKER)
-		return .
-	var/mob/living/switchy_mob = interacting_with
+/obj/item/slimepotion/transference/afterattack(mob/living/switchy_mob, mob/living/user, proximity)
+	if(!proximity)
+		return
 	if(prompted || !isliving(switchy_mob))
-		return ITEM_INTERACT_BLOCKING
+		return
 	if(switchy_mob.ckey) //much like sentience, these will not work on something that is already player controlled
 		balloon_alert(user, "already sentient!")
-		return ITEM_INTERACT_BLOCKING
+		return ..()
 	if(switchy_mob.stat)
 		balloon_alert(user, "it's dead!")
-		return ITEM_INTERACT_BLOCKING
+		return ..()
 	if(!switchy_mob.compare_sentience_type(animal_type))
 		balloon_alert(user, "invalid creature!")
-		return ITEM_INTERACT_BLOCKING
+		return ..()
 
 	var/job_banned = is_banned_from(user.ckey, ROLE_MIND_TRANSFER)
 	if(QDELETED(src) || QDELETED(switchy_mob) || QDELETED(user))
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	if(job_banned)
 		balloon_alert(user, "you're banned!")
-		return ITEM_INTERACT_BLOCKING
+		return
 
-	user.do_attack_animation(interacting_with)
 	prompted = 1
-	if(tgui_alert(usr,"This will permanently transfer your consciousness to [switchy_mob]. Are you sure you want to do this?",,list("Yes","No")) != "Yes")
+	if(tgui_alert(usr,"This will permanently transfer your consciousness to [switchy_mob]. Are you sure you want to do this?",,list("Yes","No")) == "No")
 		prompted = 0
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	to_chat(user, span_notice("You drink the potion then place your hands on [switchy_mob]..."))
 
@@ -814,7 +820,6 @@
 	if(isanimal(switchy_mob))
 		var/mob/living/simple_animal/switchy_animal= switchy_mob
 		switchy_animal.sentience_act()
-	return ITEM_INTERACT_SUCCESS
 
 /obj/item/slimepotion/slime/steroid
 	name = "slime steroid"
@@ -898,29 +903,29 @@
 	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "potyellow"
 
-/obj/item/slimepotion/speed/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+/obj/item/slimepotion/speed/afterattack(obj/C, mob/user, proximity)
 	. = ..()
-	if(. & ITEM_INTERACT_ANY_BLOCKER)
-		return .
-	if(!isobj(interacting_with))
+	if(!proximity)
+		return
+	if(!istype(C))
 		to_chat(user, span_warning("The potion can only be used on objects!"))
-		return ITEM_INTERACT_BLOCKING
-	if(SEND_SIGNAL(interacting_with, COMSIG_SPEED_POTION_APPLIED, src, user) & SPEED_POTION_STOP)
-		return ITEM_INTERACT_SUCCESS
-	if(isitem(interacting_with))
-		var/obj/item/apply_to = interacting_with
-		if(apply_to.slowdown <= 0 || (apply_to.item_flags & IMMUTABLE_SLOW))
-			to_chat(user, span_warning("The [apply_to] can't be made any faster!"))
-			return ITEM_INTERACT_BLOCKING
-		apply_to.slowdown = 0
+		return
+	. |= AFTERATTACK_PROCESSED_ITEM
+	if(SEND_SIGNAL(C, COMSIG_SPEED_POTION_APPLIED, src, user) & SPEED_POTION_STOP)
+		return
+	if(isitem(C))
+		var/obj/item/I = C
+		if(I.slowdown <= 0 || (I.item_flags & IMMUTABLE_SLOW))
+			to_chat(user, span_warning("The [C] can't be made any faster!"))
+			return ..()
+		I.slowdown = 0
 
-	to_chat(user, span_notice("You slather the red gunk over the [interacting_with], making it faster."))
-	interacting_with.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
-	interacting_with.add_atom_colour(COLOR_RED, FIXED_COLOUR_PRIORITY)
+	to_chat(user, span_notice("You slather the red gunk over the [C], making it faster."))
+	C.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+	C.add_atom_colour(COLOR_RED, FIXED_COLOUR_PRIORITY)
 	qdel(src)
-	return ITEM_INTERACT_SUCCESS
 
-/obj/item/slimepotion/speed/storage_insert_on_interaction(datum/storage, atom/storage_holder, mob/user)
+/obj/item/slimepotion/speed/attackby_storage_insert(datum/storage, atom/storage_holder, mob/user)
 	if(!isitem(storage_holder))
 		return TRUE
 	if(istype(storage_holder, /obj/item/mod/control))
@@ -937,20 +942,20 @@
 	resistance_flags = FIRE_PROOF
 	var/uses = 3
 
-/obj/item/slimepotion/fireproof/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+/obj/item/slimepotion/fireproof/afterattack(obj/item/clothing/clothing, mob/user, proximity)
 	. = ..()
-	if(. & ITEM_INTERACT_ANY_BLOCKER)
-		return .
-	if(uses <= 0)
+	if(!proximity)
+		return
+	if(!uses)
 		qdel(src)
-		return ITEM_INTERACT_BLOCKING
-	var/obj/item/clothing/clothing = interacting_with
+		return
+	. |= AFTERATTACK_PROCESSED_ITEM
 	if(!istype(clothing))
 		to_chat(user, span_warning("The potion can only be used on clothing!"))
-		return ITEM_INTERACT_BLOCKING
+		return
 	if(clothing.max_heat_protection_temperature >= FIRE_IMMUNITY_MAX_TEMP_PROTECT)
 		to_chat(user, span_warning("The [clothing] is already fireproof!"))
-		return ITEM_INTERACT_BLOCKING
+		return
 	to_chat(user, span_notice("You slather the blue gunk over the [clothing], fireproofing it."))
 	clothing.name = "fireproofed [clothing.name]"
 	clothing.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
@@ -959,9 +964,8 @@
 	clothing.heat_protection = clothing.body_parts_covered
 	clothing.resistance_flags |= FIRE_PROOF
 	uses --
-	if(uses <= 0)
+	if(!uses)
 		qdel(src)
-	return ITEM_INTERACT_BLOCKING
 
 /obj/item/slimepotion/genderchange
 	name = "gender change potion"
@@ -1076,3 +1080,4 @@
 	max_amount = 60
 	turf_type = /turf/open/floor/sepia
 	merge_type = /obj/item/stack/tile/sepia
+

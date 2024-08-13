@@ -27,12 +27,7 @@
 
 /obj/item/gun/ballistic/bow/update_icon_state()
 	. = ..()
-	icon_state = "[base_icon_state][drawn ? "_drawn" : ""]"
-
-/obj/item/gun/ballistic/bow/update_overlays()
-	. = ..()
-	if(chambered)
-		. += "[chambered.base_icon_state][drawn ? "_drawn" : ""]"
+	icon_state = chambered ? "[base_icon_state]_[drawn ? "drawn" : "nocked"]" : "[base_icon_state]"
 
 /obj/item/gun/ballistic/bow/click_alt(mob/user)
 	if(isnull(chambered))
@@ -68,19 +63,15 @@
 	playsound(src, 'sound/weapons/gun/bow/bow_draw.ogg', 25, TRUE)
 	update_appearance()
 
-/obj/item/gun/ballistic/bow/try_fire_gun(atom/target, mob/living/user, params)
+/obj/item/gun/ballistic/bow/afterattack(atom/target, mob/living/user, flag, params, passthrough = FALSE)
+	. |= AFTERATTACK_PROCESSED_ITEM
 	if(!chambered)
-		return FALSE
+		return
 	if(!drawn)
 		to_chat(user, span_warning("Without drawing the bow, the arrow uselessly falls to the ground."))
 		drop_arrow()
-		return FALSE
+		return
 	return ..() //fires, removing the arrow
-
-/obj/item/gun/ballistic/bow/postfire_empty_checks(last_shot_succeeded)
-	if(!chambered && !get_ammo())
-		drawn = FALSE
-		update_appearance()
 
 /obj/item/gun/ballistic/bow/equipped(mob/user, slot, initial)
 	. = ..()

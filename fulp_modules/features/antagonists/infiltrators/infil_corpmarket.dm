@@ -59,11 +59,12 @@
 	item = /obj/item/gun/ballistic/rifle/sniper_rifle
 	desc = "Smoke some fools from a distance!"
 
-/datum/infil_corpitem/assault/surplus_smg
-	name = "Smart-SMG"
+
+/datum/infil_corpitem/assault/plastikov
+	name = "PP-95 SMG"
 	cost = 30
-	item = /obj/item/gun/ballistic/automatic/smartgun
-	desc = "An outdated model of Smart-SMG. Its rounds will track and follow their targets."
+	item = /obj/item/gun/ballistic/automatic/plastikov
+	desc = "Oldschool rifle for OG gangstas."
 
 /datum/infil_corpitem/assault/wt550
 	name = "Security Auto Rifle"
@@ -79,11 +80,12 @@
 
 ////////ammunition
 
-/datum/infil_corpitem/ammo/surplus_smg
-	name = "Smart-SMG Magazine"
+/datum/infil_corpitem/ammo/plastikov
+	name = "PP-95 Magazine"
 	cost = 10
-	item = /obj/item/ammo_box/magazine/smartgun
-	desc = "A large box magazine for the smart-SMG."
+	item = /obj/item/ammo_box/magazine/plastikov9mm
+	desc = "An extra magazine for the PP-95."
+
 
 /datum/infil_corpitem/ammo/wt550
 	name = "WT550 Magazine"
@@ -235,7 +237,7 @@
 
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = /datum/pod_style/syndicate,
+		"style" = STYLE_SYNDICATE,
 		"spawn" = purchased,
 		))
 

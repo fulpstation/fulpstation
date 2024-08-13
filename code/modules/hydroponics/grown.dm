@@ -118,7 +118,7 @@
 	var/quality_max = DRINK_FANTASTIC
 	var/quality = round(LERP(quality_min, quality_max, purity_above_base))
 	for(var/datum/reagent/reagent in reagents.reagent_list)
-		if(reagent.type != /datum/reagent/consumable/nutriment && reagent.type != /datum/reagent/consumable/nutriment/vitamin)
+		if(!istype(reagent, /datum/reagent/consumable))
 			continue
 		if(distill_reagent)
 			var/data = list()

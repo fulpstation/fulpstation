@@ -22,14 +22,13 @@
 	context[SCREENTIP_CONTEXT_ALT_LMB] = "Maximize transfer rate"
 	return CONTEXTUAL_SCREENTIP_SET
 
-/obj/machinery/atmospherics/components/binary/temperature_pump/click_ctrl(mob/user)
-	if(is_operational)
+/obj/machinery/atmospherics/components/binary/temperature_pump/CtrlClick(mob/user)
+	if(can_interact(user))
 		on = !on
 		balloon_alert(user, "turned [on ? "on" : "off"]")
 		investigate_log("was turned [on ? "on" : "off"] by [key_name(user)]", INVESTIGATE_ATMOS)
 		update_appearance()
-		return CLICK_ACTION_SUCCESS
-	return CLICK_ACTION_BLOCKING
+	return ..()
 
 /obj/machinery/atmospherics/components/binary/temperature_pump/click_alt(mob/user)
 	if(heat_transfer_rate == max_heat_transfer_rate)

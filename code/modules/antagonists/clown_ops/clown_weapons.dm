@@ -89,7 +89,7 @@
 	force = 0
 	throwforce = 0
 	hitsound = null
-	embed_type = null
+	embedding = null
 	light_color = COLOR_YELLOW
 	sword_color_icon = "bananium"
 	active_heat = 0
@@ -192,7 +192,7 @@
 //BOMBANANA
 
 /obj/item/seeds/banana/bombanana
-	name = "bombanana seed pack"
+	name = "pack of bombanana seeds"
 	desc = "They're seeds that grow into bombanana trees. When grown, give to the clown."
 	plantname = "Bombanana Tree"
 	product = /obj/item/food/grown/banana/bombanana

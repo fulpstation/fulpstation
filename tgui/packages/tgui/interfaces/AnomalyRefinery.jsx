@@ -1,3 +1,4 @@
+import { useBackend, useSharedState } from '../backend';
 import {
   Box,
   Button,
@@ -6,9 +7,7 @@ import {
   Modal,
   Section,
   Stack,
-} from 'tgui-core/components';
-
-import { useBackend, useSharedState } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 import { GasmixParser } from './common/GasmixParser';
 

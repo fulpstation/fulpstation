@@ -44,6 +44,6 @@
 			emag_card.team = team
 			podspawn(list(
 				"target" = get_turf(user),
-				"style" = /datum/pod_style/syndicate,
+				"style" = STYLE_SYNDICATE,
 				"spawn" = emag_card,
 			))

@@ -3,32 +3,32 @@
 
 // Mood applied for ripping the painting
 /datum/mood_event/eldritch_painting
-	description = "I've been hearing weird laughter since cutting down that painting..."
+	description = "YOU, I SHOULD NOT HAVE DONE THAT!!!"
 	mood_change = -6
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/weeping
-	description = "He is here!"
+	description = "HE IS HERE, AND HE WEEPS!"
 	mood_change = -3
 	timeout = 11 SECONDS
 
 /datum/mood_event/eldritch_painting/weeping_heretic
-	description = "His suffering inspires me!"
+	description = "Oh such arts! They truly inspire me!"
 	mood_change = 5
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/weeping_withdrawal
-	description = "My mind is clear. He is not here."
+	description = "My mind is clear from his influence."
 	mood_change = 1
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/desire_heretic
-	description = "The void screams."
+	description = "A part gained, the mansus takes and gives. What did it take from me?"
 	mood_change = -2
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/desire_examine
-	description = "The hunger has been fed, for now..."
+	description = "A hunger kept at bay..."
 	mood_change = 3
 	timeout = 3 MINUTES
 
@@ -38,11 +38,11 @@
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/rust_examine
-	description = "That painting really creeped me out."
+	description = "The rusted climb can wait..."
 	mood_change = -2
 	timeout = 3 MINUTES
 
 /datum/mood_event/eldritch_painting/rust_heretic_examine
-	description = "Climb. Decay. Rust."
+	description = "I must hurry the rusted climb!"
 	mood_change = 6
 	timeout = 3 MINUTES

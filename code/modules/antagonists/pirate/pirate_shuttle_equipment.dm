@@ -161,14 +161,11 @@
 	desc = "A disk that contains advanced surgery procedures, must be loaded into an Operating Console."
 	surgeries = list(
 		/datum/surgery/advanced/lobotomy,
-		/datum/surgery/advanced/lobotomy/mechanic,
 		/datum/surgery/advanced/bioware/vein_threading,
-		/datum/surgery/advanced/bioware/vein_threading/mechanic,
 		/datum/surgery/advanced/bioware/nerve_splicing,
-		/datum/surgery/advanced/bioware/nerve_splicing/mechanic,
 		/datum/surgery_step/heal/combo/upgraded,
 		/datum/surgery_step/pacify,
-		/datum/surgery_step/pacify/mechanic,
+		/datum/surgery_step/revive,
 	)
 
 //Pad & Pad Terminal
@@ -431,7 +428,7 @@
 
 /datum/export/pirate/ransom/sell_object(mob/living/carbon/human/sold_item, datum/export_report/report, dry_run = TRUE, apply_elastic = TRUE)
 	. = ..()
-	if(. == EXPORT_NOT_SOLD || dry_run)
+	if(. == EXPORT_NOT_SOLD)
 		return
 	var/turf/picked_turf = pick(GLOB.holdingfacility)
 	sold_item.forceMove(picked_turf)
@@ -442,7 +439,7 @@
 	sold_item.flash_act()
 	sold_item.adjust_confusion(10 SECONDS)
 	sold_item.adjust_dizzy(10 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(send_back_to_station), sold_item), COME_BACK_FROM_CAPTURE_TIME)
+	addtimer(src, CALLBACK(src, PROC_REF(send_back_to_station), sold_item), COME_BACK_FROM_CAPTURE_TIME)
 	to_chat(sold_item, span_hypnophrase("A million voices echo in your head... <i>\"Yaarrr, thanks for the booty, landlubber. \
 		You will be ransomed back to your station, so it's only a matter of time before we ship you back...</i>"))
 

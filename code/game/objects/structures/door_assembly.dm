@@ -44,7 +44,6 @@
 	multi_tile = TRUE
 	glass = TRUE
 	nomineral = TRUE
-	material_amt = 8
 
 /obj/structure/door_assembly/Initialize(mapload)
 	. = ..()
@@ -62,6 +61,9 @@
 
 /obj/structure/door_assembly/examine(mob/user)
 	. = ..()
+	var/doorname = ""
+	if(created_name)
+		doorname = ", written on it is '[created_name]'"
 	switch(state)
 		if(AIRLOCK_ASSEMBLY_NEEDS_WIRES)
 			if(anchored)
@@ -78,11 +80,11 @@
 		. += span_notice("There are <i>empty</i> slots for mineral covers.")
 	else if(!glass && !noglass)
 		. += span_notice("There are <i>empty</i> slots for glass windows.")
-	if(created_name)
-		. += span_notice("There is a small <i>paper</i> placard on the assembly, written on it is '[created_name]'.")
+	if(doorname)
+		. += span_notice("There is a small <i>paper</i> placard on the assembly labelled \"[doorname]\".")
 
 /obj/structure/door_assembly/attackby(obj/item/W, mob/living/user, params)
-	if(IS_WRITING_UTENSIL(W) && !user.combat_mode)
+	if(istype(W, /obj/item/pen) && !user.combat_mode)
 		var/t = tgui_input_text(user, "Enter the name for the door", "Airlock Renaming", created_name, MAX_NAME_LEN)
 		if(!t)
 			return

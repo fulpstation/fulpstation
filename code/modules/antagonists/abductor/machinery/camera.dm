@@ -61,11 +61,7 @@
 	var/obj/machinery/abductor/pad/P = target
 
 	var/area/target_area = get_area(remote_eye)
-	if((target_area.area_flags & NOTELEPORT) && !istype(target_area, /area/centcom/abductor_ship))
-		to_chat(owner, span_warning("This area is too heavily shielded to safely transport to."))
-		return
-
-	if(istype(target_area, /area/station/ai_monitored))
+	if(target_area.area_flags & ABDUCTOR_PROOF)
 		to_chat(owner, span_warning("This area is too heavily shielded to safely transport to."))
 		return
 
@@ -105,11 +101,7 @@
 	var/obj/machinery/abductor/pad/P = target
 
 	var/area/target_area = get_area(remote_eye)
-	if((target_area.area_flags & NOTELEPORT) && !istype(target_area, /area/centcom/abductor_ship))
-		to_chat(owner, span_warning("This area is too heavily shielded to safely transport to."))
-		return
-
-	if(istype(target_area, /area/station/ai_monitored))
+	if(target_area.area_flags & ABDUCTOR_PROOF)
 		to_chat(owner, span_warning("This area is too heavily shielded to safely transport to."))
 		return
 

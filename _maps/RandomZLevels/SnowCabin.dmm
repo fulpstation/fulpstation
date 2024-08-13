@@ -598,7 +598,7 @@
 /turf/open/floor/iron/freezer,
 /area/awaymission/cabin)
 "cH" = (
-/obj/effect/landmark/awaystart/snowcabin,
+/obj/effect/landmark/awaystart,
 /obj/structure/cable,
 /turf/open/floor/wood,
 /area/awaymission/cabin)
@@ -660,7 +660,7 @@
 /turf/open/floor/iron/white,
 /area/awaymission/cabin)
 "cQ" = (
-/obj/effect/landmark/awaystart/snowcabin,
+/obj/effect/landmark/awaystart,
 /obj/structure/cable,
 /turf/open/floor/carpet,
 /area/awaymission/cabin)
@@ -1147,7 +1147,7 @@
 /turf/open/indestructible/binary{
 	density = 1;
 	desc = "No, I am not going through this.";
-	icon = 'icons/obj/fluff/beach.dmi';
+	icon = 'icons/misc/beach.dmi';
 	icon_state = "water";
 	name = "dirty water"
 	},
@@ -2052,7 +2052,7 @@
 /turf/open/floor/wood/freezing,
 /area/awaymission/cabin/lumbermill)
 "jV" = (
-/mob/living/basic/bot/firebot,
+/mob/living/simple_animal/bot/firebot,
 /turf/open/floor/wood/freezing,
 /area/awaymission/cabin/lumbermill)
 "jW" = (
@@ -2771,12 +2771,14 @@
 /obj/item/claymore/weak/ceremonial{
 	desc = "Brought to you by the guys in charge of making replica katana toys!";
 	force = 1;
+	layer = 3.01;
 	name = "replica claymore";
 	pixel_x = 5;
 	pixel_y = 8;
 	throwforce = 2
 	},
 /obj/item/shield/roman/fake{
+	layer = 3.01;
 	pixel_x = -7
 	},
 /obj/effect/light_emitter{
@@ -2904,7 +2906,7 @@
 /area/awaymission/cabin/snowforest)
 "rk" = (
 /obj/machinery/light/directional/south,
-/obj/effect/landmark/awaystart/snowcabin,
+/obj/effect/landmark/awaystart,
 /obj/structure/sign/poster/official/report_crimes/directional/south,
 /obj/structure/cable,
 /turf/open/floor/carpet,
@@ -3377,6 +3379,7 @@
 /obj/item/gun/magic/wand{
 	desc = "It's just a fancy staff so that holy clerics and priests look cool. What? You didn't think someone would leave a REAL magic artifact with a snowman out in the cold, did you?";
 	icon_state = "revivewand";
+	layer = 3.01;
 	name = "holy staff";
 	pixel_y = -2
 	},
@@ -3389,8 +3392,7 @@
 /area/awaymission/cabin/caves)
 "wq" = (
 /obj/machinery/recycler/lumbermill{
-	desc = "Is better at killing people than cutting logs, for some reason.";
-	dir = 8
+	desc = "Is better at killing people than cutting logs, for some reason."
 	},
 /obj/machinery/conveyor{
 	dir = 4;
@@ -4414,7 +4416,9 @@
 	pixel_x = -1;
 	pixel_y = 13
 	},
-/obj/item/staff,
+/obj/item/staff{
+	layer = 3.01
+	},
 /obj/effect/light_emitter{
 	set_cap = 3;
 	set_luminosity = 6;

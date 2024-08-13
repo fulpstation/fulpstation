@@ -1,3 +1,5 @@
+import { multiline } from 'common/string';
+
 import { useBackend, useSharedState } from '../backend';
 import {
   AnimatedNumber,
@@ -27,7 +29,7 @@ export const MedicalKiosk = (props) => {
                 index={1}
                 icon="procedures"
                 name="General Health Scan"
-                description={`
+                description={multiline`
                   Reads back exact values of your general health scan.
                 `}
               />
@@ -35,7 +37,7 @@ export const MedicalKiosk = (props) => {
                 index={2}
                 icon="heartbeat"
                 name="Symptom Based Checkup"
-                description={`
+                description={multiline`
                   Provides information based on various non-obvious symptoms,
                   like blood levels or disease status.
                 `}
@@ -44,7 +46,7 @@ export const MedicalKiosk = (props) => {
                 index={3}
                 icon="radiation-alt"
                 name="Neurological/Radiological Scan"
-                description={`
+                description={multiline`
                   Provides information about brain trauma and radiation.
                 `}
               />
@@ -52,7 +54,7 @@ export const MedicalKiosk = (props) => {
                 index={4}
                 icon="mortar-pestle"
                 name="Chemical and Psychoactive Scan"
-                description={`
+                description={multiline`
                   Provides a list of consumed chemicals, as well as potential
                   side effects.
                 `}
@@ -122,7 +124,7 @@ const MedicalKioskInstructions = (props) => {
       </Box>
       <Button
         mt={1}
-        tooltip={`
+        tooltip={multiline`
           Resets the current scanning target, cancelling current scans.
         `}
         icon="sync"

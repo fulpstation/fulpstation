@@ -29,8 +29,7 @@
 
 /// These hallucination effects cause side effects when the hallucinator walks into them.
 /obj/effect/client_image_holder/hallucination/danger
-	image_layer = LOW_FLOOR_LAYER
-	image_plane = FLOOR_PLANE
+	image_layer = TURF_LAYER
 
 /obj/effect/client_image_holder/hallucination/danger/Initialize(mapload, list/mobs_which_see_us, datum/hallucination/parent)
 	. = ..()

@@ -1,13 +1,13 @@
+import { BooleanLike } from 'common/react';
+
+import { useBackend } from '../backend';
 import {
   AnimatedNumber,
   Button,
   LabeledList,
   NoticeBox,
   Section,
-} from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { formatMoney } from '../format';
 import { Window } from '../layouts';
 

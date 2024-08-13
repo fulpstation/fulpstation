@@ -1,6 +1,5 @@
 /datum/market_item/consumable
 	category = "Consumables"
-	abstract_path = /datum/market_item/consumable
 
 /datum/market_item/consumable/clown_tears
 	name = "Bottle of Clown's Tears"
@@ -19,19 +18,9 @@
 
 	stock_min = 2
 	stock_max = 5
-	price_min = CARGO_CRATE_VALUE * 1.375
-	price_max = CARGO_CRATE_VALUE * 1.825
+	price_min = CARGO_CRATE_VALUE * 1.625
+	price_max = CARGO_CRATE_VALUE * 2
 	availability_prob = 80
-
-/datum/market_item/consumable/donk_pocket_box/spawn_item(loc)
-	var/static/list/choices
-	if(isnull(choices))
-		choices = list()
-		for(var/boxtype as anything in typesof(/obj/item/storage/box/donkpockets))
-			choices[boxtype] = 3
-		choices[/obj/item/storage/box/donkpockets/donkpocketgondola] = 1
-	item = pick_weight(choices)
-	return ..()
 
 /datum/market_item/consumable/suspicious_pills
 	name = "Bottle of Suspicious Pills"
@@ -40,18 +29,17 @@
 
 	stock_min = 2
 	stock_max = 3
-	price_min = CARGO_CRATE_VALUE * 0.625
-	price_max = CARGO_CRATE_VALUE * 1.25
+	price_min = CARGO_CRATE_VALUE * 2
+	price_max = CARGO_CRATE_VALUE * 3.5
 	availability_prob = 50
 
 /datum/market_item/consumable/suspicious_pills/spawn_item(loc)
-	item = pick(list(/obj/item/storage/pill_bottle/zoom,
-		/obj/item/storage/pill_bottle/happy,
-		/obj/item/storage/pill_bottle/lsd,
-		/obj/item/storage/pill_bottle/aranesp,
-		/obj/item/storage/pill_bottle/stimulant,
-		/obj/item/storage/pill_bottle/maintenance_pill,
-	))
+	var/pillbottle = pick(list(/obj/item/storage/pill_bottle/zoom,
+				/obj/item/storage/pill_bottle/happy,
+				/obj/item/storage/pill_bottle/lsd,
+				/obj/item/storage/pill_bottle/aranesp,
+				/obj/item/storage/pill_bottle/stimulant))
+	item = pillbottle
 	return ..()
 
 /datum/market_item/consumable/floor_pill

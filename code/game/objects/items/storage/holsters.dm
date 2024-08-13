@@ -11,11 +11,11 @@
 /obj/item/storage/belt/holster/equipped(mob/user, slot)
 	. = ..()
 	if(slot & (ITEM_SLOT_BELT|ITEM_SLOT_SUITSTORE))
-		ADD_CLOTHING_TRAIT(user, TRAIT_GUNFLIP)
+		ADD_TRAIT(user, TRAIT_GUNFLIP, CLOTHING_TRAIT)
 
 /obj/item/storage/belt/holster/dropped(mob/user)
 	. = ..()
-	REMOVE_CLOTHING_TRAIT(user, TRAIT_GUNFLIP)
+	REMOVE_TRAIT(user, TRAIT_GUNFLIP, CLOTHING_TRAIT)
 
 /obj/item/storage/belt/holster/Initialize(mapload)
 	. = ..()
@@ -33,8 +33,6 @@
 		/obj/item/gun/energy/laser/captain,
 		/obj/item/gun/energy/e_gun/hos,
 	))
-	atom_storage.open_sound = 'sound/items/holster.ogg'
-	atom_storage.open_sound_vary = TRUE
 
 /obj/item/storage/belt/holster/energy
 	name = "energy shoulder holsters"

@@ -243,10 +243,12 @@ GLOBAL_DATUM_INIT(requests, /datum/request_manager, new)
 			return TRUE
 
 /datum/request_manager/ui_data(mob/user)
-	var/list/data = list()
+	. = list(
+		"requests" = list()
+	)
 	for (var/ckey in requests)
 		for (var/datum/request/request as anything in requests[ckey])
-			data["requests"] += list(list(
+			var/list/data = list(
 				"id" = request.id,
 				"req_type" = request.req_type,
 				"owner" = request.owner ? "[REF(request.owner)]" : null,
@@ -256,8 +258,8 @@ GLOBAL_DATUM_INIT(requests, /datum/request_manager, new)
 				"additional_info" = request.additional_information,
 				"timestamp" = request.timestamp,
 				"timestamp_str" = gameTimestamp(wtime = request.timestamp)
-			))
-	return data
+			)
+			.["requests"] += list(data)
 
 #undef REQUEST_PRAYER
 #undef REQUEST_CENTCOM

@@ -14,7 +14,7 @@
 	throw_speed = 2
 	block_chance = 0
 	throwforce = 0
-	embed_type = null
+	embedding = null
 	sword_color_icon = null
 
 	active_throwforce = 0

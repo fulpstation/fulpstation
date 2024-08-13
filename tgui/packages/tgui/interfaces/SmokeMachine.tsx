@@ -10,18 +10,31 @@ import {
   Section,
 } from '../components';
 import { Window } from '../layouts';
-import { Beaker } from './common/BeakerDisplay';
 
 type Data = {
   active: BooleanLike;
   maxSetting: number;
   setting: number;
-  tank: Beaker;
+  tankContents: Reagent[];
+  tankCurrentVolume: number;
+  tankMaxVolume: number;
+};
+
+type Reagent = {
+  name: string;
+  volume: number;
 };
 
 export const SmokeMachine = (props) => {
   const { act, data } = useBackend<Data>();
-  const { tank, active, setting, maxSetting } = data;
+  const {
+    tankContents,
+    tankCurrentVolume,
+    tankMaxVolume,
+    active,
+    setting,
+    maxSetting,
+  } = data;
 
   return (
     <Window width={350} height={350}>
@@ -39,13 +52,13 @@ export const SmokeMachine = (props) => {
           }
         >
           <ProgressBar
-            value={tank.currentVolume / tank.maxVolume}
+            value={tankCurrentVolume / tankMaxVolume}
             ranges={{
               bad: [-Infinity, 0.3],
             }}
           >
-            <AnimatedNumber initial={0} value={tank.currentVolume || 0} />
-            {' / ' + tank.maxVolume}
+            <AnimatedNumber initial={0} value={tankCurrentVolume || 0} />
+            {' / ' + tankMaxVolume}
           </ProgressBar>
           <Box mt={1}>
             <LabeledList>
@@ -73,7 +86,7 @@ export const SmokeMachine = (props) => {
             </Button>
           }
         >
-          {tank.contents.map((chemical) => (
+          {tankContents.map((chemical) => (
             <Box key={chemical.name} color="label">
               <AnimatedNumber initial={0} value={chemical.volume} /> units of{' '}
               {chemical.name}

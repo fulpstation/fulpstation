@@ -1,3 +1,5 @@
+import { multiline } from 'common/string';
+
 import { useBackend } from '../../backend';
 import { Button, Section, Stack } from '../../components';
 import { REVERSE_OPTIONS } from './constants';
@@ -28,7 +30,7 @@ export function ReverseMenu(props) {
             }
           }}
           selected={effectReverse}
-          tooltip={`
+          tooltip={multiline`
             Doesn't send items.
             Afer landing, returns to
             dropoff turf (or bay
@@ -45,7 +47,7 @@ export function ReverseMenu(props) {
               disabled={!effectReverse}
               onClick={() => act('pickDropoffTurf')}
               selected={picking_dropoff_turf}
-              tooltip={`
+              tooltip={multiline`
                 Where reverse pods
                 go after landing`}
               tooltipPosition="bottom-end"
@@ -63,7 +65,7 @@ export function ReverseMenu(props) {
                   act('tabSwitch', { tabIndex: 1 });
                 }
               }}
-              tooltip={`
+              tooltip={multiline`
                 Clears the custom dropoff
                 location. Reverse pods will
                 instead dropoff at the

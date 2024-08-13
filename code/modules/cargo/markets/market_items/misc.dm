@@ -1,8 +1,7 @@
 /datum/market_item/misc
 	category = "Miscellaneous"
-	abstract_path = /datum/market_item/misc
 
-/datum/market_item/misc/clear_pda
+/datum/market_item/misc/Clear_PDA
 	name = "Clear PDA"
 	desc = "Show off your style with this limited edition clear PDA!."
 	item = /obj/item/modular_computer/pda/clear
@@ -12,7 +11,7 @@
 	stock_max = 2
 	availability_prob = 50
 
-/datum/market_item/misc/jade_lantern
+/datum/market_item/misc/jade_Lantern
 	name = "Jade Lantern"
 	desc = "Found in a box labeled 'Danger: Radioactive'. Probably safe."
 	item = /obj/item/flashlight/lantern/jade
@@ -54,7 +53,6 @@
 /datum/market_item/misc/shove_blocker
 	name = "MOD Bulwark Module"
 	desc = "You have no idea how much effort it took us to extract this module from that damn safeguard MODsuit last shift."
-	item = /obj/item/mod/module/shove_blocker
 	price_min = CARGO_CRATE_VALUE * 4
 	price_max = CARGO_CRATE_VALUE * 5.75
 	stock_max = 1
@@ -90,7 +88,7 @@
 
 /datum/market_item/misc/smugglers_satchel
 	name = "Smuggler's Satchel"
-	desc = "This easily hidden satchel can become a versatile tool to anybody with the desire to keep certain items out of sight and out of mind. Its contents cannot be detected by contraband scanners."
+	desc = "This easily hidden satchel can become a versatile tool to anybody with the desire to keep certain items out of sight and out of mind."
 	item = /obj/item/storage/backpack/satchel/flat/empty
 
 	price_min = CARGO_CRATE_VALUE * 3.75
@@ -110,7 +108,6 @@
 /datum/market_item/misc/jawed_hook
 	name = "Jawed Fishing Hook"
 	desc = "The thing ya use if y'are strugglin' with fishes. Just rememeber to whoop yer rod before it's too late, 'cause this thing's gonna hurt them like an Arkansas toothpick."
-	item = /obj/item/fishing_hook/jaws
 	price_min = CARGO_CRATE_VALUE * 0.75
 	price_max = CARGO_CRATE_VALUE * 2
 	stock_max = 3

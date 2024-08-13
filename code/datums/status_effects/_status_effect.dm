@@ -13,7 +13,7 @@
 	/// -1 = will prevent ticks, and if duration is also unlimited (-1), stop processing wholesale.
 	var/tick_interval = 1 SECONDS
 	/// The mob affected by the status effect.
-	VAR_FINAL/mob/living/owner
+	var/mob/living/owner
 	/// How many of the effect can be on one mob, and/or what happens when you try to add a duplicate.
 	var/status_type = STATUS_EFFECT_UNIQUE
 	/// If TRUE, we call [proc/on_remove] when owner is deleted. Otherwise, we call [proc/be_replaced].
@@ -22,9 +22,7 @@
 	/// Status effect "name"s and "description"s are shown to the owner here.
 	var/alert_type = /atom/movable/screen/alert/status_effect
 	/// The alert itself, created in [proc/on_creation] (if alert_type is specified).
-	VAR_FINAL/atom/movable/screen/alert/status_effect/linked_alert
-	/// If TRUE, and we have an alert, we will show a duration on the alert
-	var/show_duration = FALSE
+	var/atom/movable/screen/alert/status_effect/linked_alert
 	/// Used to define if the status effect should be using SSfastprocess or SSprocessing
 	var/processing_speed = STATUS_EFFECT_FAST_PROCESS
 	/// Do we self-terminate when a fullheal is called?
@@ -32,7 +30,7 @@
 	/// If remove_on_fullheal is TRUE, what flag do we need to be removed?
 	var/heal_flag_necessary = HEAL_STATUS
 	/// A particle effect, for things like embers - Should be set on update_particles()
-	VAR_FINAL/obj/effect/abstract/particle_holder/particle_effect
+	var/obj/effect/abstract/particle_holder/particle_effect
 
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
@@ -59,7 +57,6 @@
 		var/atom/movable/screen/alert/status_effect/new_alert = owner.throw_alert(id, alert_type)
 		new_alert.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = new_alert //so we can reference the alert, if we need to
-		update_shown_duration()
 
 	if(duration > world.time || tick_interval > world.time) //don't process if we don't care
 		switch(processing_speed)
@@ -89,24 +86,14 @@
 		QDEL_NULL(particle_effect)
 	return ..()
 
-/// Updates the status effect alert's maptext (if possible)
-/datum/status_effect/proc/update_shown_duration()
-	PRIVATE_PROC(TRUE)
-	if(!linked_alert || !show_duration)
-		return
-
-	linked_alert.maptext = MAPTEXT_TINY_UNICODE("<span style='text-align:center'>[round((duration - world.time)/10, 1)]s</span>")
-
 // Status effect process. Handles adjusting its duration and ticks.
 // If you're adding processed effects, put them in [proc/tick]
 // instead of extending / overriding the process() proc.
 /datum/status_effect/process(seconds_per_tick)
 	SHOULD_NOT_OVERRIDE(TRUE)
-
 	if(QDELETED(owner))
 		qdel(src)
 		return
-
 	if(tick_interval != -1 && tick_interval < world.time)
 		var/tick_length = initial(tick_interval)
 		tick(tick_length / (1 SECONDS))
@@ -114,12 +101,8 @@
 		if(QDELING(src))
 			// tick deleted us, no need to continue
 			return
-
-	if(duration != -1)
-		if(duration < world.time)
-			qdel(src)
-			return
-		update_shown_duration()
+	if(duration != -1 && duration < world.time)
+		qdel(src)
 
 /// Called whenever the effect is applied in on_created
 /// Returning FALSE will cause it to delete itself during creation instead.
@@ -202,25 +185,24 @@
 		qdel(src)
 		return TRUE
 
-	update_shown_duration()
 	return FALSE
 
 /**
  * Updates the particles for the status effects
  * Should be handled by subtypes!
  */
+
 /datum/status_effect/proc/update_particles()
 	SHOULD_CALL_PARENT(FALSE)
-	return
 
 /// Alert base type for status effect alerts
 /atom/movable/screen/alert/status_effect
 	name = "Curse of Mundanity"
 	desc = "You don't feel any different..."
-	maptext_y = 2
 	/// The status effect we're linked to
 	var/datum/status_effect/attached_effect
 
 /atom/movable/screen/alert/status_effect/Destroy()
 	attached_effect = null //Don't keep a ref now
 	return ..()
+

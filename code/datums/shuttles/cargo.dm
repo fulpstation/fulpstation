@@ -11,6 +11,10 @@
 	suffix = "birdboat"
 	name = "supply shuttle (Birdboat)"
 
+/datum/map_template/shuttle/cargo/donut
+	suffix = "donut"
+	name = "supply shuttle (Donut)"
+
 /datum/map_template/shuttle/cargo/pubby
 	suffix = "pubby"
 	name = "supply shuttle (Pubby)"

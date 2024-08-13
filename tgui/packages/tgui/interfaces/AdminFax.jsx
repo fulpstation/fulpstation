@@ -1,4 +1,6 @@
 import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import {
   Box,
   Button,
@@ -10,9 +12,7 @@ import {
   Section,
   TextArea,
   Tooltip,
-} from 'tgui-core/components';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 
 export const AdminFax = (props) => {

@@ -39,8 +39,6 @@
 	)
 	result_atoms = list(/obj/item/melee/sickly_blade/ash)
 	route = PATH_ASH
-	research_tree_icon_path = 'icons/obj/weapons/khopesh.dmi'
-	research_tree_icon_state = "ash_blade"
 
 /datum/heretic_knowledge/ashen_grasp
 	name = "Grasp of Ash"
@@ -50,9 +48,6 @@
 	next_knowledge = list(/datum/heretic_knowledge/spell/ash_passage)
 	cost = 1
 	route = PATH_ASH
-	depth = 3
-	research_tree_icon_path = 'icons/ui_icons/antags/heretic/knowledge.dmi'
-	research_tree_icon_state = "grasp_ash"
 
 /datum/heretic_knowledge/ashen_grasp/on_gain(mob/user, datum/antagonist/heretic/our_heretic)
 	RegisterSignal(user, COMSIG_HERETIC_MANSUS_GRASP_ATTACK, PROC_REF(on_mansus_grasp))
@@ -85,7 +80,6 @@
 	spell_to_add = /datum/action/cooldown/spell/jaunt/ethereal_jaunt/ash
 	cost = 1
 	route = PATH_ASH
-	depth = 4
 
 /datum/heretic_knowledge/mark/ash_mark
 	name = "Mark of Ash"
@@ -125,8 +119,6 @@
 	spell_to_add = /datum/action/cooldown/spell/charged/beam/fire_blast
 	cost = 1
 	route = PATH_ASH
-	depth = 7
-	research_tree_icon_frame = 7
 
 
 /datum/heretic_knowledge/mad_mask
@@ -150,9 +142,6 @@
 	result_atoms = list(/obj/item/clothing/mask/madness_mask)
 	cost = 1
 	route = PATH_ASH
-	research_tree_icon_path = 'icons/obj/clothing/masks.dmi'
-	research_tree_icon_state = "mad_mask"
-	depth = 8
 
 /datum/heretic_knowledge/blade_upgrade/ash
 	name = "Fiery Blade"
@@ -161,8 +150,6 @@
 		His city, the people he swore to watch... and watch he did, as they all burnt to cinders."
 	next_knowledge = list(/datum/heretic_knowledge/spell/flame_birth)
 	route = PATH_ASH
-	research_tree_icon_path = 'icons/ui_icons/antags/heretic/knowledge.dmi'
-	research_tree_icon_state = "blade_upgrade_ash"
 
 /datum/heretic_knowledge/blade_upgrade/ash/do_melee_effects(mob/living/source, mob/living/target, obj/item/melee/sickly_blade/blade)
 	if(source == target)
@@ -186,8 +173,6 @@
 	spell_to_add = /datum/action/cooldown/spell/aoe/fiery_rebirth
 	cost = 1
 	route = PATH_ASH
-	depth = 10
-	research_tree_icon_frame = 5
 
 /datum/heretic_knowledge/ultimate/ash_final
 	name = "Ashlord's Rite"
@@ -202,7 +187,6 @@
 		for the Nightwatcher brought forth the rite to mankind! His gaze continues, as now I am one with the flames, \
 		WITNESS MY ASCENSION, THE ASHY LANTERN BLAZES ONCE MORE!"
 	route = PATH_ASH
-	ascension_achievement = /datum/award/achievement/misc/ash_ascension
 	/// A static list of all traits we apply on ascension.
 	var/static/list/traits_to_apply = list(
 		TRAIT_BOMBIMMUNE,
@@ -230,7 +214,7 @@
 	priority_announce(
 		text = "[generate_heretic_text()] Fear the blaze, for the Ashlord, [user.real_name] has ascended! The flames shall consume all! [generate_heretic_text()]",
 		title = "[generate_heretic_text()]",
-		sound = 'sound/ambience/antag/heretic/ascend_ash.ogg',
+		sound = ANNOUNCER_SPANOMALIES,
 		color_override = "pink",
 	)
 
@@ -249,5 +233,6 @@
 	var/datum/action/cooldown/spell/aoe/fiery_rebirth/fiery_rebirth = locate() in user.actions
 	fiery_rebirth?.cooldown_time *= 0.16
 
+	user.client?.give_award(/datum/award/achievement/misc/ash_ascension, user)
 	if(length(traits_to_apply))
 		user.add_traits(traits_to_apply, MAGIC_TRAIT)

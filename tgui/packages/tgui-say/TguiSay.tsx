@@ -1,4 +1,4 @@
-import { isEscape, KEY } from 'common/keys';
+import { KEY } from 'common/keys';
 import { BooleanLike } from 'common/react';
 import { Component, createRef, RefObject } from 'react';
 import { dragStartHandler } from 'tgui/drag';
@@ -162,7 +162,7 @@ export class TguiSay extends Component<{}, State> {
       ? prefix + currentValue
       : currentValue;
 
-    this.messages.forceSayMsg(grunt, this.channelIterator.current());
+    this.messages.forceSayMsg(grunt);
     this.reset();
   }
 
@@ -245,10 +245,9 @@ export class TguiSay extends Component<{}, State> {
         this.handleIncrementChannel();
         break;
 
-      default:
-        if (isEscape(event.key)) {
-          this.handleClose();
-        }
+      case KEY.Escape:
+        this.handleClose();
+        break;
     }
   }
 
@@ -274,7 +273,6 @@ export class TguiSay extends Component<{}, State> {
   };
 
   reset() {
-    this.currentPrefix = null;
     this.setValue('');
     this.setSize();
     this.setState({

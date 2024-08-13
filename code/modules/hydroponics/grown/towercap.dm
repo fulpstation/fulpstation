@@ -1,5 +1,5 @@
 /obj/item/seeds/tower
-	name = "tower-cap mycelium pack"
+	name = "pack of tower-cap mycelium"
 	desc = "This mycelium grows into tower-cap mushrooms."
 	icon_state = "mycelium-tower"
 	species = "towercap"
@@ -20,7 +20,7 @@
 	graft_gene = /datum/plant_gene/trait/plant_type/fungal_metabolism
 
 /obj/item/seeds/tower/steel
-	name = "steel-cap mycelium pack"
+	name = "pack of steel-cap mycelium"
 	desc = "This mycelium grows into steel logs."
 	icon_state = "mycelium-steelcap"
 	species = "steelcap"
@@ -78,29 +78,33 @@
 
 	return NONE
 
-/obj/item/grown/log/attackby(obj/item/attacking_item, mob/user, params)
-	if(attacking_item.get_sharpness())
-		var/plank_count = 1
+/obj/item/grown/log/attackby(obj/item/W, mob/user, params)
+	if(W.get_sharpness())
+		user.show_message(span_notice("You make [plank_name] out of \the [src]!"), MSG_VISUAL)
+		var/seed_modifier = 0
 		if(seed)
-			plank_count += round(seed.potency / 25)
-
-		user.balloon_alert(user, "made [plank_count] [plank_name]")
-		new plank_type(user.loc, plank_count)
+			seed_modifier = round(seed.potency / 25)
+		var/obj/item/stack/plank = new plank_type(user.loc, 1 + seed_modifier, FALSE)
+		var/old_plank_amount = plank.amount
+		for (var/obj/item/stack/ST in user.loc)
+			if (ST != plank && istype(ST, plank_type) && ST.amount < ST.max_amount)
+				ST.attackby(plank, user) //we try to transfer all old unfinished stacks to the new stack we created.
+		if (plank.amount > old_plank_amount)
+			to_chat(user, span_notice("You add the newly-formed [plank_name] to the stack. It now contains [plank.amount] [plank_name]."))
 		qdel(src)
-		return
 
-	if(CheckAccepted(attacking_item))
-		var/obj/item/food/grown/leaf = attacking_item
+	if(CheckAccepted(W))
+		var/obj/item/food/grown/leaf = W
 		if(HAS_TRAIT(leaf, TRAIT_DRIED))
-			user.balloon_alert(user, "torch crafted")
-			var/obj/item/flashlight/flare/torch/new_torch = new /obj/item/flashlight/flare/torch(user.loc)
-			user.dropItemToGround(attacking_item)
-			user.put_in_active_hand(new_torch)
+			user.show_message(span_notice("You wrap \the [W] around the log, turning it into a torch!"))
+			var/obj/item/flashlight/flare/torch/T = new /obj/item/flashlight/flare/torch(user.loc)
+			usr.dropItemToGround(W)
+			usr.put_in_active_hand(T)
 			qdel(leaf)
 			qdel(src)
 			return
 		else
-			balloon_alert(user, "dry it first!")
+			to_chat(usr, span_warning("You must dry this first!"))
 	else
 		return ..()
 

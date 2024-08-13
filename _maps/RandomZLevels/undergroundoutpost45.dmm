@@ -17,6 +17,13 @@
 "ag" = (
 /turf/closed/wall/mineral/titanium,
 /area/awaymission/undergroundoutpost45/central)
+"ah" = (
+/obj/effect/turf_decal/sand/plating,
+/turf/open/floor/plating{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	temperature = 363.9
+	},
+/area/awaymission/undergroundoutpost45/caves)
 "ai" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -101,14 +108,14 @@
 /turf/open/floor/iron/dark,
 /area/awaymission/undergroundoutpost45/central)
 "ax" = (
-/obj/effect/landmark/awaystart/underground,
+/obj/effect/landmark/awaystart,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/central)
 "ay" = (
 /obj/structure/chair/comfy/beige{
 	dir = 4
 	},
-/obj/effect/landmark/awaystart/underground,
+/obj/effect/landmark/awaystart,
 /turf/open/floor/iron/grimy,
 /area/awaymission/undergroundoutpost45/central)
 "az" = (
@@ -118,7 +125,7 @@
 	icon_state = "beacon";
 	name = "tracking beacon"
 	},
-/obj/effect/landmark/awaystart/underground,
+/obj/effect/landmark/awaystart,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
@@ -126,7 +133,7 @@
 /area/awaymission/undergroundoutpost45/central)
 "aB" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
-/obj/effect/landmark/awaystart/underground,
+/obj/effect/landmark/awaystart,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
@@ -218,7 +225,7 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/central)
 "aT" = (
-/obj/effect/landmark/awaystart/underground,
+/obj/effect/landmark/awaystart,
 /turf/open/floor/iron/grimy,
 /area/awaymission/undergroundoutpost45/central)
 "aU" = (
@@ -444,7 +451,11 @@
 /area/awaymission/undergroundoutpost45/central)
 "ci" = (
 /obj/effect/decal/cleanable/blood/gibs/limb,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "cm" = (
 /obj/effect/decal/cleanable/dirt,
@@ -544,19 +555,6 @@
 	},
 /turf/open/floor/carpet,
 /area/awaymission/undergroundoutpost45/central)
-"cM" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stack/cable_coil{
-	pixel_x = 3;
-	pixel_y = -7
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 4
-	},
-/turf/open/floor/iron/dark,
-/area/awaymission/undergroundoutpost45/gateway)
 "cS" = (
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/structure/window/spawner/directional/west,
@@ -618,7 +616,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/central)
 "do" = (
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/green,
 /turf/open/floor/iron,
@@ -1347,7 +1347,9 @@
 /turf/open/floor/carpet,
 /area/awaymission/undergroundoutpost45/central)
 "fT" = (
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
@@ -1708,7 +1710,9 @@
 "hq" = (
 /obj/structure/table,
 /obj/item/stack/package_wrap,
-/obj/item/reagent_containers/condiment/enzyme,
+/obj/item/reagent_containers/condiment/enzyme{
+	layer = 5
+	},
 /turf/open/floor/iron/cafeteria{
 	dir = 5
 	},
@@ -2154,6 +2158,14 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
 /area/awaymission/undergroundoutpost45/gateway)
+"iY" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high,
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/iron/white,
+/area/awaymission/undergroundoutpost45/research)
 "iZ" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -2442,7 +2454,9 @@
 	},
 /area/awaymission/undergroundoutpost45/research)
 "kh" = (
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/white,
 /area/awaymission/undergroundoutpost45/research)
@@ -2608,13 +2622,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/awaymission/undergroundoutpost45/gateway)
-"kN" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
-/turf/open/floor/iron,
-/area/awaymission/undergroundoutpost45/engineering)
 "kO" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -2975,15 +2982,6 @@
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/crew_quarters)
-"lV" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 8
-	},
-/obj/machinery/computer/security/telescreen/underground_outpost/research/directional/south,
-/turf/open/floor/iron/cafeteria{
-	dir = 5
-	},
-/area/awaymission/undergroundoutpost45/research)
 "lW" = (
 /obj/machinery/door/firedoor,
 /obj/structure/disposalpipe/segment,
@@ -2993,6 +2991,16 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/crew_quarters)
+"lX" = (
+/obj/structure/closet/crate,
+/obj/item/stack/sheet/mineral/plasma{
+	amount = 26
+	},
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/awaymission/undergroundoutpost45/engineering)
 "lY" = (
 /obj/machinery/light/small/directional/north,
 /obj/machinery/camera/directional/north{
@@ -3008,6 +3016,19 @@
 	},
 /turf/open/floor/plating,
 /area/awaymission/undergroundoutpost45/engineering)
+"ma" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/item/stack/cable_coil{
+	pixel_x = 3;
+	pixel_y = -7
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/awaymission/undergroundoutpost45/gateway)
 "mb" = (
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/gateway)
@@ -3251,7 +3272,9 @@
 /area/awaymission/undergroundoutpost45/research)
 "mQ" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /turf/open/floor/iron/cafeteria{
 	dir = 5
 	},
@@ -3408,9 +3431,33 @@
 	dir = 5
 	},
 /area/awaymission/undergroundoutpost45/research)
+"no" = (
+/obj/machinery/computer/security{
+	dir = 4;
+	network = list("uo45")
+	},
+/obj/effect/turf_decal/tile/red/half/contrasted{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/awaymission/undergroundoutpost45/research)
 "np" = (
 /obj/structure/chair/office{
 	dir = 1
+	},
+/turf/open/floor/iron,
+/area/awaymission/undergroundoutpost45/research)
+"nq" = (
+/obj/structure/table,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for monitoring the research division and the labs within.";
+	dir = 8;
+	name = "research monitor";
+	network = list("uo45r")
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/red/half/contrasted{
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/research)
@@ -3536,6 +3583,18 @@
 	pixel_y = 9
 	},
 /obj/item/pen,
+/turf/open/floor/iron/cafeteria{
+	dir = 5
+	},
+/area/awaymission/undergroundoutpost45/research)
+"nR" = (
+/obj/structure/table/reinforced,
+/obj/structure/window/reinforced/spawner/directional/north,
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for monitoring the research division and the labs within.";
+	name = "research monitor";
+	network = list("uo45r")
+	},
 /turf/open/floor/iron/cafeteria{
 	dir = 5
 	},
@@ -3970,6 +4029,14 @@
 	dir = 5
 	},
 /area/awaymission/undergroundoutpost45/research)
+"pf" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/turf/open/floor/iron/cafeteria{
+	dir = 5
+	},
+/area/awaymission/undergroundoutpost45/research)
 "pg" = (
 /obj/structure/secure_safe{
 	pixel_x = 5;
@@ -3998,7 +4065,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/research)
 "pl" = (
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
 	dir = 8
@@ -4209,6 +4278,7 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "qd" = (
 /obj/machinery/meter{
+	layer = 3.3;
 	name = "Mixed Air Tank Out"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold/supply,
@@ -4217,6 +4287,7 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "qe" = (
 /obj/machinery/meter{
+	layer = 3.3;
 	name = "Mixed Air Tank In"
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general,
@@ -4329,7 +4400,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "qI" = (
-/obj/structure/window/reinforced/spawner/directional/east,
+/obj/structure/window/reinforced/spawner/directional/east{
+	layer = 2.9
+	},
 /obj/structure/closet/secure_closet/engineering_personal{
 	req_access = list("away_maintenance")
 	},
@@ -4508,7 +4581,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "rk" = (
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 4
 	},
@@ -4824,17 +4899,6 @@
 	},
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
-"sc" = (
-/obj/machinery/computer/security{
-	dir = 4;
-	network = list("uo45")
-	},
-/obj/effect/turf_decal/tile/red/half/contrasted{
-	dir = 8
-	},
-/obj/machinery/computer/security/telescreen/underground_outpost/research/directional/west,
-/turf/open/floor/iron,
-/area/awaymission/undergroundoutpost45/research)
 "sd" = (
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
@@ -4908,7 +4972,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "sq" = (
-/obj/machinery/meter,
+/obj/machinery/meter{
+	layer = 3.3
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general,
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -5077,7 +5143,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "td" = (
-/obj/machinery/meter,
+/obj/machinery/meter{
+	layer = 3.3
+	},
 /obj/machinery/atmospherics/pipe/layer_manifold/orange{
 	dir = 4
 	},
@@ -5164,7 +5232,9 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "tw" = (
 /obj/machinery/light/small/directional/south,
-/obj/structure/window/reinforced/spawner/directional/east,
+/obj/structure/window/reinforced/spawner/directional/east{
+	layer = 2.9
+	},
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -5513,13 +5583,17 @@
 /turf/closed/wall/r_wall,
 /area/awaymission/undergroundoutpost45/engineering)
 "uI" = (
-/obj/machinery/meter,
+/obj/machinery/meter{
+	layer = 3.3
+	},
 /obj/machinery/atmospherics/pipe/layer_manifold/orange,
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/awaymission/undergroundoutpost45/engineering)
 "uJ" = (
-/obj/machinery/meter,
+/obj/machinery/meter{
+	layer = 3.3
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -5880,6 +5954,13 @@
 	dir = 8
 	},
 /area/awaymission/undergroundoutpost45/engineering)
+"vW" = (
+/obj/structure/table,
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/cell/high,
+/obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
+/turf/open/floor/iron,
+/area/awaymission/undergroundoutpost45/engineering)
 "vY" = (
 /obj/structure/closet/emcloset,
 /obj/item/clothing/mask/breath,
@@ -5910,16 +5991,6 @@
 /obj/item/bedsheet,
 /turf/open/floor/carpet,
 /area/awaymission/undergroundoutpost45/mining)
-"we" = (
-/obj/structure/closet/crate,
-/obj/item/stack/sheet/mineral/plasma{
-	amount = 26
-	},
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/effect/decal/cleanable/dirt,
-/turf/open/floor/plating,
-/area/awaymission/undergroundoutpost45/engineering)
 "wf" = (
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/iron{
@@ -5928,7 +5999,9 @@
 /area/awaymission/undergroundoutpost45/mining)
 "wg" = (
 /obj/machinery/light/small/directional/north,
-/obj/item/kirbyplants,
+/obj/item/kirbyplants{
+	layer = 5
+	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
@@ -6063,7 +6136,9 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/crew_quarters)
 "xd" = (
-/obj/machinery/meter,
+/obj/machinery/meter{
+	layer = 3.3
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green,
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -6385,7 +6460,11 @@
 "zb" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/resin/wall,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "ze" = (
 /obj/structure/table,
@@ -6415,7 +6494,11 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "zq" = (
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "zr" = (
 /obj/machinery/door/firedoor,
@@ -6451,11 +6534,19 @@
 "zK" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "zO" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "zX" = (
 /obj/structure/closet/secure_closet{
@@ -6577,7 +6668,11 @@
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/gibs/down,
 /obj/effect/mob_spawn/corpse/human,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "BN" = (
 /obj/machinery/computer/monitor{
@@ -6590,13 +6685,21 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "BQ" = (
 /obj/effect/decal/cleanable/blood/splatter,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Cd" = (
 /obj/structure/alien/weeds,
 /obj/structure/glowshroom/single,
 /obj/effect/decal/cleanable/blood/gibs/down,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Cj" = (
 /obj/structure/table/reinforced,
@@ -6646,14 +6749,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
-"CM" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/iron/white,
-/area/awaymission/undergroundoutpost45/research)
 "CT" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -6663,14 +6758,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
-"CW" = (
-/obj/structure/table,
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/turf_decal/tile/red/half/contrasted{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/awaymission/undergroundoutpost45/research)
 "De" = (
 /obj/machinery/computer/monitor{
 	name = "primary power monitoring console"
@@ -6721,10 +6808,14 @@
 /turf/open/floor/iron/dark,
 /area/awaymission/undergroundoutpost45/gateway)
 "DJ" = (
+/obj/effect/turf_decal/sand/plating,
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 6
 	},
-/turf/open/misc/asteroid/plasma,
+/turf/open/floor/plating{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "DL" = (
 /obj/effect/turf_decal/tile/green/half/contrasted{
@@ -6802,13 +6893,6 @@
 	dir = 5
 	},
 /area/awaymission/undergroundoutpost45/crew_quarters)
-"ET" = (
-/obj/structure/table/reinforced,
-/obj/structure/window/reinforced/spawner/directional/north,
-/turf/open/floor/iron/cafeteria{
-	dir = 5
-	},
-/area/awaymission/undergroundoutpost45/research)
 "Fd" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/command/glass{
@@ -6864,7 +6948,11 @@
 /area/awaymission/undergroundoutpost45/central)
 "Gn" = (
 /obj/structure/alien/weeds,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Gp" = (
 /obj/structure/table/reinforced,
@@ -6916,7 +7004,11 @@
 "HW" = (
 /obj/structure/alien/weeds,
 /obj/structure/glowshroom/single,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Ic" = (
 /obj/structure/cable,
@@ -6967,7 +7059,11 @@
 "IT" = (
 /obj/structure/alien/weeds,
 /obj/effect/mob_spawn/corpse/human,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "IV" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -7060,7 +7156,11 @@
 "KN" = (
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/splatter,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "KO" = (
 /obj/machinery/door/firedoor,
@@ -7080,7 +7180,11 @@
 /area/awaymission/undergroundoutpost45/crew_quarters)
 "KU" = (
 /obj/structure/closet/crate,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "KW" = (
 /obj/machinery/airalarm/directional/north,
@@ -7104,18 +7208,37 @@
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/effect/mob_spawn/corpse/human,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Lk" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/effect/mob_spawn/corpse/human,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Lo" = (
 /obj/machinery/atmospherics/components/unary/passive_vent/layer2{
 	dir = 4
 	},
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
+/area/awaymission/undergroundoutpost45/caves)
+"Lz" = (
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 351.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "LT" = (
 /obj/structure/table/reinforced,
@@ -7165,11 +7288,19 @@
 /area/awaymission/undergroundoutpost45/crew_quarters)
 "Mx" = (
 /obj/machinery/light/small/directional/east,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "MC" = (
 /obj/machinery/light/small/directional/west,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "MJ" = (
 /obj/machinery/light/blacklight/directional/west,
@@ -7285,8 +7416,12 @@
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/engineering)
 "OF" = (
+/obj/effect/turf_decal/sand/plating,
 /obj/effect/turf_decal/stripes/asteroid/line,
-/turf/open/misc/asteroid/plasma,
+/turf/open/floor/plating{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "OL" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/green,
@@ -7382,7 +7517,11 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Qw" = (
 /obj/structure/disposalpipe/segment{
@@ -7443,7 +7582,11 @@
 /area/awaymission/undergroundoutpost45/gateway)
 "RA" = (
 /obj/machinery/light/small/directional/south,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "RC" = (
 /obj/machinery/airalarm/directional/west,
@@ -7550,7 +7693,11 @@
 /area/awaymission/undergroundoutpost45/crew_quarters)
 "Tr" = (
 /obj/structure/alien/resin/membrane,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Tu" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
@@ -7603,13 +7750,21 @@
 "UH" = (
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/gibs/down,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "UM" = (
+/obj/effect/turf_decal/sand/plating,
 /obj/effect/turf_decal/stripes/asteroid/line{
 	dir = 10
 	},
-/turf/open/misc/asteroid/plasma,
+/turf/open/floor/plating{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "UU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -7673,7 +7828,11 @@
 "Wd" = (
 /obj/structure/alien/resin/wall,
 /obj/structure/alien/weeds,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Wk" = (
 /obj/structure/cable,
@@ -7701,6 +7860,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/awaymission/undergroundoutpost45/crew_quarters)
+"WE" = (
+/obj/structure/glowshroom/single,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 351.9
+	},
+/area/awaymission/undergroundoutpost45/caves)
 "WG" = (
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 4
@@ -7763,7 +7930,11 @@
 /area/awaymission/undergroundoutpost45/research)
 "XF" = (
 /obj/structure/ore_box,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "XJ" = (
 /obj/structure/table/reinforced,
@@ -7781,7 +7952,11 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "XQ" = (
 /obj/structure/glowshroom/single,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "XU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -7791,7 +7966,11 @@
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
 /obj/effect/mob_spawn/corpse/human,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "Yf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -7849,12 +8028,20 @@
 /area/awaymission/undergroundoutpost45/engineering)
 "Zs" = (
 /obj/machinery/light/small/directional/north,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "ZD" = (
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/gibs/core,
-/turf/open/misc/asteroid/plasma,
+/turf/open/misc/asteroid{
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9";
+	name = "Cave Floor";
+	temperature = 363.9
+	},
 /area/awaymission/undergroundoutpost45/caves)
 "ZH" = (
 /obj/machinery/airalarm/directional/east,
@@ -27296,7 +27483,7 @@ jG
 gw
 ky
 DB
-cM
+ma
 mB
 gK
 ad
@@ -32944,7 +33131,7 @@ gX
 hB
 ig
 ze
-CM
+iY
 jr
 jO
 mU
@@ -34240,7 +34427,7 @@ mP
 nn
 nQ
 oz
-lV
+pf
 gy
 ql
 qT
@@ -34495,7 +34682,7 @@ lL
 mj
 mP
 mP
-ET
+nR
 oA
 pg
 gy
@@ -35265,7 +35452,7 @@ Mg
 lM
 hH
 mR
-sc
+no
 RC
 oC
 ph
@@ -35779,7 +35966,7 @@ kV
 lM
 hH
 mT
-CW
+nq
 nV
 WG
 lu
@@ -36564,7 +36751,7 @@ tT
 gy
 uN
 hH
-zq
+ah
 zq
 ad
 ad
@@ -36821,7 +37008,7 @@ tP
 gc
 uO
 vk
-zq
+ah
 zq
 zq
 ad
@@ -37078,7 +37265,7 @@ tV
 gy
 uP
 hH
-zq
+ah
 zq
 zq
 zq
@@ -41916,7 +42103,7 @@ ad
 ad
 ad
 ad
-zq
+Lz
 an
 bq
 aC
@@ -42172,8 +42359,8 @@ ad
 ad
 ad
 ad
-zq
-XQ
+Lz
+WE
 ae
 bq
 aD
@@ -42428,9 +42615,9 @@ ad
 ad
 ad
 ad
-XQ
-zq
-zq
+WE
+Lz
+Lz
 an
 bq
 aC
@@ -42685,9 +42872,9 @@ ad
 ad
 ad
 ad
-zq
-zq
-zq
+Lz
+Lz
+Lz
 an
 al
 aD
@@ -42942,9 +43129,9 @@ ad
 ad
 ad
 ad
-zq
-zq
-zq
+Lz
+Lz
+Lz
 aP
 bY
 aD
@@ -43200,8 +43387,8 @@ ad
 ad
 ad
 ad
-XQ
-zq
+WE
+Lz
 aP
 bq
 cX
@@ -43457,8 +43644,8 @@ ad
 ad
 ad
 ad
-zq
-zq
+Lz
+Lz
 an
 bZ
 bq
@@ -43714,8 +43901,8 @@ ad
 ad
 ad
 ad
-zq
-zq
+Lz
+Lz
 an
 cS
 al
@@ -43971,8 +44158,8 @@ ad
 ad
 ad
 ad
-XQ
-zq
+WE
+Lz
 an
 cT
 bq
@@ -44228,8 +44415,8 @@ ad
 ad
 ad
 ad
-zq
-zq
+Lz
+Lz
 ae
 cU
 bq
@@ -45264,9 +45451,9 @@ ad
 ad
 ad
 ad
-zq
-zq
-zq
+ah
+ah
+ah
 MC
 zq
 zq
@@ -45542,7 +45729,7 @@ zq
 zq
 zq
 zq
-zq
+ad
 zq
 zq
 zq
@@ -47872,7 +48059,7 @@ rr
 qb
 RF
 vy
-kN
+vW
 ni
 ln
 ni
@@ -48179,7 +48366,7 @@ zq
 zq
 zq
 zq
-zq
+ad
 ad
 ad
 ad
@@ -48626,7 +48813,7 @@ ad
 ad
 ad
 ln
-we
+lX
 mz
 ln
 nK

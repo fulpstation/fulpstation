@@ -43,11 +43,8 @@ GLOBAL_DATUM(global_funny_embedding, /datum/global_funny_embedding)
  * Makes every item in the world embed when thrown, but also hooks into global signals for new items created to also bless them with embed-ability(??).
  */
 /datum/global_funny_embedding
-	var/embed_type = /datum/embed_data/global_funny
+	var/embed_type = EMBED_POINTY
 	var/prefix = "error"
-
-/datum/embed_data/global_funny
-	ignore_throwspeed_threshold = TRUE
 
 /datum/global_funny_embedding/New()
 	. = ..()
@@ -64,11 +61,11 @@ GLOBAL_DATUM(global_funny_embedding, /datum/global_funny_embedding)
 	SIGNAL_HANDLER
 
 	// this proc says it's for initializing components, but we're initializing elements too because it's you and me against the world >:)
-	if(created_item.get_embed())
-		return //already embeds to some degree, so whatever // No rat allowed
-
+	if(LAZYLEN(created_item.embedding))
+		return //already embeds to some degree, so whatever 🐀
+	created_item.embedding = embed_type
 	created_item.name = "[prefix] [created_item.name]"
-	created_item.set_embed(embed_type)
+	created_item.updateEmbedding()
 
 /**
  * ### handle_current_items
@@ -80,20 +77,17 @@ GLOBAL_DATUM(global_funny_embedding, /datum/global_funny_embedding)
 		CHECK_TICK
 		if(!(embed_item.flags_1 & INITIALIZED_1))
 			continue
-		if(embed_item.get_embed())
-			continue
-		embed_item.set_embed(embed_type)
-		embed_item.name = "[prefix] [embed_item.name]"
+		if(!embed_item.embedding)
+			embed_item.embedding = embed_type
+			embed_item.updateEmbedding()
+			embed_item.name = "[prefix] [embed_item.name]"
 
 ///everything will be... POINTY!!!!
 /datum/global_funny_embedding/pointy
+	embed_type = EMBED_POINTY
 	prefix = "pointy"
 
 ///everything will be... sticky? sure, why not
 /datum/global_funny_embedding/sticky
-	embed_type = /datum/embed_data/global_funny/sticky
+	embed_type = EMBED_HARMLESS
 	prefix = "sticky"
-
-/datum/embed_data/global_funny/sticky
-	pain_mult = 0
-	jostle_pain_mult = 0

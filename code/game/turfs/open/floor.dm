@@ -142,7 +142,7 @@
 /turf/open/floor/proc/try_replace_tile(obj/item/stack/tile/T, mob/user, params)
 	if(T.turf_type == type && T.turf_dir == dir)
 		return
-	var/obj/item/crowbar/CB = user.is_holding_tool_quality(TOOL_CROWBAR)
+	var/obj/item/crowbar/CB = user.is_holding_item_of_type(/obj/item/crowbar)
 	if(!CB)
 		return
 	var/turf/open/floor/plating/P = pry_tile(CB, user, TRUE)
@@ -362,12 +362,6 @@
 				return FALSE
 			return TRUE
 	return FALSE
-
-/turf/open/floor/rust_turf()
-	if(HAS_TRAIT(src, TRAIT_RUSTY))
-		return
-	ChangeTurf(/turf/open/floor/plating)
-	return ..()
 
 /turf/open/floor/material
 	name = "floor"

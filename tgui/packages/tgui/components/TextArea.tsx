@@ -5,11 +5,10 @@
  * @license MIT
  */
 
-import { isEscape, KEY } from 'common/keys';
+import { KEY } from 'common/keys';
 import { classes } from 'common/react';
 import {
   forwardRef,
-  ReactElement,
   RefObject,
   useEffect,
   useImperativeHandle,
@@ -24,7 +23,7 @@ import { toInputValue } from './Input';
 type Props = Partial<{
   autoFocus: boolean;
   autoSelect: boolean;
-  displayedValue: ReactElement;
+  displayedValue: string;
   dontUseTabForIndent: boolean;
   fluid: boolean;
   maxLength: number;
@@ -83,7 +82,7 @@ export const TextArea = forwardRef(
         return;
       }
 
-      if (isEscape(event.key)) {
+      if (event.key === KEY.Escape) {
         onEscape?.(event);
         if (selfClear) {
           event.currentTarget.value = '';

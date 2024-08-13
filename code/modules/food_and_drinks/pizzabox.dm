@@ -228,7 +228,7 @@
 			return
 		else if(bomb)
 			balloon_alert(user, "already rigged!")
-	else if(IS_WRITING_UTENSIL(I))
+	else if(istype(I, /obj/item/pen))
 		if(!open)
 			if(!user.can_write(I))
 				return

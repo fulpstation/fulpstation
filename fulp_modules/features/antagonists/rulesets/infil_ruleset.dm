@@ -56,7 +56,7 @@
 		var/turf/targetloc = get_safe_random_station_turf()
 		podspawn(list(
 		"target" = targetloc,
-		"style" = /datum/pod_style/missile,
+		"style" = STYLE_MISSILE,
 		"effectMissile" = TRUE,
 		"explosionSize" = list(3,4,5,5),
 		"delays" = list(POD_TRANSIT = 60, POD_FALLING = 60)

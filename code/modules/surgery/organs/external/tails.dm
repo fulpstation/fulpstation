@@ -23,21 +23,15 @@
 /obj/item/organ/external/tail/Insert(mob/living/carbon/receiver, special, movement_flags)
 	. = ..()
 	if(.)
+		original_owner ||= WEAKREF(receiver)
+
 		receiver.clear_mood_event("tail_lost")
 		receiver.clear_mood_event("tail_balance_lost")
 
-	if(!special) // if some admin wants to give someone tail moodles for tail shenanigans, they can spawn it and do it by hand
-		original_owner ||= WEAKREF(receiver)
-
-		// If it's your tail, an infinite debuff is replaced with a timed one
-		// If it's not your tail but of same species, I guess it works, but we are more sad
-		// If it's not your tail AND of different species, we are horrified
 		if(IS_WEAKREF_OF(receiver, original_owner))
-			receiver.add_mood_event("tail_regained", /datum/mood_event/tail_regained_right)
+			receiver.clear_mood_event("wrong_tail_regained")
 		else if(type in receiver.dna.species.external_organs)
-			receiver.add_mood_event("tail_regained", /datum/mood_event/tail_regained_species)
-		else
-			receiver.add_mood_event("tail_regained", /datum/mood_event/tail_regained_wrong)
+			receiver.add_mood_event("wrong_tail_regained", /datum/mood_event/tail_regained_wrong)
 
 /obj/item/organ/external/tail/on_bodypart_insert(obj/item/bodypart/bodypart)
 	var/obj/item/organ/external/spines/our_spines = bodypart.owner.get_organ_slot(ORGAN_SLOT_EXTERNAL_SPINES)
@@ -80,8 +74,6 @@
 
 	if(wag_flags & WAG_WAGGING)
 		stop_wag(organ_owner)
-
-	organ_owner.clear_mood_event("tail_regained")
 
 	if(type in organ_owner.dna.species.external_organs)
 		organ_owner.add_mood_event("tail_lost", /datum/mood_event/tail_lost)
@@ -159,10 +151,10 @@
 	wag_flags = WAG_ABLE
 
 /datum/bodypart_overlay/mutant/tail/get_global_feature_list()
-	return SSaccessories.tails_list_human
+	return GLOB.tails_list_human
 
 /obj/item/organ/external/tail/cat/get_butt_sprite()
-	return icon('icons/mob/butts.dmi', BUTT_SPRITE_CAT)
+	return BUTT_SPRITE_CAT
 
 ///Cat tail bodypart overlay
 /datum/bodypart_overlay/mutant/tail/cat
@@ -175,7 +167,7 @@
 
 	bodypart_overlay = /datum/bodypart_overlay/mutant/tail/monkey
 
-	dna_block = null
+	dna_block = DNA_MONKEY_TAIL_BLOCK
 
 ///Monkey tail bodypart overlay
 /datum/bodypart_overlay/mutant/tail/monkey
@@ -183,7 +175,7 @@
 	feature_key = "tail_monkey"
 
 /datum/bodypart_overlay/mutant/tail/monkey/get_global_feature_list()
-	return SSaccessories.tails_list_monkey
+	return GLOB.tails_list_monkey
 
 /obj/item/organ/external/tail/lizard
 	name = "lizard tail"
@@ -200,7 +192,7 @@
 	feature_key = "tail_lizard"
 
 /datum/bodypart_overlay/mutant/tail/lizard/get_global_feature_list()
-	return SSaccessories.tails_list_lizard
+	return GLOB.tails_list_lizard
 
 /obj/item/organ/external/tail/lizard/fake
 	name = "fabricated lizard tail"
@@ -216,7 +208,7 @@
 	var/tail_spine_key = NONE
 
 /datum/bodypart_overlay/mutant/tail_spines/get_global_feature_list()
-	return SSaccessories.tail_spines_list
+	return GLOB.tail_spines_list
 
 /datum/bodypart_overlay/mutant/tail_spines/get_base_icon_state()
 	return (!isnull(tail_spine_key) ? "[tail_spine_key]_" : "") + (wagging ? "wagging_" : "") + sprite_datum.icon_state // Select the wagging state if appropriate

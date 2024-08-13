@@ -169,7 +169,6 @@
 					/obj/item/clothing/mask/whistle,
 					/obj/item/conversion_kit,
 				)
-	crate_name = "traditional equipment crate"
 	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /// Armory packs
@@ -214,12 +213,9 @@
 /datum/supply_pack/security/armory/dragnet
 	name = "DRAGnet Crate"
 	desc = "Contains three \"Dynamic Rapid-Apprehension of the Guilty\" netting devices, \
-		a recent breakthrough in law enforcement prisoner management technology. Includes a DRAGnet beacon."
+		a recent breakthrough in law enforcement prisoner management technology."
 	cost = CARGO_CRATE_VALUE * 5
-	contains = list(
-		/obj/item/gun/energy/e_gun/dragnet = 3,
-		/obj/item/dragnet_beacon = 1
-	)
+	contains = list(/obj/item/gun/energy/e_gun/dragnet = 3)
 	crate_name = "\improper DRAGnet crate"
 
 /datum/supply_pack/security/armory/energy

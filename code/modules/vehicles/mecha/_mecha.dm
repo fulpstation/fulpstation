@@ -16,12 +16,11 @@
  * Clicks are wither translated into mech_melee_attack (see mech_melee_attack.dm)
  * Or are used to call action() on equipped gear
  * Cooldown for gear is on the mech because exploits
- * Cooldown for melee is on mech_melee_attack also because exploits
  */
 /obj/vehicle/sealed/mecha
 	name = "exosuit"
 	desc = "Exosuit"
-	icon = 'icons/mob/rideables/mecha.dmi'
+	icon = 'icons/mob/mecha.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	max_integrity = 300
 	armor_type = /datum/armor/sealed_mecha
@@ -29,6 +28,7 @@
 	movedelay = 1 SECONDS
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
+	COOLDOWN_DECLARE(mecha_bump_smash)
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_on = FALSE
 	light_range = 6
@@ -46,7 +46,7 @@
 	///if we cant use our equipment(such as due to EMP)
 	var/equipment_disabled = FALSE
 	/// Keeps track of the mech's cell
-	var/obj/item/stock_parts/power_store/cell
+	var/obj/item/stock_parts/cell/cell
 	/// Keeps track of the mech's scanning module
 	var/obj/item/stock_parts/scanning_module/scanmod
 	/// Keeps track of the mech's capacitor
@@ -137,18 +137,9 @@
 	var/stepsound = 'sound/mecha/mechstep.ogg'
 	///Sound played when the mech walks
 	var/turnsound = 'sound/mecha/mechturn.ogg'
-	///Sounds for types of melee attack
-	var/brute_attack_sound = 'sound/weapons/punch4.ogg'
-	var/burn_attack_sound = 'sound/items/welder.ogg'
-	var/tox_attack_sound = 'sound/effects/spray2.ogg'
-	///Sound on wall destroying
-	var/destroy_wall_sound = 'sound/effects/meteorimpact.ogg'
-
-	///Melee attack verb
-	var/list/attack_verbs = list("hit", "hits", "hitting")
 
 	///Cooldown duration between melee punches
-	var/melee_cooldown = CLICK_CD_SLOW
+	var/melee_cooldown = 10
 
 	///TIme taken to leave the mech
 	var/exit_delay = 2 SECONDS
@@ -160,8 +151,6 @@
 	var/is_currently_ejecting = FALSE
 	///Safety for weapons. Won't fire if enabled, and toggled by middle click.
 	var/weapons_safety = FALSE
-	///Don't play standard sound when set safety if TRUE.
-	var/safety_sound_custom = FALSE
 
 	var/datum/effect_system/fluid_spread/smoke/smoke_system
 
@@ -204,6 +193,9 @@
 
 	///Wether we are strafing
 	var/strafe = FALSE
+
+	///Cooldown length between bumpsmashes
+	var/smashcooldown = 3
 
 	///Bool for whether this mech can only be used on lavaland
 	var/lavaland_only = FALSE
@@ -282,7 +274,7 @@
 	/// and gets deleted with the mech. However, they do remain in .contents
 	var/list/potential_occupants = contents | occupants
 	for(var/mob/buggy_ejectee in potential_occupants)
-		mob_exit(buggy_ejectee, silent = TRUE, forced = TRUE)
+		mob_exit(buggy_ejectee, silent = TRUE)
 
 	if(LAZYLEN(flat_equipment))
 		for(var/obj/item/mecha_parts/mecha_equipment/equip as anything in flat_equipment)
@@ -304,6 +296,7 @@
 	QDEL_NULL(ui_view)
 	QDEL_NULL(trackers)
 	QDEL_NULL(chassis_camera)
+	QDEL_NULL(wires)
 
 	GLOB.mechas_list -= src //global mech list
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
@@ -312,7 +305,7 @@
 
 ///Add parts on mech spawning. Skipped in manual construction.
 /obj/vehicle/sealed/mecha/proc/populate_parts()
-	cell = new /obj/item/stock_parts/power_store/cell/high(src)
+	cell = new /obj/item/stock_parts/cell/high(src)
 	scanmod = new /obj/item/stock_parts/scanning_module(src)
 	capacitor = new /obj/item/stock_parts/capacitor(src)
 	servo = new /obj/item/stock_parts/servo(src)
@@ -320,7 +313,7 @@
 
 /obj/vehicle/sealed/mecha/CheckParts(list/parts_list)
 	. = ..()
-	cell = locate(/obj/item/stock_parts/power_store) in contents
+	cell = locate(/obj/item/stock_parts/cell) in contents
 	diag_hud_set_mechcell()
 	scanmod = locate(/obj/item/stock_parts/scanning_module) in contents
 	capacitor = locate(/obj/item/stock_parts/capacitor) in contents
@@ -335,7 +328,7 @@
 	for(var/mob/living/occupant as anything in occupants)
 		if(isAI(occupant))
 			var/mob/living/silicon/ai/ai = occupant
-			if(!ai.linked_core && !ai.can_shunt) // we probably shouldnt gib AIs with a core or shunting abilities
+			if(!ai.linked_core) // we probably shouldnt gib AIs with a core
 				unlucky_ai = occupant
 				ai.investigate_log("has been gibbed by having their mech destroyed.", INVESTIGATE_DEATHS)
 				ai.gib(DROP_ALL_REMAINS) //No wreck, no AI to recover
@@ -375,8 +368,7 @@
  */
 /obj/vehicle/sealed/mecha/proc/set_safety(mob/user)
 	weapons_safety = !weapons_safety
-	if(!safety_sound_custom)
-		SEND_SOUND(user, sound('sound/machines/beep.ogg', volume = 25))
+	SEND_SOUND(user, sound('sound/machines/beep.ogg', volume = 25))
 	balloon_alert(user, "equipment [weapons_safety ? "safe" : "ready"]")
 	set_mouse_pointer()
 	SEND_SIGNAL(src, COMSIG_MECH_SAFETIES_TOGGLE, user, weapons_safety)
@@ -711,9 +703,10 @@
 		return
 	use_energy(melee_energy_drain)
 
-	SEND_SIGNAL(user, COMSIG_MOB_USED_CLICK_MECH_MELEE, src)
-	if(target.mech_melee_attack(src, user))
-		TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MELEE_ATTACK, melee_cooldown)
+	SEND_SIGNAL(user, COMSIG_MOB_USED_MECH_MELEE, src)
+	target.mech_melee_attack(src, user)
+	TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MELEE_ATTACK, melee_cooldown)
+
 
 /// Driver alt clicks anything while in mech
 /obj/vehicle/sealed/mecha/proc/on_click_alt(mob/user, atom/target, params)
@@ -916,9 +909,3 @@
 			act.button_icon_state = "mech_lights_off"
 		balloon_alert(occupant, "lights [mecha_flags & LIGHTS_ON ? "on":"off"]")
 		act.build_all_button_icons()
-
-/obj/vehicle/sealed/mecha/proc/melee_attack_effect(mob/living/victim, heavy)
-	if(heavy)
-		victim.Unconscious(2 SECONDS)
-	else
-		victim.Knockdown(4 SECONDS)

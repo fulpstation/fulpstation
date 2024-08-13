@@ -2,7 +2,7 @@
 
 /obj/item/grapple_gun
 	name = "grapple gun"
-	desc = "A small specialised airgun capable of launching a climbing hook into a distant rock face and pulling the user toward it via motorised zip-line. A handy tool for traversing the craggy landscape of lavaland!"
+	desc = "A handy tool for traversing the land-scape of lava-land!"
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "grapple_gun"
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
@@ -35,22 +35,26 @@
 	zipline_sound = new(src)
 	update_appearance()
 
-/obj/item/grapple_gun/ranged_interact_with_atom(atom/target, mob/living/user, list/modifiers)
-	if(isgroundlessturf(target))
-		return NONE
-	if(target == user || !hooked)
-		return NONE
+/obj/item/grapple_gun/afterattack(atom/target, mob/living/user, proximity)
+	. = ..()
 
-	if(!lavaland_equipment_pressure_check(get_turf(user)) && !(obj_flags & EMAGGED))
-		user.balloon_alert(user, "gun mechanism won't work here!")
-		return ITEM_INTERACT_BLOCKING
+	if(isgroundlessturf(target))
+		return
+
+	if(!lavaland_equipment_pressure_check(get_turf(user)))
+		user.balloon_alert(user, "gun mechanism wont work here!")
+		return
+
+	if(target == user || !hooked)
+		return
+
 	if(get_dist(user, target) > 9)
 		user.balloon_alert(user, "too far away!")
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	var/turf/attacked_atom = get_turf(target)
 	if(isnull(attacked_atom))
-		return ITEM_INTERACT_BLOCKING
+		return
 
 	var/list/turf_list = (get_line(user, attacked_atom) - get_turf(src))
 	for(var/turf/singular_turf as anything in turf_list)
@@ -62,7 +66,9 @@
 		break
 
 	if(user.CanReach(attacked_atom))
-		return ITEM_INTERACT_BLOCKING
+		return
+
+	. |= AFTERATTACK_PROCESSED_ITEM
 
 	var/atom/bullet = fire_projectile(/obj/projectile/grapple_hook, attacked_atom, 'sound/weapons/zipline_fire.ogg')
 	zipline = user.Beam(bullet, icon_state = "zipline_hook", maxdistance = 9, layer = BELOW_MOB_LAYER)
@@ -71,15 +77,6 @@
 	RegisterSignal(bullet, COMSIG_PREQDELETED, PROC_REF(on_grapple_fail))
 	zipliner = WEAKREF(user)
 	update_appearance()
-	return ITEM_INTERACT_SUCCESS
-
-/obj/item/grapple_gun/emag_act(mob/user, obj/item/card/emag/emag_card)
-	. = ..()
-	if(obj_flags & EMAGGED)
-		return FALSE
-	balloon_alert(user, "pressure settings overloaded")
-	obj_flags |= EMAGGED
-	return TRUE
 
 /obj/item/grapple_gun/proc/on_grapple_hit(datum/source, atom/movable/firer, atom/target, Angle)
 	SIGNAL_HANDLER

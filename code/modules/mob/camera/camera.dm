@@ -8,16 +8,13 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	invisibility = INVISIBILITY_ABSTRACT // No one can see us
 	sight = SEE_SELF
-	/// Toggles if the camera can move on shuttles
-	var/move_on_shuttle = FALSE
+	move_on_shuttle = FALSE
 	/// Toggles if the camera can use emotes
 	var/has_emotes = FALSE
 
 /mob/camera/Initialize(mapload)
 	. = ..()
 	SSpoints_of_interest.make_point_of_interest(src)
-	if(!move_on_shuttle)
-		ADD_TRAIT(src, TRAIT_BLOCK_SHUTTLE_MOVEMENT, INNATE_TRAIT)
 
 /mob/camera/experience_pressure_difference()
 	return

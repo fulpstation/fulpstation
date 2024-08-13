@@ -12,10 +12,10 @@
 //Overlay
 /datum/bodypart_overlay/mutant/tail/protogen
 	feature_key = "tail_protogen"
-	color_source = ORGAN_COLOR_INHERIT
+	color_source = ORGAN_COLOR_HAIR
 
 /datum/bodypart_overlay/mutant/tail/protogen/get_global_feature_list()
-	return SSaccessories.tails_list_protogen
+	return GLOB.tails_list_protogen
 
 //Sprites
 /datum/sprite_accessory/tails/protogen

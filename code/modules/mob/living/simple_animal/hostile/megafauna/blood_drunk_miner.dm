@@ -29,6 +29,7 @@ Difficulty: Medium
 	health_doll_icon = "miner"
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	light_color = COLOR_LIGHT_GRAYISH_RED
+	movement_type = GROUND
 	speak_emote = list("roars")
 	speed = 3
 	move_to_delay = 3
@@ -122,7 +123,7 @@ Difficulty: Medium
 		new /obj/effect/temp_visual/dir_setting/miner_death(loc, dir)
 
 /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/Move(atom/newloc)
-	if(newloc && newloc.z == z && ischasm(newloc)) //we're not stupid!
+	if(newloc && newloc.z == z && (islava(newloc) || ischasm(newloc))) //we're not stupid!
 		return FALSE
 	return ..()
 

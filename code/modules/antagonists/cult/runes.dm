@@ -149,9 +149,6 @@ structure_check() searches for nearby cultist structures required for the invoca
 		for(var/mob/living/cultist in range(1, src))
 			if(!IS_CULTIST(cultist))
 				continue
-			var/datum/antagonist/cult/cultist_datum = locate(/datum/antagonist/cult) in cultist.mind.antag_datums
-			if(!cultist_datum.check_invoke_validity()) //We can assume there's a datum here since we can't get past the previous check otherwise.
-				continue
 			if(cultist == user)
 				continue
 			if(!cultist.can_speak(allow_mimes = TRUE))
@@ -326,10 +323,14 @@ structure_check() searches for nearby cultist structures required for the invoca
 	return TRUE
 
 /obj/effect/rune/convert/proc/do_sacrifice(mob/living/sacrificial, list/invokers, datum/team/cult/cult_team)
-	var/target_sac = FALSE
+	var/big_sac = FALSE
 	if((((ishuman(sacrificial) || iscyborg(sacrificial)) && sacrificial.stat != DEAD) || cult_team.is_sacrifice_target(sacrificial.mind)) && length(invokers) < 3)
 		for(var/invoker in invokers)
 			to_chat(invoker, span_cult_italic("[sacrificial] is too greatly linked to the world! You need three acolytes!"))
+		return FALSE
+
+	var/signal_result = SEND_SIGNAL(sacrificial, COMSIG_LIVING_CULT_SACRIFICED, invokers, cult_team)
+	if(signal_result & STOP_SACRIFICE)
 		return FALSE
 
 	if(sacrificial.mind)
@@ -339,33 +340,21 @@ structure_check() searches for nearby cultist structures required for the invoca
 				sac_objective.sacced = TRUE
 				sac_objective.clear_sacrifice()
 				sac_objective.update_explanation_text()
-				target_sac = TRUE
+				big_sac = TRUE
 	else
 		LAZYADD(GLOB.sacrificed, WEAKREF(sacrificial))
 
 	new /obj/effect/temp_visual/cult/sac(loc)
 
-	var/signal_result = SEND_SIGNAL(sacrificial, COMSIG_LIVING_CULT_SACRIFICED, invokers, cult_team)
-
-	var/do_message = TRUE
-	if(signal_result & SILENCE_SACRIFICE_MESSAGE)
-		do_message = FALSE
-	if((signal_result & SILENCE_NONTARGET_SACRIFICE_MESSAGE) && !(target_sac))
-		do_message = FALSE
-
-	if(do_message)
+	if(!(signal_result & SILENCE_SACRIFICE_MESSAGE))
 		for(var/invoker in invokers)
-			if(target_sac)
+			if(big_sac)
 				to_chat(invoker, span_cult_large("\"Yes! This is the one I desire! You have done well.\""))
 				continue
 			if(ishuman(sacrificial) || iscyborg(sacrificial))
 				to_chat(invoker, span_cult_large("\"I accept this sacrifice.\""))
 			else
 				to_chat(invoker, span_cult_large("\"I accept this meager sacrifice.\""))
-
-	// post-message
-	if(signal_result & STOP_SACRIFICE)
-		return FALSE
 
 	if(iscyborg(sacrificial))
 		var/construct_class = show_radial_menu(invokers[1], sacrificial, GLOB.construct_radial_images, require_near = TRUE, tooltips = TRUE)
@@ -378,20 +367,17 @@ structure_check() searches for nearby cultist structures required for the invoca
 		sacriborg.mmi = null
 		qdel(sacrificial)
 		return TRUE
-	if(sacrificial && (signal_result & DUST_SACRIFICE)) // No soulstone when dusted
-		playsound(sacrificial, 'sound/magic/teleport_diss.ogg', 100, TRUE)
-		sacrificial.investigate_log("has been sacrificially dusted by the cult.", INVESTIGATE_DEATHS)
-		sacrificial.dust(TRUE, FALSE, TRUE)
-	else if (sacrificial)
-		var/obj/item/soulstone/stone = new(loc)
-		if(sacrificial.mind && !HAS_TRAIT(sacrificial, TRAIT_SUICIDED))
-			stone.capture_soul(sacrificial,  invokers[1], forced = TRUE)
+
+	var/obj/item/soulstone/stone = new(loc)
+	if(sacrificial.mind && !HAS_TRAIT(sacrificial, TRAIT_SUICIDED))
+		stone.capture_soul(sacrificial,  invokers[1], forced = TRUE)
+
+	if(sacrificial)
 		playsound(sacrificial, 'sound/magic/disintegrate.ogg', 100, TRUE)
 		sacrificial.investigate_log("has been sacrificially gibbed by the cult.", INVESTIGATE_DEATHS)
 		sacrificial.gib(DROP_ALL_REMAINS)
 
 	try_spawn_sword() // after sharding and gibbing, which potentially dropped a null rod
-
 	return TRUE
 
 /// Tries to convert a null rod over the rune to a cult sword
@@ -407,12 +393,12 @@ structure_check() searches for nearby cultist structures required for the invoca
 
 		rod.visible_message(span_cult_italic(displayed_message))
 		switch(num_slain)
-			if(0)
+			if(0, 1)
 				animate_spawn_sword(rod, /obj/item/melee/cultblade/dagger)
-			if(1)
+			if(2)
 				animate_spawn_sword(rod, /obj/item/melee/cultblade)
 			else
-				animate_spawn_sword(rod, /obj/item/melee/cultblade/halberd)
+				animate_spawn_sword(rod, /obj/item/cult_bastard)
 		return TRUE
 
 	return FALSE
@@ -537,8 +523,6 @@ structure_check() searches for nearby cultist structures required for the invoca
 				movesuccess = TRUE
 	if(movedsomething)
 		..()
-		playsound(src, SFX_PORTAL_ENTER, 50, TRUE)
-		playsound(target, SFX_PORTAL_ENTER, 50, TRUE)
 		if(moveuserlater)
 			if(do_teleport(user, target, channel = TELEPORT_CHANNEL_CULT))
 				movesuccess = TRUE
@@ -561,7 +545,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 /obj/effect/rune/teleport/proc/handle_portal(portal_type, turf/origin)
 	var/turf/T = get_turf(src)
 	close_portal() // To avoid stacking descriptions/animations
-	playsound(T, SFX_PORTAL_CREATED, 100, TRUE, 14)
+	playsound(T, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg', 'sound/effects/sparks4.ogg'), 100, TRUE, 14)
 	inner_portal = new /obj/effect/temp_visual/cult/portal(T)
 	if(portal_type == "space")
 		set_light_color(color)
@@ -875,15 +859,12 @@ GLOBAL_VAR_INIT(narsie_summon_count, 0)
 									  "<span class='cult italic'><b>Overwhelming vertigo consumes you as you are hurled through the air!</b></span>")
 	..()
 	visible_message(span_warning("A foggy shape materializes atop [src] and solidifies into [cultist_to_summon]!"))
-	var/turf/old_turf = get_turf(cultist_to_summon)
 	if(!do_teleport(cultist_to_summon, get_turf(src)))
 		to_chat(user, span_warning("The summoning has completely failed for [cultist_to_summon]!"))
 		fail_logmsg += "target failed criteria to teleport." //catch-all term, just means they failed do_teleport somehow. The most common reasons why someone should fail to be summoned already have verbose messages.
 		log_game(fail_logmsg)
 		fail_invoke()
 		return
-	playsound(src, SFX_PORTAL_ENTER, 100, TRUE, SILENCED_SOUND_EXTRARANGE)
-	playsound(old_turf, SFX_PORTAL_ENTER, 100, TRUE, SILENCED_SOUND_EXTRARANGE)
 	qdel(src)
 
 //Rite of Boiling Blood: Deals extremely high amounts of damage to non-cultists nearby
@@ -1160,7 +1141,7 @@ GLOBAL_VAR_INIT(narsie_summon_count, 0)
 			images += B
 		if(!IS_CULTIST(M))
 			if(M.client)
-				var/image/C = image('icons/effects/cult.dmi',M,"bloodsparkles", ABOVE_MOB_LAYER)
+				var/image/C = image('icons/effects/cult/effects.dmi',M,"bloodsparkles", ABOVE_MOB_LAYER)
 				add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/cult, "cult_apoc", C, NONE)
 				addtimer(CALLBACK(M, TYPE_PROC_REF(/atom/, remove_alt_appearance),"cult_apoc",TRUE), duration)
 				images += C

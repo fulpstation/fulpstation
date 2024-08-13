@@ -1,3 +1,6 @@
+import { BooleanLike } from 'common/react';
+
+import { useBackend } from '../backend';
 import {
   Button,
   Flex,
@@ -5,10 +8,7 @@ import {
   LabeledControls,
   NumberInput,
   Section,
-} from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
-
-import { useBackend } from '../backend';
+} from '../components';
 import { Window } from '../layouts';
 
 type Data = {
@@ -71,10 +71,10 @@ export const Aquarium = (props) => {
                 ))}
               </Flex>
             </LabeledControls.Item>
-            <LabeledControls.Item label="Reproduction and Growth">
+            <LabeledControls.Item label="Reproduction Prevention">
               <Button
-                content={allow_breeding ? 'Online' : 'Offline'}
-                selected={allow_breeding}
+                content={allow_breeding ? 'Offline' : 'Online'}
+                selected={!allow_breeding}
                 onClick={() => act('allow_breeding')}
               />
             </LabeledControls.Item>

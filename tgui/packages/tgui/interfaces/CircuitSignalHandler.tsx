@@ -1,15 +1,8 @@
+import { BooleanLike } from 'common/react';
 import { Component, KeyboardEvent, MouseEvent } from 'react';
-import {
-  Box,
-  Button,
-  Dropdown,
-  Input,
-  Section,
-  Stack,
-} from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
+import { Box, Button, Dropdown, Input, Section, Stack } from '../components';
 import { Window } from '../layouts';
 
 type Response = {

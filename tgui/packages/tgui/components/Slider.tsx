@@ -19,8 +19,6 @@ type Props = {
   /** Value itself, controls the position of the cursor. */
   value: number;
 } & Partial<{
-  /** Allows to disable the slider */
-  disabled: boolean;
   /** Animates the value if it was changed externally. */
   animated: boolean;
   /** Custom css */

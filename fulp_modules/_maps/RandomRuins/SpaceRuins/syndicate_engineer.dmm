@@ -8,7 +8,7 @@
 "ac" = (
 /obj/structure/girder/displaced,
 /turf/template_noop,
-/area/space/nearstation)
+/area/ruin/has_grav/prototype/medsci)
 "ad" = (
 /turf/closed/wall,
 /area/ruin/has_grav/prototype/medsci)
@@ -210,7 +210,7 @@
 /area/ruin/has_grav/prototype/kitchen)
 "aK" = (
 /turf/template_noop,
-/area/space/nearstation)
+/area/ruin/has_grav/prototype/medsci)
 "aL" = (
 /obj/machinery/airalarm/directional/east{
 	req_access = null
@@ -315,7 +315,8 @@
 /obj/machinery/door/window{
 	base_state = "right";
 	dir = 4;
-	icon_state = "right"
+	icon_state = "right";
+	layer = 3
 	},
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
@@ -415,7 +416,9 @@
 "br" = (
 /obj/structure/table/reinforced,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/reagent_containers/syringe,
+/obj/item/reagent_containers/syringe{
+	layer = 3.01
+	},
 /turf/open/floor/iron/smooth/airless,
 /area/ruin/has_grav/prototype/brig)
 "bs" = (
@@ -463,8 +466,12 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/item/clothing/under/rank/centcom/commander,
-/obj/item/clothing/suit/armor/vest,
-/obj/item/clothing/shoes/combat,
+/obj/item/clothing/suit/armor/vest{
+	layer = 2.9
+	},
+/obj/item/clothing/shoes/combat{
+	layer = 2.9
+	},
 /obj/structure/closet/cabinet,
 /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch,
 /obj/item/reagent_containers/cup/glass/bottle/champagne/cursed,
@@ -475,6 +482,9 @@
 /mob/living/basic/carp,
 /turf/template_noop,
 /area/ruin/has_grav/prototype/solars)
+"bB" = (
+/turf/template_noop,
+/area/ruin/has_grav/prototype/hallway)
 "bC" = (
 /obj/item/solar_assembly,
 /obj/structure/cable,
@@ -828,6 +838,9 @@
 /obj/structure/lattice,
 /turf/template_noop,
 /area/ruin/has_grav/prototype/botany)
+"cW" = (
+/turf/template_noop,
+/area/ruin/has_grav/prototype/dorms)
 "cX" = (
 /obj/item/shard{
 	icon_state = "medium"
@@ -854,6 +867,9 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/airless,
 /area/ruin/has_grav/prototype/hallway)
+"de" = (
+/turf/template_noop,
+/area/ruin/has_grav/prototype/botany)
 "df" = (
 /obj/item/shard{
 	icon_state = "small"
@@ -896,10 +912,12 @@
 /obj/machinery/airalarm/directional/west{
 	req_access = null
 	},
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/stock_parts/power_store/cell/high,
-/obj/item/inducer,
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/cell/high,
+/obj/item/inducer{
+	layer = 2.9
+	},
 /obj/effect/decal/cleanable/dirt,
 /obj/item/electronics/airlock,
 /obj/item/electronics/airlock,
@@ -976,7 +994,7 @@
 	icon_state = "medium"
 	},
 /turf/template_noop,
-/area/space/nearstation)
+/area/ruin/has_grav/prototype/medsci)
 "dE" = (
 /obj/machinery/power/terminal{
 	icon_state = "term";
@@ -1400,11 +1418,21 @@
 /obj/item/stack/cable_coil,
 /obj/item/stack/cable_coil,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/rods/fifty,
-/obj/item/stack/rods/fifty,
+/obj/item/stack/sheet/glass/fifty{
+	layer = 2.99
+	},
+/obj/item/stack/sheet/glass/fifty{
+	layer = 2.99
+	},
+/obj/item/stack/sheet/glass/fifty{
+	layer = 2.99
+	},
+/obj/item/stack/rods/fifty{
+	layer = 2.99
+	},
+/obj/item/stack/rods/fifty{
+	layer = 2.99
+	},
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
@@ -1683,7 +1711,7 @@
 "fW" = (
 /obj/item/mop/advanced,
 /turf/template_noop,
-/area/space/nearstation)
+/area/ruin/has_grav/prototype/dorms)
 "fY" = (
 /obj/structure/lattice,
 /turf/template_noop,
@@ -1691,7 +1719,7 @@
 "fZ" = (
 /obj/item/shard,
 /turf/template_noop,
-/area/space/nearstation)
+/area/ruin/has_grav/prototype/medsci)
 "ga" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/glass,
@@ -2732,7 +2760,7 @@ dh
 ab
 Ud
 cU
-aK
+cW
 aa
 aa
 aa
@@ -2765,8 +2793,8 @@ Vr
 gl
 ab
 cU
-aK
-aK
+cW
+cW
 aa
 aa
 aa
@@ -2789,7 +2817,7 @@ aj
 aj
 fx
 cH
-aK
+bB
 ab
 dx
 Tf
@@ -2799,8 +2827,8 @@ da
 cU
 PU
 fW
-aK
-aK
+cW
+cW
 aa
 aa
 aa
@@ -2822,7 +2850,7 @@ Rw
 aS
 aj
 fz
-aK
+bB
 cH
 ab
 Wp
@@ -2867,8 +2895,8 @@ cU
 gH
 ab
 cU
-aK
-aK
+cW
+cW
 aa
 aa
 aa
@@ -2902,7 +2930,7 @@ Jb
 bt
 dh
 cU
-aK
+cW
 aa
 aa
 aa
@@ -3071,8 +3099,8 @@ tY
 mK
 cq
 cV
-aK
-aK
+de
+de
 aa
 aa
 aa
@@ -3105,7 +3133,7 @@ tY
 df
 Vs
 cV
-aK
+de
 cZ
 aa
 aa
