@@ -6,7 +6,6 @@
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	lefthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_lefthand.dmi'
 	righthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_righthand.dmi'
-	resistance_flags = FIRE_PROOF | ACID_PROOF
 	///upgrade level of the weapon
 	var/upgrade_level = 0
 	///base force when transformed
@@ -279,7 +278,6 @@
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
-	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/gun/ballistic/revolver/hunter_revolver/examine(mob/user)
 	. = ..()
@@ -328,43 +326,20 @@
 		return
 	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 8 SECONDS)
 
-/obj/structure/weaponsmith //Was a subtype of /obj/structure/rack, but that allowed it to be wrenched apart
+/obj/structure/rack/weaponsmith
 	name = "Weapon Forge"
 	desc = "Fueled by the tears of rabbits."
 	icon = 'icons/obj/antags/cult/structures.dmi'
 	icon_state = "altar"
-	layer = TABLE_LAYER
-	density = TRUE
-	anchored = TRUE
-	pass_flags_self = LETPASSTHROW
 	resistance_flags = INDESTRUCTIBLE
 
-/obj/structure/weaponsmith/Initialize(mapload)
-	. = ..()
-	AddElement(/datum/element/climbable)
-	AddElement(/datum/element/elevation, pixel_shift = 12)
-
-/obj/structure/weaponsmith/examine(mob/user)
+/obj/structure/rack/weaponsmith/examine(mob/user)
 	. = ..()
 	if(IS_MONSTERHUNTER(user))
 		. += span_notice("This forge can be used to upgrade trick weapons with rabbit eyes.")
 
-/obj/structure/weaponsmith/CanAllowThrough(atom/movable/mover, border_dir) //Copied from tables_racks.dm
-	. = ..()
-	if(.)
-		return
-	if(istype(mover) && (mover.pass_flags & PASSTABLE))
-		return TRUE
-
-/obj/structure/weaponsmith/item_interaction(mob/living/user, obj/item/tool, list/modifiers) //See comment above
-	if(user.combat_mode)
-		return NONE
-	if(user.transferItemToLoc(tool, drop_location(), silent = FALSE))
-		return ITEM_INTERACT_SUCCESS
-	return ITEM_INTERACT_BLOCKING
-
 //Used to find a trick weapon placed on the smithing table and return it
-/obj/structure/weaponsmith/proc/identify_weapon()
+/obj/structure/rack/weaponsmith/proc/identify_weapon()
 	var/obj/item/melee/trick_weapon/tool
 	for(var/obj/item/weapon in src.loc.contents)
 		if(!istype(weapon, /obj/item/melee/trick_weapon))
@@ -374,7 +349,7 @@
 	if(tool)
 		return tool
 
-/obj/structure/weaponsmith/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+/obj/structure/rack/weaponsmith/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	. = ..()
 	if(!istype(held_item, /obj/item/rabbit_eye))
 		return
@@ -386,7 +361,7 @@
 	context[SCREENTIP_CONTEXT_LMB] = "Upgrade Weapon with Combat Mode Active"
 	return CONTEXTUAL_SCREENTIP_SET
 
-/obj/structure/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
+/obj/structure/rack/weaponsmith/attackby(obj/item/organ, mob/living/user, params)
 	if(!istype(organ, /obj/item/rabbit_eye))
 		return ..()
 	var/obj/item/rabbit_eye/eye = organ
@@ -404,11 +379,9 @@
 	icon_state = "rabbit_mask"
 	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
-	clothing_flags = MASKINTERNALS
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	flash_protect = FLASH_PROTECTION_WELDER
-	resistance_flags = FIRE_PROOF | ACID_PROOF
 	///the paradox rabbit ability
 	var/datum/action/cooldown/paradox/paradox
 	///teleporting to the wonderland
@@ -470,7 +443,6 @@
 	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
-	resistance_flags = INDESTRUCTIBLE
 	///the hunter the card is tied too
 	var/datum/antagonist/monsterhunter/hunter
 	///cooldown for the locator

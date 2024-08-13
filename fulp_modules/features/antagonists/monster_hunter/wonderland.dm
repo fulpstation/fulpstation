@@ -76,7 +76,6 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
-	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/filled = FALSE ///does the bottle contain fluid
 
 /obj/item/blood_vial/examine(mob/user)
@@ -93,38 +92,16 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	icon_state = "blood_vial"
 	update_appearance()
 
-/obj/item/blood_vial/proc/empty_vial(mob/living/user) //The vial's actual effects are separate from this proc
-	filled = FALSE
-	icon_state = "blood_vial_empty"
-	update_appearance()
-	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/blood_vial_slurp.ogg',50)
 
 /obj/item/blood_vial/attack_self(mob/living/user)
 	if(!filled)
 		balloon_alert(user, "Empty!")
 		return
-	if("[get_area(user)]" == "Wonderland")
-		to_chat(user, span_warning("The blood refuses to let itself be directly spilt (and therefore drank) within Wonderland!"))
-		return
-	if(!IS_MONSTERHUNTER(user))
-		if(IS_BLOODSUCKER(user))
-			to_chat(user, span_bolddanger("That blood tasted horrible! It stills the very core of your undying form!"))
-			user.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet) //Gives them the silver bullet debuff for a prolonged period of time.
-			if(!(user.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))) //(Code copied almost directly from bloodsilver revolver code)
-				return
-			addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 32 SECONDS)
-			empty_vial()
-		else
-			to_chat(user, span_danger("<i>Eugh</i>... Drinking that was a terrible idea!"))
-			user.apply_damage(20, TOX, spread_damage = TRUE)
-			if(user.getStaminaLoss() < 5)
-				user.adjustStaminaLoss(75)
-			empty_vial()
-			return
-	else
-		user.apply_status_effect(/datum/status_effect/cursed_blood)
-		empty_vial()
-		return
+	filled = FALSE
+	user.apply_status_effect(/datum/status_effect/cursed_blood)
+	icon_state = "blood_vial_empty"
+	update_appearance()
+	playsound(src, 'fulp_modules/features/antagonists/monster_hunter/sounds/blood_vial_slurp.ogg',50)
 
 /datum/status_effect/cursed_blood
 	id = "Blood"

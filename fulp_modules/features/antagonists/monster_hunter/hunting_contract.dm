@@ -4,7 +4,6 @@
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
-	resistance_flags = INDESTRUCTIBLE
 	///have we claimed our weapon?
 	var/bought = FALSE
 	///the datum containing all weapons
