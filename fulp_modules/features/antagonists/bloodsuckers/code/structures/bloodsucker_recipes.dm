@@ -64,7 +64,7 @@
 
 /datum/crafting_recipe/candelabrum
 	name = "Candelabrum"
-	result = /obj/structure/bloodsucker/lighting/candelabrum
+	result = /obj/structure/bloodsucker/candelabrum
 	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
 	reqs = list(
 		/obj/item/stack/sheet/iron = 3,
@@ -74,21 +74,6 @@
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
-
-/datum/crafting_recipe/brazier
-	name = "Brazier"
-	result = /obj/structure/bloodsucker/lighting/brazier
-	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
-	reqs = list(
-		/obj/item/stack/sheet/iron = 2,
-		/obj/item/stack/rods = 3,
-		/obj/item/stack/sheet/mineral/wood = 2,
-		/datum/reagent/fuel = 10,
-		/datum/reagent/blood = 10
-	)
-	time = 10 SECONDS
-	category = CAT_STRUCTURE
-	always_available = FALSE
 
 /datum/crafting_recipe/bloodthrone
 	name = "Blood Throne"

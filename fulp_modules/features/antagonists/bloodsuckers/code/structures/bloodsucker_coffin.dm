@@ -15,7 +15,6 @@
 	if(!(/datum/crafting_recipe/vassalrack in owner?.learned_recipes))
 		owner.teach_crafting_recipe(/datum/crafting_recipe/vassalrack)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/candelabrum)
-		owner.teach_crafting_recipe(/datum/crafting_recipe/brazier)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/bloodthrone)
 		owner.teach_crafting_recipe(/datum/crafting_recipe/meatcoffin)
 		owner.current.balloon_alert(owner.current, "new recipes learned!")
