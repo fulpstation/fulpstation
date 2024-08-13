@@ -88,7 +88,7 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	always_available = FALSE
 
 /datum/crafting_recipe/bloodthrone
 	name = "Blood Throne"
