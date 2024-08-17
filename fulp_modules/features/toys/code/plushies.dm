@@ -154,21 +154,19 @@
 		. += span_notice("[p_Theyre()] all tuckered out.")
 
 
-/obj/item/toy/plush/phos //Partly consists of actual gemstone
+/obj/item/toy/plush/phos
 	name = "phosphophyllite plushie"
 	desc = "Has a hardness of roughly 3.5 on Moh's scale."
 	icon = 'fulp_modules/features/toys/icons/toys.dmi'
 	icon_state = "phos"
 	attack_verb_continuous = list("taps", "clicks", "scrapes")
 	attack_verb_simple = list("tap", "click", "scrape")
-	resistance_flags = FLAMMABLE | ACID_PROOF
+	resistance_flags = FLAMMABLE | ACID_PROOF //Most gemstones are acid-resistant... right?
 	squeak_override = list(
 		'sound/items/handling/beaker_place.ogg' = 3,
 		'sound/items/glass_pick_up.ogg' = 2,
 		'sound/effects/rocktap2.ogg' = 1
 	)
-	force = 1
-	throwforce = 1
 	max_integrity = 250
 	grind_results = list(
 		/datum/reagent/phosphorus = 5,
@@ -177,5 +175,3 @@
 		/datum/reagent/oxygen = 2,
 		/datum/reagent/hydrogen = 4
 	) //I'm not a geologist so this may or mayn't be accurate
-	burning_particles = /particles/brazier
-
