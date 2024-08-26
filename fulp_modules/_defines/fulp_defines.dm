@@ -47,4 +47,4 @@
 
 //Defines for "Alert Level Deltaww"
 #define SEC_LEVEL_DELTAWW 4
-#define ALERT_COEFF_DELTAWW 0.75
+#define ALERT_COEFF_DELTAWW 255 //This alert level should only be temporary; might as well mess with everyone.
