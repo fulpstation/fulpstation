@@ -9,43 +9,48 @@
 	typepath = /datum/round_event/stray_meteor/stray_lone_cateor
 	weight = 20 //A bit more likely than regular stray meteor because it's less harmful >;3
 	min_players = 10
-	max_occurrences = 1
+	max_occurrences = 4
 	earliest_start = 15 MINUTES
-	description = "Throw a cateor at the station that homes in on a random crew member."
+	description = "Throws a cateor at the station directed at a random crew member."
 	min_wizard_trigger_potency = 2
 	max_wizard_trigger_potency = 5
 	map_flags = NONE
+	admin_setup = list() //Empty list, no admin setup >:3
 
 
 /datum/round_event/stray_meteor/stray_lone_cateor
-	fakeable = TRUE //Unlike a regular stray meteor, this one practically can't miss.
-	var/list/viable_crew_targets = list() //A list of who can be targeted by the stray cateor
+	announce_when = 5
 
 //Finds a random living crew member who meets a few criteria and makes the cateor launch towards them.
 //Made using 'heart_attack.dm' as a reference.
 /datum/round_event/stray_meteor/stray_lone_cateor/start()
-	//Makes a list of who it should chase first
-	for(var/mob/living/carbon/human/crew in shuffle(GLOB.player_list))
-		if(crew.stat == DEAD || HAS_TRAIT(crew, TRAIT_CRITICAL_CONDITION) || isfelinid(crew) || !is_station_level(get_turf(crew)))
+	var/list/viable_crew_targets = list() //Makes a list of who it should chase first
+	for(var/mob/living/crew in shuffle(GLOB.player_list))
+		var/turf/crew_turf = get_turf(crew)
+		if(crew.stat == DEAD || HAS_TRAIT(crew, TRAIT_CRITICAL_CONDITION) || !is_station_level(crew_turf.z))
 			continue
-		if(!(crew.mind.assigned_role.job_flags & (JOB_CREW_MEMBER || JOB_AI || JOB_CYBORG)))
+		if(isfelinid(crew))
 			continue
 		else
-			viable_crew_targets[crew] = 1
-	var/victim = pick_weight(viable_crew_targets)
+			viable_crew_targets.Add(crew)
+
+	var/mob/living/victim = pick(viable_crew_targets)
 
 	var/obj/effect/meteor/cateor/new_cateor = new /obj/effect/meteor/cateor(
 		spaceDebrisStartLoc(pick(GLOB.cardinals), pick(SSmapping.levels_by_trait(ZTRAIT_STATION))),
 		get_turf(victim)
-		)
-	new_cateor.chase_target(victim, home = TRUE)
-	new_cateor.Move()
+	)
+
+	//For some reason the homing doesn't quite work, so we just move ten times faster, give...
+	//...the victim an ominous hynpotic premonition, and hope for the best.
+	new_cateor.chase_target(get_turf(victim), 0.01, TRUE)
+	to_chat(victim, span_hypnophrase("You feewl like you shouwd stand stiwl for a minute..."))
 
 /datum/round_event/stray_meteor/stray_lone_cateor/announce(fake)
 	priority_announce(
 		"Ouw sensows have been cowwupted by a stwange signatuwe detected appwoaching the station. Pwease \[ERROR, 'situation_advisory' DOES NOT EXIST\]",
-		"ERR% @*#@!",
-		'fulp_modules/sounds/misc/cat_raid_siren.ogg', //TODO: Replace with shortened version
+		"ERR% *@w@!",
+		'sound/effects/footstep/meowstep1.ogg',
 		color_override = "yellow",
 		sender_override = "Centwal Command Update"
 	)

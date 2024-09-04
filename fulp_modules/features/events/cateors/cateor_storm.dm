@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(meteors_cateors, list(/obj/effect/meteor/cateor=1))
 /datum/round_event/meteor_wave/cateor_storm
 	wave_name = "cateor"
 	//The original alert level we revert back to at the end of the event
-	//(Throughout the event the station should be on alert level "Deltaww")
+	//(Throughout the event the station should be on alert level "deltaww")
 	var/original_alert_level
 
 /datum/round_event/meteor_wave/cateor_storm/determine_wave_type()
@@ -33,10 +33,13 @@ GLOBAL_LIST_INIT(meteors_cateors, list(/obj/effect/meteor/cateor=1))
 
 /datum/round_event/meteor_wave/cateor_storm/announce(fake)
 	//No parent call since that forces an unnecessary meteor announcement (we have Deltaww already)
-	if(original_alert_level != 4) //If the alert level isn't Deltaww
-		original_alert_level = SSsecurity_level.get_current_level_as_number()
-	SSsecurity_level.set_level(SEC_LEVEL_DELTAWW)
+	original_alert_level = SSsecurity_level.get_current_level_as_number()
+	if(original_alert_level != SEC_LEVEL_DELTAWW)
+		SSsecurity_level.set_level(SEC_LEVEL_DELTAWW)
 
 /datum/round_event/meteor_wave/cateor_storm/end()
 	. = ..()
-	SSsecurity_level.set_level(original_alert_level)
+	if(original_alert_level != SEC_LEVEL_DELTAWW)
+		SSsecurity_level.set_level(original_alert_level)
+	else
+		SSsecurity_level.set_level(SEC_LEVEL_BLUE)

@@ -2,12 +2,15 @@
 //////// Cateor ////////
 ////////////////////////
 
-//"Cateors," only affect mobs.
+//"Cateors," AKA cat meteors which only affect mobs and go straight through everything else*
+//*with the exception of girders, because no 'PASSGIRDER' flag seems to exist currently...
 
 //Effects:
 //Humanoid mobs are given cat ears and a cat tail.
 //Regular mobs are just turned into cats.
 //Silicons get a special ion law.
+
+#define DEFAULT_METEOR_LIFETIME 60000 //For some reason cateors don't seem to expire at the end of this...
 
 /obj/effect/meteor/cateor
 	name = "high-velocity thaumaturgic cat energy"
@@ -22,15 +25,17 @@
 	light_system = OVERLAY_LIGHT
 	light_color = "#F0415F"
 	light_range = 2.5
-	light_power = 0.5
+	light_power = 0.625
+
+	var/matrix/size = matrix() //Used for adjusting cateor size
+	var/resize_count = 1.5 //Used in one instance of size adjustment— not really that important.
 
 //Transform code taken directly from Dream Maker Reference on "transform."
 //Surely this won't cause any annoying visual bugs!
 /obj/effect/meteor/cateor/Initialize(mapload, turf/target)
 	. = ..()
-	var/matrix/M = matrix()
-	M.Scale(1.5,1.5)
-	src.transform = M
+	size.Scale(1.5,1.5)
+	src.transform = size
 
 //Do nothing because this meteor should only "get hit" when it hits a living thing
 /obj/effect/meteor/cateor/get_hit()
@@ -41,24 +46,40 @@
 	if(.)
 		//Partially copied from tungska meteors
 		new /obj/effect/temp_visual/revenant(get_turf(src))
-		if(prob(20))
+		if(prob(25))
 			playsound(src.loc, 'sound/effects/footstep/meowstep1.ogg', 25)
 
-/obj/effect/meteor/cateor/attack_hand(mob/living/user, list/modifiers)
-	Bump(user)
+/obj/effect/meteor/cateor/attack_hand(mob/living/thing_that_touched_the_cateor, list/modifiers)
+	Bump(thing_that_touched_the_cateor)
 
-//TODO: Make magic resistance affect cateors
 /obj/effect/meteor/cateor/Bump(mob/living/M)
-	if(HAS_TRAIT(M, TRAIT_ANTIMAGIC) || HAS_TRAIT(M, TRAIT_HOLY))
+	if(istype(M, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
+		var/obj/effect/meteor/cateor/cateor_impacted = M
+		cateor_impacted.resize_count += resize_count
+		cateor_impacted.size.Scale(cateor_impacted.resize_count, cateor_impacted.resize_count)
+		cateor_impacted.transform = size
+		//qdel because otherwise two meteors might impact while heading in opposite directions, leading to...
+		//...recursive enlargement, which is as funny as it is unlikely and nonetheless undesirable.
 		qdel(src)
 		return
-	if(istype(M, /mob/living/carbon/human))
+
+	if(istype(M, /obj/structure/girder)) //Can't pass girders, so just brute force past them with style.
+		SSexplosions.lowturf += get_turf(M)
+		qdel(M)
+		return
+
+	if(istype(M, /mob))
+		if(M.can_block_magic()) //Cateors can get blocked by anti-magic
+			qdel(src)
+			return
+
+	if(istype(M, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
 		SSexplosions.lowturf += get_turf(M)
 		purrbation_apply(M)
-	//Surely there's a better method for catifying mobs...
-	if(istype(M, /mob/living/basic) || istype(M, /mob/living/simple_animal))
-		if(istype(M, /mob/living/basic/pet/cat))
-			M.update_transform(2) //If it's already a cat then just make it larger
+
+	if(istype(M, /mob/living/basic) || istype(M, /mob/living/simple_animal)) //Simple/basic mobs get turned into a cat
+		if(istype(M, /mob/living/basic/pet/cat)) //If it's already a cat then just make it larger
+			M.update_transform(2)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50)
 			qdel(src)
 			return
@@ -97,3 +118,5 @@
 
 	playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50) // (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ WOAW!!!
 	qdel(src)
+
+#undef DEFAULT_METEOR_LIFETIME
