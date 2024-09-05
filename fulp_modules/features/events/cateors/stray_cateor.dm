@@ -38,7 +38,7 @@
 
 	var/obj/effect/meteor/cateor/new_cateor = new /obj/effect/meteor/cateor(
 		spaceDebrisStartLoc(pick(GLOB.cardinals), pick(SSmapping.levels_by_trait(ZTRAIT_STATION))),
-		get_turf(victim)
+		NONE
 	)
 
 	//For some reason the homing doesn't quite work, so we just move ten times faster, give...
