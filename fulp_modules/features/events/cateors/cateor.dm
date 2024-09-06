@@ -50,6 +50,7 @@
 			playsound(src.loc, 'sound/effects/footstep/meowstep1.ogg', 25)
 
 /obj/effect/meteor/cateor/attack_hand(mob/living/thing_that_touched_the_cateor, list/modifiers)
+	to_chat(thing_that_touched_the_cateor, span_hypnophrase("How cuwious... CUWIOUS LIKE A-"))
 	Bump(thing_that_touched_the_cateor)
 
 /obj/effect/meteor/cateor/Bump(mob/living/M)
@@ -74,8 +75,42 @@
 			return
 
 	if(istype(M, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
-		SSexplosions.lowturf += get_turf(M)
-		purrbation_apply(M)
+		var/mob/living/carbon/humanoid = M
+		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
+
+		//Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
+		var/obj/item/organ/external/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
+		if(antennae)
+			antennae.Remove(humanoid, special = TRUE)
+			qdel(antennae)
+
+		purrbation_apply(humanoid, TRUE)
+
+		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))
+
+		/*
+		* Cateors have a tendency to cause severe brain damage and/or trauma on impact with humanoids.
+		* This is not intentional, and I'm not sure what exactly is causing it (could be the explosion.)
+		* For now we'll just heal their brain a fair bit on impact and cure their minor/moderate traumas.
+		* If there's a way to prevent this in the first place then by all means please simplify or remove
+		* all of the brain healing code past this point.
+		*/
+
+		humanoid.setOrganLoss(ORGAN_SLOT_BRAIN, M.get_organ_loss(ORGAN_SLOT_BRAIN) - 175)
+
+		if(GLOB.curse_of_madness_triggered)
+			return
+
+		var/obj/item/organ/internal/brain/humanoid_brain = humanoid.get_organ_slot(ORGAN_SLOT_BRAIN)
+		var/list/brain_traumas = humanoid_brain.get_traumas_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
+		if(!brain_traumas)
+			return
+
+		for(var/datum/brain_trauma in brain_traumas)
+			if(istype(brain_trauma, /datum/brain_trauma/special)) //Definitely don't want to cure these...
+				continue
+			else
+				humanoid.cure_trauma_type(brain_trauma, TRAUMA_RESILIENCE_LOBOTOMY)
 
 	if(istype(M, /mob/living/basic) || istype(M, /mob/living/simple_animal)) //Simple/basic mobs get turned into a cat
 		if(istype(M, /mob/living/basic/pet/cat)) //If it's already a cat then just make it larger

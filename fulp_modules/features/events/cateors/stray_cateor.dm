@@ -19,7 +19,7 @@
 
 
 /datum/round_event/stray_meteor/stray_lone_cateor
-	announce_when = 5
+	announce_when = 3
 
 //Finds a random living crew member who meets a few criteria and makes the cateor launch towards them.
 //Made using 'heart_attack.dm' as a reference.
@@ -44,7 +44,7 @@
 	//For some reason the homing doesn't quite work, so we just move ten times faster, give...
 	//...the victim an ominous hynpotic premonition, and hope for the best.
 	new_cateor.chase_target(get_turf(victim), 0.01, TRUE)
-	to_chat(victim, span_hypnophrase("You feewl like you shouwd stand stiwl for a minute..."))
+	to_chat(victim, span_hypnophrase("We awe appwoaching, pwease <i>STAND STIWL</i>."))
 
 /datum/round_event/stray_meteor/stray_lone_cateor/announce(fake)
 	priority_announce(
