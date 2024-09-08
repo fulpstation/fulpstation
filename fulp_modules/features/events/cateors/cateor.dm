@@ -76,6 +76,15 @@
 
 	if(istype(M, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
 		var/mob/living/carbon/humanoid = M
+		if(istype (humanoid, /mob/living/carbon/human/species/felinid)) //Felinds get briefly stunned
+			purrbation_apply(humanoid, TRUE)
+			humanoid.Paralyze(3 SECONDS)
+			humanoid.Knockdown(6 SECONDS)
+			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 25)
+			to_chat(humanoid, (span_hypnophrase("The overwhelming smell of catnip permeates the air...")))
+			qdel(src)
+			return
+
 		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 
 		//Remove moth antennae if present since 'purrbation_apply()' doesn't do that.

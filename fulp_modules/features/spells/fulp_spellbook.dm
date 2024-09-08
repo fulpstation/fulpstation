@@ -1,9 +1,26 @@
+////////////////////
+////// SPELLS //////
+////////////////////
+
 /datum/spellbook_entry/dance_floor
 	name = "Summon Dance Floor"
 	desc = "When what a Devil really needs is funk."
 	spell_type = /datum/action/cooldown/spell/summon_dancefloor
 	category = "Assistance"
 	cost = 1
+
+
+/datum/spellbook_entry/direct_cateor
+	name = "Direct Cat Meteor"
+	desc = "Summon a lesser 'feline-ification' meteor and direct it at a target with this long-range spell. \n\
+	(Metamagical scope modifier included.)"
+	spell_type = /datum/action/cooldown/spell/conjure_item/infinite_guns/direct_cateor
+	category = "Offensive"
+	cost = 2
+
+///////////////////
+///// RITUALS /////
+///////////////////
 
 /datum/spellbook_entry/summon/cateor_storm
 	name = "Summon Cat Meteor Storm"
