@@ -80,13 +80,14 @@
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE_MORE, PROC_REF(on_examine_more))
 	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER), PROC_REF(on_screwdriver_act))
-	RegisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(on_parent_equipped))
 
 /datum/component/bodycamera_holder/UnregisterFromParent()
-	UnregisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER))
-	UnregisterSignal(parent, COMSIG_ATOM_ATTACKBY)
-	UnregisterSignal(parent, COMSIG_ATOM_EXAMINE)
-	UnregisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED)
+	UnregisterSignal(parent, list(
+		COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER),
+		COMSIG_ATOM_ATTACKBY,
+		COMSIG_ATOM_EXAMINE,
+		COMSIG_ITEM_POST_EQUIPPED
+	))
 	QDEL_NULL(bodycamera_installed)
 	return ..()
 
@@ -101,11 +102,10 @@
 /// When the camera holder is equipped
 /datum/component/bodycamera_holder/proc/on_parent_equipped(mob/living/source, force, atom/newloc, no_move, invdrop, silent)
 	SIGNAL_HANDLER
-	if(bodycamera_installed)
-		var/obj/item/clothing/parent_item = parent
-		var/mob/living/equipper = isliving(parent_item.loc) ? parent_item.loc : null
-		if(equipper && equipper.get_item_by_slot(clothingtype_required) == parent)
-			turn_camera_on(equipper)
+	var/obj/item/clothing/parent_item = parent
+	var/mob/living/equipper = isliving(parent_item.loc) ? parent_item.loc : null
+	if(equipper && equipper.get_item_by_slot(clothingtype_required) == parent)
+		turn_camera_on(equipper)
 
 /// When the camera holder is unequipped
 /datum/component/bodycamera_holder/proc/on_unequip(mob/living/source, force, atom/newloc, no_move, invdrop, silent)
@@ -133,6 +133,7 @@
 			item.forceMove(source)
 			bodycamera_installed = item
 			playsound(source, 'sound/items/drill_use.ogg', item.get_clamped_volume(), TRUE, -1)
+			RegisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(on_parent_equipped))
 			if(user.get_item_by_slot(clothingtype_required) == parent)
 				turn_camera_on(user)
 		return
@@ -163,6 +164,7 @@
 	if(bodycamera_installed.is_on())
 		turn_camera_off(user)
 	playsound(source, 'sound/items/drill_use.ogg', tool.get_clamped_volume(), TRUE, -1)
+	UnregisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED)
 	bodycamera_installed.forceMove(user.loc)
 	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob, put_in_hands), bodycamera_installed)
 	bodycamera_installed = null
