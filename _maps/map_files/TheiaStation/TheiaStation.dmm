@@ -1027,10 +1027,10 @@
 	},
 /area/station/medical/morgue)
 "atG" = (
-/obj/machinery/rnd/production/techfab/department/cargo,
 /obj/machinery/light_switch/directional/east,
 /obj/machinery/light/directional/east,
 /obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/machinery/autolathe,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "atL" = (
@@ -3659,8 +3659,9 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "bsM" = (
-/obj/machinery/light/small/directional/east,
-/obj/effect/turf_decal/trimline/brown/filled/line,
+/obj/structure/chair/office{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "bsR" = (
@@ -7613,12 +7614,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/aft/upper)
-"cYw" = (
-/obj/machinery/door/airlock/maintenance,
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/turf/open/floor/plating,
-/area/station/maintenance/aft/lesser)
 "cYO" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 6
@@ -7884,6 +7879,10 @@
 /obj/effect/spawner/random/engineering/tracking_beacon,
 /turf/open/floor/iron/white,
 /area/station/science/robotics/lab)
+"deJ" = (
+/obj/effect/turf_decal/trimline/brown/filled/line,
+/turf/closed/wall,
+/area/station/maintenance/aft/lesser)
 "deL" = (
 /obj/machinery/light/small/directional/west,
 /obj/effect/turf_decal/tile/purple/half/contrasted{
@@ -12614,6 +12613,10 @@
 /area/station/cargo/storage)
 "eVN" = (
 /obj/machinery/light_switch/directional/east,
+/obj/effect/turf_decal/trimline/brown/filled/line{
+	dir = 4
+	},
+/obj/structure/ore_box,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "eVX" = (
@@ -13794,6 +13797,16 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
+"fsy" = (
+/obj/machinery/firealarm/directional/east,
+/obj/item/paper_bin,
+/obj/item/pen,
+/obj/structure/table/reinforced,
+/obj/effect/turf_decal/trimline/brown/filled/line{
+	dir = 6
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "fsC" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -17050,10 +17063,10 @@
 /area/station/ai_monitored/security/armory)
 "gHR" = (
 /obj/effect/landmark/start/cargo_technician,
-/obj/effect/turf_decal/trimline/brown/filled/corner,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/effect/turf_decal/trimline/brown/filled/corner,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "gHV" = (
@@ -17619,10 +17632,6 @@
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/service/bar)
-"gSz" = (
-/obj/effect/turf_decal/trimline/brown/filled/corner,
-/turf/open/floor/iron,
-/area/station/cargo/storage)
 "gSG" = (
 /obj/structure/chair/comfy/beige,
 /obj/item/toy/plush/lizard_plushie/space,
@@ -18087,9 +18096,8 @@
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hop)
 "haa" = (
-/obj/effect/turf_decal/trimline/brown/filled/line{
-	dir = 6
-	},
+/obj/structure/table/reinforced,
+/obj/effect/turf_decal/trimline/brown/filled/line,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "hab" = (
@@ -29087,7 +29095,8 @@
 /area/station/security/prison/mess)
 "lBB" = (
 /obj/machinery/mineral/ore_redemption{
-	dir = 1
+	input_dir = 2;
+	output_dir = 1
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/window/left/directional/north{
@@ -30151,6 +30160,15 @@
 /obj/effect/turf_decal/box,
 /turf/open/floor/iron,
 /area/station/cargo/warehouse)
+"man" = (
+/obj/machinery/computer/cargo{
+	dir = 8
+	},
+/obj/effect/turf_decal/trimline/brown/filled/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "mar" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
 	dir = 5
@@ -31759,8 +31777,11 @@
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "mJB" = (
-/obj/machinery/autolathe,
 /obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 8
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "mJC" = (
@@ -34595,6 +34616,14 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
+"nSp" = (
+/obj/machinery/door/airlock/maintenance,
+/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/aft/lesser)
 "nSq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -37074,16 +37103,18 @@
 /turf/open/floor/iron,
 /area/station/security/brig)
 "oRf" = (
-/obj/machinery/computer/cargo{
-	dir = 8
-	},
-/obj/machinery/firealarm/directional/east,
-/obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/machinery/light/small/directional/south,
+/obj/item/folder/yellow,
+/obj/effect/turf_decal/trimline/brown/filled/line,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "oRu" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
-/obj/machinery/requests_console/directional/south,
+/obj/machinery/requests_console/directional/south{
+	name = "Engineering Requests Console";
+	department = "Engineering"
+	},
 /obj/effect/mapping_helpers/requests_console/ore_update,
 /obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/information,
@@ -42611,6 +42642,12 @@
 "rkT" = (
 /turf/closed/wall/r_wall,
 /area/station/maintenance/starboard/fore)
+"rkW" = (
+/obj/effect/turf_decal/trimline/brown/filled/line{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "rla" = (
 /obj/machinery/light_switch/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -43580,6 +43617,8 @@
 	network = list("ss13","cargo")
 	},
 /obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/machinery/rnd/production/techfab/department/cargo,
+/obj/effect/turf_decal/trimline/brown/filled/line,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "rEf" = (
@@ -58459,9 +58498,15 @@
 /area/station/maintenance/starboard/aft)
 "xPZ" = (
 /obj/machinery/light/directional/east,
-/obj/machinery/requests_console/directional/south,
 /obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/ore_update,
+/obj/machinery/requests_console/directional/east{
+	department = "Cargo"
+	},
+/obj/structure/table/reinforced,
+/obj/effect/turf_decal/trimline/brown/filled/line{
+	dir = 4
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "xQi" = (
@@ -58561,11 +58606,9 @@
 /turf/open/floor/plating,
 /area/station/maintenance/aft/upper)
 "xRR" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/brown/fourcorners,
+/obj/structure/rack,
+/obj/item/storage/belt/utility/full,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "xSp" = (
@@ -83921,8 +83964,8 @@ lIf
 gHR
 cgl
 cgl
-cgl
 jum
+rkW
 qab
 rFt
 aaL
@@ -84174,7 +84217,7 @@ mMP
 mMP
 xEF
 lIf
-gSz
+lIf
 haa
 rDK
 atG
@@ -84433,7 +84476,7 @@ iBG
 lIf
 bsM
 oRf
-rEy
+deJ
 rEy
 rEy
 rEy
@@ -84688,8 +84731,8 @@ dRk
 mMP
 eVN
 xPZ
-rEy
-rEy
+man
+fsy
 rEy
 vTT
 hDF
@@ -84946,8 +84989,8 @@ mMP
 rEy
 rEy
 rEy
-doq
-cYw
+rEy
+rEy
 doq
 doq
 doq
@@ -85205,7 +85248,7 @@ mdF
 nod
 doq
 rEy
-rEy
+nSp
 rEy
 bwv
 wDa
