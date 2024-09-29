@@ -7,8 +7,8 @@
 /datum/round_event_control/stray_meteor/stray_lone_cateor
 	name = "Stray Cateor"
 	typepath = /datum/round_event/stray_meteor/stray_lone_cateor
-	weight = 20 //A bit more likely than regular stray meteor because it's less harmful >;3
-	min_players = 10
+	weight = 25 //More likely than regular stray meteor because it's less harmful >;3
+	min_players = 5
 	max_occurrences = 4
 	earliest_start = 15 MINUTES
 	description = "Throws a cateor at the station directed at a random crew member."
