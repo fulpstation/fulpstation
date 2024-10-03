@@ -655,7 +655,11 @@
 
 //Copied over from 'wall_mounted.dm' with appropriate alterations
 /obj/item/wallframe/blood_mirror/attach(turf/on_wall, mob/user)
-	if(result_path)
+	if(!IS_BLOODSUCKER(user))
+		balloon_alert(user, "you don't understand its mounting mechanism!")
+		return
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(get_area(user) == bloodsuckerdatum.bloodsucker_lair_area)
 		playsound(src.loc, 'sound/machines/click.ogg', 75, TRUE)
 		user.visible_message(span_notice("[user.name] attaches [src] to the wall."),
 			span_notice("You attach [src] to the wall."),
@@ -675,12 +679,13 @@
 				if(WEST)
 					hanging_object.pixel_x = -pixel_shift
 		transfer_fingerprints_to(hanging_object)
-		hanging_object.bolt()
+		hanging_object.bolt(user)
+		qdel(src)
+	else
+		balloon_alert(user, "you can only mount it while in your lair!")
 
-	qdel(src)
-
-//Blood mirror, allows bloodsuckers to remotely observe their vassals. Vassals being observed gain red eyes.
-//Lots of code from regular mirrors has been copied over here for obvious reasons.
+/// Blood mirror, allows bloodsuckers to remotely observe their vassals. Vassals being observed gain red eyes.
+/// Lots of code from regular mirrors has been copied over here for obvious reasons.
 /obj/structure/bloodsucker/mirror
 	name = "scarlet mirror"
 	desc = "It bleeds with visions of a world rendered in red."
@@ -691,24 +696,30 @@
 	anchored = TRUE
 	integrity_failure = 0.5
 	max_integrity = 200
-	vamp_desc = "This is a blood mirror, it will allow you to see through your vassals remotely (though it will cause their eyes to redden as a side effect.) \n\
+	vamp_desc = "This is a blood mirror, it will allow you to see through the eyes of your vassals remotely (though it will cause said eyes to redden as a side effect.) \n\
 		It is warded against usage by unvassalized mortals with teleportation magic that can rend psyches asunder at the cost of its own integrity."
 	vassal_desc = "This is a magical blood mirror that Bloodsuckers may use to watch over their devotees.\n\
 		Those unworthy of the mirror who haven't been sworn to the service of a Bloodsucker may anger it if they attempt to use it."
 	hunter_desc = "This is a mirror cursed with blood, it allows vampires to spy upon their thralls. \n\
 		 An incredibly shy mirror spirit has also been bound to it, so try not to look into it directly lest you wish to face a phantasmal panic response."
+	light_range = 2
+	light_power = 1.5
+	light_color = LIGHT_COLOR_BLOOD_MAGIC
+	light_on = FALSE
 
-	//Boolean indicating whether or not the mirror is being used to observe someone.
+	/// Boolean indicating whether or not the mirror is being used to observe someone.
 	var/in_use = FALSE
-	//The mob currently using the mirror to observe someone (if any.)
+	/// The mob currently using the mirror to observe someone (if any.)
 	var/mob/living/carbon/human/current_user = null
-	//The mob currently being observed by someone using the mirror (if any.)
+	/// The mob currently being observed by someone using the mirror (if any.)
 	var/mob/living/carbon/human/current_observed = null
-
-	//The original eye colors of the mob being observed.
+	/// The typepath of the action used to stop observing someone with the mirror.
+	var/datum/action/innate/mirror_observe_stop/stop_observe = /datum/action/innate/mirror_observe_stop
+	/// The original left eye color of the mob being observed.
 	var/original_eye_color_left
+	/// The original right eye color of the mob being observed.
 	var/original_eye_color_right
-	//Boolean indicating whether or not the mirror is angry (see 'proc/katabasis' for more info.)
+	/// Boolean indicating whether or not the mirror is angry (see 'proc/katabasis' for more info.)
 	var/mirror_will_not_forget_this = FALSE
 
 /obj/structure/bloodsucker/mirror/Initialize(mapload)
@@ -718,24 +729,21 @@
 	var/datum/callback/can_reflect = CALLBACK(src, PROC_REF(can_reflect))
 	var/list/update_signals = list(COMSIG_ATOM_BREAK)
 	AddComponent(/datum/component/reflection, reflection_filter = reflection_filter, reflection_matrix = reflection_matrix, can_reflect = can_reflect, update_signals = update_signals)
+	stop_observe = new stop_observe(src)
 
 /obj/structure/bloodsucker/mirror/Destroy(force)
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
+	if(in_use)
+		stop_observing(current_user, current_observed)
+	QDEL_NULL(stop_observe)
 
-//Overrides for default bloodsucker structure 'attack_hand()' and 'click_alt()' interaction start here:
+/obj/structure/bloodsucker/mirror/examine(mob/user)
+	. = ..()
+	if(in_use)
+		. += span_cult_bold("It's glowing ominously and [current_user] is staring into it!")
 
-/obj/structure/bloodsucker/mirror/attack_hand(mob/user, list/modifiers)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(istype(bloodsuckerdatum) && !owner)
-		if(!bloodsuckerdatum.bloodsucker_lair_area)
-			to_chat(user, span_danger("You don't have a lair. Claim a coffin to make that location your lair."))
-			return FALSE
-		if(bloodsuckerdatum.bloodsucker_lair_area != get_area(src))
-			to_chat(user, span_danger("You may only activate this structure in your lair: [bloodsuckerdatum.bloodsucker_lair_area]."))
-			return FALSE
-	return TRUE
-
+/// Default 'click_alt()' interaction overriden since mirrors are a unique case.
 /obj/structure/bloodsucker/mirror/click_alt(mob/user)
 	if(user == owner && user.Adjacent(src))
 		if(broken)
@@ -749,15 +757,14 @@
 		var/unclaim_response = show_radial_menu(user, src, unclaim_options, radius = 36, require_near = TRUE)
 		switch(unclaim_response)
 			if("Yes")
-				if(broken) //Clear up broken mirrors by 'gibbing' them.
-					new /obj/effect/gibspawner/generic(src.loc, src)
+				if(broken) //Clear up broken mirrors by "gibbing" them.
+					new /obj/effect/gibspawner/generic(src.loc)
 					qdel(src)
 				else
 					new /obj/item/wallframe/blood_mirror(src.loc)
 					qdel(src)
 
-///Overrides for default bloodsucker structure 'attack_hand()' and 'click_alt()' interaction end here
-
+/// Copied from 'mirror/proc/can_reflect()'
 /obj/structure/bloodsucker/mirror/proc/can_reflect(atom/movable/target)
 	if(atom_integrity <= integrity_failure * max_integrity)
 		return FALSE
@@ -788,67 +795,141 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	icon_state = "blood_mirror_broken"
 	if(!mapload)
 		playsound(src, SFX_SHATTER, 70, TRUE)
+		playsound(src, 'sound/effects/blobattack.ogg', 60, TRUE)
 	if(desc == initial(desc))
 		desc = "It's a suspended pool of darkened fragments resembling a scab."
 	src.visible_message(span_warning("Blood spews out of the mirror as it breaks!"))
 	new /obj/effect/decal/cleanable/blood/splatter(src.loc)
 	broken = TRUE
 
-/*
-*Made using 'dullahan.dm', '_machinery.dm', 'camera_advanced.dm', 'drug_effects.dm', and a lot of
-*other files as references.
-*/
+/**
+ * Proc used by blood mirrors to allow a user to see from the perspective of a target.
+ *
+ * Made using 'dullahan.dm', '_machinery.dm', 'camera_advanced.dm', 'drug_effects.dm', and a lot of
+ * other files as references.
+ */
 /obj/structure/bloodsucker/mirror/proc/begin_observing(mob/living/carbon/human/user, mob/living/carbon/human/observed)
 	var/obj/item/organ/internal/eyes/observed_eyes = observed.get_organ_slot(ORGAN_SLOT_EYES)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+
+	stop_observe.Grant(user)
+	START_PROCESSING(SSobj, src)
+	user.add_client_colour(/datum/client_colour/glass_colour/red)
+	set_light_on(TRUE)
+
 	if(observed_eyes)
 		user.reset_perspective(observed, TRUE)
 		original_eye_color_left = observed.eye_color_left
 		original_eye_color_right = observed.eye_color_right
 		observed.eye_color_left = BLOODCULT_EYE
 		observed.eye_color_right = BLOODCULT_EYE
+		observed.update_body()
 	else
 		balloon_alert(user, "targeted vassal has no eyes!")
 		return
 
 	in_use = TRUE
+	icon_state = "blood_mirror_active"
+	playsound(src, 'sound/effects/portal_travel.ogg', 50, frequency = 0.75, use_reverb = TRUE)
 	current_user = user
 	current_observed = observed
-	START_PROCESSING(SSobj, src)
+	bloodsuckerdatum.blood_structure_in_use = src
 
-/obj/structure/bloodsucker/mirror/proc/stop_observing(mob/living/carbon/human/user, mob/living/carbon/human/observed)
+/// Proc used by blood mirrors to stop observing. Arguments default to 'current_user' and 'current_observed'
+/obj/structure/bloodsucker/mirror/proc/stop_observing(mob/living/carbon/human/user = current_user, mob/living/carbon/human/observed = current_observed)
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+
 	user.reset_perspective()
+	stop_observe.Remove(user)
+	STOP_PROCESSING(SSobj, src)
+	user.remove_client_colour(/datum/client_colour/glass_colour/red)
+	set_light_on(FALSE)
+
 	observed.eye_color_left = original_eye_color_left
 	observed.eye_color_right = original_eye_color_right
+	observed.update_body()
 
 	in_use = FALSE
+	if(broken)
+		icon_state = "blood_mirror_broken"
+	else
+		icon_state = /obj/structure/bloodsucker/mirror::icon_state
+	playsound(src, 'sound/effects/portal_travel.ogg', 50, frequency = -0.75, use_reverb = TRUE)
 	current_user = null
 	current_observed = null
-	STOP_PROCESSING(SSobj, src)
+	bloodsuckerdatum.blood_structure_in_use = null
 
 /obj/structure/bloodsucker/mirror/process(seconds_per_tick)
-	. = ..()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = current_user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(isdead(current_user))
+		balloon_alert(current_user, "you are dead!")
+		stop_observing()
+		return
+
+	if(isdead(current_observed))
+		balloon_alert(current_user, "[current_observed] is dead!")
+		stop_observing()
+
+	if(!current_observed.get_organ_slot(ORGAN_SLOT_EYES))
+		balloon_alert(current_user, "[current_observed] has lost their eyes!")
+		stop_observing()
+		return
+
+	if(broken)
+		balloon_alert(current_user, "[src] has broken!")
+		stop_observing()
+		return
+
+	if(!in_range(src, current_user))
+		balloon_alert(current_user, "you have moved too far from [src]!")
+		stop_observing()
+		return
+
+	if(!current_user.mind.has_antag_datum(/datum/antagonist/bloodsucker))
+		balloon_alert(current_user, "you aren't a bloodsucker anymore!")
+		stop_observing()
+		return
 
 /obj/structure/bloodsucker/mirror/attack_hand(mob/living/carbon/human/user)
 	. = ..()
 	if(broken)
 		balloon_alert(user, "it's broken and unusable!")
 		return
+
 	if(IS_BLOODSUCKER(user))
 		var/datum/antagonist/bloodsucker/user_bloodsucker_datum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker, FALSE)
+
 		if(!length(user_bloodsucker_datum.vassals))
 			balloon_alert(user, "you have no vassals to observe!")
 			return
-		var/chosen = tgui_input_list(user, "Select a vassal to watch over. You will be rendered immobile while you do this.", "Choose a Vassal to Observe", user_bloodsucker_datum.vassals)
+		if(user_bloodsucker_datum.blood_structure_in_use)
+			balloon_alert(user, "can't use two mirrors at the same time!")
+			return
+
+		var/vassal_name_list[0]
+		for(var/datum/antagonist/vassal/vassal_datum as anything in user_bloodsucker_datum.vassals)
+			vassal_name_list[vassal_datum.owner.name] = vassal_datum
+		var/chosen = tgui_input_list(user, "Select a vassal to watch over...", "Vassal Observation List", vassal_name_list)
+
 		if(chosen)
-			begin_observing(user, chosen)
+			var/datum/antagonist/vassal/chosen_datum = vassal_name_list[chosen]
+			var/mob/chosen_datum_current = chosen_datum.owner.current
+			if(isdead(chosen_datum_current))
+				balloon_alert(user, "[chosen_datum_current.name] is dead!")
+				return
+
+			begin_observing(user, chosen_datum_current)
+			return
 		else
 			balloon_alert(user, "no vassal selected!")
 			return
+
 	if(IS_VASSAL(user))
 		balloon_alert(user, "you don't know how to use it!")
 		return
+
 	if(IS_MONSTERHUNTER(user))
-		to_chat(user, span_warning("Looking too far into [src] is probably a bad idea..."))
+		user.balloon_alert(user, "MOVE, NOW!") //They might be able to escape it by going to Wonderland...
 
 	if(mirror_will_not_forget_this)
 		katabasis(user, TRUE)
@@ -861,6 +942,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	victim.Stun(5 SECONDS, TRUE)
 	sleep(4 SECONDS) //If they don't move within four seconds then the real effects kick in.
 
+	if(broken)
+		return
+	if(!src)
+		return
 	if(victim.loc != original_victim_loc)
 		visible_message(span_warning("A dark red silhouette appears in [src], but as it bangs against the glass in vain."))
 		mirror_will_not_forget_this = TRUE
@@ -869,56 +954,64 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 	katabasis(victim)
 
-/*
-*The mirror is trapped, and this proc represents the trap's effects.
-*In short, it will deal moderate damage to its victim, teleport them to a random location on the station,
-*give them a deep-rooted fear of blood, give them a severe negative moodlet, and then shatter itself.
-*
-*'var/aggressive' makes it all a bit more severe if true.
-*/
+/**
+ * The mirror is trapped, and this proc represents the trap's effects.
+ * In short, it will deal moderate damage to its victim, teleport them to a random location on the station,
+ * give them a deep-rooted fear of blood, give them a severe negative moodlet, and then shatter itself.
+ *
+ * 'var/aggressive' makes it all a bit more severe if true.
+ */
 /obj/structure/bloodsucker/mirror/proc/katabasis(mob/living/carbon/human/victim, var/aggressive = FALSE)
 	//Damage
 	if((victim.maxHealth - victim.get_total_damage()) >= victim.crit_threshold)
 		var/refined_damage_amount = (victim.maxHealth - victim.get_total_damage()) * (aggressive ? 0.45 : 0.35)
 		victim.adjustBruteLoss(refined_damage_amount)
 
+	//Break mirror
+	atom_break()
+
 	//Flavor
 	var/turf/victim_turf = get_turf(victim)
-	playsound(victim_turf, 'sound/effects/glassbr2.ogg', 75)
+	flash_color(victim) //Defaults to cult stun flash, which fits here.
+	playsound(victim_turf, 'sound/hallucinations/veryfar_noise.ogg', 100, frequency = 1.25, use_reverb = TRUE)
 	victim.visible_message(span_danger("A red hand erupts from [src], dragging [victim.name] away through broken glass!"),
 	span_bolddanger("A crimson palm envelops your face, and with a horrible jolt it pulls you into [src]!"),
 	span_warning("You briefly hear the sound of glass breaking accompanied by an eerie gust and a sudden thump!"),
 	)
-	victim.playsound_local(victim_turf, 'sound/hallucinations/veryfar_noise.ogg', 100, frequency = 1.25, use_reverb = TRUE)
 
 	//Teleport
 	var/target_turf = get_safe_random_station_turf(GLOB.the_station_areas)
 	do_teleport(victim, target_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_FREE)
 
-	//Break mirror
-	atom_break()
-
 	//Nightmare, trauma, and mood event
-	victim.Sleeping(15 SECONDS)
+	victim.Sleeping(4 SECONDS)
 	sleep(4 SECONDS)
 
+	victim.Sleeping(3.5 SECONDS)
 	to_chat(victim, span_warning("...you were dragged through an infinite expanse of carmine..."))
 	sleep(3.5 SECONDS)
 
+	victim.Sleeping(3.5 SECONDS)
 	to_chat(victim, span_warning("...within it all things were stagnant— clotting to no end..."))
 	sleep(3.5 SECONDS)
 
-	to_chat(victim, span_warning("...this place was where those of ages old claimed their vitality..."))
+	victim.Sleeping(2.5 SECONDS)
+	to_chat(victim, span_warning("...this place was where those of ages old once claimed their vitality..."))
 	sleep(2.5 SECONDS)
 
-	to_chat(victim, span_warning("...<b>and you really ought to avoid what has been claimed</b>."))
+	victim.Sleeping(2.5 SECONDS)
+	to_chat(victim, span_warning("<b>...and soon, you're sure, those claims will be renewed.</b>."))
 	victim.gain_trauma(/datum/brain_trauma/mild/phobia/blood, TRAUMA_RESILIENCE_LOBOTOMY)
 	victim.add_mood_event("blood_mirror", /datum/mood_event/bloodmirror)
 
-//The action button that allows players to stop using blood mirrors
+/// The action button that allows players to stop using blood mirrors.
 /datum/action/innate/mirror_observe_stop
 	name = "Stop Overseeing"
 	button_icon = 'icons/mob/actions/actions_spells.dmi'
 	button_icon_state = "blind"
 
+/datum/action/innate/mirror_observe_stop/Activate()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/obj/structure/bloodsucker/mirror/our_mirror = bloodsuckerdatum.blood_structure_in_use
 
+	our_mirror.stop_observing(our_mirror.current_user, our_mirror.current_observed)

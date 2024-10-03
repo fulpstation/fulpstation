@@ -18,6 +18,7 @@
 		Activating Masquerade will physiologically make you identical to a human;\n\
 		- You lose nearly all Bloodsucker benefits, including healing, sleep, radiation, crit, virus and cold immunity.\n\
 		- Your eyes become less vulnerable to bright lights.\n\
+		- You gain reflection, making mortals unable to discover your undeath with a simple mirror.\n\
 		- You gain a genetic sequence, and appear to have 100% blood when scanned by a health analyzer.\n\
 		- You will not appear as pale when examined. Anything further than pale, however, will not be hidden.\n\
 		At the end of Masquerade you will re-gain your vampiric qualities and lose any diseases or genetic alterations you might have."

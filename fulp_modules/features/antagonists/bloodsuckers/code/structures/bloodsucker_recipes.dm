@@ -104,7 +104,7 @@
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/blood_mirror
-	name = "blood mirror"
+	name = "blood mirror frame"
 	result = /obj/item/wallframe/blood_mirror
 	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER, TOOL_CROWBAR)
 	reqs = list(
