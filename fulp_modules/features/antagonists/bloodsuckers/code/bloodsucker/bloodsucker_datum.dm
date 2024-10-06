@@ -26,6 +26,11 @@
 
 	var/datum/bloodsucker_clan/my_clan
 
+
+	/// The bloodsucker structure (if any,) being used by the owner of this antag datum.
+	/// Currently only used to make blood mirrors functional, but it could have applications elsewhere.
+	var/obj/structure/bloodsucker/blood_structure_in_use = null
+
 	// TIMERS //
 	///Timer between alerts for Burn messages
 	COOLDOWN_DECLARE(bloodsucker_spam_sol_burn)
@@ -103,6 +108,7 @@
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_TOXIMMUNE,
 		TRAIT_HARDLY_WOUNDED,
+		TRAIT_NO_MIRROR_REFLECTION, //Mirrors aren't THAT common— besides, Masquerade can cover this up.
 	)
 
 /**
