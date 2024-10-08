@@ -111,13 +111,16 @@
 	attack_verb_continuous = list("staked", "stabbed", "tore into")
 	attack_verb_simple = list("staked", "stabbed", "tore into")
 	sharpness = SHARP_EDGED
-	embedding = list("embed_chance" = 20)
+	embed_data = /datum/embed_data/stake
 	force = 6
 	throwforce = 10
 	max_integrity = 30
 
 	///Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
+
+/datum/embed_data/stake
+	embed_chance = 20
 
 /obj/item/stake/attack(mob/living/target, mob/living/user, params)
 	. = ..()
@@ -177,8 +180,11 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embedding = list("embed_chance" = 35)
+	embed_data = /datum/embed_data/hardened_stake
 	staketime = 80
+
+/datum/embed_data/hardened_stake
+	embed_chance = 35
 
 /obj/item/stake/hardened/silver
 	name = "silver stake"
@@ -188,8 +194,11 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embedding = list("embed_chance" = 65)
+	embed_data = /datum/embed_data/silver_stake
 	staketime = 60
+
+/datum/embed_data/silver_stake
+	embed_chance = 65
 
 //////////////////////
 //     ARCHIVES     //
@@ -214,7 +223,7 @@
 /obj/item/book/kindred
 	name = "\improper Archive of the Kindred"
 	starting_title = "the Archive of the Kindred"
-	desc = "Cryptic documents explaining hidden truths behind Undead beings. It is said only Curators can decipher what they really mean."
+	desc = "Cryptic documents explaining the hidden truths of undead beings. It is said only Curators can decipher what they really mean."
 	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
 	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
 	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
@@ -261,7 +270,7 @@
 		if(bloodsuckerdatum.broke_masquerade)
 			to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', is indeed a Bloodsucker, but you already knew this."))
 			return
-		to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', [bloodsuckerdatum.my_clan ? "is part of the [bloodsuckerdatum.my_clan]!" : "is not part of a clan."] You quickly note this information down, memorizing it."))
+		to_chat(user, span_warning("[target], also known as '[bloodsuckerdatum.return_full_name()]', [bloodsuckerdatum.my_clan ? "is part of the [bloodsuckerdatum.my_clan]!" : "is not part of a clan."]"))
 		bloodsuckerdatum.break_masquerade()
 	else
 		to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Bloodsucker."))

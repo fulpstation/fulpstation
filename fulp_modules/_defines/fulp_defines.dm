@@ -44,3 +44,7 @@
 
 //Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
 #define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
+
+//Defines for "Alert Level Deltaww"
+#define SEC_LEVEL_DELTAWW 4
+#define ALERT_COEFF_DELTAWW 255 //This alert level should only be temporary; might as well mess with everyone.

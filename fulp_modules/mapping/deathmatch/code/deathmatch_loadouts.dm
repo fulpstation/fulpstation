@@ -25,7 +25,7 @@
 	suit = /obj/item/clothing/suit/costume_2021/alucard_suit
 	head = /obj/item/clothing/head/costume/powdered_wig
 	r_hand = /obj/item/melee/sabre
-	
+
 	granted_spells = list(
 		/datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two,
 		)
@@ -39,7 +39,7 @@
 	gloves = /obj/item/clothing/gloves/fingerless
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	r_hand = /obj/item/boxcutter
-	
+
 /datum/outfit/deathmatch_loadout/maintenance
 	name = "Deathmatch: Maintenance"
 	display_name = "Maintenance"

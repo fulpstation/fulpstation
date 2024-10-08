@@ -20,7 +20,7 @@
  *
  * make sure you add an update to the schema_version stable in the db changelog
  */
-#define DB_MINOR_VERSION 26
+#define DB_MINOR_VERSION 27
 
 
 //! ## Timing subsystem
@@ -298,9 +298,14 @@
 #define SSEXPLOSIONS_THROWS 3
 
 // Machines subsystem subtasks.
-#define SSMACHINES_APCS_EARLY 1
-#define SSMACHINES_MACHINES 2
-#define SSMACHINES_APCS_LATE 3
+#define SSMACHINES_MACHINES_EARLY 1
+#define SSMACHINES_APCS_EARLY 2
+#define SSMACHINES_APCS_ENVIRONMENT 3
+#define SSMACHINES_APCS_LIGHTS 4
+#define SSMACHINES_APCS_EQUIPMENT 5
+#define SSMACHINES_APCS_LATE 6
+#define SSMACHINES_MACHINES 7
+#define SSMACHINES_MACHINES_LATE 8
 
 // Wardrobe subsystem tasks
 #define SSWARDROBE_STOCK 1
@@ -346,3 +351,6 @@
 #define VOTE_WINNER_METHOD_WEIGHTED_RANDOM "Weighted Random"
 /// There is no winner for this vote.
 #define VOTE_WINNER_METHOD_NONE "None"
+
+/// Returned by [/datum/vote/proc/can_be_initiated] to denote the vote is valid and can be initiated.
+#define VOTE_AVAILABLE "Vote Available"
