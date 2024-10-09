@@ -109,10 +109,10 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 	if(!IS_MONSTERHUNTER(user))
 		if(IS_BLOODSUCKER(user))
 			to_chat(user, span_bolddanger("That blood tasted horrible! It stills the very core of your undying form!"))
-			user.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet) //Gives them the silver bullet debuff for a prolonged period of time.
-			if(!(user.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))) //(Code copied almost directly from bloodsilver revolver code)
-				return
-			addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 32 SECONDS)
+			user.apply_status_effect(/datum/status_effect/silver_bullet) //Gives them the silver bullet debuff.
+			user.apply_damage(30, BURN, spread_damage = TRUE)
+			if(user.getStaminaLoss() < 5)
+				user.adjustStaminaLoss(75)
 			empty_vial()
 		else
 			to_chat(user, span_danger("<i>Eugh</i>... Drinking that was a terrible idea!"))
@@ -126,16 +126,18 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 		empty_vial()
 		return
 
+
+
 /datum/status_effect/cursed_blood
 	id = "Blood"
 	duration = 20 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/cursed_blood
 
-
-
 /atom/movable/screen/alert/status_effect/cursed_blood
-	name = "Cursed Blood"
-	desc = "Something foreign is coursing through your veins."
+	name = "Abnormal Analeptic"
+	desc = "Something unusual is motivating your physiology..."
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/status_effects.dmi'
+	icon_state = "blood_vial"
 
 /datum/status_effect/cursed_blood/on_apply()
 	. = ..()

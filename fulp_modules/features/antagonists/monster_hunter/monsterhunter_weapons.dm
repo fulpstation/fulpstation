@@ -261,7 +261,7 @@
 
 /obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
-		user.balloon_alert(user, "Already at maximum upgrade!")
+		user.balloon_alert(user, "Already at maximum upgrade state!")
 		return
 	if(killer.enabled)
 		user.balloon_alert(user, "Weapon must be in base form!")
@@ -293,7 +293,7 @@
 
 
 /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
-	name = "detective revolver cylinder"
+	name = "bloodsilver revolver cylinder"
 	ammo_type = /obj/item/ammo_casing/silver
 	caliber = CALIBER_BLOODSILVER
 	max_ammo = 2
@@ -319,14 +319,30 @@
 	var/mob/living/carbon/man = target
 	if(!man)
 		return
-	if(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet))
-		return
 	if(!IS_HERETIC(man) && !(IS_BLOODSUCKER(man)) && !(man.mind.has_antag_datum(/datum/antagonist/changeling)))
 		return
-	man.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
-	if(!(man.has_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)))
-		return
-	addtimer(CALLBACK(man, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/silver_bullet), 8 SECONDS)
+	man.apply_status_effect(/datum/status_effect/silver_bullet)
+
+/datum/status_effect/silver_bullet
+	id = "silver_debuff"
+	duration = 8 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/silver_bullet
+
+/atom/movable/screen/alert/status_effect/silver_bullet
+	name = "Cursed Blood"
+	desc = "Something foreign is flowing through you, stiffening your carcass to a standstill... "
+	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/status_effects.dmi'
+	icon_state = "silver_bullet"
+
+/datum/status_effect/silver_bullet/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
+	to_chat(owner, span_bolddanger("Your entire bloodstream feels weighted down!"))
+
+/datum/status_effect/silver_bullet/on_remove()
+	. = ..()
+	owner.remove_movespeed_modifier(/datum/movespeed_modifier/silver_bullet)
+
 
 /obj/structure/weaponsmith //Was a subtype of /obj/structure/rack, but that allowed it to be wrenched apart
 	name = "Weapon Forge"
