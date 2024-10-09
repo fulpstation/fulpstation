@@ -60,6 +60,15 @@
 	icon = 'fulp_modules/mapping/areas/icons.dmi'
 	icon_state = "lower_entry"
 
+/area/station/maintenance/department/security/dungeon
+	name = "\improper Dungeon"
+
+/area/station/maintenance/aft/backrooms
+	name = "\improper Auxiliary Backrooms"
+
+/area/station/hallway/secondary/exit/escape_pod/secondary
+	name = "\improper Auxilliary Pod Array"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
