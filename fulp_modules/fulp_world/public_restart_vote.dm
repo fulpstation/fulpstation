@@ -54,7 +54,7 @@
 	if(winning_option == CHOICE_RESTART)
 		SSshuttle.emergency.request(reason = "\n\
 		\n\
-		S.M.I.L.E. telemetry shows morale has decayed beyond profitable limits. \
+		S.M.I.L.E. telemetry shows that crew morale has decayed beyond profitable limits. \
 		A mandatory crew rotation will take place, and janitorial staff have been dispatched to prepare the facilities for the next shift.\n\
 		Glory to NT.")
 		SSshuttle.emergency_no_recall = TRUE
