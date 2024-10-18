@@ -56,7 +56,7 @@
 		\n\
 		S.M.I.L.E. telemetry shows that crew morale has decayed beyond profitable limits. \
 		A mandatory crew rotation will take place, and janitorial staff have been dispatched to prepare the facilities for the next shift.\n\
-		Glory to NT.")
+		/n/Glory to Nanotrasen")
 		SSshuttle.emergency_no_recall = TRUE
 		log_game("Shuttle call forced by successful public vote.")
 		return
