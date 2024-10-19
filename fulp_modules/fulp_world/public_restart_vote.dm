@@ -54,7 +54,7 @@
 	if(winning_option == CHOICE_RESTART)
 		SSshuttle.emergency.request(reason = "\n\
 		\n\
-		A mandatory crew rotation will now take place. \
+		Biometrics data shows morale has decayed beyond profitable limits. A mandatory crew rotation will now take place. \
 		Crew remaining on site after the end of their shift may expect recovery in approximately six business weeks \
 		and are encouraged to apply for a Nanowage Overtime Plan Acclimated Yearly\n\
 		/n/Glory to Nanotrasen")
