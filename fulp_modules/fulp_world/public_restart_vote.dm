@@ -54,8 +54,9 @@
 	if(winning_option == CHOICE_RESTART)
 		SSshuttle.emergency.request(reason = "\n\
 		\n\
-		S.M.I.L.E. telemetry shows that crew morale has decayed beyond profitable limits. \
-		A mandatory crew rotation will now take place, and janitorial staff have been dispatched to prepare station facilities for the next shift.\n\
+		A mandatory crew rotation will now take place. \
+		Crew remaining on site after the end of their shift may expect recovery in approximately six business weeks \
+		and are encouraged to apply for a Nanowage Overtime Plan Acclimated Yearly\n\
 		/n/Glory to Nanotrasen")
 		SSshuttle.emergency_no_recall = TRUE
 		log_game("Shuttle call forced by successful public vote.")
