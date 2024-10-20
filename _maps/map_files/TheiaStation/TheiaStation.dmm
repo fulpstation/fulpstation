@@ -7616,15 +7616,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/storage_shared)
-"cMy" = (
-/obj/structure/cable,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/turf/open/floor/iron,
-/area/station/hallway/primary/starboard)
 "cMD" = (
 /obj/structure/sign/poster/official/moth_meth/directional/north,
 /obj/effect/turf_decal/trimline/blue/filled/line{
@@ -10054,8 +10045,9 @@
 /turf/open/floor/carpet/blue,
 /area/station/command/heads_quarters/hop)
 "dGI" = (
+/obj/structure/sign/poster/official/random/directional/north,
 /obj/effect/turf_decal/tile/neutral{
-	dir = 1
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
@@ -26127,10 +26119,12 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "jJz" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
 /obj/machinery/light/directional/west,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8;
+	pixel_x = 2;
+	pixel_y = 1
+	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "jJB" = (
@@ -27424,9 +27418,6 @@
 "kgb" = (
 /obj/structure/cable,
 /obj/machinery/door/firedoor,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
@@ -34344,7 +34335,9 @@
 /obj/machinery/door/poddoor/shutters{
 	id = "lawyershutter"
 	},
-/obj/machinery/door/window/brigdoor/right/directional/south,
+/obj/machinery/door/window/brigdoor/right/directional/south{
+	req_access = list("lawyer")
+	},
 /turf/open/floor/wood/tile,
 /area/station/service/lawoffice)
 "mRh" = (
@@ -38298,7 +38291,9 @@
 /obj/machinery/door/poddoor/shutters{
 	id = "lawyershutter"
 	},
-/obj/machinery/door/window/brigdoor/left/directional/south,
+/obj/machinery/door/window/brigdoor/left/directional/south{
+	req_access = list("lawyer")
+	},
 /turf/open/floor/wood/tile,
 /area/station/service/lawoffice)
 "oqK" = (
@@ -48667,11 +48662,16 @@
 "swE" = (
 /obj/structure/sign/departments/maint/directional/north,
 /obj/machinery/vending/coffee,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
 /obj/effect/turf_decal/trimline/neutral/filled/corner{
 	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8;
+	pixel_x = 2;
+	pixel_y = 1
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
@@ -49850,10 +49850,12 @@
 	},
 /area/station/hallway/secondary/entry)
 "sRv" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
 /obj/machinery/newscaster/directional/west,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8;
+	pixel_x = 2;
+	pixel_y = 1
+	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "sRy" = (
@@ -57348,10 +57350,12 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
 "vRP" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
 /obj/machinery/status_display/evac/directional/west,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8;
+	pixel_x = 2;
+	pixel_y = 1
+	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/starboard)
 "vRQ" = (
@@ -96779,7 +96783,7 @@ jjS
 jjS
 qtg
 nfS
-cMy
+mvq
 trK
 fYl
 gvE
@@ -98834,7 +98838,7 @@ lEz
 lEz
 lEz
 lEz
-nQh
+dGI
 lRW
 oOh
 hXR
@@ -99083,14 +99087,14 @@ csV
 mON
 dzb
 swE
-dGI
-dGI
-dGI
-dGI
+jMq
+jMq
+jMq
+jMq
 jJz
 sRv
 vRP
-dGI
+jMq
 drb
 jlw
 oOh
