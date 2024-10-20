@@ -67,7 +67,16 @@
 	name = "\improper Auxiliary Backrooms"
 
 /area/station/hallway/secondary/exit/escape_pod/secondary
-	name = "\improper Auxilliary Pod Array"
+	name = "\improper Auxiliary Pod Array"
+
+/area/station/security/courtroom/courthouse
+	name = "\improper Station Courthouse"
+	sound_environment = SOUND_AREA_WOODFLOOR
+
+/area/station/command/heads_quarters/captain/private/panicbunker
+	name = "\improper Panic Bunker"
+	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
+	ambience_index = AMBIENCE_DANGER
 
 // Ruins
 
