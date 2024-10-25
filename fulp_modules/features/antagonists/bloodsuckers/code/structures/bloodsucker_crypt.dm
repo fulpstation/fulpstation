@@ -618,7 +618,7 @@
 	update_appearance(UPDATE_OVERLAYS)
 
 // The speech itself
-/obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, mob/speech_args)
+/obj/structure/bloodsucker/bloodthrone/proc/handle_speech(datum/source, list/speech_args)
 	SIGNAL_HANDLER
 
 	var/mob/living/carbon/human/user = source
