@@ -60,7 +60,6 @@
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
-	. = ..()
 	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
 	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
@@ -68,6 +67,7 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
+	. = ..()
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
