@@ -6,12 +6,13 @@
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
 	sexes = FALSE
-	mutant_organs = list(
-		"beef_color" = "#e73f4e",
-		"beef_eyes" = BEEF_EYES_OLIVES,
-		"beef_mouth" = BEEF_MOUTH_SMILE,
+	body_markings = list(
+		/datum/bodypart_overlay/simple/body_marking/beefman_eyes = BEEF_EYES_OLIVES,
+		/datum/bodypart_overlay/simple/body_marking/beefman_mouth = BEEF_MOUTH_SMILE,
 	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_FIXED_MUTANT_COLORS,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
 		TRAIT_RESISTCOLD,
@@ -111,10 +112,6 @@
 /datum/species/beefman/get_features()
 	var/list/features = ..()
 	features += "feature_beef_color"
-	features += "feature_beef_eyes"
-	features += "feature_beef_mouth"
-	features += "feature_beef_trauma"
-
 	return features
 
 /mob/living/carbon/human/species/beefman

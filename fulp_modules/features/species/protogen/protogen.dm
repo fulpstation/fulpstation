@@ -4,9 +4,6 @@
 	id = SPECIES_PROTOGEN
 	examine_limb_id = SPECIES_PROTOGEN
 	mutant_organs = list(
-		"legs" = "Normal Legs",
-	)
-	mutant_organs = list(
 		/obj/item/organ/external/snout/protogen = "Bolted",
 		/obj/item/organ/external/tail/protogen = "Shark",
 		/obj/item/organ/external/protogen_antennae = "Default",
