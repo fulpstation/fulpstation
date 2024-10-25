@@ -164,8 +164,8 @@
 	resistance_flags = FLAMMABLE | ACID_PROOF //Most gemstones are acid-resistant... right?
 	squeak_override = list(
 		'sound/items/handling/beaker_place.ogg' = 3,
-		'sound/items/glass_pick_up.ogg' = 2,
-		'sound/effects/rocktap2.ogg' = 1
+		'sound/items/handling/materials/glass_pick_up.ogg' = 2,
+		'sound/effects/rock/rocktap2.ogg' = 1
 	)
 	max_integrity = 250
 	grind_results = list(

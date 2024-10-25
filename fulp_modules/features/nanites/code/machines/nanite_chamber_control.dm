@@ -100,13 +100,13 @@
 			find_chamber()
 			return TRUE
 		if("remove_nanites")
-			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
+			playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 25, FALSE)
 			chamber.remove_nanites()
 			log_combat(usr, chamber.occupant, "cleared nanites from", null, "via [src]")
 			log_game("[chamber.occupant]'s nanites were cleared by [key_name(usr)] via [src] at [AREACOORD(src)].")
 			return TRUE
 		if("nanite_injection")
-			playsound(src, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
+			playsound(src, 'sound/machines/terminal/terminal_prompt.ogg', 25, FALSE)
 			chamber.inject_nanites()
 			log_combat(usr, chamber.occupant, "injected", null, "with nanites via [src]")
 			log_game("[chamber.occupant] was injected with nanites by [key_name(usr)] via [src] at [AREACOORD(src)].")

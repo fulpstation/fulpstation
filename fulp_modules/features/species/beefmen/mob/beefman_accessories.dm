@@ -5,7 +5,7 @@
 //Currently only used by mutantparts so don't worry about hair and stuff.
 //This is the source that this accessory will get its color from. Default is MUTCOLOR, but can also be HAIR, FACEHAIR, EYECOLOR and 0 if none.
 /datum/sprite_accessory/beef/eyes
-	color_src = EYE_COLOR
+	color_src = FALSE
 
 /datum/sprite_accessory/beef/eyes/capers
 	name = BEEF_EYES_CAPERS
@@ -27,7 +27,7 @@
 
 /datum/sprite_accessory/beef/mouth
 	use_static = TRUE
-	color_src = null
+	color_src = FALSE
 
 /datum/sprite_accessory/beef/mouth/frown
 	name = BEEF_MOUTH_FROWN
@@ -52,3 +52,17 @@
 /datum/sprite_accessory/beef/mouth/smirk
 	name = BEEF_MOUTH_SMIRK
 	icon_state = "smirk"
+
+/datum/bodypart_overlay/simple/body_marking/beefman_eyes
+	dna_feature_key = "beef_eyes"
+	applies_to = list(/obj/item/bodypart/head)
+
+/datum/bodypart_overlay/simple/body_marking/beefman_eyes/get_accessory(name)
+	return SSaccessories.eyes_beefman_list[name]
+
+/datum/bodypart_overlay/simple/body_marking/beefman_mouth
+	dna_feature_key = "beef_mouth"
+	applies_to = list(/obj/item/bodypart/head)
+
+/datum/bodypart_overlay/simple/body_marking/beefman_mouth/get_accessory(name)
+	return SSaccessories.mouths_beefman_list[name]

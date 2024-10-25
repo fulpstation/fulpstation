@@ -61,7 +61,7 @@
 	var/stancing = FALSE
 
 /datum/action/receding_stance/Trigger(trigger_flags)
-	if(owner.incapacitated())
+	if(owner.incapacitated)
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
 	if(stancing)
@@ -92,7 +92,7 @@
 	button_icon_state = "twisted_stance"
 
 /datum/action/twisted_stance/Trigger(trigger_flags)
-	if(owner.incapacitated())
+	if(owner.incapacitated)
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
 	var/mob/living/user = owner
@@ -147,7 +147,7 @@
 		var/datum/wound/slash/flesh/moderate/crit_wound = new
 		crit_wound.apply_wound(limb)
 	D.apply_damage(15, A.get_attack_type(), wound_bonus = CANT_WOUND)
-	playsound(get_turf(A), 'sound/weapons/slice.ogg', 50, TRUE, -1)
+	playsound(get_turf(A), 'sound/items/weapons/slice.ogg', 50, TRUE, -1)
 	return TRUE
 
 /// Goat Headbutt
@@ -186,7 +186,7 @@
 	if(prob(70) && !D.stat)
 		D.Knockdown(4 SECONDS)
 	D.apply_damage(10, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
-	playsound(get_turf(A), 'sound/weapons/cqchit1.ogg', 50, TRUE, -1)
+	playsound(get_turf(A), 'sound/items/weapons/cqchit1.ogg', 50, TRUE, -1)
 	return TRUE
 
 /// Minor Iris
@@ -204,7 +204,7 @@
 	var/datum/wound/slash/flesh/moderate/crit_wound = new
 	crit_wound.apply_wound(limb)
 	D.apply_damage(30, A.get_attack_type(), wound_bonus = CANT_WOUND)
-	playsound(get_turf(A), 'sound/weapons/bladeslice.ogg', 50, TRUE, -1)
+	playsound(get_turf(A), 'sound/items/weapons/bladeslice.ogg', 50, TRUE, -1)
 	return TRUE
 
 
@@ -239,7 +239,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You [picked_hit_type] [D]!"))
-	playsound(D, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
+	playsound(D, 'sound/items/weapons/punch1.ogg', 50, TRUE, -1)
 	return TRUE
 
 /datum/martial_art/velvetfu/grab_act(mob/living/A, mob/living/D)
@@ -262,7 +262,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You [picked_hit_type] [D]!"))
-	playsound(D, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
+	playsound(D, 'sound/items/weapons/punch1.ogg', 50, TRUE, -1)
 	return TRUE
 
 /datum/martial_art/velvetfu/harm_act(mob/living/A, mob/living/D)
@@ -282,7 +282,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You silken wrist [D]!"))
-	playsound(D, 'sound/weapons/punch1.ogg', 50, TRUE, -1)
+	playsound(D, 'sound/items/weapons/punch1.ogg', 50, TRUE, -1)
 	return TRUE
 
 /mob/living/proc/velvetfu_help()

@@ -80,7 +80,6 @@
 
 	// Apply Appearance
 	user.update_body(is_creating = TRUE) // Outfit and underware, also body.
-	user.update_mutant_bodyparts() // Lizard tails etc
 	user.update_body_parts(update_limb_data = TRUE)
 
 	RegisterSignal(user, COMSIG_HUMAN_GET_VISIBLE_NAME, PROC_REF(return_disguise_name))
@@ -129,7 +128,7 @@
 // CAST EFFECT // General effect (poof, splat, etc) when you cast. Doesn't happen automatically!
 /datum/action/cooldown/bloodsucker/veil/proc/cast_effect()
 	// Effect
-	playsound(get_turf(owner), 'sound/magic/smoke.ogg', 20, 1)
+	playsound(get_turf(owner), 'sound/effects/magic/smoke.ogg', 20, 1)
 	var/datum/effect_system/steam_spread/bloodsucker/puff = new /datum/effect_system/steam_spread/()
 	puff.set_up(3, 0, get_turf(owner))
 	puff.attach(owner) //OPTIONAL

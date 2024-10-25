@@ -634,7 +634,7 @@
 	flip(user)
 
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel/proc/flip(mob/user)
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return
 	flipped = !flipped
 	if(flipped)
@@ -683,7 +683,7 @@
 		)
 
 /obj/item/clothing/mask/gas/mime/heister_mask/ui_action_click(mob/user)
-	if(!istype(user) || user.incapacitated())
+	if(!istype(user) || user.incapacitated)
 		return
 
 	var/list/options = list()
@@ -696,7 +696,7 @@
 	if(!choice)
 		return FALSE
 
-	if(src && choice && !user.incapacitated() && in_range(user, src))
+	if(src && choice && !user.incapacitated && in_range(user, src))
 		icon_state = options[choice]
 		user.update_worn_mask()
 		for(var/all_selections in actions)
@@ -744,7 +744,7 @@
 	)
 
 /obj/item/clothing/mask/gas/mime/skull_mask_mime/ui_action_click(mob/user)
-	if(!istype(user) || user.incapacitated())
+	if(!istype(user) || user.incapacitated)
 		return
 
 	var/list/options = list()
@@ -757,7 +757,7 @@
 	if(!choice)
 		return FALSE
 
-	if(src && choice && !user.incapacitated() && in_range(user,src))
+	if(src && choice && !user.incapacitated && in_range(user,src))
 		icon_state = options[choice]
 		user.update_worn_mask()
 		for(var/all_selections in actions)

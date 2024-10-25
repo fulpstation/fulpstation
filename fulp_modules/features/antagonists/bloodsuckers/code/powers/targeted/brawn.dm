@@ -128,7 +128,7 @@
 			target.Knockdown(min(5, rand(10, 10 * powerlevel)))
 		// Attack!
 		owner.balloon_alert(owner, "you punch [target]!")
-		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
+		playsound(get_turf(target), 'sound/items/weapons/punch4.ogg', 60, 1, -1)
 		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(target.zone_selected))
 		var/blocked = target.run_armor_check(affecting, MELEE, armour_penetration = 20)	//20 AP, will ignore light armor but not heavy stuff
@@ -154,7 +154,7 @@
 	// Target Type: Door
 	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
 		var/obj/machinery/door/target_airlock = target_atom
-		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, TRUE, -1)
+		playsound(get_turf(user), 'sound/machines/airlock/airlock_alien_prying.ogg', 40, TRUE, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
 		if(!do_after(user, 2.5 SECONDS, target_airlock))
 			user.balloon_alert(user, "interrupted!")

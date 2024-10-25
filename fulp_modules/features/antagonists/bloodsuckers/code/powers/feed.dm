@@ -109,7 +109,7 @@
 	for(var/mob/living/watchers in oviewers(FEED_NOTICE_RANGE) - feed_target)
 		if(!watchers.client)
 			continue
-		if(watchers.has_unlimited_silicon_privilege)
+		if(issilicon(watchers) || isdrone(watchers) || isbot(watchers))
 			continue
 		if(watchers.stat >= DEAD)
 			continue

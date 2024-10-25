@@ -36,7 +36,7 @@
 		target.color = COLOR_HERETIC_GREEN
 		animate(target, color = old_color, time = 4 SECONDS, easing = EASE_IN)
 		target.mob_light(range = 1.5, power = 2.5, color = COLOR_HERETIC_GREEN, duration = 0.5 SECONDS)
-		playsound(target, 'sound/magic/magic_block_mind.ogg', 150, TRUE) // insanely quiet
+		playsound(target, 'sound/effects/magic/magic_block_mind.ogg', 150, TRUE) // insanely quiet
 
 		to_chat(user, span_warning("An eldritch force intervenes as you touch [target], absorbing most of the effects!"))
 		to_chat(target, span_warning("As [user] touches you with vile magicks, the Mansus absorbs most of the effects!"))

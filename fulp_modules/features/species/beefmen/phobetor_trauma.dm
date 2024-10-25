@@ -184,7 +184,7 @@
 			continue
 		if(!isliving(nearby_viewers) || !nearby_viewers.mind)
 			continue
-		if(nearby_viewers.has_unlimited_silicon_privilege || nearby_viewers.is_blind())
+		if(issilicon(nearby_viewers) || isdrone(nearby_viewers) || isbot(nearby_viewers) || nearby_viewers.is_blind())
 			continue
 		return TRUE
 	return FALSE
@@ -229,7 +229,7 @@
 	switch(user_sanity)
 		if(SANITY_INSANE to SANITY_CRAZY)
 			to_chat(user, span_notice("...but [span_bold("someone else")] crosses [src] too."))
-			playsound(user, 'sound/hallucinations/i_see_you1.ogg', 50, TRUE)
+			playsound(user, 'sound/effects/hallucinations/i_see_you1.ogg', 50, TRUE)
 			user.adjust_hallucinations(5 MINUTES)
 			user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_crash)
 			to_chat(user, span_userdanger("Foreign memories invade your mind!"))
@@ -255,7 +255,7 @@
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
 	if(prob(5))
 		playsound(user, pick(GLOB.creepy_ambience), 50, TRUE)
-	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
+	user.playsound_local(null, 'sound/effects/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 	user.forceMove(get_turf(linked_to))
 
 

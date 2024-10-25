@@ -38,13 +38,14 @@
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Eyes"
 	should_generate_icons = TRUE
+	relevant_body_markings = /datum/bodypart_overlay/simple/body_marking/beefman_eyes
 
 /datum/preference/choiced/beefman_eyes/init_possible_values()
 	return assoc_to_keys(SSaccessories.eyes_beefman_list)
 
 /datum/preference/choiced/beefman_eyes/icon_for(value)
 	var/icon/beef_head = icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "beefman_head")
-	beef_head.Blend("#d93356", ICON_MULTIPLY) // Make it red at least
+	beef_head.Blend(BEEF_COLOR_MEDIUM_RARE, ICON_MULTIPLY) // Make it red at least
 
 	var/datum/sprite_accessory/eyes = SSaccessories.eyes_beefman_list[value]
 
@@ -65,13 +66,14 @@
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Mouth"
 	should_generate_icons = TRUE
+	relevant_body_markings = /datum/bodypart_overlay/simple/body_marking/beefman_mouth
 
 /datum/preference/choiced/beefman_mouth/init_possible_values()
 	return assoc_to_keys(SSaccessories.mouths_beefman_list)
 
 /datum/preference/choiced/beefman_mouth/icon_for(value)
 	var/icon/beef_head = icon('fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi', "beefman_head")
-	beef_head.Blend("#d93356", ICON_MULTIPLY) // Make it red at least
+	beef_head.Blend(BEEF_COLOR_MEDIUM_RARE, ICON_MULTIPLY) // Make it red at least
 
 	var/datum/sprite_accessory/mouths = SSaccessories.mouths_beefman_list[value]
 

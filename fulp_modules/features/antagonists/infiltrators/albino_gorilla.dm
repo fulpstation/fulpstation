@@ -25,7 +25,7 @@
 	return
 
 /datum/action/cooldown/mob_cooldown/charge/gorilla/Activate(atom/target_atom)
-	playsound(owner, 'sound/creatures/gorilla.ogg', 200, 1)
+	playsound(owner, 'sound/mobs/non-humanoids/gorilla/gorilla.ogg', 200, 1)
 	return ..()
 
 /**
@@ -34,7 +34,7 @@
 /datum/action/cooldown/spell/conjure/banana
 	name = "Monke Spin"
 	desc = "Throw slippery traps all around you."
-	sound = 'sound/creatures/gorilla.ogg'
+	sound = 'sound/mobs/non-humanoids/gorilla/gorilla.ogg'
 
 	school = SCHOOL_CONJURATION
 	cooldown_time = 30 SECONDS
@@ -73,8 +73,6 @@
 		mob_target.set_eye_blur_if_lower(10 SECONDS)
 		mob_target.visible_message(span_warning("[mob_target] is muddied by [src]!"), span_userdanger("You've been muddied by [src]!"))
 		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
-		if(ishuman(mob_target))
-			target.AddComponent(/datum/component/creamed/gorilla, src)
 
 /**
  * Mud throw ability
@@ -91,27 +89,3 @@
 	button_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
 	button_icon_state = "trench_mud"
 
-/**
- * Cream component
- * This sucks ass
- */
-/datum/component/creamed/gorilla
-
-/datum/component/creamed/gorilla/Initialize()
-	SEND_SIGNAL(parent, COMSIG_MOB_CREAMED)
-	bodypart_overlay = new /datum/bodypart_overlay/simple/muddied()
-
-	var/mob/living/carbon/human/man = parent
-	if(man.bodytype & BODYSHAPE_SNOUTED)
-		bodypart_overlay.icon_state = "muddied_lizard"
-	else if(man.bodytype & BODYSHAPE_MONKEY)
-		bodypart_overlay.icon_state = "muddied_monkey"
-	else
-		bodypart_overlay.icon_state = "muddied_human"
-
-	var/atom/atom = parent
-	atom.add_overlay(normal_overlay)
-
-/datum/bodypart_overlay/simple/muddied
-	icon_state = "muddied_human"
-	layers = EXTERNAL_FRONT
