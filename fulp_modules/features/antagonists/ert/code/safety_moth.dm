@@ -1,6 +1,6 @@
 /// ERT Datum - Default is Engineering
 /datum/ert/safety_moth
-	mobtype = /mob/living/carbon/human/species/moth
+	mob_type = /mob/living/carbon/human/species/moth
 	leader_role = /datum/antagonist/ert/safety_moth
 	enforce_human = FALSE
 	roles = list(/datum/antagonist/ert/safety_moth)

@@ -39,7 +39,7 @@
 /obj/structure/bloodsucker/attackby(obj/item/item, mob/living/user, params)
 	/// If a Bloodsucker tries to wrench it in place, yell at them.
 	if(item.tool_behaviour == TOOL_WRENCH && !anchored && IS_BLOODSUCKER(user))
-		user.playsound_local(null, 'sound/machines/buzz-sigh.ogg', 40, FALSE, pressure_affected = FALSE)
+		user.playsound_local(null, 'sound/machines/buzz/buzz-sigh.ogg', 40, FALSE, pressure_affected = FALSE)
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine Bloodsucker structures to understand how they function!"))
 		return
 	return ..()
@@ -66,7 +66,7 @@
 			return FALSE
 		switch(secure_response)
 			if("Yes")
-				user.playsound_local(null, 'sound/items/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
+				user.playsound_local(null, 'sound/items/tools/ratchet.ogg', 70, FALSE, pressure_affected = FALSE)
 				bolt(user)
 				return FALSE
 		return FALSE
@@ -152,7 +152,7 @@
 		to_chat(user, span_announce("* Bloodsucker Tip: Examine the persuasion rack to understand how it functions!"))
 		return
 	// Default checks
-	if(!isliving(target) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated() || living_target.buckled)
+	if(!isliving(target) || !living_target.Adjacent(src) || living_target == user || !isliving(user) || has_buckled_mobs() || user.incapacitated || living_target.buckled)
 		return
 	// Don't buckle Silicon to it please.
 	if(issilicon(living_target))
@@ -808,7 +808,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	icon_state = "blood_mirror_broken"
 	if(!mapload)
 		playsound(src, SFX_SHATTER, 70, TRUE)
-		playsound(src, 'sound/effects/blobattack.ogg', 60, TRUE)
+		playsound(src, 'sound/effects/blob/blobattack.ogg', 60, TRUE)
 	if(desc == initial(desc))
 		desc = "It's a suspended pool of darkened fragments resembling a scab."
 
@@ -846,7 +846,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 	in_use = TRUE
 	icon_state = "blood_mirror_active"
-	playsound(src, 'sound/effects/portal_travel.ogg', 25, frequency = 0.75, use_reverb = TRUE)
+	playsound(src, 'sound/effects/portal/portal_travel.ogg', 25, frequency = 0.75, use_reverb = TRUE)
 	current_user = user
 	current_observed = observed
 	bloodsuckerdatum.blood_structure_in_use = src
@@ -870,7 +870,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 		icon_state = "blood_mirror_broken"
 	else
 		icon_state = /obj/structure/bloodsucker/mirror::icon_state
-	playsound(user, 'sound/effects/portal_travel.ogg', 25, frequency = -0.75, use_reverb = TRUE)
+	playsound(user, 'sound/effects/portal/portal_travel.ogg', 25, frequency = -0.75, use_reverb = TRUE)
 	current_user = null
 	current_observed = null
 	bloodsuckerdatum.blood_structure_in_use = null
@@ -960,7 +960,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	var/mob/living/carbon/human/victim = user //(Just for code readability purposes.)
 	var/original_victim_loc = victim.loc
 	victim.Stun(6 SECONDS, TRUE)
-	victim.playsound_local(get_turf(victim), 'sound/voice/ghost_whisper.ogg', 20, frequency = 4)
+	victim.playsound_local(get_turf(victim), 'sound/music/antag/bloodcult/ghost_whisper.ogg', 20, frequency = 4)
 	flash_color(victim, flash_time = 50) //Defaults to cult stun flash, which fits here.
 	sleep(5 SECONDS)//Wait five seconds and then...
 
@@ -971,7 +971,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	if(victim.loc != original_victim_loc) //...return and become angry if the victim has been moved...
 		visible_message(span_warning("A dark red silhouette appears in [src], but as it bangs against the glass in vain."))
 		mirror_will_not_forget_this = TRUE
-		playsound('sound/effects/glasshit.ogg')
+		playsound('sound/effects/glass/glasshit.ogg')
 		return
 
 	katabasis(victim) //...make the victim undergo katabasis otherwise.
@@ -994,7 +994,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 	//Flavor
 	var/turf/victim_turf = get_turf(victim)
-	playsound(victim_turf, 'sound/hallucinations/veryfar_noise.ogg', 100, frequency = 1.25, use_reverb = TRUE)
+	playsound(victim_turf, 'sound/effects/hallucinations/veryfar_noise.ogg', 100, frequency = 1.25, use_reverb = TRUE)
 	victim.visible_message(span_danger("A red hand erupts from [src], dragging [victim.name] away through broken glass!"),
 	span_bolddanger("A crimson palm envelops your face, and with a horrible jolt it pulls you into [src]!"),
 	span_warning("You briefly hear the sound of glass breaking accompanied by an eerie, almost fluid gust and a sudden thump!"),
