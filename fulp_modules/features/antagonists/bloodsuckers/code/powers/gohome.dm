@@ -97,7 +97,7 @@
 		for(var/mob/living/watchers in viewers(world.view, get_turf(owner)) - owner)
 			if(!watchers.client)
 				continue
-			if(watchers.has_unlimited_silicon_privilege)
+			if(issilicon(watchers) || isdrone(watchers) || isbot(watchers))
 				continue
 			if(watchers.is_blind())
 				continue
@@ -109,7 +109,7 @@
 		for(var/obj/item/literally_everything in user.get_all_gear())
 			owner.dropItemToGround(literally_everything, TRUE)
 
-	playsound(current_turf, 'sound/magic/summon_karp.ogg', 60, 1)
+	playsound(current_turf, 'sound/effects/magic/summon_karp.ogg', 60, 1)
 
 	var/datum/effect_system/steam_spread/bloodsucker/puff = new(user.loc)
 	puff.set_up(3, 0, current_turf)

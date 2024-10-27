@@ -32,6 +32,14 @@
  */
 /mob/living/carbon/human/dummy/consistent/setup_human_dna()
 	. = ..()
+	fulp_consistent_human_dna()
+
+/mob/living/carbon/human/consistent/setup_human_dna()
+	. = ..()
+	fulp_consistent_human_dna()
+
+///Adds fulp-only features to human DNA
+/mob/living/carbon/human/proc/fulp_consistent_human_dna()
 	dna.features["beef_color"] = "#e73f4e"
 	dna.features["beef_eyes"] = BEEF_EYES_OLIVES
 	dna.features["beef_mouth"] = BEEF_MOUTH_SMILE

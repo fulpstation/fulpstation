@@ -296,7 +296,7 @@
 		return
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
-	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 	var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!terrorist)
 		return
@@ -328,7 +328,7 @@
 	to_chat(user, span_warning("Downloading station coordinates..."))
 	if(!do_after(user, 8 SECONDS))
 		return
-	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 	to_chat(user, span_warning("Station coordinates successfully downloaded!"))
 	stored = TRUE
 
@@ -347,7 +347,7 @@
 /obj/item/missilephone/attackby(obj/item/missile_disk/terrorism, mob/user)
 	if(!terrorism.stored)
 		return
-	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 	to_chat(user, span_warning("Station coordinates uploaded to phone!"))
 	disk = TRUE
 	qdel(terrorism)
