@@ -1,7 +1,7 @@
 // Adds lists for our Fulp-species sprite accessories to the Accessory Subsystem.
 /datum/controller/subsystem/accessories
-	var/list/eyes_beefman_list
-	var/list/mouths_beefman_list
+	var/list/datum/sprite_accessory/beef/eyes/eyes_beefman_list
+	var/list/datum/sprite_accessory/beef/mouth/mouths_beefman_list
 	var/list/tails_list_protogen
 	var/list/antennae_list_protogen
 	var/list/snouts_list_protogen
