@@ -50,4 +50,4 @@
 	to_chat(owner.current, span_announce("You have been forced out of your clan! You can re-enter one by regular means."))
 
 /datum/antagonist/bloodsucker/proc/admin_set_clan(mob/admin)
-	assign_clan_and_bane(admin, TRUE)
+	assign_clan_and_bane(admin, admin_selecting = TRUE)
