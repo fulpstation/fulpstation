@@ -57,6 +57,7 @@
 #define TREMERE_VASSAL "tremere_vassal"
 #define FAVORITE_VASSAL "favorite_vassal"
 #define REVENGE_VASSAL "revenge_vassal"
+#define DISCORDANT_VASSAL "discordant_vassal"
 
 /**
  * Power defines
@@ -80,6 +81,8 @@
 #define TREMERE_CAN_BUY (1<<2)
 /// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<3)
+/// This Power is exclusive to Brujah Bloodsuckers
+#define BRUJAH_CAN_BUY (1<<4)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)
@@ -89,6 +92,8 @@
 #define BP_AM_STATIC_COOLDOWN (1<<2)
 /// This Power doesn't cost bloot to run while unconscious
 #define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
+/// This Power has a cooldown that is more dynamic than a typical Bloodsucker power
+#define BP_AM_VERY_DYNAMIC_COOLDOWN (1<<4)
 
 /**
  * Sol signals & Defines
@@ -119,6 +124,9 @@
 #define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
 ///Drinks blood from disgusting creatures without Humanity consequences.
 #define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
+
+///Called when a Brujah Bloodsucker creates a Discordant Vassal
+#define COMSIG_BLOODSUCKER_DISCORDANT_VASSALIZE "comsig_bloodsucker_discordant_vassalize"
 
 /**
  * Role defines

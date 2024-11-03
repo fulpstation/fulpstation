@@ -2,9 +2,95 @@
 	name = CLAN_BRUJAH
 	description = "The Brujah seek societal advancement through direct (and usually violent) means.\n\
 		With age they develop a powerful physique and become capable of obliterating almost anything with their bare hands.\n\
-		Be wary, as they are ferverous insurgents, rebels, and anarchists . \n\
-		Their favorite vassal gains regular Brawn and substantially strengthened fists."
+		Be wary, as they are ferverous insurgents, rebels, and anarchists who always attempt to undermine local authorities. \n\
+		Their favorite vassal gains the regular Brawn ability and substantially strengthened fists."
+	clan_objective = /datum/objective/brujah_clan_objective
 	join_icon_state = "brujah"
 	join_description = "Gain an enhanced version of the brawn ability that lets you destroy most structures (including walls!) \
 		Rebel against all authority and attempt to subvert it, but in turn <b>break the Masquerade immediately on joining</b>  \
-		and lose <i>all</i> of your Humanity."
+		and lose nearly all of your Humanity."
+	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
+
+
+/datum/bloodsucker_clan/brujah/New(datum/antagonist/bloodsucker/owner_datum)
+	. = ..()
+	owner_datum.break_masquerade()
+	owner_datum.AddHumanityLost(37.5) // Frenzy at 400
+	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
+	owner_datum.powers += new /datum/action/cooldown/bloodsucker/targeted/brawn //Doesn't actually give brawn, but makes it unpurchasable.
+	// Copied over from 'clan_tremere.dm' with appropriate adjustment.
+	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
+		if((initial(power.purchase_flags) & BRUJAH_CAN_BUY))
+			bloodsuckerdatum.BuyPower(new power)
+
+/datum/bloodsucker_clan/brujah/finalize_spend_rank(datum/antagonist/bloodsucker/source, cost_rank, blood_cost)
+	. = ..()
+	var/mob/living/carbon/human/our_antag = source.owner.current
+	var/warning_accepted = tgui_alert(our_antag, \
+		"Since you are part of the Brujah clan, increasing your rank will also decrease your humanity. \n\
+		This will increase your current Frenzy threshold from [source.frenzy_threshold] to \
+		[source.frenzy_threshold + 50]. Please ensure that you have enough blood available or risk entering Frenzy.", \
+		"BE ADVISED", \
+		list("Yes", "No,"))
+	if(warning_accepted != "Yes")
+		return FALSE
+	source.AddHumanityLost(5) //Increases frenzy threshold by fifty
+
+/**
+ * Clan Objective
+ * Brujah's Clan objective is to brainwash the highest ranking person on the station (if any.)
+ * Made by referencing 'objective.dm'
+ */
+/datum/objective/brujah_clan_objective
+	name = "brujahrevolution"
+
+	/// Set to true when the target is turned into a Discordant Vassal.
+	var/target_subverted = FALSE
+	/// I have no idea what this actually does. It's on a lot of other assassination/similar objectives though...
+	var/target_role_type = FALSE
+
+/datum/objective/brujah_clan_objective/New(text)
+	. = ..()
+	RegisterSignal(src, COMSIG_BLOODSUCKER_DISCORDANT_VASSALIZE, PROC_REF(on_discordant_vassalization))
+
+/datum/objective/brujah_clan_objective/proc/on_discordant_vassalization()
+	SIGNAL_HANDLER
+
+	target_subverted = TRUE
+
+/datum/objective/brujah_clan_objective/check_completion()
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(!bloodsuckerdatum)
+		return FALSE
+	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
+		if(tremere_powers.level_current >= 5)
+			return TRUE
+	return FALSE
+
+/datum/objective/brujah_clan_objective/update_explanation_text()
+	if(target?.current)
+		explanation_text = "Subvert the authority of [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] \
+			by turning [target.p_them()] into a Discordant Vassal with a persuassion rack."
+	else
+		explanation_text = "Free objective."
+
+/// Made after referencing '/datum/team/revolution/roundend_report()' in 'revolution.dm'
+/datum/objective/brujah_clan_objective/get_target()
+	var/list/target_options = SSjob.get_living_heads() //Look for heads...
+	if(!target_options.len)
+		target_options = SSjob.get_living_sec() //If no heads then look for security...
+		if(!target_options.len)
+			target_options = get_crewmember_minds() //If no security then look for ANY CREW MEMBER.
+
+	if(target_options.len)
+		target_options.Remove(owner)
+	else
+		update_explanation_text()
+		return
+
+	for(var/datum/mind/possible_target in target_options)
+		if(!is_valid_target(possible_target))
+			target_options.Remove(possible_target)
+
+	target = pick(target_options)
+	update_explanation_text()

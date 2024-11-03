@@ -1,3 +1,6 @@
+/// A global list of Bloodsucker antag datums that have broken the Masquerade
+GLOBAL_LIST_EMPTY(masquerade_breakers)
+
 /datum/bloodsucker_clan/malkavian
 	name = CLAN_MALKAVIAN
 	description = "The history of the Malkavian clan is not well known, even to most modern Malkavians. \n\
@@ -23,6 +26,10 @@
 		carbon_owner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 		carbon_owner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	owner_datum.owner.current.update_sight()
+
+	for(var/datum/antagonist/bloodsucker/unmasked in GLOB.masquerade_breakers)
+		if(unmasked.owner.current && unmasked.owner.current.stat != DEAD)
+			on_bloodsucker_broke_masquerade(unmasked)
 
 	bloodsuckerdatum.owner.current.playsound_local(get_turf(bloodsuckerdatum.owner.current), 'sound/ambience/antag/creepalert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(bloodsuckerdatum.owner.current, span_hypnophrase("Welcome to the Malkavian..."))

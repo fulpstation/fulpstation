@@ -214,7 +214,7 @@
 	bloodsuckerdatum.update_hud()
 
 /**
- * Called when we are trying to turn someone into a Favorite Vassal
+ * Called when we are trying to turn someone into a special type of vassal.
  * args:
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker performing this.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
@@ -237,6 +237,9 @@
 	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
 		if(bloodsuckerdatum.special_vassals[initial(vassaldatums.special_type)])
 			continue
+		if(istype(vassaldatum, /datum/antagonist/vassal/discordant))
+			if(!istype(source.my_clan, /datum/bloodsucker_clan/brujah) || vassaldatum.owner != source.my_clan.clan_objective.target)
+				continue
 		options[initial(vassaldatums.name)] = vassaldatums
 
 		var/datum/radial_menu_choice/option = new

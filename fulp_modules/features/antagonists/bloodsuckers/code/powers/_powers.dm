@@ -144,8 +144,10 @@
 	// Calculate Cooldown (by power's level)
 	if(power_flags & BP_AM_STATIC_COOLDOWN)
 		cooldown_time = initial(cooldown_time)
-	else
-		cooldown_time = max(initial(cooldown_time) / 2, initial(cooldown_time) - (initial(cooldown_time) / 16 * (level_current-1)))
+	else // There's probably a better way to format these else/if statements...
+		if(!BP_AM_VERY_DYNAMIC_COOLDOWN) // If it is very dynamic then 'cooldown_time' just equals 'cooldown_time'
+			cooldown_time = max(initial(cooldown_time) / 2, initial(cooldown_time) - (initial(cooldown_time) / 16 * (level_current-1)))
+
 
 	return ..()
 

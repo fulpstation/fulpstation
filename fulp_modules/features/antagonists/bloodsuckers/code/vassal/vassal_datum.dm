@@ -13,7 +13,7 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Vassal, enslaved to your vampiric master, you obey their instructions above all else.",
+		"You are a Vassal. Enthralled by your vampiric master, you must (with few exceptions,) obey their instructions above all else.",
 		"You have the ability to Recuperate, allowing you to heal at the cost of your blood, your master's blood, and some of your stamina.",
 		"Fear mindshield implants! You will get deconverted if you get mindshielded, resist them at all costs!",
 		"Help ensure your master is safe from daylight! Solar flares will bombard the station periodically, and if your master is exposed, they will burn alive.",
@@ -95,10 +95,11 @@
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
-	/// Give Objectives
-	var/datum/objective/vassal_objective/vassal_objective = new
-	vassal_objective.owner = owner
-	objectives += vassal_objective
+	/// Give Objectives if not a particular type of vassal with a unique objective
+	if(!istype(src, /datum/antagonist/vassal/discordant))
+		var/datum/objective/vassal_objective/vassal_objective = new
+		vassal_objective.owner = owner
+		objectives += vassal_objective
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -134,6 +135,9 @@
 /datum/antagonist/vassal/greet()
 	. = ..()
 	if(silent)
+		return
+
+	if(istype(src, /datum/antagonist/vassal/discordant))
 		return
 
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a Bloodsucker!"))

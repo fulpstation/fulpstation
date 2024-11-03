@@ -17,6 +17,12 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 
+	/// Only changed by the '/brawn/brash' subtype; acts as a general purpose damage multipler.
+	var/damage_coefficient = 1.25
+	/// Boolean indicating whether or not this version of '/brawn' is in the '/brash' subtype and should
+	/// bypass typical ability level restrictions. (There is probably a better way to do this.)
+	var/brujah = FALSE
+
 /datum/action/cooldown/bloodsucker/targeted/brawn/ActivatePower(trigger_flags)
 	// Did we break out of our handcuffs?
 	if(break_restraints())
@@ -100,7 +106,7 @@
 	owner.newtonian_move(send_dir) // Bounce back in 0 G
 	pulled_mob.throw_at(turf_thrown_at, pull_power, TRUE, owner, FALSE) // Throw distance based on grab state! Harder grabs punished more aggressively.
 	// /proc/log_combat(atom/user, atom/target, what_done, atom/object=null, addition=null)
-	log_combat(owner, pulled_mob, "used Brawn power")
+	log_combat(owner, pulled_mob, "used [src.name] power")
 	owner.visible_message(
 		span_warning("[owner] tears free of [pulled_mob]'s grasp!"),
 		span_warning("You shrug off [pulled_mob]'s grasp!"),
@@ -117,7 +123,7 @@
 		var/mob/living/carbon/carbonuser = user
 		//You know what I'm just going to take the average of the user's limbs max damage instead of dealing with 2 hands
 		var/obj/item/bodypart/user_active_arm = carbonuser.get_active_hand()
-		var/hitStrength = user_active_arm.unarmed_damage_high * 1.25 + 2
+		var/hitStrength = user_active_arm.unarmed_damage_high * damage_coefficient + 2
 		// Knockdown!
 		var/powerlevel = min(5, 1 + level_current)
 		if(rand(5 + powerlevel) >= 5)
@@ -131,7 +137,7 @@
 		playsound(get_turf(target), 'sound/weapons/punch4.ogg', 60, 1, -1)
 		user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(target.zone_selected))
-		var/blocked = target.run_armor_check(affecting, MELEE, armour_penetration = 20)	//20 AP, will ignore light armor but not heavy stuff
+		var/blocked = target.run_armor_check(affecting, MELEE, armour_penetration = (brujah ? 30 : 20))	//20 AP, will ignore light armor but not heavy stuff
 		target.apply_damage(hitStrength, BRUTE, affecting, blocked)
 		// Knockback
 		var/send_dir = get_dir(owner, target)
@@ -142,7 +148,7 @@
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)
 	// Target Type: Locker
-	else if(istype(target_atom, /obj/structure/closet) && level_current >= 3)
+	else if(istype(target_atom, /obj/structure/closet) && (level_current >= 3 || brujah))
 		var/obj/structure/closet/target_closet = target_atom
 		user.balloon_alert(user, "you prepare to bash [target_closet] open...")
 		if(!do_after(user, 2.5 SECONDS, target_closet))
@@ -152,8 +158,8 @@
 		addtimer(CALLBACK(src, PROC_REF(break_closet), user, target_closet), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, TRUE, -1)
 	// Target Type: Door
-	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
-		var/obj/machinery/door/target_airlock = target_atom
+	else if(istype(target_atom, /obj/machinery/door) && (brujah ? level_current >= 2 : level_current >= 4))
+		var/obj/machinery/door/airlock/target_airlock = target_atom
 		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, TRUE, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
 		if(!do_after(user, 2.5 SECONDS, target_airlock))
@@ -161,16 +167,24 @@
 			return FALSE
 		if(target_airlock.Adjacent(user))
 			target_airlock.visible_message(span_danger("[target_airlock] breaks open as [user] bashes it!"))
-			user.Stun(10)
+			if(!brujah)
+				user.Stun(10)
 			user.do_attack_animation(target_airlock, ATTACK_EFFECT_SMASH)
 			playsound(get_turf(target_airlock), 'sound/effects/bang.ogg', 30, 1, -1)
+			if(brujah && level_current >= 3 && target_airlock.locked)
+				target_airlock.unbolt()
 			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
 
 /datum/action/cooldown/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
 		return FALSE
-	return isliving(target_atom) || istype(target_atom, /obj/machinery/door) || istype(target_atom, /obj/structure/closet)
+	if(isliving(target_atom))
+		return TRUE
+	if(istype(target_atom, /obj/machinery/door))
+		return TRUE
+	if(istype(target_atom, /obj/structure/closet))
+		return TRUE
 
 /datum/action/cooldown/bloodsucker/targeted/brawn/CheckCanTarget(atom/target_atom)
 	// DEFAULT CHECKS (Distance)
@@ -180,13 +194,3 @@
 	// Must outside Closet to target anyone!
 	if(!isturf(owner.loc))
 		return FALSE
-	// Target Type: Living
-	if(isliving(target_atom))
-		return TRUE
-	// Target Type: Door
-	else if(istype(target_atom, /obj/machinery/door))
-		return TRUE
-	// Target Type: Locker
-	else if(istype(target_atom, /obj/structure/closet))
-		return TRUE
-	return FALSE
