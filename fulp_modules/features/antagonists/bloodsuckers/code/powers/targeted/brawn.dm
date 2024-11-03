@@ -117,6 +117,7 @@
 /datum/action/cooldown/bloodsucker/targeted/brawn/FireTargetedPower(atom/target_atom)
 	. = ..()
 	var/mob/living/user = owner
+
 	// Target Type: Mob
 	if(isliving(target_atom))
 		var/mob/living/target = target_atom
@@ -147,6 +148,7 @@
 		// Target Type: Cyborg (Also gets the effects above)
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)
+
 	// Target Type: Locker
 	else if(istype(target_atom, /obj/structure/closet) && (level_current >= 3 || brujah))
 		var/obj/structure/closet/target_closet = target_atom
@@ -157,6 +159,7 @@
 		target_closet.visible_message(span_danger("[target_closet] breaks open as [user] bashes it!"))
 		addtimer(CALLBACK(src, PROC_REF(break_closet), user, target_closet), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, TRUE, -1)
+
 	// Target Type: Door
 	else if(istype(target_atom, /obj/machinery/door) && (brujah ? level_current >= 2 : level_current >= 4))
 		var/obj/machinery/door/airlock/target_airlock = target_atom
@@ -167,8 +170,18 @@
 			return FALSE
 		if(target_airlock.Adjacent(user))
 			target_airlock.visible_message(span_danger("[target_airlock] breaks open as [user] bashes it!"))
-			if(!brujah)
+
+			// Adjust cost and cooldown if Brujah
+			if(brujah)
+				if(target_airlock.locked)
+					bloodcost = 20
+					cooldown_time = 10 SECONDS
+				else
+					bloodcost = 10
+					cooldown_time = 6 SECONDS
+			else // If not Brujah then just make the vampire wait a second...
 				user.Stun(10)
+
 			user.do_attack_animation(target_airlock, ATTACK_EFFECT_SMASH)
 			playsound(get_turf(target_airlock), 'sound/effects/bang.ogg', 30, 1, -1)
 			if(brujah && level_current >= 3 && target_airlock.locked)

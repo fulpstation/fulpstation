@@ -57,6 +57,12 @@
 	if(isliving(target_atom))
 		bloodcost = 25
 		cooldown_time = 10 SECONDS
+		return
+
+	if(istype(target_atom, /obj/structure/closet))
+		bloodcost = 8
+		cooldown_time = 7 SECONDS
+		return
 
 	if(istype(target_atom, /obj/structure/girder))
 		HitWithStyle(target_atom, 'sound/effects/bang.ogg', 60, 10, 5 SECONDS)

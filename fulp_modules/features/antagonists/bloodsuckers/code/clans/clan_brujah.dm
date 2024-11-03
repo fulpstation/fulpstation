@@ -23,19 +23,6 @@
 		if((initial(power.purchase_flags) & BRUJAH_CAN_BUY))
 			bloodsuckerdatum.BuyPower(new power)
 
-/datum/bloodsucker_clan/brujah/finalize_spend_rank(datum/antagonist/bloodsucker/source, cost_rank, blood_cost)
-	. = ..()
-	var/mob/living/carbon/human/our_antag = source.owner.current
-	var/warning_accepted = tgui_alert(our_antag, \
-		"Since you are part of the Brujah clan, increasing your rank will also decrease your humanity. \n\
-		This will increase your current Frenzy threshold from [source.frenzy_threshold] to \
-		[source.frenzy_threshold + 50]. Please ensure that you have enough blood available or risk entering Frenzy.", \
-		"BE ADVISED", \
-		list("Yes", "No,"))
-	if(warning_accepted != "Yes")
-		return FALSE
-	source.AddHumanityLost(5) //Increases frenzy threshold by fifty
-
 /**
  * Clan Objective
  * Brujah's Clan objective is to brainwash the highest ranking person on the station (if any.)
@@ -43,6 +30,7 @@
  */
 /datum/objective/brujah_clan_objective
 	name = "brujahrevolution"
+	martyr_compatible = TRUE
 
 	/// Set to true when the target is turned into a Discordant Vassal.
 	var/target_subverted = FALSE

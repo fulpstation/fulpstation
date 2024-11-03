@@ -23,7 +23,7 @@
 	new_objective.name = "Lead Anarchy"
 	new_objective.explanation_text = "You are not a leader. All claims to authority that you might've \
 		once had are now null and void. Liberate all of those who you once considered below you: \
-		give them whatever permissions (and especially <i>access</i>,) they might desire. \n\
+		give them whatever permissions (and especially ACCESS,) they might desire. \n\
 		\n Do not harm [master.owner.name], the Bloodsucker who broke your delusions of grandeur. \
 		Do note, however, that you are not bound to [master.owner.p_their()] orders."
 	new_objective.owner = owner
