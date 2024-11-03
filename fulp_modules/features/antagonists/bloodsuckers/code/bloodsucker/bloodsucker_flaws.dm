@@ -9,7 +9,7 @@
  * person_selecting - Mob override for stuff like Admins selecting someone's clan.
  * admin_selecting - Set to TRUE if an admin is using this proc to select a clan for someone.
  */
-/datum/antagonist/bloodsucker/proc/assign_clan_and_bane(mob/person_selecting, var/admin_selecting = FALSE)
+/datum/antagonist/bloodsucker/proc/assign_clan_and_bane(mob/person_selecting, admin_selecting = FALSE)
 	if(my_clan)
 		return
 	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
