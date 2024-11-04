@@ -335,8 +335,8 @@
 		if("join_clan")
 			if(my_clan)
 				return
+			ui.close()
 			assign_clan_and_bane()
-			ui.send_full_update(force = TRUE)
 			return
 
 /datum/antagonist/bloodsucker/roundend_report()
