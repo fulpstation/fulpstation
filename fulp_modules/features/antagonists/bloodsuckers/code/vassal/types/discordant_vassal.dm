@@ -17,8 +17,7 @@
 		Brujah vassalization renders them disillusioned and ineffective as leaders, and while \
 		they are not bound to their Bloodsucker's orders, they are bound to not harm them."
 
-/datum/antagonist/vassal/discordant/on_gain()
-	. = ..()
+/datum/antagonist/vassal/discordant/forge_objectives()
 	var/datum/objective/survive/new_objective = new
 	new_objective.name = "Lead Anarchy"
 	new_objective.explanation_text = "You are not a leader. All claims to authority that you might've \

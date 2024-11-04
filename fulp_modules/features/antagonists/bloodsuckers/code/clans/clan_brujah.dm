@@ -14,6 +14,7 @@
 
 /datum/bloodsucker_clan/brujah/New(datum/antagonist/bloodsucker/owner_datum)
 	. = ..()
+	owner_datum.special_vassals.Cut() //Removes Discordant Vassal, which is in the list by default.
 	owner_datum.break_masquerade()
 	owner_datum.AddHumanityLost(37.5) // Frenzy at 400
 	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
@@ -22,6 +23,31 @@
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
 		if((initial(power.purchase_flags) & BRUJAH_CAN_BUY))
 			bloodsuckerdatum.BuyPower(new power)
+
+/datum/bloodsucker_clan/brujah/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank, blood_cost)
+	// Give them a quick warning about losing humanity on ranking up before actually ranking them up...
+	var/mob/living/carbon/human/our_antag = source.owner.current
+	var/warning_accepted = tgui_alert(our_antag, \
+		"Since you are part of the Brujah clan, increasing your rank will also decrease your humanity. \n\
+		This will increase your current Frenzy threshold from [source.frenzy_threshold] to \
+		[source.frenzy_threshold + 50]. Please ensure that you have enough blood available or risk entering Frenzy.", \
+		"BE ADVISED", \
+		list("Accept Warning", "Abort Ranking Up"))
+	if(warning_accepted != "Accept Warning")
+		return FALSE
+	else
+		return ..()
+
+///Raise the damage of both of their hands by four. Copied from 'finalize_spend_rank()' in '_clan.dm'
+/datum/bloodsucker_clan/brujah/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
+	. = ..()
+	var/mob/living/carbon/our_vassal = vassaldatum.owner.current
+	var/obj/item/bodypart/vassal_left_hand = our_vassal.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/vassal_right_hand = our_vassal.get_bodypart(BODY_ZONE_R_ARM)
+	vassal_left_hand.unarmed_damage_low += 4
+	vassal_right_hand.unarmed_damage_low += 4
+	vassal_left_hand.unarmed_damage_high += 4
+	vassal_right_hand.unarmed_damage_high += 4
 
 /**
  * Clan Objective
@@ -47,12 +73,8 @@
 	target_subverted = TRUE
 
 /datum/objective/brujah_clan_objective/check_completion()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return FALSE
-	for(var/datum/action/cooldown/bloodsucker/targeted/tremere/tremere_powers in bloodsuckerdatum.powers)
-		if(tremere_powers.level_current >= 5)
-			return TRUE
+	if(target_subverted)
+		return TRUE
 	return FALSE
 
 /datum/objective/brujah_clan_objective/update_explanation_text()

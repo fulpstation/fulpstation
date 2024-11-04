@@ -42,6 +42,7 @@
 	if(!broke_masquerade)
 		return
 	to_chat(owner.current, span_cult_bold_italic("You have re-entered the Masquerade."))
+	GLOB.masquerade_breakers.Remove(src)
 	broke_masquerade = FALSE
 
 /datum/antagonist/bloodsucker/proc/give_masquerade_infraction()
@@ -51,7 +52,7 @@
 	if(masquerade_infractions >= 3)
 		break_masquerade()
 	else
-		to_chat(owner.current, span_cult_bold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
+		to_chat(owner.current, span_cult_bold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to all other Bloodsuckers!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	if(!owner || !owner.current || IS_FAVORITE_VASSAL(owner.current))

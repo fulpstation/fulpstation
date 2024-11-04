@@ -146,18 +146,6 @@
 	INVOKE_ASYNC(src, PROC_REF(spend_rank), bloodsuckerdatum, target, cost_rank, blood_cost)
 
 /datum/bloodsucker_clan/proc/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank = TRUE, blood_cost)
-	// Before all else, warn them if they're in Brujah.
-	if(istype(src, /datum/bloodsucker_clan/brujah))
-		var/mob/living/carbon/human/our_antag = source.owner.current
-		var/warning_accepted = tgui_alert(our_antag, \
-			"Since you are part of the Brujah clan, increasing your rank will also decrease your humanity. \n\
-			This will increase your current Frenzy threshold from [source.frenzy_threshold] to \
-			[source.frenzy_threshold + 50]. Please ensure that you have enough blood available or risk entering Frenzy.", \
-			"BE ADVISED", \
-			list("Accept Warning", "Abort Ranking Up"))
-		if(warning_accepted != "Accept Warning")
-			return FALSE
-
 	// Purchase Power Prompt
 	var/list/options = list()
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
@@ -253,9 +241,8 @@
 	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
 		if(bloodsuckerdatum.special_vassals[initial(vassaldatums.special_type)])
 			continue
-		if(vassaldatums.special_type == DISCORDANT_VASSAL)
-			if(source.my_clan.name != CLAN_BRUJAH || vassaldatum.owner != source.my_clan.clan_objective.target)
-				continue
+		if(vassaldatums.special_type == DISCORDANT_VASSAL && (!source.my_clan.clan_objective || vassaldatum.owner != source.my_clan.clan_objective.target))
+			continue
 		options[initial(vassaldatums.name)] = vassaldatums
 
 		var/datum/radial_menu_choice/option = new

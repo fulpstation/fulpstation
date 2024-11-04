@@ -95,11 +95,8 @@
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
-	/// Give Objectives if not a particular type of vassal with a unique objective
-	if(!istype(src, /datum/antagonist/vassal/discordant))
-		var/datum/objective/vassal_objective/vassal_objective = new
-		vassal_objective.owner = owner
-		objectives += vassal_objective
+	/// Forge Objectives
+	forge_objectives()
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -193,3 +190,8 @@
 /datum/objective/vassal_objective/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master?.owner?.current?.stat != DEAD
+
+/datum/antagonist/vassal/forge_objectives()
+	var/datum/objective/vassal_objective/vassal_objective = new
+	vassal_objective.owner = owner
+	objectives += vassal_objective

@@ -73,14 +73,14 @@
 		return
 
 	if(istype(target_atom, /obj/structure/window))
-		var/obj/structure/window/W = target_atom
-		if(level_current < 4 || (istype(W, /obj/structure/window/reinforced) && level_current < 5))
-			target_atom.balloon_alert(owner, "you need more ranks to destroy that!")
+		var/obj/structure/window/window = target_atom
+		if(level_current < 4 || (istype(window, /obj/structure/window/reinforced) && level_current < 5))
+			window.balloon_alert(owner, "you need more ranks!")
 			return
-		if(istype(W, /obj/structure/window/reinforced) || istype(W, /obj/structure/window/plasma))
-			HitWithStyle(W, 'sound/effects/bang.ogg', 30, 25, 15 SECONDS)
+		if(istype(window, /obj/structure/window/reinforced) || istype(window, /obj/structure/window/plasma))
+			HitWithStyle(window, 'sound/effects/bang.ogg', 30, 25, 15 SECONDS)
 		else
-			HitWithStyle(W, 'sound/effects/bang.ogg', 20, 15, 10 SECONDS)
+			HitWithStyle(window, 'sound/effects/bang.ogg', 20, 15, 10 SECONDS)
 		return
 
 	if(istype(target_atom, /obj/machinery/door/window))
@@ -93,7 +93,7 @@
 	if(!iswallturf(target_atom))
 		return
 	if(level_current < 4 || (istype(target_atom, /turf/closed/wall/r_wall) && level_current < 5))
-		target_atom.balloon_alert(owner, "you need more ranks to destroy that!")
+		target_atom.balloon_alert(owner, "you need more ranks!")
 		return
 	if(isindestructiblewall(target_atom))
 		target_atom.balloon_alert(owner, "this wall is indestructible!")
@@ -133,11 +133,11 @@
 /datum/action/cooldown/bloodsucker/targeted/brawn/brash/CheckValidTarget(atom/A)
 	if(A == owner)
 		return FALSE
+	if(INDESTRUCTIBLE in A.resistance_flags)
+		return FALSE
 	if(isliving(A))
 		return TRUE
 	if(istype(A, /obj/machinery/door))
-		return TRUE
-	if(istype(A, /obj/machinery/door/window))
 		return TRUE
 	if(istype(A, /obj/structure/table) || istype(A, /obj/structure/table_frame))
 		return TRUE
@@ -145,7 +145,7 @@
 		return TRUE
 	if(istype(A, /obj/structure/girder))
 		return TRUE
-	if(istype(A, /obj/structure/grille) && !istype(A, /obj/structure/grille/indestructible))
+	if(istype(A, /obj/structure/grille))
 		return TRUE
 	if(((iswallturf(A) && !isindestructiblewall(A))) || istype(A, /obj/structure/window))
 		return TRUE
