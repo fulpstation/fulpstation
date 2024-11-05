@@ -125,9 +125,6 @@
 ///Drinks blood from disgusting creatures without Humanity consequences.
 #define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
 
-///Called when a Brujah Bloodsucker creates a Discordant Vassal
-#define COMSIG_BLOODSUCKER_DISCORDANT_VASSALIZE "comsig_bloodsucker_discordant_vassalize"
-
 /**
  * Role defines
  */

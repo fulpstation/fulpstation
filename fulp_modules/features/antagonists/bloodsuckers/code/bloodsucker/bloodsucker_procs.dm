@@ -108,7 +108,7 @@
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			all_vassals.owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 			continue
-		if(all_vassals.special_type == REVENGE_VASSAL)
+		if(!all_vassals.remove_on_bloodsucker_death)
 			continue
 		all_vassals.owner.add_antag_datum(/datum/antagonist/ex_vassal)
 		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)

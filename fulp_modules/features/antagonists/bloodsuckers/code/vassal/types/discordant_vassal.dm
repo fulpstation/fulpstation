@@ -16,6 +16,7 @@
 		They are typically ex-leaders (or similar persons of authority,) who have imposed their will upon others. \
 		Brujah vassalization renders them disillusioned and ineffective as leaders, and while \
 		they are not bound to their Bloodsucker's orders, they are bound to not harm them."
+	remove_on_bloodsucker_death = FALSE
 
 /datum/antagonist/vassal/discordant/forge_objectives()
 	var/datum/objective/survive/new_objective = new

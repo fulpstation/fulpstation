@@ -65,12 +65,8 @@
 
 /datum/objective/brujah_clan_objective/New(text)
 	. = ..()
-	RegisterSignal(src, COMSIG_BLOODSUCKER_DISCORDANT_VASSALIZE, PROC_REF(on_discordant_vassalization))
-
-/datum/objective/brujah_clan_objective/proc/on_discordant_vassalization()
-	SIGNAL_HANDLER
-
-	target_subverted = TRUE
+	get_target()
+	update_explanation_text()
 
 /datum/objective/brujah_clan_objective/check_completion()
 	if(target_subverted)

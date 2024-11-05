@@ -28,6 +28,8 @@
 	var/special_type = FALSE
 	///Description of what this Vassal does.
 	var/vassal_description
+	/// Whether or not this Vassal's antag status is removed on the death of their Bloodsucker.
+	var/remove_on_bloodsucker_death = TRUE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"

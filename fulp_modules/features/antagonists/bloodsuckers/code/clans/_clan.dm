@@ -229,12 +229,24 @@
 	INVOKE_ASYNC(src, PROC_REF(interact_with_vassal), bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+	var/datum/mind/vassal_mind = vassaldatum.owner
+	var/datum/objective/source_objective = source.my_clan?.clan_objective
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
 	if(!vassaldatum.owner.can_make_special(creator = bloodsuckerdatum.owner))
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a special rank due to innate features."))
 		return FALSE
+	if(istype(source_objective, /datum/objective/brujah_clan_objective) && (source_objective.target == vassal_mind))
+		var/datum/objective/brujah_clan_objective/brujah_objective = source_objective
+		for(var/obj/item/implant/mindshield/implant in vassal_mind.current.implants)
+			implant.removed(vassal_mind.current, silent = TRUE)
+
+		vassaldatum.make_special(/datum/antagonist/vassal/discordant)
+		brujah_objective.target_subverted = TRUE
+		to_chat(source.owner, span_notice("You have turned [vassal_mind.current.name] into a Discordant Vassal."))
+		playsound(get_turf(vassal_mind.current), 'sound/effects/rocktap3.ogg', 75)
+		return TRUE
 
 	var/list/options = list()
 	var/list/radial_display = list()
