@@ -3800,11 +3800,12 @@
 /turf/open/floor/iron/cafeteria,
 /area/station/security/prison/mess)
 "boU" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
 /obj/machinery/duct,
-/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/crayon{
+	icon_state = "bottle";
+	paint_colour = "#3D8038";
+	pixel_x = 32
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "boY" = (
@@ -8937,7 +8938,6 @@
 "dgw" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
@@ -9403,7 +9403,6 @@
 "dph" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/structure/cable,
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -9625,7 +9624,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/obj/machinery/duct,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "dsi" = (
@@ -16655,6 +16653,11 @@
 /obj/structure/cable,
 /turf/open/space/basic,
 /area/station/solars/starboard/fore)
+"fPw" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/spawner/random/trash/moisture_trap,
+/turf/open/floor/plating,
+/area/station/maintenance/port/aft)
 "fPC" = (
 /obj/structure/chair/stool/bar/directional/north,
 /turf/open/floor/wood/tile,
@@ -17198,7 +17201,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/light/small/dim/directional/north,
 /turf/open/floor/plating,
@@ -17317,6 +17319,15 @@
 /obj/machinery/duct,
 /turf/open/floor/iron,
 /area/station/engineering/main)
+"gcm" = (
+/obj/structure/girder,
+/obj/effect/decal/cleanable/crayon{
+	icon_state = "Sleeping Carp";
+	pixel_y = 32;
+	paint_colour = "#FF7F7F"
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/port/aft)
 "gcp" = (
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/window/reinforced/spawner/directional/south,
@@ -18582,7 +18593,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/machinery/duct,
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "stickman";
 	paint_colour = "#EEDDEE";
@@ -21484,7 +21494,6 @@
 "hwF" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
@@ -21977,12 +21986,13 @@
 /turf/open/floor/iron,
 /area/station/service/janitor)
 "hIS" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/power/solar{
+	id = "aftport";
+	name = "Aft-Port Solar Array"
+	},
 /obj/structure/cable,
-/obj/machinery/duct,
-/turf/open/floor/plating,
-/area/station/maintenance/port/aft)
+/turf/open/floor/iron/solarpanel/airless,
+/area/station/solars/port/aft)
 "hJf" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -24225,7 +24235,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
@@ -28702,7 +28711,6 @@
 /area/station/service/bar/backroom)
 "kjW" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/light/small/directional/north,
@@ -32537,7 +32545,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/machinery/duct,
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
@@ -35309,10 +35316,6 @@
 	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hos)
-"mJe" = (
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/station/maintenance/department/cargo)
 "mJn" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
@@ -37293,14 +37296,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/wood,
 /area/station/service/library)
-"ntx" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/plating,
-/area/station/maintenance/department/cargo/mining)
 "ntA" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/checker,
@@ -38467,7 +38462,6 @@
 "nPG" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/airlock/maintenance/glass,
 /obj/effect/mapping_helpers/airlock/unres{
@@ -38721,15 +38715,6 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
-"nTQ" = (
-/obj/structure/girder,
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "Sleeping Carp";
-	pixel_y = 32;
-	paint_colour = "#FF7F7F"
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/port/aft)
 "nTT" = (
 /obj/structure/chair{
 	dir = 8
@@ -46685,7 +46670,6 @@
 "qST" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/sign/directions/dorms/directional/north{
 	dir = 4;
@@ -47616,6 +47600,7 @@
 "rla" = (
 /obj/structure/sign/poster/contraband/random/directional/north,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/duct,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "rlk" = (
@@ -47925,12 +47910,13 @@
 /turf/open/floor/carpet/green,
 /area/station/commons/dorms/room3)
 "rqs" = (
-/obj/machinery/duct,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/small/directional/east,
 /turf/open/floor/plating,
-/area/station/maintenance/department/cargo)
+/area/station/maintenance/department/cargo/mining)
 "rqA" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -52094,7 +52080,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/duct,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
@@ -55003,6 +54988,10 @@
 /obj/structure/sign/poster/contraband/random/directional/north,
 /turf/open/floor/plating,
 /area/station/maintenance/aft)
+"tYt" = (
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/maintenance/department/cargo)
 "tYu" = (
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
@@ -58489,15 +58478,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/station/command/bridge)
-"voG" = (
-/obj/machinery/duct,
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "bottle";
-	paint_colour = "#3D8038";
-	pixel_x = 32
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/port/aft)
 "voJ" = (
 /obj/machinery/door/airlock/medical/glass{
 	name = "Pharmacy"
@@ -66556,14 +66536,6 @@
 /obj/effect/spawner/random/structure/girder,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
-"yjQ" = (
-/obj/machinery/power/solar{
-	id = "aftport";
-	name = "Aft-Port Solar Array"
-	},
-/obj/structure/cable,
-/turf/open/floor/iron/solarpanel/airless,
-/area/station/solars/port/aft)
 "yjU" = (
 /obj/structure/chair/office,
 /turf/open/floor/carpet/green,
@@ -84121,7 +84093,7 @@ nuP
 ulu
 bXd
 nBZ
-ntx
+rqs
 nBZ
 ulu
 jfm
@@ -86716,11 +86688,11 @@ rtO
 kwx
 vQV
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
 vQV
 caH
@@ -86971,15 +86943,15 @@ vQV
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -87228,15 +87200,15 @@ vQV
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -87485,15 +87457,15 @@ vQV
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -87742,15 +87714,15 @@ vQV
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -87999,7 +87971,7 @@ vQV
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
 ioE
 ioE
@@ -88007,7 +87979,7 @@ ioE
 ioE
 ioE
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -88257,11 +88229,11 @@ vQV
 kwx
 vQV
 vQV
-yjQ
+hIS
 ioE
-yjQ
+hIS
 bTq
-yjQ
+hIS
 ioE
 kPM
 vQV
@@ -88516,9 +88488,9 @@ nri
 nri
 nri
 ioE
-yjQ
+hIS
 vQV
-yjQ
+hIS
 ioE
 nri
 nri
@@ -88773,9 +88745,9 @@ ioE
 ioE
 ioE
 ioE
-yjQ
+hIS
 vQV
-yjQ
+hIS
 ioE
 iWk
 nri
@@ -89030,9 +89002,9 @@ nri
 nri
 nri
 ioE
-yjQ
+hIS
 vQV
-yjQ
+hIS
 ioE
 nri
 nri
@@ -89285,13 +89257,13 @@ vQV
 nri
 vQV
 vQV
-yjQ
+hIS
 ioE
-yjQ
+hIS
 bTq
-yjQ
+hIS
 ioE
-yjQ
+hIS
 vQV
 vQV
 kwx
@@ -89541,7 +89513,7 @@ nri
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
 ioE
 ioE
@@ -89549,7 +89521,7 @@ ioE
 ioE
 ioE
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -89798,15 +89770,15 @@ nri
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -90055,15 +90027,15 @@ nri
 nri
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 kwx
 vQV
@@ -90296,7 +90268,7 @@ byC
 iPP
 fkR
 fpL
-mJe
+tYt
 ylx
 lmu
 fkR
@@ -90312,15 +90284,15 @@ nri
 vQV
 kwx
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 rtO
 vQV
@@ -90569,15 +90541,15 @@ nri
 vQV
 rtO
 vQV
-yjQ
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
+hIS
 vQV
 rtO
 vQV
@@ -90810,8 +90782,8 @@ ufX
 fkR
 fkR
 kjW
-rqs
-rqs
+hwF
+hwF
 sdJ
 kpq
 kpq
@@ -90828,11 +90800,11 @@ rtO
 caH
 vQV
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
-yjQ
-yjQ
+hIS
+hIS
 ioE
 vQV
 caH
@@ -92610,7 +92582,7 @@ aBr
 dse
 gzd
 lHm
-hIS
+xdx
 dph
 hSB
 kPw
@@ -93124,7 +93096,7 @@ veg
 veg
 xHr
 nXM
-nTQ
+gcm
 nXM
 wlc
 qKe
@@ -94925,7 +94897,7 @@ cIK
 sve
 cSP
 ods
-voG
+boU
 nXM
 xgo
 auf
@@ -95954,8 +95926,8 @@ nXM
 ihS
 rTu
 nFK
-boU
-nBC
+iGe
+fPw
 nXM
 nXM
 nXM
@@ -96210,8 +96182,8 @@ gJA
 nXM
 vvl
 nXM
-fbf
-hIS
+ods
+xdx
 wyK
 nXM
 jag
@@ -96468,7 +96440,7 @@ nXM
 nXM
 nXM
 rla
-hIS
+xdx
 gZb
 nXM
 jyJ
@@ -96724,8 +96696,8 @@ gJA
 nXM
 xBv
 nXM
-vCa
-hIS
+ods
+xdx
 jXa
 nXM
 nXM
@@ -96982,7 +96954,7 @@ nXM
 vhA
 nfv
 oKY
-hIS
+xdx
 nBC
 nKl
 nBT
