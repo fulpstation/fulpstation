@@ -1437,7 +1437,6 @@
 /area/station/science/research)
 "ayN" = (
 /obj/effect/spawner/random/structure/closet_maintenance,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "ayX" = (
@@ -16660,15 +16659,6 @@
 /obj/structure/chair/stool/bar/directional/north,
 /turf/open/floor/wood/tile,
 /area/station/service/library)
-"fPN" = (
-/obj/structure/girder,
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "Sleeping Carp";
-	pixel_y = 32;
-	paint_colour = "#FF7F7F"
-	},
-/turf/open/floor/plating,
-/area/station/maintenance/port/aft)
 "fPZ" = (
 /obj/structure/table,
 /obj/item/storage/backpack/duffelbag/sec{
@@ -26494,14 +26484,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/gateway)
-"jxx" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/cable,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/machinery/light/small/directional/east,
-/turf/open/floor/plating,
-/area/station/maintenance/department/cargo/mining)
 "jxz" = (
 /obj/machinery/hydroponics/soil,
 /obj/effect/landmark/event_spawn,
@@ -26611,9 +26593,6 @@
 	},
 /area/station/medical/storage)
 "jzo" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/siding/wideplating_new/light,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -35330,6 +35309,10 @@
 	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hos)
+"mJe" = (
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/maintenance/department/cargo)
 "mJn" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
@@ -37310,6 +37293,14 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/wood,
 /area/station/service/library)
+"ntx" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/cable,
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/plating,
+/area/station/maintenance/department/cargo/mining)
 "ntA" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/checker,
@@ -38655,7 +38646,9 @@
 /obj/effect/turf_decal/delivery,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/door/window/brigdoor/right/directional/north,
+/obj/machinery/door/window/brigdoor/right/directional/north{
+	req_one_access = list("cargo")
+	},
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -38728,6 +38721,15 @@
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
+"nTQ" = (
+/obj/structure/girder,
+/obj/effect/decal/cleanable/crayon{
+	icon_state = "Sleeping Carp";
+	pixel_y = 32;
+	paint_colour = "#FF7F7F"
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/port/aft)
 "nTT" = (
 /obj/structure/chair{
 	dir = 8
@@ -43177,7 +43179,6 @@
 /obj/structure/filingcabinet/chestdrawer/wheeled,
 /obj/item/storage/wallet/random,
 /obj/item/universal_scanner,
-/obj/item/paper_bin/bundlenatural,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "pBJ" = (
@@ -45887,6 +45888,7 @@
 "qDh" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/all/supply/general,
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "qDn" = (
@@ -58487,6 +58489,15 @@
 	},
 /turf/open/floor/carpet/red,
 /area/station/command/bridge)
+"voG" = (
+/obj/machinery/duct,
+/obj/effect/decal/cleanable/crayon{
+	icon_state = "bottle";
+	paint_colour = "#3D8038";
+	pixel_x = 32
+	},
+/turf/open/floor/plating,
+/area/station/maintenance/port/aft)
 "voJ" = (
 /obj/machinery/door/airlock/medical/glass{
 	name = "Pharmacy"
@@ -60175,15 +60186,6 @@
 /area/station/cargo/storage)
 "vTT" = (
 /obj/effect/spawner/random/structure/closet_maintenance,
-/turf/open/floor/plating,
-/area/station/maintenance/port/aft)
-"vTX" = (
-/obj/machinery/duct,
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "bottle";
-	paint_colour = "#3D8038";
-	pixel_x = 32
-	},
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "vUd" = (
@@ -62618,14 +62620,6 @@
 /obj/effect/turf_decal/trimline/red/filled/corner,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
-"wKe" = (
-/obj/machinery/power/solar{
-	id = "aftport";
-	name = "Aft-Port Solar Array"
-	},
-/obj/structure/cable,
-/turf/open/floor/iron/solarpanel/airless,
-/area/station/solars/port/aft)
 "wKh" = (
 /obj/machinery/portable_atmospherics/canister,
 /obj/machinery/atmospherics/components/unary/portables_connector/visible,
@@ -63744,6 +63738,7 @@
 	id = "aftport";
 	name = "Port Quarter Solar Control"
 	},
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/solars/port/aft)
 "xiv" = (
@@ -66561,6 +66556,14 @@
 /obj/effect/spawner/random/structure/girder,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
+"yjQ" = (
+/obj/machinery/power/solar{
+	id = "aftport";
+	name = "Aft-Port Solar Array"
+	},
+/obj/structure/cable,
+/turf/open/floor/iron/solarpanel/airless,
+/area/station/solars/port/aft)
 "yjU" = (
 /obj/structure/chair/office,
 /turf/open/floor/carpet/green,
@@ -84118,7 +84121,7 @@ nuP
 ulu
 bXd
 nBZ
-jxx
+ntx
 nBZ
 ulu
 jfm
@@ -86713,11 +86716,11 @@ rtO
 kwx
 vQV
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
 vQV
 caH
@@ -86968,15 +86971,15 @@ vQV
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -87225,15 +87228,15 @@ vQV
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -87482,15 +87485,15 @@ vQV
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -87739,15 +87742,15 @@ vQV
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -87996,7 +87999,7 @@ vQV
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
 ioE
 ioE
@@ -88004,7 +88007,7 @@ ioE
 ioE
 ioE
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -88254,11 +88257,11 @@ vQV
 kwx
 vQV
 vQV
-wKe
+yjQ
 ioE
-wKe
+yjQ
 bTq
-wKe
+yjQ
 ioE
 kPM
 vQV
@@ -88513,9 +88516,9 @@ nri
 nri
 nri
 ioE
-wKe
+yjQ
 vQV
-wKe
+yjQ
 ioE
 nri
 nri
@@ -88770,9 +88773,9 @@ ioE
 ioE
 ioE
 ioE
-wKe
+yjQ
 vQV
-wKe
+yjQ
 ioE
 iWk
 nri
@@ -89027,9 +89030,9 @@ nri
 nri
 nri
 ioE
-wKe
+yjQ
 vQV
-wKe
+yjQ
 ioE
 nri
 nri
@@ -89282,13 +89285,13 @@ vQV
 nri
 vQV
 vQV
-wKe
+yjQ
 ioE
-wKe
+yjQ
 bTq
-wKe
+yjQ
 ioE
-wKe
+yjQ
 vQV
 vQV
 kwx
@@ -89538,7 +89541,7 @@ nri
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
 ioE
 ioE
@@ -89546,7 +89549,7 @@ ioE
 ioE
 ioE
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -89795,15 +89798,15 @@ nri
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -90052,15 +90055,15 @@ nri
 nri
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 kwx
 vQV
@@ -90293,7 +90296,7 @@ byC
 iPP
 fkR
 fpL
-ssX
+mJe
 ylx
 lmu
 fkR
@@ -90309,15 +90312,15 @@ nri
 vQV
 kwx
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 rtO
 vQV
@@ -90566,15 +90569,15 @@ nri
 vQV
 rtO
 vQV
-wKe
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
+yjQ
 vQV
 rtO
 vQV
@@ -90825,11 +90828,11 @@ rtO
 caH
 vQV
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
-wKe
-wKe
+yjQ
+yjQ
 ioE
 vQV
 caH
@@ -93121,7 +93124,7 @@ veg
 veg
 xHr
 nXM
-fPN
+nTQ
 nXM
 wlc
 qKe
@@ -94407,7 +94410,7 @@ mYL
 sBo
 nXM
 mhc
-fbf
+vaD
 xVc
 nXM
 lSB
@@ -94922,7 +94925,7 @@ cIK
 sve
 cSP
 ods
-vTX
+voG
 nXM
 xgo
 auf
