@@ -94,6 +94,20 @@
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
 
+/area/ruin/space/has_grav/disco_shrine
+	name = "disco shrine"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "disco_shrine"
+	base_lighting_alpha = 128
+	base_lighting_color = "#AA00FF"
+
+/area/ruin/space/has_grav/cateor_shrine
+	name = "cateor shrine"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "cateor_shrine"
+	base_lighting_alpha = 128
+	base_lighting_color = "#FF00D4"
+
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"
 	icon_state = "green"

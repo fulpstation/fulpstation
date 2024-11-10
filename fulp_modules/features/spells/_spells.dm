@@ -222,7 +222,7 @@
 	button_icon = 'fulp_modules/features/events/icons/event_icons.dmi'
 	button_icon_state = "cateor"
 
-	spell_requirements = SPELL_REQUIRES_WIZARD_GARB
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 60 SECONDS
 	cooldown_reduction_per_rank = 12 SECONDS
