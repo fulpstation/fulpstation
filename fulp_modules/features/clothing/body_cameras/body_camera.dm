@@ -81,7 +81,7 @@
 		builtin_bodycamera.c_tag = "-Body Camera: [(id_card.registered_name)] ([id_card.assignment])"
 	else
 		builtin_bodycamera.c_tag = "-Body Camera: [(user.name)]"
-	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	playsound(loc, 'sound/machines/beep/beep.ogg', get_clamped_volume(), TRUE, -1)
 	if(user)
 		user.balloon_alert(user, "bodycamera activated")
 
