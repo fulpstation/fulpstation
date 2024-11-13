@@ -58,7 +58,7 @@
 	light_on = FALSE
 	throwforce = 12
 	damtype = BURN
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	///ready to launch a beam attack?
@@ -139,8 +139,8 @@
 	light_power = 1
 	light_color = "#44acb1"
 	damage_type = BURN
-	hitsound = 'sound/weapons/sear.ogg'
-	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
+	hitsound = 'sound/items/weapons/sear.ogg'
+	hitsound_wall = 'sound/items/weapons/effects/searwall.ogg'
 
 
 
@@ -156,7 +156,7 @@
 	base_force = 18
 	throwforce = 12
 	reach = 1
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -184,7 +184,7 @@
 	balloon_alert(user, active ? "extended" : "collapsed")
 	inhand_icon_state = active ? "chain" : "threaded_cane"
 	if(active)
-		playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg',50)
+		playsound(src, 'sound/effects/magic/clockwork/fellowship_armory.ogg',50)
 	reach = active ? 2 : 1
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -203,7 +203,7 @@
 	on_force = 25
 	throwforce = 12
 	reach = 1
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -237,7 +237,7 @@
 
 /obj/item/melee/trick_weapon/hunter_axe/update_icon_state()
 	icon_state = "[base_icon_state]0"
-	playsound(src,'sound/magic/clockwork/fellowship_armory.ogg',50)
+	playsound(src,'sound/effects/magic/clockwork/fellowship_armory.ogg',50)
 	return ..()
 
 /obj/item/melee/trick_weapon/hunter_axe/proc/on_wield(obj/item/source)
@@ -395,7 +395,7 @@
 	if(!istype(held_item, /obj/item/rabbit_eye))
 		return
 	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
-	if(weapon in source.loc.contents == FALSE)
+	if(!(weapon in source.loc.contents))
 		return
 	if(weapon.upgrade_level >= 3)
 		return

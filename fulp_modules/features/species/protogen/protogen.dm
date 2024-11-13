@@ -3,10 +3,7 @@
 	plural_form = "Protofriends"
 	id = SPECIES_PROTOGEN
 	examine_limb_id = SPECIES_PROTOGEN
-	mutant_bodyparts = list(
-		"legs" = "Normal Legs",
-	)
-	external_organs = list(
+	mutant_organs = list(
 		/obj/item/organ/external/snout/protogen = "Bolted",
 		/obj/item/organ/external/tail/protogen = "Shark",
 		/obj/item/organ/external/protogen_antennae = "Default",
@@ -39,7 +36,7 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/robot/protogen,
 	)
 	digitigrade_customization = DIGITIGRADE_OPTIONAL
-	death_sound = 'sound/voice/borg_deathsound.ogg'
+	death_sound = 'sound/mobs/non-humanoids/cyborg/borg_deathsound.ogg'
 
 /datum/species/protogen/check_roundstart_eligible()
 	if(check_holidays(APRIL_FOOLS))
@@ -52,94 +49,6 @@
 	features["snout_protogen"] = pick(SSaccessories.snouts_list_protogen)
 	features["antennae_protogen"] = pick(SSaccessories.antennae_list_protogen)
 	return features
-
-/datum/species/protogen/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
-	..()
-	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
-	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
-	var/list/standing = list()
-
-	source.remove_overlay(BODY_BEHIND_LAYER)
-	source.remove_overlay(BODY_ADJ_LAYER)
-	source.remove_overlay(BODY_FRONT_LAYER)
-
-	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
-		return
-
-	var/obj/item/bodypart/head/noggin = source.get_bodypart(BODY_ZONE_HEAD)
-
-
-	if(mutant_bodyparts["ears"])
-		if(!source.dna.features["ears"] || source.dna.features["ears"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin || IS_ROBOTIC_LIMB(noggin))
-			bodyparts_to_add -= "ears"
-
-	if(!bodyparts_to_add)
-		return
-
-	var/g = (source.physique == FEMALE) ? "f" : "m"
-
-	for(var/layer in relevent_layers)
-		var/layertext = mutant_bodyparts_layertext(layer)
-
-		for(var/bodypart in bodyparts_to_add)
-			var/datum/sprite_accessory/accessory
-			switch(bodypart)
-				if("tail_protogen")
-					accessory = SSaccessories.tails_list_protogen[source.dna.features["tail_protogen"]]
-				if("snout_protogen")
-					accessory = SSaccessories.snouts_list_protogen[source.dna.features["snout_protogen"]]
-				if("antennae_protogen")
-					accessory = SSaccessories.antennae_list_protogen[source.dna.features["antennae_protogen"]]
-
-			if(!accessory || accessory.icon_state == "none")
-				continue
-
-			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-
-			if(accessory.gender_specific)
-				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
-			else
-				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
-
-			if(accessory.em_block)
-				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, source, accessory_overlay.alpha)
-
-			if(accessory.center)
-				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
-				if(!forced_colour)
-					switch(accessory.color_src)
-						if(MUTANT_COLOR)
-							accessory_overlay.color = fixed_mut_color || source.dna.features["mcolor"]
-						if(HAIR_COLOR)
-							accessory_overlay.color = get_fixed_hair_color(source) || source.hair_color
-						if(FACIAL_HAIR_COLOR)
-							accessory_overlay.color = get_fixed_hair_color(source) || source.facial_hair_color
-						if(EYE_COLOR)
-							accessory_overlay.color = source.eye_color_left
-				else
-					accessory_overlay.color = forced_colour
-			standing += accessory_overlay
-
-			if(accessory.hasinner)
-				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-				if(accessory.gender_specific)
-					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
-				else
-					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
-
-				if(accessory.center)
-					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-				standing += inner_accessory_overlay
-
-		source.overlays_standing[layer] = standing.Copy()
-		standing = list()
-
-	source.apply_overlay(BODY_BEHIND_LAYER)
-	source.apply_overlay(BODY_ADJ_LAYER)
-	source.apply_overlay(BODY_FRONT_LAYER)
 
 /datum/species/protogen/prepare_human_for_preview(mob/living/carbon/human/human)
 	human.dna.features["mcolor"] = "#b7b4ab"
