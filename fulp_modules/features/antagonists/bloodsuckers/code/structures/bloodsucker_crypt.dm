@@ -727,8 +727,12 @@
 
 /obj/structure/bloodsucker/mirror/Initialize(mapload)
 	. = ..()
-	var/static/list/reflection_filter = alpha_mask_filter(icon = icon('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi', "blood_mirror_mask"))
-	var/static/matrix/reflection_matrix = matrix(0.75, 0, 0, 0, 0.75, 0)
+	var/static/list/reflection_filter
+	if(isnull(reflection_filter))
+		reflection_filter = alpha_mask_filter(icon = icon('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi', "blood_mirror_mask"))
+	var/static/matrix/reflection_matrix
+	if(isnull(reflection_matrix))
+		reflection_matrix = matrix(0.75, 0, 0, 0, 0.75, 0)
 	var/datum/callback/can_reflect = CALLBACK(src, PROC_REF(can_reflect))
 	var/list/update_signals = list(COMSIG_ATOM_BREAK)
 

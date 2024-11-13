@@ -314,7 +314,7 @@
 		breather_boy.emote("gasp")
 		breather_boy.emote("gasp")
 
-/obj/item/clothing/mask/costume_2021/breather_mask/proc/handle_speech(datum/source, mob/speech_args)
+/obj/item/clothing/mask/costume_2021/breather_mask/proc/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message)
 		var/list/message_split = splittext(message, " ")
