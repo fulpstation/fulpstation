@@ -33,6 +33,8 @@
 	var/obj/item/interacting_item = interacting_with
 	if(!(interacting_item.slot_flags & ITEM_SLOT_OCLOTHING))
 		return NONE
+	if(interacting_item.item_flags & (ABSTRACT|DROPDEL)) //things like changeling suits don't get body cameras.
+		return NONE
 	install_camera(interacting_item, user)
 	return ITEM_INTERACT_SUCCESS
 
