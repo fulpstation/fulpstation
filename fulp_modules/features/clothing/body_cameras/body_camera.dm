@@ -23,7 +23,7 @@
 	. += list(span_notice("Once installed, you can use an [EXAMINE_HINT("ID card")] to turn the camera on and off."))
 
 /obj/item/bodycam_upgrade/Destroy(force)
-	if(builtin_bodycamera)
+	if(!isnull(builtin_bodycamera))
 		QDEL_NULL(builtin_bodycamera)
 	return ..()
 
@@ -55,6 +55,7 @@
 	RegisterSignal(installing_into, COMSIG_ITEM_GET_WORN_OVERLAYS, PROC_REF(on_checked_overlays))
 	if(user.get_item_by_slot(ITEM_SLOT_OCLOTHING) == installing_into)
 		user.update_worn_oversuit(update_obscured = FALSE)
+		turn_on(user)
 
 ///Uninstalls the bodycamera from a piece of clothing.
 /obj/item/bodycam_upgrade/proc/uninstall_camera(obj/item/taking_from, mob/user)
@@ -64,10 +65,12 @@
 		COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER),
 		COMSIG_ITEM_GET_WORN_OVERLAYS,
 	))
+	if(builtin_bodycamera) //retract the camera back in.
+		builtin_bodycamera.forceMove(src)
 	taking_from.cut_overlay(equipped_overlay)
 	forceMove(user.loc)
+	turn_off()
 	user.put_in_hands(src)
-	QDEL_NULL(builtin_bodycamera) //destroy the camera, it was taken out of the suit that hosts it.
 	if(user.get_item_by_slot(ITEM_SLOT_OCLOTHING) == taking_from)
 		user.update_worn_oversuit(update_obscured = FALSE)
 
@@ -89,8 +92,9 @@
 
 ///Turns the camera off.
 /obj/item/bodycam_upgrade/proc/turn_off(mob/user)
-	user.balloon_alert(user, "bodycamera deactivated")
-	playsound(loc, 'sound/machines/beep/beep.ogg', get_clamped_volume(), TRUE, -1)
+	if(user)
+		user.balloon_alert(user, "bodycamera deactivated")
+		playsound(loc, 'sound/machines/beep/beep.ogg', get_clamped_volume(), TRUE, -1)
 	builtin_bodycamera.camera_enabled = FALSE
 
 /**
