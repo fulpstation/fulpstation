@@ -25,7 +25,7 @@
 
 /obj/item/book/granter/action/spell/fulp/summon_dancefloor/proc/comedic_premonition(mob/living/user)
 	to_chat(user, span_bolddanger("You might've just broken something..."))
-	playsound(get_turf(user), 'sound/effects/wounds/crack1.ogg', 37, frequency = -1)
+	playsound(get_turf(user), 'sound/effects/magic/blind.ogg', 37, frequency = -1)
 
 /obj/item/book/granter/action/spell/fulp/summon_dancefloor/proc/dance_injury(mob/living/user)
 	user.emote("scream")
