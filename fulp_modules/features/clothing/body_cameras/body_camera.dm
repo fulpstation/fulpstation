@@ -105,7 +105,7 @@
  */
 /obj/item/bodycam_upgrade/proc/on_examine_more(atom/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
-	examine_list += span_notice("It has [name] installed. You can remove it with a [EXAMINE_HINT("screwdriver")].")
+	examine_list += span_notice("It has [name] installed. You can toggle it with an [EXAMINE_HINT("ID card")] or remove it with a [EXAMINE_HINT("screwdriver")].")
 
 /**
  * Screwdriver act
