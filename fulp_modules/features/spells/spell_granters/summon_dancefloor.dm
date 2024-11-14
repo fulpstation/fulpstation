@@ -21,11 +21,11 @@
 	user.emote("spin")
 	user.emote("snap")
 	addtimer(CALLBACK(src, PROC_REF(comedic_premonition), user), 4 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(dance_injury), user), 6 SECONDS)
 
 /obj/item/book/granter/action/spell/fulp/summon_dancefloor/proc/comedic_premonition(mob/living/user)
 	to_chat(user, span_bolddanger("You might've just broken something..."))
 	playsound(get_turf(user), 'sound/effects/wounds/crack1.ogg', 37, frequency = -1)
+	addtimer(CALLBACK(src, PROC_REF(dance_injury), user), 2 SECONDS)
 
 /obj/item/book/granter/action/spell/fulp/summon_dancefloor/proc/dance_injury(mob/living/user)
 	user.emote("scream")
