@@ -221,7 +221,7 @@
 			terrorism.completed = TRUE
 			cut_overlay("uplink_seeking")
 			add_overlay("uplink_found")
-			playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+			playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 
 			connected = TRUE
 
