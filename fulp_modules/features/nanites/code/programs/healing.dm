@@ -212,16 +212,16 @@
 	return carbon_host.can_defib()
 
 /datum/nanite_program/defib/proc/start_defibrilation()
-	playsound(host_mob, 'sound/machines/defib_charge.ogg', 50, FALSE)
+	playsound(host_mob, 'sound/machines/defib/defib_charge.ogg', 50, FALSE)
 	addtimer(CALLBACK(src, PROC_REF(perform_defibrilation)), 3 SECONDS)
 
 /datum/nanite_program/defib/proc/perform_defibrilation()
 	var/mob/living/carbon/carbon_host = host_mob
-	playsound(carbon_host, 'sound/machines/defib_zap.ogg', 50, FALSE)
+	playsound(carbon_host, 'sound/machines/defib/defib_zap.ogg', 50, FALSE)
 	if(!check_revivable())
-		playsound(carbon_host, 'sound/machines/defib_failed.ogg', 50, FALSE)
+		playsound(carbon_host, 'sound/machines/defib/defib_failed.ogg', 50, FALSE)
 		return
-	playsound(carbon_host, 'sound/machines/defib_success.ogg', 50, FALSE)
+	playsound(carbon_host, 'sound/machines/defib/defib_success.ogg', 50, FALSE)
 	carbon_host.set_heartattack(FALSE)
 	carbon_host.revive()
 	carbon_host.emote("gasp")
