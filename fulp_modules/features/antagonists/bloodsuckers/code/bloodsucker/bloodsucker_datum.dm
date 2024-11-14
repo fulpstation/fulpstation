@@ -64,7 +64,10 @@
 	var/list/datum/antagonist/vassal/vassals = list()
 	/// List of special vassals owned. Referenced to make sure we don't get two of the same type.
 	/// Discordant vassals are here because only Brujah should be able to make them.
-	var/list/datum/antagonist/vassal/special_vassals = list("discordant_vassal")
+	var/list/datum/antagonist/vassal/special_vassals = list(
+		//This is an unlockable vassal, this prevents Bloodsuckers from making one.
+		DISCORDANT_VASSAL,
+	)
 
 	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
