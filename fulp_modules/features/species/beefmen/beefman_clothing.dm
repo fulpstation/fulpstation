@@ -195,7 +195,7 @@
 
 /obj/item/clothing/under/bodysash/botanist
 	name = "botanist's sash"
-	desc = "A sash designed to protect against minor, plant-related hazards."
+	desc = "A sash designed to protect against minor horticultural hazards."
 	icon_state = "botanist"
 	armor_type = /datum/armor/clothing_under/civilian_hydroponics
 
