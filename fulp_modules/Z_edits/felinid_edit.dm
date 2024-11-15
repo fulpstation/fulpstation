@@ -1,4 +1,4 @@
-/// Override to turn make the kitty ears hat give brain damage
+/// Override to make the 'kitty ears' hat give brain damage
 /obj/item/clothing/head/costume/kitty
 	desc = "A pair of kitty ears. Meow! Prone to causing the user to behave more absent-minded."
 	equip_delay_other = 20 MINUTES
