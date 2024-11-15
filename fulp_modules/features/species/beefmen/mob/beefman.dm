@@ -214,7 +214,7 @@
 		After drawing straws, a neophyte cook— blissfully unaware of what would soon transpire— was sent to fetch some meat from the morgue. \
 		The cook thought, \"It's normal for kitchens to repurpose dead bodies, right? It's not like the dead need them... right?\" \
 		Inattentively grabbing the first body they could find, the cook rushed to complete their unenviable task lest it were to become an enduring memory. \
-		What the cook hadn't noticed was the green revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessal gibbed.",
+		What the cook hadn't noticed was the green revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessel gibbed.",
 
 		"The young cook returned to their diner's cold room and shoved the corpse into the gibber. The machine struggled in tedium with its unupgraded parts. \
 		Once the whole body was in, the grinder's blades suddenly stopped and, with a horrible shriek, they began spinning in reverse. \
@@ -256,8 +256,9 @@
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "link",
 			SPECIES_PERK_NAME = "Phobetor Tears",
-			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor Tears, small tears in reality \
-				that allow them to teleport between random locations. This can only be done when they are unobserved.",
+			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor Tears: small tears in reality \
+				that temporarily connect random areas. Beefmen know where individual tears lead, \
+				but they can only move through them when both sides of a tear are unobserved.",
 		),
 		//Negative
 		list(
