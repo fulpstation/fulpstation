@@ -35,8 +35,7 @@
 		list("Accept Warning", "Abort Ranking Up"))
 	if(warning_accepted != "Accept Warning")
 		return FALSE
-	else
-		return ..()
+	return ..()
 
 /datum/bloodsucker_clan/brujah/finalize_spend_rank(datum/antagonist/bloodsucker/source, cost_rank, blood_cost)
 	. = ..()
