@@ -6,7 +6,7 @@
  */
 /obj/item/bodycam_upgrade
 	name = "\improper body camera"
-	desc = "An armor vest upgrade, there's an instructions tag if you look a little closer..."
+	desc = "A body camera device attachable to suits of all shapes and sizes. There's an instructions tag if you look a little closer..."
 	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
 	icon_state = "bodycamera"
 	///The camera itself, made when we need it and deleted on Destroy. Installed into the clothing item directly.
@@ -19,7 +19,7 @@
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
 	. = ..()
-	. += list(span_notice("You can use [name] on any vest to install it, or a [EXAMINE_HINT("screwdriver")] on the vest to uninstall one."))
+	. += list(span_notice("You can use [name] on any suit to install it, automatically turning on if the suit is equipped."))
 	. += list(span_notice("Once installed, you can use an [EXAMINE_HINT("ID card")] to turn the camera on and off."))
 
 /obj/item/bodycam_upgrade/Destroy(force)
