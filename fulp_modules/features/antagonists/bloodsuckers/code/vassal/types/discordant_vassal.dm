@@ -28,3 +28,6 @@
 		Do note, however, that you are not bound to [master.owner.p_their()] orders."
 	new_objective.owner = owner
 	objectives += new_objective
+
+/datum/antagonist/vassal/discordant/greet() //no greet message
+	return
