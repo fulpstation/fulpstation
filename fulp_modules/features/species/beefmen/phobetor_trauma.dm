@@ -6,7 +6,7 @@
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor
 	name = "Sleepless Dreamer"
-	desc = "The patient (having undergone untold psychological hardship,) believes they can travel between metaphysical dreamscapes."
+	desc = "The patient (having undergone untold psychological hardship), believes they can travel between metaphysical dreamscapes."
 	scan_desc = "awoken sleeper"
 	gain_text = span_notice("Your mind snaps and you wake up. You <i>really</i> wake up.")
 	lose_text = span_warning("You succumb once more to the sleepless dream of the unawakened.")
