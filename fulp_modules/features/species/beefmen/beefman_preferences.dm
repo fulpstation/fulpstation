@@ -38,6 +38,7 @@
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Eyes"
 	should_generate_icons = TRUE
+	relevant_body_markings = /datum/bodypart_overlay/simple/body_marking/beefman_eyes
 
 /datum/preference/choiced/beefman_eyes/init_possible_values()
 	return assoc_to_keys(SSaccessories.eyes_beefman_list)
@@ -65,6 +66,7 @@
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Beefman Mouth"
 	should_generate_icons = TRUE
+	relevant_body_markings = /datum/bodypart_overlay/simple/body_marking/beefman_mouth
 
 /datum/preference/choiced/beefman_mouth/init_possible_values()
 	return assoc_to_keys(SSaccessories.mouths_beefman_list)

@@ -67,7 +67,16 @@
 	name = "\improper Auxiliary Backrooms"
 
 /area/station/hallway/secondary/exit/escape_pod/secondary
-	name = "\improper Auxilliary Pod Array"
+	name = "\improper Auxiliary Pod Array"
+
+/area/station/security/courtroom/courthouse
+	name = "\improper Station Courthouse"
+	sound_environment = SOUND_AREA_WOODFLOOR
+
+/area/station/command/heads_quarters/captain/private/panicbunker
+	name = "\improper Panic Bunker"
+	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
+	ambience_index = AMBIENCE_DANGER
 
 // Ruins
 
@@ -84,6 +93,20 @@
 /area/ruin/space/has_grav/powered/beef/atmos
 	name = "beef station atmos"
 	icon_state = "beef_station_atmos"
+
+/area/ruin/space/has_grav/disco_shrine
+	name = "disco shrine"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "disco_shrine"
+	base_lighting_alpha = 128
+	base_lighting_color = "#AA00FF"
+
+/area/ruin/space/has_grav/cateor_shrine
+	name = "cateor shrine"
+	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon_state = "cateor_shrine"
+	base_lighting_alpha = 128
+	base_lighting_color = "#FF00D4"
 
 /area/ruin/space/has_grav/wonderland
 	name = "Wonderland"

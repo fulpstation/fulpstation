@@ -102,7 +102,7 @@
 				S.orbit(target_turf, 62, TRUE, 60, 36, TRUE)
 			if(16)
 				S.orbit(target_turf, 62, TRUE, 60, 36, TRUE)
-				playsound(target_turf, 'sound/magic/blind.ogg', 37, frequency = -1)
+				playsound(target_turf, 'sound/effects/magic/blind.ogg', 37, frequency = -1)
 				for(var/mob/living/M in viewers(target_turf))
 					M.emote("spin")
 					M.emote("flip")
@@ -222,7 +222,7 @@
 	button_icon = 'fulp_modules/features/events/icons/event_icons.dmi'
 	button_icon_state = "cateor"
 
-	spell_requirements = SPELL_REQUIRES_WIZARD_GARB
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 60 SECONDS
 	cooldown_reduction_per_rank = 12 SECONDS
@@ -341,7 +341,7 @@
 	if(HAS_TRAIT(user, TRAIT_USER_SCOPED))
 		user.balloon_alert(user, "already zoomed!")
 		return
-	user.playsound_local(parent, 'sound/effects/portal_travel.ogg', 50, TRUE)
+	user.playsound_local(parent, 'sound/effects/portal/portal_travel.ogg', 50, TRUE)
 	tracker = user.overlay_fullscreen("scope", /atom/movable/screen/fullscreen/cursor_catcher/scope/magic, isgun(parent))
 	tracker.assign_to_mob(user, 4)
 	tracker_owner_ckey = user.ckey
@@ -365,7 +365,7 @@
 	))
 	REMOVE_TRAIT(user, TRAIT_USER_SCOPED, REF(src))
 
-	user.playsound_local(parent, 'sound/effects/portal_travel.ogg', 50, TRUE, -1)
+	user.playsound_local(parent, 'sound/effects/portal/portal_travel.ogg', 50, TRUE, -1)
 	user.clear_fullscreen("scope")
 
 	var/mob/true_user

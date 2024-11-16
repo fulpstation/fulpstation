@@ -31,7 +31,7 @@ GLOBAL_LIST_EMPTY(masquerade_breakers)
 		if(unmasked.owner.current && unmasked.owner.current.stat != DEAD)
 			on_bloodsucker_broke_masquerade(unmasked)
 
-	bloodsuckerdatum.owner.current.playsound_local(get_turf(bloodsuckerdatum.owner.current), 'sound/ambience/antag/creepalert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
+	bloodsuckerdatum.owner.current.playsound_local(get_turf(bloodsuckerdatum.owner.current), 'sound/music/antag/creepalert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(bloodsuckerdatum.owner.current, span_hypnophrase("Welcome to the Malkavian..."))
 
 /datum/bloodsucker_clan/malkavian/Destroy(force)

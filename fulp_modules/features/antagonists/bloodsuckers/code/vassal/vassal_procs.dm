@@ -68,5 +68,5 @@
 
 	//send alerts of completion
 	to_chat(master, span_danger("You have turned [vassal_owner.current] into your [vassaldatum.name]! They will no longer be deconverted upon mindshielding!"))
-	to_chat(vassal_owner, span_notice("As blood drips over your body, you feel closer to your master... you are now the [vassaldatum.name] Vassal!"))
-	vassal_owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)
+	to_chat(vassal_owner, span_notice("As blood drips over your body, you feel closer to your master... you are now the [vassaldatum.name]!"))
+	vassal_owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)

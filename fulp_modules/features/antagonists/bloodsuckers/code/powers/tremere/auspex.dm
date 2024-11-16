@@ -99,8 +99,8 @@
 	auspex_blink(user, targeted_turf)
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/auspex/proc/auspex_blink(mob/living/user, turf/targeted_turf)
-	playsound(user, 'sound/magic/summon_karp.ogg', 60)
-	playsound(targeted_turf, 'sound/magic/summon_karp.ogg', 60)
+	playsound(user, 'sound/effects/magic/summon_karp.ogg', 60)
+	playsound(targeted_turf, 'sound/effects/magic/summon_karp.ogg', 60)
 
 	new /obj/effect/particle_effect/fluid/smoke/vampsmoke(user.drop_location())
 	new /obj/effect/particle_effect/fluid/smoke/vampsmoke(targeted_turf)
