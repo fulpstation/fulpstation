@@ -1,13 +1,20 @@
 /**
  * Gives Bloodsuckers the ability to choose a Clan.
+ *
  * If they are already in a Clan (or in a Frenzy), they will not be able to do so.
+ *
  * The arguement 'person_selecting' defaults to the clan owner when not set. It should only be set when the
  * function is called by an admin assigning the clan— 'admin_selecting' should also be TRUE in that case.
+ *
  * For regular players the clan is selected through a radial menu over the player's body.
- * Admins get to select this through a tgui input list just in case the radial menu somehow causes a bug.
+ *
+ * Admins get to select this through a tgui input list in case either the radial menu is bugged or
+ * they aren't within viewing range of the player's body (in which case the radial menu wouldn't
+ * work).
+ *
  * Args:
- * person_selecting - Mob override for stuff like Admins selecting someone's clan.
- * admin_selecting - Set to TRUE if an admin is using this proc to select a clan for someone.
+ * * person_selecting - Mob override for stuff like Admins selecting someone's clan.
+ * * admin_selecting - Set to TRUE if an admin is using this proc to select a clan for someone.
  */
 /datum/antagonist/bloodsucker/proc/assign_clan_and_bane(mob/person_selecting, admin_selecting = FALSE)
 	if(my_clan)
