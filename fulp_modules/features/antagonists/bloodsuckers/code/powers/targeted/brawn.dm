@@ -5,7 +5,7 @@
 	power_explanation = "Brawn:\n\
 		Click a person to bash into them. Use while restrained or grabbed to break restraints or knock your grabber down. Only one of these can be done per use.\n\
 		Punching a cyborg will heavily EMP them in addition to dealing damage.\n\
-		At level 3, this ability will break closets open. Additionally you may both break restraints <i>and</i> knock a grabber down in the same use.\n\
+		At level 3, this ability will break closets open. Additionally you may both break restraints and knock a grabber down in the same use.\n\
 		At level 4, this ability wlil bash airlocks open as long as they aren't bolted.\n\
 		Higher levels will increase this ability's damage and knockdown."
 	power_flags = BP_AM_TOGGLE

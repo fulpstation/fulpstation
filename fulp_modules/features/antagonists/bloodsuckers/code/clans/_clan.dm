@@ -207,9 +207,6 @@
 	if(bloodsuckerdatum.bloodsucker_level == 4)
 		bloodsuckerdatum.SelectReputation(am_fledgling = FALSE, forced = TRUE)
 
-	// Lose humanity if Brujah
-	if(istype(src, /datum/bloodsucker_clan/brujah))
-		source.AddHumanityLost(5) //Increases frenzy threshold by fifty
 
 	to_chat(bloodsuckerdatum.owner.current, span_notice("You are now a rank [bloodsuckerdatum.bloodsucker_level] Bloodsucker. \
 		Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased! \n\

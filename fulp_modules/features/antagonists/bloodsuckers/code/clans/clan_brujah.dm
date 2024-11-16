@@ -38,6 +38,10 @@
 	else
 		return ..()
 
+/datum/bloodsucker_clan/brujah/finalize_spend_rank(datum/antagonist/bloodsucker/source, cost_rank, blood_cost)
+	. = ..()
+	source.AddHumanityLost(5) //Increases frenzy threshold by fifty
+
 ///Raise the damage of both of their hands by four. Copied from 'finalize_spend_rank()' in '_clan.dm'
 /datum/bloodsucker_clan/brujah/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
 	. = ..()
