@@ -4,7 +4,7 @@
 
 
 // Actual item, the boxing gloves
-/obj/item/clothintg/gloves/boxing/evil/mike
+/obj/item/clothing/gloves/boxing/evil/mike
 	name = "Champion's boxing gloves"
 	desc = "The top choice for brawlers across the sector. Their interior is lined with neuronal clamps and shunts,\
 			designed to boost the wearer's strength and grant them extensive boxing knowledge. Made of real leather!"
