@@ -3,7 +3,7 @@
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
 	hijack_speed = 1
-	hud_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE
@@ -116,7 +116,7 @@
 	antagpanel_category = "Infiltrator"
 	job_rank = ROLE_INFILTRATOR
 	hijack_speed = 1
-	hud_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"
 	show_name_in_check_antagonists = TRUE
 	show_to_ghosts = TRUE

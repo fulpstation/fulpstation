@@ -1,7 +1,7 @@
 /mob/living/basic/red_rabbit
 	name = "jabberwocky"
 	desc = "Servant of the moon."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/red_rabbit.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/red_rabbit.dmi'
 	icon_state = "red_rabbit"
 
 	health = 500

@@ -19,7 +19,7 @@
 
 /area/station/science/nanite
 	name = "Nanite Lab"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "nanite_lab"
 
 /area/station/service/lawoffice/upper
@@ -27,37 +27,37 @@
 
 /area/station/ai_monitored/turret_protected/aisat/solars
 	name = "\improper AI Satellite Solars"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "ai_solars"
 
 /area/station/solars/ai
 	name = "\improper AI Satellite Solar Array"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "ai_panels"
 
 /area/station/maintenance/department/medical/plasmaman
 	name = "\improper Plasmaman Medbay"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "pm_medbay"
 
 /area/station/security/brig/hallway
 	name = "\improper Brig Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "brig_hallway"
 
 /area/station/security/prison/safe/exterior
 	name = "\improper Prison Exterior"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "prison_ext_safe"
 
 /area/station/hallway/secondary/entry/upper
 	name = "\improper Upper Arrival Shuttle Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "upper_entry"
 
 /area/station/hallway/secondary/entry/lower
 	name = "\improper Lower Arrival Shuttle Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "lower_entry"
 
 /area/station/maintenance/department/security/dungeon
@@ -86,7 +86,7 @@
 
 /area/ruin/space/has_grav/powered/beef
 	name = "beef station"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 

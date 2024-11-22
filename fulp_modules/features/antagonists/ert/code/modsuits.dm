@@ -1,5 +1,5 @@
-#define FULP_MOD_ICON_ERT 'fulp_modules/features/antagonists/ert/icons/modsuit.dmi'
-#define FULP_MOD_ICON_WORN_ERT 'fulp_modules/features/antagonists/ert/icons/modsuit_worn.dmi'
+#define FULP_MOD_ICON_ERT 'fulp_modules/icons/antagonists/ert/modsuit.dmi'
+#define FULP_MOD_ICON_WORN_ERT 'fulp_modules/icons/antagonists/ert/modsuit_worn.dmi'
 
 /obj/item/mod/control/pre_equipped/fulp/ert
 	applied_cell = /obj/item/stock_parts/power_store/cell/hyper
