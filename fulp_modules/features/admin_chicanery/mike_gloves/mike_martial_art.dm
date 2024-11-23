@@ -1,63 +1,49 @@
 #define MARTIALART_MIKE_BOXING "mike_boxing"
-#define MIKE_BOXING_TRAIT "mike_boxing"
 #define EAR_STRIKE "ear_strike"
 
-
-// Actual item, the boxing gloves
-/obj/item/clothing/gloves/boxing/evil/mike
-	name = "Champion's boxing gloves"
-	desc = "The top choice for brawlers across the sector. Their interior is lined with neuronal clamps and shunts,\
-			designed to boost the wearer's strength and grant them extensive boxing knowledge. Made of real leather!"
-	greyscale_colors = "#a6171e"
-	style_to_give = /datum/martial_art/boxing/evil/mike
-
-/obj/item/clothing/gloves/boxing/evil/mike/examine_more(mob/user)
-	. = ..()
-	. += span_notice("The tag does say it's leather, but it also says they genuinely belonged to an \
-					  earth boxer from two centuries ago, so it's probably just neoprene.")
-
-/obj/item/clothing/gloves/boxing/evil/mike/Initialize(mapload)
-	. = ..()
-
-	RegisterSignal(src, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(add_effects))
-	ADD_TRAIT(src, TRAIT_NODROP, MIKE_BOXING_TRAIT)
-
-/obj/item/clothing/gloves/boxing/evil/mike/proc/add_effects(obj/item/source, mob/living/user, slot)
-	SIGNAL_HANDLER
-
-	if(slot & ITEM_SLOT_GLOVES)
-		to_chat(user, span_warning("Knowledge about the art of boxing surges through your mind!"))
-		user.mind?.set_level(/datum/skill/athletics, SKILL_LEVEL_LEGENDARY)
-
-
 // The martial art granted to us by the gloves
-/datum/martial_art/boxing/evil/mike
+/datum/martial_art/boxing/mike
 	name = "Mike Boxing"
 	id = MARTIALART_MIKE_BOXING
+	honorable_boxer = FALSE
 	VAR_PRIVATE/datum/action/ear_strike/earstrike
 
-/datum/martial_art/boxing/evil/mike/New()
+/datum/martial_art/boxing/mike/New()
 	. = ..()
 	earstrike = new(src)
 
-/datum/martial_art/boxing/evil/mike/Destroy()
+/datum/martial_art/boxing/mike/Destroy()
 	earstrike = null
 	return ..()
 
-/datum/martial_art/boxing/evil/mike/on_teach(mob/living/new_holder)
+/datum/martial_art/boxing/mike/on_teach(mob/living/new_holder)
 	. = ..()
 	to_chat(new_holder, span_userdanger("You're ready to crack some heads!"))
 	earstrike.Grant(new_holder)
 
-/datum/martial_art/boxing/evil/mike/harm_act(mob/living/attacker, mob/living/defender)
+/datum/martial_art/boxing/mike/harm_act(mob/living/attacker, mob/living/defender)
 	if(streak == EAR_STRIKE)
 		streak = ""
 		ear_strike(attacker, defender)
 		return MARTIAL_ATTACK_SUCCESS
 	..()
 
+/datum/martial_art/boxing/mike/crit_effect(mob/living/attacker, mob/living/defender, armor_block, damage_type, damage)
+	for (var/obj/item/implant in defender.implants)
+		if(istype(implant, /obj/item/implant/sad_trombone/knockout_bell))
+			return ..()
+
+	var/obj/item/implant/sad_trombone/knockout_bell/knockout = new
+	if(knockout.can_be_implanted_in(defender))
+		knockout.implant(defender, silent = TRUE)
+	else
+		qdel(knockout)
+
+	return ..()
+
+
 // The Attack
-/datum/martial_art/boxing/evil/mike/proc/ear_strike(mob/living/attacker, mob/living/defender)
+/datum/martial_art/boxing/mike/proc/ear_strike(mob/living/attacker, mob/living/defender)
 	if(HAS_TRAIT(attacker, TRAIT_PACIFISM))
 		return MARTIAL_ATTACK_INVALID
 
