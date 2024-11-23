@@ -13,7 +13,7 @@
 	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Vassal. Enthralled by your vampiric master, you must (with few exceptions,) obey their instructions above all else.",
+		"You are a Vassal. Enthralled by your vampiric master, you must obey their instructions above all else.",
 		"You have the ability to Recuperate, allowing you to heal at the cost of your blood, your master's blood, and some of your stamina.",
 		"Fear mindshield implants! You will get deconverted if you get mindshielded, resist them at all costs!",
 		"Help ensure your master is safe from daylight! Solar flares will bombard the station periodically, and if your master is exposed, they will burn alive.",
