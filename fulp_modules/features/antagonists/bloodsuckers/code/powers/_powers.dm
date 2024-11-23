@@ -143,9 +143,9 @@
 	// Check for power flags first
 	if(!power_flags)
 		return
-	if(BP_AM_STATIC_COOLDOWN)
+	if(power_flags & BP_AM_STATIC_COOLDOWN)
 		cooldown_time = initial(cooldown_time)
-	if(!BP_AM_VERY_DYNAMIC_COOLDOWN) // If this is TRUE then 'cooldown_time' doesn't need to be altered.
+	if(power_flags & !BP_AM_VERY_DYNAMIC_COOLDOWN) // If this is TRUE then 'cooldown_time' doesn't need to be altered.
 		// Calculate Cooldown (by power's level)
 		// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 		cooldown_time = max(initial(cooldown_time) / 2, initial(cooldown_time) - (initial(cooldown_time) / 16 * (level_current-1)))

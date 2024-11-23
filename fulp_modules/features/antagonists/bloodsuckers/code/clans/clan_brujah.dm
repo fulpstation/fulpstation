@@ -14,7 +14,7 @@
 
 /datum/bloodsucker_clan/brujah/New(datum/antagonist/bloodsucker/owner_datum)
 	. = ..()
-	owner_datum.special_vassals.Cut() //Removes Discordant Vassal, which is in the list by default.
+	owner_datum.special_vassals -= DISCORDANT_VASSAL //Removes Discordant Vassal, which is in the list by default.
 	owner_datum.break_masquerade()
 	owner_datum.AddHumanityLost(37.5) // Frenzy at 400
 	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
