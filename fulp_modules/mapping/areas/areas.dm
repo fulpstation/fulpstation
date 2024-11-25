@@ -78,6 +78,9 @@
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 	ambience_index = AMBIENCE_DANGER
 
+/area/station/maintenance/department/cargo/mining
+	name = "\improper Mining Maintenance"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
