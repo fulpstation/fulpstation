@@ -256,7 +256,7 @@
 /obj/item/gun/magic/wand/directable_cat_meteor/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/scope/magic)
-	register_context()
+	register_item_context()
 
 /obj/item/gun/magic/wand/directable_cat_meteor/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
 	. = ..()
@@ -303,7 +303,11 @@
 	armour_penetration = 100
 
 	var/matrix/size = matrix() //Used for adjusting cateor size
-	var/resize_count = 1.5
+
+/obj/projectile/directed_cateor/Initialize(mapload)
+	. = ..()
+	size.Scale(1.5,1.5)
+	src.transform = size
 
 /obj/projectile/directed_cateor/Move()
 	. = ..()

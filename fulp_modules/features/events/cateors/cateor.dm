@@ -27,17 +27,19 @@
 	light_range = 2.5
 	light_power = 0.625
 
-	var/matrix/size = matrix() //Used for adjusting cateor size
-	var/resize_count = 1.5 //Used in one instance of size adjustment— not really that important.
+	/// Used for adjusting cateor size
+	var/matrix/size = matrix()
+	/// Used in one instance of size adjustment— not really that important.
+	var/resize_count = 1.5
 
-//Transform code taken directly from Dream Maker Reference on "transform."
-//Surely this won't cause any annoying visual bugs!
+/// Transform code taken directly from Dream Maker Reference on "transform."
+/// Surely this won't cause any annoying visual bugs!
 /obj/effect/meteor/cateor/Initialize(mapload, turf/target)
 	. = ..()
 	size.Scale(1.5,1.5)
 	src.transform = size
 
-//Do nothing because this meteor should only "get hit" when it hits a living thing
+/// Do nothing because this meteor should only "get hit" when it hits a living thing
 /obj/effect/meteor/cateor/get_hit()
 	return
 
@@ -53,7 +55,16 @@
 	to_chat(thing_that_touched_the_cateor, span_hypnophrase("How cuwious... CUWIOUS LIKE A-"))
 	Bump(thing_that_touched_the_cateor)
 
+/// Called 1.25 decisecond after a cateor calls 'Bump()' on a target.
+/// Global because cateors will be deleted by the time this is called, so it can't be a proc belonging
+/// to cateors themselves.
+/proc/cateor_hit_effects(mob/living/target)
+	target.extinguish() //Just in case it lit them on fire...
+	new /obj/effect/temp_visual/cateor_hit(get_turf(target))
+
 /obj/effect/meteor/cateor/Bump(mob/living/M)
+	//Callback after one second to account for the possibility of explosion moving the target.
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), M), 1.25)
 	if(istype(M, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
 		var/obj/effect/meteor/cateor/cateor_impacted = M
 		cateor_impacted.resize_count += resize_count
@@ -76,10 +87,10 @@
 
 	if(istype(M, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
 		var/mob/living/carbon/humanoid = M
-		if(istype (humanoid, /mob/living/carbon/human/species/felinid)) //Felinds get briefly stunned
-			purrbation_apply(humanoid, TRUE)
-			humanoid.Paralyze(3 SECONDS)
-			humanoid.Knockdown(6 SECONDS)
+		if(isfelinid(M)) //Felinids just get stunned
+			humanoid.emote("spin")
+			humanoid.Paralyze(10 SECONDS)
+			humanoid.Knockdown(15 SECONDS)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 25)
 			to_chat(humanoid, (span_hypnophrase("The overwhelming smell of catnip permeates the air...")))
 			qdel(src)
@@ -97,33 +108,9 @@
 
 		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))
 
-		/*
-		* Cateors have a tendency to cause severe brain damage and/or trauma on impact with humanoids.
-		* This is not intentional, and I'm not sure what exactly is causing it (could be the explosion.)
-		* For now we'll just heal their brain a fair bit on impact and cure their minor/moderate traumas.
-		* If there's a way to prevent this in the first place then by all means please simplify or remove
-		* all of the brain healing code past this point.
-		*/
-
-		humanoid.setOrganLoss(ORGAN_SLOT_BRAIN, M.get_organ_loss(ORGAN_SLOT_BRAIN) - 175)
-
-		if(GLOB.curse_of_madness_triggered)
-			return
-
-		var/obj/item/organ/internal/brain/humanoid_brain = humanoid.get_organ_slot(ORGAN_SLOT_BRAIN)
-		var/list/brain_traumas = humanoid_brain.get_traumas_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
-		if(!brain_traumas)
-			return
-
-		for(var/datum/brain_trauma in brain_traumas)
-			if(istype(brain_trauma, /datum/brain_trauma/special)) //Definitely don't want to cure these...
-				continue
-			else
-				humanoid.cure_trauma_type(brain_trauma, TRAUMA_RESILIENCE_LOBOTOMY)
-
 	if(istype(M, /mob/living/basic) || istype(M, /mob/living/simple_animal)) //Simple/basic mobs get turned into a cat
 		if(istype(M, /mob/living/basic/pet/cat)) //If it's already a cat then just make it larger
-			M.update_transform(2)
+			M.update_transform(1.25)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50)
 			qdel(src)
 			return
@@ -164,3 +151,25 @@
 	qdel(src)
 
 #undef DEFAULT_METEOR_LIFETIME
+
+
+/obj/effect/temp_visual/cateor_hit
+	icon = 'fulp_modules/features/events/icons/event_icons.dmi'
+	icon_state = "cateor_hit_effect"
+	layer = MOB_UPPER_LAYER
+	plane = GAME_PLANE
+	light_range = 2
+	light_color = "#F0415F"
+	duration = 3 SECONDS
+	alpha = 223.125
+
+	/// Used for adjusting visual size
+	var/matrix/size = matrix()
+
+/obj/effect/temp_visual/cateor_hit/Initialize(mapload)
+	. = ..()
+	size.Scale(1.75,1.75)
+	src.transform = size
+
+	//Taken directly from Dream Maker Reference on 'animate()' with minor adjustment.
+	animate(src, transform = matrix()*3.625, alpha = 0, time = 30)
