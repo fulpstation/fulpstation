@@ -63,7 +63,7 @@
 	new /obj/effect/temp_visual/cateor_hit(get_turf(target))
 
 /obj/effect/meteor/cateor/Bump(mob/living/M)
-	//Callback after one second to account for the possibility of explosion moving the target.
+	//Callback after 1.25 deciseconds to account for the possibility of explosion moving the target.
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), M), 1.25)
 	if(istype(M, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
 		var/obj/effect/meteor/cateor/cateor_impacted = M
