@@ -17,6 +17,7 @@
 	attack_sound = 'fulp_modules/features/events/thanksgiving/turkey.ogg'
 	chat_color = "#FFDC9B"
 	butcher_results = list(/obj/item/food/meat/slab/chicken/turkey = 2)
+	icon_sit = "turkey_plain"
 
 /mob/living/basic/parrot/headsetted/turkey/Initialize(mapload)
 	. = ..()
