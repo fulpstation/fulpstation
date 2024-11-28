@@ -14,7 +14,7 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "pecks"
 	attack_verb_simple = "peck"
-	//attack_sound = 'fulp_modules/sounds/misc/turkey.ogg'
+	//attack_sound = 'fulp_modules/features/events/thanksgiving/turkey.ogg'
 	chat_color = "#FFDC9B"
 	butcher_results = list(/obj/item/food/meat/slab/chicken/turkey = 2)
 
@@ -28,6 +28,14 @@
 	name = "turkey meat"
 	icon_state = "birdmeat"
 	desc = "A slab of raw turkey. Remember to wash your hands!"
-	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 6, /datum/reagent/inverse/healing/tirimol = 5, /datum/reagent/consumable/nutriment = 30)
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 6, /datum/reagent/inverse/healing/tirimol = 5, /datum/reagent/consumable/nutriment = 30) //sleepy and fat
 	tastes = list("turkey" = 1)
 	starting_reagent_purity = 1
+
+
+
+
+// Turkey sprite and 'turkey.ogg' ported from Beestation.
+// Link to source repository/pull request for ported feature:
+// https://github.com/BeeStation/BeeStation-Hornet/pull/851
+// Original PR authored by GitHub user "MarkSuckerberg"
