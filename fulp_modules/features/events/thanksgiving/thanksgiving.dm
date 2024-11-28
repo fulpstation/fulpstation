@@ -14,7 +14,7 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "pecks"
 	attack_verb_simple = "peck"
-	//attack_sound = 'fulp_modules/features/events/thanksgiving/turkey.ogg'
+	attack_sound = 'fulp_modules/features/events/thanksgiving/turkey.ogg'
 	chat_color = "#FFDC9B"
 	butcher_results = list(/obj/item/food/meat/slab/chicken/turkey = 2)
 
@@ -22,7 +22,6 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 	AddElementTrait(TRAIT_WADDLING, INNATE_TRAIT, /datum/element/waddling)
-	AddElement(/datum/element/ai_retaliate)
 
 /obj/item/food/meat/slab/chicken/turkey
 	name = "turkey meat"
@@ -31,6 +30,22 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 6, /datum/reagent/inverse/healing/tirimol = 5, /datum/reagent/consumable/nutriment = 30) //sleepy and fat
 	tastes = list("turkey" = 1)
 	starting_reagent_purity = 1
+
+/obj/item/food/meat/slab/chicken/turkey/make_processable()
+	AddElement(/datum/element/processable, TOOL_KNIFE, /obj/item/food/meat/rawcutlet/chicken/turkey, 3, 3 SECONDS, table_required = TRUE, screentip_verb = "Cut")
+
+/obj/item/food/meat/slab/chicken/make_grillable()
+	AddComponent(/datum/component/grillable, /obj/item/food/meat/steak/chicken/turkey, rand(30 SECONDS, 90 SECONDS), TRUE, TRUE) //Add medium rare later maybe? (no this is chicken)
+
+/obj/item/food/meat/rawcutlet/chicken/turkey
+	name = "raw turkey cutlet"
+	tastes = list("turkey" = 1)
+
+/obj/item/food/meat/steak/chicken/turkey
+	name = "turkey steak"
+	icon_state = "birdsteak"
+	tastes = list("turkey" = 1)
+
 
 
 // Turkey sprite and 'turkey.ogg' ported from Beestation.
