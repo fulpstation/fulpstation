@@ -14,7 +14,7 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "pecks"
 	attack_verb_simple = "peck"
-	attack_sound = 'fulp_modules/sounds/misc/turkey.ogg'
+	//attack_sound = 'fulp_modules/sounds/misc/turkey.ogg'
 	chat_color = "#FFDC9B"
 	butcher_results = list(/obj/item/food/meat/slab/chicken/turkey = 1)
 
