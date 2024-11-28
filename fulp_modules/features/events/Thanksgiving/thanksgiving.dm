@@ -33,7 +33,6 @@
 	starting_reagent_purity = 1
 
 
-
 // Turkey sprite and 'turkey.ogg' ported from Beestation.
 // Link to source repository/pull request for ported feature:
 // https://github.com/BeeStation/BeeStation-Hornet/pull/851
