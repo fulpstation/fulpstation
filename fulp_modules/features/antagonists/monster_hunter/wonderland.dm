@@ -38,13 +38,13 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 /obj/structure/chess/redqueen
 	name = "\improper Red Queen"
 	desc = "What is <i>she</i> doing here?"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
 	icon_state = "red_queen"
 
 /obj/structure/blood_fountain
 	name = "blood fountain"
 	desc = "A huge resevoir of thickened blood, perhaps drinking from it would restore some vigor..."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/blood_fountain.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/blood_fountain.dmi'
 	icon_state = "blood_fountain"
 	plane = ABOVE_GAME_PLANE
 	anchored = TRUE
@@ -69,7 +69,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 /obj/item/blood_vial
 	name = "blood vial"
 	desc = "A blue vial emanating what little vitality it cannot contain."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	icon_state = "blood_vial_empty"
 	inhand_icon_state = "beaker"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
@@ -136,7 +136,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 /atom/movable/screen/alert/status_effect/cursed_blood
 	name = "Abnormal Analeptic"
 	desc = "Something unusual is motivating your physiology..."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/status_effects.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/status_effects.dmi'
 	icon_state = "blood_vial"
 
 /datum/status_effect/cursed_blood/on_apply()

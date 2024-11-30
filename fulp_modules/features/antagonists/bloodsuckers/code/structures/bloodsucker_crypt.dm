@@ -99,7 +99,7 @@
 /obj/structure/bloodsucker/vassalrack
 	name = "persuasion rack"
 	desc = "This is clearly either meant for torture or correcting spinal injuries." //TODO: Make persuasion racks actually correct torso bone wounds
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "vassalrack"
 	anchored = FALSE
 	density = TRUE
@@ -408,7 +408,7 @@
 
 /obj/structure/bloodsucker/lighting
 	name = "NONDESCRIPT BLOODSUCKER LIGHTING FIXTURE THAT SHOULDN'T EXIST"
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	light_color = "#66FFFF"//LIGHT_COLOR_BLUEGREEN // lighting.dm
 	light_power = 1
 	light_range = 0
@@ -539,7 +539,7 @@
 /obj/structure/bloodsucker/bloodthrone
 	name = "wicked throne"
 	desc = "Twisted metal shards jut from the arm rests, making it appear very uncomfortable. Still, it might sell well at an antique shop."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj_64.dmi'
 	icon_state = "throne"
 	buckle_lying = 0
 	anchored = FALSE
@@ -557,7 +557,7 @@
 /obj/structure/bloodsucker/bloodthrone/Initialize()
 	AddComponent(/datum/component/simple_rotation)
 	if(!armrest)
-		armrest = mutable_appearance('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj_64.dmi', "thronearm")
+		armrest = mutable_appearance('fulp_modules/icons/antagonists/bloodsuckers/vamp_obj_64.dmi', "thronearm")
 		armrest.layer = ABOVE_MOB_LAYER
 	return ..()
 
@@ -645,7 +645,7 @@
 /obj/item/wallframe/blood_mirror
 	name = "scarlet mirror"
 	desc = "A pool of stilled blood kept secure between unanchored glass and silver. Attach it to a wall to use."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_mirror"
 	custom_materials = list(
 		/datum/material/glass = SHEET_MATERIAL_AMOUNT,
@@ -691,7 +691,7 @@
 /obj/structure/bloodsucker/mirror
 	name = "scarlet mirror"
 	desc = "It bleeds with visions of a world rendered in red."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_mirror"
 	movement_type = FLOATING
 	density = FALSE
@@ -727,7 +727,7 @@
 
 /obj/structure/bloodsucker/mirror/Initialize(mapload)
 	. = ..()
-	var/static/list/reflection_filter = alpha_mask_filter(icon = icon('fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi', "blood_mirror_mask"))
+	var/static/list/reflection_filter = alpha_mask_filter(icon = icon('fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi', "blood_mirror_mask"))
 	var/static/matrix/reflection_matrix = matrix(0.75, 0, 0, 0, 0.75, 0)
 	var/datum/callback/can_reflect = CALLBACK(src, PROC_REF(can_reflect))
 	var/list/update_signals = list(COMSIG_ATOM_BREAK)

@@ -100,11 +100,11 @@
 /obj/item/stake
 	name = "wooden stake"
 	desc = "A simple wooden stake carved to a sharp point."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/stakes.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/stakes.dmi'
 	icon_state = "wood"
 	inhand_icon_state = "wood"
-	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_rightinhand.dmi'
 	slot_flags = ITEM_SLOT_POCKETS
 	w_class = WEIGHT_CLASS_SMALL
 	hitsound = 'sound/items/weapons/bladeslice.ogg'
@@ -224,9 +224,9 @@
 	name = "\improper Archive of the Kindred"
 	starting_title = "the Archive of the Kindred"
 	desc = "Cryptic documents explaining the hidden truths of undead beings. It is said only Curators can decipher what they really mean."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
-	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_rightinhand.dmi'
 	icon_state = "kindred_book"
 	starting_author = "dozens of generations of Curators"
 	unique = TRUE

@@ -1,6 +1,6 @@
 /obj/effect/rabbit_hole
 	name = "Rabbit Hole"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
 	icon_state = "hole_effect"
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE
