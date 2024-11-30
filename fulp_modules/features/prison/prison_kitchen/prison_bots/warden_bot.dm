@@ -69,7 +69,7 @@
 
 /datum/customer_data/warden/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
-	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "warden_italian")
+	var/mutable_appearance/warden_clothes = mutable_appearance(icon = 'fulp_modules/icons/prison/bots.dmi', icon_state = "warden_italian")
 	warden_clothes.appearance_flags = RESET_COLOR
 	underlays += warden_clothes
 	return underlays

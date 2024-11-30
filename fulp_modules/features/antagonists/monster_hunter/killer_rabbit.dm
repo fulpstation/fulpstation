@@ -4,7 +4,7 @@
 /mob/living/basic/killer_rabbit
 	name = "killer baby rabbit"
 	desc = "A cute little rabbit, surely its harmless... right?"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
 	icon_state = "killer_rabbit"
 	maxHealth = 5
 	melee_damage_lower = 5

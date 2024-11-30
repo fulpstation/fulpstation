@@ -112,7 +112,7 @@
 /obj/item/infil_uplink
 	name = "\improper Corporate Uplink"
 	desc = "What a beautiful looking radio"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "infiltrator_uplink"
 	w_class = WEIGHT_CLASS_SMALL
 	///current category we viewing on the ui
@@ -221,7 +221,7 @@
 			terrorism.completed = TRUE
 			cut_overlay("uplink_seeking")
 			add_overlay("uplink_found")
-			playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+			playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 
 			connected = TRUE
 

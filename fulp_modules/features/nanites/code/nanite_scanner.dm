@@ -1,6 +1,6 @@
 /obj/item/nanite_scanner
 	name = "nanite scanner"
-	icon = 'fulp_modules/features/nanites/icons/nanite_device.dmi'
+	icon = 'fulp_modules/icons/nanites/nanite_device.dmi'
 	icon_state = "nanite_scanner"
 	worn_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'

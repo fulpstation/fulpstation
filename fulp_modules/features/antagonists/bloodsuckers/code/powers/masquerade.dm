@@ -89,7 +89,7 @@
 /atom/movable/screen/alert/status_effect/masquerade
 	name = "Masquerade"
 	desc = "You are currently hiding your true nature using the Masquerade power. This halts vampiric healing."
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
 	icon_state = "power_human"
 	alerttooltipstyle = "cult"
 

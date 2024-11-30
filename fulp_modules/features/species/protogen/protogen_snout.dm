@@ -26,7 +26,7 @@
 /datum/sprite_accessory/protogen
 
 /datum/sprite_accessory/protogen/snout
-	icon = 'fulp_modules/features/species/icons/mob/protogen_snouts.dmi'
+	icon = 'fulp_modules/icons/species/mob/protogen_snouts.dmi'
 	em_block = TRUE
 
 /datum/sprite_accessory/protogen/snout/regular

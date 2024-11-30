@@ -1,7 +1,7 @@
 /obj/machinery/nanite_programmer
 	name = "nanite programmer"
 	desc = "A device that can edit nanite program disks to adjust their functionality."
-	icon = 'fulp_modules/features/nanites/icons/nanite_machines.dmi'
+	icon = 'fulp_modules/icons/nanites/nanite_machines.dmi'
 	icon_state = "nanite_programmer"
 	use_power = IDLE_POWER_USE
 	anchored = TRUE
@@ -29,7 +29,7 @@
 		eject(user)
 	else
 		balloon_alert(user, "disk inserted")
-	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 	disk = weapon
 	program = disk.program
 

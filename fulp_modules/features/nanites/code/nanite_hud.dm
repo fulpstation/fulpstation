@@ -5,7 +5,7 @@
 	var/image/holder = hud_list[NANITE_HUD]
 	var/icon/I = icon(icon, icon_state, dir)
 	holder.pixel_y = I.Height() - world.icon_size
-	holder.icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
+	holder.icon = 'fulp_modules/icons/nanites/nanite_hud.dmi'
 	holder.icon_state = null
 	if(remove)
 		return //bye icon
@@ -21,5 +21,5 @@
 		return //bye icon
 	var/nanite_percent = (nanite_volume / max_nanites) * 100
 	nanite_percent = clamp(CEILING(nanite_percent, 10), 10, 100)
-	holder.icon = 'fulp_modules/features/nanites/icons/nanite_hud.dmi'
+	holder.icon = 'fulp_modules/icons/nanites/nanite_hud.dmi'
 	holder.icon_state = "nanites[nanite_percent]"

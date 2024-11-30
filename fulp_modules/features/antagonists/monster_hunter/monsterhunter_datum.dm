@@ -32,15 +32,13 @@
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
-	owner.unconvertable = TRUE
+	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_UNCONVERTABLE), HUNTER_TRAIT,)
 	current_mob.faction |= FACTION_RABBITS
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE), HUNTER_TRAIT)
-	owner.unconvertable = FALSE
+	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_UNCONVERTABLE), HUNTER_TRAIT)
 	current_mob.faction -= FACTION_RABBITS
 
 /datum/antagonist/monsterhunter/on_gain()
@@ -106,8 +104,8 @@
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
-	var/icon/white_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "white_rabbit")
-	var/icon/red_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "killer_rabbit")
+	var/icon/white_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
+	var/icon/red_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
 	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
 
 	var/icon/final_icon = hunter_icon
@@ -250,7 +248,7 @@
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"
-	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
+	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
 
 

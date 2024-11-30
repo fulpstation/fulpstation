@@ -3,9 +3,9 @@
 #define WEAPON_UPGRADE "weapon_upgrade"
 
 /obj/item/melee/trick_weapon
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
-	lefthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_lefthand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons_righthand.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/monster_hunter/weapons_lefthand.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/monster_hunter/weapons_righthand.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	///upgrade level of the weapon
 	var/upgrade_level = 0
@@ -58,7 +58,7 @@
 	light_on = FALSE
 	throwforce = 12
 	damtype = BURN
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	///ready to launch a beam attack?
@@ -139,8 +139,8 @@
 	light_power = 1
 	light_color = "#44acb1"
 	damage_type = BURN
-	hitsound = 'sound/weapons/sear.ogg'
-	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
+	hitsound = 'sound/items/weapons/sear.ogg'
+	hitsound_wall = 'sound/items/weapons/effects/searwall.ogg'
 
 
 
@@ -156,7 +156,7 @@
 	base_force = 18
 	throwforce = 12
 	reach = 1
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -184,7 +184,7 @@
 	balloon_alert(user, active ? "extended" : "collapsed")
 	inhand_icon_state = active ? "chain" : "threaded_cane"
 	if(active)
-		playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg',50)
+		playsound(src, 'sound/effects/magic/clockwork/fellowship_armory.ogg',50)
 	reach = active ? 2 : 1
 	enabled = active
 	force = active ? upgraded_val(on_force, upgrade_level) : upgraded_val(base_force, upgrade_level)
@@ -203,7 +203,7 @@
 	on_force = 25
 	throwforce = 12
 	reach = 1
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	damtype = BURN
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -237,7 +237,7 @@
 
 /obj/item/melee/trick_weapon/hunter_axe/update_icon_state()
 	icon_state = "[base_icon_state]0"
-	playsound(src,'sound/magic/clockwork/fellowship_armory.ogg',50)
+	playsound(src,'sound/effects/magic/clockwork/fellowship_armory.ogg',50)
 	return ..()
 
 /obj/item/melee/trick_weapon/hunter_axe/proc/on_wield(obj/item/source)
@@ -252,7 +252,7 @@
 	name = "Rabbit eye"
 	desc = "The bloodshot lenses of a lost rabbit."
 	icon_state = "rabbit_eye"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 
 /obj/item/rabbit_eye/examine(mob/user)
 	. = ..()
@@ -276,7 +276,7 @@
 	name = "\improper Hunter's Revolver"
 	desc = "A revolver delicately modified with some form of alchemical apparatus. It smells of rusted copper."
 	icon_state = "revolver"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
 	initial_caliber = CALIBER_BLOODSILVER
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -302,7 +302,7 @@
 	name = "Bloodsilver casing"
 	desc = "A Bloodsilver bullet casing."
 	icon_state = "bloodsilver"
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	projectile_type = /obj/projectile/bullet/bloodsilver
 	caliber = CALIBER_BLOODSILVER
 
@@ -331,7 +331,7 @@
 /atom/movable/screen/alert/status_effect/silver_bullet
 	name = "Cursed Blood"
 	desc = "Something foreign is flowing through you, stiffening your carcass to a standstill... "
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/status_effects.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/status_effects.dmi'
 	icon_state = "silver_bullet"
 
 /datum/status_effect/silver_bullet/on_apply()
@@ -395,7 +395,7 @@
 	if(!istype(held_item, /obj/item/rabbit_eye))
 		return
 	var/obj/item/melee/trick_weapon/weapon = identify_weapon()
-	if(weapon in source.loc.contents == FALSE)
+	if(!(weapon in source.loc.contents))
 		return
 	if(weapon.upgrade_level >= 3)
 		return
@@ -416,9 +416,9 @@
 /obj/item/clothing/mask/cursed_rabbit
 	name = "Damned Rabbit Mask"
 	desc = "An eerie visage covered with a light, almost reflective fur."
-	icon =  'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon =  'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	icon_state = "rabbit_mask"
-	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
+	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
 	worn_icon_state = "rabbit_mask"
 	clothing_flags = MASKINTERNALS
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
@@ -483,7 +483,7 @@
 /obj/item/rabbit_locator
 	name = "Accursed Red Queen card"
 	desc = "A card bearing the sinister face of an unknown monarch. It is otherwise unremarkable."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	icon_state = "locator"
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = INDESTRUCTIBLE
@@ -571,7 +571,7 @@
 	name = "jack in the bomb"
 	desc = "Best kids' toy"
 	w_class = WEIGHT_CLASS_SMALL
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	icon_state = "jack_in_the_bomb"
 	inhand_icon_state = "flashbang"
 	worn_icon_state = "grenade"
