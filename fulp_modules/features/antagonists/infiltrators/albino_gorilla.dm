@@ -1,6 +1,6 @@
 /mob/living/basic/gorilla/albino
 	name = "albino gorilla"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/gorilla.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/gorilla.dmi'
 	maxHealth = 170
 	health = 170
 
@@ -61,7 +61,7 @@
 	name = "Muddied Waters"
 	damage = 10
 	damage_type = BRUTE
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "trench_mud"
 
 
@@ -86,6 +86,6 @@
 	active_msg = "You dig the soil up."
 	deactive_msg = "You throw the mud."
 	projectile_type = /obj/projectile/mud
-	button_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	button_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	button_icon_state = "trench_mud"
 

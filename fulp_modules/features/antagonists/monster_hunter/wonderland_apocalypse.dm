@@ -60,7 +60,7 @@
 	desc = "A mostly one-way door leading to a magical, beautiful land."
 	armor_type = /datum/armor/wonderland_rift
 	max_integrity = 300
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "cyborg_rift"
 	anchored = TRUE
 	density = FALSE

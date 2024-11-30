@@ -219,10 +219,10 @@
 	desc = "Channel a locus of meteorized cat energy into the palm of your hand and direct it at a target. \n\
 	(<b>Right-click</b> to activate metamagical scope modifier.)"
 
-	button_icon = 'fulp_modules/features/events/icons/event_icons.dmi'
+	button_icon = 'fulp_modules/icons/events/event_icons.dmi'
 	button_icon_state = "cateor"
 
-	spell_requirements = SPELL_REQUIRES_WIZARD_GARB
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 60 SECONDS
 	cooldown_reduction_per_rank = 12 SECONDS
@@ -240,12 +240,12 @@
 	name = "directable cat meteor"
 	desc = "Mew Mew Mew."
 	fire_sound = 'fulp_modules/sounds/effects/ow-awuh.ogg'
-	icon = 'fulp_modules/features/spells/Icons/fulp_spell_icons.dmi'
+	icon = 'fulp_modules/icons/spells/fulp_spell_icons.dmi'
 	icon_state = "directable_cat_meteor"
 	inhand_icon_state = "directable_cat_meteor"
 	base_icon_state = "directable_cat_meteor"
-	lefthand_file = 'fulp_modules/features/spells/Icons/Inhands/fulp_spells_lefthand.dmi'
-	righthand_file = 'fulp_modules/features/spells/Icons/Inhands/fulp_spells_righthand.dmi'
+	lefthand_file = 'fulp_modules/icons/spells/Inhands/fulp_spells_lefthand.dmi'
+	righthand_file = 'fulp_modules/icons/spells/Inhands/fulp_spells_righthand.dmi'
 	slot_flags = null
 	item_flags = DROPDEL | ABSTRACT | NOBLUDGEON
 	flags_1 = NONE
@@ -288,7 +288,7 @@
 */
 /obj/projectile/directed_cateor
 	name = "directed high-velocity thaumaturgic cat energy"
-	icon = 'fulp_modules/features/events/icons/event_icons.dmi'
+	icon = 'fulp_modules/icons/events/event_icons.dmi'
 	icon_state = "cateor"
 	hitsound = NONE //Hitsound handled by Bump() code
 	pass_flags = PASSGLASS | PASSGRILLE | PASSBLOB | PASSCLOSEDTURF | PASSTABLE | PASSMACHINE | PASSSTRUCTURE | PASSDOORS | PASSVEHICLE | PASSFLAPS
@@ -323,7 +323,7 @@
 
 
 /atom/movable/screen/fullscreen/cursor_catcher/scope/magic //The subtype scope atom used for the directed cateor spell
-	icon = 'fulp_modules/features/spells/Icons/hud/fulp_spell_screen_full.dmi'
+	icon = 'fulp_modules/icons/spells/hud/fulp_spell_screen_full.dmi'
 	icon_state = "magic_scope"
 	range_modifier = 4
 

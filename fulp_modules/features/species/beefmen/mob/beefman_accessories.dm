@@ -1,5 +1,5 @@
 /datum/sprite_accessory/beef
-	icon = 'fulp_modules/features/species/icons/mob/beefman_bodyparts.dmi'
+	icon = 'fulp_modules/icons/species/mob/beefman_bodyparts.dmi'
 
 // Eyes //
 //Currently only used by mutantparts so don't worry about hair and stuff.

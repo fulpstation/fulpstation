@@ -7,7 +7,7 @@
 /obj/item/bodycam_upgrade
 	name = "\improper body camera"
 	desc = "A body camera device attachable to most outerwear. There's an instructions tag if you look a little closer..."
-	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
+	icon = 'fulp_modules/icons/clothing/bodycamera.dmi'
 	icon_state = "bodycamera"
 	///The camera itself, made when we need it and deleted on Destroy. Installed into the clothing item directly.
 	var/obj/machinery/camera/bodycamera/builtin_bodycamera
@@ -15,7 +15,7 @@
 	 * Sprites by: @Partheo from Yogstation, colors very, very slightly edited.
 	 * A static overlay put onto any clothing item that has the camera installed.
 	 */
-	var/static/mutable_appearance/equipped_overlay = mutable_appearance('fulp_modules/features/clothing/body_cameras/bodycamera_overlay.dmi', "bodycamera")
+	var/static/mutable_appearance/equipped_overlay = mutable_appearance('fulp_modules/icons/clothing/bodycamera_overlay.dmi', "bodycamera")
 
 /obj/item/bodycam_upgrade/examine_more(mob/user)
 	. = ..()

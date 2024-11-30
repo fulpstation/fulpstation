@@ -15,7 +15,7 @@
 /obj/effect/meteor/cateor
 	name = "high-velocity thaumaturgic cat energy"
 	desc = "Imbued with discordant harmony, it is truly a <i>cat</i>aclysmic sight to behold."
-	icon = 'fulp_modules/features/events/icons/event_icons.dmi'
+	icon = 'fulp_modules/icons/events/event_icons.dmi'
 	icon_state = "cateor"
 	//If there's a "PASSALLBUTMOBS" flag then please change this:
 	pass_flags = PASSGLASS | PASSGRILLE | PASSBLOB | PASSCLOSEDTURF | PASSTABLE | PASSMACHINE | PASSSTRUCTURE | PASSDOORS | PASSVEHICLE | PASSFLAPS
