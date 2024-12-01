@@ -331,8 +331,33 @@
 	icon_state = "magic_scope"
 	range_modifier = 4
 
+//////////////////////////////////////////////////////////////////////////////
+// Screentip-related code for the '/datum/component/scope/magic' component  //
+// was made by copying and slightly altering code from                      //
+// '/datum/component/customizable_reagent_holder'                           //
+//////////////////////////////////////////////////////////////////////////////
+
 /datum/component/scope/magic //The subtype scope component used for the directed cateor spell
 	range_modifier = 4
+
+/datum/component/scope/magic/Initialize(range_modifier, zoom_method, item_action_type)
+	. = ..()
+	if(!isobj(parent))
+		return COMPONENT_INCOMPATIBLE
+	var/obj/obj_parent = parent
+
+	obj_parent.obj_flags |= ITEM_HAS_CONTEXTUAL_SCREENTIPS
+
+/datum/component/scope/magic/RegisterWithParent()
+	. = ..()
+	RegisterSignal(parent, COMSIG_ITEM_REQUESTING_CONTEXT_FOR_TARGET, PROC_REF(add_item_context))
+
+
+/datum/component/scope/magic/proc/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
+	SIGNAL_HANDLER
+
+	context[SCREENTIP_CONTEXT_RMB] = "Toggle Scope"
+	return CONTEXTUAL_SCREENTIP_SET
 
 /*
 *'zoom()' and 'stop_zooming()' copied from parent under the assumption of necessity.
