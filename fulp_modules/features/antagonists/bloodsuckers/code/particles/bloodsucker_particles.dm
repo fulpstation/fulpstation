@@ -3,7 +3,7 @@
 //Brazier particle effect
 //Created using '/particles/bonfire' from 'code/game/objects/effects/particles/fire.dm' as a reference
 /particles/brazier
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "brazier_particle"
 	width = 32
 	height = 48

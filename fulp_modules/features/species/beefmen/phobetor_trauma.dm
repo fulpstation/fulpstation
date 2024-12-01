@@ -143,7 +143,7 @@
 /obj/effect/client_image_holder/phobetor
 	name = "phobetor tear"
 	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
-	image_icon = 'fulp_modules/features/species/icons/phobetor_tear.dmi'
+	image_icon = 'fulp_modules/icons/species/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
 	// Place this above shadows so it always glows.
 	image_layer = ABOVE_MOB_LAYER

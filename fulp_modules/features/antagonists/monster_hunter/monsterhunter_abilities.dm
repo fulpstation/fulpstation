@@ -93,7 +93,7 @@
 /datum/action/cooldown/spell/conjure_item/blood_silver
 	name = "Create bloodsilver bullet"
 	desc = "Withdraw your blood and mold it into a bloodsilver bullet"
-	button_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/weapons.dmi'
+	button_icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	button_icon_state = "bloodsilver"
 	cooldown_time = 2 MINUTES
 	item_type = /obj/item/ammo_casing/silver

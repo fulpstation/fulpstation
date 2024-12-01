@@ -72,7 +72,7 @@
 
 /datum/customer_data/head_of_sec/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
-	var/mutable_appearance/hos_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "hos_british")
+	var/mutable_appearance/hos_clothes = mutable_appearance(icon = 'fulp_modules/icons/prison/bots.dmi', icon_state = "hos_british")
 	hos_clothes.appearance_flags = RESET_COLOR
 	underlays += hos_clothes
 	return underlays

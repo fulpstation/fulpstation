@@ -19,7 +19,7 @@
 
 /area/station/science/nanite
 	name = "Nanite Lab"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "nanite_lab"
 
 /area/station/service/lawoffice/upper
@@ -27,37 +27,37 @@
 
 /area/station/ai_monitored/turret_protected/aisat/solars
 	name = "\improper AI Satellite Solars"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "ai_solars"
 
 /area/station/solars/ai
 	name = "\improper AI Satellite Solar Array"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "ai_panels"
 
 /area/station/maintenance/department/medical/plasmaman
 	name = "\improper Plasmaman Medbay"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "pm_medbay"
 
 /area/station/security/brig/hallway
 	name = "\improper Brig Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "brig_hallway"
 
 /area/station/security/prison/safe/exterior
 	name = "\improper Prison Exterior"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "prison_ext_safe"
 
 /area/station/hallway/secondary/entry/upper
 	name = "\improper Upper Arrival Shuttle Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "upper_entry"
 
 /area/station/hallway/secondary/entry/lower
 	name = "\improper Lower Arrival Shuttle Hallway"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "lower_entry"
 
 /area/station/maintenance/department/security/dungeon
@@ -78,6 +78,9 @@
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 	ambience_index = AMBIENCE_DANGER
 
+/area/station/maintenance/department/cargo/mining
+	name = "\improper Mining Maintenance"
+
 // Ruins
 
 /area/ruin/powered/beefcyto
@@ -86,7 +89,7 @@
 
 /area/ruin/space/has_grav/powered/beef
 	name = "beef station"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 
@@ -96,14 +99,14 @@
 
 /area/ruin/space/has_grav/disco_shrine
 	name = "disco shrine"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "disco_shrine"
 	base_lighting_alpha = 128
 	base_lighting_color = "#AA00FF"
 
 /area/ruin/space/has_grav/cateor_shrine
 	name = "cateor shrine"
-	icon = 'fulp_modules/mapping/areas/icons.dmi'
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "cateor_shrine"
 	base_lighting_alpha = 128
 	base_lighting_color = "#FF00D4"

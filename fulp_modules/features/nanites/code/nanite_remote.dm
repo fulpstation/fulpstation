@@ -9,7 +9,7 @@
 	desc = "A device that can remotely control active nanites through wireless signals."
 	w_class = WEIGHT_CLASS_SMALL
 	req_access = list(ACCESS_RESEARCH)
-	icon = 'fulp_modules/features/nanites/icons/nanite_device.dmi'
+	icon = 'fulp_modules/icons/nanites/nanite_device.dmi'
 	icon_state = "nanite_remote"
 	base_icon_state = "nanite_remote"
 	item_flags = NOBLUDGEON

@@ -124,7 +124,7 @@
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
-		var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
+		var/returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "bloodsucker")]"
 		returnString += "\n"
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
@@ -133,7 +133,7 @@
 			return FALSE
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[return_full_name()]</EM></span>\]"
-	var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
+	var/returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
 	//if (name_override != null)
