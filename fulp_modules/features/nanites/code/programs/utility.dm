@@ -315,7 +315,7 @@
 
 /datum/action/innate/nanite_button
 	name = "Button"
-	button_icon = 'fulp_modules/features/nanites/icons/nanite_actions.dmi'
+	button_icon = 'fulp_modules/icons/nanites/nanite_actions.dmi'
 	button_icon_state = "power_green"
 	check_flags = AB_CHECK_HANDS_BLOCKED|AB_CHECK_IMMOBILE|AB_CHECK_CONSCIOUS
 	var/datum/nanite_program/dermal_button/program

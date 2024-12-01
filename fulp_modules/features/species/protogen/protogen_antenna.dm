@@ -23,7 +23,7 @@
 
 //Sprites
 /datum/sprite_accessory/protogen/antennae
-	icon = 'fulp_modules/features/species/icons/mob/protogen_antennas.dmi'
+	icon = 'fulp_modules/icons/species/mob/protogen_antennas.dmi'
 
 /datum/sprite_accessory/protogen/antennae/default
 	name = "Default"

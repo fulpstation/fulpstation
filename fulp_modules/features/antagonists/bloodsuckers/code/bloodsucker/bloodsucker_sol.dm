@@ -108,9 +108,9 @@
 		if(DANGER_LEVEL_THIRD_WARNING)
 			owner.current.playsound_local(null, 'sound/effects/alert.ogg', 75, 1)
 		if(DANGER_LEVEL_SOL_ROSE)
-			owner.current.playsound_local(null, 'sound/ambience/ambimystery.ogg', 75, 1)
+			owner.current.playsound_local(null, 'sound/ambience/misc/ambimystery.ogg', 75, 1)
 		if(DANGER_LEVEL_SOL_ENDED)
-			owner.current.playsound_local(null, 'sound/misc/ghosty_wind.ogg', 90, 1)
+			owner.current.playsound_local(null, 'sound/music/antag/bloodcult/ghosty_wind.ogg', 90, 1)
 
 /**
  * # Torpor

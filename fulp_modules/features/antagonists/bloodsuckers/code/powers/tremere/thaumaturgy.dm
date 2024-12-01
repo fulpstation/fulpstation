@@ -118,7 +118,7 @@
 	magic_9ball.def_zone = ran_zone(user.zone_selected)
 	magic_9ball.preparePixelProjectile(target_atom, user)
 	INVOKE_ASYNC(magic_9ball, TYPE_PROC_REF(/obj/projectile, fire))
-	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	playsound(user, 'sound/effects/magic/wand_teleport.ogg', 60, TRUE)
 	power_activated_sucessfully()
 
 /**
@@ -169,10 +169,10 @@
 	name = "blood shield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_shield"
-	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_rightinhand.dmi'
 	block_chance = 75
 
 /obj/item/shield/bloodsucker/Initialize()

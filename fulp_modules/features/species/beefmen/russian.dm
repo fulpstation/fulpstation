@@ -9,7 +9,7 @@
 		"ski", "vok", "nik", "cyka", "ka", "kor", "yov", "suk", "grad",
 		"kov", "blyat", "vod", "ka",
 	)
-	icon = 'fulp_modules/features/species/icons/russian_language.dmi'
+	icon = 'fulp_modules/icons/species/russian_language.dmi'
 	icon_state = "commie"
 	default_priority = 90
 	flags = TONGUELESS_SPEECH
@@ -45,7 +45,7 @@
 /obj/item/organ/internal/tongue/beefman
 	name = "meaty tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."
-	icon = 'fulp_modules/features/species/icons/mob/beef_tongue.dmi'
+	icon = 'fulp_modules/icons/species/mob/beef_tongue.dmi'
 	icon_state = "beef_tongue"
 	say_mod = "gurgles"
 	taste_sensitivity = 15

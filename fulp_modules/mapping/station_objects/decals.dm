@@ -201,7 +201,7 @@
 //****
 
 /obj/effect/turf_decal/fulp
-	icon = 'fulp_modules/mapping/icons/mapping.dmi'
+	icon = 'fulp_modules/icons/mapping/mapping.dmi'
 	icon_state = "aft"
 
 /obj/effect/turf_decal/fulp/floor_directions/aft

@@ -6,12 +6,13 @@
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
 	sexes = FALSE
-	mutant_bodyparts = list(
-		"beef_color" = "#e73f4e",
-		"beef_eyes" = BEEF_EYES_OLIVES,
-		"beef_mouth" = BEEF_MOUTH_SMILE,
+	body_markings = list(
+		/datum/bodypart_overlay/simple/body_marking/beefman_eyes = BEEF_EYES_OLIVES,
+		/datum/bodypart_overlay/simple/body_marking/beefman_mouth = BEEF_MOUTH_SMILE,
 	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_FIXED_MUTANT_COLORS,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
 		TRAIT_RESISTCOLD,
@@ -19,7 +20,6 @@
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_MUTANT_COLORS,
 		TRAIT_AGENDER,
-		TRAIT_FIXED_HAIRCOLOR,
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
@@ -46,12 +46,6 @@
 
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
-	special_step_sounds = list(
-		'fulp_modules/features/species/sounds/footstep_splat1.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat2.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat3.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat4.ogg',
-	)
 
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
 	var/dehydrated = 0
@@ -66,7 +60,6 @@
 
 // Taken from Ethereal
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
-	. = ..()
 	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
 	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
@@ -74,6 +67,7 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
+	. = ..()
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
@@ -108,79 +102,6 @@
 		dehydrated++
 	return ..()
 
-/datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
-	..()
-	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
-	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
-	var/list/standing = list()
-
-	source.remove_overlay(BODY_BEHIND_LAYER)
-	source.remove_overlay(BODY_ADJ_LAYER)
-	source.remove_overlay(BODY_FRONT_LAYER)
-
-	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
-		return
-
-	var/obj/item/bodypart/head/noggin = source.get_bodypart(BODY_ZONE_HEAD)
-
-
-	if(mutant_bodyparts["ears"])
-		if(!source.dna.features["ears"] || source.dna.features["ears"] == "None" || source.head && (source.head.flags_inv & HIDEHAIR) || (source.wear_mask && (source.wear_mask.flags_inv & HIDEHAIR)) || !noggin || IS_ROBOTIC_LIMB(noggin))
-			bodyparts_to_add -= "ears"
-
-	if(!bodyparts_to_add)
-		return
-
-	var/g = (source.physique == FEMALE) ? "f" : "m"
-
-	for(var/layer in relevent_layers)
-		var/layertext = mutant_bodyparts_layertext(layer)
-
-		for(var/bodypart in bodyparts_to_add)
-			var/datum/sprite_accessory/accessory
-			switch(bodypart)
-				if("beef_eyes")
-					accessory = SSaccessories.eyes_beefman_list[source.dna.features["beef_eyes"]]
-				if("beef_mouth")
-					accessory = SSaccessories.mouths_beefman_list[source.dna.features["beef_mouth"]]
-
-			if(!accessory || accessory.icon_state == "none")
-				continue
-
-			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-
-			if(accessory.gender_specific)
-				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
-			else
-				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
-
-			if(accessory.em_block)
-				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, source, accessory_overlay.alpha)
-
-			if(accessory.center)
-				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-			standing += accessory_overlay
-
-			if(accessory.hasinner)
-				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-				if(accessory.gender_specific)
-					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
-				else
-					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
-
-				if(accessory.center)
-					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-				standing += inner_accessory_overlay
-
-		source.overlays_standing[layer] = standing.Copy()
-		standing = list()
-
-	source.apply_overlay(BODY_BEHIND_LAYER)
-	source.apply_overlay(BODY_ADJ_LAYER)
-	source.apply_overlay(BODY_FRONT_LAYER)
-
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
 	var/my_color = beefman.dna.features["beef_color"]
@@ -191,10 +112,6 @@
 /datum/species/beefman/get_features()
 	var/list/features = ..()
 	features += "feature_beef_color"
-	features += "feature_beef_eyes"
-	features += "feature_beef_mouth"
-	features += "feature_beef_trauma"
-
 	return features
 
 /mob/living/carbon/human/species/beefman

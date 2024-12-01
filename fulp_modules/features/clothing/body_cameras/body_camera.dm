@@ -18,7 +18,7 @@
  */
 /obj/item/bodycam_upgrade
 	name = "\improper body camera"
-	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
+	icon = 'fulp_modules/icons/clothing/bodycamera.dmi'
 	icon_state = "bodycamera"
 	desc = "An armor vest upgrade, there's an instructions tag if you look a little closer..."
 	///The camera itself.
@@ -53,14 +53,14 @@
 		builtin_bodycamera.c_tag = "-Body Camera: [(id_card.registered_name)] ([id_card.assignment])"
 	else
 		builtin_bodycamera.c_tag = "-Body Camera: [(user.name)]"
-	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	playsound(loc, 'sound/machines/beep/beep.ogg', get_clamped_volume(), TRUE, -1)
 	if(user)
 		user.balloon_alert(user, "bodycamera activated")
 
 /obj/item/bodycam_upgrade/proc/turn_off(mob/user)
 	if(user)
 		user.balloon_alert(user, "bodycamera deactivated")
-	playsound(loc, 'sound/machines/beep.ogg', get_clamped_volume(), TRUE, -1)
+	playsound(loc, 'sound/machines/beep/beep.ogg', get_clamped_volume(), TRUE, -1)
 	QDEL_NULL(builtin_bodycamera)
 
 
@@ -128,11 +128,11 @@
 	if(istype(item, /obj/item/bodycam_upgrade))
 		if(bodycamera_installed)
 			user.balloon_alert(user, "camera already installed!")
-			playsound(source, 'sound/machines/buzz-two.ogg', item.get_clamped_volume(), TRUE, -1)
+			playsound(source, 'sound/machines/buzz/buzz-two.ogg', item.get_clamped_volume(), TRUE, -1)
 		else
 			item.forceMove(source)
 			bodycamera_installed = item
-			playsound(source, 'sound/items/drill_use.ogg', item.get_clamped_volume(), TRUE, -1)
+			playsound(source, 'sound/items/tools/drill_use.ogg', item.get_clamped_volume(), TRUE, -1)
 			RegisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED, PROC_REF(on_parent_equipped))
 			if(user.get_item_by_slot(clothingtype_required) == parent)
 				turn_camera_on(user)
@@ -163,7 +163,7 @@
 		return
 	if(bodycamera_installed.is_on())
 		turn_camera_off(user)
-	playsound(source, 'sound/items/drill_use.ogg', tool.get_clamped_volume(), TRUE, -1)
+	playsound(source, 'sound/items/tools/drill_use.ogg', tool.get_clamped_volume(), TRUE, -1)
 	UnregisterSignal(parent, COMSIG_ITEM_POST_EQUIPPED)
 	bodycamera_installed.forceMove(user.loc)
 	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob, put_in_hands), bodycamera_installed)

@@ -132,7 +132,7 @@
 	var/mob/living/carbon/target = hit_atom
 
 	// Did I slip or get knocked unconscious?
-	if(user.body_position != STANDING_UP || user.incapacitated())
+	if(user.body_position != STANDING_UP || user.incapacitated)
 		user.spin(10)
 		return
 	// Is my target a Monster hunter?
