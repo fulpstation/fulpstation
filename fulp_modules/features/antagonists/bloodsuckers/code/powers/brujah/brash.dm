@@ -117,7 +117,7 @@
 
 	while(istype(target, /turf/closed/wall))
 		tearer.visible_message(span_warning("[tearer] viciously rips into [target]!"))
-		playsound(tearer, 'sound/machines/airlock_alien_prying.ogg', vol = 50, vary = TRUE, frequency = 2)
+		playsound(tearer, 'sound/machines/airlock/airlock_alien_prying.ogg', vol = 50, vary = TRUE, frequency = 2)
 		target.balloon_alert(tearer, "tearing...")
 
 		if (!do_after(tearer, delay = rip_time, target = target, interaction_key = "bloodsucker interaction"))

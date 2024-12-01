@@ -242,7 +242,7 @@
 		vassaldatum.make_special(/datum/antagonist/vassal/discordant)
 		brujah_objective.target_subverted = TRUE
 		to_chat(source.owner, span_notice("You have turned [vassal_mind.current.name] into a Discordant Vassal."))
-		playsound(get_turf(vassal_mind.current), 'sound/effects/rocktap3.ogg', 75)
+		playsound(get_turf(vassal_mind.current), 'sound/effects/rock/rocktap3.ogg', 75)
 		vassaldatum.owner.announce_objectives()
 		return TRUE
 
