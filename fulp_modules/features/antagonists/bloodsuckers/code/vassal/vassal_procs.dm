@@ -49,7 +49,7 @@
 	for(var/datum/action/cooldown/bloodsucker/power in powers)
 		power.level_current++
 
-/// Called when we are made into the Favorite Vassal
+/// Called when we are turned into a special type of vassal.
 /datum/antagonist/vassal/proc/make_special(datum/antagonist/vassal/vassal_type)
 	//store what we need
 	var/datum/mind/vassal_owner = owner
@@ -68,5 +68,5 @@
 
 	//send alerts of completion
 	to_chat(master, span_danger("You have turned [vassal_owner.current] into your [vassaldatum.name]! They will no longer be deconverted upon mindshielding!"))
-	to_chat(vassal_owner, span_notice("As blood drips over your body, you feel closer to your master... you are now the Favorite Vassal!"))
+	to_chat(vassal_owner, span_notice("As blood drips over your body, you feel closer to your master... you are now the [vassaldatum.name]!"))
 	vassal_owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)

@@ -13,7 +13,7 @@
 	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Vassal, enslaved to your vampiric master, you obey their instructions above all else.",
+		"You are a Vassal. Enthralled by your vampiric master, you must obey their instructions above all else.",
 		"You have the ability to Recuperate, allowing you to heal at the cost of your blood, your master's blood, and some of your stamina.",
 		"Fear mindshield implants! You will get deconverted if you get mindshielded, resist them at all costs!",
 		"Help ensure your master is safe from daylight! Solar flares will bombard the station periodically, and if your master is exposed, they will burn alive.",
@@ -28,6 +28,8 @@
 	var/special_type = FALSE
 	///Description of what this Vassal does.
 	var/vassal_description
+	/// Whether or not this Vassal's antag status is removed on the death of their Bloodsucker.
+	var/remove_on_bloodsucker_death = TRUE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"
@@ -95,10 +97,8 @@
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
-	/// Give Objectives
-	var/datum/objective/vassal_objective/vassal_objective = new
-	vassal_objective.owner = owner
-	objectives += vassal_objective
+	/// Forge Objectives
+	forge_objectives()
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -189,3 +189,8 @@
 /datum/objective/vassal_objective/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master?.owner?.current?.stat != DEAD
+
+/datum/antagonist/vassal/forge_objectives()
+	var/datum/objective/vassal_objective/vassal_objective = new
+	vassal_objective.owner = owner
+	objectives += vassal_objective

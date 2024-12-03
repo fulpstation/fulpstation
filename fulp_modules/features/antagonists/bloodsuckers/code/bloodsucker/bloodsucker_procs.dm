@@ -34,6 +34,7 @@
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
+	GLOB.masquerade_breakers.Add(src)
 	SEND_GLOBAL_SIGNAL(COMSIG_BLOODSUCKER_BROKE_MASQUERADE)
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
@@ -41,6 +42,7 @@
 	if(!broke_masquerade)
 		return
 	to_chat(owner.current, span_cult_bold_italic("You have re-entered the Masquerade."))
+	GLOB.masquerade_breakers.Remove(src)
 	broke_masquerade = FALSE
 
 /datum/antagonist/bloodsucker/proc/give_masquerade_infraction()
@@ -50,7 +52,7 @@
 	if(masquerade_infractions >= 3)
 		break_masquerade()
 	else
-		to_chat(owner.current, span_cult_bold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
+		to_chat(owner.current, span_cult_bold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to all other Bloodsuckers!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	if(!owner || !owner.current || IS_FAVORITE_VASSAL(owner.current))
@@ -106,7 +108,7 @@
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			all_vassals.owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 			continue
-		if(all_vassals.special_type == REVENGE_VASSAL)
+		if(!all_vassals.remove_on_bloodsucker_death)
 			continue
 		all_vassals.owner.add_antag_datum(/datum/antagonist/ex_vassal)
 		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)
