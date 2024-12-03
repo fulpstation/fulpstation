@@ -41,16 +41,16 @@
 	. = ..()
 	source.AddHumanityLost(5) //Increases frenzy threshold by fifty
 
-///Raise the damage of both of their hands by four. Copied from 'finalize_spend_rank()' in '_clan.dm'
+/// Raise the damage of both of their hands by four. Copied from 'finalize_spend_rank()' in '_clan.dm'
 /datum/bloodsucker_clan/brujah/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
 	. = ..()
 	var/mob/living/carbon/our_vassal = vassaldatum.owner.current
 	var/obj/item/bodypart/vassal_left_hand = our_vassal.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/vassal_right_hand = our_vassal.get_bodypart(BODY_ZONE_R_ARM)
-	vassal_left_hand.unarmed_damage_low += 4
-	vassal_right_hand.unarmed_damage_low += 4
-	vassal_left_hand.unarmed_damage_high += 4
-	vassal_right_hand.unarmed_damage_high += 4
+	vassal_left_hand.unarmed_damage_low += BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS
+	vassal_right_hand.unarmed_damage_low += BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS
+	vassal_left_hand.unarmed_damage_high += BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS
+	vassal_right_hand.unarmed_damage_high += BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS
 
 /**
  * Clan Objective

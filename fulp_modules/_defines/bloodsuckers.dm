@@ -133,3 +133,11 @@
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_INFILTRATOR "Infiltrator"
+
+/**
+ * Miscellaneous defines
+ *
+ * (Defines for things too trivial to warrant their own category so we'll just call them "misc".)
+ */
+/// The attack bonus added to the punch damage of the Brujah clan's favorite vassals.
+#define BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS 4
