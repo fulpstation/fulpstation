@@ -20221,7 +20221,17 @@
 /area/station/service/chapel)
 "hsb" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/reagent_dispensers/beerkeg,
+/obj/structure/closet,
+/obj/item/vending_refill/cola,
+/obj/item/stack/cable_coil,
+/obj/item/stack/cable_coil,
+/obj/item/stack/sheet/iron{
+	amount = 30
+	},
+/obj/item/stack/sheet/glass{
+	amount = 30
+	},
+/obj/item/wrench,
 /turf/open/floor/wood/parquet,
 /area/station/service/bar/backroom)
 "hsd" = (
@@ -30841,21 +30851,15 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
 "lhT" = (
-/obj/item/wrench,
-/obj/item/stack/sheet/glass{
-	amount = 30
-	},
-/obj/item/stack/sheet/iron{
-	amount = 30
-	},
-/obj/item/stack/cable_coil,
-/obj/item/stack/cable_coil,
-/obj/structure/closet,
 /obj/machinery/camera/directional/south{
 	c_tag = "Service - Bar Backroom";
 	network = list("ss13","service")
 	},
-/obj/item/vending_refill/cola,
+/obj/machinery/chem_master/condimaster{
+	desc = "Looks like a knock-off chem-master. Perhaps useful for separating liquids when mixing drinks precisely. Also dispenses condiments.";
+	name = "HoochMaster Deluxe";
+	pixel_x = -4
+	},
 /turf/open/floor/wood/parquet,
 /area/station/service/bar/backroom)
 "lig" = (
@@ -45361,6 +45365,7 @@
 /obj/machinery/holopad,
 /obj/machinery/duct,
 /obj/structure/cable,
+/obj/effect/landmark/start/bartender,
 /turf/open/floor/wood/parquet,
 /area/station/service/bar/backroom)
 "qtu" = (
@@ -61976,11 +61981,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/obj/structure/chair/comfy{
-	dir = 4
-	},
-/obj/effect/landmark/start/bartender,
 /obj/machinery/power/apc/auto_name/directional/north,
+/obj/structure/reagent_dispensers/beerkeg,
 /turf/open/floor/wood/parquet,
 /area/station/service/bar/backroom)
 "wGC" = (
