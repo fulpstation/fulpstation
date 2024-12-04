@@ -1,5 +1,5 @@
 /obj/item/gun/ballistic/revolver/joel
-	icon = 'fulp_modules/features/lisa/icons/joel.dmi'
+	icon = 'fulp_modules/icons/lisa/joel.dmi'
 	load_sound = 'fulp_modules/features/lisa/sounds/gunload.ogg'
 	eject_sound = 'fulp_modules/features/lisa/sounds/empty.ogg'
 	icon_state = "revolver"

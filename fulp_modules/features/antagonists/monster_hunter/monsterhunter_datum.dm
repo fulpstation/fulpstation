@@ -104,8 +104,8 @@
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
-	var/icon/white_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "white_rabbit")
-	var/icon/red_rabbit = icon('fulp_modules/features/antagonists/monster_hunter/icons/rabbit.dmi', "killer_rabbit")
+	var/icon/white_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
+	var/icon/red_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
 	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
 
 	var/icon/final_icon = hunter_icon
@@ -248,7 +248,7 @@
 
 /obj/item/clothing/mask/monster_preview_mask
 	name = "Monster Preview Mask"
-	worn_icon = 'fulp_modules/features/antagonists/monster_hunter/icons/worn_mask.dmi'
+	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
 	worn_icon_state = "monoclerabbit"
 
 

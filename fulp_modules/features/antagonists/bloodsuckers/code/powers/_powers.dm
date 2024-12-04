@@ -1,9 +1,9 @@
 /datum/action/cooldown/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
 	background_icon_state = "vamp_power_off"
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE

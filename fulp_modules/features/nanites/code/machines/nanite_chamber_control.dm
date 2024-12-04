@@ -1,7 +1,7 @@
 /obj/machinery/computer/nanite_chamber_control
 	name = "nanite chamber control console"
 	desc = "Controls a connected nanite chamber. Can inoculate and destroy nanites or analyze existing nanite swarms within patients."
-	icon = 'fulp_modules/features/nanites/icons/computer.dmi'
+	icon = 'fulp_modules/icons/nanites/computer.dmi'
 	icon_screen = "nanite_chamber_control"
 	icon_keyboard = null
 	circuit = /obj/item/circuitboard/computer/nanite_chamber_control

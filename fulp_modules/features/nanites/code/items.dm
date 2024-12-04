@@ -12,7 +12,7 @@
 /obj/item/disk/nanite_program
 	name = "nanite program disk"
 	desc = "A disk capable of storing nanite programs. Can be customized using a Nanite Programming Console."
-	icon = 'fulp_modules/features/nanites/icons/disk.dmi'
+	icon = 'fulp_modules/icons/nanites/disk.dmi'
 	icon_state = "nanite"
 	///The program currently uploaded into the disk. If set to something, the disk will spawn with that program on mapload.
 	var/datum/nanite_program/program

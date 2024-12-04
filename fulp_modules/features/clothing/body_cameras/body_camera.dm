@@ -18,7 +18,7 @@
  */
 /obj/item/bodycam_upgrade
 	name = "\improper body camera"
-	icon = 'fulp_modules/features/clothing/body_cameras/bodycamera.dmi'
+	icon = 'fulp_modules/icons/clothing/bodycamera.dmi'
 	icon_state = "bodycamera"
 	desc = "An armor vest upgrade, there's an instructions tag if you look a little closer..."
 	///The camera itself.

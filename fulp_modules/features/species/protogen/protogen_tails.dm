@@ -19,7 +19,7 @@
 
 //Sprites
 /datum/sprite_accessory/tails/protogen
-	icon = 'fulp_modules/features/species/icons/mob/protogen_tails.dmi'
+	icon = 'fulp_modules/icons/species/mob/protogen_tails.dmi'
 	spine_key = "proto"
 
 /datum/sprite_accessory/tails/protogen/shark

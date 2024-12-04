@@ -1,5 +1,5 @@
 /datum/sprite_accessory/moth_wings/fulp
-	icon = 'fulp_modules/features/species/icons/mob/moth_wings.dmi'
+	icon = 'fulp_modules/icons/species/mob/moth_wings.dmi'
 	name = "Twilight"
 	icon_state = "twilight"
 
