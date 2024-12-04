@@ -127,22 +127,23 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day the Russian \"Fiddler Diner\" was serving food to its station's crew. Shortly into the lunch rush they ran out of burger meat. \
-		After drawing straws, a neophyte cook— blissfully unaware of what would soon transpire— was sent to fetch some meat from the morgue. \
-		The cook thought, \"It's normal for kitchens to repurpose dead bodies, right? It's not like the dead need them... right?\" \
+		"In the year 2437 the Post-Neo-Soviet Fiddler Diner was serving food aboard the cruise ship Mustai Karim. Shortly into lunch the diner's kitchen ran out of burger meat. \
+		After straws were drawn, a neophyte cook— blissfully unaware of what would soon transpire— went to fetch some meat from the morgue. \
+		The cook thought, \"We do this all the time, right? The dead don't need their bodies, it's only being resourceful...\" \
 		Inattentively grabbing the first body they could find, the cook rushed to complete their unenviable task lest it were to become an enduring memory. \
-		What the cook hadn't noticed was the green revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessel gibbed.",
+		What the cook didn't noticed was a green, lit revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessel gibbed.",
 
 		"The young cook returned to their diner's cold room and shoved the corpse into the gibber. The machine struggled in tedium with its unupgraded parts. \
-		Once the whole body was in, the grinder's blades suddenly stopped and, with a horrible shriek, they began spinning in reverse. \
-		The cook looked over on impulse, but to their horror a grinning slab of meat looked back at them with somnambulant eyes.",
+		Once the whole body was in, the grinder's blades suddenly stopped and (with a horrible shriek) they began spinning in reverse. \
+		The cook looked over on impulse, but to their horror a grinning slab of meat looked back at them with lively yet somnambulant eyes.",
 
-		"A quick cover story was released by the Russian Sol Government, but it failed completely. \
-		'Beefmen' became a matter of public knowledge, but their true origins were obscured by conspiracy theories and rumours of Russian-led \"sleep experiments\". \
-		Gibbers suddenly became appliances of high demand on Russian stations, and a rise in Beefmen population was observed following their installation. \
-		No one knows what exactly happened to spur the initial growth of this new \"species\", but when the gibber fad was over its advocates immediately rejoined society. \
-		None of them were able to live completely normal lives. They were utterly unable to sleep, but they were able to traverse newly discovered \"Phobetor Tears\". \
-		Beefmen have been at the forefront of galactic anomaly research ever since.",
+		"The ship quickly reported the incident to the Third Soviet Coast Guard. Within two hours the victim had been taken by the government, and all loose ends aboard the vessal were immediately silenced. \
+		Three years passed before reports of skinless vagrants arose throughout Post-Neo-Soviet Space. At the epicenter of this conundrum was an obscure military research facility that coincidentally \
+		exploded right before the \"Аномальные появления\" began. The Third Soviet Government fell completely silent at this, so the members of the general public were left to make their own excuses.  \
+		Most thought it was some sort of macabre fad; some arranged unintuitive scientific explanations involving the effects of space radiation on humanoid genetics; and others spread rumours of clandestine, \
+		government-sponsored \"sleep experiments\". Regardless of their origins, the \"Beefmen\" quickly integrated into wider galactic society. \
+		None of them were able to live completely normal lives. They were utterly unable to sleep, and they could apparently traverse an inexplicable sub-spatial web of what they termed \"Phobetor Tears\". \
+		Because of the discovery of this Phobetor Network, they are now a common sight on research stations of nearly every variety.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
