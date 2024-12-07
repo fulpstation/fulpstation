@@ -137,8 +137,10 @@
 		Once the whole body was in, the grinder's blades suddenly stopped and (with a horrible shriek) they began spinning in reverse. \
 		The cook looked over on impulse, but to their horror a grinning slab of meat looked back at them with lively yet somnambulant eyes.",
 
-		"The ship quickly reported the incident to the Third Soviet Coast Guard. Within two hours the victim had been taken by the government, and all loose ends aboard the vessal were immediately silenced. \
-		Three years passed before reports of skinless vagrants arose throughout Post-Neo-Soviet Space. At the epicenter of this conundrum was an obscure military research facility that coincidentally \
+		"The Mustai Karim went off of AIS tracking around this point. Searches were organized, but they were immediately halted when the missing ship arrived at its final destination three days behind schedule. \
+		The majority of its non-vital crew were missing, and the Third Soviet Cost Guard (after a brief investigation) released a complex explanation involving piracy, miscommunication, and an unparalleled amount of misfortune.",
+
+		"Three years passed before reports of skinless vagrants arose throughout Post-Neo-Soviet Space. At the epicenter of this conundrum was an obscure military research facility that coincidentally \
 		exploded right before the \"Аномальные появления\" began. The Third Soviet Government fell completely silent at this, so the members of the general public were left to make their own excuses.  \
 		Most thought it was some sort of macabre fad; some arranged unintuitive scientific explanations involving the effects of space radiation on humanoid genetics; and others spread rumours of clandestine, \
 		government-sponsored \"sleep experiments\". Regardless of their origins, the \"Beefmen\" quickly integrated into wider galactic society. \
