@@ -52,7 +52,7 @@
 			playsound(src.loc, 'sound/effects/footstep/meowstep1.ogg', 25)
 
 /obj/effect/meteor/cateor/attack_hand(mob/living/thing_that_touched_the_cateor, list/modifiers)
-	to_chat(thing_that_touched_the_cateor, span_hypnophrase("How cuwious... CUWIOUS LIKE A-"))
+	to_chat(thing_that_touched_the_cateor, span_hypnophrase("How cuwious... CUWIOUS LIKE A CA—"))
 	Bump(thing_that_touched_the_cateor)
 
 /// Called 1.25 decisecond after a cateor calls 'Bump()' on a target.
@@ -65,6 +65,14 @@
 /obj/effect/meteor/cateor/Bump(mob/living/M)
 	//Callback after 1.25 deciseconds to account for the possibility of explosion moving the target.
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), M), 1.25)
+
+	if(ismegafauna(M))
+		//Only work on Blood Drunk Miners because they're just barely megafauna and it's funny.
+		if(!istype(M, /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner))
+			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 12)
+			qdel(src)
+			return
+
 	if(istype(M, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
 		var/obj/effect/meteor/cateor/cateor_impacted = M
 		cateor_impacted.resize_count += resize_count
@@ -154,7 +162,7 @@
 
 
 /obj/effect/temp_visual/cateor_hit
-	icon = 'fulp_modules/features/events/icons/event_icons.dmi'
+	icon = 'fulp_modules/icons/events/event_icons.dmi'
 	icon_state = "cateor_hit_effect"
 	layer = MOB_UPPER_LAYER
 	plane = GAME_PLANE
