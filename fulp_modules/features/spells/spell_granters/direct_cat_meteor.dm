@@ -13,6 +13,39 @@
 		"CAT..."
 	)
 
+	/// Set to 'world.time' whenever the book meows. Referenced to create delay between meows.
+	var/last_process
+	/// The delay between the book's meows (in seconds). Normally ranges between five and thirty.
+	var/delay = 1
+
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSobj, src)
+	last_process = world.time
+
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/Destroy(force)
+	. = ..()
+	STOP_PROCESSING(SSobj, src)
+
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/process(seconds_per_tick)
+	if(world.time < last_process + delay SECONDS)
+		return
+
+	delay = rand(5, 30)
+	src.manual_emote("meows")
+	playsound(src, get_sfx(SFX_CAT_MEOW), 50, FALSE)
+	last_process = world.time
+
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/try_carve(obj/item/carving_item, mob/living/user, params)
+	. = ..()
+	to_chat(user, span_warning("[src] wrathfully winks at you as you raise your [carving_item.name] towards it. A singular ultimatum overwhelms your psyche:"))
+	to_chat(user, span_hypnophrase(span_big("NO.")))
+	recoil(user)
+
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/carve_out(obj/item/carving_item, mob/living/user)
+	. = ..()
+	STOP_PROCESSING(SSobj, src)
+
 /obj/item/book/granter/action/spell/fulp/direct_cat_meteor/recoil(mob/living/user)
 	. = ..()
 	var/obj/effect/meteor/cateor/new_cateor = new /obj/effect/meteor/cateor(get_turf(user), NONE)
