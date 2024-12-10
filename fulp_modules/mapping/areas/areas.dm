@@ -88,24 +88,24 @@
 	icon_state = "dk_yellow"
 
 /area/ruin/space/has_grav/powered/beef
-	name = "beef station"
+	name = "Beef Station"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
 
 /area/ruin/space/has_grav/powered/beef/atmos
-	name = "beef station atmos"
+	name = "Beef Station Atmos"
 	icon_state = "beef_station_atmos"
 
 /area/ruin/space/has_grav/disco_shrine
-	name = "disco shrine"
+	name = "Disco Shrine"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "disco_shrine"
 	base_lighting_alpha = 128
 	base_lighting_color = "#AA00FF"
 
 /area/ruin/space/has_grav/cateor_shrine
-	name = "cateor shrine"
+	name = "Cateor Shrine"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "cateor_shrine"
 	base_lighting_alpha = 128
