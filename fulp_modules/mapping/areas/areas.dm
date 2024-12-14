@@ -5,7 +5,7 @@
  * Instead of messing with people's minds and using some random area, we make our own.
  */
 
-// Station/
+/// == Station == ///
 
 /area/station/ai_monitored/turret_protected/ai_upload_foyer/command
 	name = "\improper AI Upload Command Entrance"
@@ -81,21 +81,81 @@
 /area/station/maintenance/department/cargo/mining
 	name = "\improper Mining Maintenance"
 
-// Ruins
+/// == Ruins == ///
 
 /area/ruin/powered/beefcyto
 	name = "Research Outpost"
 	icon_state = "dk_yellow"
 
-/area/ruin/space/has_grav/powered/beef
+// -- Beefstation ruin start -- //
+
+/area/ruin/space/has_grav/beef
 	name = "beef station"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "beef_station"
 	ambientsounds = list('fulp_modules/sounds/ambience/beef_station.ogg')
+	flags_1 = NONE
 
-/area/ruin/space/has_grav/powered/beef/atmos
-	name = "beef station atmos"
+/area/ruin/space/has_grav/beef/atmos
+	name = "beef station atmospherics"
 	icon_state = "beef_station_atmos"
+	ambientsounds = null
+	ambience_index = AMBIENCE_ENGI
+
+/area/ruin/space/has_grav/beef/kitchen
+	name = "beef station kitchen"
+	icon_state = "beef_kitchen"
+
+/area/ruin/space/has_grav/beef/cold_room
+	name = "beef station cold room"
+	icon_state = "beef_cold_room"
+	ambientsounds = null //See comment below
+
+/area/ruin/space/has_grav/beef/beef_ball_room
+	name = "beef station ball room"
+	icon_state = "beef_ball_room"
+	ambientsounds = null //To prevent the ambient music from playing over jukebox music.
+
+/area/ruin/space/has_grav/beef/beef_restroom
+	name = "beef station restroom"
+	icon_state = "beef_rest_room"
+	ambientsounds = null //See comment above
+
+/area/ruin/space/has_grav/beef/security
+	name = "beef station brig"
+	icon_state = "beef_security"
+
+/area/ruin/space/has_grav/beef/medical
+	name = "beef station infirmary"
+	icon_state = "beef_medical"
+	ambientsounds = null
+	ambience_index = AMBIENCE_MEDICAL
+
+/area/ruin/space/has_grav/beef/hyrdroponics
+	name = "beef station hydroponics"
+	icon_state = "beef_hydro"
+
+/area/ruin/space/has_grav/beef/library
+	name = "beef station library"
+	icon_state = "beef_library"
+
+/area/ruin/space/has_grav/beef/beef_bar
+	name = "beef station bar"
+	icon_state = "beef_bar"
+
+/area/ruin/space/has_grav/beef/beef_entertainment_center
+	name = "beef station fun center"
+	icon_state = "beef_fun"
+
+/area/ruin/space/has_grav/beef/beef_entrance
+	name = "beef station entrance"
+	icon_state = "beef_entry"
+
+/area/ruin/space/has_grav/beef/beef_storage
+	name = "beef station hidden storage"
+	icon_state = "beef_storage"
+
+// - Beefstation ruin end - //
 
 /area/ruin/space/has_grav/disco_shrine
 	name = "disco shrine"
@@ -103,6 +163,7 @@
 	icon_state = "disco_shrine"
 	base_lighting_alpha = 128
 	base_lighting_color = "#AA00FF"
+	flags_1 = NONE
 
 /area/ruin/space/has_grav/cateor_shrine
 	name = "cateor shrine"
