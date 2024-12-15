@@ -15,7 +15,7 @@
 	default_name_syllable_min = 4
 	default_name_syllable_max = 7
 
-/datum/language/moffic/get_random_name(
+/datum/language/gingeric/get_random_name(
 	gender = NEUTER,
 	name_count = default_name_count,
 	syllable_min = default_name_syllable_min,
