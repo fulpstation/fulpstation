@@ -49,9 +49,7 @@ datum/species/gingerbread
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/gingerbread,\
 	)
 
-	//To be replaced
-	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
-	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
+	//Still need to add gingerbread death sounds, for now it should use default human which is fine.
 
 var/static/list/tearable_limbs = list(
 		BODY_ZONE_L_ARM,
