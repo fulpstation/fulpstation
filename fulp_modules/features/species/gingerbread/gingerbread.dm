@@ -127,6 +127,12 @@ var/static/list/tearable_limbs = list(
 			SPECIES_PERK_DESC = "Gingerbread people's bodies can be easily destroyed by consumption and destroying the brain is easy. \
 				For this reason, protect your skull because medical may not be able to put you back together again."
 		),
+		list(
+			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
+			SPECIES_PERK_ICON = "thermometer-empty",
+			SPECIES_PERK_NAME = "Cold Sensitive",
+			SPECIES_PERK_DESC = "Gingerbread people can quickly die to the cold.",
+		),
 	)
 
 	return to_add
