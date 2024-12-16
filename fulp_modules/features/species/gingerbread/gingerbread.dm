@@ -51,6 +51,11 @@ datum/species/gingerbread
 		BODY_ZONE_R_LEG,
 	)
 
+/datum/species/gingerbread/check_roundstart_eligible()
+	if(check_holidays(CHRISTMAS) && id == SPECIES_GINGERBREAD)
+		return TRUE
+	return ..()
+
 /mob/living/carbon/human/species/gingerbread
 	race = /datum/species/gingerbread
 
