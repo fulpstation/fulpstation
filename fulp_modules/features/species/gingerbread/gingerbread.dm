@@ -18,7 +18,6 @@ datum/species/gingerbread
 		TRAIT_NO_PLASMA_TRANSFORM,
 		TRAIT_RESISTHEAT,
 		TRAIT_UNHUSKABLE,
-
 	)
 
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
