@@ -33,7 +33,6 @@ datum/species/gingerbread
 	skinned_type = /obj/item/food/dough
 	meat = /obj/item/food/donut
 	
-			
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/gingerbread,\
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/gingerbread,\
