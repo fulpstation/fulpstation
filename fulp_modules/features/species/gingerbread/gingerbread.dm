@@ -55,7 +55,7 @@ datum/species/gingerbread
 	race = /datum/species/gingerbread
 
 /datum/species/gingerbread/get_physical_attributes()
-	return "Artificial humans made mostly of dough and gingerbread. They are immensely sturdy against heat but can easily die to the cold and to the hands of their fellow crew.."
+	return "Artificial humanoids primarily consisting of dough and gingerbread. They tolerate heat immensely well, but in turn they find even the more mild lows lethal. Physically their durability suffers from their lack of a proper skeletal system, which makes them all the more vulnerable to blunt force attacks."
 
 /datum/species/gingerbread/get_species_description()
 	return "Specially designed with hearts of either sugar or lead, \
