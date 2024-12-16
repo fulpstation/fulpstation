@@ -75,7 +75,7 @@ datum/species/gingerbread
 		"Gingerbread Production was cancelled. Those Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't (or simply didn't) found themselves working on molten planets.",
 		
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
-		"Gingerbread people saw their fates and revolted, they were not silicons, not puppets or serfs. They rebelled. \ But rebellion brought bloodshed and Nanotrasen won out. Propaganda campaigns gave way to violence and the rebellion was quelled.",
+		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled.",
 		"Now, Gingerbread people either work for Nanotrasen, work for The Syndicate or other enemy groups, \ or leave for the Epoch system, the final bastion, protected by TerraGov and the Syndicate.",
 		)
 
