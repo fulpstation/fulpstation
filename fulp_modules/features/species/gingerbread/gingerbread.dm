@@ -6,8 +6,6 @@ datum/species/gingerbread
 	sexes = FALSE
 	species_language_holder = /datum/language_holder/gingeric
 
-	
-
 	inherent_traits = list(
 		TRAIT_EASYDISMEMBER,
 		TRAIT_NO_UNDERWEAR,
