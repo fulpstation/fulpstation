@@ -256,7 +256,6 @@
 /obj/item/gun/magic/wand/directable_cat_meteor/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/scope/magic)
-	register_item_context()
 
 /obj/item/gun/magic/wand/directable_cat_meteor/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
 	. = ..()
