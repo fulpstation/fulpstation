@@ -17,7 +17,8 @@ Gingerbread Limb Code
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-	. = ..()AddComponent(/datum/component/edible,
+	. = ..()
+	AddComponent(/datum/component/edible,
 	initial_reagents = (/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 8, /datum/reagent/consumable/sugar = 7)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
