@@ -51,7 +51,7 @@ datum/species/gingerbread
 
 	//Still need to add gingerbread death sounds, for now it should use default human which is fine.
 
-var/static/list/tearable_limbs = list(
+	var/static/list/tearable_limbs = list(
 		BODY_ZONE_L_ARM,
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_L_LEG,
