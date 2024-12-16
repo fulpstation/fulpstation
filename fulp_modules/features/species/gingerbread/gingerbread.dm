@@ -67,16 +67,16 @@ datum/species/gingerbread
 	return list(
 		"Long ago within the harsh, heated lands of Alexacora -- a molten planet located just outside the Spinward Sector in the Epoch System -- \ a year of work finally gave way to a grand breakthrough.",
 
-		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Trasen-Knox Scientific biologists created a new form of carbon-based life. ",
+		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Transen-Knox Scientific biologists created a new form of carbon-based life. ",
 		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent— perhaps too intelligent. \ Their work revolutionized the process of creating Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
 
-		"The first (relatively small) group Gingerbread people worked with leading Trasen-Knox Scientific officials \ in order to fine-tune this process even further.",
-		"However, Transen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Transen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger on a scale never seen before or after. The nascent company possessed an unbounded workforce, so it no longer needed to create non-silicon workers.",
-		"Gingerbread Production was cancelled. Those Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't (or simply didn't) found themselves working on molten planets.",
+		"The first -- relatively small and understaffed -- Gingerbread people worked with leading Transen-Knox Scientific officials \ in order to fine-tune this process even further.",
+		"However, Transen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Transen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger on a scale only rivalled by the Syndicate. The nascent company possessed an unbounded workforce, so it no longer needed to create non-silicon workers.",
+		"Gingerbread Production was cancelled. Those Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets, under atmospheres even harsher than Alexacora.",
 		
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
-		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled.",
-		"Today, just like the populations of most other species, the majority of Gingerbread people work for Nanotrasen, the Syndicate, or other, less notable groups. \ Some have left for the Epoch system— their final bastion— thus protected by TerraGov and Syndicate alike.",
+		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled. Prometheus's flame was dead.",
+		"Today, just like the populations of most other species, the majority of Gingerbread people work for Nanotrasen, the Syndicate, or other, less notable groups. \ Some have left for the Epoch system -- their final bastion -- thus protected by TerraGov and Syndicate alike.",
 		)
 
 /datum/species/gingerbread/create_pref_unique_perks()
@@ -87,25 +87,25 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "thermometer-full",
 			SPECIES_PERK_NAME = "Heat-Resistant",
-			SPECIES_PERK_DESC = "Gingerbread people can withstand very high temperatures.",
+			SPECIES_PERK_DESC = "Gingerbread people can withstand very high temperatures, although they still burn.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "virus-slash",
 			SPECIES_PERK_NAME = "Pestilence Resistance",
-			SPECIES_PERK_DESC = "Gingerbread people are generally resistant to disease, less likely to be infected, and they are thusly immune to certain conditions.",
+			SPECIES_PERK_DESC = "Gingerbread people are generally resistant to disease, less likely to be infected, and are immune to certain conditions.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_NEUTRAL,
 			SPECIES_PERK_ICON = "utensil-spoon",
 			SPECIES_PERK_NAME = "Biomechanically Static",
-			SPECIES_PERK_DESC = "An ineffable biological mechanism prevents Gingerbread people from producing fat (and thusly gaining an excess of it). This same mechanism weakens their connective tissue in turn, making them easy to dismember.",
+			SPECIES_PERK_DESC = "An ineffable biological mechanism prevents Gingerbread people from producing fat -- and thusly gaining an excess of it. This same mechanism weakens their connective tissue in turn, making them easy to dismember.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "candy-cane",
 			SPECIES_PERK_NAME = "Edible Flesh",
-			SPECIES_PERK_DESC = "Gingerbread people are edible and can remove their (highly nutritious) limbs at will.",
+			SPECIES_PERK_DESC = "Gingerbread people are edible and can remove their -- highly nutritious -- limbs at will.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
@@ -118,7 +118,7 @@ datum/species/gingerbread
 			SPECIES_PERK_ICON = "file-medical-alt",
 			SPECIES_PERK_NAME = "Sensitive",
 			SPECIES_PERK_DESC = "Gingerbread people can be entirely destroyed via consumption. Their head and brain are no exception to this. \
-				For this reason they are encouraged to protect their skulls. Medical may not be able to put them back together again."
+				For this reason, they are encouraged to protect their skulls. Medical may not be able to put them back together again."
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
