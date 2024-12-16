@@ -24,20 +24,18 @@ datum/species/gingerbread
 	)
 
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | 
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP
 	
 	coldmod = 1.6 //comparable to Lizards
 	headmod = 0.75
 	payday_modifier = 1.0
 	siemens_coeff = 0.8
 	
-
-	breathid = GAS_OXYGEN
-	bodytemp_normal = 25
+	bodytemp_normal = T20C
 	bodytemp_heat_damage_limit = (BODYTEMP_HEAT_DAMAGE_LIMIT + 130) //Around 190 Celsius, the maximum temperature you can cook gingerbread at normally.
 	bodytemp_cold_damage_limit = (BODYTEMP_COLD_DAMAGE_LIMIT - 40) //Around 0 celsius, a mild gust of wind can damage them.
 	skinned_type = /obj/item/food/dough
-	meat = /obj/item/food/donut/chaos
+	meat = /obj/item/food/donut
 	
 			
 		bodypart_overrides = list(
