@@ -17,14 +17,13 @@ Gingerbread Limb Code
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-    . = ..()
-    AddComponent(/datum/component/edible,
-      list/initial_reagents = (/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 8, /datum/reagent/consumable/sugar = 7)
-      foodtypes = GRAIN | SUGAR | DAIRY,
-      volume = 50,
-      eat_time = 3 SECONDS,
-      list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-      bite_consumption = 4,)
+	. = ..()AddComponent(/datum/component/edible,
+	list/initial_reagents = (/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 8, /datum/reagent/consumable/sugar = 7)
+	foodtypes = GRAIN | SUGAR | DAIRY,
+	volume = 50,
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	bite_consumption = 4,)
 
 /obj/item/bodypart/chest/gingerbread
 	icon = 'fulp_modules/icons/mobs/gingerbread.dmi'
@@ -40,15 +39,15 @@ Gingerbread Limb Code
 	wing_types = NONE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-    . = ..()
-    AddComponent(/datum/component/edible,
-    list/initial_reagents = list(/datum/reagent/consumable/nutriment = 37, /datum/reagent/consumable/nutriment/vitamin = 10, /datum/reagent/consumable/sugar = 9)
-    foodtypes = GRAIN | SUGAR | DAIRY,
+	. = ..()
+	AddComponent(/datum/component/edible,
+	list/initial_reagents = list(/datum/reagent/consumable/nutriment = 37, /datum/reagent/consumable/nutriment/vitamin = 10, /datum/reagent/consumable/sugar = 9)
+	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 60,
-    eat_time = 3 SECONDS,
-    list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
-    bite_consumption = 5,)
+	bite_consumption = 5,)
 
 //BODY//
 /obj/item/bodypart/arm/left/gingerbread
@@ -63,15 +62,15 @@ Gingerbread Limb Code
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-    . = ..()
-    AddComponent(/datum/component/edible,
-    list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
-    foodtypes = GRAIN | SUGAR | DAIRY,
-    volume = 50,
-    eat_time = 3 SECONDS,
-    list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	. = ..()
+	AddComponent(/datum/component/edible,
+	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	foodtypes = GRAIN | SUGAR | DAIRY,
+	volume = 50,
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
-    bite_consumption = 3,)
+	bite_consumption = 3,)
 
 /obj/item/bodypart/arm/right/gingerbread
 	icon = 'fulp_modules/icons/mobs/gingerbread.dmi'
@@ -85,15 +84,15 @@ Gingerbread Limb Code
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-    . = ..()
+	. = ..()
 	AddComponent(/datum/component/edible,
-    list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
-    foodtypes = GRAIN | SUGAR | DAIRY,
-    volume = 50,
-    eat_time = 3 SECONDS,
-    list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	foodtypes = GRAIN | SUGAR | DAIRY,
+	volume = 50,
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
-    bite_consumption = 3,)
+	bite_consumption = 3,)
 	
 /obj/item/bodypart/leg/left/gingerbread
 	icon = 'fulp_modules/icons/mobs/gingerbread.dmi'
@@ -107,15 +106,15 @@ Gingerbread Limb Code
 	bodypart_flags = BODYPART_UNHUSKABLE
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
-    . = ..()
-    AddComponent(/datum/component/edible,
-    list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
-    foodtypes = GRAIN | SUGAR | DAIRY,
-    volume = 50,
-    eat_time = 3 SECONDS,
-    list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	. = ..()
+	AddComponent(/datum/component/edible,
+	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	foodtypes = GRAIN | SUGAR | DAIRY,
+	volume = 50,
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
-    bite_consumption = 3,)
+	bite_consumption = 3,)
 
 /obj/item/bodypart/leg/right/gingerbread
 	icon = 'fulp_modules/icons/mobs/gingerbread.dmi'
@@ -130,11 +129,11 @@ Gingerbread Limb Code
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
     . = ..()
-    AddComponent(/datum/component/edible,
-    list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
-    foodtypes = GRAIN | SUGAR | DAIRY,
-    volume = 50,
-    eat_time = 3 SECONDS,
-    list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	AddComponent(/datum/component/edible,
+	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	foodtypes = GRAIN | SUGAR | DAIRY,
+	volume = 50,
+	eat_time = 3 SECONDS,
+	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
-    bite_consumption = 3,)
+	bite_consumption = 3,)
