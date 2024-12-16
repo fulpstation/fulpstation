@@ -65,7 +65,7 @@ datum/species/gingerbread
 
 /datum/species/gingerbread/get_species_lore()
 	return list(
-		"Deep in the harsh, heated lands of Alexacora, a molten planet located just outside the Spinward Sector within the Epoch System, \ a year of work had finally given way to a grand breakthrough.",
+		"Long ago within the harsh, heated lands of Alexacora (a molten planet located just outside the Spinward Sector in the Epoch System) \ a year of work finally gave way to a grand breakthrough.",
 
 		"By mixing a collection of sugars, proteins and amino acids and at the time newly discovered plasma together in a reaction catalyzed by uranium, \ a collection of Transen-Knox Scientific biologists had created life. Organic life. ",
 		"The first Gingerbread person, Glucogenolysis Beckon was said to be highly intelligent, to some-- too intelligent. \ Their work on revolutionizing the process was rapid, and allowed for life to be made so simply, even a lowly cook could make it.",
