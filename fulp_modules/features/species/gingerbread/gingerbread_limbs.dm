@@ -18,7 +18,7 @@ Gingerbread Limb Code
 
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
 	. = ..()AddComponent(/datum/component/edible,
-	list/initial_reagents = (/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 8, /datum/reagent/consumable/sugar = 7)
+	initial_reagents = (/datum/reagent/consumable/nutriment = 30, /datum/reagent/consumable/nutriment/vitamin = 8, /datum/reagent/consumable/sugar = 7)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
@@ -41,7 +41,7 @@ Gingerbread Limb Code
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/edible,
-	list/initial_reagents = list(/datum/reagent/consumable/nutriment = 37, /datum/reagent/consumable/nutriment/vitamin = 10, /datum/reagent/consumable/sugar = 9)
+	initial_reagents = list(/datum/reagent/consumable/nutriment = 37, /datum/reagent/consumable/nutriment/vitamin = 10, /datum/reagent/consumable/sugar = 9)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 60,
 	eat_time = 3 SECONDS,
@@ -64,7 +64,7 @@ Gingerbread Limb Code
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/edible,
-	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
@@ -86,7 +86,7 @@ Gingerbread Limb Code
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/edible,
-	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
@@ -108,7 +108,7 @@ Gingerbread Limb Code
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/edible,
-	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
@@ -130,7 +130,7 @@ Gingerbread Limb Code
 /obj/item/bodypart/head/gingerbread/Initialize(mapload)
     . = ..()
 	AddComponent(/datum/component/edible,
-	list/initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
+	initial_reagents = (/datum/reagent/consumable/nutriment = 25, /datum/reagent/consumable/nutriment/vitamin = 7, /datum/reagent/consumable/sugar = 5)
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
