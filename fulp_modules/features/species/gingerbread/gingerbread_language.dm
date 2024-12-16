@@ -1,7 +1,7 @@
 /datum/language/gingeric
 	name = "Gingeric"
 	desc = "A language used by Gingerbread people alongside common, typically used for secure communications."
-	key = "g"
+	key = "r"
 	space_chance = 35
 	syllables = list(
 		"glyco", "gluco", "glu", "lact", "ose", "ase", "tri", "glyceri", "de", "adeno", "sine", "phos", "phate", "fate", "sno", "fal",
