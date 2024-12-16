@@ -58,7 +58,7 @@ datum/species/gingerbread
 	return "Artificial humanoids primarily consisting of dough and gingerbread. They tolerate heat immensely well, but in turn they find even the more mild lows lethal. Physically their durability suffers from their lack of a proper skeletal system, which makes them all the more vulnerable to blunt force attacks."
 
 /datum/species/gingerbread/get_species_description()
-	return "Specially designed with hearts of either sugar or lead, \
+	return "Purposefully designed with hearts of sugar or lead, \
 		Gingerbread people were, for most of their history, a rare sight.\
 		However, with increased Nanotrasen staff mortality and decreased morale \
 		Gingerbread people were made to fill that gap."
