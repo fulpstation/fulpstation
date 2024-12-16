@@ -117,7 +117,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "file-medical-alt",
 			SPECIES_PERK_NAME = "Sensitive",
-			SPECIES_PERK_DESC = "Gingerbread people's bodies can be easily destroyed by consumption and destroying the brain is easy. \
+			SPECIES_PERK_DESC = "Gingerbread people can be entirely destroyed via consumption. Their head and brain are no exception to this. \
 				For this reason, protect your skull because medical may not be able to put you back together again."
 		),
 		list(
