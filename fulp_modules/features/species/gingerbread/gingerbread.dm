@@ -118,7 +118,7 @@ datum/species/gingerbread
 			SPECIES_PERK_ICON = "file-medical-alt",
 			SPECIES_PERK_NAME = "Sensitive",
 			SPECIES_PERK_DESC = "Gingerbread people can be entirely destroyed via consumption. Their head and brain are no exception to this. \
-				For this reason, protect your skull because medical may not be able to put you back together again."
+				For this reason they are encouraged to protect their skulls. Medical may not be able to put them back together again."
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
