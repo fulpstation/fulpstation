@@ -5,7 +5,7 @@
 	space_chance = 35
 	syllables = list(
 		"glyco", "gluco", "glu", "lact", "ose", "ase", "tri", "glyceri", "de", "adeno", "sine", "phos", "phate", "fate", "sno", "fal",
-        "fruct",, "six", "di", "sacc", "ride", "e", "gal", "act", "malt", "arti", "ficial", "sweet", "faux", "neutr", "ition",
+        "fruct", "six", "di", "sacc", "ride", "e", "gal", "act", "malt", "arti", "ficial", "sweet", "faux", "neutr", "ition",
         "radio", "fluoro", "organo", "sugar", "pos", "itron", "emis", "sion", "topo", "logy", "activ", "lea", "d", "s",
 	)
 	icon = "fulp_modules/icons/species/gingerbread.dmi"
@@ -30,11 +30,9 @@
 /datum/language_holder/gingeric
 	understood_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-        /datum/language/uncommon = list(LANGUAGE_ATOM),
 		/datum/language/gingeric = list(LANGUAGE_ATOM),
 	)
 	spoken_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
-        /datum/language/uncommon = list(LANGUAGE_ATOM),
 		/datum/language/gingeric = list(LANGUAGE_ATOM),
 	)
