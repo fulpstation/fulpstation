@@ -105,7 +105,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "candy-cane",
 			SPECIES_PERK_NAME = "Edible Flesh",
-			SPECIES_PERK_DESC = "Gingerbread can be eaten and can willingly remove limbs which have high amounts of nutrition.",
+			SPECIES_PERK_DESC = "Gingerbread people are edible and can remove their (highly nutritious) limbs at will.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
