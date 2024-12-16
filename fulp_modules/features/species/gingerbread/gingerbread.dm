@@ -61,7 +61,7 @@ datum/species/gingerbread
 	return "Purposefully designed with hearts of sugar or lead, \
 		Gingerbread people have, for most of their history, been a rare sight. \
 		However, noting recent seasonal decreases in staff morale, Nanotrasen's higher-ups have determined \
-		Gingerbread people were made to fill that gap."
+		that the hiring of Gingerbread people is necessary to remedy holiday profit gaps."
 
 /datum/species/gingerbread/get_species_lore()
 	return list(
