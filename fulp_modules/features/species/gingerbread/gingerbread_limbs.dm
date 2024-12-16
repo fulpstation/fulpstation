@@ -23,7 +23,7 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
 	bite_consumption = 4,)
 
 /obj/item/bodypart/chest/gingerbread
@@ -69,8 +69,8 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eatverbs = list("bite", "chew", "gnaw", "chomp"),
 	bite_consumption = 3,)
 
 /obj/item/bodypart/arm/right/gingerbread
@@ -91,8 +91,8 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eatverbs = list("bite", "chew", "gnaw", "chomp"),
 	bite_consumption = 3,)
 	
 /obj/item/bodypart/leg/left/gingerbread
@@ -113,8 +113,8 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eatverbs = list("bite", "chew", "gnaw", "chomp"),
 	bite_consumption = 3,)
 
 /obj/item/bodypart/leg/right/gingerbread
@@ -135,6 +135,6 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 50,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eatverbs = list("bite", "chew", "gnaw", "chomp"),
 	bite_consumption = 3,)
