@@ -76,7 +76,7 @@ datum/species/gingerbread
 		
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
 		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled.",
-		"Now, Gingerbread people either work for Nanotrasen, work for The Syndicate or other enemy groups, \ or leave for the Epoch system, the final bastion, protected by TerraGov and the Syndicate.",
+		"Today, just like the populations of most other species, the majority of Gingerbread people work for Nanotrasen, the Syndicate, or other, less notable groups. \ Some have left for the Epoch system— their final bastion— thus protected by TerraGov and Syndicate alike.",
 		)
 
 /datum/species/gingerbread/create_pref_unique_perks()
