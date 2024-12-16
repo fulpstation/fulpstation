@@ -28,7 +28,6 @@ datum/species/gingerbread
 	
 	coldmod = 1.6 //comparable to Lizards
 	headmod = 0.75
-	payday_modifier = 1.0
 	siemens_coeff = 0.8
 	
 	bodytemp_normal = T20C
