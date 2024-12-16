@@ -99,7 +99,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_NEUTRAL,
 			SPECIES_PERK_ICON = "utensil-spoon",
 			SPECIES_PERK_NAME = "Biomechanically Static",
-			SPECIES_PERK_DESC = "Gingerbread people cannot become fat, however, due to a lack of fat, they are easy to dismember.",
+			SPECIES_PERK_DESC = "An ineffable biological mechanism prevents Gingerbread people from producing fat (and thusly gaining an excess of it). This same mechanism weakens their connective tissue in turn, making them easy to dismember.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
