@@ -67,7 +67,7 @@ datum/species/gingerbread
 	return list(
 		"Long ago within the harsh, heated lands of Alexacora (a molten planet located just outside the Spinward Sector in the Epoch System) \ a year of work finally gave way to a grand breakthrough.",
 
-		"By mixing a collection of sugars, proteins and amino acids and at the time newly discovered plasma together in a reaction catalyzed by uranium, \ a collection of Transen-Knox Scientific biologists had created life. Organic life. ",
+		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Trasen-Knox Scientific biologists created a new form of carbon-based life. ",
 		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent— perhaps too intelligent. \ Their work revolutionized the process of creating Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
 
 		"The, at the time small, group of Gingerbread people worked with high up officials of Transen-Knox Scientific \ in order to fine-tune this process further.",
