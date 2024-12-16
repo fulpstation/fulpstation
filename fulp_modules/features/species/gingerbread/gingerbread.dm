@@ -70,7 +70,7 @@ datum/species/gingerbread
 		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Trasen-Knox Scientific biologists created a new form of carbon-based life. ",
 		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent— perhaps too intelligent. \ Their work revolutionized the process of creating Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
 
-		"The, at the time small, group of Gingerbread people worked with high up officials of Transen-Knox Scientific \ in order to fine-tune this process further.",
+		"The first (relatively small) group Gingerbread people worked with leading Trasen-Knox Scientific officials \ in order to fine-tune this process even further.",
 		"However, Transen-Knox Scientific would not last forever, and nor would Gingerbread production. \ Transen-Knox Scientific would form Nanotrasen in a merger to end all mergers, and with such, there was no longer a need for artificial life.",
 		"By the end of it all, Gingerbread Production, was cancelled. Those who could left Nanotrasen, \ abandoning their posts in protest, while those who didn't found themselves working on inferno planets.",
 		
