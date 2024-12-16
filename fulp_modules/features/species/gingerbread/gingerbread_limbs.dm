@@ -45,8 +45,8 @@ Gingerbread Limb Code
 	foodtypes = GRAIN | SUGAR | DAIRY,
 	volume = 60,
 	eat_time = 3 SECONDS,
-	list/tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
-	list/eatverbs = list("bite", "chew", "gnaw", "chomp"),
+	tastes = ("gingerbread" = 5, "sugar" = 3, "hope" = 1)
+	eatverbs = list("bite", "chew", "gnaw", "chomp"),
 	bite_consumption = 5,)
 
 //BODY//
