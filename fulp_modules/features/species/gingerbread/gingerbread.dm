@@ -93,7 +93,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "virus-slash",
 			SPECIES_PERK_NAME = "Pestilence Resistance",
-			SPECIES_PERK_DESC = "Gingerbread people are more resistant to disease, less likely to be infected and cannot be affected by certain conditions.",
+			SPECIES_PERK_DESC = "Gingerbread people are generally resistant to disease, less likely to be infected, and they are thusly immune to certain conditions.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_NEUTRAL,
