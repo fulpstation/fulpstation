@@ -1,6 +1,6 @@
 /datum/language/gingeric
 	name = "Gingeric"
-	desc = "A language used by Gingerbread people alongside common, typically used for secure communications."
+	desc = "A smooth and springy language used by Gingerbread people."
 	key = "r"
 	space_chance = 35
 	syllables = list(
