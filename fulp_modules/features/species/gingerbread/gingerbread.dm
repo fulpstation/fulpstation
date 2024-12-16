@@ -111,7 +111,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "bone",
 			SPECIES_PERK_NAME = "Fragile",
-			SPECIES_PERK_DESC = "Gingerbread people are weak to brute damage.",
+			SPECIES_PERK_DESC = "Gingerbread people are vulnerable to brute damage.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
