@@ -77,7 +77,7 @@ datum/species/gingerbread
 
 		"The first -- relatively small and understaffed -- Gingerbread people worked with leading Trasen-Knox Scientific officials \ in order to fine-tune this process even further.",
 		"However, Trasen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Trasen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger only to be rivalled by that of the Syndicate. The nascent company possessed an unbounded workforce, \ and strives in robotics meant that it no longer needed to synthesize entire lifeforms when simple machines would work just as well.",
-		"Gingerbread Production was cancelled, decimated even. Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets, under atmospheres even harsher than Alexacora.",
+		"Gingerbread Production was cancelled, decimated even. Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets under atmospheres harsher than Alexacora's.",
 		
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
 		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled. Prometheus's flame was dead.",
