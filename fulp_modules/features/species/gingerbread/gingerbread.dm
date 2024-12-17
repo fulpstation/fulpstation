@@ -76,7 +76,7 @@ datum/species/gingerbread
 		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent— perhaps too intelligent. \ Their work revolutionized the process of producing Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
 
 		"The first -- relatively small and understaffed -- Gingerbread people worked with leading Transen-Knox Scientific officials \ in order to fine-tune this process even further.",
-		"However, Transen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Transen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger on a scale only rivalled by the Syndicate. The nascent company possessed an unbounded workforce, so it no longer needed to create non-silicon workers.",
+		"However, Transen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Transen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger only to be rivalled by that of the Syndicate. The nascent company possessed an unbounded workforce, \ and strives in robotics meant that it no longer needed to synthesize entire lifeforms when simple machines would work just as well.",
 		"Gingerbread Production was cancelled, decimated even. Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets, under atmospheres even harsher than Alexacora.",
 		
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
