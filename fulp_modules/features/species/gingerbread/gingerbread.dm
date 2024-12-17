@@ -129,7 +129,7 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "thermometer-empty",
 			SPECIES_PERK_NAME = "Cold Sensitive",
-			SPECIES_PERK_DESC = "Gingerbread people can quickly succumb to the cold.",
+			SPECIES_PERK_DESC = "Gingerbread people quickly succumb to the cold without insulative clothing.",
 		),
 	)
 
