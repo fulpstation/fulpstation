@@ -77,12 +77,12 @@
 #define BLOODSUCKER_CAN_BUY (1<<0)
 /// This is a Default Power that all Bloodsuckers get.
 #define BLOODSUCKER_DEFAULT_POWER (1<<1)
-/// This Power can be purchased by Tremere Bloodsuckers
+/// This Power can be purchased by Tremere Bloodsuckers, who starts with the base versions of them and must upgrade from there.
 #define TREMERE_CAN_BUY (1<<2)
 /// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<3)
-/// This Power is exclusive to Brujah Bloodsuckers
-#define BRUJAH_CAN_BUY (1<<4)
+/// This Power is exclusive to Brujah Bloodsuckers, who will gain them upon joining Brujah.
+#define BRUJAH_DEFAULT_POWER (1<<4)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)

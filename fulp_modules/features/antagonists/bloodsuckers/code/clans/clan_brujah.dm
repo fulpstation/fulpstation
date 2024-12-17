@@ -18,10 +18,9 @@
 	owner_datum.break_masquerade()
 	owner_datum.AddHumanityLost(37.5) // Frenzy at 400
 	bloodsuckerdatum.remove_nondefault_powers(return_levels = TRUE)
-	owner_datum.powers += new /datum/action/cooldown/bloodsucker/targeted/brawn //Doesn't actually give brawn, but makes it unpurchasable.
 	// Copied over from 'clan_tremere.dm' with appropriate adjustment.
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.all_bloodsucker_powers)
-		if((initial(power.purchase_flags) & BRUJAH_CAN_BUY))
+		if((initial(power.purchase_flags) & BRUJAH_DEFAULT_POWER))
 			bloodsuckerdatum.BuyPower(new power)
 
 /datum/bloodsucker_clan/brujah/spend_rank(datum/antagonist/bloodsucker/source, mob/living/carbon/target, cost_rank, blood_cost)
