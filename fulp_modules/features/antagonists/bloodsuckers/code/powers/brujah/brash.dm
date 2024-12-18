@@ -20,7 +20,7 @@
 		At level 4 this ability will allow you to break through normal walls and windows. \n\
 		At level 5 this ability will allow you to break through reinforced walls and windows. \n\
 		Higher levels will increase this ability's damage and knockdown."
-	purchase_flags = BRUJAH_CAN_BUY
+	purchase_flags = BRUJAH_DEFAULT_POWER
 	power_flags = BP_AM_VERY_DYNAMIC_COOLDOWN
 	bloodcost = null		  // Set on use
 	cooldown_time = 1 SECONDS // Same as above
