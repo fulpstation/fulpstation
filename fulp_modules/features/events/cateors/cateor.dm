@@ -110,7 +110,7 @@
 		if(GLOB.curse_of_madness_triggered)
 			return
 
-		var/obj/item/organ/internal/brain/humanoid_brain = humanoid.get_organ_slot(ORGAN_SLOT_BRAIN)
+		var/obj/item/organ/brain/humanoid_brain = humanoid.get_organ_slot(ORGAN_SLOT_BRAIN)
 		var/list/brain_traumas = humanoid_brain.get_traumas_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)
 		if(!brain_traumas)
 			return

@@ -1,48 +1,48 @@
 ## List of all TG edits:
 
-- code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
+code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
-- code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
+code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- README.md > Replaces it with our own readme
+README.md > Replaces it with our own readme
 
-- tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
+tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
 
-- tools/build/build.js > Adds our folder to be read for changes when compiling.
+tools/build/build.js > Adds our folder to be read for changes when compiling.
 
-- tgstation.dme > Adds our files to be included when compiling
+tgstation.dme > Adds our files to be included when compiling
 
 ## All Fulp files not contained within /fulp_modules/
 
-- tgui/packages/fulpui-patches > Adds all Fulp TGUI files
+tgui/packages/fulpui-patches > Adds all Fulp TGUI files
 
 #### Maps & Shuttles
-- _maps/map_files/Heliostation/Heliostation.dmm
-- _maps/heliostation.json
-- _maps/shuttles/arrival_helio.dmm
-- _maps/shuttles/cargo_helio.dmm
-- _maps/shuttles/emergency_helio.dmm
-- _maps/shuttles/labour_helio.dmm
-- _maps/map_files/SeleneStation/SeleneStation.dmm
-- _maps/selenestation.json
-- _maps/shuttles/arrival_selene.dmm
-- _maps/shuttles/cargo_selene.dmm
-- _maps/shuttles/emergency_selene.dmm
-- _maps/shuttles/mining_selene.dmm
-- _maps/shuttles/labour_selene.dmm
-- _maps/map_files/PubbyStation/PubbyStation.dmm
-- _maps/pubbystation.json
-- _maps/map_files/TheiaStation/TheiaStation.dmm
-- _maps/theiastation.json
-- _maps/shuttles/arrival_fulp.dmm
-- _maps/shuttles/cargo_fulp.dmm
-- _maps/shuttles/emergency_theia.dmm
+_maps/map_files/Heliostation/Heliostation.dmm
+_maps/heliostation.json
+_maps/shuttles/arrival_helio.dmm
+_maps/shuttles/cargo_helio.dmm
+_maps/shuttles/emergency_helio.dmm
+_maps/shuttles/labour_helio.dmm
+_maps/map_files/SeleneStation/SeleneStation.dmm
+_maps/selenestation.json
+_maps/shuttles/arrival_selene.dmm
+_maps/shuttles/cargo_selene.dmm
+_maps/shuttles/emergency_selene.dmm
+_maps/shuttles/mining_selene.dmm
+_maps/shuttles/labour_selene.dmm
+_maps/map_files/PubbyStation/PubbyStation.dmm
+_maps/pubbystation.json
+_maps/map_files/TheiaStation/TheiaStation.dmm
+_maps/theiastation.json
+_maps/shuttles/arrival_fulp.dmm
+_maps/shuttles/cargo_fulp.dmm
+_maps/shuttles/emergency_theia.dmm
 
 #### TGUI
-- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsuckerbreakout.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/fulp_species_features.tsx
+tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
+tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsuckerbreakout.ts
+tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
+tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
+tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
+tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx
+tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/fulp_species_features.tsx

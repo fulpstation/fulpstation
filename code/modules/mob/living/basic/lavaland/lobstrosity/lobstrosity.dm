@@ -12,6 +12,7 @@
 	maxHealth = 150
 	health = 150
 	obj_damage = 15
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_AQUATIC
 	melee_damage_lower = 15
 	melee_damage_upper = 19
 	attack_verb_continuous = "snips"
@@ -22,7 +23,7 @@
 	butcher_results = list(
 		/obj/item/food/meat/slab/rawcrab = 2,
 		/obj/item/stack/sheet/bone = 2,
-		/obj/item/organ/internal/monster_core/rush_gland = 1,
+		/obj/item/organ/monster_core/rush_gland = 1,
 	)
 	crusher_loot = /obj/item/crusher_trophy/lobster_claw
 	ai_controller = /datum/ai_controller/basic_controller/lobstrosity
@@ -146,7 +147,7 @@
 	butcher_results = list(
 		/obj/item/food/meat/slab/rawcrab = 1,
 		/obj/item/stack/sheet/bone = 1,
-		/obj/item/organ/internal/monster_core/rush_gland = 1,
+		/obj/item/organ/monster_core/rush_gland = 1,
 	)
 	crusher_loot = null
 	ai_controller = /datum/ai_controller/basic_controller/lobstrosity/juvenile
@@ -183,7 +184,7 @@
 		optional_checks = CALLBACK(src, PROC_REF(ready_to_grow)),\
 		optional_grow_behavior = CALLBACK(src, PROC_REF(grow_up))\
 	)
-	AddComponent(/datum/component/tameable, target_foods, tame_chance = 35, bonus_tame_chance = 20)
+	AddComponent(/datum/component/tameable, tame_chance = 35, bonus_tame_chance = 20)
 	AddComponent(/datum/component/swarming, 16, 11)
 	ADD_TRAIT(src, TRAIT_MOB_HIDE_HAPPINESS, INNATE_TRAIT) //Do not let strangers know it gets happy when poked if stray.
 

@@ -197,7 +197,7 @@
 	var/extra_wound = 0
 	if(HAS_TRAIT(user, TRAIT_HULK))
 		extra_wound = 20
-	banged_limb?.receive_damage(30, wound_bonus = extra_wound)
+	pushed_mob.apply_damage(30, BRUTE, banged_limb, wound_bonus = extra_wound)
 	pushed_mob.apply_damage(60, STAMINA)
 	take_damage(50)
 	if(user.mind?.martial_art?.smashes_tables && user.mind?.martial_art.can_use(user))
@@ -288,7 +288,7 @@
 		tableplace_delay = 2.75 SECONDS
 		skills_space = " quickly"
 
-	var/obj/item/organ/internal/cyberimp/chest/spine/potential_spine = user.get_organ_slot(ORGAN_SLOT_SPINE)
+	var/obj/item/organ/cyberimp/chest/spine/potential_spine = user.get_organ_slot(ORGAN_SLOT_SPINE)
 	if(istype(potential_spine))
 		tableplace_delay *= potential_spine.athletics_boost_multiplier
 
