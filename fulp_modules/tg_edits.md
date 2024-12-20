@@ -14,6 +14,7 @@
 
 ## All Fulp files not contained within /fulp_modules/
 
+- code/__DEFINES/fulp_defines > Contains all of our defines
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
 
 #### Maps & Shuttles

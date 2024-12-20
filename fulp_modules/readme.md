@@ -51,6 +51,12 @@ While this isn't required, Fulpstation and your own fork has different workflows
 
 ## Outside of Fulp modules
 
+### Defines
+
+Defines need to be ticked (i.e. listed in the .dme) before the files where they're used. This includes helpers, symbolic constants, etc. If we were to keep our defines inside of the `fulp_modules` folder, they would be ticked before *our* files, but *after* TG's files. This is a problem if we ever want to make use of them in a TG-Edit, or in other files that must be placed outside of `fulp_modules`.
+
+For this reason, all our defines are placed in a subfolder called `fulp_defines`, inside of TG's `code/__DEFINES` folder. This way, they are ticked immediately after TG's defines.
+
 ### TGUI
 
 Due to how TG handles TGUI, there is currently no known way to make this hosted in the Fulp modules folder, therefore they are put in TG's TGUI folder instead. While this is an annoyance, we don't have any better alternative for now, so you can ignore it lacking modularity.
