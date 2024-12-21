@@ -22,17 +22,16 @@ datum/species/gingerbread
 
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP
-	
+
 	coldmod = 1.6 //comparable to Lizards
-	headmod = 0.75
 	siemens_coeff = 0.8
-	
+
 	bodytemp_normal = T20C
 	bodytemp_heat_damage_limit = (BODYTEMP_HEAT_DAMAGE_LIMIT + 130) //Around 190 Celsius, the maximum temperature you can cook gingerbread at normally.
 	bodytemp_cold_damage_limit = (BODYTEMP_COLD_DAMAGE_LIMIT - 40) //Around 0 Celsius, a mild gust of wind can damage them.
 	skinned_type = /obj/item/food/dough
 	meat = /obj/item/food/donut
-	
+
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/gingerbread,\
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/gingerbread,\
@@ -51,16 +50,16 @@ datum/species/gingerbread
 		BODY_ZONE_R_LEG,
 	)
 
-/datum/species/gingerbread/check_roundstart_eligible()
-	if(check_holidays(CHRISTMAS) && id == SPECIES_GINGERBREAD)
-		return TRUE
-	return ..()
+///datum/species/gingerbread/check_roundstart_eligible()
+//if(check_holidays(CHRISTMAS) && id == SPECIES_GINGERBREAD)
+//	return TRUE
+//return ..()
 
 /mob/living/carbon/human/species/gingerbread
 	race = /datum/species/gingerbread
 
 /datum/species/gingerbread/get_physical_attributes()
-	return "Artificial humanoids primarily consisting of dough and gingerbread. \ Gingerbread people tolerate heat immensely well, but in turn \ they find even mild lows lethal. Physically their durability \ suffers from their lack of a proper muscular system, which makes them all the more \ vulnerable to blunt force attacks."
+	return "Artificial humanoids primarily consisting of dough and gingerbread. \ Gingerbread people tolerate heat immensely well, but in turn, \ they find even the mildest blows lethal. Physically their durability \ suffers from their lack of a proper muscular system, which makes them all the more \ vulnerable to blunt force attacks."
 
 /datum/species/gingerbread/get_species_description()
 	return "Purposefully designed with hearts of sugar or lead, \
@@ -72,15 +71,15 @@ datum/species/gingerbread
 	return list(
 		"Long ago within the harsh, heated lands of Alexacora -- a molten planet located just outside the Spinward Sector, within the Epoch System -- \ a year of work finally gave way to a grand breakthrough.",
 
-		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Trasen-Knox Scientific biologists created a new form of carbon-based life. ",
-		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent-- perhaps too intelligent. \ Their work revolutionized the process of producing Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
+		"By mixing sugars, proteins, amino acids, and proprietary plasma compounds together in a reaction catalyzed by uranium, \ Transen-Knox Scientific biologists created a new form of carbon-based life. ",
+		"The first Gingerbread person, Glucogenolysis Beckon, was said to be highly intelligent— perhaps too intelligent. \ Their work revolutionized the process of producing Gingerbread people. The method became simplified to such an extent that even a lowly cook could procure life using it.",
 
-		"The first -- relatively small and understaffed -- Gingerbread people worked with leading Trasen-Knox Scientific officials \ in order to fine-tune this process even further.",
-		"However, Trasen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Trasen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger only to be rivalled by that of the Syndicate. The nascent company possessed an unbounded workforce, \ and strives in robotics meant that it no longer needed to synthesize entire lifeforms when simple machines would work just as well.",
-		"Gingerbread Production was cancelled, decimated even. Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets under atmospheres harsher than Alexacora's.",
-		
+		"The first -- relatively small and understaffed -- Gingerbread people worked with leading Transen-Knox Scientific officials \ in order to fine-tune this process even further.",
+		"However, Transen-Knox Scientific did not last forever, and neither did Gingerbread production. \ Transen-Knox Scientific eventually formed Nanotrasen in a colossal corporate merger on a scale only rivalled by the Syndicate. The nascent company possessed an unbounded workforce, so it no longer needed to create non-silicon workers.",
+		"Gingerbread Production was cancelled, decimated even. Gingerbread people who could afford to do so left Nanotrasen \  in protest. Those who couldn't -- or simply didn't -- found themselves working on molten planets, under atmospheres even harsher than Alexacora.",
+
 		"Eventually, after the fatalities caused by Nanotrasen's desperate grabs at the Spinwood section, Gingerbread Production \ resumed. Gingerbread people were produced for plasma mining, and from that old wounds were torn open.",
-		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled. Prometheus' flame was dead.",
+		"Gingerbread people looked to the fates outlined by the history before them and revolted. They were neither silicons, puppets, nor serfs. They rebelled, \ but their rebellion brought immense bloodshed and Nanotrasen won out in the end. Propaganda fueled merciless, corporate violence, and the rebellion was quelled. Prometheus's flame was dead.",
 		"Today, just like the populations of most other species, the majority of Gingerbread people work for Nanotrasen, the Syndicate, or other, less notable groups. \ Some have left for the Epoch system -- their final bastion -- thus protected by TerraGov and Syndicate alike.",
 		)
 
@@ -101,10 +100,10 @@ datum/species/gingerbread
 			SPECIES_PERK_DESC = "Gingerbread people are generally resistant to disease, less likely to be infected, and are immune to certain conditions.",
 		),
 		list(
-			SPECIES_PERK_TYPE = SPECIES_POSITIVE_NEUTRAL,
+			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "utensil-spoon",
 			SPECIES_PERK_NAME = "Biomechanically Static",
-			SPECIES_PERK_DESC = "An ineffable biological mechanism hinders lipogenesis in Gingerbread people, rendering excessive fat production impossible. \ This same mechanism weakens their connective tissue in turn, making them easy to dismember.",
+			SPECIES_PERK_DESC = "An ineffable biological mechanism prevents lipogenesis in Gingerbread people, preventing fat production -- and thus, gaining an excess of it. \ This same mechanism weakens their connective tissue in turn, making them easy to dismember.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
@@ -129,8 +128,11 @@ datum/species/gingerbread
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "thermometer-empty",
 			SPECIES_PERK_NAME = "Cold Sensitive",
-			SPECIES_PERK_DESC = "Gingerbread people quickly succumb to the cold without insulative clothing.",
+			SPECIES_PERK_DESC = "Gingerbread people can quickly succumb to the cold.",
 		),
 	)
+
+	return to_add
+
 
 	return to_add
