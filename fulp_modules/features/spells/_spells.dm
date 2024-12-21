@@ -12,6 +12,8 @@
 	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "funk"
 
+	var/list/funky_turfs
+
 	var/list/dancefloor_turfs
 	var/list/dancefloor_turfs_types
 	var/dancefloor_exists = FALSE
@@ -28,13 +30,16 @@
 	/// Sparkle effects being played
 	VAR_PRIVATE/list/obj/effect/overlay/sparkles/sparkles = list()
 
+/datum/action/cooldown/spell/summon_dancefloor/before_cast(atom/cast_on)
+	. = ..()
+	funky_turfs = RANGE_TURFS(1, owner)
+	for(var/turf/closed/solid in funky_turfs)
+		to_chat(owner, span_warning("You're too close to a wall."))
+		return SPELL_CANCEL_CAST
+
 /datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
 	. = ..()
 	owner.emote("scream") //DISCO, HECK YEAH!!!
-	var/list/funky_turfs = RANGE_TURFS(1, owner)
-	for(var/turf/closed/solid in funky_turfs)
-		to_chat(owner, span_warning("You're too close to a wall."))
-		return
 
 	if(dancefloor_exists)
 		delete_dancefloor()
@@ -92,23 +97,28 @@
 
 /datum/action/cooldown/spell/summon_dancefloor/proc/lights_spin()
 	var/turf/target_turf = get_turf(owner)
+	//All sparkles (except the first sparkle) orbit the first sparkle.
+	//This is necessary to prevent them from bugging out if the tile they're orbitting is destroyed.
+	var/obj/effect/overlay/sparkles/central_sparkle
 	for(var/i in 1 to 25)
+		if(i == 1)
+			central_sparkle = new /obj/effect/overlay/sparkles(target_turf)
 		var/obj/effect/overlay/sparkles/S = new /obj/effect/overlay/sparkles(target_turf)
 		sparkles += S
 		switch(i)
-			if(1 to 8)
-				S.orbit(target_turf, 30, TRUE, 60, 36, TRUE)
-			if(9 to 15)
-				S.orbit(target_turf, 62, TRUE, 60, 36, TRUE)
-			if(16)
-				S.orbit(target_turf, 62, TRUE, 60, 36, TRUE)
+			if(2 to 9)
+				S.orbit(central_sparkle, 30, TRUE, 60, 36, TRUE)
+			if(10 to 16)
+				S.orbit(central_sparkle, 62, TRUE, 60, 36, TRUE)
+			if(17)
+				S.orbit(central_sparkle, 62, TRUE, 60, 36, TRUE)
 				playsound(target_turf, 'sound/effects/magic/blind.ogg', 37, frequency = -1)
 				for(var/mob/living/M in viewers(target_turf))
 					M.emote("spin")
 					M.emote("flip")
 					M.emote("snap")
-			if(17 to 24)
-				S.orbit(target_turf, 95, TRUE, 60, 36, TRUE)
+			if(18 to 25)
+				S.orbit(central_sparkle, 95, TRUE, 60, 36, TRUE)
 		sleep(0.7 SECONDS)
 
 /datum/action/cooldown/spell/summon_dancefloor/proc/dance_setup()
