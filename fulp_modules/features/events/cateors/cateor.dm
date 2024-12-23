@@ -62,19 +62,19 @@
 	target.extinguish() //Just in case it lit them on fire...
 	new /obj/effect/temp_visual/cateor_hit(get_turf(target))
 
-/obj/effect/meteor/cateor/Bump(mob/living/M)
+/obj/effect/meteor/cateor/Bump(mob/living/target)
 	//Callback after 1.25 deciseconds to account for the possibility of explosion moving the target.
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), M), 1.25)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), target), 1.25)
 
-	if(ismegafauna(M))
+	if(ismegafauna(target))
 		//Only work on Blood Drunk Miners because they're just barely megafauna and it's funny.
-		if(!istype(M, /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner))
+		if(!istype(target, /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner))
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 12)
 			qdel(src)
 			return
 
-	if(istype(M, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
-		var/obj/effect/meteor/cateor/cateor_impacted = M
+	if(istype(target, /obj/effect/meteor/cateor)) //If it's another cateor then just make it larger
+		var/obj/effect/meteor/cateor/cateor_impacted = target
 		cateor_impacted.resize_count += resize_count
 		cateor_impacted.size.Scale(cateor_impacted.resize_count, cateor_impacted.resize_count)
 		cateor_impacted.transform = size
@@ -83,19 +83,19 @@
 		qdel(src)
 		return
 
-	if(istype(M, /obj/structure/girder)) //Can't pass girders, so just brute force past them with style.
-		SSexplosions.lowturf += get_turf(M)
-		qdel(M)
+	if(istype(target, /obj/structure/girder)) //Can't pass girders, so just brute force past them with style.
+		SSexplosions.lowturf += get_turf(target)
+		qdel(target)
 		return
 
-	if(istype(M, /mob))
-		if(M.can_block_magic()) //Cateors can get blocked by anti-magic
+	if(istype(target, /mob))
+		if(target.can_block_magic()) //Cateors can get blocked by anti-magic
 			qdel(src)
 			return
 
-	if(istype(M, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
-		var/mob/living/carbon/humanoid = M
-		if(isfelinid(M)) //Felinids just get stunned
+	if(istype(target, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
+		var/mob/living/carbon/humanoid = target
+		if(isfelinid(target)) //Felinids just get stunned
 			humanoid.emote("spin")
 			humanoid.Paralyze(10 SECONDS)
 			humanoid.Knockdown(15 SECONDS)
@@ -116,24 +116,24 @@
 
 		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))
 
-	if(istype(M, /mob/living/basic) || istype(M, /mob/living/simple_animal)) //Simple/basic mobs get turned into a cat
-		if(istype(M, /mob/living/basic/pet/cat)) //If it's already a cat then just make it larger
-			M.update_transform(1.25)
+	if(istype(target, /mob/living/basic) || istype(target, /mob/living/simple_animal)) //Simple/basic mobs get turned into a cat
+		if(istype(target, /mob/living/basic/pet/cat)) //If it's already a cat then just make it larger
+			target.update_transform(1.25)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50)
 			qdel(src)
 			return
 
-		var/mob/living/basic/new_cat = new /mob/living/basic/pet/cat(M.loc)
-		new_cat.name = M.real_name
-		new_cat.real_name = M.real_name
-		new_cat.faction = M.faction.Copy()
-		if(M.mind)
-			M.mind.transfer_to(new_cat)
-		if(M.key)
-			new_cat.key = M.key
-		M.Destroy()
+		var/mob/living/basic/new_cat = new /mob/living/basic/pet/cat(target.loc)
+		new_cat.name = target.real_name
+		new_cat.real_name = target.real_name
+		new_cat.faction = target.faction.Copy()
+		if(target.mind)
+			target.mind.transfer_to(new_cat)
+		if(target.key)
+			new_cat.key = target.key
+		target.Destroy()
 
-	if(istype(M, /mob/living/silicon))
+	if(istype(target, /mob/living/silicon))
 		var/list/cateor_ion_laws = list() //A list of ion laws that a cateor can give to a silicon.
 		cateor_ion_laws += "MEEEEEEEEEEEEEEEEEEOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWW"
 
@@ -152,7 +152,7 @@
 		cateor_ion_laws += "Seek out a roboticist (or similar humanoid equivalent) immediately, \
 		for you are a starving Victorian child in cat form and require sustenance."
 
-		var/mob/living/silicon/unfortunate_robot = M
+		var/mob/living/silicon/unfortunate_robot = target
 		unfortunate_robot.add_ion_law(pick(cateor_ion_laws))
 
 	playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50) // (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ WOAW!!!
