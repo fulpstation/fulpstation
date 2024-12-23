@@ -113,7 +113,7 @@
 /obj/item/toy/plush/beefplushie/update_icon_state()
 	. = ..()
 	if(holiday_edition)
-		icon_state = "holiday_beefman"
+		icon_state = "holiday_[base_icon_state]"
 
 //Do your cooldown changes here.
 #define BEEFPLUSHIE_COOLDOWN_TIME (1 MINUTES)
