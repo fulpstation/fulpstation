@@ -3,6 +3,7 @@
  */
 #define SPECIES_BEEFMAN "beefman"
 #define SPECIES_PROTOGEN "protogen"
+#define SPECIES_GINGERBREAD "gingerbread"
 
 /**
 * Beefman damage description defines
