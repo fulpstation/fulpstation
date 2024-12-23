@@ -1,6 +1,6 @@
 /datum/language/russian
 	name = "Space Russian"
-	desc = "An archaic terrestrial language still spoken in Space Russia."
+	desc = "An archaic, terrestrial language still spoken in Space Russia."
 	key = "2"
 	sentence_chance = 5
 	space_chance = 50
