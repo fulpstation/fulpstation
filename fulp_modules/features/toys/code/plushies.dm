@@ -214,4 +214,4 @@
 /obj/item/toy/plush/phos/update_icon_state()
 	. = ..()
 	if(holiday_edition)
-		icon_state = "holiday_phos"
+		icon_state = "holiday_[base_icon_state]"
