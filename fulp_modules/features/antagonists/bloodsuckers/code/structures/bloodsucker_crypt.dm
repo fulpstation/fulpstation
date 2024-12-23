@@ -923,7 +923,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 		var/datum/antagonist/bloodsucker/user_bloodsucker_datum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker, FALSE)
 
 		if(!length(user_bloodsucker_datum.vassals))
-			balloon_alert(user, "you have no vassals!")
+			balloon_alert(user, "no vassals!")
 			return
 		if(in_use)
 			balloon_alert(user, "already in use!")
