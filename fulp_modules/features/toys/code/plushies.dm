@@ -93,6 +93,7 @@
 	desc = "Made from real meat!"
 	icon = 'fulp_modules/icons/toys/toys.dmi'
 	icon_state = "beefman"
+	base_icon_state = "beefman"
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
 
 	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
@@ -179,6 +180,7 @@
 	desc = "Has a hardness of roughly 3.5 on Mohs' scale."
 	icon = 'fulp_modules/icons/toys/toys.dmi'
 	icon_state = "phos"
+	base_icon_state = "phos"
 	attack_verb_continuous = list("taps", "clicks", "scrapes")
 	attack_verb_simple = list("tap", "click", "scrape")
 	resistance_flags = FLAMMABLE | ACID_PROOF //Most gemstones are acid-resistant... right?
