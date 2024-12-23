@@ -929,7 +929,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 			balloon_alert(user, "already in use!")
 			return
 		if(user_bloodsucker_datum.blood_structure_in_use)
-			balloon_alert(user, "you're already using a mirror!")
+			balloon_alert(user, "already using a mirror!")
 			return
 
 
