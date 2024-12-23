@@ -31,14 +31,6 @@
 	joinable_clan = FALSE
 	blood_drink_type = BLOODSUCKER_DRINK_SNOBBY
 
-/datum/bloodsucker_clan/brujah
-	name = CLAN_BRUJAH
-	description = "The Brujah clan has proven to be the strongest in melee combat, boasting a powerful punch. \n\
-		They appear to be calmer than their kin, entering their \"frenzies\" whenever they want but conversely being less affected by them. \n\
-		Be wary, as they are fearsome insurgents, rebels, and anarchists, with an inclination towards chaos. \n\
-		Their favorite vassal gains Brawn and substantially strengthened fists."
-	joinable_clan = FALSE
-
 /datum/bloodsucker_clan/tzimisce
 	name = CLAN_TZIMISCE
 	description = "Much of the information about the Tzimisce clan has yet to be reliably confirmed. \n\

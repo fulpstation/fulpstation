@@ -12,8 +12,18 @@
 		"Mages with a history of epileptic seizure are advised to cast this with caution..."
 	)
 
+	/// Boolean indicating whether or not the book is currently in the process of recoiling on someone.
+	/// Necessary to prevent people from spamming the recoil while actively being recoiled.
+	var/recoil_active = FALSE
+
 /obj/item/book/granter/action/spell/fulp/summon_dancefloor/recoil(mob/living/user)
+	if(recoil_active)
+		return FALSE
+
 	. = ..()
+	recoil_active = TRUE
+	addtimer(VARSET_CALLBACK(src, recoil_active, FALSE), 6 SECONDS)
+
 	to_chat(user, span_warning("You feel compelled to try out an epic dance move!"))
 	user.Immobilize(6 SECONDS)
 	playsound(get_turf(user), 'sound/effects/magic/blind.ogg', 37, frequency = -1)
@@ -31,3 +41,5 @@
 	user.emote("scream")
 	user.Paralyze(4 SECONDS)
 	user.apply_damage(25, BRUTE, BODY_ZONE_CHEST)
+
+

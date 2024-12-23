@@ -127,22 +127,25 @@
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Russian-famous Fiddler Diner was serving food to the crew, when they realized they ran out of burger ingredients. \
-		After drawing straws, the Cook was sent to fetch some more meat from the Morgue, unaware of the events that will transpire. \
-		'It's normal for the Kitchen to grab dead bodies, right? It's not like they need them... Right?' The Cook thought, \
-		inattentively grabbing the first body they could find, trying to get this over with before it becomes a memory. \
-		What the Cook hadn't noticed, the Morgue's tray was green, the body was filled with a soul, one that was begging not to be gibbed.",
+		"In the year 2437 the Post-Neo-Soviet Fiddler Diner was serving food aboard the cruise ship Mustai Karim. Shortly into lunch the diner's kitchen ran out of burger meat. \
+		After straws were drawn, a neophyte cook— blissfully unaware of what would soon transpire— went to fetch some meat from the morgue. \
+		The cook thought, \"We do this all the time, right? The dead don't need their bodies, it's only being resourceful...\" \
+		Inattentively grabbing the first body they could find, the cook rushed to complete their unenviable task lest it were to become an enduring memory. \
+		What the cook didn't noticed was a green, lit revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessel gibbed.",
 
-		"The Cook one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out, as if it was in reverse... \
-		The Cook looked over to see what was going on, but the slab of meat looked back, with massive eyes.",
+		"The young cook returned to their diner's cold room and shoved the corpse into the gibber. The machine struggled in tedium with its unupgraded parts. \
+		Once the whole body was in, the grinder's blades suddenly stopped and (with a horrible shriek) they began spinning in reverse. \
+		The cook looked over on impulse, but to their horror a grinning slab of meat looked back at them with lively yet somnambulant eyes.",
 
-		"After a quick confiscation from the Russian Sol Government, most records of 'Beefmen' have gone dark, \
-		with minor glimpses of 'Sleep Experiments' going around. \
-		One thing is certain though, a rise of gibbers on-board Russian stations, which was followed by a rise in Beefmen. \
-		No one knows what happened during this era, but when the program finally ended and they were allowed into society, \
-		none of them were able to live 'normally'. Their complete inability to sleep, but their power in traversing the 'Phobetor Tear' \
-		immediately started popping everywhere, and has been at the	forefront of galaxy-wide investigations of their anatomy and the experiments.",
+		"The Mustai Karim went off of AIS tracking around this point. Searches were organized, but they were immediately halted when the missing ship arrived at its final destination three days behind schedule. \
+		The majority of its non-vital crew were missing, and the Third Soviet Cost Guard (after a brief investigation) released a complex explanation involving piracy, miscommunication, and an unparalleled amount of misfortune.",
+
+		"Three years passed before reports of skinless vagrants arose throughout Post-Neo-Soviet Space. At the epicenter of this conundrum was an obscure military research facility that coincidentally \
+		exploded right before the \"Аномальные появления\" began. The Third Soviet Government fell completely silent at this, so the members of the general public were left to make their own excuses.  \
+		Most thought it was some sort of macabre fad; some arranged unintuitive scientific explanations involving the effects of space radiation on humanoid genetics; and others spread rumours of clandestine, \
+		government-sponsored \"sleep experiments\". Regardless of their origins, the \"Beefmen\" quickly integrated into wider galactic society. \
+		None of them were able to live completely normal lives. They were utterly unable to sleep, and they could apparently traverse an inexplicable sub-spatial web of what they termed \"Phobetor Tears\". \
+		Because of the discovery of this Phobetor Network, they are now a common sight on research stations of nearly every variety.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
@@ -154,34 +157,35 @@
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "handshake",
 			SPECIES_PERK_NAME = "Beefy Limbs",
-			SPECIES_PERK_DESC = "Beefmen are able to tear off and put limbs back on at will. They do this by targetting their limb and right clicking.",
+			SPECIES_PERK_DESC = "Beefmen are able to tear off limbs and put them back at will. This can be done by targetting a limb and right clicking with an empty hand.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "running",
 			SPECIES_PERK_NAME = "Runners",
-			SPECIES_PERK_DESC = "Beefmen are 20% faster than most other species.",
+			SPECIES_PERK_DESC = "Beefmen are 20% faster than most humanoids.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "temperature-low",
 			SPECIES_PERK_NAME = "Cold Loving",
-			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold. Low temperatures even prevent bleeding.",
+			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold. Low temperatures even prevent them from bleeding.",
 		),
 		//Neutral
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "link",
 			SPECIES_PERK_NAME = "Phobetor Tears",
-			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor tears, small tears in reality, \
-				that teleport them to the other end of the tear. This can only be done when no one is watching.",
+			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor Tears: small tears in reality \
+				that temporarily connect random areas. Beefmen know where individual tears lead, \
+				but they can only move through them when both sides of a tear are unobserved.",
 		),
 		//Negative
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "shield-alt",
 			SPECIES_PERK_NAME = "Boneless Meat",
-			SPECIES_PERK_DESC = "Beefmen's meat is not well guarded, causing them to take 20% more damage.",
+			SPECIES_PERK_DESC = "Beefmen are made of meat and have no skin. This causes them to take 20% more damage.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
@@ -193,9 +197,8 @@
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "briefcase-medical",
-			SPECIES_PERK_NAME = "Mentally unfit",
-			SPECIES_PERK_DESC = "Beefmen suffer from a permanent brain trauma \
-				that can't be repaired under normal circumstances.",
+			SPECIES_PERK_NAME = "Mentally Unwell",
+			SPECIES_PERK_DESC = "Beefmen suffer from a permanent brain trauma that causes hallucinations.",
 		),
 	)
 

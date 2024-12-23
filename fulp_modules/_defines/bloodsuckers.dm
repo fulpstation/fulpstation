@@ -57,6 +57,7 @@
 #define TREMERE_VASSAL "tremere_vassal"
 #define FAVORITE_VASSAL "favorite_vassal"
 #define REVENGE_VASSAL "revenge_vassal"
+#define DISCORDANT_VASSAL "discordant_vassal"
 
 /**
  * Power defines
@@ -76,10 +77,12 @@
 #define BLOODSUCKER_CAN_BUY (1<<0)
 /// This is a Default Power that all Bloodsuckers get.
 #define BLOODSUCKER_DEFAULT_POWER (1<<1)
-/// This Power can be purchased by Tremere Bloodsuckers
+/// This Power can be purchased by Tremere Bloodsuckers, who starts with the base versions of them and must upgrade from there.
 #define TREMERE_CAN_BUY (1<<2)
 /// This Power can be purchased by Vassals
 #define VASSAL_CAN_BUY (1<<3)
+/// This Power is exclusive to Brujah Bloodsuckers, who will gain them upon joining Brujah.
+#define BRUJAH_DEFAULT_POWER (1<<4)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)
@@ -89,6 +92,8 @@
 #define BP_AM_STATIC_COOLDOWN (1<<2)
 /// This Power doesn't cost bloot to run while unconscious
 #define BP_AM_COSTLESS_UNCONSCIOUS (1<<3)
+/// This Power has a cooldown that is more dynamic than a typical Bloodsucker power
+#define BP_AM_VERY_DYNAMIC_COOLDOWN (1<<4)
 
 /**
  * Sol signals & Defines
@@ -128,3 +133,11 @@
 #define ROLE_BLOODSUCKERBREAKOUT "Bloodsucker Breakout"
 #define ROLE_MONSTERHUNTER "Monster Hunter"
 #define ROLE_INFILTRATOR "Infiltrator"
+
+/**
+ * Miscellaneous defines
+ *
+ * (Defines for things too trivial to warrant their own category so we'll just call them "misc".)
+ */
+/// The attack bonus added to the punch damage of the Brujah clan's favorite vassals.
+#define BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS 4

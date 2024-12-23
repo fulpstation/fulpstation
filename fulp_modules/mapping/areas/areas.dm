@@ -158,7 +158,7 @@
 // - Beefstation ruin end - //
 
 /area/ruin/space/has_grav/disco_shrine
-	name = "disco shrine"
+	name = "Disco Shrine"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "disco_shrine"
 	base_lighting_alpha = 128
@@ -166,7 +166,7 @@
 	flags_1 = NONE
 
 /area/ruin/space/has_grav/cateor_shrine
-	name = "cateor shrine"
+	name = "Cateor Shrine"
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "cateor_shrine"
 	base_lighting_alpha = 128
