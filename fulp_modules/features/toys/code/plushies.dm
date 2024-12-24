@@ -106,10 +106,10 @@
 		holiday_edition = TRUE
 		update_appearance()
 
-/obj/item/toy/plush/beefplushie/examine(mob/user)
+/obj/item/toy/plush/beefplushie/update_desc(mob/user)
 	. = ..()
 	if(holiday_edition)
-		. += span_notice("It's a holiday exclusive edition with a santa hat sewn on!")
+		desc += span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
 
 /obj/item/toy/plush/beefplushie/update_icon_state()
 	. = ..()
@@ -206,12 +206,12 @@
 	. = ..()
 	if(!isnull(check_holidays(FESTIVE_SEASON)))
 		holiday_edition = TRUE
-		update_icon()
+		update_appearance()
 
-/obj/item/toy/plush/phos/examine(mob/user)
+/obj/item/toy/plush/phos/update_desc(mob/user)
 	. = ..()
 	if(holiday_edition)
-		. += span_notice("It's a holiday exclusive edition with a santa hat sewn on!")
+		desc += span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
 
 /obj/item/toy/plush/phos/update_icon_state()
 	. = ..()
