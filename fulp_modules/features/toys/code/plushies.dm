@@ -104,7 +104,7 @@
 	. = ..()
 	if(!isnull(check_holidays(FESTIVE_SEASON)))
 		holiday_edition = TRUE
-		update_icon()
+		update_appearance()
 
 /obj/item/toy/plush/beefplushie/examine(mob/user)
 	. = ..()
