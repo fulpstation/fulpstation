@@ -93,7 +93,28 @@
 	desc = "Made from real meat!"
 	icon = 'fulp_modules/icons/toys/toys.dmi'
 	icon_state = "beefman"
+	base_icon_state = "beefman"
 	squeak_override = list('sound/effects/meatslap.ogg'=1)
+
+	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
+	/// Coded by referencing 'supermatter.dm'
+	var/holiday_edition = FALSE
+
+/obj/item/toy/plush/beefplushie/Initialize(mapload)
+	. = ..()
+	if(!isnull(check_holidays(FESTIVE_SEASON)))
+		holiday_edition = TRUE
+		update_appearance()
+
+/obj/item/toy/plush/beefplushie/update_desc(mob/user)
+	. = ..()
+	if(holiday_edition)
+		desc = initial(desc) + span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
+
+/obj/item/toy/plush/beefplushie/update_icon_state()
+	. = ..()
+	if(holiday_edition)
+		icon_state = "holiday_[base_icon_state]"
 
 //Do your cooldown changes here.
 #define BEEFPLUSHIE_COOLDOWN_TIME (1 MINUTES)
@@ -156,9 +177,10 @@
 
 /obj/item/toy/plush/phos
 	name = "phosphophyllite plushie"
-	desc = "Has a hardness of roughly 3.5 on Moh's scale."
+	desc = "Has a hardness of roughly 3.5 on Mohs' scale."
 	icon = 'fulp_modules/icons/toys/toys.dmi'
 	icon_state = "phos"
+	base_icon_state = "phos"
 	attack_verb_continuous = list("taps", "clicks", "scrapes")
 	attack_verb_simple = list("tap", "click", "scrape")
 	resistance_flags = FLAMMABLE | ACID_PROOF //Most gemstones are acid-resistant... right?
@@ -175,3 +197,23 @@
 		/datum/reagent/oxygen = 2,
 		/datum/reagent/hydrogen = 4
 	) //I'm not a geologist so this may or mayn't be accurate
+
+	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
+	/// Coded by referencing 'supermatter.dm'
+	var/holiday_edition = FALSE
+
+/obj/item/toy/plush/phos/Initialize(mapload)
+	. = ..()
+	if(!isnull(check_holidays(FESTIVE_SEASON)))
+		holiday_edition = TRUE
+		update_appearance()
+
+/obj/item/toy/plush/phos/update_desc(mob/user)
+	. = ..()
+	if(holiday_edition)
+		desc = initial(desc) + span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
+
+/obj/item/toy/plush/phos/update_icon_state()
+	. = ..()
+	if(holiday_edition)
+		icon_state = "holiday_[base_icon_state]"
