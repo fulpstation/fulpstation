@@ -1,6 +1,6 @@
 /datum/lazy_template/deathmatch/pandamonium
 	name = "Pandamonium"
-	map_dir = "fulp_modules/_maps/deathmatch"
+	map_dir = "_maps/fulp_maps/deathmatch"
 	desc = "Release the beast in the panda way!"
 	max_players = 16
 	allowed_loadouts = list(
@@ -12,7 +12,7 @@
 
 /datum/lazy_template/deathmatch/heliocentric
 	name = "Heliocentric"
-	map_dir = "fulp_modules/_maps/deathmatch"
+	map_dir = "_maps/fulp_maps/deathmatch"
 	desc = "Nostalgic five-tile wide hallways."
 	max_players = 15
 	allowed_loadouts = list(
@@ -26,7 +26,7 @@
 
 /datum/lazy_template/deathmatch/industrial
 	name = "Industrial"
-	map_dir = "fulp_modules/_maps/deathmatch"
+	map_dir = "_maps/fulp_maps/deathmatch"
 	desc = "Only one of us is getting that promotion!"
 	max_players = 15
 	allowed_loadouts = list(

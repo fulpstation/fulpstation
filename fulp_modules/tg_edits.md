@@ -14,6 +14,8 @@
 
 ## All Fulp files not contained within /fulp_modules/
 
+- code/__DEFINES/fulp_defines > Contains all of our defines
+- _maps/fulp_maps > Contains all of our non-station maps (Ruins, Deathmatch maps, etc.)
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
 
 #### Maps & Shuttles
