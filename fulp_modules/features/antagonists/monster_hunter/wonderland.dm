@@ -2,7 +2,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /datum/map_template/wonderland
 	name = "Wonderland"
-	mappath = "fulp_modules/_maps/wonderland.dmm"
+	mappath = "_maps/fulp_maps/wonderland.dmm"
 
 /obj/effect/mob_spawn/corpse/rabbit
 	mob_type = /mob/living/basic/rabbit
