@@ -211,7 +211,7 @@
 /obj/item/toy/plush/phos/update_desc(mob/user)
 	. = ..()
 	if(holiday_edition)
-		desc += span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
+		desc = initial(desc) + span_notice("\nIt's a holiday exclusive edition with a santa hat sewn on!")
 
 /obj/item/toy/plush/phos/update_icon_state()
 	. = ..()
