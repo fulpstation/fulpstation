@@ -79,7 +79,13 @@
 	features["beef_eyes"] = pick(SSaccessories.eyes_beefman_list)
 	features["beef_mouth"] = pick(SSaccessories.mouths_beefman_list)
 	return features
-
+/*
+/datum/species/beefman/prepare_human_for_preview(mob/living/carbon/human/human)
+	human.dna.features["beef_color"] = "#e73f4e"
+	human.dna.features["beef_eyes"] = "Capers"
+	human.dna.features["beef_mouth"] = "Gritting Smile"
+	human.update_body(is_creating = TRUE)
+*/
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
 	var/searJuices = user.getFireLoss_nonProsthetic() / 30
