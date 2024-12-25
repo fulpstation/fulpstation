@@ -1,5 +1,5 @@
 //Organ
-/obj/item/organ/tail/protogen
+/obj/item/organ/external/tail/protogen
 	name = "protogen tail"
 	desc = "A severed protogen tail. Surprisingly sturdy."
 	preference = "feature_protogen_tail"

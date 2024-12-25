@@ -1,5 +1,5 @@
 //Organ
-/obj/item/organ/protogen_antennae
+/obj/item/organ/external/protogen_antennae
 	name = "protogen antennae"
 	desc = "A protogen's metallic antennae."
 	icon_state = "antennae"

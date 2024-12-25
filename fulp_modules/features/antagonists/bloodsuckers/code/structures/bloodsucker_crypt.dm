@@ -825,7 +825,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	if(!observed)
 		balloon_alert(user, "chosen vassal doesn't exist!")
 		return
-	var/obj/item/organ/eyes/observed_eyes = observed.get_organ_slot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/internal/eyes/observed_eyes = observed.get_organ_slot(ORGAN_SLOT_EYES)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 
 	stop_observe.Grant(user)

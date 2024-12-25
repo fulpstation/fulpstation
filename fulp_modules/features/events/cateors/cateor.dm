@@ -107,7 +107,7 @@
 		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 
 		//Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
-		var/obj/item/organ/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
+		var/obj/item/organ/external/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
 		if(antennae)
 			antennae.Remove(humanoid, special = TRUE)
 			qdel(antennae)
