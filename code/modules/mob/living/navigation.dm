@@ -24,20 +24,6 @@
 	addtimer(CALLBACK(src, PROC_REF(create_navigation)), world.tick_lag)
 
 /mob/living/proc/create_navigation()
-<<<<<<< HEAD
-	var/list/destination_list = list()
-	for(var/atom/destination in GLOB.navigate_destinations)
-		if(!isatom(destination) || destination.z != z || get_dist(destination, src) > MAX_NAVIGATE_RANGE)
-			continue
-		var/destination_name = GLOB.navigate_destinations[destination]
-		destination_list[destination_name] = destination
-
-	if(!is_reserved_level(z)) //don't let us path to nearest staircase or ladder on shuttles in transit
-		if(z > 1)
-			destination_list["Nearest Way Down"] = DOWN
-		if(z < world.maxz)
-			destination_list["Nearest Way Up"] = UP
-=======
 	var/can_go_down = SSmapping.level_trait(z, ZTRAIT_DOWN)
 	var/can_go_up = SSmapping.level_trait(z, ZTRAIT_UP)
 	var/list/destination_list = list()
@@ -54,31 +40,12 @@
 		destination_list["Nearest Way Down"] = DOWN
 	if(can_go_up)
 		destination_list["Nearest Way Up"] = UP
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 	if(!length(destination_list))
 		balloon_alert(src, "no navigation signals!")
 		return
 
 	var/platform_code = tgui_input_list(src, "Select a location", "Navigate", sort_list(destination_list))
-<<<<<<< HEAD
-	var/navigate_target = destination_list[platform_code]
-
-	if(isnull(navigate_target))
-		return
-	if(incapacitated)
-		return
-	COOLDOWN_START(src, navigate_cooldown, 15 SECONDS)
-
-	if(navigate_target == UP || navigate_target == DOWN)
-		var/new_target = find_nearest_stair_or_ladder(navigate_target)
-
-		if(!new_target)
-			balloon_alert(src, "can't find ladder or staircase going [navigate_target == UP ? "up" : "down"]!")
-			return
-
-		navigate_target = new_target
-=======
 	var/atom/navigate_target = destination_list[platform_code]
 
 	if(isnull(navigate_target) || incapacitated)
@@ -101,7 +68,6 @@
 
 		navigate_target = new_target
 		finding_zchange = TRUE
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 	if(!isatom(navigate_target))
 		stack_trace("Navigate target ([navigate_target]) is not an atom, somehow.")
@@ -136,11 +102,8 @@
 		animate(path_image, 0.5 SECONDS, alpha = 150)
 	addtimer(CALLBACK(src, PROC_REF(shine_navigation)), 0.5 SECONDS)
 	RegisterSignal(src, COMSIG_LIVING_DEATH, PROC_REF(cut_navigation))
-<<<<<<< HEAD
-=======
 	if(finding_zchange)
 		RegisterSignal(src, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(cut_navigation))
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 	balloon_alert(src, "navigation path created")
 
 /mob/living/proc/shine_navigation()
@@ -156,11 +119,7 @@
 	for(var/image/navigation_path in client.navigation_images)
 		client.images -= navigation_path
 	client.navigation_images.Cut()
-<<<<<<< HEAD
-	UnregisterSignal(src, COMSIG_LIVING_DEATH)
-=======
 	UnregisterSignal(src, list(COMSIG_LIVING_DEATH, COMSIG_MOVABLE_Z_CHANGED))
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 /**
  * Finds nearest ladder or staircase either up or down.

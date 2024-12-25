@@ -436,11 +436,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 				A.add_overlay(source)
 				source.layer = old_layer
 				source.plane = old_plane
-<<<<<<< HEAD
-	to_chat(src, span_ghostalert("<a href=?src=[REF(src)];reenter=1>(Click to re-enter)</a>"))
-=======
 	to_chat(src, span_ghostalert("<a href=byond://?src=[REF(src)];reenter=1>(Click to re-enter)</a>"))
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 	if(sound)
 		SEND_SOUND(src, sound(sound))
 

@@ -262,8 +262,6 @@
 	if(HAS_TRAIT(user, TRAIT_KISS_OF_DEATH))
 		kiss_type = /obj/item/hand_item/kisser/death
 
-<<<<<<< HEAD
-=======
 	var/datum/action/cooldown/ink_spit/ink_action = locate() in user.actions
 	if(ink_action?.IsAvailable())
 		kiss_type = /obj/item/hand_item/kisser/ink
@@ -271,17 +269,13 @@
 	else
 		ink_action = null
 
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 	var/obj/item/kiss_blower = new kiss_type(user)
 	if(user.put_in_hands(kiss_blower))
 		to_chat(user, span_notice("You ready your kiss-blowing hand."))
 	else
 		qdel(kiss_blower)
 		to_chat(user, span_warning("You're incapable of blowing a kiss in your current state."))
-<<<<<<< HEAD
-=======
 		ink_action?.ResetCooldown()
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 /datum/emote/living/laugh
 	key = "laugh"
