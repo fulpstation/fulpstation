@@ -57,8 +57,6 @@
 	if(!json_config)
 		stack_trace("Greyscale config object [DebugName()] is missing a json configuration, make sure `json_config` has been assigned a value.")
 	string_json_config = "[json_config]"
-	if(findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1)
-		stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/'")
 	// Fulp edit - Adding our greyscales folder to this check
 	if((findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1) && (findtext(string_json_config, "fulp_modules/strings/greyscale/json_configs") != 1))
 		stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/' or 'fulp_modules/strings/greyscale/json_configs'")
@@ -309,87 +307,5 @@
 
 	output["icon"] = GenerateBundle(colors, debug_steps)
 	return output
-
-#undef MAX_SANE_LAYERS
-#define MAX_SANE_LAYERS 50
-
-/// A datum tying together a greyscale configuration and dmi file. Required for using GAGS and handles the code interactions.
-/datum/greyscale_config
-	/// User friendly name used in the debug menu
-	var/name
-
-	/// Reference to the json config file
-	var/json_config
-
-	/// Reference to the dmi file for this config
-	var/icon_file
-
-	/// An optional var to set that tells the material system what material this configuration is for.
-	/// Use a typepath here, not an instance.
-	var/datum/material/material_skin
-
-	///////////////////////////////////////////////////////////////////////////////////////////
-	// Do not set any further vars, the json file specified above is what generates the object
-
-	/// Spritesheet width of the icon_file
-	var/width
-
-	/// Spritesheet height of the icon_file
-	var/height
-
-	/// String path to the json file, used for reloading
-	var/string_json_config
-
-	/// The md5 file hash for the json configuration. Used to check if the file has changed
-	var/json_config_hash
-
-	/// String path to the icon file, used for reloading
-	var/string_icon_file
-
-	/// The md5 file hash for the icon file. Used to check if the file has changed
-	var/icon_file_hash
-
-	/// A list of icon states and their layers
-	var/list/icon_states
-
-	/// A list of all layers irrespective of nesting
-	var/list/flat_all_layers
-
-	/// A list of types to update in the world whenever a config changes
-	var/list/live_edit_types
-
-	/// How many colors are expected to be given when building the sprite
-	var/expected_colors = 0
-
-	/// Generated icons keyed by their color arguments
-	var/list/icon_cache
-
-// There's more sanity checking here than normal because this is designed for spriters to work with
-// Sensible error messages that tell you exactly what's wrong is the best way to make this easy to use
-/datum/greyscale_config/New()
-	if(!json_config)
-		stack_trace("Greyscale config object [DebugName()] is missing a json configuration, make sure `json_config` has been assigned a value.")
-	string_json_config = "[json_config]"
-	if(findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1)
-		stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/'")
-	if(!icon_file)
-		stack_trace("Greyscale config object [DebugName()] is missing an icon file, make sure `icon_file` has been assigned a value.")
-	string_icon_file = "[icon_file]"
-	if(!name)
-		stack_trace("Greyscale config object [DebugName()] is missing a name, make sure `name` has been assigned a value.")
-
-/datum/greyscale_config/Destroy(force)
-	if(!force)
-		return QDEL_HINT_LETMELIVE
-	return ..()
-
-/datum/greyscale_config/process(seconds_per_tick)
-	if(!Refresh(loadFromDisk=TRUE))
-		return
-	if(!live_edit_types)
-		return
-	for(var/atom/thing in world)
-		if(live_edit_types[thing.type])
-			thing.update_greyscale()
 
 #undef MAX_SANE_LAYERS
