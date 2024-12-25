@@ -424,6 +424,7 @@
 	icon = 'icons/obj/service/hydroponics/equipment.dmi'
 	icon_state = "cultivator"
 	inhand_icon_state = "cultivator"
+	icon_angle = -135
 	lefthand_file = 'icons/mob/inhands/equipment/hydroponics_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/hydroponics_righthand.dmi'
 	obj_flags = CONDUCTS_ELECTRICITY
@@ -442,6 +443,7 @@
 /obj/item/cultivator/rake
 	name = "rake"
 	icon_state = "rake"
+	icon_angle = -45
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb_continuous = list("slashes", "slices", "bashes", "claws")
 	attack_verb_simple = list("slash", "slice", "bash", "claw")
@@ -469,12 +471,19 @@
 		H.visible_message(span_warning("[H] steps on [src] causing the handle to hit [H.p_them()] right in the face!"), \
 						  span_userdanger("You step on [src] causing the handle to hit you right in the face!"))
 
+/obj/item/cultivator/cyborg
+	name = "cyborg cultivator"
+	icon = 'icons/obj/items_cyborg.dmi'
+	icon_state = "sili_cultivator"
+	icon_angle = 0
+
 /obj/item/hatchet
 	name = "hatchet"
 	desc = "A very sharp axe blade upon a short fibremetal handle. It has a long history of chopping things, but now it is used for chopping wood."
 	icon = 'icons/obj/service/hydroponics/equipment.dmi'
 	icon_state = "hatchet"
 	inhand_icon_state = "hatchet"
+	icon_angle = -135
 	lefthand_file = 'icons/mob/inhands/equipment/hydroponics_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/hydroponics_righthand.dmi'
 	obj_flags = CONDUCTS_ELECTRICITY
@@ -514,12 +523,19 @@
 	resistance_flags = FLAMMABLE
 	flags_1 = NONE
 
+/obj/item/hatchet/cyborg
+	name = "cyborg hatchet"
+	icon = 'icons/obj/items_cyborg.dmi'
+	icon_state = "sili_hatchet"
+	icon_angle = 0
+
 /obj/item/scythe
 	name = "scythe"
 	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
 	icon = 'icons/obj/service/hydroponics/equipment.dmi'
 	icon_state = "scythe0"
 	inhand_icon_state = "scythe0"
+	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
 	force = 15
@@ -584,6 +600,7 @@
 	icon_state = "secateurs"
 	inhand_icon_state = null
 	worn_icon_state = "cutters"
+	icon_angle = -135
 	lefthand_file = 'icons/mob/inhands/equipment/hydroponics_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/hydroponics_righthand.dmi'
 	obj_flags = CONDUCTS_ELECTRICITY
@@ -606,6 +623,12 @@
 ///Send a signal to whatever we clicked and ask them if they wanna be PLANT RESTYLED YEAAAAAAAH
 /obj/item/secateurs/proc/restyle(atom/target, mob/living/user)
 	SEND_SIGNAL(target, COMSIG_ATOM_RESTYLE, user, target, user.zone_selected, EXTERNAL_RESTYLE_PLANT, 6 SECONDS)
+
+/obj/item/secateurs/cyborg
+	name = "cyborg secateurs"
+	icon = 'icons/obj/items_cyborg.dmi'
+	icon_state = "sili_secateur"
+	icon_angle = 0
 
 /obj/item/geneshears
 	name = "botanogenetic plant shears"

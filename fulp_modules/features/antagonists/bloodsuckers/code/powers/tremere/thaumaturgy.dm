@@ -116,7 +116,7 @@
 	magic_9ball.bloodsucker_power = src
 	magic_9ball.firer = user
 	magic_9ball.def_zone = ran_zone(user.zone_selected)
-	magic_9ball.preparePixelProjectile(target_atom, user)
+	magic_9ball.aim_projectile(target_atom, user)
 	INVOKE_ASYNC(magic_9ball, TYPE_PROC_REF(/obj/projectile, fire))
 	playsound(user, 'sound/effects/magic/wand_teleport.ogg', 60, TRUE)
 	power_activated_sucessfully()

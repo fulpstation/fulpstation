@@ -108,7 +108,7 @@
 	if(!iscarbon(host_mob))
 		return
 	var/mob/living/carbon/C = host_mob
-	var/obj/item/organ/internal/heart/heart = C.get_organ_slot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/heart/heart = C.get_organ_slot(ORGAN_SLOT_HEART)
 	if(heart)
 		if(heart.is_beating())
 			heart.Stop()

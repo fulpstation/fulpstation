@@ -6,7 +6,7 @@
 	name = "Shuttle"
 	requires_power = FALSE
 	static_lighting = TRUE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
 	// Loading the same shuttle map at a different time will produce distinct area instances.
 	area_flags = NONE
@@ -123,9 +123,7 @@
 	if(SSshuttle.arrivals?.mode == SHUTTLE_CALL)
 		var/atom/movable/screen/splash/Spl = new(null, boarder.client, TRUE)
 		Spl.Fade(TRUE)
-		// Fulp edit - Plays ApproachingFulp instead of ApproachingTG
-		boarder.playsound_local(get_turf(boarder), 'fulp_modules/sounds/arrival/ApproachingFulp.ogg', 25)
-		// Fulp edit END
+		boarder.playsound_local(get_turf(boarder), 'sound/announcer/ApproachingTG.ogg', 25)
 	boarder.update_parallax_teleport()
 
 
@@ -258,7 +256,7 @@
 // ----------- Arena Shuttle
 /area/shuttle/shuttle_arena
 	name = "arena"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	requires_power = FALSE
 
 /obj/effect/forcefield/arena_shuttle

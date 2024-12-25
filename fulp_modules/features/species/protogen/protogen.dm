@@ -4,9 +4,9 @@
 	id = SPECIES_PROTOGEN
 	examine_limb_id = SPECIES_PROTOGEN
 	mutant_organs = list(
-		/obj/item/organ/external/snout/protogen = "Bolted",
-		/obj/item/organ/external/tail/protogen = "Shark",
-		/obj/item/organ/external/protogen_antennae = "Default",
+		/obj/item/organ/snout/protogen = "Bolted",
+		/obj/item/organ/tail/protogen = "Shark",
+		/obj/item/organ/protogen_antennae = "Default",
 	)
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
@@ -14,15 +14,15 @@
 	)
 	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID
 	meat = /obj/item/food/meat/slab/human/mutant/lizard
-	mutantbrain = /obj/item/organ/internal/brain/cybernetic
-	mutanttongue = /obj/item/organ/internal/tongue/robot
-	mutantstomach = /obj/item/organ/internal/stomach/cybernetic/surplus
+	mutantbrain = /obj/item/organ/brain/cybernetic
+	mutanttongue = /obj/item/organ/tongue/robot
+	mutantstomach = /obj/item/organ/stomach/cybernetic/surplus
 	mutantappendix = null
-	mutantheart = /obj/item/organ/internal/heart/cybernetic/surplus
-	mutantliver = /obj/item/organ/internal/liver/cybernetic/surplus
-	mutantlungs = /obj/item/organ/internal/lungs/cybernetic/surplus
-	mutanteyes = /obj/item/organ/internal/eyes/robotic
-	mutantears = /obj/item/organ/internal/ears/cybernetic
+	mutantheart = /obj/item/organ/heart/cybernetic/surplus
+	mutantliver = /obj/item/organ/liver/cybernetic/surplus
+	mutantlungs = /obj/item/organ/lungs/cybernetic/surplus
+	mutanteyes = /obj/item/organ/eyes/robotic
+	mutantears = /obj/item/organ/ears/cybernetic
 	species_language_holder = /datum/language_holder/synthetic
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	damage_modifier = -25 // 25% More damage

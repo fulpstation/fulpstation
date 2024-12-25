@@ -42,7 +42,7 @@
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
 
 
-/obj/item/organ/internal/tongue/beefman
+/obj/item/organ/tongue/beefman
 	name = "meaty tongue"
 	desc = "A meaty and thick muscle typically found in Beefmen."
 	icon = 'fulp_modules/icons/species/mob/beef_tongue.dmi'

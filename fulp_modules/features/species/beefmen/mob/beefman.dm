@@ -25,8 +25,8 @@
 	heatmod = 0.5
 	hair_color_mode = USE_FIXED_MUTANT_COLOR
 	species_language_holder = /datum/language_holder/russian
-	mutantbrain = /obj/item/organ/internal/brain/beefman
-	mutanttongue = /obj/item/organ/internal/tongue/beefman
+	mutantbrain = /obj/item/organ/brain/beefman
+	mutanttongue = /obj/item/organ/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
@@ -59,7 +59,7 @@
 	)
 
 // Taken from Ethereal
-/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
+/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load, regenerate_icons)
 	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
 	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
@@ -79,7 +79,13 @@
 	features["beef_eyes"] = pick(SSaccessories.eyes_beefman_list)
 	features["beef_mouth"] = pick(SSaccessories.mouths_beefman_list)
 	return features
-
+/*
+/datum/species/beefman/prepare_human_for_preview(mob/living/carbon/human/human)
+	human.dna.features["beef_color"] = "#e73f4e"
+	human.dna.features["beef_eyes"] = "Capers"
+	human.dna.features["beef_mouth"] = "Gritting Smile"
+	human.update_body(is_creating = TRUE)
+*/
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
 	var/searJuices = user.getFireLoss_nonProsthetic() / 30
@@ -250,7 +256,7 @@
 
 	// Pry it off...
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/tongue/tongue = user.get_organ_by_type(/obj/item/organ/tongue)
 		if(!tongue)
 			return FALSE
 		user.visible_message(
@@ -283,12 +289,12 @@
 	if(!istype(meat, /obj/item/food/meat/slab))
 		return
 	var/target_zone = attacker.zone_selected
-	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/internal/tongue))
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/tongue))
 		return
 	var/obj/item/bodypart/affecting = beefboy.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs))
 		return
-	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/internal/tongue)))
+	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/tongue)))
 		return
 	attacker.visible_message(
 		span_notice("[attacker] begins mashing [meat] into [beefboy]."),
@@ -298,7 +304,7 @@
 		return FALSE
 
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
+		var/obj/item/organ/tongue/beefman/new_tongue = new()
 		new_tongue.Insert(attacker)
 		attacker.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
