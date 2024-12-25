@@ -24,8 +24,12 @@
 	var/target_temperature = 300
 
 /obj/machinery/plumbing/reaction_chamber/Destroy()
+	return ..()
+
+/obj/machinery/plumbing/reaction_chamber/Initialize(mapload, bolt, layer)
 	. = ..()
 	AddComponent(/datum/component/plumbing/reaction_chamber, bolt, layer)
+
 /obj/machinery/plumbing/reaction_chamber/create_reagents(max_vol, flags)
 	. = ..()
 	RegisterSignals(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED), PROC_REF(on_reagent_change))
@@ -36,6 +40,7 @@
 	SIGNAL_HANDLER
 
 	UnregisterSignal(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED, COMSIG_QDELETING))
+
 	return NONE
 
 /// Handles stopping the emptying process when the chamber empties.
@@ -43,7 +48,9 @@
 	SIGNAL_HANDLER
 
 	if(!holder.get_catalyst_excluded_volume() && emptying) //we were emptying, but now we aren't
+		emptying = FALSE
 		holder.flags |= NO_REACT
+
 	return NONE
 
 /obj/machinery/plumbing/reaction_chamber/process(seconds_per_tick)

@@ -168,6 +168,10 @@
 			msg += "[uppertext(alarm_type)]: [alarm_types_clear[alarm_type]] alarms cleared. - "
 
 		msg += "<A href=byond://?src=[REF(src)];showalerts=1'>\[Show Alerts\]</a>"
+		to_chat(src, msg)
+
+
+	alarms_to_show.Cut()
 	alarms_to_clear.Cut()
 	for(var/key in alarm_types_show)
 		alarm_types_show[key] = 0
