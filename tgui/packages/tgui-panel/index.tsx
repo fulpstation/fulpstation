@@ -78,15 +78,6 @@ const setupApp = () => {
   Byond.winset('legacy_output_selector', {
     left: 'output_browser',
   });
-<<<<<<< HEAD
-  Byond.winset('browseroutput', {
-    'is-visible': true,
-    'is-disabled': false,
-    pos: '0x0',
-    size: '0x0',
-  });
-=======
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
   // Resize the panel to match the non-browser output
   Byond.winget('output').then((output: { size: string }) => {

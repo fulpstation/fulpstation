@@ -31,12 +31,7 @@
 		tgui_panel = new(src)
 	tgui_panel.initialize(force = TRUE)
 	// Force show the panel to see if there are any errors
-<<<<<<< HEAD
-	winset(src, "output", "is-disabled=1&is-visible=0")
-	winset(src, "browseroutput", "is-disabled=0;is-visible=1")
-=======
 	winset(src, "legacy_output_selector", "left=output_browser")
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 /client/verb/refresh_tgui()
 	set name = "Refresh TGUI"

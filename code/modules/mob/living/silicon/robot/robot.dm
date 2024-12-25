@@ -584,25 +584,13 @@
 		return
 	switch(notifytype)
 		if(AI_NOTIFICATION_NEW_BORG) //New Cyborg
-<<<<<<< HEAD
-			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - New cyborg connection detected: <a href='?src=[REF(connected_ai)];track=[html_encode(name)]'>[name]</a>")]<br>")
-=======
 			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - New cyborg connection detected: <a href='byond://?src=[REF(connected_ai)];track=[html_encode(name)]'>[name]</a>")]<br>")
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 		if(AI_NOTIFICATION_NEW_MODEL) //New Model
 			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - Cyborg model change detected: [name] has loaded the [designation] model.")]<br>")
 		if(AI_NOTIFICATION_CYBORG_RENAMED) //New Name
 			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - Cyborg reclassification detected: [oldname] is now designated as [newname].")]<br>")
 		if(AI_NOTIFICATION_AI_SHELL) //New Shell
-<<<<<<< HEAD
-			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - New cyborg shell detected: <a href='?src=[REF(connected_ai)];track=[html_encode(name)]'>[name]</a>")]<br>")
-=======
 			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - New cyborg shell detected: <a href='byond://?src=[REF(connected_ai)];track=[html_encode(name)]'>[name]</a>")]<br>")
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
-		if(AI_NOTIFICATION_CYBORG_DISCONNECTED) //Tampering with the wires
-			to_chat(connected_ai, "<br><br>[span_notice("NOTICE - Remote telemetry lost with [name].")]<br>")
-
-/mob/living/silicon/robot/can_perform_action(atom/target, action_bitflags)
 	if(lockcharge || low_power_mode)
 		to_chat(src, span_warning("You can't do that right now!"))
 		return FALSE

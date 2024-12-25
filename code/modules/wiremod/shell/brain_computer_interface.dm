@@ -208,11 +208,7 @@
 	SIGNAL_HANDLER
 
 	if (isobserver(mob))
-<<<<<<< HEAD
-		examine_text += span_notice("[source.p_They()] [source.p_have()] <a href='?src=[REF(src)];open_bci=1'>\a [parent] implanted in [source.p_them()]</a>.")
-=======
 		examine_text += span_notice("[source.p_They()] [source.p_have()] <a href='byond://?src=[REF(src)];open_bci=1'>\a [parent] implanted in [source.p_them()]</a>.")
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 /obj/item/circuit_component/bci_core/Topic(href, list/href_list)
 	..()

@@ -149,10 +149,6 @@
 	name = ".357 heartseeker bullet"
 	icon_state = "gauss"
 	damage = 50
-<<<<<<< HEAD
-	homing = TRUE
-=======
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 	homing_turn_speed = 120
 
 // admin only really, for ocelot memes

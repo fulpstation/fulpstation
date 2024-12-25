@@ -31,9 +31,5 @@
 	if(LAZYLEN(afk_thefts) >= AFK_THEFT_MAX_MESSAGES)
 		print_msg += span_warning("There may have been more, but that's all you can remember...")
 
-<<<<<<< HEAD
-	to_chat(src, examine_block(print_msg.Join("\n")))
-=======
 	to_chat(src, boxed_message(print_msg.Join("\n")))
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 	LAZYNULL(afk_thefts)
