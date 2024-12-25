@@ -324,13 +324,8 @@
 			to_chat(ghost, span_ghostalert(message))
 			continue
 
-<<<<<<< HEAD
-		var/interact_link = click_interact ? " <a href='?src=[REF(ghost)];play=[REF(source)]'>(Play)</a>" : ""
-		var/view_link = " <a href='?src=[REF(ghost)];view=[REF(source)]'>(View)</a>"
-=======
 		var/interact_link = click_interact ? " <a href='byond://?src=[REF(ghost)];play=[REF(source)]'>(Play)</a>" : ""
 		var/view_link = " <a href='byond://?src=[REF(ghost)];view=[REF(source)]'>(View)</a>"
->>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 		to_chat(ghost, span_ghostalert("[message][custom_link][interact_link][view_link]"))
 
