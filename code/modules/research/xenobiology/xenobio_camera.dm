@@ -350,7 +350,11 @@ Due to keyboard shortcuts, the second one is not necessarily the remote eye's lo
 	render_list += "&bull; Alt-click a slime to feed it a potion."
 	render_list += "&bull; Ctrl-click or a dead monkey to recycle it, or the floor to place a new monkey."
 
+<<<<<<< HEAD
 	to_chat(owner, examine_block(jointext(render_list, "\n")))
+=======
+	to_chat(owner, boxed_message(jointext(render_list, "\n")))
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 //
 // Alternate clicks for slime, monkey and open turf if using a xenobio console

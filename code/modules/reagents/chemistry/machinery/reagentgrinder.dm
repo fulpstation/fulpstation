@@ -387,7 +387,11 @@
 		if("mix")
 			mix(5 SECONDS, user)
 		if("examine")
+<<<<<<< HEAD
 			to_chat(user, examine_block(jointext(examine(user), "\n")))
+=======
+			to_chat(user, boxed_message(jointext(examine(user), "\n")))
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 /**
  * Checks if the radial menu can interact with this machine

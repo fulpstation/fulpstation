@@ -709,7 +709,11 @@
 			reply = "(<a href='byond://?src=[REF(src)];choice=[reply_href];skiprefresh=1;target=[REF(chat)]'>Reply</a>)"
 
 		if (isAI(messaged_mob))
+<<<<<<< HEAD
 			sender_title = "<a href='?src=[REF(messaged_mob)];track=[html_encode(sender_name)]'>[sender_title]</a>"
+=======
+			sender_title = "<a href='byond://?src=[REF(messaged_mob)];track=[html_encode(sender_name)]'>[sender_title]</a>"
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 		var/inbound_message = "[signal.format_message()]"
 

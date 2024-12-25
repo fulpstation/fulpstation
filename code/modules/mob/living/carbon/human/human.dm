@@ -141,7 +141,11 @@
 		id_examine += "</div>" // container
 		id_examine += "</div>" // text
 
+<<<<<<< HEAD
 		to_chat(viewer, examine_block(span_info(id_examine)))
+=======
+		to_chat(viewer, boxed_message(span_info(id_examine)))
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 ///////HUDs///////
 	if(href_list["hud"])
@@ -318,7 +322,11 @@
 						sec_record_message += "\n<b>Crime:</b> [crime.name]"
 						sec_record_message += "\n<b>Details:</b> [crime.details]"
 						sec_record_message += "\nAdded by [crime.author] at [crime.time]"
+<<<<<<< HEAD
 				to_chat(human_or_ghost_user, examine_block(sec_record_message))
+=======
+				to_chat(human_or_ghost_user, boxed_message(sec_record_message))
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 				return
 			if(ishuman(human_or_ghost_user))
 				var/mob/living/carbon/human/human_user = human_or_ghost_user

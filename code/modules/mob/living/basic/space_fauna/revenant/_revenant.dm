@@ -117,7 +117,11 @@
 
 	var/static/cached_string = null
 	if(isnull(cached_string))
+<<<<<<< HEAD
 		cached_string = examine_block(jointext(create_login_string(), "\n"))
+=======
+		cached_string = boxed_message(jointext(create_login_string(), "\n"))
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
 
 	to_chat(src, cached_string, type = MESSAGE_TYPE_INFO)
 

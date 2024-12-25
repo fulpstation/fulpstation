@@ -385,7 +385,31 @@ SUBSYSTEM_DEF(shuttle)
 		SSblackbox.record_feedback("text", "shuttle_reason", 1, "[call_reason]")
 		log_shuttle("Shuttle call reason: [call_reason]")
 		SSticker.emergency_reason = call_reason
-	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A HREF='?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
+	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A href='byond://?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
+
+/// Call the emergency shuttle.
+/// If you are doing this on behalf of a player, use requestEvac instead.
+/// `signal_origin` is fluff occasionally provided to players.
+/datum/controller/subsystem/shuttle/proc/call_evac_shuttle(call_reason, signal_origin)
+	if (!check_backup_emergency_shuttle())
+		return
+
+	call_reason = trim(html_encode(call_reason))
+
+	var/emergency_reason = "\n\nNature of emergency:\n[call_reason]"
+
+	emergency.request(
+		signal_origin = signal_origin,
+		reason = html_decode(emergency_reason),
+		red_alert = (SSsecurity_level.get_current_level_as_number() >= SEC_LEVEL_RED)
+	)
+
+	var/datum/radio_frequency/frequency = SSradio.return_frequency(FREQ_STATUS_DISPLAYS)
+
+	if(frequency)
+		// Start processing shuttle-mode displays to display the timer
+		var/datum/signal/status_signal = new(list("command" = "update"))
+		frequency.post_signal(src, status_signal)
 
 /// Call the emergency shuttle.
 /// If you are doing this on behalf of a player, use requestEvac instead.

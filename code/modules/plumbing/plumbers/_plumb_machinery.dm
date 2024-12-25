@@ -58,6 +58,7 @@
 			. += span_notice("[round(reg.volume, CHEMICAL_VOLUME_ROUNDING)]u of [reg.name]")
 	else
 		. += span_notice("Nothing.")
+<<<<<<< HEAD
 
 	if(anchored)
 		. += span_notice("It's [EXAMINE_HINT("anchored")] in place.")
@@ -216,3 +217,49 @@
 	src.handle_reactions()
 
 	return round(total_transfered_amount, CHEMICAL_VOLUME_ROUNDING)
+=======
+
+	if(anchored)
+		. += span_notice("It's [EXAMINE_HINT("anchored")] in place.")
+	else
+		. += span_warning("Needs to be [EXAMINE_HINT("anchored")] to start operations.")
+		. += span_notice("It can be [EXAMINE_HINT("welded")] apart.")
+
+	. += span_notice("An [EXAMINE_HINT("plunger")] can be used to flush out reagents.")
+
+/obj/machinery/plumbing/wrench_act(mob/living/user, obj/item/tool)
+	if(user.combat_mode)
+		return NONE
+
+	. = ITEM_INTERACT_BLOCKING
+	if(default_unfasten_wrench(user, tool) == SUCCESSFUL_UNFASTEN)
+		if(anchored)
+			begin_processing()
+		else
+			end_processing()
+		return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/plumbing/welder_act(mob/living/user, obj/item/I)
+	if(user.combat_mode)
+		return NONE
+
+	if(anchored)
+		balloon_alert(user, "unanchor first!")
+		return ITEM_INTERACT_BLOCKING
+
+	if(I.tool_start_check(user, amount = 1))
+		to_chat(user, span_notice("You start slicing the [name] apart."))
+		if(I.use_tool(src, user, 1.5 SECONDS, volume = 50))
+			deconstruct(TRUE)
+			to_chat(user, span_notice("You slice the [name] apart."))
+			return ITEM_INTERACT_SUCCESS
+
+	return ITEM_INTERACT_BLOCKING
+
+/obj/machinery/plumbing/plunger_act(obj/item/plunger/P, mob/living/user, reinforced)
+	user.balloon_alert_to_viewers("furiously plunging...")
+	if(do_after(user, 3 SECONDS, target = src))
+		user.balloon_alert_to_viewers("finished plunging")
+		reagents.expose(get_turf(src), TOUCH) //splash on the floor
+		reagents.clear_reagents()
+>>>>>>> 8d3e51612bd571ed06509813a57dacb56807af50
