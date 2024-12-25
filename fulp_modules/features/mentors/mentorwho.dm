@@ -15,7 +15,7 @@
 	lines += span_bold(header)
 	lines += payload_string
 
-	var/finalized_string = examine_block(jointext(lines, "\n"))
+	var/finalized_string = boxed_message(jointext(lines, "\n"))
 	to_chat(src, finalized_string)
 
 /// Proc that returns a list of cliented mentors. Remember that this list can contain nulls!
