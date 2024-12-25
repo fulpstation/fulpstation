@@ -411,30 +411,6 @@ SUBSYSTEM_DEF(shuttle)
 		var/datum/signal/status_signal = new(list("command" = "update"))
 		frequency.post_signal(src, status_signal)
 
-/// Call the emergency shuttle.
-/// If you are doing this on behalf of a player, use requestEvac instead.
-/// `signal_origin` is fluff occasionally provided to players.
-/datum/controller/subsystem/shuttle/proc/call_evac_shuttle(call_reason, signal_origin)
-	if (!check_backup_emergency_shuttle())
-		return
-
-	call_reason = trim(html_encode(call_reason))
-
-	var/emergency_reason = "\n\nNature of emergency:\n[call_reason]"
-
-	emergency.request(
-		signal_origin = signal_origin,
-		reason = html_decode(emergency_reason),
-		red_alert = (SSsecurity_level.get_current_level_as_number() >= SEC_LEVEL_RED)
-	)
-
-	var/datum/radio_frequency/frequency = SSradio.return_frequency(FREQ_STATUS_DISPLAYS)
-
-	if(frequency)
-		// Start processing shuttle-mode displays to display the timer
-		var/datum/signal/status_signal = new(list("command" = "update"))
-		frequency.post_signal(src, status_signal)
-
 /datum/controller/subsystem/shuttle/proc/centcom_recall(old_timer, admiral_message)
 	if(emergency.mode != SHUTTLE_CALL || emergency.timer != old_timer)
 		return
