@@ -320,9 +320,9 @@
 						sec_record_message += "\nAdded by [crime.author] at [crime.time]"
 				to_chat(human_or_ghost_user, boxed_message(sec_record_message))
 				var/mob/living/carbon/human/human_user = human_or_ghost_user
-					var/max_fine = CONFIG_GET(number/maxfine)
-					var/citation_name = tgui_input_text(human_user, "Citation crime", "Security HUD", max_length = MAX_MESSAGE_LEN)
-					var/fine = tgui_input_number(human_user, "Citation fine", "Security HUD", 50, max_fine, 5)
+				var/max_fine = CONFIG_GET(number/maxfine)
+				var/citation_name = tgui_input_text(human_user, "Citation crime", "Security HUD", max_length = MAX_MESSAGE_LEN)
+				var/fine = tgui_input_number(human_user, "Citation fine", "Security HUD", 50, max_fine, 5)
 					if(!fine || !target_record || !citation_name || !allowed_access || !isnum(fine) || fine > max_fine || fine <= 0 || !human_user.canUseHUD() || !HAS_TRAIT(human_user, TRAIT_SECURITY_HUD))
 						return
 
