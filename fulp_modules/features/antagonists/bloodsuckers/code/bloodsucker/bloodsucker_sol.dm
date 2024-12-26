@@ -147,6 +147,9 @@
 		torpor_begin()
 
 /datum/antagonist/bloodsucker/proc/check_end_torpor()
+	//We can't end Torpor if we're not actually in Torpor...
+	if(!torpored)
+		return FALSE
 	var/mob/living/carbon/user = owner.current
 	var/total_brute = user.getBruteLoss_nonProsthetic()
 	var/total_burn = user.getFireLoss_nonProsthetic()
@@ -172,6 +175,8 @@
 	owner.current.set_timed_status_effect(0 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	// Disable ALL Powers
 	DisableAllPowers()
+	// Set this var to TRUE.
+	torpored = TRUE
 
 /datum/antagonist/bloodsucker/proc/torpor_end()
 	owner.current.grab_ghost()
@@ -181,3 +186,4 @@
 		ADD_TRAIT(owner.current, TRAIT_SLEEPIMMUNE, BLOODSUCKER_TRAIT)
 	heal_vampire_organs()
 	SEND_SIGNAL(src, BLOODSUCKER_EXIT_TORPOR)
+	torpored = FALSE

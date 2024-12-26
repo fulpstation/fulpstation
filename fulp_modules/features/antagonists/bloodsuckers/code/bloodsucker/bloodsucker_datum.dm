@@ -54,6 +54,10 @@
 	var/frenzy_threshold = FRENZY_MINIMUM_THRESHOLD_ENTER
 	///If we are currently in a Frenzy
 	var/frenzied = FALSE
+	///If we are currently in Torpor
+	///Set on entering and exiting Torpor, but not practically used much otherwise.
+	///Originally implemented to fix a bug.
+	var/torpored = FALSE
 
 	///ALL Powers currently owned
 	var/list/datum/action/cooldown/bloodsucker/powers = list()
