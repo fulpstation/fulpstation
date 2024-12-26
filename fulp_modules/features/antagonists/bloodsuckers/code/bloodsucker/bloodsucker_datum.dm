@@ -271,6 +271,9 @@
 		old_body.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 	new_body.add_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 
+	//Give the datum the blood volume of its new body.
+	bloodsucker_blood_volume = new_body.blood_volume
+
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
 	var/fullname = return_full_name()
