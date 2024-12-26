@@ -243,9 +243,10 @@
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
-		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
-		qdel(src)
-		return new_meat
+		if(!QDELETED(src))
+			var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
+			qdel(src)
+			return new_meat
 
 /obj/item/bodypart/leg/left/beef
 	icon = 'fulp_modules/icons/species/mob/beefman_bodyparts.dmi'
