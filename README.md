@@ -35,12 +35,15 @@ Space Station 13 is a paranoia-laden round-based roleplaying game set against th
 
 **[How to compile in VSCode and other build options](tools/build/README.md).**
 
-## Contributors
-[Guides for Contributors](.github/CONTRIBUTING.md)
+## Getting started
 
-**The quick way**. Find `bin/server.cmd` in this folder and double click it to automatically build and host the server on port 1337.
+For contribution guidelines refer to the [Guides for Contributors](.github/CONTRIBUTING.md).
 
-[Interested in some starting lore?](https://github.com/tgstation/common_core)
+For getting started (dev env, compilation) see the HackMD document [here](https://hackmd.io/@tgstation/HJ8OdjNBc#tgstation-Development-Guide).
+
+For overall design documentation see [HackMD](https://hackmd.io/@tgstation).
+
+For lore, [see Common Core](https://github.com/tgstation/common_core).
 
 ## LICENSE
 
