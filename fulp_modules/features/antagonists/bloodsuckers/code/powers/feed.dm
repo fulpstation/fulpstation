@@ -50,8 +50,9 @@
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
 	var/mob/living/user = owner
+	var/mob/living/feed_target
 	if(target_ref)
-		var/mob/living/feed_target = target_ref.resolve()
+		feed_target = target_ref.resolve()
 	if(isnull(feed_target))
 		log_combat(user, user, "fed on blood (target not found)", addition="(and took [blood_taken] blood)")
 	else
