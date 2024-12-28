@@ -41,7 +41,7 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
 
 /datum/status_effect/frenzy/get_examine_text()
-	return span_notice("They seem inhuman and feral!")
+	return span_cult_italic("They seem inhuman and feral!")
 
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
@@ -69,6 +69,7 @@
 	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 	if(user.handcuffed || user.legcuffed)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
 	bloodsuckerdatum.frenzied = TRUE
@@ -94,3 +95,12 @@
 	if(!bloodsuckerdatum.frenzied)
 		return
 	user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))
+	if(prob(30))
+		user.do_jitter_animation(300)
+		return
+	if(prob(10))
+		user.emote("tremble")
+		return
+	if(prob(5))
+		user.emote("screech")
+		return
