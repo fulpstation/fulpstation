@@ -68,7 +68,7 @@
 		COMSIG_ATOM_EXAMINE_MORE,
 		COMSIG_ATOM_TOOL_ACT(TOOL_SCREWDRIVER),
 		COMSIG_ITEM_GET_WORN_OVERLAYS,
-		COMSIG_ATOM_EMP_ACT
+		COMSIG_ATOM_EMP_ACT,
 	))
 	if(builtin_bodycamera) //retract the camera back in.
 		builtin_bodycamera.forceMove(src)
