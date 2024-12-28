@@ -296,6 +296,10 @@
 	if(unique_death & DONT_DUST)
 		return
 
+	// Properly exit Frenzy if Frenzying
+	if(frenzied)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
+
 	// Elders get dusted, Fledglings get gibbed.
 	if(bloodsucker_level >= 4)
 		user.visible_message(

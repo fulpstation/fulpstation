@@ -275,19 +275,19 @@
 	//Give the datum the blood volume of its new body.
 	bloodsucker_blood_volume = new_body.blood_volume
 
-	//Sol-related signals are typically removed when 'FinalDeath()' is called,
-	//so we'll check for them here and reregister them if they don't exist.
-	var/sol_signals = FALSE
-	for(var/target in _signal_procs)
-		if(istype(target, /datum/controller/subsystem/sunlight))
-			sol_signals = TRUE
-			break
-	if(!sol_signals)
-		RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
-		RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start))
-		RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end))
-		RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol))
-		RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning))
+	//Enter or exit Frenzy depending on our new blood volume
+	if(bloodsucker_blood_volume >= frenzy_threshold)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
+	else
+		owner.current.apply_status_effect(/datum/status_effect/frenzy)
+
+	//Sol-related signals are removed when 'FinalDeath()' is called,
+	//so we'll reregister them here.
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning), TRUE)
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
