@@ -26,6 +26,7 @@
 	. = ..()
 	alpha = 0
 	gen_overlay()
+	air_update_turf(TRUE, TRUE)
 
 /obj/structure/plasticflaps/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)
 	if(same_z_layer)
@@ -36,7 +37,7 @@
 
 /obj/structure/plasticflaps/proc/gen_overlay()
 	var/turf/our_turf = get_turf(src)
-	SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE_UPPER, our_turf), dir, add_appearance_flags = RESET_ALPHA) //you see mobs under it, but you hit them like they are above it
+	SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE, our_turf), dir, add_appearance_flags = RESET_ALPHA) //you see mobs under it, but you hit them like they are above it
 
 /obj/structure/plasticflaps/examine(mob/user)
 	. = ..()
@@ -62,7 +63,7 @@
 
 ///Update the flaps behaviour to gases, if not anchored will let air pass through
 /obj/structure/plasticflaps/proc/update_atmos_behaviour()
-	can_atmos_pass = anchored ? ATMOS_PASS_YES : ATMOS_PASS_NO
+	can_atmos_pass = anchored ? ATMOS_PASS_NO : ATMOS_PASS_YES
 
 /obj/structure/plasticflaps/wirecutter_act(mob/living/user, obj/item/W)
 	. = ..()
@@ -124,14 +125,8 @@
 			return FALSE //If you're not laying down, or a small creature, or a ventcrawler, then no pass.
 
 
-/obj/structure/plasticflaps/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/plastic/five(loc)
-	qdel(src)
-
-/obj/structure/plasticflaps/Initialize(mapload)
-	. = ..()
-	air_update_turf(TRUE, TRUE)
+/obj/structure/plasticflaps/atom_deconstruct(disassembled = TRUE)
+	new /obj/item/stack/sheet/plastic/five(loc)
 
 /obj/structure/plasticflaps/Destroy()
 	var/atom/oldloc = loc

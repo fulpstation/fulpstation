@@ -105,7 +105,7 @@
 /obj/machinery/power/shuttle_engine/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
 	default_unfasten_wrench(user, tool)
-	return TOOL_ACT_TOOLTYPE_SUCCESS
+	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/power/shuttle_engine/welder_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -113,7 +113,7 @@
 		if(ENGINE_UNWRENCHED)
 			to_chat(user, span_warning("The [src.name] needs to be wrenched to the floor!"))
 		if(ENGINE_WRENCHED)
-			if(!tool.tool_start_check(user, amount=round(ENGINE_WELDTIME / 5)))
+			if(!tool.tool_start_check(user, amount=round(ENGINE_WELDTIME / 5), heat_required = HIGH_TEMPERATURE_REQUIRED))
 				return TRUE
 
 			user.visible_message(span_notice("[user.name] starts to weld the [name] to the floor."), \
@@ -126,7 +126,7 @@
 				alter_engine_power(engine_power)
 
 		if(ENGINE_WELDED)
-			if(!tool.tool_start_check(user, amount=round(ENGINE_WELDTIME / 5)))
+			if(!tool.tool_start_check(user, amount=round(ENGINE_WELDTIME / 5), heat_required = HIGH_TEMPERATURE_REQUIRED))
 				return TRUE
 
 			user.visible_message(span_notice("[user.name] starts to cut the [name] free from the floor."), \

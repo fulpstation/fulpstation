@@ -26,7 +26,7 @@
 /obj/item/circuit_component/thought_listener/populate_ports()
 	input_name = add_input_port("Input Name", PORT_TYPE_STRING)
 	input_desc = add_input_port("Input Description", PORT_TYPE_STRING)
-	output = add_output_port("Recieved Thought", PORT_TYPE_STRING)
+	output = add_output_port("Received Thought", PORT_TYPE_STRING)
 	trigger_output = add_output_port("Triggered", PORT_TYPE_SIGNAL)
 	failure = add_output_port("On Failure", PORT_TYPE_SIGNAL)
 
@@ -48,7 +48,7 @@
 
 	var/mob/living/owner = bci.owner
 
-	if(!owner || !istype(owner) || !owner.client || (owner.stat >= UNCONSCIOUS))
+	if(!owner || !istype(owner) || !owner.client || (owner.stat >= SOFT_CRIT))
 		failure.set_output(COMPONENT_SIGNAL)
 		return
 
@@ -56,7 +56,9 @@
 	ready = FALSE
 
 /obj/item/circuit_component/thought_listener/proc/thought_listen(mob/living/owner)
-	var/message = tgui_input_text(owner, input_desc.value ? input_desc.value : "", input_name.value ? input_name.value : "Thought Listener", "")
+	var/message = tgui_input_text(owner, input_desc.value ? input_desc.value : "", input_name.value ? input_name.value : "Thought Listener", "", max_length = MAX_MESSAGE_LEN)
+	if(QDELETED(owner) || owner.stat >= SOFT_CRIT)
+		return
 	output.set_output(message)
 	trigger_output.set_output(COMPONENT_SIGNAL)
 	ready = TRUE

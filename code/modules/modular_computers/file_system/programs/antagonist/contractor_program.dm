@@ -2,16 +2,12 @@
 	filename = "contractor uplink"
 	filedesc = "Syndicate Contractor Uplink"
 	extended_desc = "A standard, Syndicate issued system for handling important contracts while on the field."
-	category = PROGRAM_CATEGORY_MISC
-	program_icon_state = "contractor-assign"
+	program_open_overlay = "contractor-assign"
 	program_icon = "tasks"
 	size = 10
 
-	requires_ntnet = FALSE
-	available_on_ntnet = FALSE
-	available_on_syndinet = FALSE
-	usage_flags = PROGRAM_PDA //this is all we've got sprites for :sob:
-	unique_copy = TRUE
+	program_flags = PROGRAM_UNIQUE_COPY
+	can_run_on_flags = PROGRAM_PDA //this is all we've got sprites for :sob:
 	undeletable = TRUE
 	tgui_id = "SyndicateContractor"
 
@@ -33,7 +29,7 @@
 	traitor_data = null
 	return ..()
 
-/datum/computer_file/program/contract_uplink/ui_act(action, params)
+/datum/computer_file/program/contract_uplink/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
@@ -45,7 +41,7 @@
 			var/contract_id = text2num(params["contract_id"])
 			traitor_data.uplink_handler.contractor_hub.assigned_contracts[contract_id].status = CONTRACT_STATUS_ACTIVE
 			traitor_data.uplink_handler.contractor_hub.current_contract = traitor_data.uplink_handler.contractor_hub.assigned_contracts[contract_id]
-			program_icon_state = "contractor-contract"
+			program_open_overlay = "contractor-contract"
 			return TRUE
 
 		if("PRG_login")
@@ -58,8 +54,8 @@
 			if(!traitor_data.uplink_handler.contractor_hub)
 				traitor_data.uplink_handler.contractor_hub = new
 				traitor_data.uplink_handler.contractor_hub.create_contracts(traitor_user.owner)
-				user.playsound_local(user, 'sound/effects/contractstartup.ogg', 100, FALSE)
-				program_icon_state = "contractor-contractlist"
+				user.playsound_local(user, 'sound/music/antag/contractstartup.ogg', 100, FALSE)
+				program_open_overlay = "contractor-contractlist"
 			return TRUE
 
 		if("PRG_call_extraction")
@@ -68,12 +64,12 @@
 					user.playsound_local(user, 'sound/effects/confirmdropoff.ogg', 100, TRUE)
 					traitor_data.uplink_handler.contractor_hub.current_contract.status = CONTRACT_STATUS_EXTRACTING
 
-					program_icon_state = "contractor-extracted"
+					program_open_overlay = "contractor-extracted"
 				else
-					user.playsound_local(user, 'sound/machines/uplinkerror.ogg', 50)
+					user.playsound_local(user, 'sound/machines/uplink/uplinkerror.ogg', 50)
 					error = "Either both you or your target aren't at the dropoff location, or the pod hasn't got a valid place to land. Clear space, or make sure you're both inside."
 			else
-				user.playsound_local(user, 'sound/machines/uplinkerror.ogg', 50)
+				user.playsound_local(user, 'sound/machines/uplink/uplinkerror.ogg', 50)
 				error = "Already extracting... Place the target into the pod. If the pod was destroyed, this contract is no longer possible."
 
 			return TRUE
@@ -83,7 +79,7 @@
 			traitor_data.uplink_handler.contractor_hub.current_contract = null
 			traitor_data.uplink_handler.contractor_hub.assigned_contracts[contract_id].status = CONTRACT_STATUS_ABORTED
 
-			program_icon_state = "contractor-contractlist"
+			program_open_overlay = "contractor-contractlist"
 
 			return TRUE
 		if("PRG_redeem_TC")
@@ -100,7 +96,7 @@
 				traitor_data.uplink_handler.contractor_hub.contract_TC_to_redeem = 0
 				return TRUE
 			else
-				user.playsound_local(user, 'sound/machines/uplinkerror.ogg', 50)
+				user.playsound_local(user, 'sound/machines/uplink/uplinkerror.ogg', 50)
 			return TRUE
 		if ("PRG_clear_error")
 			error = ""
@@ -129,10 +125,10 @@
 
 	data["ongoing_contract"] = !!traitor_data.uplink_handler.contractor_hub.current_contract
 	if(traitor_data.uplink_handler.contractor_hub.current_contract)
-		program_icon_state = "contractor-contract"
+		program_open_overlay = "contractor-contract"
 		if (traitor_data.uplink_handler.contractor_hub.current_contract.status == CONTRACT_STATUS_EXTRACTING)
 			data["extraction_enroute"] = TRUE
-			program_icon_state = "contractor-extracted"
+			program_open_overlay = "contractor-extracted"
 		else
 			data["extraction_enroute"] = FALSE
 		var/turf/curr = get_turf(user)

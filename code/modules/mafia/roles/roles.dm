@@ -57,7 +57,7 @@
 		role_unique_actions += new abilities(game, src)
 		role_unique_actions -= abilities
 
-/datum/mafia_role/Destroy(force, ...)
+/datum/mafia_role/Destroy(force)
 	UnregisterSignal(body, COMSIG_MOB_SAY)
 	QDEL_NULL(mafia_alert)
 	QDEL_NULL(mafia_panel)
@@ -145,7 +145,7 @@
 
 /datum/mafia_role/proc/greet()
 	mafia_alert = new(body, src)
-	SEND_SOUND(body, 'sound/ambience/ambifailure.ogg')
+	SEND_SOUND(body, 'sound/ambience/misc/ambifailure.ogg')
 	to_chat(body, span_danger("You are the [name]."))
 	to_chat(body, span_danger("[desc]"))
 	switch(team)
@@ -189,6 +189,6 @@
 			team_span = "comradio"
 			the = FALSE
 	result += span_notice("The [span_bold("[name]")] is aligned with [the ? "the " : ""]<span class='[team_span]'>[team_desc]</span>")
-	result += "<span class='bold notice'>\"[desc]\"</span>"
+	result += "<span class='bold notice'>\"[initial(desc)]\"</span>"
 	result += span_notice("[name] wins when they [win_condition]")
 	to_chat(clueless, result.Join("</br>"))

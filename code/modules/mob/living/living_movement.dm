@@ -60,7 +60,8 @@
 	if(.)
 		return
 	if(mover.throwing)
-		return (!density || (body_position == LYING_DOWN) || (mover.throwing.thrower == src && !ismob(mover)))
+		var/mob/thrower = mover.throwing.get_thrower()
+		return (!density || (body_position == LYING_DOWN) || (thrower == src && !ismob(mover)))
 	if(buckled == mover)
 		return TRUE
 	if(ismob(mover) && (mover in buckled_mobs))
@@ -123,7 +124,7 @@
 	return ..()
 
 /mob/living/can_z_move(direction, turf/start, turf/destination, z_move_flags = ZMOVE_FLIGHT_FLAGS, mob/living/rider)
-	if(z_move_flags & ZMOVE_INCAPACITATED_CHECKS && incapacitated())
+	if(z_move_flags & ZMOVE_INCAPACITATED_CHECKS && incapacitated)
 		if(z_move_flags & ZMOVE_FEEDBACK)
 			to_chat(rider || src, span_warning("[rider ? src : "You"] can't do that right now!"))
 		return FALSE

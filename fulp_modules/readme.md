@@ -12,11 +12,11 @@ NOTE: If you plan on Contributing to Fulpstation, you may want to instead read t
 
 ## Modular Code/Modularity
 
-Modular, as we use it, is described as "Doesn't touch Core TG files/folders". 
+Modular, as we use it, is described as "Doesn't touch Core TG files/folders".
 
 ### What is a TG file and why does it matter?
 
-- a TG file is a file that we share with our upstream, TGstation. Every time we update, all our files get updated to whatever TG has them set to. 
+- a TG file is a file that we share with our upstream, TGstation. Every time we update, all our files get updated to whatever TG has them set to.
 - To counter this, we have our a fulp_modules folder, containing all the fulp files.
 - There is one exception, our TGUI files, which is placed in the same folder as TG's. It is placed there because of some dumb tgui stuff who cares no one really knows, it just does. Ok?
 
@@ -36,7 +36,7 @@ We are incredibly strict in modularity, and Pull Requests can (and will) be quic
 
 ## Readme & TG edits
 
-Any Pull Request that touches a TG file, or uses TG sprites/sounds, MUST include a readme.MD page in it's folder to explain such.
+Any Pull Request that touches a TG file, or uses TG sprites/sounds, MUST include a readme.MD page in its folder to explain such.
 Additionally, edits to TG files MUST be documented in tg_edits.md - This is because it is the primary file Contributors will look at to ensure all Fulp code persists through TGUs.
 
 ![image](https://i.imgur.com/4p3iTRx.jpg)
@@ -50,6 +50,20 @@ Due to Fulpstation handling workflows themselves, and due to TG handing us their
 While this isn't required, Fulpstation and your own fork has different workflows, so yours won't affect ours, it will prevent you from getting flooded with emails telling you they've failed.
 
 ## Outside of Fulp modules
+
+### Defines
+
+Defines need to be ticked (i.e. listed in the .dme) before the files where they're used. This includes helpers, symbolic constants, etc. If we were to keep our defines inside of the `fulp_modules` folder, they would be ticked before *our* files, but *after* TG's files. This is a problem if we ever want to make use of them in a TG-Edit, or in other files that must be placed outside of `fulp_modules`.
+
+For this reason, all our defines are placed in a subfolder called `fulp_defines`, inside of TG's `code/__DEFINES` folder. This way, they are ticked immediately after TG's defines.
+
+### Maps
+
+Maps are kept outside of `fulp_modules` for two reasons.
+
+ - In the case of stations and shuttles, the code that loads maps requires them to adhere to a certain file structure. This, in turn, forces us to keep their .json file and .dmm files within the `_maps` folder.
+
+ - In the case of ruins and other non-station maps, we keep them inside the `_maps/fulp_maps` folder so that the UpdatePaths tool can find and update them without needing to modify the script.
 
 ### TGUI
 

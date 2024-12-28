@@ -143,7 +143,7 @@
 		return FALSE
 	COOLDOWN_START(src, cooldown_mod_move, movedelay * timemodifier + slowdown_active)
 	subtract_charge(CHARGE_PER_STEP)
-	playsound(src, 'sound/mecha/mechmove01.ogg', 25, TRUE)
+	playsound(src, 'sound/vehicles/mecha/mechmove01.ogg', 25, TRUE)
 	if(ismovable(wearer?.loc))
 		return wearer.loc.relaymove(wearer, direction)
 	else if(wearer)
@@ -206,7 +206,7 @@
 	icon_state = "minicard"
 	ai.forceMove(card)
 	card.AI = ai
-	ai.notify_ghost_cloning("You have been recovered from the wreckage!", source = card)
+	ai.notify_revival("You have been recovered from the wreckage!", source = card)
 	balloon_alert(user, "ai transferred to card")
 	stored_ai = null
 

@@ -13,13 +13,13 @@
 	button_icon_state = "power_mez"
 	power_explanation = "Mesmerize:\n\
 		Click any player to attempt to mesmerize them.\n\
-		You cannot wear anything covering your face, and both parties must be facing eachother. Obviously, both parties need to not be blind. \n\
-		If your target is already mesmerized or a Monster Hunter, the Power will fail.\n\
+		You cannot wear anything covering your face, and both parties must be facing eachother. This does not work if anyone involved is blind, obviously. \n\
+		If your target is already mesmerized or a Monster Hunter then the power will fail.\n\
 		Once mesmerized, the target will be unable to move for a certain amount of time, scaling with level.\n\
 		At level 2, your target will additionally be muted.\n\
 		At level 3, you will be able to use the power through items covering your face.\n\
 		At level 5, you will be able to mesmerize regardless of your target's direction.\n\
-		Higher levels will increase the time of the mesmerize's freeze."
+		Higher levels will increase the time of the victim's paralysis."
 	power_flags = NONE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
@@ -40,7 +40,7 @@
 		to_chat(user, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	if(istype(user) && (user.is_eyes_covered() && level_current <= 2) || !isturf(user.loc))
+	if(istype(user) && (user.is_eyes_covered() && level_current <= 3) || !isturf(user.loc))
 		user.balloon_alert(user, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
@@ -81,7 +81,7 @@
 		owner.balloon_alert(owner, "you must be facing [current_target].")
 		return FALSE
 	// Target facing me? (On the floor, they're facing everyone)
-	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 4))
+	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 5))
 		owner.balloon_alert(owner, "[current_target] must be facing you.")
 		return FALSE
 
@@ -108,7 +108,7 @@
 	if(!do_after(user, 4 SECONDS, mesmerized_target, NONE, TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
 		return
 
-	var/power_time = 9 SECONDS + level_current * 1.5 SECONDS
+	var/power_time = max((9 SECONDS + level_current * 0.75 SECONDS), 15 SECONDS)
 	if(IS_MONSTERHUNTER(mesmerized_target))
 		to_chat(mesmerized_target, span_notice("You feel your eyes burn for a while, but it passes."))
 		return

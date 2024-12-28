@@ -13,7 +13,7 @@
 	item = /obj/item/gun/ballistic/automatic/pistol/toy/riot
 	cost = 2
 	surplus = 10
-	purchasable_from = ~UPLINK_NUKE_OPS
+	purchasable_from = ~UPLINK_SERIOUS_OPS
 
 /datum/uplink_item/dangerous/pistol
 	name = "Makarov Pistol"
@@ -21,7 +21,7 @@
 			with suppressors."
 	item = /obj/item/gun/ballistic/automatic/pistol
 	cost = 7
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 
 /datum/uplink_item/dangerous/throwingweapons
 	name = "Box of Throwing Weapons"
@@ -29,7 +29,7 @@
 			throwing weapons. The bolas can knock a target down and the shurikens will embed into limbs."
 	item = /obj/item/storage/box/syndie_kit/throwing_weapons
 	cost = 3
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
 
 /datum/uplink_item/dangerous/sword
 	name = "Energy Sword"
@@ -49,7 +49,7 @@
 	progression_minimum = 20 MINUTES
 	item = /obj/item/melee/powerfist
 	cost = 6
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 
 /datum/uplink_item/dangerous/rapid
 	name = "Gloves of the North Star"
@@ -61,12 +61,12 @@
 /datum/uplink_item/dangerous/doublesword
 	name = "Double-Bladed Energy Sword"
 	desc = "The double-bladed energy sword does slightly more damage than a standard energy sword and will deflect \
-			all energy projectiles, but requires two hands to wield."
+			energy projectiles it blocks, but requires two hands to wield. It also struggles to protect you from tackles."
 	progression_minimum = 30 MINUTES
 	item = /obj/item/dualsaber
 
-	cost = 16
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS) //nukies get their own version
+	cost = 13
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS //nukies get their own version
 
 /datum/uplink_item/dangerous/doublesword/get_discount_value(discount_type)
 	switch(discount_type)
@@ -85,14 +85,21 @@
 	item = /obj/item/guardian_creator/tech
 	cost = 18
 	surplus = 0
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 	restricted = TRUE
 	refundable = TRUE
 
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
-	desc = "Waffle Co.'s modernized Syndicate revolver. Fires 7 brutal rounds of .357 Magnum."
-	item = /obj/item/gun/ballistic/revolver/syndicate
+	desc = "A brutally simple Syndicate revolver that fires .357 Magnum rounds and has 7 chambers."
+	item = /obj/item/gun/ballistic/revolver
 	cost = 13
 	surplus = 50
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS) //nukies get their own version
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS //only traitors get the original revolver
+
+/datum/uplink_item/dangerous/cat
+	name = "Feral cat grenade"
+	desc = "This grenade is filled with 5 feral cats in stasis. Upon activation, the feral cats are awoken and unleashed unto unlucky bystanders. WARNING: The cats are not trained to discern friend from foe!"
+	cost = 5
+	item = /obj/item/grenade/spawnergrenade/cat
+	surplus = 30

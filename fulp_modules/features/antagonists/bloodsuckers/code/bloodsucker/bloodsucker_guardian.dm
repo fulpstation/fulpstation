@@ -30,7 +30,7 @@
 	creator_name = "Timestop"
 	creator_desc = "Devastating close combat attacks and high damage resistance. Can smash through weak walls and stop time."
 	creator_icon = "standard"
-	playstyle_string = span_holoparasite("As a <b>time manipulation</b> type you can stop time and you have a damage multiplier instead of armor as-well as powerful melee attacks capable of smashing through walls.")
+	playstyle_string = span_holoparasite("As a <b>time manipulation</b> type you can stop time. You have a damage multiplier instead of armor as well as powerful melee attacks capable of smashing through walls.")
 
 /mob/living/basic/guardian/standard/timestop/set_summoner(mob/living/to_who, different_person = FALSE)
 	. = ..()

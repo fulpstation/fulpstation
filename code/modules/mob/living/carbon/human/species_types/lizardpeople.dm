@@ -5,11 +5,10 @@
 	id = SPECIES_LIZARD
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
-		TRAIT_TACKLING_TAILED_DEFENDER,
 	)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_REPTILE
-	mutant_bodyparts = list("body_markings" = "None", "legs" = "Normal Legs")
-	external_organs = list(
+	body_markings = list(/datum/bodypart_overlay/simple/body_marking/lizard = "None")
+	mutant_organs = list(
 		/obj/item/organ/external/horns = "None",
 		/obj/item/organ/external/frills = "None",
 		/obj/item/organ/external/snout = "Round",
@@ -26,15 +25,13 @@
 	skinned_type = /obj/item/stack/sheet/animalhide/lizard
 	exotic_bloodtype = "L"
 	inert_mutation = /datum/mutation/human/firebreath
-	death_sound = 'sound/voice/lizard/deathsound.ogg'
+	death_sound = 'sound/mobs/humanoids/lizard/deathsound.ogg'
 	species_language_holder = /datum/language_holder/lizard
 	digitigrade_customization = DIGITIGRADE_OPTIONAL
 
 	// Lizards are coldblooded and can stand a greater temperature range than humans
 	bodytemp_heat_damage_limit = BODYTEMP_HEAT_LAVALAND_SAFE
 	bodytemp_cold_damage_limit = (BODYTEMP_COLD_DAMAGE_LIMIT - 10)
-
-	ass_image = 'icons/ass/asslizard.png'
 
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/lizard,
@@ -45,45 +42,77 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
 	)
 
-/datum/species/lizard/on_species_gain(mob/living/carbon/new_lizard, datum/species/old_species, pref_load)
-	. = ..()
-	if(ishuman(new_lizard))
-		update_mail_goodies(new_lizard)
-
-/datum/species/lizard/update_quirk_mail_goodies(mob/living/carbon/human/recipient, datum/quirk/quirk, list/mail_goodies = list())
-	if(istype(quirk, /datum/quirk/blooddeficiency))
-		mail_goodies += list(
-			/obj/item/reagent_containers/blood/lizard
-		)
-	return ..()
-
 /// Lizards are cold blooded and do not stabilize body temperature naturally
 /datum/species/lizard/body_temperature_core(mob/living/carbon/human/humi, seconds_per_tick, times_fired)
 	return
 
-/datum/species/lizard/random_name(gender,unique,lastname)
-	if(unique)
-		return random_unique_lizard_name(gender)
-
-	var/randname = lizard_name(gender)
-
-	if(lastname)
-		randname += " [lastname]"
-
-	return randname
-
-
 /datum/species/lizard/randomize_features()
 	var/list/features = ..()
-	features["body_markings"] = pick(GLOB.body_markings_list)
+	features["lizard_markings"] = pick(SSaccessories.lizard_markings_list)
 	return features
 
 /datum/species/lizard/get_scream_sound(mob/living/carbon/human/lizard)
 	return pick(
-		'sound/voice/lizard/lizard_scream_1.ogg',
-		'sound/voice/lizard/lizard_scream_2.ogg',
-		'sound/voice/lizard/lizard_scream_3.ogg',
+		'sound/mobs/humanoids/lizard/lizard_scream_1.ogg',
+		'sound/mobs/humanoids/lizard/lizard_scream_2.ogg',
+		'sound/mobs/humanoids/lizard/lizard_scream_3.ogg',
 	)
+
+/datum/species/lizard/get_cough_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return pick(
+			'sound/mobs/humanoids/human/cough/female_cough1.ogg',
+			'sound/mobs/humanoids/human/cough/female_cough2.ogg',
+			'sound/mobs/humanoids/human/cough/female_cough3.ogg',
+			'sound/mobs/humanoids/human/cough/female_cough4.ogg',
+			'sound/mobs/humanoids/human/cough/female_cough5.ogg',
+			'sound/mobs/humanoids/human/cough/female_cough6.ogg',
+		)
+	return pick(
+		'sound/mobs/humanoids/human/cough/male_cough1.ogg',
+		'sound/mobs/humanoids/human/cough/male_cough2.ogg',
+		'sound/mobs/humanoids/human/cough/male_cough3.ogg',
+		'sound/mobs/humanoids/human/cough/male_cough4.ogg',
+		'sound/mobs/humanoids/human/cough/male_cough5.ogg',
+		'sound/mobs/humanoids/human/cough/male_cough6.ogg',
+	)
+
+
+/datum/species/lizard/get_cry_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return pick(
+			'sound/mobs/humanoids/human/cry/female_cry1.ogg',
+			'sound/mobs/humanoids/human/cry/female_cry2.ogg',
+		)
+	return pick(
+		'sound/mobs/humanoids/human/cry/male_cry1.ogg',
+		'sound/mobs/humanoids/human/cry/male_cry2.ogg',
+		'sound/mobs/humanoids/human/cry/male_cry3.ogg',
+	)
+
+
+/datum/species/lizard/get_sneeze_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return 'sound/mobs/humanoids/human/sneeze/female_sneeze1.ogg'
+	return 'sound/mobs/humanoids/human/sneeze/male_sneeze1.ogg'
+
+/datum/species/lizard/get_laugh_sound(mob/living/carbon/human/lizard)
+	return 'sound/mobs/humanoids/lizard/lizard_laugh1.ogg'
+
+/datum/species/lizard/get_sigh_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return SFX_FEMALE_SIGH
+	return SFX_MALE_SIGH
+
+/datum/species/lizard/get_sniff_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return 'sound/mobs/humanoids/human/sniff/female_sniff.ogg'
+	return 'sound/mobs/humanoids/human/sniff/male_sniff.ogg'
+
+/datum/species/lizard/get_snore_sound(mob/living/carbon/human/lizard)
+	if(lizard.physique == FEMALE)
+		return SFX_SNORE_FEMALE
+	return SFX_SNORE_MALE
 
 /datum/species/lizard/get_physical_attributes()
 	return "Lizardpeople can withstand slightly higher temperatures than most species, but they are very vulnerable to the cold \
@@ -141,8 +170,8 @@ Lizard subspecies: ASHWALKERS
 	inherent_traits = list(
 		TRAIT_MUTANT_COLORS,
 		TRAIT_VIRUSIMMUNE,
-		TRAIT_FORBID_MINING_SHUTTLE_CONSOLE_OUTSIDE_STATION,
 	)
+	inherent_factions = list(FACTION_ASHWALKER)
 	species_language_holder = /datum/language_holder/lizard/ash
 	digitigrade_customization = DIGITIGRADE_FORCED
 	examine_limb_id = SPECIES_LIZARD
@@ -155,7 +184,7 @@ Lizard subspecies: ASHWALKERS
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
 	)
 
-/datum/species/lizard/get_physical_attributes()
+/datum/species/lizard/ashwalker/get_physical_attributes()
 	return "Ash Walkers are identical to lizardpeople in almost all aspects. \
 		Unlike them, they're always digitigrade, they can breathe Lavaland's often noxious atmosphere and resist viruses. They are usually illiterate."
 
@@ -179,7 +208,7 @@ Lizard subspecies: SILVER SCALED
 	damage_modifier = 10 //very light silvery scales soften blows
 	species_language_holder = /datum/language_holder/lizard/silver
 	mutanttongue = /obj/item/organ/internal/tongue/lizard/silver
-	changesource_flags = MIRROR_BADMIN | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN
 	examine_limb_id = SPECIES_LIZARD
 	///stored mutcolor for when we turn back off of a silverscale.
 	var/old_mutcolor

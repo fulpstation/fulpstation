@@ -1,5 +1,5 @@
 /obj/effect/spawner/random_mob
-	icon = 'fulp_modules/features/mob_spawners/icons/landmark_static.dmi'
+	icon = 'fulp_modules/icons/mob_spawners/landmark_static.dmi'
 	icon_state = "exclamation"
 	name = "custom mob spawner"
 	//valid_mobs is a list of paths with lists
@@ -24,7 +24,7 @@
 			/mob/living/basic/cow = list(1,1,2),
 			/mob/living/basic/hivebot = list(1,1,3),
 			/mob/living/basic/skeleton = list(1,1,2),
-			/mob/living/simple_animal/bot/medbot = list(1,1,1),
+			/mob/living/basic/bot/medbot = list(1,1,1),
 			/mob/living/basic/crab = list(1,1,3),
 			/mob/living/basic/mouse/rat = list(1,1,2),
 		)

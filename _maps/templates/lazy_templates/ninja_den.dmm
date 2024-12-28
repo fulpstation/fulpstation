@@ -470,7 +470,7 @@
 "lh" = (
 /obj/structure/toilet,
 /obj/structure/window/reinforced/survival_pod/spawner/directional/east,
-/obj/machinery/door/window/survival_pod,
+/obj/machinery/door/window/survival_pod/left/directional/south,
 /turf/open/floor/iron/showroomfloor,
 /area/centcom/central_command_areas/holding)
 "ln" = (
@@ -594,7 +594,7 @@
 /obj/machinery/shower/directional/south,
 /obj/item/soap/syndie,
 /obj/structure/curtain,
-/obj/machinery/door/window/survival_pod,
+/obj/machinery/door/window/survival_pod/left/directional/south,
 /turf/open/floor/iron/showroomfloor,
 /area/centcom/central_command_areas/holding)
 "ov" = (
@@ -863,7 +863,7 @@
 /turf/open/floor/iron/showroomfloor,
 /area/centcom/central_command_areas/holding)
 "uw" = (
-/mob/living/simple_animal/bot/medbot/stationary{
+/mob/living/basic/bot/medbot/stationary{
 	desc = "A little medical robot. You can make out the word \"sincerity\" on its chassis.";
 	name = "Hijikata";
 	radio_key = null
@@ -1462,7 +1462,7 @@
 /turf/open/floor/iron/cafeteria,
 /area/centcom/central_command_areas/holding)
 "II" = (
-/mob/living/simple_animal/bot/medbot/stationary{
+/mob/living/basic/bot/medbot/stationary{
 	desc = "When engaged in combat, the vanquishing of thine enemy can be the warrior's only concern.";
 	name = "Momo";
 	radio_key = null
@@ -1567,7 +1567,6 @@
 /turf/open/floor/wood/tile,
 /area/centcom/central_command_areas/holding)
 "JV" = (
-/obj/structure/closet/secure_closet/freezer/kitchen,
 /obj/item/food/grown/rice,
 /obj/item/food/grown/rice,
 /obj/item/food/grown/rice,
@@ -1583,6 +1582,9 @@
 /obj/item/food/grown/onion/red,
 /obj/item/food/grown/onion/red,
 /obj/item/food/grown/coffee,
+/obj/structure/closet/secure_closet/freezer/fridge/open{
+	name = "kitchen cabinet"
+	},
 /turf/open/floor/carpet/black,
 /area/centcom/central_command_areas/holding)
 "Kb" = (
@@ -1691,7 +1693,6 @@
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/condiment/enzyme{
-	layer = 5;
 	pixel_x = 10;
 	pixel_y = 2
 	},
@@ -2040,9 +2041,7 @@
 /obj/item/food/grown/cabbage,
 /obj/item/food/grown/cherries,
 /obj/item/food/grown/cherries,
-/obj/item/reagent_containers/condiment/enzyme{
-	layer = 5
-	},
+/obj/item/reagent_containers/condiment/enzyme,
 /obj/item/food/grown/redbeet,
 /turf/open/floor/catwalk_floor,
 /area/centcom/central_command_areas/holding)
@@ -2052,7 +2051,7 @@
 /turf/open/floor/carpet/black,
 /area/centcom/central_command_areas/holding)
 "Wm" = (
-/mob/living/simple_animal/bot/medbot/stationary{
+/mob/living/basic/bot/medbot/stationary{
 	desc = "When engaged in combat, the vanquishing of thine enemy can be the warrior's only concern.";
 	name = "Hattori";
 	radio_key = null

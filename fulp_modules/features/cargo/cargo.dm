@@ -56,3 +56,16 @@
 	)
 	crate_name = "five nights at freddy's plushy crate"
 
+/datum/supply_pack/goody/shrimpplush
+	name = "Shrimp Plushie"
+	desc = "It really is just that shrimple."
+	cost = PAYCHECK_CREW * 4
+	contains = list(/obj/item/toy/plush/shrimp)
+
+/datum/supply_pack/goody/phosplush
+	name = "Phosphophyllite Plushie"
+	desc = "A lone drop broken through the stillness, causing infinity \n\
+		to start wavering. Plush fibers contain trace amounts of actual \n\
+		gemstone, guaranteed acid-resistant in at least twenty-six sectors."
+	cost = PAYCHECK_CREW * 6
+	contains = list(/obj/item/toy/plush/phos)

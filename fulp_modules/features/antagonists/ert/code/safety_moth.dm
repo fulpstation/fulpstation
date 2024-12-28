@@ -1,6 +1,6 @@
 /// ERT Datum - Default is Engineering
 /datum/ert/safety_moth
-	mobtype = /mob/living/carbon/human/species/moth
+	mob_type = /mob/living/carbon/human/species/moth
 	leader_role = /datum/antagonist/ert/safety_moth
 	enforce_human = FALSE
 	roles = list(/datum/antagonist/ert/safety_moth)
@@ -198,7 +198,8 @@
 	worn_icon = 'icons/mob/clothing/suits/armor.dmi'
 	icon_state = "riot"
 	inhand_icon_state = "swat_suit"
-	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCKS_SHOVE_KNOCKDOWN
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
+	clothing_traits = list(TRAIT_BRAWLING_KNOCKDOWN_BLOCKED)
 
 /obj/item/clothing/head/helmet/space/safety_moth/sec
 	name = "Safety Moth riot helmet"

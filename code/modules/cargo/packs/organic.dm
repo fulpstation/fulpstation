@@ -101,8 +101,8 @@
 
 /datum/supply_pack/organic/randomized/chef/fruits
 	name = "Fruit Crate"
-	desc = "Rich of vitamins. Contains a lime, orange, watermelon, apple, \
-		berries and a lime."
+	desc = "Rich in vitamins. Contains a lime, orange, watermelon, apple, \
+		berries and a lemon."
 	cost = CARGO_CRATE_VALUE * 3
 	contains = list(/obj/item/food/grown/citrus/lime,
 					/obj/item/food/grown/citrus/orange,
@@ -125,6 +125,7 @@
 	access = ACCESS_THEATRE
 	access_view = ACCESS_THEATRE
 	crate_type = /obj/structure/closet/crate/secure
+	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /datum/supply_pack/organic/hydroponics
 	name = "Hydroponics Crate"
@@ -297,7 +298,7 @@
 	name = "Grilling Starter Kit"
 	desc = "Hey dad I'm Hungry. Hi Hungry I'm THE NEW GRILLING STARTER KIT \
 		ONLY 5000 BUX GET NOW! Contains a grill and fuel."
-	cost = CARGO_CRATE_VALUE * 8
+	cost = CARGO_CRATE_VALUE * 4
 	crate_type = /obj/structure/closet/crate
 	contains = list(
 		/obj/item/stack/sheet/mineral/coal/five,
@@ -306,6 +307,7 @@
 		/obj/machinery/grill/unwrenched,
 	)
 	crate_name = "grilling starter kit crate"
+	discountable = SUPPLY_PACK_UNCOMMON_DISCOUNTABLE
 
 /datum/supply_pack/organic/grillfuel
 	name = "Grilling Fuel Kit"
@@ -317,6 +319,7 @@
 					/obj/item/reagent_containers/cup/soda_cans/monkey_energy,
 				)
 	crate_name = "grilling fuel kit crate"
+	discountable = SUPPLY_PACK_UNCOMMON_DISCOUNTABLE
 
 /datum/supply_pack/organic/tiziran_supply
 	name = "Tiziran Supply Box"

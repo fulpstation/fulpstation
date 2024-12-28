@@ -74,10 +74,10 @@
 			continue
 
 		if(heads_of_staff)
-			if(!(possible_target.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
+			if(!(possible_target.assigned_role.job_flags & JOB_HEAD_OF_STAFF))
 				continue
 		else
-			if(possible_target.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
+			if(possible_target.assigned_role.job_flags & JOB_HEAD_OF_STAFF)
 				continue
 
 		var/mob/living/carbon/human/targets_current = possible_target.current
@@ -190,7 +190,7 @@
 	)
 	eyeballies.apply_organ_damage(eyeballies.maxHealth)
 	target.emote("scream")
-	playsound(target, "sound/effects/wounds/crackandbleed.ogg", 100)
+	playsound(target, 'sound/effects/wounds/crackandbleed.ogg', 100)
 	log_combat(user, target, "cracked the skull of (eye snatching)", src)
 
 	if(!do_after(user, eye_snatch_enthusiasm, target = target, extra_checks = CALLBACK(src, PROC_REF(eyeballs_exist), eyeballies, head, target)))
@@ -204,14 +204,13 @@
 		target.equip_to_slot_if_possible(new_patch, ITEM_SLOT_EYES, disable_warning = TRUE)
 
 	to_chat(user, span_notice("You successfully extract [target]'s eyeballs."))
-	playsound(target, 'sound/surgery/retractor2.ogg', 100, TRUE)
+	playsound(target, 'sound/items/handling/surgery/retractor2.ogg', 100, TRUE)
 	playsound(target, 'sound/effects/pop.ogg', 100, TRAIT_MUTE)
 	eyeballies.Remove(target)
 	eyeballies.forceMove(get_turf(target))
 	notify_ghosts(
 		"[target] has just had their eyes snatched!",
 		source = target,
-		action = NOTIFY_ORBIT,
 		header = "Ouch!",
 	)
 	target.emote("scream")

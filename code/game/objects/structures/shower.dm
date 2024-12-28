@@ -4,7 +4,7 @@
 #define SHOWER_NORMAL_TEMP 300
 #define SHOWER_BOILING "boiling"
 #define SHOWER_BOILING_TEMP 400
-/// The volume of it's internal reagents the shower applies to everything it sprays.
+/// The volume of its internal reagents the shower applies to everything it sprays.
 #define SHOWER_SPRAY_VOLUME 5
 /// How much the volume of the shower's spay reagents are amplified by when it sprays something.
 #define SHOWER_EXPOSURE_MULTIPLIER 2 // Showers effectively double exposed reagents
@@ -49,7 +49,7 @@ GLOBAL_LIST_INIT(shower_mode_descriptions, list(
 	var/reagent_capacity = 200
 	///How many units the shower refills every second.
 	var/refill_rate = 0.5
-	///Does the shower have a water recycler to recollect it's water supply?
+	///Does the shower have a water recycler to recollect its water supply?
 	var/has_water_reclaimer = TRUE
 	///Which mode the shower is operating in.
 	var/mode = SHOWER_MODE_UNTIL_EMPTY
@@ -90,6 +90,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 	AddComponent(/datum/component/plumbing/simple_demand, extend_pipe_to_edge = TRUE)
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+		COMSIG_ATOM_EXITED = PROC_REF(on_exited),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -184,9 +185,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 
 /obj/machinery/shower/wrench_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(flags_1 & NODECONSTRUCT_1)
-		return
-
 	I.play_tool_sound(src)
 	deconstruct()
 	return TRUE
@@ -197,7 +195,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 		return
 	var/mutable_appearance/water_falling = mutable_appearance('icons/obj/watercloset.dmi', "water", ABOVE_MOB_LAYER)
 	water_falling.color = mix_color_from_reagents(reagents.reagent_list)
-	SET_PLANE_EXPLICIT(water_falling, GAME_PLANE_UPPER, src)
 	switch(dir)
 		if(NORTH)
 			water_falling.pixel_y += pixel_shift
@@ -237,18 +234,36 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 		qdel(mist)
 
 
-/obj/machinery/shower/proc/on_entered(datum/source, atom/movable/AM)
+/obj/machinery/shower/proc/on_entered(datum/source, atom/movable/enterer)
 	SIGNAL_HANDLER
+
 	if(actually_on && reagents.total_volume)
-		wash_atom(AM)
+		wash_atom(enterer)
+
+/obj/machinery/shower/proc/on_exited(datum/source, atom/movable/exiter)
+	SIGNAL_HANDLER
+
+	if(!isliving(exiter))
+		return
+
+	var/obj/machinery/shower/locate_new_shower = locate() in get_turf(exiter)
+	if(locate_new_shower && isturf(exiter.loc))
+		return
+	var/mob/living/take_his_status_effect = exiter
+	take_his_status_effect.remove_status_effect(/datum/status_effect/shower_regen)
 
 /obj/machinery/shower/proc/wash_atom(atom/target)
 	target.wash(CLEAN_RAD | CLEAN_WASH)
 	reagents.expose(target, (TOUCH), SHOWER_EXPOSURE_MULTIPLIER * SHOWER_SPRAY_VOLUME / max(reagents.total_volume, SHOWER_SPRAY_VOLUME))
-	if(isliving(target))
-		var/mob/living/living_target = target
-		check_heat(living_target)
+	if(!isliving(target))
+		return
+	var/mob/living/living_target = target
+	check_heat(living_target)
+	living_target.apply_status_effect(/datum/status_effect/shower_regen)
+	if(!HAS_TRAIT(target, TRAIT_WATER_HATER) || HAS_TRAIT(target, TRAIT_WATER_ADAPTATION))
 		living_target.add_mood_event("shower", /datum/mood_event/nice_shower)
+	else
+		living_target.add_mood_event("shower", /datum/mood_event/shower_hater)
 
 /**
  * Toggle whether shower is actually on and outputting water.
@@ -314,13 +329,12 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 		if(!ismopable(movable_content)) // Mopables will be cleaned anyways by the turf wash above
 			wash_atom(movable_content) // Reagent exposure is handled in wash_atom
 
-	reagents.remove_any(SHOWER_SPRAY_VOLUME)
+	reagents.remove_all(SHOWER_SPRAY_VOLUME)
 
-/obj/machinery/shower/deconstruct(disassembled = TRUE)
+/obj/machinery/shower/on_deconstruction(disassembled = TRUE)
 	new /obj/item/stack/sheet/iron(drop_location(), 2)
 	if(has_water_reclaimer)
 		new /obj/item/stock_parts/water_recycler(drop_location())
-	qdel(src)
 
 /obj/machinery/shower/proc/check_heat(mob/living/L)
 	var/mob/living/carbon/C = L
@@ -371,8 +385,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/shower, (-16))
 	deconstruct()
 	return TRUE
 
-/obj/structure/showerframe/AltClick(mob/user)
-	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /obj/effect/mist
 	name = "mist"

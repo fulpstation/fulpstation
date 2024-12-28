@@ -29,18 +29,20 @@
 	if(broke_masquerade)
 		return
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/lunge_warn.ogg', 100, FALSE, pressure_affected = FALSE)
-	to_chat(owner.current, span_cultboldtalic("You have broken the Masquerade!"))
+	to_chat(owner.current, span_cult_bold_italic("You have broken the Masquerade!"))
 	to_chat(owner.current, span_warning("Bloodsucker Tip: When you break the Masquerade, you become open for termination by fellow Bloodsuckers, and your Vassals are no longer completely loyal to you, as other Bloodsuckers can steal them for themselves!"))
 	broke_masquerade = TRUE
 	antag_hud_name = "masquerade_broken"
 	add_team_hud(owner.current)
+	GLOB.masquerade_breakers.Add(src)
 	SEND_GLOBAL_SIGNAL(COMSIG_BLOODSUCKER_BROKE_MASQUERADE)
 
 ///This is admin-only of reverting a broken masquerade, sadly it doesn't remove the Malkavian objectives yet.
 /datum/antagonist/bloodsucker/proc/fix_masquerade(mob/admin)
 	if(!broke_masquerade)
 		return
-	to_chat(owner.current, span_cultboldtalic("You have re-entered the Masquerade."))
+	to_chat(owner.current, span_cult_bold_italic("You have re-entered the Masquerade."))
+	GLOB.masquerade_breakers.Remove(src)
 	broke_masquerade = FALSE
 
 /datum/antagonist/bloodsucker/proc/give_masquerade_infraction()
@@ -50,7 +52,7 @@
 	if(masquerade_infractions >= 3)
 		break_masquerade()
 	else
-		to_chat(owner.current, span_cultbold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to the Bloodsucker's Cause!"))
+		to_chat(owner.current, span_cult_bold("You violated the Masquerade! Break the Masquerade [3 - masquerade_infractions] more times and you will become a criminal to all other Bloodsuckers!"))
 
 /datum/antagonist/bloodsucker/proc/RankUp()
 	if(!owner || !owner.current || IS_FAVORITE_VASSAL(owner.current))
@@ -106,7 +108,7 @@
 		if(all_vassals.owner.has_antag_datum(/datum/antagonist/bloodsucker))
 			all_vassals.owner.current.remove_status_effect(/datum/status_effect/agent_pinpointer/vassal_edition)
 			continue
-		if(all_vassals.special_type == REVENGE_VASSAL)
+		if(!all_vassals.remove_on_bloodsucker_death)
 			continue
 		all_vassals.owner.add_antag_datum(/datum/antagonist/ex_vassal)
 		all_vassals.owner.remove_antag_datum(/datum/antagonist/vassal)
@@ -122,7 +124,7 @@
 	// Viewer is Target's Vassal?
 	if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in vassals)
 		var/returnString = "\[<span class='warning'><EM>This is your Master!</EM></span>\]"
-		var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
+		var/returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "bloodsucker")]"
 		returnString += "\n"
 		return returnIcon + returnString
 	// Viewer not a Vamp AND not the target's vassal?
@@ -131,7 +133,7 @@
 			return FALSE
 	// Default String
 	var/returnString = "\[<span class='warning'><EM>[return_full_name()]</EM></span>\]"
-	var/returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "bloodsucker")]"
+	var/returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "bloodsucker")]"
 
 	// In Disguise (Veil)?
 	//if (name_override != null)

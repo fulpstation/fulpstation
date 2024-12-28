@@ -11,6 +11,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/securecoffin
 	name = "Secure Coffin"
@@ -23,6 +24,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/meatcoffin
 	name = "Meat Coffin"
@@ -34,7 +36,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	always_available = FALSE //The sacred coffin!
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND //The sacred coffin!
 
 /datum/crafting_recipe/metalcoffin
 	name = "Metal Coffin"
@@ -45,6 +47,7 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/vassalrack
 	name = "Persuasion Rack"
@@ -57,11 +60,11 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	always_available = FALSE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/candelabrum
 	name = "Candelabrum"
-	result = /obj/structure/bloodsucker/candelabrum
+	result = /obj/structure/bloodsucker/lighting/candelabrum
 	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
 	reqs = list(
 		/obj/item/stack/sheet/iron = 3,
@@ -70,7 +73,22 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
-	always_available = FALSE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+
+/datum/crafting_recipe/brazier
+	name = "Brazier"
+	result = /obj/structure/bloodsucker/lighting/brazier
+	tool_behaviors = list(TOOL_WELDER, TOOL_WRENCH)
+	reqs = list(
+		/obj/item/stack/sheet/iron = 2,
+		/obj/item/stack/rods = 3,
+		/obj/item/stack/sheet/mineral/wood = 2,
+		/datum/reagent/fuel = 10,
+		/datum/reagent/blood = 10
+	)
+	time = 10 SECONDS
+	category = CAT_STRUCTURE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/bloodthrone
 	name = "Blood Throne"
@@ -83,7 +101,20 @@
 	)
 	time = 5 SECONDS
 	category = CAT_STRUCTURE
-	always_available = FALSE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+
+/datum/crafting_recipe/blood_mirror
+	name = "blood mirror frame"
+	result = /obj/item/wallframe/blood_mirror
+	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER, TOOL_CROWBAR)
+	reqs = list(
+		/obj/item/stack/sheet/mineral/silver = 2,
+		/obj/item/stack/sheet/glass = 5,
+		/datum/reagent/blood = 100,
+	)
+	time = 15 SECONDS
+	category = CAT_STRUCTURE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/stake
 	name = "Stake"
@@ -91,6 +122,7 @@
 	reqs = list(/obj/item/stack/sheet/mineral/wood = 3)
 	time = 8 SECONDS
 	category = CAT_WEAPON_MELEE
+	crafting_flags = NONE
 
 /datum/crafting_recipe/hardened_stake
 	name = "Hardened Stake"
@@ -99,7 +131,7 @@
 	reqs = list(/obj/item/stack/rods = 1)
 	time = 6 SECONDS
 	category = CAT_WEAPON_MELEE
-	always_available = FALSE
+	crafting_flags =  CRAFT_MUST_BE_LEARNED
 
 /datum/crafting_recipe/silver_stake
 	name = "Silver Stake"
@@ -111,4 +143,4 @@
 	)
 	time = 8 SECONDS
 	category = CAT_WEAPON_MELEE
-	always_available = FALSE
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED

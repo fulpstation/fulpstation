@@ -6,8 +6,8 @@
 //NORTH default dir
 /obj/docking_port
 	invisibility = INVISIBILITY_ABSTRACT
-	icon = 'icons/obj/device.dmi'
-	icon_state = "pinonfar"
+	icon = 'icons/effects/docking_ports.dmi'
+	icon_state = "static"
 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
@@ -73,7 +73,7 @@
 /obj/docking_port/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armour_penetration = 0)
 	return
 
-/obj/docking_port/singularity_pull()
+/obj/docking_port/singularity_pull(atom/singularity, current_size)
 	return
 
 /obj/docking_port/singularity_act()
@@ -264,7 +264,7 @@
 
 /obj/docking_port/stationary/proc/load_roundstart()
 	if(json_key)
-		var/sid = SSmapping.config.shuttles[json_key]
+		var/sid = SSmapping.current_map.shuttles[json_key]
 		roundstart_template = SSmapping.shuttle_templates[sid]
 		if(!roundstart_template)
 			CRASH("json_key:[json_key] value \[[sid]\] resulted in a null shuttle template for [src]")
@@ -379,6 +379,7 @@
 		"whiteship_tram",
 		"whiteship_personalshuttle",
 		"whiteship_obelisk",
+		"whiteship_birdshot",
 	)
 
 /// Helper proc that tests to ensure all whiteship templates can spawn at their docking port, and logs their sizes
@@ -436,7 +437,7 @@
 
 /obj/docking_port/mobile
 	name = "shuttle"
-	icon_state = "pinonclose"
+	icon_state = "mobile"
 
 	area_type = SHUTTLE_DEFAULT_SHUTTLE_AREA_TYPE
 
@@ -514,13 +515,14 @@
 		var/min_y = -1
 		var/max_x = WORLDMAXX_CUTOFF
 		var/max_y = WORLDMAXY_CUTOFF
-		for(var/area/area as anything in shuttle_areas)
-			for(var/turf/turf in area)
-				min_x = max(turf.x, min_x)
-				max_x = min(turf.x, max_x)
-				min_y = max(turf.y, min_y)
-				max_y = min(turf.y, max_y)
-			CHECK_TICK
+		for(var/area/shuttle_area as anything in shuttle_areas)
+			for (var/list/zlevel_turfs as anything in shuttle_area.get_zlevel_turf_lists())
+				for(var/turf/turf as anything in zlevel_turfs)
+					min_x = max(turf.x, min_x)
+					max_x = min(turf.x, max_x)
+					min_y = max(turf.y, min_y)
+					max_y = min(turf.y, max_y)
+				CHECK_TICK
 
 		if(min_x == -1 || max_x == WORLDMAXX_CUTOFF)
 			CRASH("Failed to locate shuttle boundaries when iterating through shuttle areas, somehow.")
@@ -820,12 +822,10 @@
 	var/list/L1 = return_ordered_turfs(S1.x, S1.y, S1.z, S1.dir)
 
 	var/list/ripple_turfs = list()
-
-	for(var/i in 1 to L0.len)
+	var/stop = min(L0.len, L1.len)
+	for(var/i in 1 to stop)
 		var/turf/T0 = L0[i]
 		var/turf/T1 = L1[i]
-		if(!T0 || !T1)
-			continue  // out of bounds
 		if(!istype(T0.loc, area_type) || istype(T0.loc, /area/shuttle/transit))
 			continue  // not part of the shuttle
 		ripple_turfs += T1
@@ -1203,6 +1203,14 @@
 			LAZYADD(removees, event)
 	for(var/item in removees)
 		event_list.Remove(item)
+
+/// Give a typepath of a shuttle event to add to the shuttle. If added during endgame transit, will insta start the event
+/obj/docking_port/mobile/proc/add_shuttle_event(typepath)
+	var/datum/shuttle_event/event = new typepath (src)
+	event_list.Add(event)
+	if(launch_status == ENDGAME_LAUNCHED)
+		event.start_up_event(0)
+	return event
 
 #ifdef TESTING
 #undef DOCKING_PORT_HIGHLIGHT

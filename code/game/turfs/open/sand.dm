@@ -8,6 +8,11 @@
 	barefootstep = FOOTSTEP_SAND
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	rust_resistance = RUST_RESISTANCE_ORGANIC
+
+/turf/open/misc/beach/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/lazy_fishing_spot, /datum/fish_source/sand)
 
 /turf/open/misc/beach/ex_act(severity, target)
 	return FALSE
@@ -36,6 +41,10 @@
 	clawfootstep = FOOTSTEP_WATER
 	heavyfootstep = FOOTSTEP_WATER
 
+/turf/open/misc/beach/coast/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_MESSAGE_IN_A_BOTTLE_LOCATION, INNATE_TRAIT)
+
 /turf/open/misc/beach/coast/break_tile()
 	. = ..()
 	icon_state = "beach"
@@ -53,6 +62,7 @@
 	name = "dirt"
 	desc = "Upon closer examination, it's still dirt."
 	icon = 'icons/turf/floors.dmi'
+	damaged_dmi = 'icons/turf/damaged.dmi'
 	icon_state = "sand"
 	base_icon_state = "sand"
 	bullet_bounce_sound = null
@@ -61,10 +71,14 @@
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	rust_resistance = RUST_RESISTANCE_ORGANIC
 
 /turf/open/misc/sandy_dirt/break_tile()
 	. = ..()
 	icon_state = "sand_damaged"
+
+/turf/open/misc/sandy_dirt/broken_states()
+	return list("sand_damaged")
 
 /turf/open/misc/ironsand
 	gender = PLURAL

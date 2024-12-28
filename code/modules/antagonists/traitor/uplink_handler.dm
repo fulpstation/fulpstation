@@ -59,7 +59,7 @@
 	. = ..()
 	maximum_potential_objectives = CONFIG_GET(number/maximum_potential_objectives)
 
-/datum/uplink_handler/Destroy(force, ...)
+/datum/uplink_handler/Destroy(force)
 	can_replace_objectives = null
 	replace_objectives = null
 	return ..()
@@ -125,6 +125,21 @@
 	SSblackbox.record_feedback("nested tally", "traitor_uplink_items_bought", 1, list("[initial(to_purchase.name)]", "[to_purchase.cost]"))
 	on_update()
 	return TRUE
+
+/datum/uplink_handler/proc/purchase_raw_tc(mob/user, amount, atom/movable/source)
+	if(shop_locked)
+		return FALSE
+	if(telecrystals < amount)
+		return FALSE
+
+	telecrystals -= amount
+	var/tcs = new /obj/item/stack/telecrystal(get_turf(user), amount)
+	user.put_in_hands(tcs)
+
+	log_uplink("[key_name(user)] purchased [amount] raw telecrystals from [source]'s uplink")
+	on_update()
+	return TRUE
+
 
 /// Generates objectives for this uplink handler
 /datum/uplink_handler/proc/generate_objectives()
@@ -240,7 +255,7 @@
 	if(!(to_take in potential_objectives))
 		return
 
-	user.playsound_local(get_turf(user), 'sound/traitor/objective_taken.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
+	user.playsound_local(get_turf(user), 'sound/music/antag/traitor/objective_taken.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
 	to_take.on_objective_taken(user)
 	to_take.objective_state = OBJECTIVE_STATE_ACTIVE
 	potential_objectives -= to_take
@@ -254,3 +269,12 @@
 		return
 
 	to_act_on.ui_perform_action(user, action)
+
+///Helper to add telecrystals to the uplink handler, calling set_telecrystals.
+/datum/uplink_handler/proc/add_telecrystals(amount)
+	set_telecrystals(telecrystals + amount)
+
+///Sets how many telecrystals the uplink handler has, then updates the UI for any players watching.
+/datum/uplink_handler/proc/set_telecrystals(amount)
+	telecrystals = amount
+	on_update()

@@ -49,6 +49,8 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 
 #define isspaceturf(A) (istype(A, /turf/open/space))
 
+#define is_space_or_openspace(A) (isopenspaceturf(A) || isspaceturf(A))
+
 #define isfloorturf(A) (istype(A, /turf/open/floor))
 
 #define ismiscturf(A) (istype(A, /turf/open/misc))
@@ -66,6 +68,8 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 #define ischasm(A) (istype(A, /turf/open/chasm))
 
 #define isplatingturf(A) (istype(A, /turf/open/floor/plating))
+
+#define iscatwalkturf(A) (istype(A, /turf/open/floor/catwalk_floor))
 
 #define isasteroidturf(A) (istype(A, /turf/open/misc/asteroid))
 
@@ -123,7 +127,7 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 
 #define islarva(A) (istype(A, /mob/living/carbon/alien/larva))
 
-#define isalienadult(A) (istype(A, /mob/living/carbon/alien/adult) || istype(A, /mob/living/simple_animal/hostile/alien))
+#define isalienadult(A) (istype(A, /mob/living/carbon/alien/adult) || istype(A, /mob/living/basic/alien))
 
 #define isalienhunter(A) (istype(A, /mob/living/carbon/alien/adult/hunter))
 
@@ -135,14 +139,14 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 
 //Silicon mobs
 #define issilicon(A) (istype(A, /mob/living/silicon))
-
-#define issiliconoradminghost(A) (istype(A, /mob/living/silicon) || isAdminGhostAI(A))
-
-#define iscyborg(A) (istype(A, /mob/living/silicon/robot))
-
 #define isAI(A) (istype(A, /mob/living/silicon/ai))
-
+#define iscyborg(A) (istype(A, /mob/living/silicon/robot))
 #define ispAI(A) (istype(A, /mob/living/silicon/pai))
+
+///This is used to see if you have Silicon access. This includes things like Admins, Drones, Bots, and Human wands.
+#define HAS_SILICON_ACCESS(possible_silicon) (HAS_TRAIT(possible_silicon, TRAIT_SILICON_ACCESS) || isAdminGhostAI(possible_silicon))
+///This is used to see if you have the access of an AI. This doesn't mean you are an AI, just have the same access as one.
+#define HAS_AI_ACCESS(possible_ai) (HAS_TRAIT(possible_ai, TRAIT_AI_ACCESS) || isAdminGhostAI(possible_ai))
 
 // basic mobs
 #define isbasicmob(A) (istype(A, /mob/living/basic))
@@ -170,15 +174,17 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 
 #define isrevenant(A) (istype(A, /mob/living/basic/revenant))
 
-#define isbot(A) (istype(A, /mob/living/simple_animal/bot))
+#define isbot(A) (istype(A, /mob/living/simple_animal/bot) || istype(A, /mob/living/basic/bot))
+
+#define isbasicbot(A) (istype(A, /mob/living/basic/bot))
 
 #define ismouse(A) (istype(A, /mob/living/basic/mouse))
 
-#define isslime(A) (istype(A, /mob/living/simple_animal/slime))
+#define isslime(A) (istype(A, /mob/living/basic/slime))
 
 #define isdrone(A) (istype(A, /mob/living/basic/drone))
 
-#define iscat(A) (istype(A, /mob/living/simple_animal/pet/cat))
+#define iscat(A) (istype(A, /mob/living/basic/pet/cat))
 
 #define isdog(A) (istype(A, /mob/living/basic/pet/dog))
 
@@ -225,6 +231,8 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 
 #define islandmine(A) (istype(A, /obj/effect/mine))
 
+#define iscloset(A) (istype(A, /obj/structure/closet))
+
 #define issupplypod(A) (istype(A, /obj/structure/closet/supplypod))
 
 #define isammocasing(A) (istype(A, /obj/item/ammo_casing))
@@ -245,7 +253,7 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 
 #define ismecha(A) (istype(A, /obj/vehicle/sealed/mecha))
 
-#define ismopable(A) (A && (A.layer <= FLOOR_CLEAN_LAYER)) //If something can be cleaned by floor-cleaning devices such as mops or clean bots
+#define ismopable(A) (A && ((PLANE_TO_TRUE(A.plane) == FLOOR_PLANE) ? (A.layer <= FLOOR_CLEAN_LAYER) : (A.layer <= GAME_CLEAN_LAYER))) //If something can be cleaned by floor-cleaning devices such as mops or clean bots
 
 #define isorgan(A) (istype(A, /obj/item/organ))
 
@@ -270,6 +278,8 @@ GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
 #define isinstrument(A) (istype(A, /obj/item/instrument) || istype(A, /obj/structure/musician))
 
 #define is_reagent_container(O) (istype(O, /obj/item/reagent_containers))
+
+#define isapc(A) (istype(A, /obj/machinery/power/apc))
 
 //Assemblies
 #define isassembly(O) (istype(O, /obj/item/assembly))
@@ -312,6 +322,7 @@ GLOBAL_LIST_INIT(book_types, typecacheof(list(
 #define is_captain_job(job_type) (istype(job_type, /datum/job/captain))
 #define is_chaplain_job(job_type) (istype(job_type, /datum/job/chaplain))
 #define is_clown_job(job_type) (istype(job_type, /datum/job/clown))
+#define is_mime_job(job_type) (istype(job_type, /datum/job/mime))
 #define is_detective_job(job_type) (istype(job_type, /datum/job/detective))
 #define is_scientist_job(job_type) (istype(job_type, /datum/job/scientist))
 #define is_security_officer_job(job_type) (istype(job_type, /datum/job/security_officer))
@@ -319,4 +330,4 @@ GLOBAL_LIST_INIT(book_types, typecacheof(list(
 #define is_unassigned_job(job_type) (istype(job_type, /datum/job/unassigned))
 
 #define isprojectilespell(thing) (istype(thing, /datum/action/cooldown/spell/pointed/projectile))
-#define is_multi_tile_object(atom) (atom.bound_width > world.icon_size || atom.bound_height > world.icon_size)
+#define is_multi_tile_object(atom) (atom.bound_width > ICON_SIZE_X || atom.bound_height > ICON_SIZE_Y)

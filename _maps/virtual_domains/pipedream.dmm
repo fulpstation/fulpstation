@@ -24,7 +24,7 @@
 /area/virtual_domain)
 "aK" = (
 /turf/open/space/basic,
-/area/virtual_domain)
+/area/space/virtual_domain)
 "aL" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
 /turf/open/floor/iron,
@@ -149,7 +149,7 @@
 "ev" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
-/area/virtual_domain)
+/area/virtual_domain/safehouse)
 "eJ" = (
 /obj/structure/disposalpipe/sorting{
 	dir = 2
@@ -220,7 +220,6 @@
 /area/virtual_domain)
 "gc" = (
 /obj/structure/disposalpipe/broken,
-/obj/effect/landmark/bitrunning/mob_segment,
 /turf/open/floor/plating,
 /area/virtual_domain)
 "gj" = (
@@ -363,6 +362,10 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plating,
 /area/virtual_domain)
+"lt" = (
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
 "lx" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
 	dir = 4;
@@ -474,6 +477,12 @@
 	},
 /turf/open/floor/carpet/orange,
 /area/virtual_domain)
+"pb" = (
+/obj/structure/broken_flooring/corner{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
 "pf" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/effect/mapping_helpers/damaged_window,
@@ -485,7 +494,7 @@
 /area/virtual_domain)
 "po" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/maint,
+/obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
 /turf/open/floor/iron,
 /area/virtual_domain)
 "pv" = (
@@ -627,6 +636,13 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/virtual_domain)
+"tE" = (
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
 "ud" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/carpet/royalblue{
@@ -693,7 +709,7 @@
 /turf/open/floor/plating,
 /area/virtual_domain)
 "vA" = (
-/obj/structure/closet/crate/maint,
+/obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
 /obj/effect/turf_decal/stripes{
 	dir = 9
 	},
@@ -728,7 +744,7 @@
 "wl" = (
 /obj/item/shard,
 /turf/open/space/basic,
-/area/virtual_domain)
+/area/space/virtual_domain)
 "wm" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 1
@@ -815,7 +831,7 @@
 "xF" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
-/area/virtual_domain)
+/area/virtual_domain/fullbright)
 "xM" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
@@ -833,10 +849,6 @@
 "yB" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/effect/mapping_helpers/airlock/welded,
-/turf/open/floor/plating,
-/area/virtual_domain)
-"yJ" = (
-/obj/structure/disposalpipe/broken,
 /turf/open/floor/plating,
 /area/virtual_domain)
 "yM" = (
@@ -885,6 +897,12 @@
 "Av" = (
 /obj/item/stack/rods/two,
 /turf/open/space/basic,
+/area/space/virtual_domain)
+"Aw" = (
+/obj/structure/lattice/catwalk{
+	name = "industrial lift"
+	},
+/turf/open/chasm,
 /area/virtual_domain)
 "AJ" = (
 /obj/effect/decal/cleanable/generic,
@@ -1046,7 +1064,7 @@
 /area/virtual_domain)
 "Fa" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/closet/crate/maint,
+/obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/virtual_domain)
@@ -1215,7 +1233,7 @@
 /area/virtual_domain)
 "JR" = (
 /turf/template_noop,
-/area/virtual_domain)
+/area/virtual_domain/safehouse)
 "JT" = (
 /obj/structure/lattice/catwalk{
 	name = "industrial lift"
@@ -1239,10 +1257,9 @@
 /turf/open/floor/plating,
 /area/virtual_domain)
 "KX" = (
-/obj/structure/lattice/catwalk{
-	name = "industrial lift"
-	},
-/turf/open/chasm,
+/obj/structure/disposalpipe/broken,
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
 /area/virtual_domain)
 "Ln" = (
 /obj/structure/disposalpipe/broken{
@@ -1438,9 +1455,11 @@
 /turf/open/floor/plating,
 /area/virtual_domain)
 "Qo" = (
-/obj/effect/landmark/bitrunning/safehouse_spawn,
+/obj/modular_map_root/safehouse{
+	key = "shuttle_space"
+	},
 /turf/template_noop,
-/area/virtual_domain)
+/area/virtual_domain/safehouse)
 "Qr" = (
 /turf/closed/indestructible/fakedoor/maintenance{
 	name = "maintenance access"
@@ -1509,9 +1528,13 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/iron,
 /area/virtual_domain)
+"RI" = (
+/obj/effect/smooths_with_walls,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
 "RJ" = (
 /turf/closed/indestructible/binary,
-/area/virtual_domain)
+/area/virtual_domain/fullbright)
 "RK" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/iron,
@@ -1570,12 +1593,6 @@
 	},
 /obj/effect/mob_spawn/corpse/human/factory/qm,
 /turf/open/floor/iron,
-/area/virtual_domain)
-"Tn" = (
-/obj/structure/broken_flooring/corner{
-	dir = 4
-	},
-/turf/open/floor/plating,
 /area/virtual_domain)
 "Tp" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
@@ -1808,7 +1825,7 @@
 /turf/open/floor/plating,
 /area/virtual_domain)
 "Ym" = (
-/mob/living/simple_animal/pet/cat/space,
+/mob/living/basic/pet/cat/space,
 /obj/structure/bed/dogbed{
 	name = "cat bed"
 	},
@@ -1858,13 +1875,6 @@
 	icon_state = "carpet_royalblue-157"
 	},
 /area/virtual_domain)
-"Zq" = (
-/obj/structure/disposalpipe/segment{
-	dir = 10
-	},
-/obj/effect/landmark/bitrunning/mob_segment,
-/turf/open/floor/plating,
-/area/virtual_domain)
 "Zy" = (
 /obj/structure/table,
 /obj/item/flashlight/lantern,
@@ -1874,10 +1884,6 @@
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-203"
 	},
-/area/virtual_domain)
-"ZK" = (
-/obj/effect/landmark/bitrunning/mob_segment,
-/turf/open/floor/plating,
 /area/virtual_domain)
 "ZP" = (
 /obj/structure/railing,
@@ -1919,7 +1925,7 @@ RJ
 RJ
 RJ
 RJ
-RJ
+RI
 RJ
 RJ
 RJ
@@ -2105,7 +2111,7 @@ yQ
 yQ
 yQ
 yQ
-RJ
+RI
 eg
 eg
 eg
@@ -2161,7 +2167,7 @@ vA
 Dr
 bw
 Jq
-yJ
+gc
 eg
 RJ
 eg
@@ -2259,8 +2265,8 @@ RJ
 eg
 uU
 gj
-ZK
-Tn
+lt
+pb
 OR
 eg
 RJ
@@ -2351,7 +2357,7 @@ yQ
 yQ
 yQ
 RJ
-RJ
+RI
 RJ
 RJ
 RJ
@@ -2441,8 +2447,8 @@ yQ
 yQ
 yQ
 yQ
-RJ
-RJ
+yQ
+yQ
 RJ
 eg
 eg
@@ -2491,7 +2497,7 @@ yQ
 yQ
 yQ
 yQ
-RJ
+yQ
 RJ
 RJ
 eg
@@ -2506,7 +2512,7 @@ kU
 pv
 AP
 IZ
-KX
+Aw
 Wd
 uv
 DE
@@ -2541,7 +2547,7 @@ yQ
 yQ
 yQ
 yQ
-RJ
+yQ
 RJ
 kU
 kU
@@ -2555,14 +2561,14 @@ mu
 uF
 xl
 AP
-KX
+Aw
 JT
 bG
-Zq
+tE
 DA
 DA
 zE
-gc
+KX
 mu
 Yz
 lW
@@ -2605,8 +2611,8 @@ iz
 jS
 gj
 rJ
-KX
-KX
+Aw
+Aw
 Wd
 Ff
 lN
@@ -2857,9 +2863,9 @@ Yl
 pJ
 eg
 kn
-Tn
+pb
 kU
-ZK
+lt
 kU
 Fa
 kU
@@ -2909,7 +2915,7 @@ eg
 rc
 mu
 rM
-yJ
+gc
 vQ
 vQ
 mu
@@ -3124,7 +3130,7 @@ eg
 eg
 rO
 rO
-RJ
+RI
 RJ
 rO
 rO
@@ -3168,7 +3174,7 @@ RJ
 RJ
 RJ
 RJ
-RJ
+RI
 RJ
 RJ
 RJ
@@ -3213,7 +3219,7 @@ Cv
 Nu
 eg
 RJ
-RJ
+yQ
 yQ
 yQ
 yQ
@@ -3650,7 +3656,7 @@ yQ
 yQ
 yQ
 yQ
-RJ
+yQ
 RJ
 RJ
 RJ

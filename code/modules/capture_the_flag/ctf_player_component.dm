@@ -1,4 +1,4 @@
-///A component added to the mind of anyone who is playing in an ongoing CTF match. Any player specific CTF functionality should be implimented here. (someone should impliment score tracking here)
+///A component added to the mind of anyone who is playing in an ongoing CTF match. Any player specific CTF functionality should be implemented here. (someone should implement score tracking here)
 /datum/component/ctf_player
 	///The team that this player is associated with.
 	var/team
@@ -74,7 +74,7 @@
 		player_mob.dust()
 	qdel(src)
 
-/datum/component/ctf_player/Destroy(force, silent)
+/datum/component/ctf_player/Destroy(force)
 	if(player_mob)
 		UnregisterSignal(player_mob, list(COMSIG_MOB_AFTER_APPLY_DAMAGE, COMSIG_MOB_GHOSTIZED))
 	return ..()

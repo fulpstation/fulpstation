@@ -1,7 +1,7 @@
 /mob/living/basic/red_rabbit
 	name = "jabberwocky"
 	desc = "Servant of the moon."
-	icon = 'fulp_modules/features/antagonists/monster_hunter/icons/red_rabbit.dmi'
+	icon = 'fulp_modules/icons/antagonists/monster_hunter/red_rabbit.dmi'
 	icon_state = "red_rabbit"
 
 	health = 500
@@ -10,7 +10,7 @@
 	unsuitable_atmos_damage = NONE
 	attack_verb_continuous = "claws"
 	attack_verb_simple = "claw"
-	attack_sound = 'sound/magic/demon_attack1.ogg'
+	attack_sound = 'sound/effects/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	speak_emote = list("roars")
 

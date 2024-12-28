@@ -5,7 +5,7 @@
 	var/required_software
 
 /atom/movable/screen/pai/Click()
-	if(isobserver(usr) || usr.incapacitated())
+	if(isobserver(usr) || usr.incapacitated)
 		return FALSE
 	var/mob/living/silicon/pai/user = usr
 	if(required_software && !user.installed_software.Find(required_software))
@@ -94,6 +94,7 @@
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		pAI.host_scan(PAI_SCAN_MASTER)
 		return TRUE
+
 /atom/movable/screen/pai/crew_manifest
 	name = "Crew Manifest"
 	icon_state = "manifest"
@@ -267,6 +268,6 @@
 	var/mob/living/silicon/pai/owner = mymob
 	for(var/atom/movable/screen/pai/button in static_inventory)
 		if(button.required_software)
-			button.color = owner.installed_software.Find(button.required_software) ? null : "#808080"
+			button.color = owner.installed_software.Find(button.required_software) ? null : COLOR_GRAY
 
 #undef PAI_MISSING_SOFTWARE_MESSAGE

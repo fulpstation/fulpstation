@@ -22,19 +22,19 @@
 	// Am I Viewer's Vassal?
 	if(master.owner == viewer.mind)
 		returnString += "This [carbon_current.dna.species.name] bears YOUR mark!"
-		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+		returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "vassal")]"
 	// Am I someone ELSE'S Vassal?
 	else if(IS_BLOODSUCKER(viewer) || IS_MONSTERHUNTER(viewer))
 		returnString += "This [carbon_current.dna.species.name] bears the mark of <span class='boldwarning'>[master.return_full_name()][master.broke_masquerade ? " who has broken the Masquerade" : ""]</span>"
-		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+		returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "vassal_grey")]"
 	// Are you serving the same master as I am?
 	else if(viewer.mind.has_antag_datum(/datum/antagonist/vassal) in master.vassals)
 		returnString += "[p_they(TRUE)] bears the mark of your Master"
-		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal")]"
+		returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "vassal")]"
 	// You serve a different Master than I do.
 	else
 		returnString += "[p_they(TRUE)] bears the mark of another Bloodsucker"
-		returnIcon = "[icon2html('fulp_modules/features/antagonists/bloodsuckers/icons/vampiric.dmi', world, "vassal_grey")]"
+		returnIcon = "[icon2html('fulp_modules/icons/antagonists/bloodsuckers/vampiric.dmi', world, "vassal_grey")]"
 
 	returnString += "</span>\]" // \n"  Don't need spacers. Using . += "" in examine.dm does this on its own.
 	return returnIcon + returnString
@@ -49,7 +49,7 @@
 	for(var/datum/action/cooldown/bloodsucker/power in powers)
 		power.level_current++
 
-/// Called when we are made into the Favorite Vassal
+/// Called when we are turned into a special type of vassal.
 /datum/antagonist/vassal/proc/make_special(datum/antagonist/vassal/vassal_type)
 	//store what we need
 	var/datum/mind/vassal_owner = owner
@@ -67,6 +67,6 @@
 	vassaldatum.silent = FALSE
 
 	//send alerts of completion
-	to_chat(master, span_danger("You have turned [vassal_owner.current] into your [vassaldatum.name]! They will no longer be deconverted upon Mindshielding!"))
-	to_chat(vassal_owner, span_notice("As Blood drips over your body, you feel closer to your Master... You are now the Favorite Vassal!"))
-	vassal_owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)
+	to_chat(master, span_danger("You have turned [vassal_owner.current] into your [vassaldatum.name]! They will no longer be deconverted upon mindshielding!"))
+	to_chat(vassal_owner, span_notice("As blood drips over your body, you feel closer to your master... you are now the [vassaldatum.name]!"))
+	vassal_owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 75, FALSE, pressure_affected = FALSE)

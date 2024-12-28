@@ -11,7 +11,6 @@
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_NOBLOOD,
 		TRAIT_NOBREATH,
-		TRAIT_NOCLONELOSS,
 		TRAIT_NO_DNA_COPY,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_PIERCEIMMUNE,
@@ -32,7 +31,7 @@
 	mutantliver = /obj/item/organ/internal/liver/bone
 	mutantlungs = null
 	//They can technically be in an ERT
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | ERT_SPAWN
 	species_cookie = /obj/item/reagent_containers/condiment/milk
 	species_language_holder = /datum/language_holder/skeleton
 
@@ -44,10 +43,6 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/skeleton,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/skeleton,
 	)
-
-/datum/species/skeleton/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
-	. = ..()
-	C.set_safe_hunger_level()
 
 /datum/species/skeleton/check_roundstart_eligible()
 	if(check_holidays(HALLOWEEN))

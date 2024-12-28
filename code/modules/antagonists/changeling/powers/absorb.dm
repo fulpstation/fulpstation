@@ -24,13 +24,13 @@
 		return
 
 	var/mob/living/carbon/target = owner.pulling
-	var/datum/antagonist/changeling/changeling = owner.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(owner)
 	return changeling.can_absorb_dna(target)
 
 /datum/action/changeling/absorb_dna/sting_action(mob/owner)
 	SHOULD_CALL_PARENT(FALSE) // the only reason to call parent is for proper blackbox logging, and we do that ourselves in a snowflake way
 
-	var/datum/antagonist/changeling/changeling = owner.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(owner)
 	var/mob/living/carbon/human/target = owner.pulling
 	is_absorbing = TRUE
 
@@ -41,9 +41,14 @@
 	owner.visible_message(span_danger("[owner] sucks the fluids from [target]!"), span_notice("We have absorbed [target]."))
 	to_chat(target, span_userdanger("You are absorbed by the changeling!"))
 
+	var/true_absorbtion = (!isnull(target.client) || !isnull(target.mind) || !isnull(target.last_mind))
+	if (!true_absorbtion)
+		to_chat(owner, span_changeling(span_bold("You absorb [target], but their weak DNA is not enough to satisfy your hunger.")))
+
 	if(!changeling.has_profile_with_dna(target.dna))
 		changeling.add_new_profile(target)
-		changeling.true_absorbs++
+		if (true_absorbtion)
+			changeling.true_absorbs++
 
 	if(owner.nutrition < NUTRITION_LEVEL_WELL_FED)
 		owner.set_nutrition(min((owner.nutrition + target.nutrition), NUTRITION_LEVEL_WELL_FED))
@@ -57,7 +62,8 @@
 	is_absorbing = FALSE
 
 	changeling.adjust_chemicals(10)
-	changeling.can_respec = TRUE
+	if (true_absorbtion)
+		changeling.can_respec++
 
 	if(target.stat != DEAD)
 		target.investigate_log("has died from being changeling absorbed.", INVESTIGATE_DEATHS)
@@ -68,7 +74,7 @@
 /datum/action/changeling/absorb_dna/proc/absorb_memories(mob/living/carbon/human/target)
 	var/datum/mind/suckedbrain = target.mind
 
-	var/datum/antagonist/changeling/changeling = owner.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(owner)
 
 	for(var/memory_type in suckedbrain.memories)
 		var/datum/memory/stolen_memory = suckedbrain.memories[memory_type]
@@ -109,7 +115,7 @@
 		to_chat(owner, span_boldnotice("We have no more knowledge of [target]'s speech patterns."))
 
 
-	var/datum/antagonist/changeling/target_ling = target.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/target_ling = IS_CHANGELING(target)
 	if(target_ling)//If the target was a changeling, suck out their extra juice and objective points!
 		to_chat(owner, span_boldnotice("[target] was one of us. We have absorbed their power."))
 
@@ -145,7 +151,7 @@
 				target.take_overall_damage(40)
 
 		SSblackbox.record_feedback("nested tally", "changeling_powers", 1, list("Absorb DNA", "[absorbing_iteration]"))
-		if(!do_after(owner, 15 SECONDS, target))
+		if(!do_after(owner, 15 SECONDS, target, hidden = TRUE))
 			owner.balloon_alert(owner, "interrupted!")
 			is_absorbing = FALSE
 			return FALSE

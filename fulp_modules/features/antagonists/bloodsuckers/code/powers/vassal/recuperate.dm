@@ -1,28 +1,18 @@
 /// Used by Vassals
 /datum/action/cooldown/bloodsucker/recuperate
 	name = "Sanguine Recuperation"
-	desc = "Slowly heals you overtime using your master's blood, in exchange for some of your own blood and effort."
+	desc = "Slowly heals you overtime using a combination of your master's blood and your own."
 	button_icon_state = "power_recup"
 	power_explanation = "Recuperate:\n\
-		Activating this Power will begin to heal your wounds.\n\
-		You will heal Brute and Toxin damage, at the cost of Stamina damage, and blood from both you and your Master.\n\
-		If you aren't a bloodless race, you will additionally heal Burn damage.\n\
-		The power will cancel out if you are incapacitated or dead."
+		Activating this power will begin to heal your wounds.\n\
+		You will heal brute and toxin damage at the cost of stamina damage and blood from both you and your master.\n\
+		If you aren't a bloodless race, you will additionally heal burn damage.\n\
+		The power will halt if you are incapacitated or dead."
 	power_flags = BP_AM_TOGGLE
-	check_flags = BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
+	check_flags = BP_CANT_USE_WHILE_INCAPACITATED
 	purchase_flags = NONE
 	bloodcost = 1.5
 	cooldown_time = 10 SECONDS
-
-/datum/action/cooldown/bloodsucker/recuperate/can_use(mob/living/carbon/user, trigger_flags)
-	. = ..()
-	if(!.)
-		return
-	if(user.stat >= DEAD || user.incapacitated())
-		user.balloon_alert(user, "you are incapacitated...")
-		return FALSE
-	return TRUE
-
 
 /datum/action/cooldown/bloodsucker/recuperate/ActivatePower(trigger_flags)
 	. = ..()
@@ -55,7 +45,7 @@
 /datum/action/cooldown/bloodsucker/recuperate/ContinueActive(mob/living/user, mob/living/target)
 	if(user.stat >= DEAD)
 		return FALSE
-	if(user.incapacitated())
+	if(user.incapacitated)
 		owner.balloon_alert(owner, "too exhausted...")
 		return FALSE
 	return TRUE

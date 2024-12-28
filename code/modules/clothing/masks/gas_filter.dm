@@ -39,7 +39,8 @@
 		/datum/gas/nitrium,
 		/datum/gas/freon,
 		/datum/gas/hypernoblium,
-		/datum/gas/bz
+		/datum/gas/bz,
+		/datum/gas/miasma,
 		)
 	///List of gases with low filter priority
 	var/list/low_filtering_gases = list(
@@ -52,7 +53,7 @@
 
 /obj/item/gas_filter/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>[src] is at <b>[filter_status]%</b> durability.</span>"
+	. += span_notice("[src] is at <b>[filter_status]%</b> durability.")
 
 /**
  * called by the gas mask where the filter is installed, lower the filter_status depending on the breath gas composition and by the strength of the filter

@@ -9,7 +9,6 @@
 	bubble_icon = "alienroyal"
 	mob_size = MOB_SIZE_LARGE
 	layer = LARGE_MOB_LAYER //above most mobs, but below speechbubbles
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	pressure_resistance = 200 //Because big, stompy xenos should not be blown around like paper.
 	butcher_results = list(/obj/item/food/meat/slab/xeno = 20, /obj/item/stack/sheet/animalhide/xeno = 3)
 
@@ -19,15 +18,17 @@
 	. = ..()
 	// as a wise man once wrote: "pull over that ass too fat"
 	REMOVE_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	// that'd be a too cheeky shield bashing strat
+	ADD_TRAIT(src, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED, INNATE_TRAIT)
 	AddComponent(/datum/component/seethrough_mob)
 
 /mob/living/carbon/alien/adult/royal/on_lying_down(new_lying_angle)
 	. = ..()
-	SET_PLANE_IMPLICIT(src, GAME_PLANE_FOV_HIDDEN) //So it won't hide smaller mobs.
+	layer = LYING_MOB_LAYER
 
 /mob/living/carbon/alien/adult/royal/on_standing_up(new_lying_angle)
 	. = ..()
-	SET_PLANE_IMPLICIT(src, initial(plane))
+	layer = initial(layer)
 
 /mob/living/carbon/alien/adult/royal/can_inject(mob/user, target_zone, injection_flags)
 	return FALSE
@@ -167,10 +168,9 @@
 		span_noticealien("The queen has granted you a promotion to Praetorian!"),
 	)
 
-	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(to_promote.loc)
-	to_promote.mind.transfer_to(new_prae)
-
-	qdel(to_promote)
+	var/mob/living/carbon/alien/lucky_winner = to_promote
+	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(lucky_winner.loc)
+	lucky_winner.alien_evolve(new_prae)
 	qdel(src)
 	return TRUE
 

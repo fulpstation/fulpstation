@@ -7,5 +7,5 @@
 	. = ..()
 
 	//Made by Mokoshotar
-	GLOB.space_ambience += 'fulp_modules/sounds/sound/ambience/spacepad.ogg'
+	GLOB.space_ambience += 'fulp_modules/sounds/ambience/spacepad.ogg'
 

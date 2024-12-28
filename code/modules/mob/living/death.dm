@@ -10,11 +10,13 @@
 **/
 /mob/living/proc/gib(drop_bitflags=NONE)
 	var/prev_lying = lying_angle
-	if(stat != DEAD)
-		death(TRUE)
+	spawn_gibs(drop_bitflags)
 
 	if(!prev_lying)
 		gib_animation()
+
+	if(stat != DEAD)
+		death(TRUE)
 
 	ghostize()
 	spill_organs(drop_bitflags)
@@ -22,9 +24,15 @@
 	if(drop_bitflags & DROP_BODYPARTS)
 		spread_bodyparts(drop_bitflags)
 
-	spawn_gibs(drop_bitflags)
 	SEND_SIGNAL(src, COMSIG_LIVING_GIBBED, drop_bitflags)
 	qdel(src)
+
+// Plays an animation that makes mobs appear to inflate before finally gibbing
+/mob/living/proc/inflate_gib(drop_bitflags=DROP_BRAIN|DROP_ORGANS|DROP_ITEMS, gib_time = 2.5 SECONDS, anim_time = 4 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(gib), drop_bitflags), gib_time)
+	var/matrix/M = matrix()
+	M.Scale(1.8, 1.2)
+	animate(src, time = anim_time, transform = M, easing = SINE_EASING)
 
 /mob/living/proc/gib_animation()
 	return
@@ -36,6 +44,8 @@
  * * DROP_BODYPARTS - Gibs will spawn with bodypart limbs present
 **/
 /mob/living/proc/spawn_gibs(drop_bitflags=NONE)
+	if(flags_1 & HOLOGRAM_1)
+		return
 	new /obj/effect/gibspawner/generic(drop_location(), src, get_static_viruses())
 
 /**
@@ -101,11 +111,10 @@
 	if(stat == DEAD)
 		return FALSE
 
-	if(!gibbed && (death_sound || death_message))
+	if(!gibbed && (death_sound || death_message || (living_flags & ALWAYS_DEATHGASP)))
 		INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "deathgasp")
 
 	set_stat(DEAD)
-	unset_machine()
 	timeofdeath = world.time
 	station_timestamp_timeofdeath = station_time_timestamp()
 	var/turf/death_turf = get_turf(src)
@@ -114,8 +123,9 @@
 	var/player_mob_check = mind && mind.name && mind.active
 	// and, display a death message if the area allows it (or if they're in nullspace)
 	var/valid_area_check = !death_area || !(death_area.area_flags & NO_DEATH_MESSAGE)
-	if(player_mob_check && valid_area_check)
-		deadchat_broadcast(" has died at <b>[get_area_name(death_turf)]</b>.", "<b>[mind.name]</b>", follow_target = src, turf_target = death_turf, message_type=DEADCHAT_DEATHRATTLE)
+	if(player_mob_check)
+		if(valid_area_check)
+			deadchat_broadcast(" has died at <b>[get_area_name(death_turf)]</b>.", "<b>[mind.name]</b>", follow_target = src, turf_target = death_turf, message_type=DEADCHAT_DEATHRATTLE)
 		if(SSlag_switch.measures[DISABLE_DEAD_KEYLOOP] && !client?.holder)
 			to_chat(src, span_deadsay(span_big("Observer freelook is disabled.\nPlease use Orbit, Teleport, and Jump to look around.")))
 			ghostize(TRUE)

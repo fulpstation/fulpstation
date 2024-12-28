@@ -24,12 +24,23 @@
 #define CURSE_GRASPING (1<<3)
 
 //Incapacitated status effect flags
-/// If the incapacitated status effect will ignore a mob in restraints (handcuffs)
-#define IGNORE_RESTRAINTS (1<<0)
-/// If the incapacitated status effect will ignore a mob in stasis (stasis beds)
-#define IGNORE_STASIS (1<<1)
-/// If the incapacitated status effect will ignore a mob being agressively grabbed
-#define IGNORE_GRAB (1<<2)
+/// If the mob is normal incapacitated. Should never need this, just avoids issues if we ever overexpand this
+#define TRADITIONAL_INCAPACITATED (1<<0)
+/// If the incapacitated status effect is being caused by restraints (handcuffs)
+#define INCAPABLE_RESTRAINTS (1<<1)
+/// If the incapacitated status effect is being caused by stasis (stasis beds)
+#define INCAPABLE_STASIS (1<<2)
+/// If the incapacitated status effect is being caused by being agressively grabbed
+#define INCAPABLE_GRAB (1<<3)
+
+/// Checks to see if a mob would be incapacitated even while ignoring some types
+/// Does this by inverting the passed in flags and seeing if we're still incapacitated
+#define INCAPACITATED_IGNORING(mob, flags) (mob.incapacitated & ~(flags))
+
+/// Max amounts of fire stacks a mob can get
+#define MAX_FIRE_STACKS 20
+/// If a mob has a higher threshold than this, the icon shown will be increased to the big fire icon.
+#define MOB_BIG_FIRE_STACK_THRESHOLD 3
 
 // Grouped effect sources, see also code/__DEFINES/traits.dm
 
@@ -38,6 +49,7 @@
 #define STASIS_SHAPECHANGE_EFFECT "stasis_shapechange"
 #define STASIS_ADMIN "stasis_admin"
 #define STASIS_LEGION_EATEN "stasis_eaten"
+#define STASIS_SLIME_BZ "stasis_slime_bz"
 
 #define STASIS_NETPOD_EFFECT "stasis_netpod"
 
@@ -114,6 +126,11 @@
 #define set_dizzy(duration) set_timed_status_effect(duration, /datum/status_effect/dizziness)
 #define set_dizzy_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/dizziness, TRUE)
 
+#define adjust_staggered(duration) adjust_timed_status_effect(duration, /datum/status_effect/staggered)
+#define adjust_staggered_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/staggered, up_to)
+#define set_staggered(duration) set_timed_status_effect(duration, /datum/status_effect/staggered)
+#define set_staggered_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/staggered, TRUE)
+
 #define adjust_jitter(duration) adjust_timed_status_effect(duration, /datum/status_effect/jitter)
 #define adjust_jitter_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/jitter, up_to)
 #define set_jitter(duration) set_timed_status_effect(duration, /datum/status_effect/jitter)
@@ -144,8 +161,8 @@
 #define set_drowsiness(duration) set_timed_status_effect(duration, /datum/status_effect/drowsiness)
 #define set_drowsiness_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/drowsiness, TRUE)
 
-#define adjust_pacifism(duration) adjust_timed_status_effect(/datum/status_effect/pacify, duration)
-#define set_pacifism(duration) set_timed_status_effect(/datum/status_effect/pacify, duration)
+#define adjust_pacifism(duration) adjust_timed_status_effect(duration, /datum/status_effect/pacify)
+#define set_pacifism(duration) set_timed_status_effect(duration, /datum/status_effect/pacify)
 
 #define adjust_eye_blur(duration) adjust_timed_status_effect(duration, /datum/status_effect/eye_blur)
 #define adjust_eye_blur_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/eye_blur, up_to)

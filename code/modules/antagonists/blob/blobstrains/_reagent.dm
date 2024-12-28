@@ -11,9 +11,13 @@
 	reagent.expose_mob(L, VAPOR, BLOB_REAGENTATK_VOL, TRUE, mob_protection, overmind)
 	send_message(L)
 
-/datum/blobstrain/reagent/blobbernaut_attack(mob/living/L)
-	var/mob_protection = L.getarmor(null, BIO) * 0.01
-	reagent.expose_mob(L, VAPOR, BLOBMOB_BLOBBERNAUT_REAGENTATK_VOL+blobbernaut_reagentatk_bonus, FALSE, mob_protection, overmind)//this will do between 10 and 20 damage(reduced by mob protection), depending on chemical, plus 4 from base brute damage.
+/datum/blobstrain/reagent/blobbernaut_attack(atom/attacking, mob/living/basic/blobbernaut)
+	if(!isliving(attacking))
+		return
+
+	var/mob/living/living_attacking = attacking
+	var/mob_protection = living_attacking.getarmor(null, BIO) * 0.01
+	reagent.expose_mob(living_attacking, VAPOR, BLOBMOB_BLOBBERNAUT_REAGENTATK_VOL+blobbernaut_reagentatk_bonus, FALSE, mob_protection, overmind)//this will do between 10 and 20 damage(reduced by mob protection), depending on chemical, plus 4 from base brute damage.
 
 /datum/blobstrain/reagent/on_sporedeath(mob/living/basic/spore)
 	var/burst_range = (spore.type == /mob/living/basic/blob_minion/spore) ? 1 : 0
@@ -22,11 +26,20 @@
 // These can only be applied by blobs. They are what (reagent) blobs are made out of.
 /datum/reagent/blob
 	name = "Unknown"
-	description = "shouldn't exist and you should adminhelp immediately."
-	color = "#FFFFFF"
+	description = ""
+	color = COLOR_WHITE
 	taste_description = "bad code and slime"
 	chemical_flags = NONE
 	penetrates_skin = NONE
+
+
+/datum/reagent/blob/New()
+	..()
+
+	if(name == "Unknown")
+		description = "shouldn't exist and you should adminhelp immediately."
+	else if(description == "")
+		description = "[name] is the reagent created by that type of blob."
 
 /// Used by blob reagents to calculate the reaction volume they should use when exposing mobs.
 /datum/reagent/blob/proc/return_mob_expose_reac_volume(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message, touch_protection, mob/camera/blob/overmind)

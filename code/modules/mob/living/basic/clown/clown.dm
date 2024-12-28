@@ -49,7 +49,7 @@
 	ai_controller.set_blackboard_key(BB_BASIC_MOB_SPEAK_LINES, emotes)
 	//im not putting dynamic humans or whatever its called here because this is the base path of nonhuman clownstrosities
 	if(waddles)
-		AddElement(/datum/element/waddling)
+		AddElementTrait(TRAIT_WADDLING, INNATE_TRAIT, /datum/element/waddling)
 	if(length(loot))
 		loot = string_list(loot)
 		AddElement(/datum/element/death_drops, loot)
@@ -88,7 +88,7 @@
 
 /mob/living/basic/clown/lube/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/snailcrawl)
+	AddElement(/datum/element/lube_walking)
 
 /mob/living/basic/clown/honkling
 	name = "Honkling"
@@ -112,7 +112,12 @@
 	var/static/list/injection_range
 	if(!injection_range)
 		injection_range = string_numbers_list(list(1, 5))
-	AddElement(/datum/element/venomous, /datum/reagent/consumable/laughter, injection_range)
+	AddElement(\
+		/datum/element/venomous,\
+		/datum/reagent/consumable/laughter,\
+		injection_range,\
+		injection_flags = INJECT_CHECK_PENETRATE_THICK | INJECT_CHECK_IGNORE_SPECIES,\
+	)
 
 /mob/living/basic/clown/fleshclown
 	name = "Fleshclown"
@@ -242,7 +247,7 @@
 	armour_penetration = 20
 	attack_verb_continuous = "steals the girlfriend of"
 	attack_verb_simple = "steal the girlfriend of"
-	attack_sound = 'sound/items/airhorn2.ogg'
+	attack_sound = 'sound/items/airhorn/airhorn2.ogg'
 	loot = list(
 		/obj/effect/gibspawner/human,
 		/obj/effect/spawner/foam_starter/small,
@@ -288,7 +293,12 @@
 	var/static/list/injection_range
 	if(!injection_range)
 		injection_range = string_numbers_list(list(1, 5))
-	AddElement(/datum/element/venomous, /datum/reagent/peaceborg/confuse, injection_range)
+	AddElement(\
+		/datum/element/venomous,\
+		/datum/reagent/peaceborg/confuse,\
+		injection_range,\
+		injection_flags = INJECT_CHECK_PENETRATE_THICK | INJECT_CHECK_IGNORE_SPECIES,\
+	) // I don't really know what a clown is using to inject people but let's assume it doesn't need to penetrate at all
 
 /mob/living/basic/clown/clownhulk/destroyer
 	name = "The Destroyer"
@@ -370,7 +380,7 @@
 	speed = 1
 	melee_damage_lower = 10
 	melee_damage_upper = 15
-	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 2, STAMINA = 0, OXY = 1)
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
 	attack_verb_continuous = "slams"
 	attack_verb_simple = "slam"
 	loot = list(
@@ -393,7 +403,7 @@
 	GRANT_ACTION(/datum/action/cooldown/regurgitate)
 
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_GLUTTON, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
-	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/cheesiehonkers, /obj/item/food/cornchips), tame_chance = 30, bonus_tame_chance = 0, after_tame = CALLBACK(src, PROC_REF(tamed)))
+	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/cheesiehonkers, /obj/item/food/cornchips), tame_chance = 30, bonus_tame_chance = 0)
 	AddElement(/datum/element/damage_threshold, 10) //lots of fat to cushion blows.
 
 /mob/living/basic/clown/mutant/glutton/attacked_by(obj/item/item, mob/living/user)
@@ -451,7 +461,7 @@
 	playsound(loc,'sound/items/eatfood.ogg', rand(30,50), TRUE)
 	flick("glutton_mouth", src)
 
-/mob/living/basic/clown/mutant/glutton/proc/tamed(mob/living/tamer)
+/mob/living/basic/clown/mutant/glutton/tamed(mob/living/tamer, atom/food)
 	buckle_lying = 0
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/glutton)
 
@@ -574,7 +584,7 @@
 	var/peels_to_spawn = min(peel_amount, reachable_turfs.len)
 	for(var/i in 1 to peels_to_spawn)
 		new banana_type(pick_n_take(reachable_turfs))
-	playsound(owner, 'sound/creatures/clown/clownana_rustle.ogg', 60)
+	playsound(owner, 'sound/mobs/non-humanoids/clown/clownana_rustle.ogg', 60)
 	animate(owner, time = 1, pixel_x = 6, easing = CUBIC_EASING | EASE_OUT)
 	animate(time = 2, pixel_x = -8, easing = CUBIC_EASING)
 	animate(time = 1, pixel_x = 0, easing = CUBIC_EASING | EASE_IN)
@@ -605,7 +615,7 @@
 	if(!do_after(owner, 1 SECONDS))
 		activating = FALSE
 		return
-	playsound(owner, 'sound/creatures/clown/hehe.ogg', 100)
+	playsound(owner, 'sound/mobs/non-humanoids/clown/hehe.ogg', 100)
 	if(!do_after(owner, 1 SECONDS))
 		activating = FALSE
 		return
@@ -616,5 +626,5 @@
 	. = ..()
 	new /obj/item/food/grown/banana/bunch(get_step(owner.loc, owner.dir))
 	playsound(owner, 'sound/items/bikehorn.ogg', 60)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), owner, 'sound/creatures/clown/hohoho.ogg', 100, 1), 1 SECONDS)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), owner, 'sound/mobs/non-humanoids/clown/hohoho.ogg', 100, 1), 1 SECONDS)
 	StartCooldown()

@@ -68,7 +68,7 @@
  * Place our tile on a plating, or replace it.
  *
  * Arguments:
- * * target_plating - Instance of the plating we want to place on. Replaced during sucessful executions.
+ * * target_plating - Instance of the plating we want to place on. Replaced during successful executions.
  * * user - The mob doing the placing.
  */
 /obj/item/stack/tile/proc/place_tile(turf/open/floor/plating/target_plating, mob/user)
@@ -81,9 +81,9 @@
 	if(!replace_plating)
 		if(!use(1))
 			return
-		target_plating = target_plating.PlaceOnTop(placed_turf_path, flags = CHANGETURF_INHERIT_AIR)
+		target_plating = target_plating.place_on_top(placed_turf_path, flags = CHANGETURF_INHERIT_AIR)
 		target_plating.setDir(turf_dir)
-		playsound(target_plating, 'sound/weapons/genhit.ogg', 50, TRUE)
+		playsound(target_plating, 'sound/items/weapons/genhit.ogg', 50, TRUE)
 		return target_plating // Most executions should end here.
 
 	// If we and the target tile share the same initial baseturf and they consent, replace em.
@@ -98,12 +98,11 @@
 
 	target_plating = target_plating.ChangeTurf(placed_turf_path, target_plating.baseturfs, CHANGETURF_INHERIT_AIR)
 	target_plating.setDir(turf_dir)
-	playsound(target_plating, 'sound/weapons/genhit.ogg', 50, TRUE)
+	playsound(target_plating, 'sound/items/weapons/genhit.ogg', 50, TRUE)
 	return target_plating
 
-/obj/item/stack/tile/handle_openspace_click(turf/target, mob/user, proximity_flag, click_parameters)
-	if(proximity_flag)
-		target.attackby(src, user, click_parameters)
+/obj/item/stack/tile/handle_openspace_click(turf/target, mob/user, list/modifiers)
+	target.attackby(src, user, list2params(modifiers))
 
 //Grass
 /obj/item/stack/tile/grass
@@ -254,6 +253,7 @@
 	turf_type = /turf/open/floor/carpet/black
 	tableVariant = /obj/structure/table/wood/fancy/black
 	merge_type = /obj/item/stack/tile/carpet/black
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/blue
 	name = "blue carpet"
@@ -262,6 +262,7 @@
 	turf_type = /turf/open/floor/carpet/blue
 	tableVariant = /obj/structure/table/wood/fancy/blue
 	merge_type = /obj/item/stack/tile/carpet/blue
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/cyan
 	name = "cyan carpet"
@@ -270,6 +271,7 @@
 	turf_type = /turf/open/floor/carpet/cyan
 	tableVariant = /obj/structure/table/wood/fancy/cyan
 	merge_type = /obj/item/stack/tile/carpet/cyan
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/green
 	name = "green carpet"
@@ -278,6 +280,7 @@
 	turf_type = /turf/open/floor/carpet/green
 	tableVariant = /obj/structure/table/wood/fancy/green
 	merge_type = /obj/item/stack/tile/carpet/green
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/orange
 	name = "orange carpet"
@@ -286,6 +289,7 @@
 	turf_type = /turf/open/floor/carpet/orange
 	tableVariant = /obj/structure/table/wood/fancy/orange
 	merge_type = /obj/item/stack/tile/carpet/orange
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/purple
 	name = "purple carpet"
@@ -294,6 +298,7 @@
 	turf_type = /turf/open/floor/carpet/purple
 	tableVariant = /obj/structure/table/wood/fancy/purple
 	merge_type = /obj/item/stack/tile/carpet/purple
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/red
 	name = "red carpet"
@@ -302,6 +307,7 @@
 	turf_type = /turf/open/floor/carpet/red
 	tableVariant = /obj/structure/table/wood/fancy/red
 	merge_type = /obj/item/stack/tile/carpet/red
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/royalblack
 	name = "royal black carpet"
@@ -310,6 +316,7 @@
 	turf_type = /turf/open/floor/carpet/royalblack
 	tableVariant = /obj/structure/table/wood/fancy/royalblack
 	merge_type = /obj/item/stack/tile/carpet/royalblack
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/royalblue
 	name = "royal blue carpet"
@@ -318,6 +325,7 @@
 	turf_type = /turf/open/floor/carpet/royalblue
 	tableVariant = /obj/structure/table/wood/fancy/royalblue
 	merge_type = /obj/item/stack/tile/carpet/royalblue
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/executive
 	name = "executive carpet"
@@ -325,6 +333,7 @@
 	inhand_icon_state = "tile-carpet-royalblue"
 	turf_type = /turf/open/floor/carpet/executive
 	merge_type = /obj/item/stack/tile/carpet/executive
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/stellar
 	name = "stellar carpet"
@@ -332,6 +341,7 @@
 	inhand_icon_state = "tile-carpet-royalblue"
 	turf_type = /turf/open/floor/carpet/stellar
 	merge_type = /obj/item/stack/tile/carpet/stellar
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/donk
 	name = "\improper Donk Co. promotional carpet"
@@ -339,6 +349,7 @@
 	inhand_icon_state = "tile-carpet-orange"
 	turf_type = /turf/open/floor/carpet/donk
 	merge_type = /obj/item/stack/tile/carpet/donk
+	tile_reskin_types = null
 
 /obj/item/stack/tile/carpet/fifty
 	amount = 50
@@ -386,6 +397,8 @@
 	inhand_icon_state = "tile-neon"
 	turf_type = /turf/open/floor/carpet/neon
 	merge_type = /obj/item/stack/tile/carpet/neon
+	tile_reskin_types = null
+
 
 	// Neon overlay
 	/// The icon used for the neon overlay and emissive overlay.
@@ -1062,6 +1075,11 @@
 	inhand_icon_state = "tile-bcircuit"
 	turf_type = /turf/open/floor/circuit
 	merge_type = /obj/item/stack/tile/circuit
+	tile_reskin_types = list(
+		/obj/item/stack/tile/circuit,
+		/obj/item/stack/tile/circuit/green,
+		/obj/item/stack/tile/circuit/red,
+	)
 
 /obj/item/stack/tile/circuit/green
 	name = "green circuit tile"
@@ -1135,6 +1153,7 @@
 	desc = "The ground you walk on."
 	throwforce = 10
 	icon_state = "material_tile"
+	inhand_icon_state = "tile"
 	turf_type = /turf/open/floor/material
 	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
 	merge_type = /obj/item/stack/tile/material
@@ -1241,13 +1260,12 @@
 	inhand_icon_state = "tile-catwalk"
 	mats_per_unit = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT)
 	turf_type = /turf/open/floor/catwalk_floor
-	merge_type = /obj/item/stack/tile/catwalk_tile //Just to be cleaner, these all stack with eachother
+	merge_type = /obj/item/stack/tile/catwalk_tile //Just to be cleaner, these all stack with each other
 	tile_reskin_types = list(
 		/obj/item/stack/tile/catwalk_tile,
 		/obj/item/stack/tile/catwalk_tile/iron,
 		/obj/item/stack/tile/catwalk_tile/iron_white,
 		/obj/item/stack/tile/catwalk_tile/iron_dark,
-		/obj/item/stack/tile/catwalk_tile/flat_white,
 		/obj/item/stack/tile/catwalk_tile/titanium,
 		/obj/item/stack/tile/catwalk_tile/iron_smooth //this is the original greenish one
 	)
@@ -1272,12 +1290,6 @@
 	singular_name = "dark catwalk floor tile"
 	icon_state = "darkiron_catwalk"
 	turf_type = /turf/open/floor/catwalk_floor/iron_dark
-
-/obj/item/stack/tile/catwalk_tile/flat_white
-	name = "flat white catwalk floor"
-	singular_name = "flat white catwalk floor tile"
-	icon_state = "flatwhite_catwalk"
-	turf_type = /turf/open/floor/catwalk_floor/flat_white
 
 /obj/item/stack/tile/catwalk_tile/titanium
 	name = "titanium catwalk floor"

@@ -38,7 +38,7 @@
 		return
 
 	INVOKE_ASYNC(src, PROC_REF(try_remove_effect), user, tool)
-	return COMPONENT_BLOCK_TOOL_ATTACK
+	return ITEM_INTERACT_BLOCKING
 
 /// Signal proc for [COMSIG_CARBON_PRE_MISC_HELP], allowing someone to remove the effect by hand
 /datum/status_effect/strandling/proc/on_self_check(mob/living/carbon/source, mob/living/helper)
@@ -57,7 +57,7 @@
  * tool - the tool the user's using to remove the strange. Can be null.
  */
 /datum/status_effect/strandling/proc/try_remove_effect(mob/user, obj/item/tool)
-	if(user.incapacitated() || HAS_TRAIT(user, TRAIT_HANDS_BLOCKED))
+	if(user.incapacitated || HAS_TRAIT(user, TRAIT_HANDS_BLOCKED))
 		return
 
 	user.visible_message(

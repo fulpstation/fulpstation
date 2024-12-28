@@ -1,17 +1,84 @@
 import { BooleanLike } from 'common/react';
-import { FakeTerminal } from '../components/FakeTerminal';
+
 import { useBackend } from '../backend';
-import { Box, Button, Flex, Grid, Icon, LabeledList, Modal, NoticeBox, Section } from '../components';
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  LabeledList,
+  Modal,
+  NoticeBox,
+  Section,
+  Stack,
+} from '../components';
+import { FakeTerminal } from '../components/FakeTerminal';
 import { NtosWindow } from '../layouts';
 
-const CONTRACT_STATUS_INACTIVE = 1;
-const CONTRACT_STATUS_ACTIVE = 2;
-const CONTRACT_STATUS_BOUNTY_CONSOLE_ACTIVE = 3;
-const CONTRACT_STATUS_EXTRACTING = 4;
-const CONTRACT_STATUS_COMPLETE = 5;
-const CONTRACT_STATUS_ABORTED = 6;
+enum CONTRACT {
+  Inactive = 1,
+  Active = 2,
+  Complete = 5,
+}
 
-export const SyndicateContractor = (props, context) => {
+type Data = {
+  contracts_completed: number;
+  contracts: ContractData[];
+  dropoff_direction: string;
+  earned_tc: number;
+  error: string;
+  extraction_enroute: BooleanLike;
+  first_load: BooleanLike;
+  info_screen: BooleanLike;
+  logged_in: BooleanLike;
+  ongoing_contract: BooleanLike;
+  redeemable_tc: number;
+};
+
+type ContractData = {
+  contract: string;
+  dropoff: string;
+  extraction_enroute: BooleanLike;
+  id: number;
+  message: string;
+  payout_bonus: number;
+  payout: number;
+  status: number;
+  target_rank: string;
+  target: string;
+};
+
+const infoEntries = [
+  'SyndTract v2.0',
+  '',
+  "We've identified potentional high-value targets that are",
+  'currently assigned to your mission area. They are believed',
+  'to hold valuable information which could be of immediate',
+  'importance to our organisation.',
+  '',
+  'Listed below are all of the contracts available to you. You',
+  'are to bring the specified target to the designated',
+  'drop-off, and contact us via this uplink. We will send',
+  'a specialised extraction unit to put the body into.',
+  '',
+  'We want targets alive - but we will sometimes pay slight',
+  "amounts if they're not, you just won't receive the shown",
+  'bonus. You can redeem your payment through this uplink in',
+  'the form of raw telecrystals, which can be put into your',
+  'regular Syndicate uplink to purchase whatever you may need.',
+  'We provide you with these crystals the moment you send the',
+  'target up to us, which can be collected at anytime through',
+  'this system.',
+  '',
+  'Targets extracted will be ransomed back to the station once',
+  'their use to us is fulfilled, with us providing you a small',
+  'percentage cut. You may want to be mindful of them',
+  'identifying you when they come back. We provide you with',
+  'a standard contractor loadout, which will help cover your',
+  'identity.',
+] as const;
+
+export function SyndicateContractor(props) {
   return (
     <NtosWindow width={500} height={600}>
       <NtosWindow.Content scrollable>
@@ -19,37 +86,10 @@ export const SyndicateContractor = (props, context) => {
       </NtosWindow.Content>
     </NtosWindow>
   );
-};
+}
 
-type Data = {
-  error: string;
-  logged_in: BooleanLike;
-  first_load: BooleanLike;
-  info_screen: BooleanLike;
-  redeemable_tc: Number;
-  earned_tc: Number;
-  contracts_completed: Number;
-  contracts: ContractData[];
-  ongoing_contract: BooleanLike;
-  extraction_enroute: BooleanLike;
-  dropoff_direction: string;
-};
-
-type ContractData = {
-  id: Number;
-  status: Number;
-  target: string;
-  target_rank: string;
-  extraction_enroute: BooleanLike;
-  message: string;
-  contract: string;
-  dropoff: string;
-  payout: Number;
-  payout_bonus: Number;
-};
-
-export const SyndicateContractorContent = (props, context) => {
-  const { data, act } = useBackend<Data>(context);
+function SyndicateContractorContent(props) {
+  const { data, act } = useBackend<Data>();
   const { error, logged_in, first_load, info_screen } = data;
 
   const terminalMessages = [
@@ -73,37 +113,7 @@ export const SyndicateContractorContent = (props, context) => {
     'Searching for available contracts...',
     'CONTRACTS FOUND',
     'WELCOME, AGENT',
-  ];
-
-  const infoEntries = [
-    'SyndTract v2.0',
-    '',
-    "We've identified potentional high-value targets that are",
-    'currently assigned to your mission area. They are believed',
-    'to hold valuable information which could be of immediate',
-    'importance to our organisation.',
-    '',
-    'Listed below are all of the contracts available to you. You',
-    'are to bring the specified target to the designated',
-    'drop-off, and contact us via this uplink. We will send',
-    'a specialised extraction unit to put the body into.',
-    '',
-    'We want targets alive - but we will sometimes pay slight',
-    "amounts if they're not, you just won't recieve the shown",
-    'bonus. You can redeem your payment through this uplink in',
-    'the form of raw telecrystals, which can be put into your',
-    'regular Syndicate uplink to purchase whatever you may need.',
-    'We provide you with these crystals the moment you send the',
-    'target up to us, which can be collected at anytime through',
-    'this system.',
-    '',
-    'Targets extracted will be ransomed back to the station once',
-    'their use to us is fulfilled, with us providing you a small',
-    'percentage cut. You may want to be mindful of them',
-    'identifying you when they come back. We provide you with',
-    'a standard contractor loadout, which will help cover your',
-    'identity.',
-  ];
+  ] as const;
 
   const errorPane = !!error && (
     <Modal backgroundColor="red">
@@ -115,7 +125,7 @@ export const SyndicateContractorContent = (props, context) => {
           <Box width="260px" textAlign="left" minHeight="80px">
             {error}
           </Box>
-          <Button content="Dismiss" onClick={() => act('PRG_clear_error')} />
+          <Button onClick={() => act('PRG_clear_error')}>Dismiss</Button>
         </Flex.Item>
       </Flex>
     </Modal>
@@ -125,11 +135,9 @@ export const SyndicateContractorContent = (props, context) => {
     return (
       <Section minHeight="525px">
         <Box width="100%" textAlign="center">
-          <Button
-            content="REGISTER USER"
-            color="transparent"
-            onClick={() => act('PRG_login')}
-          />
+          <Button color="transparent" onClick={() => act('PRG_login')}>
+            REGISTER USER
+          </Button>
         </Box>
         {!!error && <NoticeBox>{error}</NoticeBox>}
       </Section>
@@ -156,11 +164,12 @@ export const SyndicateContractorContent = (props, context) => {
         </Box>
         <Button
           fluid
-          content="CONTINUE"
           color="transparent"
           textAlign="center"
           onClick={() => act('PRG_toggle_info')}
-        />
+        >
+          CONTINUE
+        </Button>
       </>
     );
   }
@@ -172,60 +181,68 @@ export const SyndicateContractorContent = (props, context) => {
       <ContractsTab />
     </>
   );
-};
+}
 
-export const StatusPane = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+function StatusPane(props) {
+  const { act, data } = useBackend<Data>();
   const { redeemable_tc, earned_tc, contracts_completed } = data;
 
   return (
     <Section
-      title={
-        <>
-          Contractor Status
-          <Button
-            content="View Information Again"
-            color="transparent"
-            mb={0}
-            ml={1}
-            onClick={() => act('PRG_toggle_info')}
-          />
-        </>
-      }>
-      <Grid>
-        <Grid.Column size={0.85}>
+      buttons={
+        <Button
+          color="transparent"
+          mb={0}
+          ml={1}
+          onClick={() => act('PRG_toggle_info')}
+        >
+          View Information Again
+        </Button>
+      }
+      title="Contractor Status"
+    >
+      <Stack>
+        <Stack.Item grow>
           <LabeledList>
             <LabeledList.Item
               label="TC Available"
               buttons={
                 <Button
-                  content="Claim"
                   disabled={redeemable_tc <= 0}
                   onClick={() => act('PRG_redeem_TC')}
-                />
-              }>
-              {redeemable_tc}
+                >
+                  Claim
+                </Button>
+              }
+            >
+              {String(redeemable_tc)}
             </LabeledList.Item>
-            <LabeledList.Item label="TC Earned">{earned_tc}</LabeledList.Item>
+            <LabeledList.Item label="TC Earned">
+              {String(earned_tc)}
+            </LabeledList.Item>
           </LabeledList>
-        </Grid.Column>
-        <Grid.Column>
+        </Stack.Item>
+        <Stack.Item grow>
           <LabeledList>
             <LabeledList.Item label="Contracts Completed">
-              {contracts_completed}
+              {String(contracts_completed)}
             </LabeledList.Item>
             <LabeledList.Item label="Current Status">ACTIVE</LabeledList.Item>
           </LabeledList>
-        </Grid.Column>
-      </Grid>
+        </Stack.Item>
+      </Stack>
     </Section>
   );
-};
+}
 
-const ContractsTab = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
-  const { contracts, ongoing_contract, extraction_enroute, dropoff_direction } =
-    data;
+function ContractsTab(props) {
+  const { act, data } = useBackend<Data>();
+  const {
+    contracts = [],
+    ongoing_contract,
+    extraction_enroute,
+    dropoff_direction,
+  } = data;
 
   return (
     <>
@@ -233,17 +250,19 @@ const ContractsTab = (props, context) => {
         title="Available Contracts"
         buttons={
           <Button
-            content="Call Extraction"
-            disabled={!ongoing_contract || extraction_enroute}
+            disabled={!ongoing_contract || !!extraction_enroute}
             onClick={() => act('PRG_call_extraction')}
-          />
-        }>
+          >
+            Call Extraction
+          </Button>
+        }
+      >
         {contracts.map((contract) => {
-          if (ongoing_contract && contract.status !== CONTRACT_STATUS_ACTIVE) {
+          if (ongoing_contract && contract.status !== CONTRACT.Active) {
             return;
           }
-          const active = contract.status > CONTRACT_STATUS_INACTIVE;
-          if (contract.status >= CONTRACT_STATUS_COMPLETE) {
+          const active = contract.status > CONTRACT.Inactive;
+          if (contract.status >= CONTRACT.Complete) {
             return;
           }
           return (
@@ -257,29 +276,31 @@ const ContractsTab = (props, context) => {
               buttons={
                 <>
                   <Box inline bold mr={1}>
-                    {contract.payout} (+{contract.payout_bonus}) TC
+                    {`${contract.payout} (+${contract.payout_bonus}) TC`}
                   </Box>
                   <Button
-                    content={active ? 'Abort' : 'Accept'}
-                    disabled={contract.extraction_enroute}
+                    disabled={!!contract.extraction_enroute}
                     color={active && 'bad'}
                     onClick={() =>
                       act('PRG_contract' + (active ? '_abort' : '-accept'), {
                         contract_id: contract.id,
                       })
                     }
-                  />
+                  >
+                    {active ? 'Abort' : 'Accept'}
+                  </Button>
                 </>
-              }>
-              <Grid>
-                <Grid.Column>{contract.message}</Grid.Column>
-                <Grid.Column size={0.5}>
+              }
+            >
+              <Stack>
+                <Stack.Item grow>{contract.message}</Stack.Item>
+                <Stack.Item>
                   <Box bold mb={1}>
                     Dropoff Location:
                   </Box>
                   <Box>{contract.dropoff}</Box>
-                </Grid.Column>
-              </Grid>
+                </Stack.Item>
+              </Stack>
             </Section>
           );
         })}
@@ -287,9 +308,10 @@ const ContractsTab = (props, context) => {
       <Section
         title="Dropoff Locator"
         textAlign="center"
-        opacity={ongoing_contract ? 100 : 0}>
+        opacity={ongoing_contract ? 100 : 0}
+      >
         <Box bold>{dropoff_direction}</Box>
       </Section>
     </>
   );
-};
+}

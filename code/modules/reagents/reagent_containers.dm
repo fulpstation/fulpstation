@@ -37,6 +37,8 @@
 	var/fill_icon_state = null
 	/// The icon file to take fill icon appearances from
 	var/fill_icon = 'icons/obj/medical/reagent_fillings.dmi'
+	///The sound this container makes when picked up, dropped if there is liquid inside.
+	var/reagent_container_liquid_sound = null
 
 /obj/item/reagent_containers/apply_fantasy_bonuses(bonus)
 	. = ..()
@@ -61,13 +63,16 @@
 		reagents.add_reagent(/datum/reagent/blood, disease_amount, data)
 	add_initial_reagents()
 
-/obj/item/reagent_containers/examine()
+/obj/item/reagent_containers/examine(mob/user)
 	. = ..()
 	if(has_variable_transfer_amount)
 		if(possible_transfer_amounts.len > 1)
 			. += span_notice("Left-click or right-click in-hand to increase or decrease its transfer amount.")
 		else if(possible_transfer_amounts.len)
 			. += span_notice("Left-click or right-click in-hand to view its transfer amount.")
+	if(isliving(user) && HAS_TRAIT(user, TRAIT_REMOTE_TASTING))
+		var/mob/living/living_user = user
+		living_user.taste(reagents)
 
 /obj/item/reagent_containers/create_reagents(max_vol, flags)
 	. = ..()
@@ -145,7 +150,7 @@
 	if (ismob(target))
 		var/mob/target_mob = target
 		target_mob.show_message(
-			span_userdanger("[user] splash the contents of [src] onto you!"),
+			span_userdanger("[user] splashes the contents of [src] onto you!"),
 			MSG_VISUAL,
 			span_userdanger("You feel drenched!"),
 		)
@@ -263,9 +268,6 @@
 	reagents.expose_temperature(1000)
 	return ..() | COMPONENT_MICROWAVE_SUCCESS
 
-/obj/item/reagent_containers/fire_act(temperature, volume)
-	reagents.expose_temperature(temperature)
-
 /// Updates the icon of the container when the reagents change. Eats signal args
 /obj/item/reagent_containers/proc/on_reagent_change(datum/reagents/holder, ...)
 	SIGNAL_HANDLER
@@ -291,3 +293,13 @@
 
 	filling.color = mix_color_from_reagents(reagents.reagent_list)
 	. += filling
+
+/obj/item/reagent_containers/dropped(mob/user, silent)
+	. = ..()
+	if(reagent_container_liquid_sound && reagents.total_volume > 0)
+		playsound(src, reagent_container_liquid_sound, LIQUID_SLOSHING_SOUND_VOLUME, vary = TRUE, ignore_walls = FALSE)
+
+/obj/item/reagent_containers/equipped(mob/user, slot, initial = FALSE)
+	. = ..()
+	if(!initial && (slot & ITEM_SLOT_HANDS) && reagent_container_liquid_sound && reagents.total_volume > 0)
+		playsound(src, reagent_container_liquid_sound, LIQUID_SLOSHING_SOUND_VOLUME, vary = TRUE, ignore_walls = FALSE)

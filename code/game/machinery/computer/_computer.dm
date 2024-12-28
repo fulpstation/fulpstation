@@ -63,10 +63,10 @@
 /obj/machinery/computer/screwdriver_act(mob/living/user, obj/item/I)
 	if(..())
 		return TRUE
-	if(circuit && !(flags_1&NODECONSTRUCT_1))
-		to_chat(user, span_notice("You start to disconnect the monitor..."))
+	if(circuit)
+		balloon_alert(user, "disconnecting monitor...")
 		if(I.use_tool(src, user, time_to_unscrew, volume=50))
-			deconstruct(TRUE, user)
+			deconstruct(TRUE)
 	return TRUE
 
 /obj/machinery/computer/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
@@ -75,17 +75,27 @@
 			if(machine_stat & BROKEN)
 				playsound(src.loc, 'sound/effects/hit_on_shattered_glass.ogg', 70, TRUE)
 			else
-				playsound(src.loc, 'sound/effects/glasshit.ogg', 75, TRUE)
+				playsound(src.loc, 'sound/effects/glass/glasshit.ogg', 75, TRUE)
 		if(BURN)
-			playsound(src.loc, 'sound/items/welder.ogg', 100, TRUE)
+			playsound(src.loc, 'sound/items/tools/welder.ogg', 100, TRUE)
 
 /obj/machinery/computer/atom_break(damage_flag)
 	if(!circuit) //no circuit, no breaking
 		return
 	. = ..()
 	if(.)
-		playsound(loc, 'sound/effects/glassbr3.ogg', 100, TRUE)
+		playsound(loc, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 		set_light(0)
+
+/obj/machinery/computer/proc/imprint_gps(gps_tag) // Currently used by the upload computers and communications console
+	var/tracker = gps_tag
+	if(!tracker) // Don't give a null GPS signal if there is none
+		return
+	for(var/obj/item/circuitboard/computer/board in src.contents)
+		if(!contents || board.GetComponent(/datum/component/gps))
+			CRASH("[src] Called imprint_gps without setting gps_tag")
+		board.AddComponent(/datum/component/gps, "[tracker]")
+		balloon_alert_to_viewers("board tracker enabled", vision_distance = 1)
 
 /obj/machinery/computer/emp_act(severity)
 	. = ..()
@@ -98,45 +108,38 @@
 				if(prob(10))
 					atom_break(ENERGY)
 
-/obj/machinery/computer/deconstruct(disassembled = TRUE, mob/user)
-	on_deconstruction()
-	if(!(flags_1 & NODECONSTRUCT_1))
-		if(circuit) //no circuit, no computer frame
-			var/obj/structure/frame/computer/A = new /obj/structure/frame/computer(src.loc)
-			A.setDir(dir)
-			A.circuit = circuit
-			// Circuit removal code is handled in /obj/machinery/Exited()
-			circuit.forceMove(A)
-			A.set_anchored(TRUE)
-			if(machine_stat & BROKEN)
-				if(user)
-					to_chat(user, span_notice("The broken glass falls out."))
-				else
-					playsound(src, 'sound/effects/hit_on_shattered_glass.ogg', 70, TRUE)
-				new /obj/item/shard(drop_location())
-				new /obj/item/shard(drop_location())
-				A.state = 3
-				A.icon_state = "3"
-			else
-				if(user)
-					to_chat(user, span_notice("You disconnect the monitor."))
-				A.state = 4
-				A.icon_state = "4"
-		for(var/obj/C in src)
-			C.forceMove(loc)
-	qdel(src)
+/obj/machinery/computer/spawn_frame(disassembled)
+	if(QDELETED(circuit)) //no circuit, no computer frame
+		return
 
-/obj/machinery/computer/AltClick(mob/user)
-	. = ..()
-	if(!can_interact(user))
-		return
-	if(!user.can_perform_action(src, ALLOW_SILICON_REACH) || !is_operational)
-		return
+	var/obj/structure/frame/computer/new_frame = new(loc)
+	new_frame.setDir(dir)
+	new_frame.set_anchored(TRUE)
+	new_frame.circuit = circuit
+	// Circuit removal code is handled in /obj/machinery/Exited()
+	component_parts -= circuit
+	circuit.forceMove(new_frame)
+
+	if((machine_stat & BROKEN) || !disassembled)
+		var/atom/drop_loc = drop_location()
+		playsound(src, 'sound/effects/hit_on_shattered_glass.ogg', 70, TRUE)
+		new /obj/item/shard(drop_loc)
+		new /obj/item/shard(drop_loc)
+		new_frame.state = FRAME_COMPUTER_STATE_WIRED
+	else
+		new_frame.state = FRAME_COMPUTER_STATE_GLASSED
+	new_frame.update_appearance(UPDATE_ICON_STATE)
 
 /obj/machinery/computer/ui_interact(mob/user, datum/tgui/ui)
 	SHOULD_CALL_PARENT(TRUE)
 	. = ..()
 	update_use_power(ACTIVE_POWER_USE)
+
+/obj/machinery/computer/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	SHOULD_CALL_PARENT(TRUE)
+	. = ..()
+	if(!issilicon(ui.user))
+		playsound(src, SFX_KEYBOARD_CLICKS, 10, TRUE, FALSE)
 
 /obj/machinery/computer/ui_close(mob/user)
 	SHOULD_CALL_PARENT(TRUE)

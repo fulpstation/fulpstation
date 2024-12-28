@@ -23,31 +23,31 @@
 	GLOB.zombie_infection_list -= src
 	. = ..()
 
-/obj/item/organ/internal/zombie_infection/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = TRUE)
+/obj/item/organ/internal/zombie_infection/on_mob_insert(mob/living/carbon/M, special = FALSE, movement_flags)
 	. = ..()
-	if(!.)
-		return .
+
 	START_PROCESSING(SSobj, src)
 
-/obj/item/organ/internal/zombie_infection/Remove(mob/living/carbon/M, special = FALSE)
+/obj/item/organ/internal/zombie_infection/on_mob_remove(mob/living/carbon/M, special = FALSE)
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
-	if(iszombie(M) && old_species && !special && !QDELETED(src))
+	if(iszombie(M) && old_species && !special)
 		M.set_species(old_species)
 	if(timer_id)
 		deltimer(timer_id)
 
-/obj/item/organ/internal/zombie_infection/on_insert(mob/living/carbon/organ_owner, special)
+/obj/item/organ/internal/zombie_infection/on_mob_insert(mob/living/carbon/organ_owner, special)
 	. = ..()
 	RegisterSignal(organ_owner, COMSIG_LIVING_DEATH, PROC_REF(organ_owner_died))
 
-/obj/item/organ/internal/zombie_infection/on_remove(mob/living/carbon/organ_owner, special)
+/obj/item/organ/internal/zombie_infection/on_mob_remove(mob/living/carbon/organ_owner, special)
 	. = ..()
 	UnregisterSignal(organ_owner, COMSIG_LIVING_DEATH)
 
 /obj/item/organ/internal/zombie_infection/proc/organ_owner_died(mob/living/carbon/source, gibbed)
 	SIGNAL_HANDLER
-	qdel(src) // Congrats you somehow died so hard you stopped being a zombie
+	if(iszombie(source))
+		qdel(src) // Congrats you somehow died so hard you stopped being a zombie
 
 /obj/item/organ/internal/zombie_infection/on_find(mob/living/finder)
 	to_chat(finder, span_warning("Inside the head is a disgusting black \
@@ -70,9 +70,9 @@
 	if(owner.stat != DEAD && !converts_living)
 		return
 	if(!iszombie(owner))
-		to_chat(owner, "<span class='cultlarge'>You can feel your heart stopping, but something isn't right... \
+		to_chat(owner, span_cult_large("You can feel your heart stopping, but something isn't right... \
 		life has not abandoned your broken form. You can only feel a deep and immutable hunger that \
-		not even death can stop, you will rise again!</span>")
+		not even death can stop, you will rise again!"))
 	var/revive_time = rand(revive_time_min, revive_time_max)
 	var/flags = TIMER_STOPPABLE
 	timer_id = addtimer(CALLBACK(src, PROC_REF(zombify), owner), revive_time, flags)
@@ -95,7 +95,7 @@
 
 	to_chat(target, span_alien("You HUNGER!"))
 	to_chat(target, span_alertalien("You are now a zombie! Do not seek to be cured, do not help any non-zombies in any way, do not harm your zombie brethren and spread the disease by killing others. You are a creature of hunger and violence."))
-	playsound(target, 'sound/hallucinations/far_noise.ogg', 50, 1)
+	playsound(target, 'sound/effects/hallucinations/far_noise.ogg', 50, 1)
 	target.do_jitter_animation(living_transformation_time)
 	target.Stun(living_transformation_time)
 

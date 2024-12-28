@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/choice_beacon/halloween
 	name = "halloween delivery beacon"
 	desc = "Summon a box of halloween costumes to help you get spooky."
-	icon_state = "gangtool-white"
+	icon_state = "generic_delivery"
 
 /obj/item/choice_beacon/halloween/generate_display_names()
 	var/static/list/halloween_costumes
@@ -50,7 +50,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/storage/box/halloween
 	name = "halloween box"
 	desc = "Costumes in a box."
-	icon = 'fulp_modules/features/halloween/box.dmi'
+	icon = 'fulp_modules/icons/halloween/box.dmi'
 	icon_state = "halloween_box"
 	illustration = "pumpkin"
 	///The costumes that comes with the box
@@ -83,13 +83,19 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 /obj/item/storage/box/halloween/edition_22
 	year = 2022
 
+/obj/item/storage/box/halloween/edition_23
+	year = 2023
+
+/obj/item/storage/box/halloween/edition_24
+	year = 2024
+
 /**
  * Gift code
  */
 /obj/item/halloween_gift
 	name = "halloween package"
 	desc = "It looks like a box wrapped in some spooky paper"
-	icon = 'fulp_modules/features/halloween/box.dmi'
+	icon = 'fulp_modules/icons/halloween/box.dmi'
 	icon_state = "halloween_gift"
 	inhand_icon_state = "gift"
 	resistance_flags = FLAMMABLE

@@ -3,7 +3,7 @@
 	desc = "A nausea-inducing hunk of twisting flesh and metal."
 	icon = 'icons/obj/antags/abductor.dmi'
 	icon_state = "gland"
-	organ_flags = ORGAN_ROBOTIC // weird?
+	organ_flags = ORGAN_ROBOTIC | ORGAN_PROMINENT // weird?
 	/// Shows name of the gland as well as a description of what it does upon examination by abductor scientists and observers.
 	var/abductor_hint = "baseline placebo referencer"
 
@@ -51,7 +51,7 @@
 		return
 	var/image/holder = owner.hud_list[GLAND_HUD]
 	var/icon/I = icon(owner.icon, owner.icon_state, owner.dir)
-	holder.pixel_y = I.Height() - world.icon_size
+	holder.pixel_y = I.Height() - ICON_SIZE_Y
 	if(active_mind_control)
 		holder.icon_state = "hudgland_active"
 	else if(mind_control_uses)
@@ -84,7 +84,7 @@
 	active_mind_control = FALSE
 	return TRUE
 
-/obj/item/organ/internal/heart/gland/Remove(mob/living/carbon/gland_owner, special = FALSE)
+/obj/item/organ/internal/heart/gland/mob_remove(mob/living/carbon/gland_owner, special, movement_flags)
 	. = ..()
 	active = FALSE
 	if(initial(uses) == 1)
@@ -93,10 +93,8 @@
 	hud.remove_atom_from_hud(gland_owner)
 	clear_mind_control()
 
-/obj/item/organ/internal/heart/gland/Insert(mob/living/carbon/gland_owner, special = FALSE, drop_if_replaced = TRUE)
+/obj/item/organ/internal/heart/gland/mob_insert(mob/living/carbon/gland_owner, special = FALSE, movement_flags = DELETE_IF_REPLACED)
 	. = ..()
-	if(!.)
-		return
 
 	if(special != 2 && uses) // Special 2 means abductor surgery
 		Start()

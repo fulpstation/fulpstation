@@ -39,7 +39,7 @@
 	GLOB.directory[ckey] = src
 #endif
 
-/datum/client_interface/Destroy(force, ...)
+/datum/client_interface/Destroy(force)
 	GLOB.directory -= ckey
 	return ..()
 
@@ -47,4 +47,7 @@
 	return FALSE
 
 /datum/client_interface/proc/set_macros()
+	return
+
+/datum/client_interface/proc/update_ambience_pref()
 	return

@@ -5,7 +5,7 @@
  * target - The person we check for antag datums.
  */
 /datum/antagonist/bloodsucker/proc/AmValidAntag(mob/target)
-	if(!target.mind || target.mind.unconvertable)
+	if(HAS_MIND_TRAIT(target, TRAIT_UNCONVERTABLE))
 		return VASSALIZATION_BANNED
 
 	var/vassalization_status = VASSALIZATION_ALLOWED
@@ -25,11 +25,11 @@
  * conversion_target - Person being vassalized
  */
 /datum/antagonist/bloodsucker/proc/can_make_vassal(mob/living/conversion_target)
-	if(!iscarbon(conversion_target) || conversion_target.stat > UNCONSCIOUS)
+	if(!iscarbon(conversion_target))
 		return FALSE
 	// No Mind!
 	if(!conversion_target.mind)
-		to_chat(owner.current, span_danger("[conversion_target] isn't self-aware enough to be made into a Vassal."))
+		to_chat(owner.current, span_danger("[conversion_target] isn't self-aware enough to be made into a vassal."))
 		return FALSE
 	if(AmValidAntag(conversion_target) == VASSALIZATION_BANNED)
 		to_chat(owner.current, span_danger("[conversion_target] resists the power of your blood to dominate their mind!"))
@@ -67,8 +67,8 @@
 	vassaldatum.master = bloodsuckerdatum
 	conversion_target.mind.add_antag_datum(vassaldatum)
 
-	message_admins("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")
-	log_admin("[conversion_target] has become a Vassal, and is enslaved to [owner.current].")
+	message_admins("[conversion_target] has become a vassal, and is enslaved to [owner.current].")
+	log_admin("[conversion_target] has become a vassal, and is enslaved to [owner.current].")
 	return TRUE
 
 /*

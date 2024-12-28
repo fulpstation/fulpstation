@@ -5,21 +5,22 @@
  *
  * A Steward's Secret
  * Grasp of Lock
- * > Sidepaths:
- *   Ashen Eyes
- *	 Codex Cicatrix
  * Key Keeper’s Burden
- *
+ * > Sidepaths:
+ *   Mindgate
  * Concierge's Rite
  * Mark Of Lock
  * Ritual of Knowledge
  * Burglar's Finesse
  * > Sidepaths:
- *   Apetra Vulnera
  *   Opening Blast
+ *   Unfathomable Curio
+ * 	 Unsealed arts
  *
  * Opening Blade
  * Caretaker’s Last Refuge
+ * > Sidepaths:
+ * 	 Apetra Vulnera
  *
  * Unlock the Labyrinth
  */
@@ -38,6 +39,8 @@
 	result_atoms = list(/obj/item/melee/sickly_blade/lock)
 	limit = 2
 	route = PATH_LOCK
+	research_tree_icon_path = 'icons/obj/weapons/khopesh.dmi'
+	research_tree_icon_state = "key_blade"
 
 /datum/heretic_knowledge/lock_grasp
 	name = "Grasp of Lock"
@@ -45,13 +48,12 @@
 		DNA locks on mechs will be removed, and any pilot will be ejected. Works on consoles. \
 		Makes a distinctive knocking sound on use."
 	gain_text = "Nothing may remain closed from my touch."
-	next_knowledge = list(
-		/datum/heretic_knowledge/key_ring,
-		/datum/heretic_knowledge/medallion,
-		/datum/heretic_knowledge/codex_cicatrix,
-	)
+	next_knowledge = list(/datum/heretic_knowledge/key_ring)
 	cost = 1
 	route = PATH_LOCK
+	depth = 3
+	research_tree_icon_path = 'icons/ui_icons/antags/heretic/knowledge.dmi'
+	research_tree_icon_state = "grasp_lock"
 
 /datum/heretic_knowledge/lock_grasp/on_gain(mob/user, datum/antagonist/heretic/our_heretic)
 	RegisterSignal(user, COMSIG_HERETIC_MANSUS_GRASP_ATTACK_SECONDARY, PROC_REF(on_secondary_mansus_grasp))
@@ -74,10 +76,12 @@
 	if(ismecha(target))
 		var/obj/vehicle/sealed/mecha/mecha = target
 		mecha.dna_lock = null
+		mecha.mecha_flags &= ~ID_LOCK_ON
 		for(var/mob/living/occupant as anything in mecha.occupants)
 			if(isAI(occupant))
 				continue
 			mecha.mob_exit(occupant, randomstep = TRUE)
+			occupant.Paralyze(5 SECONDS)
 	else if(istype(target,/obj/machinery/door/airlock))
 		var/obj/machinery/door/airlock/door = target
 		door.unbolt()
@@ -88,42 +92,35 @@
 
 	var/turf/target_turf = get_turf(target)
 	SEND_SIGNAL(target_turf, COMSIG_ATOM_MAGICALLY_UNLOCKED, src, source)
-	playsound(target, 'sound/magic/hereticknock.ogg', 100, TRUE, -1)
+	playsound(target, 'sound/effects/magic/hereticknock.ogg', 100, TRUE, -1)
 
 	return COMPONENT_USE_HAND
 
 /datum/heretic_knowledge/key_ring
 	name = "Key Keeper’s Burden"
 	desc = "Allows you to transmute a wallet, an iron rod, and an ID card to create an Eldritch Card. \
-		It functions the same as an ID Card, but attacking it with an ID card fuses it and gains its access. \
-		You can use it in-hand to change its form to a card you fused. \
-		Does not preserve the card used in the ritual."
+		Hit a pair of airlocks with it to create a pair of portals, which will teleport you between them, but teleport non-heretics randomly. \
+		You can ctrl-click the card to invert this behavior for created portals. \
+		Each card may only sustain a single pair of portals at the same time. \
+		It also functions and appears the same as a regular ID Card. \
+		Attacking it with a normal ID card consumes it and gains its access, and you can use it in-hand to change its appearance to a card you fused. \
+		Does not preserve the card originally used in the ritual."
 	gain_text = "The Keeper sneered. \"These plastic rectangles are a mockery of keys, and I curse every door that desires them.\""
-	adds_sidepath_points = 1
 	required_atoms = list(
 		/obj/item/storage/wallet = 1,
 		/obj/item/stack/rods = 1,
 		/obj/item/card/id = 1,
 	)
 	result_atoms = list(/obj/item/card/id/advanced/heretic)
-	next_knowledge = list(/datum/heretic_knowledge/limited_amount/concierge_rite)
-	cost = 1
-	route = PATH_LOCK
-
-/datum/heretic_knowledge/limited_amount/concierge_rite // item that creates 3 max at a time heretic only barriers, probably should limit to 1 only, holy people can also pass
-	name = "Concierge's Rite"
-	desc = "Allows you to transmute a white crayon, a wooden plank, and a multitool to create a Labyrinth Handbook. \
-		It can materialize a barricade at range that only you and people resistant to magic can pass. 3 uses."
-	gain_text = "The Concierge scribbled my name into the Handbook. \"Welcome to your new home, fellow Steward.\""
-	required_atoms = list(
-		/obj/item/toy/crayon/white = 1,
-		/obj/item/stack/sheet/mineral/wood = 1,
-		/obj/item/multitool = 1,
+	next_knowledge = list(
+		/datum/heretic_knowledge/mark/lock_mark,
+		/datum/heretic_knowledge/spell/mind_gate,
 	)
-	result_atoms = list(/obj/item/heretic_labyrinth_handbook)
-	next_knowledge = list(/datum/heretic_knowledge/mark/lock_mark)
 	cost = 1
 	route = PATH_LOCK
+	research_tree_icon_path = 'icons/obj/card.dmi'
+	research_tree_icon_state = "card_gold"
+	depth = 4
 
 /datum/heretic_knowledge/mark/lock_mark
 	name = "Mark of Lock"
@@ -136,23 +133,43 @@
 	mark_type = /datum/status_effect/eldritch/lock
 
 /datum/heretic_knowledge/knowledge_ritual/lock
-	next_knowledge = list(/datum/heretic_knowledge/spell/burglar_finesse)
+	next_knowledge = list(/datum/heretic_knowledge/limited_amount/concierge_rite)
 	route = PATH_LOCK
+
+/datum/heretic_knowledge/limited_amount/concierge_rite // item that creates 3 max at a time heretic only barriers, probably should limit to 1 only, holy people can also pass
+	name = "Concierge's Rite"
+	desc = "Allows you to transmute a stick of chalk, a wooden plank, and a multitool to create a Labyrinth Handbook. \
+		It can materialize a barricade at range that only you and people resistant to magic can pass. 3 uses."
+	gain_text = "The Concierge scribbled my name into the Handbook. \"Welcome to your new home, fellow Steward.\""
+	required_atoms = list(
+		/obj/item/toy/crayon/white = 1,
+		/obj/item/stack/sheet/mineral/wood = 1,
+		/obj/item/multitool = 1,
+	)
+	result_atoms = list(/obj/item/heretic_labyrinth_handbook)
+	next_knowledge = list(/datum/heretic_knowledge/spell/burglar_finesse)
+	cost = 1
+	route = PATH_LOCK
+	research_tree_icon_path = 'icons/obj/service/library.dmi'
+	research_tree_icon_state = "heretichandbook"
+	depth = 7
 
 /datum/heretic_knowledge/spell/burglar_finesse
 	name = "Burglar's Finesse"
 	desc = "Grants you Burglar's Finesse, a single-target spell \
 		that puts a random item from the victims backpack into your hand."
 	gain_text = "Consorting with Burglar spirits is frowned upon, but a Steward will always want to learn about new doors."
-	adds_sidepath_points = 1
 	next_knowledge = list(
-		/datum/heretic_knowledge/spell/apetra_vulnera,
 		/datum/heretic_knowledge/spell/opening_blast,
+		/datum/heretic_knowledge/reroll_targets,
 		/datum/heretic_knowledge/blade_upgrade/flesh/lock,
+		/datum/heretic_knowledge/unfathomable_curio,
+		/datum/heretic_knowledge/painting,
 	)
 	spell_to_add = /datum/action/cooldown/spell/pointed/burglar_finesse
-	cost = 2
+	cost = 1
 	route = PATH_LOCK
+	depth = 8
 
 /datum/heretic_knowledge/blade_upgrade/flesh/lock //basically a chance-based weeping avulsion version of the former
 	name = "Opening Blade"
@@ -161,6 +178,8 @@
 	next_knowledge = list(/datum/heretic_knowledge/spell/caretaker_refuge)
 	route = PATH_LOCK
 	wound_type = /datum/wound/slash/flesh/critical
+	research_tree_icon_path = 'icons/ui_icons/antags/heretic/knowledge.dmi'
+	research_tree_icon_state = "blade_upgrade_lock"
 	var/chance = 35
 
 /datum/heretic_knowledge/blade_upgrade/flesh/lock/do_melee_effects(mob/living/source, mob/living/target, obj/item/melee/sickly_blade/blade)
@@ -173,18 +192,22 @@
 		While in refuge, you cannot use your hands or spells, and you are immune to slowdown. \
 		You are invincible but unable to harm anything. Cancelled by being hit with an anti-magic item."
 	gain_text = "Jealously, the Guard and the Hound hunted me. But I unlocked my form, and was but a haze, untouchable."
-	adds_sidepath_points = 1
-	next_knowledge = list(/datum/heretic_knowledge/ultimate/lock_final)
+	next_knowledge = list(
+		/datum/heretic_knowledge/ultimate/lock_final,
+		/datum/heretic_knowledge/spell/apetra_vulnera,
+	)
 	route = PATH_LOCK
 	spell_to_add = /datum/action/cooldown/spell/caretaker
 	cost = 1
+	depth = 10
 
 /datum/heretic_knowledge/ultimate/lock_final
 	name = "Unlock the Labyrinth"
 	desc = "The ascension ritual of the Path of Knock. \
 		Bring 3 corpses without organs in their torso to a transmutation rune to complete the ritual. \
 		When completed, you gain the ability to transform into empowered eldritch creatures \
-		and in addition, create a tear to the Labyrinth's heart; \
+		and your keyblades will become even deadlier. \
+		In addition, you will create a tear to the Labyrinth's heart; \
 		a tear in reality located at the site of this ritual. \
 		Eldritch creatures will endlessly pour from this rift \
 		who are bound to obey your instructions."
@@ -193,6 +216,7 @@
 		The Labyrinth will be Locked no more, and freedom will be ours! WITNESS US!"
 	required_atoms = list(/mob/living/carbon/human = 3)
 	route = PATH_LOCK
+	ascension_achievement = /datum/award/achievement/misc/lock_ascension
 
 /datum/heretic_knowledge/ultimate/lock_final/recipe_snowflake_check(mob/living/user, list/atoms, list/selected_atoms, turf/loc)
 	. = ..()
@@ -202,8 +226,7 @@
 	for(var/mob/living/carbon/human/body in atoms)
 		if(body.stat != DEAD)
 			continue
-		var/obj/item/bodypart/chest = body.get_bodypart(BODY_ZONE_CHEST)
-		if(LAZYLEN(chest.get_organs()))
+		if(LAZYLEN(body.get_organs_for_zone(BODY_ZONE_CHEST)))
 			to_chat(user, span_hierophant_warning("[body] has organs in their chest."))
 			continue
 
@@ -219,17 +242,15 @@
 	priority_announce(
 		text = "Delta-class dimensional anomaly detec[generate_heretic_text()] Reality rended, torn. Gates open, doors open, [user.real_name] has ascended! Fear the tide! [generate_heretic_text()]",
 		title = "[generate_heretic_text()]",
-		sound = ANNOUNCER_SPANOMALIES,
+		sound = 'sound/music/antag/heretic/ascend_knock.ogg',
 		color_override = "pink",
 	)
-	user.client?.give_award(/datum/award/achievement/misc/lock_ascension, user)
 
 	// buffs
 	var/datum/action/cooldown/spell/shapeshift/eldritch/ascension/transform_spell = new(user.mind)
 	transform_spell.Grant(user)
 
-	user.client?.give_award(/datum/award/achievement/misc/lock_ascension, user)
-	var/datum/antagonist/heretic/heretic_datum = IS_HERETIC(user)
+	var/datum/antagonist/heretic/heretic_datum = GET_HERETIC(user)
 	var/datum/heretic_knowledge/blade_upgrade/flesh/lock/blade_upgrade = heretic_datum.get_knowledge(/datum/heretic_knowledge/blade_upgrade/flesh/lock)
 	blade_upgrade.chance += 30
 	new /obj/structure/lock_tear(loc, user.mind)

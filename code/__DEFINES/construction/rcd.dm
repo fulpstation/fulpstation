@@ -7,7 +7,7 @@
 	#define RCD_WINDOWGRILLE (1 << 1)
 	/// Windoors & Airlocks
 	#define RCD_AIRLOCK (1 << 2)
-	/// Literarly anything that is spawned on top of a turf such as tables, machines etc
+	/// Literally anything that is spawned on top of a turf such as tables, machines etc
 	#define RCD_STRUCTURE (1 << 3)
 	/// For wallmounts like air alarms, fire alarms & apc
 	#define RCD_WALLFRAME (1 << 4)
@@ -18,6 +18,9 @@
 
 /// Time taken for an rcd hologram to disappear
 #define RCD_HOLOGRAM_FADE_TIME (15 SECONDS)
+
+/// Delay before another rcd scan can be performed in the UI
+#define RCD_DESTRUCTIVE_SCAN_COOLDOWN (RCD_HOLOGRAM_FADE_TIME + 1 SECONDS)
 
 //All available upgrades
 /// Upgrade for building machines

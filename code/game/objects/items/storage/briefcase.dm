@@ -6,7 +6,7 @@
 	inhand_icon_state = "briefcase"
 	lefthand_file = 'icons/mob/inhands/equipment/briefcase_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/briefcase_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	force = 8
 	hitsound = SFX_SWING_HIT
 	throw_speed = 2
@@ -110,3 +110,12 @@
 	new /obj/item/clothing/mask/balaclava(src)
 	new /obj/item/bodybag(src)
 	new /obj/item/soap/nanotrasen(src)
+
+/obj/item/storage/briefcase/hitchiker/PopulateContents()
+	new /obj/item/food/sandwich/peanut_butter_jelly(src)
+	new /obj/item/food/sandwich/peanut_butter_jelly(src)
+	new /obj/item/reagent_containers/cup/glass/waterbottle/large(src)
+	new /obj/item/soap(src)
+	new /obj/item/pillow/random(src)
+	new /obj/item/tank/internals/emergency_oxygen(src)
+	new /obj/item/tank/internals/emergency_oxygen(src)

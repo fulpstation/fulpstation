@@ -2,7 +2,6 @@
 /mob/living/basic/trooper/syndicate
 	name = "Syndicate Operative"
 	desc = "Death to Nanotrasen."
-	speed = 1.1
 	faction = list(ROLE_SYNDICATE)
 	loot = list(/obj/effect/mob_spawn/corpse/human/syndicatesoldier)
 	mob_spawner = /obj/effect/mob_spawn/corpse/human/syndicatesoldier
@@ -33,7 +32,7 @@
 	loot = list(/obj/effect/gibspawner/human)
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
-	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 	r_hand = /obj/item/knife/combat/survival
 	var/projectile_deflect_chance = 0
@@ -68,7 +67,7 @@
 	melee_damage_upper = 30
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
-	attack_sound = 'sound/weapons/blade1.ogg'
+	attack_sound = 'sound/items/weapons/blade1.ogg'
 	armour_penetration = 35
 	projectile_deflect_chance = 50
 	light_range = 2
@@ -106,7 +105,7 @@
 	/// Type of bullet we use
 	var/casingtype = /obj/item/ammo_casing/c9mm
 	/// Sound to play when firing weapon
-	var/projectilesound = 'sound/weapons/gun/pistol/shot.ogg'
+	var/projectilesound = 'sound/items/weapons/gun/pistol/shot.ogg'
 	/// number of burst shots
 	var/burst_shots
 	/// Time between taking shots
@@ -125,7 +124,7 @@
 		AddComponent(/datum/component/ranged_mob_full_auto)
 
 /mob/living/basic/trooper/syndicate/ranged/infiltrator //shuttle loan event
-	projectilesound = 'sound/weapons/gun/smg/shot_suppressed.ogg'
+	projectilesound = 'sound/items/weapons/gun/smg/shot_suppressed.ogg'
 	loot = list(/obj/effect/mob_spawn/corpse/human/syndicatesoldier)
 
 /mob/living/basic/trooper/syndicate/ranged/space
@@ -149,11 +148,18 @@
 
 /mob/living/basic/trooper/syndicate/ranged/smg
 	casingtype = /obj/item/ammo_casing/c45
-	projectilesound = 'sound/weapons/gun/smg/shot.ogg'
+	projectilesound = 'sound/items/weapons/gun/smg/shot.ogg'
 	ai_controller = /datum/ai_controller/basic_controller/trooper/ranged/burst
 	burst_shots = 3
 	ranged_cooldown = 3 SECONDS
 	r_hand = /obj/item/gun/ballistic/automatic/c20r
+
+///Spawns from an emagged orion trail machine set to kill the player.
+/mob/living/basic/trooper/syndicate/ranged/smg/orion
+	name = "spaceport security"
+	desc = "Premier corporate security forces for all spaceports found along the Orion Trail."
+	faction = list(FACTION_ORION)
+	loot = list()
 
 /mob/living/basic/trooper/syndicate/ranged/smg/pilot //caravan ambush ruin
 	name = "Syndicate Salvage Pilot"
@@ -192,7 +198,6 @@
 	health = 170
 	unsuitable_atmos_damage = 0
 	minimum_survivable_temperature = 0
-	speed = 1
 	mob_spawner = /obj/effect/mob_spawn/corpse/human/syndicatecommando
 
 /mob/living/basic/trooper/syndicate/ranged/shotgun/space/Initialize(mapload)
@@ -231,7 +236,7 @@
 	obj_damage = 0
 	attack_verb_continuous = "cuts"
 	attack_verb_simple = "cut"
-	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 	faction = list(ROLE_SYNDICATE)
 	mob_size = MOB_SIZE_TINY

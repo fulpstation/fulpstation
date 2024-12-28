@@ -10,12 +10,12 @@
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_LITERATE, TRAIT_CAN_STRIP, TRAIT_ANTIMAGIC_NO_SELFBLOCK)
 	w_class = WEIGHT_CLASS_NORMAL
 
-/obj/item/organ/internal/brain/psyker/on_insert(mob/living/carbon/inserted_into)
+/obj/item/organ/internal/brain/psyker/on_mob_insert(mob/living/carbon/inserted_into)
 	. = ..()
 	inserted_into.AddComponent(/datum/component/echolocation, blocking_trait = TRAIT_DUMB, echo_group = "psyker", echo_icon = "psyker", color_path = /datum/client_colour/psyker)
 	inserted_into.AddComponent(/datum/component/anti_magic, antimagic_flags = MAGIC_RESISTANCE_MIND)
 
-/obj/item/organ/internal/brain/psyker/on_remove(mob/living/carbon/removed_from)
+/obj/item/organ/internal/brain/psyker/on_mob_remove(mob/living/carbon/removed_from)
 	. = ..()
 	qdel(removed_from.GetComponent(/datum/component/echolocation))
 	qdel(removed_from.GetComponent(/datum/component/anti_magic))
@@ -36,7 +36,7 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_traits = list(TRAIT_DISFIGURED, TRAIT_BALD, TRAIT_SHAVED)
-	head_flags = HEAD_LIPS|HEAD_EYEHOLES|HEAD_DEBRAIN
+	head_flags = HEAD_DEBRAIN
 
 /obj/item/bodypart/head/psyker/try_attach_limb(mob/living/carbon/new_head_owner, special, abort)
 	. = ..()
@@ -82,9 +82,9 @@
 	qdel(old_head)
 	var/obj/item/organ/internal/brain/psyker/psyker_brain = new()
 	old_brain.before_organ_replacement(psyker_brain)
-	old_brain.Remove(src, special = TRUE, no_id_transfer = TRUE)
+	old_brain.Remove(src, special = TRUE, movement_flags = NO_ID_TRANSFER)
 	qdel(old_brain)
-	psyker_brain.Insert(src, special = TRUE, drop_if_replaced = FALSE)
+	psyker_brain.Insert(src, special = TRUE, movement_flags = DELETE_IF_REPLACED)
 	if(old_eyes)
 		qdel(old_eyes)
 	return TRUE
@@ -128,7 +128,7 @@
 	desc = "Holy smokes."
 	icon_state = "lucky"
 	force = 10
-	fire_sound = 'sound/weapons/gun/revolver/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/revolver/shot.ogg'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/revchap
 	obj_flags = UNIQUE_RENAME
 	custom_materials = null
@@ -225,7 +225,7 @@
 		return
 	user.say("#Oh great [GLOB.deity], give me the ammunition I need!", forced = "ammo prayer")
 	magazine.top_off()
-	user.playsound_local(get_turf(src), 'sound/magic/magic_block_holy.ogg', 50, TRUE)
+	user.playsound_local(get_turf(src), 'sound/effects/magic/magic_block_holy.ogg', 50, TRUE)
 	chamber_round()
 
 /datum/action/item_action/pray_refill
@@ -252,13 +252,13 @@
 	ricochet_auto_aim_angle = 10
 	ricochet_auto_aim_range = 3
 	wound_bonus = -10
-	embedding = null
+	embed_type = null
 
 /obj/projectile/bullet/c38/holy/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()
 	var/roll_them_bones = rand(1,38)
 	if(roll_them_bones == 1 && isliving(target))
-		playsound(target, 'sound/machines/synth_yes.ogg', 50, TRUE)
+		playsound(target, 'sound/machines/synth/synth_yes.ogg', 50, TRUE)
 		playsound(target, pick(list('sound/machines/coindrop.ogg', 'sound/machines/coindrop2.ogg')), 40, TRUE)
 		new /obj/effect/temp_visual/crit(get_turf(target))
 
@@ -317,8 +317,8 @@
 	var/atom/movable/plane_master_controller/game_plane_master_controller = owner.hud_used?.plane_master_controllers[PLANE_MASTERS_GAME]
 	if(!game_plane_master_controller)
 		return FALSE
-	game_plane_master_controller.add_filter("psychic_wave", 10, wave_filter(240, 240, 3, 0, WAVE_SIDEWAYS))
 	game_plane_master_controller.add_filter("psychic_blur", 10, angular_blur_filter(0, 0, 3))
+	game_plane_master_controller.add_filter("psychic_wave", 10, wave_filter(240, 240, 3, 0, WAVE_SIDEWAYS))
 	return TRUE
 
 /datum/status_effect/psychic_projection/on_remove()
@@ -341,14 +341,14 @@
 	else
 		times_dry_fired = 0
 	var/turf/target_turf = get_offset_target_turf(get_ranged_target_turf(owner, owner.dir, 7), dx = rand(-1, 1), dy = rand(-1, 1))
-	held_gun.process_fire(target_turf, owner, TRUE, null, pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
+	held_gun.process_fire(target_turf, owner, TRUE, null, pick(GLOB.all_body_zones))
 	held_gun.semicd = FALSE
 
 /datum/action/cooldown/spell/charged/psychic_booster
 	name = "Psychic Booster"
 	desc = "Charge up your mind to shoot firearms faster and home in on your targets. Think smarter, not harder."
 	button_icon_state = "projectile"
-	sound = 'sound/weapons/gun/shotgun/rack.ogg'
+	sound = 'sound/items/weapons/gun/shotgun/rack.ogg'
 	school = SCHOOL_PSYCHIC
 	cooldown_time = 1 MINUTES
 	antimagic_flags = MAGIC_RESISTANCE_MIND

@@ -72,7 +72,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 		particle_effect = new(atom_parent, acid_particles, isitem(atom_parent) ? NONE : PARTICLE_ATTACH_MOB)
 	START_PROCESSING(SSacid, src)
 
-/datum/component/acid/Destroy(force, silent)
+/datum/component/acid/Destroy(force)
 	STOP_PROCESSING(SSacid, src)
 	if(sizzle)
 		QDEL_NULL(sizzle)
@@ -148,7 +148,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 	var/acid_used = min(acid_volume * 0.05, 20) * seconds_per_tick
 	var/applied_targets = 0
 	for(var/atom/movable/target_movable as anything in target_turf)
-		// Dont apply acid to things under the turf
+		// Don't apply acid to things under the turf
 		if(target_turf.underfloor_accessibility < UNDERFLOOR_INTERACTABLE && HAS_TRAIT(target_movable, TRAIT_T_RAY_VISIBLE))
 			continue
 		// Ignore mobs if turf_acid_ignores_mobs is TRUE
@@ -254,7 +254,7 @@ GLOBAL_DATUM_INIT(acid_overlay, /mutable_appearance, mutable_appearance('icons/e
 	if(!isliving(arrived))
 		return
 	var/mob/living/crosser = arrived
-	if(crosser.movement_type & FLYING)
+	if(crosser.movement_type & MOVETYPES_NOT_TOUCHING_GROUND)
 		return
 	if(crosser.move_intent == MOVE_INTENT_WALK)
 		return
