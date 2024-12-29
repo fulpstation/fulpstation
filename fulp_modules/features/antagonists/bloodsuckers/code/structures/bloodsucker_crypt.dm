@@ -477,7 +477,7 @@
 		user.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
 		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
 		return CLICK_ACTION_SUCCESS
-	return CLICK_ACTION_BLOCKING
+	return
 
 /obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
