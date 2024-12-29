@@ -25,8 +25,8 @@
 /atom/movable/screen/alert/status_effect/frenzy
 	name = "Frenzy"
 	desc = "You are in a frenzy! You are entirely feral and, depending on your clan, fighting for your life!"
-	icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
-	icon_state = "power_recover"
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_status_effects.dmi'
+	icon_state = "frenzy"
 	alerttooltipstyle = "cult"
 
 /datum/status_effect/frenzy
