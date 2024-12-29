@@ -73,6 +73,11 @@
 	return TRUE
 
 /obj/structure/bloodsucker/click_alt(mob/user)
+	prompt_unsecure(user)
+
+///Separate from 'click_alt()' so certain structures can easily prompt unsecuring
+///through different inputs.
+/obj/structure/bloodsucker/proc/prompt_unsecure(mob/user)
 	if(user == owner && user.Adjacent(src))
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
@@ -83,6 +88,7 @@
 		switch(unclaim_response)
 			if("Yes")
 				unbolt(user)
+
 /*
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
@@ -546,7 +552,8 @@
 	density = TRUE
 	can_buckle = TRUE
 	ghost_desc = "This is a Bloodsucker's throne, any Bloodsucker sitting on it can remotely speak to their vassals by attempting to speak aloud."
-	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically broadcast messages to all of your vassals by simply speaking. \n\
+		Unlike other blood structures this throne may be unsecured by a simple <b>click</b> (just make sure it's unoccupied first)."
 	vassal_desc = "This is a blood throne, it allows your master to telepathically speak to you and others who work under them."
 	hunter_desc = "This blood-red seat allows vampires to telepathically communicate with those in their fold."
 
@@ -555,7 +562,7 @@
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
-	AddComponent(/datum/component/simple_rotation)
+	AddComponent(/datum/component/simple_rotation, ROTATION_IGNORE_ANCHORED)
 	if(!armrest)
 		armrest = mutable_appearance('fulp_modules/icons/antagonists/bloodsuckers/vamp_obj_64.dmi', "thronearm")
 		armrest.layer = ABOVE_MOB_LAYER
@@ -572,6 +579,13 @@
 /obj/structure/bloodsucker/bloodthrone/unbolt()
 	. = ..()
 	anchored = FALSE
+
+/obj/structure/bloodsucker/bloodthrone/attack_hand(mob/user, list/modifiers)
+	. = ..()
+	if(length(buckled_mobs))
+		return
+	if(anchored)
+		prompt_unsecure(user)
 
 /obj/structure/bloodsucker/bloodthrone/update_overlays()
 	. = ..()
@@ -605,7 +619,9 @@
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
 	target.pixel_y += 2
-	update_appearance(UPDATE_OVERLAYS)
+	if(dir == NORTH)
+		layer = ABOVE_MOB_LAYER
+	update_appearance(UPDATE_ICON)
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
