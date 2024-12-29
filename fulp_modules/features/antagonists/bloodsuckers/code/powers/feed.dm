@@ -49,6 +49,10 @@
 	return TRUE
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
+	// Check if active and early return if not to avoid spamming logs.
+	if(!active)
+		return
+
 	var/mob/living/user = owner
 	var/mob/living/feed_target
 	if(target_ref)
