@@ -599,7 +599,7 @@
 		for(var/mob/living/buckled_mob as anything in buckled_mobs)
 			buckled_mob.setDir(newdir)
 
-	if(has_buckled_mobs() && dir == NORTH)
+	if(dir == NORTH)
 		layer = ABOVE_MOB_LAYER
 	else
 		layer = OBJ_LAYER
@@ -619,8 +619,6 @@
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
 	target.pixel_y += 2
-	if(dir == NORTH)
-		layer = ABOVE_MOB_LAYER
 	update_appearance(UPDATE_ICON)
 
 // Unbuckling
