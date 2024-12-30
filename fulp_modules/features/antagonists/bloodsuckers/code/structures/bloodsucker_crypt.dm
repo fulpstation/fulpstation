@@ -553,7 +553,7 @@
 	can_buckle = TRUE
 	ghost_desc = "This is a Bloodsucker's throne, any Bloodsucker sitting on it can remotely speak to their vassals by attempting to speak aloud."
 	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically broadcast messages to all of your vassals by simply speaking. \n\
-		Unlike other blood structures this throne may be unsecured by a simple <b>click</b> (just make sure it's unoccupied first)."
+		Unlike other blood structures this throne may be unsecured by a <b>right-click</b> (just make sure it's unoccupied first)."
 	vassal_desc = "This is a blood throne, it allows your master to telepathically speak to you and others who work under them."
 	hunter_desc = "This blood-red seat allows vampires to telepathically communicate with those in their fold."
 
@@ -580,7 +580,7 @@
 	. = ..()
 	anchored = FALSE
 
-/obj/structure/bloodsucker/bloodthrone/attack_hand(mob/user, list/modifiers)
+/obj/structure/bloodsucker/bloodthrone/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
 	if(length(buckled_mobs))
 		return
@@ -618,7 +618,7 @@
 
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
-	target.pixel_y += 2
+	target.pixel_y += 3
 	update_appearance(UPDATE_ICON)
 
 // Unbuckling
