@@ -700,7 +700,7 @@
 	max_integrity = 200
 	vamp_desc = "This is a blood mirror, it will allow you to see through the eyes of your vassals remotely (though it will cause said eyes to redden as a side effect.) \n\
 		It is warded against usage by unvassalized mortals with teleportation magic that can rend psyches asunder at the cost of its own integrity."
-	vassal_desc = "This is a magical blood mirror that Bloodsuckers may use to watch over their devotees.\n\
+	vassal_desc = "This is a magical blood mirror that Bloodsuckers alone may use to watch over their devotees.\n\
 		Those unworthy of the mirror who haven't been sworn to the service of a Bloodsucker may anger it if they attempt to use it."
 	hunter_desc = "This is a mirror cursed with blood, it allows vampires to spy upon their thralls. \n\
 		 An incredibly shy mirror spirit has also been bound to it, so try not to look into it directly lest you wish to face a phantasmal panic response."
@@ -734,6 +734,7 @@
 
 	AddComponent(/datum/component/reflection, reflection_filter = reflection_filter, reflection_matrix = reflection_matrix, can_reflect = can_reflect, update_signals = update_signals)
 	stop_observe = new stop_observe(src)
+	register_context()
 
 /obj/structure/bloodsucker/mirror/Destroy(force)
 	. = ..()
@@ -746,6 +747,12 @@
 	. = ..()
 	if(in_use)
 		. += span_cult_bold("It's glowing ominously and [current_user] is staring into it!")
+
+/obj/structure/bloodsucker/mirror/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	. = ..()
+	if(IS_BLOODSUCKER(user) && broken && in_range(source, user))
+		context[SCREENTIP_CONTEXT_ALT_LMB] = "Clear Up"
+		return CONTEXTUAL_SCREENTIP_SET
 
 /// Default 'click_alt()' interaction overriden since mirrors are a unique case.
 /obj/structure/bloodsucker/mirror/click_alt(mob/user)
@@ -909,20 +916,20 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 /obj/structure/bloodsucker/mirror/attack_hand(mob/living/carbon/human/user)
 	. = ..()
 	if(broken)
-		balloon_alert(user, "it's broken and unusable!")
+		balloon_alert(user, "it's broken!")
 		return
 
 	if(IS_BLOODSUCKER(user))
 		var/datum/antagonist/bloodsucker/user_bloodsucker_datum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker, FALSE)
 
 		if(!length(user_bloodsucker_datum.vassals))
-			balloon_alert(user, "you have no vassals to observe!")
+			balloon_alert(user, "no vassals!")
 			return
 		if(in_use)
-			balloon_alert(user, "mirror already in use!")
+			balloon_alert(user, "already in use!")
 			return
 		if(user_bloodsucker_datum.blood_structure_in_use)
-			balloon_alert(user, "can't use two mirrors at the same time!")
+			balloon_alert(user, "already using a mirror!")
 			return
 
 
@@ -949,7 +956,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 		return
 
 	if(IS_MONSTERHUNTER(user))
-		user.balloon_alert(user, "MOVE, NOW!!!") //They might be able to escape it by going to Wonderland...
+		user.balloon_alert(user, "MOVE— MAYBE WONDERLAND— NOW!") //They might be able to escape it by going to Wonderland...
 
 	if(mirror_will_not_forget_this)
 		katabasis(user, TRUE)
@@ -960,8 +967,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	var/mob/living/carbon/human/victim = user //(Just for code readability purposes.)
 	var/original_victim_loc = victim.loc
 	victim.Stun(6 SECONDS, TRUE)
-	victim.playsound_local(get_turf(victim), 'sound/music/antag/bloodcult/ghost_whisper.ogg', 20, frequency = 4)
-	flash_color(victim, flash_time = 50) //Defaults to cult stun flash, which fits here.
+	victim.playsound_local(get_turf(victim), 'sound/music/antag/bloodcult/ghost_whisper.ogg', 20, frequency = 5)
+	flash_color(victim, flash_time = 80) //Defaults to cult stun flash, which fits here.
 	sleep(5 SECONDS)//Wait five seconds and then...
 
 	if(broken)		//...return if the mirror is broken...
@@ -978,10 +985,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 /**
  * The mirror is trapped, and this proc represents the trap's effects.
- * In short, it will deal moderate damage to its victim, teleport them to a random location on the station,
+ * In short, it will deal moderate damage to its victim, teleport them to a random (mostly safe) location on the station,
  * give them a deep-rooted fear of blood, give them a severe negative moodlet, and then shatter itself.
  *
- * 'var/aggressive' increases mirror damage if true.
+ * * victim - The person affected by this proc.
+ * * aggressive - Increases mirror damage if true.
  */
 /obj/structure/bloodsucker/mirror/proc/katabasis(mob/living/carbon/human/victim, var/aggressive = FALSE)
 	//Damage
@@ -996,15 +1004,21 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	var/turf/victim_turf = get_turf(victim)
 	playsound(victim_turf, 'sound/effects/hallucinations/veryfar_noise.ogg', 100, frequency = 1.25, use_reverb = TRUE)
 	victim.visible_message(span_danger("A red hand erupts from [src], dragging [victim.name] away through broken glass!"),
-	span_bolddanger("A crimson palm envelops your face, and with a horrible jolt it pulls you into [src]!"),
+	span_bolddanger(span_big("A crimson palm envelops your face, and with a horrible jolt it pulls you into [src]!")),
 	span_warning("You briefly hear the sound of glass breaking accompanied by an eerie, almost fluid gust and a sudden thump!"),
 	)
 
-	//Teleport
-	var/target_turf = get_safe_random_station_turf(GLOB.the_station_areas)
+	//Find a reasonable/safe area and teleport the victim to it
+	var/turf/target_turf = get_safe_random_station_turf(typesof(/area/station/commons))
+	if(!target_turf)
+		target_turf = get_safe_random_station_turf(typesof(/area/station/hallway))
+	if(!target_turf)
+		target_turf = get_safe_random_station_turf()
+
 	do_teleport(victim, target_turf, no_effects = TRUE, channel = TELEPORT_CHANNEL_FREE)
 
 	//Nightmare, trauma, and mood event
+	victim.playsound_local(get_turf(victim), 'sound/music/antag/bloodcult/ghost_whisper.ogg', 5, frequency = 0.75)
 	victim.Sleeping(6 SECONDS)
 	sleep(6 SECONDS)
 
@@ -1021,7 +1035,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	sleep(5 SECONDS)
 
 	victim.Sleeping(5 SECONDS)
-	to_chat(victim, span_warning("<b>...and soon, you're sure, those claims will be renewed.</b>."))
+	to_chat(victim, span_warning("<b>...and soon, you're sure, those claims will be renewed.</b>"))
+	victim.playsound_local(get_turf(victim), 'sound/effects/blob/blobattack.ogg', 60, frequency = -1)
 	victim.gain_trauma(/datum/brain_trauma/mild/phobia/blood, TRAUMA_RESILIENCE_LOBOTOMY)
 	victim.add_mood_event("blood_mirror", /datum/mood_event/bloodmirror)
 
