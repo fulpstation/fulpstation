@@ -3,7 +3,7 @@
 	savefile_key = "feature_protogen_tail"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	relevant_external_organ = /obj/item/organ/external/tail/protogen
+	relevant_external_organ = /obj/item/organ/tail/protogen
 
 /datum/preference/choiced/protogen_tail/init_possible_values()
 	return assoc_to_keys_features(SSaccessories.tails_list_protogen)
@@ -20,7 +20,7 @@
 	savefile_key = "feature_protogen_snout"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	relevant_external_organ = /obj/item/organ/external/snout/protogen
+	relevant_external_organ = /obj/item/organ/snout/protogen
 
 /datum/preference/choiced/protogen_snout/init_possible_values()
 	return assoc_to_keys_features(SSaccessories.snouts_list_protogen)
@@ -34,7 +34,7 @@
 	savefile_key = "feature_protogen_antennae"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	relevant_external_organ = /obj/item/organ/external/protogen_antennae
+	relevant_external_organ = /obj/item/organ/protogen_antennae
 
 /datum/preference/choiced/protogen_antennae/init_possible_values()
 	return assoc_to_keys_features(SSaccessories.antennae_list_protogen)
