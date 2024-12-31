@@ -14,7 +14,7 @@
 
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
 
-- .github\workflows\compile_changelogs.yml > See above
+- .github\workflows\compile_changelogs.yml > Same as above.
 
 ## All Fulp files not contained within /fulp_modules/
 
