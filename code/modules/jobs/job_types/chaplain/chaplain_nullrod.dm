@@ -190,10 +190,10 @@
 	menu_description = "An odd sharp blade which provides a low chance of blocking incoming melee attacks and deals a random amount of damage, which can range from almost nothing to very high. Can be worn on the back."
 
 /obj/item/nullrod/claymore/multiverse/melee_attack_chain(mob/user, atom/target, params)
-	var/force_mod = rand(-14, 15)
-	force += force_mod
+	var/old_force = force
+	force += rand(-14, 15)
 	. = ..()
-	force -= force_mod
+	force = old_force
 
 /obj/item/nullrod/claymore/saber
 	name = "light energy sword"
@@ -839,11 +839,9 @@
 	//We do this because our force could have been changed by things like whetstones and RPG stats.
 	force += old_force - initial(force)
 
-	//Record change to our force in case something modifies it down the chain
-	var/force_diff = force - old_force
 	. = ..()
 	//Reapply our old force.
-	force -= force_diff
+	force = old_force
 
 /obj/item/nullrod/nullblade/afterattack(atom/target, mob/user, click_parameters)
 	if(!isliving(target))

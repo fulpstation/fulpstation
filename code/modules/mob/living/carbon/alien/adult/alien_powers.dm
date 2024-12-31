@@ -283,22 +283,22 @@ Doesn't work on other aliens/AI.*/
 // We do this in InterceptClickOn() instead of Activate()
 // because we use the click parameters for aiming the projectile
 // (or something like that)
-/datum/action/cooldown/alien/acid/neurotoxin/InterceptClickOn(mob/living/clicker, params, atom/target)
+/datum/action/cooldown/alien/acid/neurotoxin/InterceptClickOn(mob/living/caller, params, atom/target)
 	. = ..()
 	if(!.)
-		unset_click_ability(clicker, refund_cooldown = FALSE)
+		unset_click_ability(caller, refund_cooldown = FALSE)
 		return FALSE
 
 	var/modifiers = params2list(params)
-	clicker.visible_message(
-		span_danger("[clicker] spits neurotoxin!"),
+	caller.visible_message(
+		span_danger("[caller] spits neurotoxin!"),
 		span_alertalien("You spit neurotoxin."),
 	)
-	var/obj/projectile/neurotoxin/neurotoxin = new /obj/projectile/neurotoxin(clicker.loc)
-	neurotoxin.aim_projectile(target, clicker, modifiers)
-	neurotoxin.firer = clicker
+	var/obj/projectile/neurotoxin/neurotoxin = new /obj/projectile/neurotoxin(caller.loc)
+	neurotoxin.aim_projectile(target, caller, modifiers)
+	neurotoxin.firer = caller
 	neurotoxin.fire()
-	clicker.newtonian_move(get_angle(target, clicker))
+	caller.newtonian_move(get_angle(target, caller))
 	return TRUE
 
 // Has to return TRUE, otherwise is skipped.

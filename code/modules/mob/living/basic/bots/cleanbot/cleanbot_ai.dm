@@ -210,11 +210,11 @@
 
 /datum/pet_command/clean/set_command_target(mob/living/parent, atom/target)
 	if(isnull(target) || !istype(target, /obj/effect/decal/cleanable))
-		return FALSE
+		return
 	if(isnull(parent.ai_controller))
-		return FALSE
+		return
 	if(LAZYACCESS(parent.ai_controller.blackboard[BB_TEMPORARY_IGNORE_LIST], target))
-		return FALSE
+		return
 	return ..()
 
 /datum/pet_command/clean/execute_action(datum/ai_controller/basic_controller/bot/controller)
