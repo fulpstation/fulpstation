@@ -49,8 +49,6 @@
 	return TRUE
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
-	if(!active)
-		return
 	var/mob/living/user = owner
 	var/mob/living/feed_target = target_ref.resolve()
 	if(isnull(feed_target))
