@@ -162,7 +162,7 @@
 
 /obj/structure/lattice/lava/attackby(obj/item/attacking_item, mob/user, params)
 	. = ..()
-	if(!ismetaltile(attacking_item))
+	if(!istype(attacking_item, /obj/item/stack/tile/iron))
 		return
 	var/obj/item/stack/tile/iron/attacking_tiles = attacking_item
 	if(!attacking_tiles.use(1))
