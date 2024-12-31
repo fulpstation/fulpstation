@@ -1,6 +1,6 @@
 # Changelogs
 
-When a PR is merged, a corresponding changelog file is created here. Those files are then collected together, monthly, and saved to `archive` for long term preservation. TG does this too, in their `html/changelogs` folder.
+When a PR is merged, a corresponding changelog file is created in `fulp_modules/data/html/changelogs`. Those files are then collected together, monthly, and saved here for long term preservation. TG does this too, in their `html/changelogs` folder.
 
 ## Writing a changelog
 
