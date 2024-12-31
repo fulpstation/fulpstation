@@ -14,10 +14,10 @@
 
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
 
+- .github\workflows\compile_changelogs.yml > See above
 
 ## All Fulp files not contained within /fulp_modules/
 
-- .github/workflows/compile_changelogs_fulpstation.yml > Github workflow that compiles our changelogs.
 - code/__DEFINES/fulp_defines > Contains all of our defines
 - _maps/fulp_maps > Contains all of our non-station maps (Ruins, Deathmatch maps, etc.)
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
