@@ -12,6 +12,8 @@
 
 - tgstation.dme > Adds our files to be included when compiling
 
+- several removed objectives from /tg/ have been readded; see 'fulp_modules\Z_edits\antag_edits\traitor'
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines
