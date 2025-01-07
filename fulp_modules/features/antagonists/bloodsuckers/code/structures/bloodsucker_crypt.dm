@@ -546,10 +546,7 @@
 
 //Quieter burning sound loop based off of 'code\datums\looping_sounds\burning.dm'
 /datum/looping_sound/burning/brazier
-	mid_sounds = 'sound/effects/comfyfire.ogg'
-	mid_length = 5 SECONDS
 	volume = 15
-	vary = TRUE
 	ignore_walls = FALSE
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
