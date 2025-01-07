@@ -11,3 +11,9 @@
   " No parentcall, rest of the rotate code breaks the pixel offset." */
 /obj/structure/flora/tree/cherry/shuttleRotate(rotation, params)
 	setDir(angle2dir(rotation+dir2angle(dir)))
+
+//Railings have the 'ABOVE_TREE_LAYER' layer, but in order for the xmas tree on Theia Station
+//to render properly we'll need to rail against the railings trying to rail against (or perhaps above) it.
+#define ABOVE_RAILING_LAYER 5.03
+/obj/structure/flora/tree/pine/xmas/presents
+	layer = ABOVE_RAILING_LAYER
