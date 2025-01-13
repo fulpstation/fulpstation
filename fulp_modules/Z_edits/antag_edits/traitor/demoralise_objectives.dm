@@ -11,10 +11,12 @@
 /datum/traitor_objective_category/demoralise
 	name = "Demoralise Crew"
 	objectives = list(
-		/datum/traitor_objective/demoralise/poster = 2,
+		/datum/traitor_objective/demoralise/poster = 1,
 		/datum/traitor_objective/demoralise/graffiti = 1,
+		/datum/traitor_objective/target_player/assault = 1,
+		/datum/traitor_objective/destroy_item/demoralise = 1,
 	)
-	weight = OBJECTIVE_WEIGHT_UNLIKELY
+	/// [Increased 'weight' from OBJECTIVE_WEIGHT_UNLIKELY to OBJECTIVE_WEIGHT_DEFAULT]
 
 /datum/traitor_objective/demoralise
 	name = "Debug your code."

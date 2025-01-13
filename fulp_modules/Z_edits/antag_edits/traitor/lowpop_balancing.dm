@@ -61,7 +61,22 @@
 		telecrystal_reward = rand(2, 4)
 
 //This further incentivizes keeping the kidnapping target alive.
-/datum/traitor_objective/target_player/kidnapping/New(datum/uplink_handler/handler)
+/datum/traitor_objective/target_player/kidnapping/common/New(datum/uplink_handler/handler)
+	. = ..()
+	if(at_lowpop())
+		telecrystal_reward = 0
+
+/datum/traitor_objective/target_player/kidnapping/uncommon/New(datum/uplink_handler/handler)
+	. = ..()
+	if(at_lowpop())
+		telecrystal_reward = 0
+
+/datum/traitor_objective/target_player/kidnapping/rare/New(datum/uplink_handler/handler)
+	. = ..()
+	if(at_lowpop())
+		telecrystal_reward = 0
+
+/datum/traitor_objective/target_player/kidnapping/captain/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
 		telecrystal_reward = 0
