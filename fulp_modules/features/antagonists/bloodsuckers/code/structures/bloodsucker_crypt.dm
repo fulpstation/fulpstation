@@ -528,12 +528,26 @@
 	vamp_desc = "You alone can toggle this from afar by <b>ctrl-clicking</b> it."
 	vassal_desc = "You can toggle this by <b>clicking</b> it."
 
+	/// Our slightly quieter looping burn sound effect; copied over from 'bonfire.dm'
+	var/datum/looping_sound/burning/brazier/burning_loop
+
+/obj/structure/bloodsucker/lighting/brazier/Initialize()
+	. = ..()
+	burning_loop = new(src)
+
 /obj/structure/bloodsucker/lighting/brazier/toggle(mob/user)
 	. = ..()
 	if(lit)
 		particles = new /particles/brazier
+		burning_loop.start()
 	else
 		QDEL_NULL(particles)
+		burning_loop.stop()
+
+//Quieter burning sound loop based off of 'code\datums\looping_sounds\burning.dm'
+/datum/looping_sound/burning/brazier
+	volume = 15
+	ignore_walls = FALSE
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
