@@ -14,6 +14,10 @@
 
 - several removed objectives from /tg/ have been readded; see 'fulp_modules\Z_edits\antag_edits\traitor'
 
+- tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
+
+- .github\workflows\compile_changelogs.yml > Same as above.
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines
