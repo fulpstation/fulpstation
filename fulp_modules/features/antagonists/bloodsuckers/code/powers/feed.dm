@@ -52,7 +52,6 @@
 	// Check if active and early return if not to avoid spamming logs.
 	if(!active)
 		return
-
 	var/mob/living/user = owner
 	var/mob/living/feed_target
 	if(target_ref)
@@ -98,6 +97,7 @@
 	owner.balloon_alert(owner, "feeding off [feed_target]...")
 	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE))
 		owner.balloon_alert(owner, "feed stopped")
+		target_ref = null
 		DeactivatePower()
 		return
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)

@@ -1,5 +1,5 @@
 //Organ
-/obj/item/organ/external/snout/protogen
+/obj/item/organ/snout/protogen
 	name = "protogen snout"
 	desc = "Take a closer look at that snout!"
 	icon_state = "snout"
