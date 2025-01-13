@@ -2,7 +2,9 @@
 "ag" = (
 /mob/living/basic/blob_minion/blobbernaut,
 /obj/machinery/light/floor,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/effect/forcefield/slimewall,
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "av" = (
 /turf/open/floor/eighties,
@@ -48,10 +50,12 @@
 /turf/open/misc/asteroid/snow/atmosphere,
 /area/icemoon/underground/explored)
 "bM" = (
-/obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 9
+/obj/machinery/shower/directional/south,
+/obj/effect/turf_decal/bot_white{
+	color = "#D381C9"
 	},
-/turf/open/floor/iron/white,
+/obj/structure/fluff/shower_drain,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "co" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
@@ -113,6 +117,12 @@
 /mob/living/basic/mouse/gray,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
+"fg" = (
+/obj/structure/chair/sofa/corp/left{
+	dir = 4
+	},
+/turf/open/floor/eighties,
+/area/ruin/powered/beefcyto)
 "fj" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 8
@@ -127,13 +137,15 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "fU" = (
-/obj/machinery/door/airlock/survival_pod,
+/obj/machinery/door/airlock/survival_pod{
+	name = "Live Specimen Storage"
+	},
 /obj/structure/fans/tiny,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
 "gh" = (
-/obj/structure/marker_beacon,
-/turf/open/misc/asteroid/snow/atmosphere,
+/obj/structure/flora/grass/both/style_random,
+/turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "gD" = (
 /obj/item/food/badrecipe/moldy/bacteria,
@@ -141,8 +153,17 @@
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "gG" = (
-/obj/structure/grille/broken,
-/turf/open/floor/plating,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 9
+	},
+/obj/structure/closet/crate,
+/obj/item/reagent_containers/blood/o_minus,
+/obj/item/reagent_containers/blood/o_minus,
+/obj/item/reagent_containers/blood/ethereal,
+/obj/item/reagent_containers/blood/ethereal,
+/obj/item/reagent_containers/blood/lizard,
+/obj/item/reagent_containers/blood/lizard,
+/turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "gV" = (
 /obj/effect/turf_decal/trimline/purple/filled/line,
@@ -150,15 +171,31 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "il" = (
-/obj/machinery/door/window/left/directional/west,
-/turf/open/floor/iron/kitchen_coldroom,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "iB" = (
-/obj/effect/turf_decal/trimline/green/filled/line{
-	dir = 1
+/obj/machinery/duct,
+/obj/effect/turf_decal/box/white{
+	color = "#9FED58"
 	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"iD" = (
+/obj/effect/decal/cleanable/blood,
+/mob/living/basic/tree,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
+"iI" = (
+/obj/structure/chair/sofa/corp/right{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wood,
+/turf/open/floor/eighties,
+/area/ruin/powered/beefcyto)
+"iM" = (
+/obj/structure/bonfire,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "js" = (
 /obj/effect/turf_decal/tile/red,
 /obj/effect/turf_decal/tile/red{
@@ -179,7 +216,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/fans/tiny,
-/turf/open/floor/mineral/plastitanium/red,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "jy" = (
 /obj/structure/closet/l3closet/virology,
@@ -190,25 +227,47 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "jz" = (
-/obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 1
-	},
 /obj/structure/extinguisher_cabinet/directional/north,
-/turf/open/floor/iron/white,
+/obj/structure/bed/dogbed{
+	name = "Ges's bed"
+	},
+/mob/living/basic/lightgeist{
+	name = "Ges"
+	},
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "jX" = (
 /obj/machinery/light/floor,
+/obj/machinery/duct,
 /turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
+"kt" = (
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 8
+	},
+/turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "kI" = (
 /obj/machinery/door/airlock/vault{
-	id_tag = "carp door";
-	name = "Carp Chamber"
+	id_tag = "slime door";
+	name = "Slime Chamber"
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/fans/tiny,
-/turf/open/floor/mineral/plastitanium/red,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
+"lb" = (
+/obj/structure/reagent_dispensers/watertank/high,
+/obj/effect/turf_decal/delivery/white{
+	color = "#9FED58"
+	},
+/turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"le" = (
+/obj/item/storage/toolbox/fishing,
+/obj/item/fishing_line/reinforced,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "lg" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 8
@@ -216,14 +275,21 @@
 /obj/effect/decal/cleanable/food/flour,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
+"lF" = (
+/obj/structure/flora/rock/pile/icy/style_random,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "lO" = (
 /obj/machinery/light,
-/turf/open/floor/iron/kitchen_coldroom,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
+/area/ruin/powered/beefcyto)
+"lS" = (
+/obj/machinery/duct,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "mj" = (
-/obj/structure/moisture_trap,
-/obj/effect/decal/cleanable/garbage,
-/turf/open/floor/iron/kitchen_coldroom,
+/mob/living/basic/goat,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "mu" = (
 /obj/structure/closet/secure_closet/cytology{
@@ -242,26 +308,38 @@
 /obj/structure/fence/post,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"nb" = (
+/obj/machinery/duct,
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 8
+	},
+/turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
 "nf" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 1
 	},
-/obj/machinery/oven,
+/obj/machinery/oven/range,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "nl" = (
 /mob/living/basic/pet/penguin/emperor/snowdin,
 /turf/open/misc/asteroid/snow/atmosphere,
 /area/icemoon/underground/explored)
+"nr" = (
+/obj/machinery/button/door/directional/west{
+	specialfunctions = 4;
+	name = "slime chamber bolts";
+	normaldoorcontrol = 1;
+	id = "slime door"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/beefcyto)
 "nt" = (
 /obj/structure/chair/sofa/corp{
 	dir = 1
 	},
 /turf/open/floor/eighties,
-/area/ruin/powered/beefcyto)
-"nx" = (
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/iron/kitchen_coldroom,
 /area/ruin/powered/beefcyto)
 "nP" = (
 /turf/open/floor/iron/white,
@@ -273,13 +351,13 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "ol" = (
-/obj/machinery/jukebox,
-/turf/open/floor/eighties,
+/obj/effect/spawner/random/structure/steam_vent,
+/obj/machinery/duct,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "on" = (
-/obj/structure/chair/sofa/corp/right{
-	dir = 8
-	},
+/obj/structure/table/wood,
+/obj/structure/showcase/machinery/tv/broken,
 /turf/open/floor/eighties,
 /area/ruin/powered/beefcyto)
 "op" = (
@@ -307,8 +385,9 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "oI" = (
-/obj/machinery/chem_master/condimaster,
-/turf/open/floor/iron/kitchen_coldroom,
+/obj/structure/closet/secure_closet/freezer/fridge/all_access,
+/obj/item/storage/box/papersack/meat,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "oM" = (
 /obj/effect/turf_decal/trimline/green/filled/corner{
@@ -321,7 +400,14 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "pg" = (
-/obj/effect/turf_decal/trimline/blue/filled/line,
+/obj/machinery/shower/directional/west,
+/obj/effect/turf_decal/bot_white{
+	color = "#52B4E9"
+	},
+/obj/effect/turf_decal/trimline/blue/filled/warning/corner{
+	dir = 4
+	},
+/obj/structure/fluff/shower_drain,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "ph" = (
@@ -330,15 +416,12 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "pm" = (
-/obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 5
-	},
-/obj/effect/decal/cleanable/garbage,
-/turf/open/floor/iron/white,
+/obj/structure/table/reinforced,
+/obj/machinery/processor/slime,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "ps" = (
-/obj/effect/decal/cleanable/garbage,
-/turf/open/misc/asteroid/snow/atmosphere,
+/turf/open/misc/ice/icemoon,
 /area/icemoon/underground/explored)
 "pv" = (
 /turf/closed/wall/r_wall,
@@ -354,15 +437,18 @@
 /obj/structure/table/reinforced,
 /obj/item/book/manual/wiki/cytology,
 /obj/item/infuser_book,
+/obj/structure/reagent_dispensers/wall/virusfood/directional/north,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "pW" = (
-/obj/machinery/door/airlock/public,
-/turf/open/floor/plating,
+/obj/machinery/door/airlock/freezer{
+	name = "Cytology Outpost Freezer"
+	},
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "qG" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 8
+	dir = 9
 	},
 /obj/machinery/light{
 	dir = 8
@@ -370,25 +456,36 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "qP" = (
-/obj/structure/chair/sofa/corp/corner{
-	dir = 8
+/obj/effect/turf_decal/siding/wood{
+	dir = 1
 	},
-/turf/open/floor/eighties,
+/turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "ra" = (
 /turf/open/floor/plating/snowed/icemoon,
 /area/icemoon/underground/explored)
 "rc" = (
-/obj/machinery/light/floor,
+/obj/machinery/button/door/directional/north{
+	name = "blobbernaut chamber bolts";
+	normaldoorcontrol = 1;
+	id = "blobbernaut door";
+	specialfunctions = 4
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
+"rz" = (
+/obj/structure/flora/rock/icy/style_2,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "sH" = (
 /obj/effect/spawner/structure/window/ice,
-/turf/open/floor/plating/snowed/icemoon,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "sR" = (
 /obj/machinery/biogenerator,
-/obj/effect/turf_decal/trimline/green/filled/line,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "sY" = (
@@ -398,54 +495,63 @@
 "sZ" = (
 /mob/living/basic/migo,
 /obj/machinery/light/floor,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "ta" = (
 /obj/structure/table/wood,
 /obj/item/toy/cards/deck,
-/obj/item/lighter,
 /turf/open/floor/eighties,
 /area/ruin/powered/beefcyto)
 "tb" = (
 /turf/open/lava/plasma/ice_moon,
 /area/icemoon/underground/explored)
-"tA" = (
-/obj/effect/turf_decal/trimline/green/filled/line{
-	dir = 9
+"tx" = (
+/obj/machinery/duct,
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 4
 	},
-/obj/structure/closet/crate,
-/obj/item/reagent_containers/blood/ethereal,
-/obj/item/reagent_containers/blood/ethereal,
-/obj/item/reagent_containers/blood/o_minus,
-/obj/item/reagent_containers/blood/o_minus,
-/obj/item/reagent_containers/blood/o_minus,
-/obj/item/reagent_containers/blood/ethereal,
-/obj/item/reagent_containers/blood/ethereal,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"tA" = (
+/obj/item/toy/plush/beefplushie/living,
+/turf/open/misc/ice/icemoon,
+/area/icemoon/underground/explored)
+"tC" = (
+/obj/effect/decal/cleanable/blood/splatter,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "tD" = (
 /obj/machinery/chem_dispenser/drinks/beer/fullupgrade,
 /obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
+"tK" = (
+/obj/structure/marker_beacon/fuchsia,
+/turf/open/misc/asteroid/snow/atmosphere,
+/area/icemoon/underground/explored)
 "tT" = (
-/obj/structure/table/glass,
-/obj/item/hatchet,
-/obj/item/cultivator,
-/obj/item/seeds/chanter/jupitercup,
-/obj/item/seeds/chanter/jupitercup,
-/obj/item/reagent_containers/cup/bucket,
-/obj/effect/turf_decal/trimline/green/filled/line,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
+	},
+/obj/machinery/vending/hydroseeds{
+	onstation = 0
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "us" = (
-/obj/machinery/seed_extractor,
-/turf/open/floor/iron/white,
+/obj/machinery/door/airlock/maintenance{
+	name = "Cytology Outpost Maintenance"
+	},
+/obj/structure/fans/tiny,
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "ut" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 8
 	},
+/obj/structure/sink/directional/east,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "uy" = (
@@ -458,7 +564,8 @@
 "uZ" = (
 /obj/machinery/light/floor,
 /mob/living/basic/slime,
-/turf/open/floor/mineral/plastitanium/red,
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "ve" = (
 /obj/effect/turf_decal/trimline/blue/filled/line,
@@ -472,9 +579,10 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "vY" = (
-/obj/structure/closet/emcloset/anchored,
-/obj/item/defibrillator/loaded,
-/turf/open/floor/iron/white,
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 4
+	},
+/turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "vZ" = (
 /obj/structure/table/wood,
@@ -491,17 +599,28 @@
 /obj/machinery/vending/hydronutrients{
 	onstation = 0
 	},
-/obj/effect/turf_decal/trimline/green/filled/line,
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"wA" = (
+/obj/machinery/digital_clock/directional/north,
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
 "wE" = (
-/obj/effect/decal/cleanable/blood/old,
+/obj/structure/marker_beacon/fuchsia,
 /turf/open/floor/plating/snowed/icemoon,
+/area/icemoon/underground/explored)
+"wX" = (
+/mob/living/basic/pet/penguin/emperor/snowdin,
+/turf/open/misc/ice/icemoon,
 /area/icemoon/underground/explored)
 "wZ" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 10
 	},
+/obj/item/kirbyplants/fern,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "xA" = (
@@ -511,7 +630,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/fans/tiny,
-/turf/open/floor/mineral/plastitanium/red,
+/turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "xF" = (
 /obj/structure/table/wood,
@@ -529,10 +648,13 @@
 	dir = 1
 	},
 /obj/item/flashlight/seclite,
+/obj/item/clothing/head/costume/ushanka,
+/obj/item/clothing/suit/hooded/wintercoat/science,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "xJ" = (
 /obj/structure/fireplace,
+/obj/effect/turf_decal/siding/wood,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "xS" = (
@@ -541,6 +663,12 @@
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"yl" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 4
+	},
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
 "yq" = (
 /obj/structure/closet/crate/trashcart,
 /obj/item/food/breadslice/moldy,
@@ -548,25 +676,27 @@
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "yA" = (
-/obj/effect/turf_decal/tile/red,
-/obj/effect/turf_decal/tile/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/red{
-	dir = 4
-	},
-/obj/machinery/light,
-/turf/open/floor/iron/white,
-/area/ruin/powered/beefcyto)
+/obj/item/storage/box/matches,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "yD" = (
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"yF" = (
+/obj/machinery/shower/directional/east,
+/obj/structure/fluff/shower_drain,
+/obj/effect/turf_decal/bot_white{
+	color = "#52B4E9"
+	},
+/turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
 "yT" = (
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
+"zb" = (
+/obj/structure/flora/rock/pile/icy/style_random,
+/turf/open/misc/asteroid/snow/atmosphere,
+/area/icemoon/underground/explored)
 "zc" = (
 /obj/effect/turf_decal/trimline/blue/filled/corner{
 	dir = 8
@@ -580,11 +710,21 @@
 /obj/machinery/chem_heater,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"zk" = (
+/obj/item/hatchet/wooden,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "zv" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 6
 	},
 /obj/item/kirbyplants/fern,
+/turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"zL" = (
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 4
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "zQ" = (
@@ -595,22 +735,29 @@
 /obj/structure/fireplace{
 	dir = 1
 	},
-/obj/item/kirbyplants/random,
+/obj/item/kirbyplants/fern,
+/obj/structure/sign/calendar/directional/south,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "Av" = (
-/obj/machinery/door/airlock/public/glass,
+/obj/machinery/door/airlock/maintenance{
+	name = "Cytology Outpost Maintenance"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Ay" = (
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
+"AA" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/misc/asteroid/snow/icemoon,
+/area/icemoon/underground/explored)
 "AP" = (
-/mob/living/basic/goat,
-/obj/effect/turf_decal/siding/blue/end{
-	dir = 8
-	},
-/turf/open/floor/iron/kitchen_coldroom,
+/obj/machinery/chem_master/condimaster,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "AV" = (
 /obj/machinery/deepfryer,
@@ -618,6 +765,14 @@
 	dir = 1
 	},
 /turf/open/floor/iron/cafeteria,
+/area/ruin/powered/beefcyto)
+"BG" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/door/airlock/maintenance{
+	name = "Cytology Outpost Maintenance"
+	},
+/obj/machinery/duct,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "BL" = (
 /obj/machinery/light{
@@ -639,11 +794,18 @@
 	},
 /obj/structure/closet/crate,
 /obj/item/borg/upgrade/modkit/damage,
-/obj/item/borg/upgrade/modkit/damage,
 /obj/item/borg/upgrade/modkit/range,
 /obj/item/borg/upgrade/modkit/cooldown,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"Ci" = (
+/obj/item/toy/plush/phos,
+/obj/item/reagent_containers/cup/glass/coffee{
+	pixel_x = -9;
+	pixel_y = -6
+	},
+/turf/open/misc/asteroid/snow/atmosphere,
+/area/icemoon/underground/explored)
 "Cj" = (
 /obj/machinery/light{
 	dir = 4
@@ -657,11 +819,14 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "CD" = (
-/obj/structure/geyser,
+/obj/structure/geyser/random,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "CJ" = (
-/obj/structure/reagent_dispensers/watertank/high,
+/obj/structure/reagent_dispensers/plumbed{
+	dir = 4
+	},
+/obj/machinery/light/small/directional/west,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "CM" = (
@@ -669,22 +834,20 @@
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "CP" = (
-/obj/machinery/hydroponics/constructable,
-/obj/effect/turf_decal/trimline/green,
 /obj/effect/turf_decal/siding/green{
 	dir = 4
 	},
+/obj/machinery/seed_extractor,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "De" = (
-/obj/effect/turf_decal/caution{
-	dir = 1
-	},
-/obj/machinery/light/floor,
+/obj/machinery/duct,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Ds" = (
-/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/light/small/directional/south,
+/obj/machinery/space_heater,
+/obj/effect/spawner/random/trash/graffiti,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Dy" = (
@@ -694,13 +857,7 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "DP" = (
-/obj/machinery/button/door{
-	id = "carp door";
-	name = "carp door bolt";
-	normaldoorcontrol = 1;
-	specialfunctions = 4
-	},
-/turf/closed/wall/r_wall,
+/turf/open/floor/iron/white/herringbone,
 /area/ruin/powered/beefcyto)
 "DW" = (
 /obj/structure/marker_beacon,
@@ -712,9 +869,9 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Ed" = (
-/obj/structure/marker_beacon,
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
+/mob/living/basic/slime,
+/turf/open/floor/mineral/plastitanium,
+/area/ruin/powered/beefcyto)
 "Ef" = (
 /obj/effect/turf_decal/trimline/green/filled/corner{
 	dir = 4
@@ -724,6 +881,8 @@
 "Ek" = (
 /obj/effect/turf_decal/trimline/blue/filled/line,
 /obj/structure/window/reinforced/spawner/directional/east,
+/obj/item/defibrillator/loaded,
+/obj/structure/table/reinforced,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Em" = (
@@ -731,7 +890,7 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "EW" = (
-/obj/effect/decal/cleanable/garbage,
+/obj/effect/spawner/random/trash/bacteria,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "FM" = (
@@ -740,6 +899,10 @@
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"FS" = (
+/obj/effect/spawner/random/structure/girder,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "GG" = (
 /obj/structure/fence/door,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -748,6 +911,12 @@
 /obj/structure/flora/ash/chilly,
 /turf/open/misc/asteroid/snow/atmosphere,
 /area/icemoon/underground/explored)
+"GT" = (
+/obj/effect/turf_decal/siding/wood/corner{
+	dir = 1
+	},
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
 "GX" = (
 /obj/item/slimecross/chilling/gold,
 /obj/item/slimecross/chilling/gold,
@@ -755,16 +924,35 @@
 /obj/item/slimecross/chilling/gold,
 /obj/item/slimecross/chilling/gold,
 /obj/structure/table/reinforced,
-/obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 1
-	},
 /obj/item/slimecross/stabilized/pink,
-/turf/open/floor/iron/white,
+/turf/open/floor/iron/white/textured,
+/area/ruin/powered/beefcyto)
+"Hb" = (
+/obj/machinery/duct,
+/obj/effect/turf_decal/trimline/purple/filled/warning,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "Hd" = (
-/obj/structure/fans/tiny,
-/obj/machinery/door/airlock/public/glass,
+/obj/machinery/door/airlock/maintenance{
+	name = "Cytology Outpost Maintenance"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/duct,
 /turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
+"HG" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/box/monkeycubes{
+	pixel_x = -4;
+	pixel_y = 7
+	},
+/obj/item/storage/box/monkeycubes{
+	pixel_x = 4;
+	pixel_y = 2
+	},
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "HZ" = (
 /obj/structure/marker_beacon,
@@ -772,24 +960,39 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "Ib" = (
-/mob/living/basic/tree{
-	health = 100
-	},
-/turf/open/misc/asteroid/snow/icemoon,
-/area/icemoon/underground/explored)
+/obj/machinery/portable_atmospherics/scrubber,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "Ic" = (
 /obj/effect/decal/cleanable/garbage,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "Io" = (
-/obj/machinery/door/airlock/public/glass,
-/turf/open/floor/plating/snowed/icemoon,
+/obj/machinery/door/airlock/external/glass/ruin,
+/obj/structure/fans/tiny,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "It" = (
-/turf/open/floor/iron/kitchen_coldroom,
+/obj/machinery/duct,
+/turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Iz" = (
 /turf/closed/mineral/snowmountain/cavern/icemoon,
+/area/icemoon/underground/explored)
+"ID" = (
+/obj/effect/turf_decal/siding/wood,
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
+"Jc" = (
+/obj/effect/turf_decal/trimline/purple/filled/warning,
+/obj/item/wrench,
+/obj/item/wrench,
+/turf/open/floor/iron/white/textured,
+/area/ruin/powered/beefcyto)
+"Jf" = (
+/obj/structure/statue/snow/snowman,
+/turf/open/misc/asteroid/snow/atmosphere,
 /area/icemoon/underground/explored)
 "Jl" = (
 /obj/structure/table/wood,
@@ -807,26 +1010,30 @@
 	dir = 1
 	},
 /obj/item/flashlight/seclite,
+/obj/item/clothing/head/costume/ushanka,
+/obj/item/clothing/suit/hooded/wintercoat/science,
 /obj/item/toy/plush/beefplushie/living,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Js" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/box/lights/mixed,
 /obj/effect/turf_decal/siding/white{
 	dir = 9
 	},
+/obj/machinery/processor,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "Jy" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
 	},
+/obj/structure/sink/directional/east,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "JG" = (
 /mob/living/basic/mouse/brown,
-/obj/effect/decal/cleanable/garbage,
+/obj/effect/spawner/random/trash/bacteria,
+/obj/effect/spawner/random/trash/graffiti,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "JT" = (
@@ -847,18 +1054,27 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Lt" = (
-/obj/machinery/vending/hydroseeds{
-	onstation = 0
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 1
 	},
-/obj/effect/turf_decal/trimline/green/filled/line,
 /obj/effect/turf_decal/siding/green{
 	dir = 4
 	},
+/obj/structure/table/glass,
+/obj/item/cultivator,
+/obj/item/hatchet,
+/obj/item/seeds/chanter/jupitercup,
+/obj/item/seeds/chanter/jupitercup,
+/obj/item/reagent_containers/cup/bucket,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "LA" = (
-/obj/machinery/door/airlock/public/glass,
-/obj/structure/fans/tiny,
+/obj/machinery/door/airlock/maintenance{
+	name = "Cytology Outpost Maintenance"
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "LV" = (
@@ -866,17 +1082,24 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "LX" = (
-/obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 1
-	},
 /obj/structure/table/reinforced,
-/obj/item/wrench,
-/obj/item/wrench,
+/obj/item/slimecross/chilling/gold,
+/obj/item/slimecross/chilling/gold,
+/obj/item/slimecross/chilling/gold,
+/obj/item/slimecross/chilling/gold,
+/obj/item/slimecross/chilling/gold,
 /obj/item/slimecross/stabilized/pink,
-/turf/open/floor/iron/white,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "Mc" = (
 /turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
+"Ms" = (
+/obj/machinery/door/airlock/external/glass/ruin,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "MU" = (
 /obj/machinery/light{
@@ -916,14 +1139,20 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Pc" = (
-/obj/structure/window/spawner/directional/south,
-/turf/open/floor/iron/kitchen_coldroom,
+/obj/effect/turf_decal/siding/wood/corner,
+/turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "Pg" = (
 /obj/structure/marker_beacon,
 /obj/structure/flora/grass/both,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"Pr" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 8
+	},
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
 "PN" = (
 /obj/structure/closet/emcloset/anchored,
 /turf/open/floor/iron/white,
@@ -948,20 +1177,20 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "QD" = (
-/obj/machinery/button/door{
-	id = "blobbernaut door";
-	name = "blobbernaut door bolt";
-	normaldoorcontrol = 1;
-	specialfunctions = 4
-	},
-/turf/closed/wall/r_wall,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Rd" = (
 /obj/machinery/smartfridge/petri/preloaded,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"Re" = (
+/obj/effect/spawner/random/structure/steam_vent,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "Rp" = (
-/obj/structure/grille,
+/obj/structure/rack,
+/obj/item/storage/box/lights/mixed,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Rx" = (
@@ -971,7 +1200,6 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "RF" = (
-/obj/machinery/light/floor,
 /obj/structure/sign/warning{
 	pixel_y = -32
 	},
@@ -981,6 +1209,18 @@
 /obj/machinery/chem_dispenser/drinks/fullupgrade,
 /obj/structure/table/wood,
 /turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
+"RZ" = (
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 8
+	},
+/obj/machinery/duct,
+/turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"Sa" = (
+/obj/machinery/light/small/directional/east,
+/obj/machinery/portable_atmospherics/canister/air,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Sh" = (
 /obj/structure/closet/crate/bin,
@@ -994,12 +1234,19 @@
 /area/ruin/powered/beefcyto)
 "Sj" = (
 /obj/machinery/light,
+/obj/structure/bed/dogbed,
+/mob/living/basic/pet/cat,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "Sn" = (
 /obj/machinery/hydroponics/constructable,
 /obj/effect/turf_decal/trimline/green,
 /turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"Sp" = (
+/obj/machinery/light/small/directional/west,
+/obj/structure/moisture_trap,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "SG" = (
 /obj/structure/chair/sofa/corp/corner{
@@ -1008,13 +1255,8 @@
 /turf/open/floor/eighties,
 /area/ruin/powered/beefcyto)
 "SN" = (
-/obj/machinery/button/door{
-	id = "migo door";
-	name = "migo door bolt";
-	normaldoorcontrol = 1;
-	specialfunctions = 4
-	},
-/turf/closed/wall/r_wall,
+/obj/effect/turf_decal/trimline/purple/filled/warning,
+/turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "Tw" = (
 /obj/structure/fence/corner{
@@ -1025,6 +1267,12 @@
 "Tx" = (
 /obj/structure/sign/warning/xeno_mining,
 /turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
+"Uf" = (
+/obj/effect/turf_decal/box/white{
+	color = "#9FED58"
+	},
+/turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "UH" = (
 /obj/structure/flora/ash/chilly,
@@ -1048,24 +1296,35 @@
 /area/ruin/powered/beefcyto)
 "Vk" = (
 /obj/structure/kitchenspike,
-/turf/open/floor/iron/kitchen_coldroom,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "Wk" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
-	dir = 4
+	dir = 5
 	},
 /obj/machinery/light{
 	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"WM" = (
+/obj/machinery/jukebox,
+/turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
 "WQ" = (
-/obj/structure/fence{
-	dir = 4
-	},
+/obj/structure/fence/door,
 /obj/structure/fans/tiny/invisible,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"Xs" = (
+/obj/machinery/button/door/directional/west{
+	id = "migo door";
+	name = "migo chamber bolts";
+	normaldoorcontrol = 1;
+	specialfunctions = 4
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/beefcyto)
 "Yc" = (
 /obj/machinery/microwave,
 /obj/structure/table/reinforced,
@@ -1075,13 +1334,14 @@
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "Yo" = (
-/obj/machinery/door/window/left/directional/east,
+/obj/machinery/door/window/left/directional/east{
+	name = "Pen"
+	},
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
 "YC" = (
 /obj/machinery/gibber,
-/obj/effect/decal/cleanable/blood,
-/turf/open/floor/iron/kitchen_coldroom,
+/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "YH" = (
 /obj/machinery/griddle,
@@ -1101,17 +1361,13 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "Zs" = (
-/obj/structure/closet/secure_closet/freezer/fridge{
-	req_access = null
-	},
-/obj/item/storage/box/papersack/meat,
+/obj/structure/closet/secure_closet/freezer/kitchen/all_access,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "ZX" = (
-/obj/structure/chair/sofa/corp/left{
-	dir = 4
-	},
-/mob/living/basic/pet/cat,
+/obj/item/storage/fancy/rollingpapers,
+/obj/structure/table/wood,
+/obj/item/lighter,
 /turf/open/floor/eighties,
 /area/ruin/powered/beefcyto)
 
@@ -1161,56 +1417,73 @@ Iz
 Iz
 Iz
 Iz
+Iz
+Iz
+Iz
+Iz
 "}
 (2,1,1) = {"
 Iz
 Iz
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
+tA
+lF
+ps
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
 Iz
 "}
 (3,1,1) = {"
 Iz
+rz
+ps
+ps
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
 tb
 tb
 tb
@@ -1242,22 +1515,22 @@ tb
 tb
 tb
 tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
 Iz
 "}
 (4,1,1) = {"
 Iz
+Iz
+Iz
+Iz
+Iz
+Iz
 tb
 tb
 tb
@@ -1295,16 +1568,18 @@ tb
 tb
 tb
 tb
-tb
-tb
-tb
-tb
-tb
-tb
+Iz
+Iz
+Iz
+Iz
+Iz
 Iz
 "}
 (5,1,1) = {"
 Iz
+Iz
+Iz
+Iz
 tb
 tb
 tb
@@ -1346,12 +1621,15 @@ tb
 tb
 tb
 tb
-tb
-tb
+Iz
+Iz
+Iz
 Iz
 "}
 (6,1,1) = {"
 Iz
+Iz
+Iz
 tb
 tb
 tb
@@ -1395,74 +1673,74 @@ tb
 tb
 tb
 tb
+Iz
+Iz
 Iz
 "}
 (7,1,1) = {"
 Iz
-tb
-tb
-tb
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
 Iz
 Iz
 tb
 tb
 tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+lF
+yD
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+Iz
 Iz
 "}
 (8,1,1) = {"
 Iz
-tb
-tb
-tb
 Iz
-LV
-yD
-yD
-aX
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
 yD
 yD
 yD
@@ -1475,17 +1753,27 @@ yD
 yD
 yD
 yD
+gh
+oW
 yD
 yD
 yD
 yD
-LV
 yD
 yD
 yD
 yD
-Ic
-Iz
+yD
+oW
+yD
+yD
+yD
+tb
+tb
+tb
+tb
+tb
+tb
 tb
 tb
 tb
@@ -1493,10 +1781,114 @@ Iz
 "}
 (9,1,1) = {"
 Iz
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+LV
+oW
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+oW
+yD
+gh
+yD
+yD
+yD
+yD
+oW
+yD
+yD
+tb
+tb
+tb
+tb
 tb
 tb
 tb
 Iz
+"}
+(10,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
+yD
+yD
+yD
+aX
+yD
+yD
+yD
+ps
+yD
+oW
+yD
+yD
+yD
+yD
+oW
+lF
+yD
+yD
+yD
+yD
+yD
+yD
+gh
+yD
+yD
+yD
+yD
+yD
+yD
+LV
+yD
+yD
+yD
+yD
+yD
+tb
+tb
+tb
+tb
+tb
+tb
+Iz
+"}
+(11,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
 yD
 Tw
 YW
@@ -1530,20 +1922,24 @@ pv
 pv
 yD
 yD
+ps
 yD
-yD
-Iz
+tb
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(10,1,1) = {"
+(12,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
@@ -1567,9 +1963,9 @@ Rp
 CJ
 yq
 UI
-Ds
+pv
 bM
-fj
+Hb
 qG
 fj
 fj
@@ -1579,101 +1975,9 @@ yD
 yD
 yD
 oW
-Iz
+yD
 tb
 tb
-tb
-Iz
-"}
-(11,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-yD
-mH
-yD
-pv
-pv
-pv
-pv
-pv
-pv
-pv
-yD
-yD
-LV
-yD
-yD
-pv
-uO
-uO
-uO
-uO
-uO
-uO
-De
-LA
-Rx
-nP
-nP
-nP
-nP
-gV
-pv
-yD
-yD
-yD
-LV
-Iz
-tb
-tb
-tb
-Iz
-"}
-(12,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-yD
-vA
-yD
-pv
-ag
-pv
-sZ
-pv
-uZ
-pv
-yD
-yD
-yD
-yD
-yD
-cP
-jX
-uO
-pv
-pv
-pv
-pv
-by
-pv
-jz
-nP
-nP
-nP
-nP
-eo
-pv
-yD
-yD
-yD
-yD
-Iz
 tb
 tb
 tb
@@ -1684,43 +1988,47 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
 yD
-vA
+yD
+mH
 yD
 pv
-xA
-SN
-jx
+pv
+pv
+pv
+pv
+pv
+pv
+pv
+yD
+LV
+yD
+yD
+pv
+De
+De
+De
+ol
+De
+De
+De
+BG
+lS
+Hb
+Rx
 DP
-kI
+DP
+gV
 pv
 yD
 yD
 yD
+LV
 yD
-yD
-pv
-Hd
-Ds
-pv
-bB
-bB
-bB
-gh
-sH
-GX
-nP
-nP
-nP
-nP
-eo
-pv
-PY
-yD
-yD
-oW
-Iz
+tb
+tb
 tb
 tb
 tb
@@ -1731,43 +2039,47 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
-Ic
-QD
-rc
-yT
-rc
-yT
-RF
+yD
 pv
+ag
+pv
+sZ
+pv
+uZ
+Ed
+pv
+ps
 yD
 yD
 yD
+cP
+jX
+Sa
 pv
 pv
 pv
-iB
-pg
 pv
+by
 pv
-pv
-bB
-nl
-sH
-LX
-nP
-nP
-nP
-nP
+jz
+SN
+Rx
+DP
+DP
 eo
 pv
 yD
+oW
 yD
 yD
 yD
-Iz
+tb
+tb
 tb
 tb
 tb
@@ -1778,43 +2090,47 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
 yD
-mH
-Ed
-fU
-yT
-yT
-MU
-dr
-yT
-fU
-Ed
+yD
+vA
 yD
 pv
+xA
 pv
-QC
-ut
-oM
-zc
-Jy
-op
+jx
+pv
+kI
+pv
+pv
+yD
+yD
+yD
+yD
+pv
+Hd
 pv
 pv
 bB
+bB
+bB
+bB
 sH
 GX
-nP
-nP
-nP
-nP
-gV
+SN
+Rx
+DP
+DP
+eo
 pv
-yD
-yD
-yD
 PY
-Iz
+yD
+le
+yA
+yD
+tb
+tb
 tb
 tb
 tb
@@ -1825,43 +2141,47 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
+Ic
+pv
+rc
+Xs
+yT
+nr
+RF
+pv
+wE
+yD
 yD
 pv
 pv
 pv
-Tx
+iB
+yF
 pv
 pv
 pv
-yD
-yD
+tK
+nl
 sH
-tA
-oM
-nP
-nP
-nP
-nP
-zc
-co
-sH
-bB
-sH
-pm
-nS
-Wk
-nS
-nS
-zv
+LX
+Jc
+Rx
+DP
+DP
+eo
 pv
 yD
+ps
 yD
+iM
 yD
-Ib
-Iz
+tb
+tb
 tb
 tb
 tb
@@ -1872,26 +2192,130 @@ Iz
 tb
 tb
 tb
+tb
+tb
+yD
+yD
+mH
+yD
+pv
+dr
+yT
+MU
+yT
+yT
+fU
+ra
+yD
+pv
+pv
+QC
+ut
+RZ
+nb
+Jy
+op
+pv
+pv
+bB
+sH
+HG
+SN
+Rx
+DP
+DP
+gV
+pv
+yD
+yD
+yD
+PY
+yD
+tb
+tb
+tb
+tb
+tb
 Iz
+"}
+(18,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+yD
 yD
 vA
 yD
-Ed
+pv
+pv
+pv
+Tx
+pv
+pv
+pv
+wE
 yD
-Ed
+pv
+gG
+oM
+It
+It
+nP
+It
+zc
+co
+pv
+bB
+sH
+pm
+SN
+Wk
+nS
+nS
+zv
+pv
 yD
-Ed
 yD
-Ed
+oW
+yD
+yD
+tb
+tb
+tb
+tb
+tb
+Iz
+"}
+(19,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+yD
+yD
+vA
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
 yD
 yD
 sH
 dH
 nP
-nP
+It
 Rd
 QA
-nP
+It
 nP
 ph
 sH
@@ -1907,19 +2331,23 @@ pv
 yD
 yD
 yD
+oW
 yD
-Iz
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(18,1,1) = {"
+(20,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 aX
 vA
 PY
@@ -1935,10 +2363,10 @@ yD
 sH
 UW
 nP
-nP
+It
 QA
 Ku
-nP
+It
 nP
 ve
 sH
@@ -1955,18 +2383,22 @@ yD
 yD
 yD
 yD
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(19,1,1) = {"
+(21,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 mH
 yD
@@ -1974,7 +2406,7 @@ yD
 yD
 yD
 yD
-yD
+iD
 yD
 yD
 yD
@@ -1982,10 +2414,10 @@ PY
 sH
 OK
 nP
-nP
+It
 Ea
 wf
-nP
+It
 nP
 Ek
 sH
@@ -2001,19 +2433,23 @@ pv
 yD
 yD
 yD
-oW
-Iz
+yD
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(20,1,1) = {"
+(22,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
@@ -2022,20 +2458,20 @@ yD
 yD
 yD
 PY
-yD
+zk
 CD
 yD
 yD
-sH
+pv
 pS
 Ef
-nP
-nP
-nP
-nP
+It
+It
+It
+It
 Lo
 zg
-sH
+pv
 bB
 pv
 uy
@@ -2043,31 +2479,35 @@ BL
 Kz
 sR
 bg
-Sn
+lb
 pv
 yD
+oW
 yD
 yD
 yD
-Iz
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(21,1,1) = {"
+(23,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
 yD
+ps
 yD
-yD
-yD
+tC
 yD
 yD
 yD
@@ -2077,8 +2517,8 @@ pv
 pv
 Nf
 mu
-Ef
-Lo
+zL
+tx
 fT
 jy
 pv
@@ -2096,24 +2536,28 @@ yD
 yD
 yD
 yD
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(22,1,1) = {"
+(24,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
 Pg
 yD
-yD
+AA
 yD
 yD
 yD
@@ -2124,12 +2568,12 @@ sY
 pv
 pv
 pv
-iB
+Uf
 pg
 pv
 pv
 pv
-bB
+tK
 bB
 sH
 cQ
@@ -2137,24 +2581,28 @@ Ay
 Kz
 tT
 nP
-us
+Sn
 pv
 yD
 yD
+ps
 yD
-oW
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(23,1,1) = {"
+(25,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 mH
 YW
@@ -2167,12 +2615,12 @@ pv
 pv
 pv
 pv
+sY
+GL
 bB
-bB
-ps
 pv
 Av
-Ds
+pv
 pv
 bB
 bB
@@ -2189,19 +2637,23 @@ pv
 yD
 UH
 yD
+oW
 yD
-Iz
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(24,1,1) = {"
+(26,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
@@ -2215,123 +2667,31 @@ oB
 xF
 sH
 bB
-bB
+nl
 bB
 cP
-jX
 uO
+Sp
 pv
 bB
 zQ
-bB
+Jf
 bB
 sH
-Mc
-Mc
-Mc
-Mc
-Mc
+Pc
+yl
+yl
+yl
+vY
 Sh
 pv
 yD
 yD
 yD
 yD
-Iz
+yD
 tb
 tb
-tb
-Iz
-"}
-(25,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-yD
-GG
-yD
-yD
-yD
-yD
-Ed
-sH
-nP
-aI
-Cc
-sH
-bB
-nl
-bB
-pv
-uO
-uO
-pv
-bB
-GL
-bB
-bB
-sH
-Mc
-ZX
-SG
-ol
-Mc
-Ag
-pv
-yD
-yD
-yD
-yD
-Iz
-tb
-tb
-tb
-Iz
-"}
-(26,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-yD
-vA
-yD
-yD
-ra
-pv
-pv
-pv
-vY
-aI
-yA
-pv
-pv
-pv
-pv
-pv
-eP
-uO
-pv
-bB
-bB
-bB
-bB
-NV
-xJ
-ta
-nt
-av
-Mc
-Sj
-pv
-yD
-yD
-yD
-yD
-Iz
 tb
 tb
 tb
@@ -2342,43 +2702,47 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
 yD
-vA
 yD
-Ed
-ra
-Io
-uO
-LA
+GG
+yD
+yD
+yD
+yD
+yD
+sH
 nP
 aI
-js
-LA
-uO
-eP
-uO
-Av
-jX
-gG
-pv
+Cc
+sH
 bB
-nl
-nl
+bB
+ps
+pv
+uO
+Ib
+pv
+ps
+GL
+bB
 bB
 sH
-Mc
-on
+ID
+ZX
+fg
+SG
 qP
-av
-Mc
-Mc
-pv
-pv
-pv
+Ag
 pv
 yD
-Iz
+yD
+yD
+yD
+yD
+tb
+tb
 tb
 tb
 tb
@@ -2389,7 +2753,9 @@ Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
@@ -2400,32 +2766,34 @@ pv
 pv
 PN
 aI
-yA
+js
 pv
 pv
 pv
 pv
 pv
-uO
-uO
+eP
+FS
 pv
+ps
+ps
 bB
 bB
-bB
-gh
-sH
-Mc
-Mc
-Mc
-Mc
-Mc
-Mc
-pW
-Pc
-AP
+NV
+xJ
+ta
+av
+nt
+qP
+Sj
 pv
 yD
-Iz
+yD
+yD
+yD
+yD
+tb
+tb
 tb
 tb
 tb
@@ -2436,43 +2804,47 @@ Iz
 tb
 tb
 tb
-Iz
-yD
-GG
-yD
+tb
+tb
 yD
 yD
+vA
 yD
-Ed
-sH
+yD
+ra
+Io
+uO
+Ms
 nP
 aI
-Cc
-sH
-yD
-yD
-yD
-pv
-EW
+js
+LA
 uO
+uO
+Re
+uO
+uO
+Ds
 pv
-pv
-pv
-pv
-pv
-pv
-Sh
+ps
+wX
+nl
+bB
+sH
+ID
+on
+av
+iI
+qP
 Mc
-Mc
-Js
-lg
-Yc
-NV
-It
-il
+pv
+pv
+pv
 pv
 yD
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
@@ -2483,7 +2855,111 @@ Iz
 tb
 tb
 tb
+tb
+tb
+yD
+yD
+vA
+yD
+yD
+wE
+pv
+pv
+pv
+PN
+aI
+js
+pv
+pv
+pv
+pv
+pv
+uO
+uO
+pv
+ps
+ps
+ps
+bB
+sH
+kt
+Pr
+Pr
+Pr
+GT
+Mc
+pW
+il
+AP
+pv
+yD
+yD
+tb
+tb
+tb
+tb
+tb
 Iz
+"}
+(31,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+yD
+yD
+GG
+yD
+yD
+ps
+yD
+yD
+sH
+nP
+aI
+Cc
+sH
+yD
+ps
+ps
+pv
+EW
+uO
+pv
+pv
+pv
+pv
+pv
+pv
+wA
+Mc
+WM
+Js
+lg
+Yc
+NV
+il
+il
+pv
+yD
+yD
+tb
+tb
+tb
+tb
+tb
+Iz
+"}
+(32,1,1) = {"
+Iz
+tb
+tb
+tb
+tb
+tb
+yD
 yD
 vA
 yD
@@ -2498,16 +2974,16 @@ Jl
 sH
 aX
 yD
-yD
+ps
 pv
 UI
 CM
 uO
 uO
+QD
 uO
 uO
-jX
-LA
+us
 Mc
 Mc
 Mc
@@ -2519,38 +2995,42 @@ oI
 lO
 pv
 yD
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(31,1,1) = {"
+(33,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
 yD
 yD
-yD
-yD
-pv
-pv
-pv
-pv
-pv
-yD
-yD
+ps
 yD
 pv
 pv
 pv
 pv
 pv
+yD
+yD
+yD
+pv
+pv
+sH
+sH
+sH
 pv
 pv
 pv
@@ -2563,21 +3043,25 @@ bk
 Zs
 NV
 Vk
-nx
+mj
 pv
 yD
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(32,1,1) = {"
+(34,1,1) = {"
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
+yD
 yD
 vA
 yD
@@ -2588,7 +3072,7 @@ bA
 vA
 yD
 yD
-yD
+oW
 yD
 yD
 yD
@@ -2610,21 +3094,25 @@ Cj
 Si
 NV
 YC
-mj
+il
 pv
 LV
-Iz
+yD
+tb
+tb
 tb
 tb
 tb
 Iz
 "}
-(33,1,1) = {"
+(35,1,1) = {"
+Iz
 Iz
 tb
 tb
 tb
-Iz
+tb
+tb
 LV
 Cu
 YW
@@ -2638,12 +3126,12 @@ yD
 yD
 yD
 yD
-yD
+ps
 LV
 yD
 yD
 yD
-yD
+oW
 yD
 yD
 yD
@@ -2660,101 +3148,9 @@ pv
 pv
 pv
 yD
-Iz
+yD
 tb
 tb
-tb
-Iz
-"}
-(34,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-yD
-Iz
-tb
-tb
-tb
-Iz
-"}
-(35,1,1) = {"
-Iz
-tb
-tb
-tb
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
-Iz
 tb
 tb
 tb
@@ -2762,43 +3158,47 @@ Iz
 "}
 (36,1,1) = {"
 Iz
+Iz
 tb
 tb
 tb
 tb
 tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+oW
+yD
+yD
+yD
+yD
+yD
+ps
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
 tb
 tb
 tb
@@ -2809,6 +3209,8 @@ Iz
 "}
 (37,1,1) = {"
 Iz
+Iz
+Iz
 tb
 tb
 tb
@@ -2817,31 +3219,33 @@ tb
 tb
 tb
 tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
-tb
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
+yD
 tb
 tb
 tb
@@ -2856,6 +3260,10 @@ Iz
 "}
 (38,1,1) = {"
 Iz
+Iz
+Iz
+tb
+tb
 tb
 tb
 tb
@@ -2903,6 +3311,9 @@ Iz
 "}
 (39,1,1) = {"
 Iz
+Iz
+Iz
+tb
 tb
 tb
 tb
@@ -2947,8 +3358,217 @@ tb
 tb
 tb
 Iz
+Iz
 "}
 (40,1,1) = {"
+Iz
+Iz
+Iz
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+Iz
+Iz
+Iz
+"}
+(41,1,1) = {"
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+Iz
+Iz
+Iz
+Iz
+"}
+(42,1,1) = {"
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+tb
+Iz
+Iz
+Iz
+Iz
+Iz
+bB
+zb
+Iz
+"}
+(43,1,1) = {"
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Iz
+Ci
+GL
+bB
+Iz
+"}
+(44,1,1) = {"
+Iz
+Iz
+Iz
+Iz
 Iz
 Iz
 Iz
