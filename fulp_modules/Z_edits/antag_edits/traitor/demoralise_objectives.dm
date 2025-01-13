@@ -5,7 +5,7 @@
 
 #define MAX_CREW_RATIO 0.33
 /// [Lowered MIN_CREW_DEMORALISED to account for lowpop.]
-#define MIN_CREW_DEMORALISED 8
+#define MIN_CREW_DEMORALISED 1
 #define MAX_CREW_DEMORALISED 16
 
 /datum/traitor_objective_category/demoralise
