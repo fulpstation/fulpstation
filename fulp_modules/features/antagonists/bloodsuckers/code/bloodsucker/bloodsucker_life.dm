@@ -220,7 +220,7 @@
 	owner.current.set_nutrition(min(bloodsucker_blood_volume, NUTRITION_LEVEL_FED))
 
 	//Entering and Exiting Frenzy, which depends on your Humanity level. Exiting requires +FRENZY_EXTRA_BLOOD_NEEDED than entering.
-	if(frenzied)
+	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
 		if(bloodsucker_blood_volume >= (frenzy_threshold + FRENZY_EXTRA_BLOOD_NEEDED))
 			owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	else
