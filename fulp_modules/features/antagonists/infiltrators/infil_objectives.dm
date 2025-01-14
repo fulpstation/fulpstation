@@ -163,15 +163,13 @@
 	shuffle_inplace(potential_targets)
 	
 	for(var/pet_path in possible_target_pets)
-		var/mob/living/potential_animal = locate(chosen_pet) in GLOB.mob_living_list
+		var/mob/living/potential_animal = locate(pet_path) in GLOB.mob_living_list
 		if(isnull(potential_animal) || HAS_TRAIT(potential_animal, TRAIT_GODMODE) || potential_animal.stat == DEAD)
 			continue
-		assign_target_pet(potential_animal)
+		assign_target_pet(new_target = potential_animal)
 		return
 
 /datum/objective/kill_pet/proc/assign_target_pet(atom/new_target)
-	SIGNAL_HANDLER
-
 	if(!isnull(target_pet))
 		UnregisterSignal(target_pet, COMSIG_QDELETING)
 
@@ -181,7 +179,11 @@
 	
 	target_pet = new_target
 	update_explanation_text()
-	RegisterSignal(target_pet, COMSIG_QDELETING, PROC_REF(assign_target_pet)) 
+	RegisterSignal(target_pet, COMSIG_QDELETING, PROC_REF(on_pet_delete)) 
+
+/datum/objective/kill_pet/proc/on_pet_delete()
+	SIGNAL_HANDLER
+	assign_target_pet(new_target = null)
 		
 /datum/objective/kill_pet/proc/remove_duplicate(list/possible_target_pets)
 	var/list/new_list = possible_target_pets.Copy()
