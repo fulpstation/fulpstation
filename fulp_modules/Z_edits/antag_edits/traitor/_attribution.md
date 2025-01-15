@@ -1,7 +1,9 @@
 # Notice
 
-The features contained within the 'demoralise_objectives.dm' and 'sleeper_protocol' files are not original: they are removed content from our upstream. Links to to the PRs which introduced
-these features and the GitHub pages of their developers are provided below.
+The features contained within the 'demoralise_objectives.dm' and 'sleeper_protocol' files are not original*: they are removed content from our upstream. Links to to the PRs which introduced
+these features and the GitHub pages of their original developers are provided in the "Links" section.
+
+*(though they may be slightly altered from their original forms)
 
 ## Links
 

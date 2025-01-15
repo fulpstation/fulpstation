@@ -4,7 +4,6 @@
 /// [DEMORALISATION PARENT DATUM] ///
 
 #define MAX_CREW_RATIO 0.33
-/// [Lowered MIN_CREW_DEMORALISED to account for lowpop.]
 #define MIN_CREW_DEMORALISED 1
 #define MAX_CREW_DEMORALISED 16
 
@@ -16,7 +15,6 @@
 		/datum/traitor_objective/target_player/assault = 1,
 		/datum/traitor_objective/destroy_item/demoralise = 1,
 	)
-	/// [Increased 'weight' from OBJECTIVE_WEIGHT_UNLIKELY to OBJECTIVE_WEIGHT_DEFAULT]
 
 /datum/traitor_objective/demoralise
 	name = "Debug your code."
@@ -35,7 +33,6 @@
 	return TRUE
 
 /datum/traitor_objective/demoralise/generate_objective(datum/mind/generating_for, list/possible_duplicates)
-	/// [Added this conditional to account for lowpop.]
 	var/crew_count = length(get_crewmember_minds())
 	if(crew_count <= 15)
 		demoralised_crew_required = floor(crew_count * 0.33) + 1
@@ -67,6 +64,7 @@
 
 
 /// [POSTER DEMORALISATION] ///
+
 /datum/traitor_objective/demoralise/poster
 	name = "Sow doubt among the crew %VIEWS% times using Syndicate propaganda."
 	description = "Use the button below to materialize a pack of posters, \
