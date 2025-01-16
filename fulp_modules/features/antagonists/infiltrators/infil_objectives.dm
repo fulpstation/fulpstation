@@ -162,7 +162,7 @@
 	var/list/potential_targets = remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
 	shuffle_inplace(potential_targets)
 	
-	for(var/pet_path in possible_targets)
+	for(var/pet_path in potential_targets)
 		var/mob/living/potential_animal = locate(pet_path) in GLOB.mob_living_list
 		if(isnull(potential_animal) || HAS_TRAIT(potential_animal, TRAIT_GODMODE) || potential_animal.stat == DEAD)
 			continue
