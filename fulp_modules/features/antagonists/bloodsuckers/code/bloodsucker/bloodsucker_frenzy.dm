@@ -25,8 +25,8 @@
 /atom/movable/screen/alert/status_effect/frenzy
 	name = "Frenzy"
 	desc = "You are in a frenzy! You are entirely feral and, depending on your clan, fighting for your life!"
-	icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
-	icon_state = "power_recover"
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_status_effects.dmi'
+	icon_state = "frenzy"
 	alerttooltipstyle = "cult"
 
 /datum/status_effect/frenzy
@@ -39,9 +39,12 @@
 	var/was_tooluser = FALSE
 	/// The stored Bloodsucker antag datum
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum
+	///Boolean indicating whether or not the owner is part of the Brujah clan
+	///Used in passive burn damage calculation
+	var/brujah = FALSE
 
 /datum/status_effect/frenzy/get_examine_text()
-	return span_notice("They seem inhuman and feral!")
+	return span_cult_italic("They seem inhuman and feral!")
 
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
@@ -69,9 +72,14 @@
 	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 	if(user.handcuffed || user.legcuffed)
+		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, 1, -1)
 		user.clear_cuffs(cuffs, TRUE)
 		user.clear_cuffs(legcuffs, TRUE)
 	bloodsuckerdatum.frenzied = TRUE
+
+	// Determine if the owner is part of the Brujah clan
+	if(istype(bloodsuckerdatum.my_clan, /datum/bloodsucker_clan/brujah))
+		brujah = TRUE
 	return ..()
 
 /datum/status_effect/frenzy/on_remove()
@@ -93,4 +101,16 @@
 	var/mob/living/carbon/human/user = owner
 	if(!bloodsuckerdatum.frenzied)
 		return
-	user.adjustFireLoss(1.5 + (bloodsuckerdatum.humanity_lost / 10))
+	//Passively accumulate burn damage (Bloodsuckers can't survive on low blood forever).
+	//Humanity loss is supposed to be a bad thing for Bloodsuckers so it adds to this damage.
+	//Brujah Bloodsuckers start with a lot of lost humanity so we give them a bit of leeway.
+	user.adjustFireLoss(1.5 + (brujah ? 1 : (bloodsuckerdatum.humanity_lost / 10)))
+	if(prob(30))
+		user.do_jitter_animation(300)
+		return
+	if(prob(10))
+		user.emote("tremble")
+		return
+	if(prob(5))
+		user.emote("screech")
+		return
