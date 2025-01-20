@@ -57,8 +57,9 @@
 /datum/vote/public_mats_vote/initiate_vote(initiator, duration)
 	. = ..()
 	priority_announce("Attention [station_name()], our automated manifest processing system indicates \
-		that your crew is qualified to receive a small mineral supply package. Transcendental thought \
-		pattern analysis will now begin so as to quickly determine their opinion on this offer.", \
+		that you are qualified to receive a small mineral supply package in exchange for slightly \
+		increased profit quotas at the end of this quarter. Transcendental thought pattern analysis \
+		will now begin so as to quickly determine your crew's opinion on this offer.", \
 		"[command_name()] Department of Understaffed Station Logistics", 'sound/announcer/announcement/announce_dig.ogg', \
 		has_important_message = TRUE)
 
