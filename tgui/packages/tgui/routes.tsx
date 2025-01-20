@@ -101,7 +101,7 @@ export const getRoutedComponent = () => {
 };
 
 // Fulp edit - Adding our Interfaces to the list of UIs that are read.
-const requireFulpInterface = require.context('../fulpui-patches');
+const requireFulpInterface = require.context('./fulpui-patches');
 const getComponent = (interfacePath) => {
   let esModule = null;
 
