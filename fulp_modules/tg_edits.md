@@ -12,6 +12,8 @@
 
 - tgstation.dme > Adds our files to be included when compiling
 
+- several removed objectives from /tg/ have been readded; see 'fulp_modules\Z_edits\antag_edits\traitor'
+
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
 
 - .github\workflows\compile_changelogs.yml > Same as above.
