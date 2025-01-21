@@ -39,7 +39,7 @@
 
 	funky_turfs = RANGE_TURFS(1, owner)
 	for(var/turf/closed/solid in funky_turfs)
-		to_chat(owner, span_warning("You're too close to a wall to case [src]."))
+		to_chat(owner, span_warning("You're too close to a wall to cast [src]."))
 		return SPELL_CANCEL_CAST
 
 /datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
