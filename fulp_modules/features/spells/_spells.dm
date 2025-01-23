@@ -33,11 +33,11 @@
 
 /datum/action/cooldown/spell/summon_dancefloor/before_cast(atom/cast_on)
 	. = ..()
-	if(!isturf(owner.loc))
-		to_chat(owner, span_warning("You need to be on an open floor to cast [src]."))
+	if(!get_turf(owner))
+		to_chat(owner, span_warning("You can't cast [src] here!"))
 		return SPELL_CANCEL_CAST
 
-	funky_turfs = RANGE_TURFS(1, owner)
+	funky_turfs = RANGE_TURFS(1, get_turf(owner))
 	for(var/turf/closed/solid in funky_turfs)
 		to_chat(owner, span_warning("You're too close to a wall to cast [src]."))
 		return SPELL_CANCEL_CAST
