@@ -112,6 +112,11 @@
 			antennae.Remove(humanoid, special = TRUE)
 			qdel(antennae)
 
+		var/obj/item/organ/tail = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
+		if(tail)
+			tail.Remove(humanoid, special = TRUE)
+			qdel(tail)
+
 		purrbation_apply(humanoid, TRUE)
 
 		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))
