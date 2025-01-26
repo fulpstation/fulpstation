@@ -62,6 +62,40 @@
 	target.extinguish() //Just in case it lit them on fire...
 	new /obj/effect/temp_visual/cateor_hit(get_turf(target))
 
+/**
+ * 'purrbation_apply()' removes the external spines on mobs that it hits, but it
+ * doesn't do so properly. Spines are also just one external organ of many that we
+ * need to remove prior to giving our target cat organs.
+ *
+ * This proc properly removes all relevant external organs from our cateor's target
+ * using 'mob_remove()' rather than 'Remove()', which is used by 'purrbation_apply()'.
+*/
+/obj/effect/meteor/cateor/proc/remove_relevant_organs(mob/living/carbon/target)
+	var/obj/item/organ/spines/current_spines = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_SPINES)
+	if(current_spines)
+		current_spines.mob_remove(target, special = TRUE)
+		qdel(current_spines)
+
+	var/obj/item/organ/horns/current_horns = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_HORNS)
+	if(current_horns)
+		current_horns.mob_remove(target, special = TRUE)
+		qdel(current_horns)
+
+	var/obj/item/organ/frills/current_frilles = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_FRILLS)
+	if(current_frilles)
+		current_frilles.mob_remove(target, special = TRUE)
+		qdel(current_frilles)
+
+	var/obj/item/organ/tail/current_tail = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
+	if(current_tail)
+		current_tail.mob_remove(target, special = TRUE)
+		qdel(current_tail)
+
+	var/obj/item/organ/antennae/current_antennae = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
+	if(current_antennae)
+		current_antennae.mob_remove(target, special = TRUE)
+		qdel(current_antennae)
+
 /obj/effect/meteor/cateor/Bump(mob/living/target)
 	//Callback after 1.25 deciseconds to account for the possibility of explosion moving the target.
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cateor_hit_effects), target), 1.25)
@@ -106,30 +140,7 @@
 
 		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 
-		// Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
-		var/obj/item/organ/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
-		if(antennae)
-			antennae.Remove(humanoid, special = TRUE)
-			qdel(antennae)
-
-		// Remove horns if present.
-		var/obj/item/organ/horns = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_HORNS)
-		if(horns)
-			horns.Remove(humanoid, special = TRUE)
-			qdel(horns)
-
-		// Remove frills if present.
-		var/obj/item/organ/frills = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_FRILLS)
-		if(frills)
-			frills.Remove(humanoid, special = TRUE)
-			qdel(frills)
-
-		// Remove tails if present.
-		var/obj/item/organ/tail = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
-		if(tail)
-			tail.Remove(humanoid, special = TRUE)
-			qdel(tail)
-
+		remove_relevant_organs(humanoid)
 		purrbation_apply(humanoid, TRUE)
 
 		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))
