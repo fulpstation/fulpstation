@@ -106,12 +106,25 @@
 
 		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 
-		//Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
+		// Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
 		var/obj/item/organ/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
 		if(antennae)
 			antennae.Remove(humanoid, special = TRUE)
 			qdel(antennae)
 
+		// Remove horns if present.
+		var/obj/item/organ/horns = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_HORNS)
+		if(horns)
+			horns.Remove(humanoid, special = TRUE)
+			qdel(horns)
+
+		// Remove frills if present.
+		var/obj/item/organ/frills = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_FRILLS)
+		if(frills)
+			frills.Remove(humanoid, special = TRUE)
+			qdel(frills)
+
+		// Remove tails if present.
 		var/obj/item/organ/tail = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
 		if(tail)
 			tail.Remove(humanoid, special = TRUE)
