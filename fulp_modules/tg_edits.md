@@ -22,6 +22,8 @@
 
 - code\modules\client\preferences.dm > Marked by a "FULP EDIT" comment; gives clients the 'last_fulp_changelog' var.
 
+- interface\interface.dm > Changes the value of 'name' on '/client/verb/changelog' to "/TG/ Changelog"
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines

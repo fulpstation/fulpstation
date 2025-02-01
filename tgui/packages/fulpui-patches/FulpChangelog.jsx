@@ -190,18 +190,18 @@ export class FulpChangelog extends Component {
         <p>
           <b>Please note: </b>
           this changelog would not be possible without the groundwork laid by
-          /tg/station's contributors and so many others. Aside from its actual,
-          logged content, this changelog is an almost identical copy of
-          /tg/station's, which can currently be found in the OOC tab under
-          "/tg/station changelog".
+          /tg/station's contributors and so many others. Aside from its logged
+          content, this changelog is an almost identical copy of /tg/station's,
+          which can currently be found in the OOC tab under the "/TG/ Changelog"
+          verb.
         </p>
         <p>
           <b>Thanks to: </b>
           /tg/station, Baystation 12, /vg/station, NTstation, CDK Station devs,
           FacepunchStation, GoonStation devs, the original Space Station 13
-          developers, GitHub user celotajstg for the TGUI interface behind this
-          changelog, and countless others who have contributed to the game,
-          issue tracker or wiki over the years.
+          developers, GitHub user celotajstg for adapting this changelog into
+          TGUI, and countless others who have contributed to the game, issue
+          tracker or wiki over the years.
         </p>
         <p>
           {'Recent GitHub contributors can be found '}
@@ -211,7 +211,9 @@ export class FulpChangelog extends Component {
           .
         </p>
         <p>
-          {'You can also find a link to our discord '}
+          {
+            'You can also find a link to our discord at the front page of our wiki'
+          }
           <a href="https://wiki.fulp.gg/"> here</a>.
         </p>
         {dateDropdown}

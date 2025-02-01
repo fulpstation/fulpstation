@@ -2,12 +2,12 @@
 //         Fulpstation's Changelog         //
 //-----------------------------------------//
 
-/**
+/***
  * This file contains all DM code related to Fulpstation's changelog.
  *
  * Most of this is just a very rough copying of existing /tg/ code with "fulp" appended to it,
- * so credit for all of it goes to the person who made /tg/'s changelog—
- */
+ * so credit for all of it goes to the various people who made /tg/'s changelog.
+ **/
 
 
 /// FULP CHANGELOG DATUM ///
@@ -49,9 +49,10 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 	return data
 
 
-/// FULP CHANGELOG VERB ///
+/// CHANGELOG VERB ///
+
 /client/verb/fulp_changelog()
-	set name = "Fulpstation Changelog"
+	set name = "Changelog"
 	set category = "OOC"
 	if(!GLOB.fulp_changelog_tgui)
 		GLOB.fulp_changelog_tgui = new /datum/fulp_changelog()
