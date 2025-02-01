@@ -32,17 +32,17 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 	if(.)
 		return
 	if(action == "get_month")
-		var/datum/asset/fulp_changelog_item/changelog_item = fulp_changelog_items[params["date"]]
-		if (!changelog_item)
-			changelog_item = new /datum/asset/fulp_changelog_item(params["date"])
-			fulp_changelog_items[params["date"]] = changelog_item
-		return ui.send_asset(changelog_item)
+		var/datum/asset/fulp_changelog_item/fulp_changelog_item = fulp_changelog_items[params["date"]]
+		if (!fulp_changelog_item)
+			fulp_changelog_item = new /datum/asset/fulp_changelog_item(params["date"])
+			fulp_changelog_items[params["date"]] = fulp_changelog_item
+		return ui.send_asset(fulp_changelog_item)
 
 /datum/fulp_changelog/ui_static_data()
 	var/list/data = list( "dates" = list() )
 	var/regex/ymlRegex = regex(@"\.yml", "g")
 
-	for(var/archive_file in sort_list(flist("fulp_modules/data/html/changelogs/archive")))
+	for(var/archive_file in sort_list(flist("fulp_modules/data/html/changelogs/archive/")))
 		var/archive_date = ymlRegex.Replace(archive_file, "")
 		data["dates"] = list(archive_date) + data["dates"]
 
@@ -57,8 +57,8 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 		GLOB.fulp_changelog_tgui = new /datum/fulp_changelog()
 
 	GLOB.fulp_changelog_tgui.ui_interact(mob)
-	if(prefs.lastchangelog != GLOB.fulp_changelog_hash)
-		prefs.lastchangelog = GLOB.fulp_changelog_hash
+	if(prefs.last_fulp_changelog != GLOB.fulp_changelog_hash)
+		prefs.last_fulp_changelog = GLOB.fulp_changelog_hash
 		prefs.save_preferences()
 		winset(src, "infowindow.changelog", "font-style=;")
 

@@ -18,7 +18,10 @@
 
 - .github\workflows\compile_changelogs.yml > Same as above.
 
-- code\game\world.dm > Marked by a "FULP EDIT" comment: copies a bit of code to make 'GLOB.fulp_changelog_hash' functional.
+- code\game\world.dm > Marked by a "FULP EDIT" comment; copies a bit of code to make 'GLOB.fulp_changelog_hash' functional.
+
+- code\modules\client\preferences.dm > Marked by a "FULP EDIT" comment; gives clients the 'last_fulp_changelog' var.
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines

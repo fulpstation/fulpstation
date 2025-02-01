@@ -188,12 +188,20 @@ export class FulpChangelog extends Component {
       <Section>
         <h1>Fulpstation</h1>
         <p>
+          <b>Please note: </b>
+          this changelog would not be possible without the groundwork laid by
+          /tg/station's contributors and so many others. Aside from its actual,
+          logged content, this changelog is an almost identical copy of
+          /tg/station's, which can currently be found in the OOC tab under
+          "/tg/station changelog".
+        </p>
+        <p>
           <b>Thanks to: </b>
           /tg/station, Baystation 12, /vg/station, NTstation, CDK Station devs,
           FacepunchStation, GoonStation devs, the original Space Station 13
-          developers, for the everything behind this changelog and the countless
-          others who have contributed to the game, issue tracker or wiki over
-          the years.
+          developers, GitHub user celotajstg for the TGUI interface behind this
+          changelog, and countless others who have contributed to the game,
+          issue tracker or wiki over the years.
         </p>
         <p>
           {'Recent GitHub contributors can be found '}
