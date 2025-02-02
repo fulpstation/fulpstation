@@ -205,6 +205,8 @@
 	if(!can_embed_trap(user) || !payload.force_embed(user, user.get_active_hand()))
 		visible_message(span_notice("A [payload.name] falls from behind the poster.") )
 		payload.forceMove(user.drop_location())
+	else
+		SEND_SIGNAL(src, COMSIG_POSTER_TRAP_SUCCEED, user)
 
 /obj/structure/sign/poster/proc/can_embed_trap(mob/living/carbon/human/user)
 	if (!istype(user) || HAS_TRAIT(user, TRAIT_PIERCEIMMUNE))

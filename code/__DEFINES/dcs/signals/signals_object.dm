@@ -500,6 +500,9 @@
 #define COMSIG_SPEED_POTION_APPLIED "speed_potion"
 	#define SPEED_POTION_STOP (1<<0)
 
+/// from /obj/structure/sign/poster/trap_succeeded() : (mob/user)
+#define COMSIG_POSTER_TRAP_SUCCEED "poster_trap_succeed"
+
 /// from /obj/item/detective_scanner/scan(): (mob/user, list/extra_data)
 #define COMSIG_DETECTIVE_SCANNED "det_scanned"
 
