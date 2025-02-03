@@ -1,9 +1,9 @@
 /datum/action/cooldown/bloodsucker
 	name = "Vampiric Gift"
 	desc = "A vampiric gift."
-	background_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	background_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
 	background_icon_state = "vamp_power_off"
-	button_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/actions_bloodsucker.dmi'
+	button_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE
@@ -43,9 +43,9 @@
 /datum/action/cooldown/bloodsucker/New(Target)
 	. = ..()
 	if(bloodcost > 0)
-		desc += "<br><br><b>COST:</b> [bloodcost] Blood"
+		desc += "<br><br><b>COST:</b> [bloodcost] blood"
 	if(constant_bloodcost > 0)
-		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] Blood maintain active.</i>"
+		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] blood maintain active.</i>"
 	if(power_flags & BP_AM_SINGLEUSE)
 		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
 
@@ -113,7 +113,7 @@
 		return FALSE
 	// Frenzy?
 	if((check_flags & BP_CANT_USE_IN_FRENZY) && (bloodsuckerdatum_power?.frenzied))
-		to_chat(user, span_warning("You cannot use powers while in a Frenzy!"))
+		to_chat(user, span_warning("You cannot use powers while in a frenzy!"))
 		return FALSE
 	// Stake?
 	if((check_flags & BP_CANT_USE_WHILE_STAKED) && user.am_staked())
@@ -124,7 +124,7 @@
 		to_chat(user, span_warning("You can't do this while you are unconcious!"))
 		return FALSE
 	// Incapacitated?
-	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (user.incapacitated(IGNORE_RESTRAINTS, IGNORE_GRAB)))
+	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (user.incapacitated))
 		to_chat(user, span_warning("Not while you're incapacitated!"))
 		return FALSE
 	// Constant Cost (out of blood)
@@ -133,17 +133,21 @@
 			if(bloodsuckerdatum_power.bloodsucker_blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
-			else if(user.blood_volume <= 0)
+		else
+			if(user.blood_volume <= 0)
 				to_chat(user, span_warning("You don't have the blood to upkeep [src]."))
 				return FALSE
 	return TRUE
 
-/// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 /datum/action/cooldown/bloodsucker/StartCooldown()
-	// Calculate Cooldown (by power's level)
+	// Check for power flags first
+	if(!power_flags)
+		return
 	if(power_flags & BP_AM_STATIC_COOLDOWN)
 		cooldown_time = initial(cooldown_time)
-	else
+	if(power_flags & !BP_AM_VERY_DYNAMIC_COOLDOWN) // If this is TRUE then 'cooldown_time' doesn't need to be altered.
+		// Calculate Cooldown (by power's level)
+		// NOTE: With this formula, you'll hit half cooldown at level 8 for that power.
 		cooldown_time = max(initial(cooldown_time) / 2, initial(cooldown_time) - (initial(cooldown_time) / 16 * (level_current-1)))
 
 	return ..()
@@ -164,7 +168,7 @@
 	// Bloodsuckers in a Frenzy don't have enough Blood to pay it, so just don't.
 	if(bloodsuckerdatum_power.frenzied)
 		return
-	bloodsuckerdatum_power.bloodsucker_blood_volume -= bloodcost
+	bloodsuckerdatum_power.AddBloodVolume(-bloodcost)
 	bloodsuckerdatum_power.update_hud()
 
 /datum/action/cooldown/bloodsucker/proc/ActivatePower(trigger_flags)

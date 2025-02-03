@@ -5,6 +5,8 @@
 
 ///The default amount of nanite research points to generate per person per tick, if unmodified.
 #define NANITE_BASE_RESEARCH 1.5
+///The factor by which we multiply node costs to balance the higher production of nanite points compared to general points.
+#define NANITE_POINT_CONVERSION_RATE 10
 ///The chance at a Nanite program randomly failing when it cannot sync
 #define NANITE_FAILURE_CHANCE 8
 ///The max amount of nanite programs you can have in a cloud at once.
@@ -127,7 +129,7 @@
 	STOP_PROCESSING(SSnanites, src)
 	QDEL_LIST(programs)
 	if(host_mob)
-		host_mob.hud_set_nanite_indicator()
+		host_mob.hud_set_nanite_indicator(remove = TRUE)
 		set_nanite_bar(remove = TRUE)
 	host_mob = null
 	linked_techweb = null
@@ -148,14 +150,14 @@
 		if(cloud_id && world.time > next_sync)
 			cloud_sync()
 			next_sync = world.time + NANITE_SYNC_DELAY
-	set_nanite_bar(remove = FALSE)
+	set_nanite_bar()
 
 /datum/component/nanites/proc/delete_nanites()
 	SIGNAL_HANDLER
 
 	qdel(src)
 
-//Syncs the nanite component to another, making it so programs are the same with the same programming (except activation status)
+///Syncs the nanite component to another, making it so programs are the same with the same programming (except activation status)
 /datum/component/nanites/proc/sync(datum/signal_source, datum/component/nanites/source, full_overwrite = TRUE, copy_activation = FALSE)
 	SIGNAL_HANDLER
 
@@ -272,11 +274,11 @@
 	for(var/datum/nanite_program/all_program as anything in programs)
 		all_program.on_death(gibbed)
 
-/datum/component/nanites/proc/receive_signal(datum/source, code, source = "an unidentified source")
+/datum/component/nanites/proc/receive_signal(datum/source, code, signal_source = "an unidentified source")
 	SIGNAL_HANDLER
 
 	for(var/datum/nanite_program/all_program as anything in programs)
-		all_program.receive_signal(code, source)
+		all_program.receive_signal(code, signal_source)
 
 /datum/component/nanites/proc/receive_comm_signal(datum/source, comm_code, comm_message, comm_source = "an unidentified source")
 	SIGNAL_HANDLER
@@ -305,7 +307,7 @@
 	if(locked_object.check_access_list(all_access))
 		return ACCESS_ALLOWED
 
-	return ACCESS_DISALLOWED
+	return
 
 /datum/component/nanites/proc/set_volume(datum/source, amount)
 	SIGNAL_HANDLER

@@ -1,7 +1,6 @@
-import { multiline } from 'common/string';
+import { Button, Section } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
-import { Button, Section } from '../../components';
 import { SOUNDS } from './constants';
 import { PodLauncherData } from './types';
 
@@ -18,7 +17,7 @@ export function PodSounds(props) {
           onClick={() => act('soundVolume')}
           selected={soundVolume !== defaultSoundVolume}
           tooltip={
-            multiline`
+            `
             Sound Volume:` + soundVolume
           }
         />

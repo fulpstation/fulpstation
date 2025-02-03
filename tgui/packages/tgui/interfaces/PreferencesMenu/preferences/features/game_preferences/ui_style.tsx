@@ -1,6 +1,6 @@
-import { classes } from 'common/react';
+import { Box, Dropdown, Stack } from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
 
-import { Box, Dropdown, Stack } from '../../../../../components';
 import {
   FeatureChoiced,
   FeatureChoicedServerData,
@@ -46,7 +46,6 @@ const UIStyleInput = (
     <Dropdown
       selected={value}
       clipSelectedText={false}
-      displayText={choices[value]}
       onSelected={props.handleSetValue}
       width="100%"
       options={sortChoices(Object.entries(choices)).map(

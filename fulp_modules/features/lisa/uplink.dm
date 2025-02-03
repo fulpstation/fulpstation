@@ -13,7 +13,7 @@
 	martial_name = "velvet-fu"
 	uses = 1
 	desc = "A VHS tape labelled 'Grand-Master's Course'. This seems modified, causing it to beam the content straight into your eyes."
-	icon = 'fulp_modules/features/lisa/icons/casette.dmi'
+	icon = 'fulp_modules/icons/lisa/casette.dmi'
 	icon_state = "velvet"
 	greet = "You've finished watching the Velvet-Fu VHS tape."
 	remarks = list(

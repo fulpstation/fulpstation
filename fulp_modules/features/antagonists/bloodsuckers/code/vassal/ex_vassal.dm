@@ -11,7 +11,7 @@
 	show_in_antagpanel = FALSE
 	silent = TRUE
 	ui_name = FALSE
-	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
+	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'
 
 	///The revenge vassal that brought us into the fold.
 	var/datum/antagonist/vassal/revenge/revenge_vassal
@@ -75,11 +75,11 @@
 	SIGNAL_HANDLER
 
 	if(COOLDOWN_TIMELEFT(src, blood_timer) <= BLOOD_TIMER_HALWAY + 2 && COOLDOWN_TIMELEFT(src, blood_timer) >= BLOOD_TIMER_HALWAY - 2) //just about halfway
-		to_chat(owner.current, span_cultbold("You need new blood from your Master!"))
+		to_chat(owner.current, span_cult_bold("You need new blood from your master!"))
 	if(!COOLDOWN_FINISHED(src, blood_timer))
 		return
-	to_chat(owner.current, span_cultbold("You are out of blood!"))
-	to_chat(revenge_vassal.owner.current, span_cultbold("[owner.current] has ran out of blood and is no longer in the fold!"))
+	to_chat(owner.current, span_cult_bold("You are out of blood!"))
+	to_chat(revenge_vassal.owner.current, span_cult_bold("[owner.current] has ran out of blood and is no longer in the fold!"))
 	owner.remove_antag_datum(/datum/antagonist/ex_vassal)
 
 
@@ -94,7 +94,7 @@
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)
 	if(former_vassal)
-		to_chat(exposed_mob, span_cult("You feel the blood restore you... You feel safe."))
+		to_chat(exposed_mob, span_cult("You feel the blood restore you... you feel safe."))
 		COOLDOWN_RESET(former_vassal, blood_timer)
 		COOLDOWN_START(former_vassal, blood_timer, BLOOD_TIMER_REQUIREMENT)
 	return ..()

@@ -1,8 +1,5 @@
 import { storage } from 'common/storage';
-import { createUuid } from 'common/uuid';
 import { useEffect, useState } from 'react';
-
-import { useBackend } from '../../backend';
 import {
   Button,
   Divider,
@@ -10,7 +7,10 @@ import {
   NumberInput,
   Section,
   Stack,
-} from '../../components';
+} from 'tgui-core/components';
+import { createUuid } from 'tgui-core/uuid';
+
+import { useBackend } from '../../backend';
 import { POD_GREY } from './constants';
 import { PodLauncherData } from './types';
 
@@ -123,10 +123,9 @@ export function PresetsPage(props) {
             <span color="label"> Hue: </span>
             <NumberInput
               animated
-              inline
               maxValue={360}
               minValue={0}
-              onChange={(e, value) => setHue(value)}
+              onChange={(value) => setHue(value)}
               step={5}
               stepPixelSize={5}
               value={hue}
@@ -156,7 +155,7 @@ export function PresetsPage(props) {
                   borderStyle: 'solid',
                   borderColor: `hsl(${preset.hue}, 80%, 80%)`,
                 }
-              : ''
+              : {}
           }
           width="100%"
         >

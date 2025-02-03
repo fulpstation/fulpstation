@@ -1,10 +1,10 @@
 /mob/living/basic/gorilla/albino
 	name = "albino gorilla"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/gorilla.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/gorilla.dmi'
 	maxHealth = 170
 	health = 170
 
-/mob/living/basic/gorilla/Initialize(mapload)
+/mob/living/basic/gorilla/albino/Initialize(mapload)
 	var/datum/action/cooldown/mob_cooldown/charge/gorilla/tackle = new(src)
 	tackle.Grant(src)
 	var/datum/action/cooldown/spell/conjure/banana/trap = new(src)
@@ -25,7 +25,7 @@
 	return
 
 /datum/action/cooldown/mob_cooldown/charge/gorilla/Activate(atom/target_atom)
-	playsound(owner, 'sound/creatures/gorilla.ogg', 200, 1)
+	playsound(owner, 'sound/mobs/non-humanoids/gorilla/gorilla.ogg', 200, 1)
 	return ..()
 
 /**
@@ -34,7 +34,7 @@
 /datum/action/cooldown/spell/conjure/banana
 	name = "Monke Spin"
 	desc = "Throw slippery traps all around you."
-	sound = 'sound/creatures/gorilla.ogg'
+	sound = 'sound/mobs/non-humanoids/gorilla/gorilla.ogg'
 
 	school = SCHOOL_CONJURATION
 	cooldown_time = 30 SECONDS
@@ -61,7 +61,7 @@
 	name = "Muddied Waters"
 	damage = 10
 	damage_type = BRUTE
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "trench_mud"
 
 
@@ -73,8 +73,6 @@
 		mob_target.set_eye_blur_if_lower(10 SECONDS)
 		mob_target.visible_message(span_warning("[mob_target] is muddied by [src]!"), span_userdanger("You've been muddied by [src]!"))
 		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
-		if(ishuman(mob_target))
-			target.AddComponent(/datum/component/creamed/gorilla, src)
 
 /**
  * Mud throw ability
@@ -88,30 +86,6 @@
 	active_msg = "You dig the soil up."
 	deactive_msg = "You throw the mud."
 	projectile_type = /obj/projectile/mud
-	button_icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	button_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	button_icon_state = "trench_mud"
 
-/**
- * Cream component
- * This sucks ass
- */
-/datum/component/creamed/gorilla
-
-/datum/component/creamed/gorilla/Initialize()
-	SEND_SIGNAL(parent, COMSIG_MOB_CREAMED)
-	bodypart_overlay = new /datum/bodypart_overlay/simple/muddied()
-
-	var/mob/living/carbon/human/man = parent
-	if(man.bodytype & BODYTYPE_SNOUTED)
-		bodypart_overlay.icon_state = "muddied_lizard"
-	else if(man.bodytype & BODYTYPE_MONKEY)
-		bodypart_overlay.icon_state = "muddied_monkey"
-	else
-		bodypart_overlay.icon_state = "muddied_human"
-
-	var/atom/atom = parent
-	atom.add_overlay(normal_overlay)
-
-/datum/bodypart_overlay/simple/muddied
-	icon_state = "muddied_human"
-	layers = EXTERNAL_FRONT

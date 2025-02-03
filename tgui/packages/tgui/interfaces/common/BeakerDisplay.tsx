@@ -1,14 +1,15 @@
-import { BooleanLike } from '../../../common/react';
-import { useBackend } from '../../backend';
 import {
   AnimatedNumber,
   Box,
   Button,
   LabeledList,
   Section,
-} from '../../components';
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
-type BeakerReagent = {
+import { useBackend } from '../../backend';
+
+export type BeakerReagent = {
   name: string;
   volume: number;
 };
@@ -55,7 +56,8 @@ export const BeakerDisplay = (props: BeakerProps) => {
       </LabeledList.Item>
       <LabeledList.Item label="Contents">
         <Box color="label">
-          {(!beaker && 'N/A') || (beakerContents.length === 0 && 'Nothing')}
+          {(!title_label && !beaker && 'N/A') ||
+            (beakerContents.length === 0 && 'Nothing')}
         </Box>
         {beakerContents.map((chemical) => (
           <Box key={chemical.name} color="label">

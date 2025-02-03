@@ -10,14 +10,14 @@
 	job_rank = ROLE_BLOODSUCKER
 	antag_hud_name = "vassal"
 	show_in_roundend = FALSE
-	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
+	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Vassal, enslaved to your Vampiric Master, you obey their instructions above all else.",
-		"You have the ability tp Recuperate, allowing you to heal at the exchange of your own Blood.",
-		"Fear Mindshields! You will get deconverted if you get mindshielded, resist them at all costs!",
-		"Help ensure your Master is safe from Daylight! Solar flares will bombard the station periodically, and if your Master is exposed, they will burn alive.",
-		"Your Master can optionally upgrade you into the Favorite Vassal. Depending on their Clan, you will get different benefits.",
+		"You are a Vassal. Enthralled by your vampiric master, you must obey their instructions above all else.",
+		"You have the ability to Recuperate, allowing you to heal at the cost of your blood, your master's blood, and some of your stamina.",
+		"Fear mindshield implants! You will get deconverted if you get mindshielded, resist them at all costs!",
+		"Help ensure your master is safe from daylight! Solar flares will bombard the station periodically, and if your master is exposed, they will burn alive.",
+		"Your master can optionally upgrade you into the Favorite Vassal. Depending on their clan, you will get different benefits.",
 	)
 
 	/// The Master Bloodsucker's antag datum.
@@ -28,6 +28,8 @@
 	var/special_type = FALSE
 	///Description of what this Vassal does.
 	var/vassal_description
+	/// Whether or not this Vassal's antag status is removed on the death of their Bloodsucker.
+	var/remove_on_bloodsucker_death = TRUE
 
 /datum/antagonist/vassal/antag_panel_data()
 	return "Master : [master.owner.name]"
@@ -71,7 +73,7 @@
 /// This is called when the antagonist is successfully mindshielded.
 /datum/antagonist/vassal/on_mindshield(mob/implanter, mob/living/mob_override)
 	owner.remove_antag_datum(/datum/antagonist/vassal)
-	owner.current.log_message("has been deconverted from Vassalization by [implanter]!", LOG_ATTACK, color="#960000")
+	owner.current.log_message("has been deconverted from vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
 /datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, examine_text)
@@ -95,10 +97,8 @@
 	owner.current.log_message("has been vassalized by [master.owner.current]!", LOG_ATTACK, color="#960000")
 	/// Give Recuperate Power
 	BuyPower(new /datum/action/cooldown/bloodsucker/recuperate)
-	/// Give Objectives
-	var/datum/objective/vassal_objective/vassal_objective = new
-	vassal_objective.owner = owner
-	objectives += vassal_objective
+	/// Forge Objectives
+	forge_objectives()
 	/// Give Vampire Language & Hud
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
@@ -139,11 +139,11 @@
 	to_chat(owner, span_userdanger("You are now the mortal servant of [master.owner.current], a Bloodsucker!"))
 	to_chat(owner, span_boldannounce("The power of [master.owner.current.p_their()] immortal blood compels you to obey [master.owner.current.p_them()] in all things, even offering your own life to prolong theirs.\n\
 		You are not required to obey any other Bloodsucker, for only [master.owner.current] is your master. The laws of Nanotrasen do not apply to you now; only your vampiric master's word must be obeyed.")) // if only there was a /p_theirs() proc...
-	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "You, becoming the mortal servant of <b>[master.owner.current]</b>, a bloodsucking vampire!<br>"
 	/// Message told to your Master.
 	to_chat(master.owner, span_userdanger("[owner.current] has become addicted to your immortal blood. [owner.current.p_they(TRUE)] [owner.current.p_are()] now your undying servant!"))
-	master.owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
+	master.owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /datum/antagonist/vassal/farewell()
 	if(silent)
@@ -153,10 +153,10 @@
 		span_deconversion_message("[owner.current]'s eyes dart feverishly from side to side, and then stop. [owner.current.p_they(TRUE)] seem[owner.current.p_s()] calm, \
 			like [owner.current.p_they()] [owner.current.p_have()] regained some lost part of [owner.current.p_them()]self."), \
 		span_deconversion_message("With a snap, you are no longer enslaved to [master.owner]! You breathe in heavily, having regained your free will."))
-	owner.current.playsound_local(null, 'sound/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(null, 'sound/effects/magic/mutate.ogg', 100, FALSE, pressure_affected = FALSE)
 	/// Message told to your (former) Master.
 	if(master && master.owner)
-		to_chat(master.owner, span_cultbold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
+		to_chat(master.owner, span_cult_bold("You feel the bond with your vassal [owner.current] has somehow been broken!"))
 
 /datum/antagonist/vassal/admin_add(datum/mind/new_owner, mob/admin)
 	var/list/datum/mind/possible_vampires = list()
@@ -183,9 +183,14 @@
 
 /datum/objective/vassal_objective
 	name = "vassal objective"
-	explanation_text = "Help your Master with whatever is requested of you."
+	explanation_text = "Help your master with whatever is requested of you."
 	martyr_compatible = TRUE
 
 /datum/objective/vassal_objective/check_completion()
 	var/datum/antagonist/vassal/antag_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return antag_datum.master?.owner?.current?.stat != DEAD
+
+/datum/antagonist/vassal/forge_objectives()
+	var/datum/objective/vassal_objective/vassal_objective = new
+	vassal_objective.owner = owner
+	objectives += vassal_objective

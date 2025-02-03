@@ -7,18 +7,18 @@
 	button_icon_state = "power_feed"
 	power_explanation = "Feed:\n\
 		Activate Feed while next to someone and you will begin to feed blood off of them.\n\
-		The time needed before you start feeding speeds up the higher level you are.\n\
+		The time needed before you start feeding decrases as you gain ranks.\n\
 		Feeding off of someone while you have them aggressively grabbed will put them to sleep.\n\
 		While feeding, you can't speak, as your mouth is covered.\n\
-		Feeding while nearby (2 tiles away from) a mortal who is unaware of Bloodsuckers' existence, will cause a Masquerade Infraction\n\
-		If you get too many Masquerade Infractions, you will break the Masquerade.\n\
-		If you are in desperate need of blood, mice can be fed off of, at a cost."
+		Feeding while nearby (2 tiles away from) a mortal who is unaware of Bloodsuckers' existence will cause a Masquerade infraction\n\
+		If you get too many Masquerade infractions, you will break the Masquerade.\n\
+		If you are in desperate need of blood, mice can be fed off of— at a cost..."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_STAKED|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 0
 	cooldown_time = 15 SECONDS
-	///Amount of blood taken, reset after each Feed. Used for logging.
+	///Amount of blood taken, reset after each Feed. Used (mostly) for logging.
 	var/blood_taken = 0
 	///The amount of Blood a target has since our last feed, this loops and lets us not spam alerts of low blood.
 	var/warning_target_bloodvol = BLOOD_VOLUME_MAX_LETHAL
@@ -49,14 +49,19 @@
 	return TRUE
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
+	// Check if active and early return if not to avoid spamming logs.
+	if(!active)
+		return
 	var/mob/living/user = owner
-	var/mob/living/feed_target = target_ref.resolve()
+	var/mob/living/feed_target
+	if(target_ref)
+		feed_target = target_ref.resolve()
 	if(isnull(feed_target))
 		log_combat(user, user, "fed on blood (target not found)", addition="(and took [blood_taken] blood)")
 	else
 		log_combat(user, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
 		to_chat(user, span_notice("You slowly release [feed_target]."))
-		if(feed_target.stat == DEAD)
+		if(feed_target.stat == DEAD && blood_taken > 0)
 			user.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
 			bloodsuckerdatum_power.AddHumanityLost(10)
 
@@ -79,6 +84,12 @@
 		DeactivatePower()
 		feed_target.death()
 		return
+
+	if(feed_target.blood_volume <= 0)
+		owner.balloon_alert(owner, "no blood!")
+		DeactivatePower()
+		return
+
 	var/feed_timer = clamp(round(FEED_DEFAULT_TIMER / (1.25 * (level_current || 1))), 1, FEED_DEFAULT_TIMER)
 	if(bloodsuckerdatum_power.frenzied)
 		feed_timer = 2 SECONDS
@@ -86,6 +97,7 @@
 	owner.balloon_alert(owner, "feeding off [feed_target]...")
 	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE))
 		owner.balloon_alert(owner, "feed stopped")
+		target_ref = null
 		DeactivatePower()
 		return
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)
@@ -109,7 +121,7 @@
 	for(var/mob/living/watchers in oviewers(FEED_NOTICE_RANGE) - feed_target)
 		if(!watchers.client)
 			continue
-		if(watchers.has_unlimited_silicon_privilege)
+		if(issilicon(watchers) || isdrone(watchers) || isbot(watchers))
 			continue
 		if(watchers.stat >= DEAD)
 			continue

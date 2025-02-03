@@ -1,9 +1,5 @@
 import { range, sortBy } from 'common/collections';
-import { KEY } from 'common/keys';
 import { Component } from 'react';
-
-import { resolveAsset } from '../../assets';
-import { useBackend } from '../../backend';
 import {
   Box,
   Button,
@@ -11,9 +7,13 @@ import {
   Stack,
   Tooltip,
   TrackOutsideClicks,
-} from '../../components';
-import { KeyEvent } from '../../events';
-import { fetchRetry } from '../../http';
+} from 'tgui-core/components';
+import { KeyEvent } from 'tgui-core/events';
+import { fetchRetry } from 'tgui-core/http';
+import { isEscape, KEY } from 'tgui-core/keys';
+
+import { resolveAsset } from '../../assets';
+import { useBackend } from '../../backend';
 import { PreferencesMenuData } from './data';
 import { TabbedMenu } from './TabbedMenu';
 
@@ -42,7 +42,7 @@ const isStandardKey = (event: KeyboardEvent): boolean => {
     event.key !== KEY.Alt &&
     event.key !== KEY.Control &&
     event.key !== KEY.Shift &&
-    event.key !== KEY.Escape
+    !isEscape(event.key)
   );
 };
 
@@ -67,15 +67,14 @@ const KEY_CODE_TO_BYOND: Record<string, string> = {
  */
 const DOM_KEY_LOCATION_NUMPAD = 3;
 
-const sortKeybindings = sortBy(([_, keybinding]: [string, Keybinding]) => {
-  return keybinding.name;
-});
+const sortKeybindings = (array: [string, Keybinding][]) =>
+  sortBy(array, ([_, keybinding]) => {
+    return keybinding.name;
+  });
 
-const sortKeybindingsByCategory = sortBy(
-  ([category, _]: [string, Record<string, Keybinding>]) => {
-    return category;
-  },
-);
+const sortKeybindingsByCategory = (
+  array: [string, Record<string, Keybinding>][],
+) => sortBy(array, ([category, _]) => category);
 
 const formatKeyboardEvent = (event: KeyboardEvent): string => {
   let text = '';
@@ -175,12 +174,6 @@ const KeybindingName = (props: { keybinding: Keybinding }) => {
   ) : (
     <span>{keybinding.name}</span>
   );
-};
-
-KeybindingName.defaultHooks = {
-  onComponentShouldUpdate: (lastProps, nextProps) => {
-    return lastProps.keybinding !== nextProps.keybinding;
-  },
 };
 
 const ResetToDefaultButton = (props: { keybindingId: string }) => {
@@ -294,7 +287,7 @@ export class KeybindingsPage extends Component<{}, KeybindingsPageState> {
     if (isStandardKey(event)) {
       this.setRebindingHotkey(formatKeyboardEvent(event));
       return;
-    } else if (event.key === KEY.Escape) {
+    } else if (isEscape(event.key)) {
       this.setRebindingHotkey(undefined);
       return;
     }

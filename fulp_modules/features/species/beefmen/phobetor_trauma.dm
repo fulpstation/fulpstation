@@ -6,10 +6,10 @@
 
 /datum/brain_trauma/special/bluespace_prophet/phobetor
 	name = "Sleepless Dreamer"
-	desc = "The patient, after undergoing untold psychological hardship, believes they can travel between the dreamscapes of this dimension."
+	desc = "The patient (having undergone untold psychological hardship), believes they can travel between metaphysical dreamscapes."
 	scan_desc = "awoken sleeper"
-	gain_text = span_notice("Your mind snaps, and you wake up. You <i>really</i> wake up.")
-	lose_text = span_warning("You succumb once more to the sleepless dream of the unwoken.")
+	gain_text = span_notice("Your mind snaps and you wake up. You <i>really</i> wake up.")
+	lose_text = span_warning("You succumb once more to the sleepless dream of the unawakened.")
 
 	///Created tears, only checking the FIRST one, not the one it's created to link to.
 	var/list/created_firsts = list()
@@ -23,6 +23,7 @@
 
 ///When the trauma is removed from a mob.
 /datum/brain_trauma/special/bluespace_prophet/phobetor/on_lose(silent)
+	. = ..()
 	for(var/obj/effect/client_image_holder/phobetor/phobetor_tears as anything in created_firsts)
 		qdel(phobetor_tears)
 	UnregisterSignal(owner, COMSIG_LIVING_REVIVE)
@@ -89,7 +90,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/proc/burn_out(timer = 5 MINUTES)
 	burnt_out = TRUE
 
-	to_chat(owner, span_warning("You feel yourself slipping back into the sleepless dream."))
+	to_chat(owner, span_warning("You feel yourself slipping back into the sleepless dream..."))
 
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.deactivate()
@@ -100,7 +101,7 @@
 /datum/brain_trauma/special/bluespace_prophet/phobetor/proc/restore()
 	burnt_out = FALSE
 
-	to_chat(owner, span_hypnophrase("Your eyes open once more, and with them unseen pathways."))
+	to_chat(owner, span_hypnophrase("Your eyes open in tandem with unseen pathways."))
 
 	for(var/obj/effect/client_image_holder/phobetor/tear in created_firsts)
 		tear.activate()
@@ -141,8 +142,8 @@
 
 /obj/effect/client_image_holder/phobetor
 	name = "phobetor tear"
-	desc = "A subdimensional rip in reality, which gives extra-spacial passage to those who have woken from the sleepless dream."
-	image_icon = 'fulp_modules/features/species/icons/phobetor_tear.dmi'
+	desc = "A subdimensional rip in reality which gives extra-spatial passage to those who have awoken from the sleepless dream."
+	image_icon = 'fulp_modules/icons/species/phobetor_tear.dmi'
 	image_state = "phobetor_tear"
 	// Place this above shadows so it always glows.
 	image_layer = ABOVE_MOB_LAYER
@@ -162,7 +163,7 @@
 	. = ..()
 	created_on = world.time
 
-	AddElement(/datum/element/contextual_screentip_bare_hands, lmb_text = "Jump into the tear")
+	AddElement(/datum/element/contextual_screentip_bare_hands, lmb_text = "Traverse")
 	AddComponent(/datum/component/redirect_attack_hand_from_turf)
 
 /obj/effect/client_image_holder/phobetor/Destroy()
@@ -183,7 +184,7 @@
 			continue
 		if(!isliving(nearby_viewers) || !nearby_viewers.mind)
 			continue
-		if(nearby_viewers.has_unlimited_silicon_privilege || nearby_viewers.is_blind())
+		if(issilicon(nearby_viewers) || isdrone(nearby_viewers) || isbot(nearby_viewers) || nearby_viewers.is_blind())
 			continue
 		return TRUE
 	return FALSE
@@ -228,14 +229,14 @@
 	switch(user_sanity)
 		if(SANITY_INSANE to SANITY_CRAZY)
 			to_chat(user, span_notice("...but [span_bold("someone else")] crosses [src] too."))
-			playsound(user, 'sound/hallucinations/i_see_you1.ogg', 50, TRUE)
+			playsound(user, 'sound/effects/hallucinations/i_see_you1.ogg', 50, TRUE)
 			user.adjust_hallucinations(5 MINUTES)
 			user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_crash)
 			to_chat(user, span_userdanger("Foreign memories invade your mind!"))
 			trauma.burn_out()
 		if(SANITY_CRAZY to SANITY_UNSTABLE)
 			if(prob(40))
-				to_chat(user, span_smallnoticeital("You feel like something was following you through [src]."))
+				to_chat(user, span_smallnoticeital("You feel like something followed you through [src]."))
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_major)
 				user.adjust_hallucinations(2 MINUTES)
 		if(SANITY_UNSTABLE to SANITY_DISTURBED)
@@ -245,7 +246,7 @@
 				user.adjust_hallucinations(1 MINUTES)
 		if(SANITY_DISTURBED to SANITY_NEUTRAL)
 			if(prob(25))
-				to_chat(user, span_smallnoticeital("You notice a shadow in the corner of your eye, for a moment."))
+				to_chat(user, span_smallnoticeital("You notice a shadow flicker in the corner of your eye."))
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
 				user.adjust_hallucinations(30 SECONDS)
 		if(SANITY_NEUTRAL to SANITY_GREAT)
@@ -254,7 +255,7 @@
 				user.add_mood_event("phobetor_tear", /datum/mood_event/phobetor_minor)
 	if(prob(5))
 		playsound(user, pick(GLOB.creepy_ambience), 50, TRUE)
-	user.playsound_local(null, 'sound/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
+	user.playsound_local(null, 'sound/effects/magic/wand_teleport.ogg', 30, FALSE, pressure_affected = FALSE)
 	user.forceMove(get_turf(linked_to))
 
 

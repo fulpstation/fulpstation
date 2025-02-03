@@ -4,7 +4,7 @@
 	name = "nanite chamber"
 	desc = "A device that can scan, reprogram, and inject nanites."
 	circuit = /obj/item/circuitboard/machine/nanite_chamber
-	icon = 'fulp_modules/features/nanites/icons/nanite_machines.dmi'
+	icon = 'fulp_modules/icons/nanites/nanite_machines.dmi'
 	icon_state = "nanite_chamber"
 	base_icon_state = "nanite_chamber"
 	layer = ABOVE_WINDOW_LAYER
@@ -15,7 +15,7 @@
 	active_power_usage = 300
 
 	///The icon file used post-initialize, the default icon is used solely so it shows up in the R&D console.
-	var/chamber_icon = 'fulp_modules/features/nanites/icons/nanite_chamber.dmi'
+	var/chamber_icon = 'fulp_modules/icons/nanites/nanite_chamber.dmi'
 	///The nanite chamber control machine we're synced to.
 	var/obj/machinery/computer/nanite_chamber_control/linked_console
 	///The level of the scanning module installed in the nanite chamber.
@@ -213,7 +213,7 @@
 /obj/machinery/nanite_chamber/interact(mob/user)
 	toggle_open(user)
 
-/obj/machinery/nanite_chamber/MouseDrop_T(mob/target, mob/user)
+/obj/machinery/nanite_chamber/mouse_drop_receive(atom/target, mob/user, params)
 	if(!user.can_perform_action(src, FORBID_TELEKINESIS_REACH) || !Adjacent(target) || !user.Adjacent(target) || !(can_be_occupant(target)))
 		return
 	if(close_machine(target))

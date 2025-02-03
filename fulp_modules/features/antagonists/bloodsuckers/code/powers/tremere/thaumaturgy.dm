@@ -11,11 +11,11 @@
 /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy
 	name = "Level 1: Thaumaturgy"
 	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two
-	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
+	desc = "Fire a blood bolt at your enemy, dealing burn damage."
 	level_current = 1
 	button_icon_state = "power_thaumaturgy"
 	power_explanation = "Thaumaturgy:\n\
-		Gives you a one shot blood bolt spell, firing it at a person deals 20 Burn damage"
+		Gives you a one shot blood bolt spell, firing it at a person deals 20 burn damage"
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 20
 	constant_bloodcost = 0
@@ -27,13 +27,13 @@
 /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/two
 	name = "Level 2: Thaumaturgy"
 	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/three
-	desc = "Create a Blood shield and fire a blood bolt at your enemy, dealing Burn damage."
+	desc = "Create a blood shield and fire a blood bolt at your enemy, dealing burn damage."
 	level_current = 2
 	power_explanation = "Thaumaturgy:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
-		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
-		You will also have the ability to fire a Blood beam, ending the Power.\n\
-		If the Blood beam hits a person, it will deal 20 Burn damage."
+		Activating Thaumaturgy will temporarily give you a blood shield,\n\
+		The blood shield has a 75% block chance, but costs 15 blood per hit to maintain.\n\
+		You will also have the ability to fire a blood beam, ending the power.\n\
+		If the blood beam hits a person, it will deal 20 burn damage."
 	prefire_message = "Click where you wish to fire (using your power removes blood shield)."
 	bloodcost = 40
 	cooldown_time = 4 SECONDS
@@ -41,26 +41,26 @@
 /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/three
 	name = "Level 3: Thaumaturgy"
 	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced
-	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
+	desc = "Create a blood shield and fire a blood bolt, dealing burn damage and opening doors/lockers."
 	level_current = 3
 	power_explanation = "Thaumaturgy:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
-		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
-		You will also have the ability to fire a Blood beam, ending the Power.\n\
-		If the Blood beam hits a person, it will deal 20 Burn damage. If it hits a locker or door, it will break it open."
+		Activating Thaumaturgy will temporarily give you a blood shield,\n\
+		The blood shield has a 75% block chance, but costs 15 blood per hit to maintain.\n\
+		You will also have the ability to fire a blood beam, ending the power.\n\
+		If the blood beam hits a person, it will deal 20 burn damage. If it hits a locker or door, it will break it open."
 	bloodcost = 50
 	cooldown_time = 6 SECONDS
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced
 	name = "Level 4: Blood Strike"
 	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
-	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage and opening doors/lockers."
+	desc = "Create a blood shield and fire a blood bolt, dealing burn damage and opening doors/lockers."
 	level_current = 4
 	power_explanation = "Thaumaturgy:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
+		Activating Thaumaturgy will temporarily give you a blood shield,\n\
 		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
-		You will also have the ability to fire a Blood beam, ending the Power.\n\
-		If the Blood beam hits a person, it will deal 40 Burn damage.\n\
+		You will also have the ability to fire a blood beam, ending the power.\n\
+		If the blood beam hits a person, it will deal 40 burn damage.\n\
 		If it hits a locker or door, it will break it open."
 	background_icon_state = "tremere_power_gold_off"
 	active_background_icon_state = "tremere_power_gold_on"
@@ -72,13 +72,13 @@
 /datum/action/cooldown/bloodsucker/targeted/tremere/thaumaturgy/advanced/two
 	name = "Level 5: Blood Strike"
 	upgraded_power = null
-	desc = "Create a Blood shield and fire a blood bolt, dealing Burn damage, stealing Blood and opening doors/lockers."
+	desc = "Create a blood shield and fire a blood bolt, dealing burn damage, refunding a bit of blood on hitting a mortal, and opening doors/lockers."
 	level_current = 5
 	power_explanation = "Thaumaturgy:\n\
-		Activating Thaumaturgy will temporarily give you a Blood Shield,\n\
-		The blood shield has a 75% block chance, but costs 15 Blood per hit to maintain.\n\
-		You will also have the ability to fire a Blood beam, ending the Power.\n\
-		If the Blood beam hits a person, it will deal 40 Burn damage and steal blood to feed yourself, though at a net-negative.\n\
+		Activating Thaumaturgy will temporarily give you a blood shield,\n\
+		The blood shield has a 75% block chance, but costs 15 blood per hit to maintain.\n\
+		You will also have the ability to fire a blood beam, ending the power.\n\
+		If the blood beam hits a person, it will deal 40 burn damage and steal blood to feed yourself, though at a net-negative.\n\
 		If it hits a locker or door, it will break it open."
 	bloodcost = 80
 	cooldown_time = 8 SECONDS
@@ -95,7 +95,7 @@
 			return FALSE
 		owner.visible_message(
 			span_warning("[owner]\'s hands begins to bleed and forms into a blood shield!"),
-			span_warning("We activate our Blood shield!"),
+			span_warning("We activate our blood shield!"),
 			span_hear("You hear liquids forming together."),
 		)
 
@@ -116,9 +116,9 @@
 	magic_9ball.bloodsucker_power = src
 	magic_9ball.firer = user
 	magic_9ball.def_zone = ran_zone(user.zone_selected)
-	magic_9ball.preparePixelProjectile(target_atom, user)
+	magic_9ball.aim_projectile(target_atom, user)
 	INVOKE_ASYNC(magic_9ball, TYPE_PROC_REF(/obj/projectile, fire))
-	playsound(user, 'sound/magic/wand_teleport.ogg', 60, TRUE)
+	playsound(user, 'sound/effects/magic/wand_teleport.ogg', 60, TRUE)
 	power_activated_sucessfully()
 
 /**
@@ -169,10 +169,10 @@
 	name = "blood shield"
 	desc = "A shield made out of blood, requiring blood to sustain hits."
 	item_flags = ABSTRACT | DROPDEL
-	icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/vamp_obj.dmi'
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_shield"
-	lefthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_leftinhand.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/bloodsuckers/icons/bs_rightinhand.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_leftinhand.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/bloodsuckers/bs_rightinhand.dmi'
 	block_chance = 75
 
 /obj/item/shield/bloodsucker/Initialize()

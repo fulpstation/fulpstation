@@ -71,9 +71,3 @@
 	if(reverse_boost && M.GetComponent(/datum/component/nanites))
 		if(prob(A.stage_prob))
 			A.stage = min(A.stage + 1,A.max_stages)
-
-/datum/disease_ability/symptom/medium/nano_boost
-	symptoms = list(/datum/symptom/nanite_boost)
-
-/datum/disease_ability/symptom/medium/nano_destroy
-	symptoms = list(/datum/symptom/nanite_destroy)

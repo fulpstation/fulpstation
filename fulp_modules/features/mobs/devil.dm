@@ -1,7 +1,7 @@
 /mob/living/basic/devil
 	name = "True Devil"
 	desc = "A pile of infernal energy, taking a vaguely humanoid form."
-	icon = 'fulp_modules/features/mobs/32x64.dmi'
+	icon = 'fulp_modules/icons/mobs/32x64.dmi'
 	icon_state = "true_devil"
 	gender = NEUTER
 	health = 200
@@ -12,7 +12,7 @@
 	attack_verb_simple = "slash"
 	speak_emote = list("hisses")
 	combat_mode = TRUE
-	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	basic_mob_flags = DEL_ON_DEATH
 

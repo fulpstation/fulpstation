@@ -5,11 +5,11 @@
 
 /datum/action/cooldown/bloodsucker/targeted/haste
 	name = "Immortal Haste"
-	desc = "Dash somewhere with supernatural speed. Those nearby may be knocked away, stunned, or left empty-handed."
+	desc = "Dash somewhere with supernatural speed. Those in your path may be knocked away, stunned, or left empty-handed."
 	button_icon_state = "power_speed"
 	power_explanation = "Immortal Haste:\n\
-		Click anywhere to immediately dash towards that location.\n\
-		The Power will not work if you are lying down, in no gravity, or are aggressively grabbed.\n\
+		Click a location to immediately dash towards it.\n\
+		The power will not work if you are lying down, not under gravitational force, or are aggressively grabbed.\n\
 		Anyone in your way during your Haste will be knocked down.\n\
 		Higher levels will increase the knockdown dealt to enemies."
 	power_flags = BP_AM_TOGGLE
@@ -56,7 +56,7 @@
 	// Go to target turf
 	// DO NOT USE WALK TO.
 	owner.balloon_alert(owner, "you dash into the air!")
-	playsound(get_turf(owner), 'sound/weapons/punchmiss.ogg', 25, 1, -1)
+	playsound(get_turf(owner), 'sound/items/weapons/punchmiss.ogg', 25, 1, -1)
 	var/safety = get_dist(user, targeted_turf) * 3 + 1
 	var/consequetive_failures = 0
 	while(--safety && (get_turf(user) != targeted_turf))
@@ -69,7 +69,7 @@
 				break //just stop
 		else
 			consequetive_failures = 0 //reset so we can keep moving
-		if(user.resting || user.incapacitated(IGNORE_RESTRAINTS, IGNORE_GRAB)) //actually down? stop.
+		if(user.resting || user.incapacitated) //actually down? stop.
 			break
 		if(success) //don't sleep if we failed to move.
 			sleep(world.tick_lag)
@@ -84,6 +84,6 @@
 		if(hit.Find(hit_living))
 			continue
 		hit += hit_living
-		playsound(hit_living, "sound/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
+		playsound(hit_living, "sound/items/weapons/punch[rand(1,4)].ogg", 15, 1, -1)
 		hit_living.Knockdown(10 + level_current * 4)
 		hit_living.spin(10, 1)

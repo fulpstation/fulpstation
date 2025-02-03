@@ -57,10 +57,10 @@
 
 /obj/structure/wonderland_rift
 	name = "Wonderland Door"
-	desc = "A door leading to a magical beautiful land."
+	desc = "A mostly one-way door leading to a magical, beautiful land."
 	armor_type = /datum/armor/wonderland_rift
 	max_integrity = 300
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "cyborg_rift"
 	anchored = TRUE
 	density = FALSE
@@ -95,4 +95,4 @@
 	enemy_spawned = TRUE
 	var/mob/living/basic/red_rabbit/evil_rabbit = new(get_turf(src))
 	evil_rabbit.key = user.key
-	to_chat(evil_rabbit, span_boldwarning("Destroy everything, spare no one."))
+	to_chat(evil_rabbit, span_boldwarning("Destroy everything. Spare only the harbinger of Wonderland who brought you here, but know that you do not answer to them."))

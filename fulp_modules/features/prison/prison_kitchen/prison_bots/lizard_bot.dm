@@ -61,7 +61,7 @@
 
 /datum/customer_data/xarsee/get_overlays(mob/living/basic/robot_customer/customer)
 	var/list/underlays = list()
-	var/mutable_appearance/lizard_clothes = mutable_appearance(icon = 'fulp_modules/features/prison/icons/bots.dmi', icon_state = "lizard_british")
+	var/mutable_appearance/lizard_clothes = mutable_appearance(icon = 'fulp_modules/icons/prison/bots.dmi', icon_state = "lizard_british")
 	lizard_clothes.appearance_flags = RESET_COLOR
 	underlays += lizard_clothes
 	return underlays

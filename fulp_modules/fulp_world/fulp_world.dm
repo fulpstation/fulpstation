@@ -5,9 +5,6 @@
 	// Load Mentors
 	load_mentors()
 
-	// Load Fulp species datums
-	make_fulp_datum_references_lists()
-
 	GLOB.special_roles += list(
 		ROLE_BLOODSUCKER = 0,
 		ROLE_VAMPIRICACCIDENT = 0,
@@ -33,8 +30,7 @@
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
 	s += "<br>Time: \[<b>[gameTimestamp("hh:mm")]</b>\]"
-	if(SSmapping.config)
-		s += "<br>Map: \[<b>[SSmapping.config.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
+	s += "<br>Map: \[<b>[SSmapping.current_map.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
 
 	status = s
 	return s

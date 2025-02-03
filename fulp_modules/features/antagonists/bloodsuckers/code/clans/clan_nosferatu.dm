@@ -1,13 +1,13 @@
 /datum/bloodsucker_clan/nosferatu
 	name = CLAN_NOSFERATU
-	description = "The Nosferatu Clan is unable to blend in with the crew, with no abilities such as Masquerade and Veil. \n\
-		Additionally, has a permanent bad back and looks like a Bloodsucker upon a simple examine, and is entirely unidentifiable, \n\
-		they can fit in the vents regardless of their form and equipment. \n\
-		The Favorite Vassal is permanetly disfigured, and can also ventcrawl, but only while entirely nude."
+	description = "The Nosferatu clan is unable to blend in with the crew, with no human mimicry abilities such as Masquerade or Veil. \n\
+		Additionally, they have a permanent bad back, are completely unrecognizable, and look like a Bloodsucker at a simple glance.  \n\
+		They can fit in vents regardless of their form and equipment. \n\
+		Their favorite vassal becomes permanetly disfigured, and can also ventcrawl though only while entirely nude."
 	clan_objective = /datum/objective/nosferatu_clan_objective
 	join_icon_state = "nosferatu"
 	join_description = "You are permanetly disfigured, look like a Bloodsucker to all who examine you, \
-		lose your Masquerade ability, but gain the ability to Ventcrawl even while clothed."
+		lose your Masquerade ability, but become capable of ventcrawling."
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
 /datum/bloodsucker_clan/nosferatu/New(datum/antagonist/bloodsucker/owner_datum)
@@ -42,7 +42,7 @@
  */
 /datum/objective/nosferatu_clan_objective
 	name = "steal kindred"
-	explanation_text = "Ensure Nosferatu steals and keeps control over the Archive of the Kindred."
+	explanation_text = "Ensure that the <i>Archives of the Kindred</i> are stolen by a Bloodsucker."
 
 /datum/objective/nosferatu_clan_objective/check_completion()
 	for(var/datum/mind/bloodsucker_minds as anything in get_antag_minds(/datum/antagonist/bloodsucker))

@@ -69,7 +69,7 @@
 /obj/item/infiltrator_radio
 	name = "Infiltrator Radio"
 	desc = "How is this thing running without a battery?"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "infiltrator_radio"
 	w_class = WEIGHT_CLASS_SMALL
 	///has the player claimed all his objectives' rewards?
@@ -114,7 +114,7 @@
 	var/reward = pick(reward_items)
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = reward,
 		))
 	log_uplink("[key_name(user)] received \a [reward] through [src].")
@@ -266,7 +266,7 @@
 /obj/item/card/emag/silicon_hack
 	name = "single-use silicon cryptographic sequencer"
 	desc = "A specialized cryptographic sequencer used to free cyborgs. Will become voided after a one time use."
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "cyborg_hack"
     ///Boolean on whether we have successfully emagged a borg
 	var/used = FALSE
@@ -296,7 +296,7 @@
 		return
 	var/obj/item/card/emag/silicon_hack/hack_card = emag_card
 	hack_card.use_charge(user)
-	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 	var/datum/antagonist/traitor/fulp_infiltrator/terrorist = user.mind.has_antag_datum(/datum/antagonist/traitor/fulp_infiltrator)
 	if(!terrorist)
 		return
@@ -309,7 +309,7 @@
 /obj/item/missile_disk
 	name = "missile disk"
 	desc = "Used to store the coordinates of the station."
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "missiledisk"
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
@@ -328,14 +328,14 @@
 	to_chat(user, span_warning("Downloading station coordinates..."))
 	if(!do_after(user, 8 SECONDS))
 		return
-	playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 	to_chat(user, span_warning("Station coordinates successfully downloaded!"))
 	stored = TRUE
 
 /obj/item/missilephone
 	name = "large handphone"
 	desc = "Hello? Is this the police?"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "missilephone"
 	w_class = WEIGHT_CLASS_SMALL
 	item_flags = NOBLUDGEON
@@ -347,7 +347,7 @@
 /obj/item/missilephone/attackby(obj/item/missile_disk/terrorism, mob/user)
 	if(!terrorism.stored)
 		return
-	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 	to_chat(user, span_warning("Station coordinates uploaded to phone!"))
 	disk = TRUE
 	qdel(terrorism)
@@ -389,9 +389,9 @@
 /obj/item/grenade/c4/wormhole
 	name = "Wormhole Projector"
 	desc = "A device that opens up a portal gateway to our allies."
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
-	lefthand_file = 'fulp_modules/features/antagonists/infiltrators/icons/wormhole_left.dmi'
-	righthand_file = 'fulp_modules/features/antagonists/infiltrators/icons/wormhole_right.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
+	lefthand_file = 'fulp_modules/icons/antagonists/infiltrators/wormhole_left.dmi'
+	righthand_file = 'fulp_modules/icons/antagonists/infiltrators/wormhole_right.dmi'
 	icon_state = "wormhole-explosive0"
 	inhand_icon_state = "wormhole-explosive"
 	boom_sizes = list(0, 0, 0)
@@ -452,7 +452,7 @@
 	desc = "A portal opened up to long-forgotten cyborgs."
 	armor_type = /datum/armor/cyborg_rift
 	max_integrity = 300
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "cyborg_rift"
 	anchored = TRUE
 	density = FALSE
@@ -497,7 +497,7 @@
 
 /mob/living/silicon/robot/model/infiltrator
 	set_model = /obj/item/robot_model/security/infiltrator
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/robot.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/robot.dmi'
 	icon_state = "infilsec"
 	scrambledcodes = TRUE
 

@@ -15,7 +15,7 @@
 	lines += span_bold(header)
 	lines += payload_string
 
-	var/finalized_string = examine_block(jointext(lines, "\n"))
+	var/finalized_string = boxed_message(jointext(lines, "\n"))
 	to_chat(src, finalized_string)
 
 /// Proc that returns a list of cliented mentors. Remember that this list can contain nulls!
@@ -52,8 +52,12 @@
 	var/returnable_list = list()
 
 	for(var/client/mentor_client in checkable_mentors)
-		if(mentor_client.is_afk() || GLOB.deadmins[mentor_client.ckey])
-			continue //Don't show afk or fakekeyed mentors to mentorwho
+		//AFK people don't show up
+		if(mentor_client.is_afk())
+			continue
+		//Deadmins don't show up unless it's the pseudostaff cause they are generally expected to be.
+		if(GLOB.deadmins[mentor_client.ckey] && !(mentor_client.key == "[CONFIG_GET(string/headofpseudostaff)]"))
+			continue
 
 		if(mentor_client.mentor_datum.is_contributor)
 			returnable_list += "• [mentor_client] is a Contributor"

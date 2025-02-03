@@ -7,14 +7,14 @@
 	owner = new_owner
 
 /datum/robot_control/proc/is_interactable(mob/user)
-	if(user != owner || owner.incapacitated())
+	if(user != owner || owner.incapacitated)
 		return FALSE
 	if(owner.control_disabled)
 		to_chat(user, span_warning("Wireless control is disabled."))
 		return FALSE
 	return TRUE
 
-/datum/robot_control/ui_status(mob/user)
+/datum/robot_control/ui_status(mob/user, datum/ui_state/state)
 	if(is_interactable(user))
 		return ..()
 	return UI_CLOSE

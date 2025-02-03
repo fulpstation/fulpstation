@@ -1,10 +1,14 @@
+/// A global list of Bloodsucker antag datums that have broken the Masquerade
+GLOBAL_LIST_EMPTY(masquerade_breakers)
+
 /datum/bloodsucker_clan/malkavian
 	name = CLAN_MALKAVIAN
-	description = "Little is documented about Malkavians. Complete insanity is the most common theme. \n\
-		The Favorite Vassal will suffer the same fate as the Master."
+	description = "The history of the Malkavian clan is not well known, even to most modern Malkavians. \n\
+		Complete insanity and an almost puritanical devotion to the Masquerade are the most common themes throughout the literature. \n\
+		Their favorite vassal suffers from insanity just as they do."
 	join_icon_state = "malkavian"
-	join_description = "Completely insane. You gain constant hallucinations, become a prophet with unintelligable rambling, \
-		and become the enforcer of the Masquerade code."
+	join_description = "Become completely insane, travel through tears in reality, ramble in whispers constantly, \
+		and become an enforcer of the Masquerade."
 	blood_drink_type = BLOODSUCKER_DRINK_INHUMANELY
 
 /datum/bloodsucker_clan/malkavian/on_enter_frenzy(datum/antagonist/bloodsucker/source)
@@ -23,7 +27,11 @@
 		carbon_owner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet, TRAUMA_RESILIENCE_ABSOLUTE)
 	owner_datum.owner.current.update_sight()
 
-	bloodsuckerdatum.owner.current.playsound_local(get_turf(bloodsuckerdatum.owner.current), 'sound/ambience/antag/creepalert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
+	for(var/datum/antagonist/bloodsucker/unmasked in GLOB.masquerade_breakers)
+		if(unmasked.owner.current && unmasked.owner.current.stat != DEAD)
+			on_bloodsucker_broke_masquerade(unmasked)
+
+	bloodsuckerdatum.owner.current.playsound_local(get_turf(bloodsuckerdatum.owner.current), 'sound/music/antag/creepalert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(bloodsuckerdatum.owner.current, span_hypnophrase("Welcome to the Malkavian..."))
 
 /datum/bloodsucker_clan/malkavian/Destroy(force)
@@ -48,7 +56,7 @@
 	if(istype(carbonowner))
 		carbonowner.gain_trauma(/datum/brain_trauma/mild/hallucinations, TRAUMA_RESILIENCE_ABSOLUTE)
 		carbonowner.gain_trauma(/datum/brain_trauma/special/bluespace_prophet/phobetor, TRAUMA_RESILIENCE_ABSOLUTE)
-	to_chat(vassaldatum.owner.current, span_notice("Additionally, you now suffer the same fate as your Master."))
+	to_chat(vassaldatum.owner.current, span_notice("Additionally, you now suffer the same fate as your master."))
 
 /datum/bloodsucker_clan/malkavian/on_exit_torpor(datum/antagonist/bloodsucker/source)
 	var/mob/living/carbon/carbonowner = bloodsuckerdatum.owner.current
@@ -58,7 +66,7 @@
 
 /datum/bloodsucker_clan/malkavian/on_final_death(datum/antagonist/bloodsucker/source)
 	var/obj/item/soulstone/bloodsucker/stone = new /obj/item/soulstone/bloodsucker(get_turf(bloodsuckerdatum.owner.current))
-	stone.capture_soul(bloodsuckerdatum.owner.current, forced = TRUE, bloodsuckerdatum = bloodsuckerdatum)
+	stone.init_shade(victim = bloodsuckerdatum.owner.current, message_user = FALSE)
 	return DONT_DUST
 
 /datum/bloodsucker_clan/malkavian/proc/on_bloodsucker_broke_masquerade(datum/antagonist/bloodsucker/masquerade_breaker)

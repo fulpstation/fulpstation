@@ -21,6 +21,10 @@
 	to_chat(new_spawn, "<b>You have been implanted with a bomb that will detonate if you stray too far from the station. Glory to the Syndicate.</b>")
 	new_spawn.AddComponent(/datum/component/stationstuck, PUNISHMENT_GIB, "You have left the vicinity of the Prototype Station. Your bomb implant has been triggered.")
 
+/obj/effect/mob_spawn/ghost_role/human/syndicate_engineer/Destroy()
+	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))
+	return ..()
+
 /datum/job/syndicate_engineer
 	title = ROLE_SYNDICATE_ENGINEER
 
@@ -46,15 +50,12 @@
 /datum/outfit/syndicate_engineer/post_equip(mob/living/carbon/human/H)
 	H.faction |= ROLE_SYNDICATE
 
-/obj/effect/mob_spawn/human/syndicate_engineer/Destroy()
-	new/obj/structure/fluff/empty_sleeper/syndicate(get_turf(src))
-	return ..()
-
 // We're giving them a special solar panel crate because the budget one doesn't have enough panels-- and I don't want to place 20 crates.
 
 /obj/structure/closet/crate/solarpanel_medium
 	name = "solar panel crate"
 	icon_state = "engi_e_crate"
+	base_icon_state = "engi_e_crate"
 
 /obj/structure/closet/crate/solarpanel_medium/PopulateContents()
 	..()

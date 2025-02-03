@@ -1,11 +1,11 @@
 /datum/action/cooldown/bloodsucker/targeted/trespass
 	name = "Trespass"
-	desc = "Become mist and advance two tiles in one direction. Useful for skipping past doors and barricades."
+	desc = "Become mist and advance up to two tiles away. Useful for skipping past doors and barricades— or making a stylish entrance."
 	button_icon_state = "power_tres"
 	power_explanation = "Trespass:\n\
-		Click anywhere from 1-2 tiles away from you to teleport.\n\
-		This power goes through all obstacles except Walls.\n\
-		Higher levels decrease the sound played from using the Power, and increase the speed of the transition."
+		Click anywhere within one to two tiles to teleport there.\n\
+		This power goes through all obstacles except walls.\n\
+		Higher levels make the power faster and quieter."
 	power_flags = BP_AM_TOGGLE
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
@@ -71,7 +71,7 @@
 	)
 	// Effect Origin
 	var/sound_strength = max(60, 70 - level_current * 10)
-	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', sound_strength, 1)
+	playsound(get_turf(owner), 'sound/effects/magic/summon_karp.ogg', sound_strength, 1)
 	var/datum/effect_system/steam_spread/bloodsucker/puff = new /datum/effect_system/steam_spread()
 	puff.set_up(3, 0, my_turf)
 	puff.start()
@@ -99,7 +99,7 @@
 	user.density = 1
 	user.invisibility = invis_was
 	// Effect Destination
-	playsound(get_turf(owner), 'sound/magic/summon_karp.ogg', 60, 1)
+	playsound(get_turf(owner), 'sound/effects/magic/summon_karp.ogg', 60, 1)
 	puff = new /datum/effect_system/steam_spread/()
 	puff.effect_type = /obj/effect/particle_effect/fluid/smoke/vampsmoke
 	puff.set_up(3, 0, target_turf)

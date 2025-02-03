@@ -75,7 +75,7 @@ Finally, the `ui_act` proc is called by the interface whenever the user used an
 input. The input's `action` and `params` are passed to the proc.
 
 ```dm
-/obj/machinery/my_machine/ui_act(action, params)
+/obj/machinery/my_machine/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
   . = ..()
   if(.)
     return
@@ -127,7 +127,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   const { act, data } = useBackend(context);
   // Extract `health` and `color` variables from the `data` object.
   const {
@@ -259,7 +259,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   return (
     <Window resizable>
       <Window.Content scrollable>
@@ -269,7 +269,7 @@ export const SampleInterface = (props) => {
   );
 };
 
-const HealthStatus = (props) => {
+const HealthStatus = (props, context) => {
   const { act, data } = useBackend(context);
   const {
     user,
@@ -311,7 +311,7 @@ upon code review):
   data["var"] = var
   return data
 
-/obj/copypasta/ui_act(action, params)
+/obj/copypasta/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
   if(..())
     return
   switch(action)
@@ -330,7 +330,7 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const SampleInterface = (props) => {
+export const SampleInterface = (props, context) => {
   const { act, data } = useBackend(context);
   // Extract `health` and `color` variables from the `data` object.
   const {

@@ -59,12 +59,11 @@
 	item = /obj/item/gun/ballistic/rifle/sniper_rifle
 	desc = "Smoke some fools from a distance!"
 
-
-/datum/infil_corpitem/assault/plastikov
-	name = "PP-95 SMG"
+/datum/infil_corpitem/assault/surplus_smg
+	name = "Smart-SMG"
 	cost = 30
-	item = /obj/item/gun/ballistic/automatic/plastikov
-	desc = "Oldschool rifle for OG gangstas."
+	item = /obj/item/gun/ballistic/automatic/smartgun
+	desc = "An outdated model of Smart-SMG. Its rounds will track and follow their targets."
 
 /datum/infil_corpitem/assault/wt550
 	name = "Security Auto Rifle"
@@ -80,12 +79,11 @@
 
 ////////ammunition
 
-/datum/infil_corpitem/ammo/plastikov
-	name = "PP-95 Magazine"
+/datum/infil_corpitem/ammo/surplus_smg
+	name = "Smart-SMG Magazine"
 	cost = 10
-	item = /obj/item/ammo_box/magazine/plastikov9mm
-	desc = "An extra magazine for the PP-95."
-
+	item = /obj/item/ammo_box/magazine/smartgun
+	desc = "A large box magazine for the smart-SMG."
 
 /datum/infil_corpitem/ammo/wt550
 	name = "WT550 Magazine"
@@ -114,7 +112,7 @@
 /obj/item/infil_uplink
 	name = "\improper Corporate Uplink"
 	desc = "What a beautiful looking radio"
-	icon = 'fulp_modules/features/antagonists/infiltrators/icons/infils.dmi'
+	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "infiltrator_uplink"
 	w_class = WEIGHT_CLASS_SMALL
 	///current category we viewing on the ui
@@ -223,7 +221,7 @@
 			terrorism.completed = TRUE
 			cut_overlay("uplink_seeking")
 			add_overlay("uplink_found")
-			playsound(src, 'sound/machines/beep.ogg', 50, FALSE)
+			playsound(src, 'sound/machines/beep/beep.ogg', 50, FALSE)
 
 			connected = TRUE
 
@@ -237,7 +235,7 @@
 
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = purchased,
 		))
 

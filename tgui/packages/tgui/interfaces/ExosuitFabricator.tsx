@@ -1,16 +1,21 @@
-import { BooleanLike, classes } from 'common/react';
+import { Box, Button, Icon, Section, Stack } from 'tgui-core/components';
+import { Tooltip } from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
-import { Box, Button, Icon, Section, Stack } from '../components';
-import { Tooltip } from '../components';
 import { Window } from '../layouts';
 import { DesignBrowser } from './Fabrication/DesignBrowser';
 import { MaterialAccessBar } from './Fabrication/MaterialAccessBar';
 import { MaterialCostSequence } from './Fabrication/MaterialCostSequence';
 import { Design, FabricatorData, MaterialMap } from './Fabrication/Types';
 
+type ExosuitDesign = Design & {
+  constructionTime: number;
+};
+
 type ExosuitFabricatorData = FabricatorData & {
   processing: BooleanLike;
+  designs: Record<string, ExosuitDesign>;
 };
 
 export const ExosuitFabricator = (props) => {

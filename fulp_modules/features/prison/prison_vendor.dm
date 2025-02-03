@@ -37,7 +37,6 @@
 	refill_canister = /obj/item/vending_refill/hydroseeds/prison
 	default_price = PAYCHECK_LOWER
 	extra_price = PAYCHECK_CREW
-	payment_department = ACCOUNT_PRISON
 
 /obj/item/vending_refill/hydroseeds/prison
 	machine_name = "Prison MegaSeed Servitor"

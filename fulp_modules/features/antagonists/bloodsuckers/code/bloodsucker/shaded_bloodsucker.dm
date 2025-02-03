@@ -13,13 +13,10 @@
 /obj/item/soulstone/bloodsucker/init_shade(mob/living/carbon/human/victim, mob/user, message_user = FALSE, mob/shade_controller)
 	. = ..()
 	for(var/mob/shades in contents)
-		shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
-
-/obj/item/soulstone/bloodsucker/capture_soul(mob/living/carbon/victim, mob/user, forced = FALSE, datum/antagonist/bloodsucker/bloodsuckerdatum)
-	. = ..()
-	for(var/mob/shades in contents)
-		var/datum/antagonist/shaded_bloodsucker/shaded_datum = shades.mind.has_antag_datum(/datum/antagonist/shaded_bloodsucker)
-		shaded_datum.objectives = bloodsuckerdatum.objectives
+		var/datum/antagonist/shaded_bloodsucker/shaded_datum = shades.mind.add_antag_datum(/datum/antagonist/shaded_bloodsucker)
+		var/datum/antagonist/bloodsucker/bloodsuckerdatum = victim.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+		if(bloodsuckerdatum)
+			shaded_datum.objectives = bloodsuckerdatum.objectives
 
 /obj/item/soulstone/bloodsucker/on_poll_concluded(mob/living/master, mob/living/victim, mob/dead/observer/ghost)
 	. = ..()

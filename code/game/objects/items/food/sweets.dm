@@ -79,6 +79,15 @@
 	w_class = WEIGHT_CLASS_TINY
 	crafting_complexity = FOOD_COMPLEXITY_1
 
+/obj/item/food/virtual_chocolate
+	name = "virtual chocolate bar"
+	desc = "Digital food only gives off the sensation of eating... without any of the nutritional benefits."
+	icon_state = "virtual_chocolate"
+	tastes = list("nothing" = 1)
+	foodtypes = NONE
+	w_class = WEIGHT_CLASS_TINY
+
+
 /obj/item/food/chococoin
 	name = "chocolate coin"
 	desc = "A completely edible but non-flippable festive coin."
@@ -195,9 +204,6 @@
 	slot_flags = ITEM_SLOT_MASK
 	w_class = WEIGHT_CLASS_TINY
 
-	/// The amount to metabolize per second
-	var/metabolization_amount = REAGENTS_METABOLISM / 2
-
 /obj/item/food/bubblegum/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] swallows [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
 	qdel(src)
@@ -205,7 +211,7 @@
 
 /obj/item/food/bubblegum/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/chewable, metabolization_amount = metabolization_amount)
+	AddElement(/datum/element/chewable)
 
 /obj/item/food/bubblegum/nicotine
 	name = "nicotine gum"
@@ -229,7 +235,6 @@
 	color = "#913D3D"
 	food_reagents = list(/datum/reagent/blood = 15)
 	tastes = list("hell" = 1, "people" = 1)
-	metabolization_amount = REAGENTS_METABOLISM
 
 /obj/item/food/bubblegum/bubblegum/process()
 	if(iscarbon(loc))

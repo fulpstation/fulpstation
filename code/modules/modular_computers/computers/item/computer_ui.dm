@@ -146,7 +146,7 @@
 		if("PC_minimize")
 			if(!active_program || (!isnull(internal_cell) && !internal_cell.charge))
 				return
-			active_program.background_program()
+			active_program.background_program(usr)
 			return TRUE
 
 		if("PC_killprogram")
@@ -211,7 +211,7 @@
 		if("PC_Imprint_ID")
 			imprint_id()
 			UpdateDisplay()
-			playsound(src, 'sound/machines/terminal_processing.ogg', 15, TRUE)
+			playsound(src, 'sound/machines/terminal/terminal_processing.ogg', 15, TRUE)
 
 		if("PC_Pai_Interact")
 			switch(params["option"])

@@ -6,12 +6,13 @@
 	id = SPECIES_BEEFMAN
 	examine_limb_id = SPECIES_BEEFMAN
 	sexes = FALSE
-	mutant_bodyparts = list(
-		"beef_color" = "#e73f4e",
-		"beef_eyes" = BEEF_EYES_OLIVES,
-		"beef_mouth" = BEEF_MOUTH_SMILE,
+	body_markings = list(
+		/datum/bodypart_overlay/simple/body_marking/beefman_eyes = BEEF_EYES_OLIVES,
+		/datum/bodypart_overlay/simple/body_marking/beefman_mouth = BEEF_MOUTH_SMILE,
 	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_FIXED_MUTANT_COLORS,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_GENELESS,
 		TRAIT_RESISTCOLD,
@@ -22,9 +23,10 @@
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
 	heatmod = 0.5
+	hair_color_mode = USE_FIXED_MUTANT_COLOR
 	species_language_holder = /datum/language_holder/russian
-	mutantbrain = /obj/item/organ/internal/brain/beefman
-	mutanttongue = /obj/item/organ/internal/tongue/beefman
+	mutantbrain = /obj/item/organ/brain/beefman
+	mutanttongue = /obj/item/organ/tongue/beefman
 	skinned_type = /obj/item/food/meatball
 	meat = /obj/item/food/meat/slab
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
@@ -44,12 +46,6 @@
 
 	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
-	special_step_sounds = list(
-		'fulp_modules/features/species/sounds/footstep_splat1.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat2.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat3.ogg',
-		'fulp_modules/features/species/sounds/footstep_splat4.ogg',
-	)
 
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.
 	var/dehydrated = 0
@@ -63,8 +59,7 @@
 	)
 
 // Taken from Ethereal
-/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load)
-	. = ..()
+/datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load, regenerate_icons)
 	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
 	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
@@ -72,7 +67,7 @@
 	if(!user.dna.features["beef_color"])
 		randomize_features(user)
 	update_beefman_color(user)
-
+	. = ..()
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
@@ -81,10 +76,16 @@
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
 	features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	features["beef_eyes"] = pick(GLOB.eyes_beefman)
-	features["beef_mouth"] = pick(GLOB.mouths_beefman)
+	features["beef_eyes"] = pick(SSaccessories.eyes_beefman_list)
+	features["beef_mouth"] = pick(SSaccessories.mouths_beefman_list)
 	return features
-
+/*
+/datum/species/beefman/prepare_human_for_preview(mob/living/carbon/human/human)
+	human.dna.features["beef_color"] = "#e73f4e"
+	human.dna.features["beef_eyes"] = "Capers"
+	human.dna.features["beef_mouth"] = "Gritting Smile"
+	human.update_body(is_creating = TRUE)
+*/
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
 	var/searJuices = user.getFireLoss_nonProsthetic() / 30
@@ -107,112 +108,17 @@
 		dehydrated++
 	return ..()
 
-/datum/species/beefman/handle_mutant_bodyparts(mob/living/carbon/human/source, forced_colour)
-	. = ..()
-	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
-	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
-	var/list/standing = list()
-
-	source.remove_overlay(BODY_BEHIND_LAYER)
-	source.remove_overlay(BODY_ADJ_LAYER)
-	source.remove_overlay(BODY_FRONT_LAYER)
-
-	if(!mutant_bodyparts || HAS_TRAIT(source, TRAIT_INVISIBLE_MAN))
-		return
-
-	if(!bodyparts_to_add)
-		return
-
-	var/g = (source.physique == FEMALE) ? "f" : "m"
-
-	for(var/layer in relevent_layers)
-		var/layertext = mutant_bodyparts_layertext(layer)
-
-		for(var/bodypart in bodyparts_to_add)
-			var/datum/sprite_accessory/accessory
-			switch(bodypart)
-				if("beef_eyes")
-					if(source.get_organ_slot(ORGAN_SLOT_EYES)) // Only draw eyes if we got em
-						accessory = GLOB.eyes_beefman[source.dna.features["beef_eyes"]]
-				if("beef_mouth")
-					accessory = GLOB.mouths_beefman[source.dna.features["beef_mouth"]]
-
-			if(!accessory || accessory.icon_state == "none")
-				continue
-
-			var/mutable_appearance/accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-
-			if(accessory.gender_specific)
-				accessory_overlay.icon_state = "[g]_[bodypart]_[accessory.icon_state]_[layertext]"
-			else
-				accessory_overlay.icon_state = "m_[bodypart]_[accessory.icon_state]_[layertext]"
-
-			if(accessory.em_block)
-				accessory_overlay.overlays += emissive_blocker(accessory_overlay.icon, accessory_overlay.icon_state, accessory_overlay.alpha)
-
-			if(accessory.center)
-				accessory_overlay = center_image(accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
-				if(!forced_colour)
-					switch(accessory.color_src)
-						if(MUTANT_COLOR)
-							if(fixed_mut_color)
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.dna.features["mcolor"]
-						if(HAIR_COLOR)
-							if(hair_color == "mutcolor")
-								accessory_overlay.color = source.dna.features["mcolor"]
-							else if(hair_color == "fixedmutcolor")
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.hair_color
-						if(FACIAL_HAIR_COLOR)
-							accessory_overlay.color = source.facial_hair_color
-						if(EYE_COLOR)
-							accessory_overlay.color = source.eye_color_left
-				else
-					accessory_overlay.color = forced_colour
-			standing += accessory_overlay
-
-			if(accessory.hasinner)
-				var/mutable_appearance/inner_accessory_overlay = mutable_appearance(accessory.icon, layer = -layer)
-				if(accessory.gender_specific)
-					inner_accessory_overlay.icon_state = "[g]_[bodypart]inner_[accessory.icon_state]_[layertext]"
-				else
-					inner_accessory_overlay.icon_state = "m_[bodypart]inner_[accessory.icon_state]_[layertext]"
-
-				if(accessory.center)
-					inner_accessory_overlay = center_image(inner_accessory_overlay, accessory.dimension_x, accessory.dimension_y)
-
-				standing += inner_accessory_overlay
-
-		source.overlays_standing[layer] = standing.Copy()
-		standing = list()
-
-	source.apply_overlay(BODY_BEHIND_LAYER)
-	source.apply_overlay(BODY_ADJ_LAYER)
-	source.apply_overlay(BODY_FRONT_LAYER)
-
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
-	fixed_mut_color = beefman.dna.features["beef_color"]
+	var/my_color = beefman.dna.features["beef_color"]
+	if(isnull(my_color))
+		return
+	fixed_mut_color = my_color
 
 /datum/species/beefman/get_features()
 	var/list/features = ..()
 	features += "feature_beef_color"
-	features += "feature_beef_eyes"
-	features += "feature_beef_mouth"
-	features += "feature_beef_trauma"
-
 	return features
-
-/datum/species/beefman/random_name(gender, unique, lastname)
-	if(unique)
-		return random_unique_beefman_name()
-	var/randname = beefman_name()
-	return randname
 
 /mob/living/carbon/human/species/beefman
 	race = /datum/species/beefman
@@ -222,27 +128,30 @@
  */
 
 /datum/species/beefman/get_species_description()
-	return "Made entirely out of beef, Beefmen are completely delusional \
-		through and through, with constant hallucinations and 'tears in reality'"
+	return "Thanks to being made entirely out of beef, Beefman's brains are deeply flawed, \
+		causing them to suffer constant hallucinations and 'tears in reality'"
 
 /datum/species/beefman/get_species_lore()
 	return list(
-		"On a very quiet day, the Russian-famous Fiddler Diner was serving food to the crew, when they realized they ran out of burger ingredients. \
-		After drawing straws, the Cook was sent to fetch some more meat from the Morgue, unaware of the events that will transpire. \
-		'It's normal for the Kitchen to grab dead bodies, right? It's not like they need them... Right?' The Cook thought, \
-		inattentively grabbing the first body they could find, trying to get this over with before it becomes a memory. \
-		What the Cook hadn't noticed, the Morgue's tray was green, the body was filled with a soul, one that was begging not to be gibbed.",
+		"In the year 2437 the Post-Neo-Soviet Fiddler Diner was serving food aboard the cruise ship Mustai Karim. Shortly into lunch the diner's kitchen ran out of burger meat. \
+		After straws were drawn, a neophyte cook— blissfully unaware of what would soon transpire— went to fetch some meat from the morgue. \
+		The cook thought, \"We do this all the time, right? The dead don't need their bodies, it's only being resourceful...\" \
+		Inattentively grabbing the first body they could find, the cook rushed to complete their unenviable task lest it were to become an enduring memory. \
+		What the cook didn't noticed was a green, lit revivability indicator on the morgue tray they were ransacking. The body had a soul— one that was determined to not have its vessel gibbed.",
 
-		"The Cook one'd and two'd the body into the gibber and turned it on, the grinder struggling to keep up on its unupgraded parts. \
-		Once the whole body entered the machine, it suddenly stopped working, and instead started spitting the meat back out, as if it was in reverse... \
-		The Cook looked over to see what was going on, but the slab of meat looked back, with massive eyes.",
+		"The young cook returned to their diner's cold room and shoved the corpse into the gibber. The machine struggled in tedium with its unupgraded parts. \
+		Once the whole body was in, the grinder's blades suddenly stopped and (with a horrible shriek) they began spinning in reverse. \
+		The cook looked over on impulse, but to their horror a grinning slab of meat looked back at them with lively yet somnambulant eyes.",
 
-		"After a quick confiscation from the Russian Sol Government, most records of 'Beefmen' have gone dark, \
-		with minor glimpses of 'Sleep Experiments' going around. \
-		One thing is certain though, a rise of gibbers on-board Russian stations, which was followed by a rise in Beefmen. \
-		No one knows what happened during this era, but when the program finally ended and they were allowed into society, \
-		none of them were able to live 'normally'. Their complete inability to sleep, but their power in traversing the 'Phobetor Tear' \
-		immediately started popping everywhere, and has been at the	forefront of galaxy-wide investigations of their anatomy and the experiments.",
+		"The Mustai Karim went off of AIS tracking around this point. Searches were organized, but they were immediately halted when the missing ship arrived at its final destination three days behind schedule. \
+		The majority of its non-vital crew were missing, and the Third Soviet Cost Guard (after a brief investigation) released a complex explanation involving piracy, miscommunication, and an unparalleled amount of misfortune.",
+
+		"Three years passed before reports of skinless vagrants arose throughout Post-Neo-Soviet Space. At the epicenter of this conundrum was an obscure military research facility that coincidentally \
+		exploded right before the \"Аномальные появления\" began. The Third Soviet Government fell completely silent at this, so the members of the general public were left to make their own excuses.  \
+		Most thought it was some sort of macabre fad; some arranged unintuitive scientific explanations involving the effects of space radiation on humanoid genetics; and others spread rumours of clandestine, \
+		government-sponsored \"sleep experiments\". Regardless of their origins, the \"Beefmen\" quickly integrated into wider galactic society. \
+		None of them were able to live completely normal lives. They were utterly unable to sleep, and they could apparently traverse an inexplicable sub-spatial web of what they termed \"Phobetor Tears\". \
+		Because of the discovery of this Phobetor Network, they are now a common sight on research stations of nearly every variety.",
 	)
 
 /datum/species/beefman/create_pref_unique_perks()
@@ -252,50 +161,50 @@
 		//Positive
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
-			SPECIES_PERK_ICON = "meat",
+			SPECIES_PERK_ICON = "handshake",
 			SPECIES_PERK_NAME = "Beefy Limbs",
-			SPECIES_PERK_DESC = "Beefmen are able to tear off and put limbs back on at will. They do this by targetting their limb and right clicking.",
+			SPECIES_PERK_DESC = "Beefmen are able to tear off limbs and put them back at will. This can be done by targetting a limb and right clicking with an empty hand.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "running",
 			SPECIES_PERK_NAME = "Runners",
-			SPECIES_PERK_DESC = "Beefmen are 20% faster than other species by default, allowing them to outrun things that normal crewmembers cannot.",
+			SPECIES_PERK_DESC = "Beefmen are 20% faster than most humanoids.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "temperature-low",
 			SPECIES_PERK_NAME = "Cold Loving",
-			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold, even helping them prevent bleeding.",
+			SPECIES_PERK_DESC = "Beefmen are completely immune to the cold. Low temperatures even prevent them from bleeding.",
 		),
 		//Neutral
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "link",
 			SPECIES_PERK_NAME = "Phobetor Tears",
-			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor tears, small tears in reality that, \
-				When used, teleports you to the other end of the tear. This cannot if someone is near the start and end.",
+			SPECIES_PERK_DESC = "Beefmen can see and use Phobetor Tears: small tears in reality \
+				that temporarily connect random areas. Beefmen know where individual tears lead, \
+				but they can only move through them when both sides of a tear are unobserved.",
 		),
 		//Negative
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "shield-alt",
 			SPECIES_PERK_NAME = "Boneless Meat",
-			SPECIES_PERK_DESC = "Beefmen's meat is not well guarded, taking 20% more damage than normal crew.",
+			SPECIES_PERK_DESC = "Beefmen are made of meat and have no skin. This causes them to take 20% more damage.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "tint",
 			SPECIES_PERK_NAME = "Juice Bleeding",
-			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above [BEEFMAN_BLEEDOUT_LEVEL-T0C] Celsius, \
-				Though scaling burn damage will prevent the bleeding.",
+			SPECIES_PERK_DESC = "Beefmen will begin to bleed out when their temperature is above [BEEFMAN_BLEEDOUT_LEVEL-T0C] Celsius. \
+				Burn damage will prevent bleeding.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "briefcase-medical",
-			SPECIES_PERK_NAME = "Mentally unfit",
-			SPECIES_PERK_DESC = "Beefmen suffer terribly from a permanent brain trauma. \
-				that can't be repaired under normal circumstances.",
+			SPECIES_PERK_NAME = "Mentally Unwell",
+			SPECIES_PERK_DESC = "Beefmen suffer from a permanent brain trauma that causes hallucinations.",
 		),
 	)
 
@@ -334,10 +243,6 @@
 	bleed_over_target(user, target)
 	return ..()
 
-/datum/species/beefman/grab(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
-	bleed_over_target(user, target)
-	return ..()
-
 /datum/species/beefman/disarm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(user != target)
 		return ..()
@@ -351,7 +256,7 @@
 
 	// Pry it off...
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/tongue = user.get_organ_by_type(/obj/item/organ/internal/tongue)
+		var/obj/item/organ/tongue/tongue = user.get_organ_by_type(/obj/item/organ/tongue)
 		if(!tongue)
 			return FALSE
 		user.visible_message(
@@ -384,12 +289,12 @@
 	if(!istype(meat, /obj/item/food/meat/slab))
 		return
 	var/target_zone = attacker.zone_selected
-	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/internal/tongue))
+	if(target_zone == BODY_ZONE_PRECISE_MOUTH && beefboy.get_organ_by_type(/obj/item/organ/tongue))
 		return
 	var/obj/item/bodypart/affecting = beefboy.get_bodypart(check_zone(target_zone))
 	if(!(target_zone in tearable_limbs))
 		return
-	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/internal/tongue)))
+	if(affecting && (!(target_zone == BODY_ZONE_PRECISE_MOUTH) || beefboy.get_organ_by_type(/obj/item/organ/tongue)))
 		return
 	attacker.visible_message(
 		span_notice("[attacker] begins mashing [meat] into [beefboy]."),
@@ -399,7 +304,7 @@
 		return FALSE
 
 	if(target_zone == BODY_ZONE_PRECISE_MOUTH)
-		var/obj/item/organ/internal/tongue/beefman/new_tongue = new()
+		var/obj/item/organ/tongue/beefman/new_tongue = new()
 		new_tongue.Insert(attacker)
 		attacker.visible_message(
 			span_notice("The [meat] sprouts and becomes [beefboy]'s new [new_tongue.name]!"),
@@ -447,8 +352,6 @@
 			new_sash = new /obj/item/clothing/under/bodysash/medical()
 		if(JOB_CHEMIST)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/chemist()
-		if(JOB_VIROLOGIST)
-			new_sash = new /obj/item/clothing/under/bodysash/medical/virologist()
 		if(JOB_PARAMEDIC)
 			new_sash = new /obj/item/clothing/under/bodysash/medical/paramedic()
 

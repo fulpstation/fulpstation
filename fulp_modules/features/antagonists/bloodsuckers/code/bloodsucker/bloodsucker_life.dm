@@ -43,11 +43,11 @@
 
 /datum/antagonist/bloodsucker/proc/AddHumanityLost(value)
 	if(humanity_lost >= 500)
-		to_chat(owner.current, span_warning("You hit the maximum amount of lost Humanty, you are far from Human."))
+		to_chat(owner.current, span_warning("You hit the maximum amount of lost humanity. You are far from human."))
 		return
 	humanity_lost += value
 	frenzy_threshold = (FRENZY_MINIMUM_THRESHOLD_ENTER + humanity_lost * 10)
-	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [frenzy_threshold] Blood."))
+	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity. You will now enter frenzy at [frenzy_threshold] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount
 /datum/antagonist/bloodsucker/proc/handle_feeding(mob/living/carbon/target, mult=1, power_level)
@@ -104,7 +104,9 @@
 		mult *= 5 // Increase multiplier if we're sleeping in a coffin.
 		costMult /= 2 // Decrease cost if we're sleeping in a coffin.
 		user.extinguish_mob()
-		user.remove_all_embedded_objects() // Remove Embedded!
+		for(var/obj/item/bodypart/bodypart as anything in user.bodyparts) //Remove all embeds, we don't use `remove_all_embedded_objects()` because it sleeps.
+			for(var/obj/item/embedded as anything in bodypart.embedded_objects)
+				qdel(embedded)
 		if(check_limbs(costMult))
 			return TRUE
 	// In Torpor, but not in a Coffin? Heal faster anyways.
@@ -131,7 +133,7 @@
 		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(missing_limb) // 2) Limb returns Damaged
 		missing_bodypart.brute_dam = 60
 		to_chat(user, span_notice("Your flesh knits as it regrows your [missing_bodypart]!"))
-		playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+		playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 		return TRUE
 
 /*
@@ -157,9 +159,10 @@
 	for(var/obj/item/organ/organ as anything in bloodsuckeruser.organs)
 		organ.set_organ_damage(0)
 	if(!HAS_TRAIT(bloodsuckeruser, TRAIT_MASQUERADE))
-		var/obj/item/organ/internal/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
-		current_heart.Stop()
-	var/obj/item/organ/internal/eyes/current_eyes = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_EYES)
+		var/obj/item/organ/heart/current_heart = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_HEART)
+		if(!isnull(current_heart))
+			current_heart.Stop()
+	var/obj/item/organ/eyes/current_eyes = bloodsuckeruser.get_organ_slot(ORGAN_SLOT_EYES)
 	if(current_eyes)
 		current_eyes.flash_protect = max(initial(current_eyes.flash_protect) - 1, FLASH_PROTECTION_SENSITIVE)
 		current_eyes.color_cutoffs = list(25, 8, 5)
@@ -172,8 +175,8 @@
 		iter_wound.remove_wound()
 	// From [powers/panacea.dm]
 	var/list/bad_organs = list(
-		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/body_egg),
-		bloodsuckeruser.get_organ_by_type(/obj/item/organ/internal/zombie_infection))
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/body_egg),
+		bloodsuckeruser.get_organ_by_type(/obj/item/organ/zombie_infection))
 	for(var/tumors in bad_organs)
 		var/obj/item/organ/yucky_organs = tumors
 		if(!istype(yucky_organs))
@@ -219,7 +222,7 @@
 	owner.current.set_nutrition(min(bloodsucker_blood_volume, NUTRITION_LEVEL_FED))
 
 	//Entering and Exiting Frenzy, which depends on your Humanity level. Exiting requires +FRENZY_EXTRA_BLOOD_NEEDED than entering.
-	if(frenzied)
+	if(owner.current.has_status_effect(/datum/status_effect/frenzy))
 		if(bloodsucker_blood_volume >= (frenzy_threshold + FRENZY_EXTRA_BLOOD_NEEDED))
 			owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	else
@@ -295,13 +298,17 @@
 	if(unique_death & DONT_DUST)
 		return
 
+	// Properly exit Frenzy if Frenzying
+	if(frenzied)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
+
 	// Elders get dusted, Fledglings get gibbed.
 	if(bloodsucker_level >= 4)
 		user.visible_message(
 			span_warning("[user]'s skin crackles and dries, their skin and bones withering to dust. A hollow cry whips from what is now a sandy pile of remains."),
 			span_userdanger("Your soul escapes your withering body as the abyss welcomes you to your Final Death."),
 			span_hear("You hear a dry, crackling sound."))
-		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, dust)), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/atom/movable, dust)), 5 SECONDS, TIMER_UNIQUE|TIMER_STOPPABLE)
 		return
 	user.visible_message(
 		span_warning("[user]'s skin bursts forth in a spray of gore and detritus. A horrible cry echoes from what is now a wet pile of decaying meat."),

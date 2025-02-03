@@ -3,46 +3,46 @@
  * We're only setting the most commonly used items to use it.
  */
 /obj/item/clothing/under/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
 /obj/item/clothing/suit/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/suit/hooded/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/head/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/head/hooded/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/neck/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/shoes/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/gloves/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/mask/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /obj/item/clothing/glasses/costume_2023
-	icon = 'fulp_modules/features/halloween/2023/2023_icons.dmi'
-	worn_icon = 'fulp_modules/features/halloween/2023/2023_icons_worn.dmi'
+	icon = 'fulp_modules/icons/halloween/2023_icons.dmi'
+	worn_icon = 'fulp_modules/icons/halloween/2023_icons_worn.dmi'
 
 /**
  * Chai

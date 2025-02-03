@@ -1,9 +1,9 @@
 import { sortBy } from 'common/collections';
-import { classes } from 'common/react';
 import { useState } from 'react';
+import { AnimatedNumber, Button, Flex } from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+import { classes } from 'tgui-core/react';
 
-import { AnimatedNumber, Button, Flex } from '../../components';
-import { formatSiUnit } from '../../format';
 import { MaterialIcon } from './MaterialIcon';
 import { Material } from './Types';
 
@@ -55,7 +55,7 @@ export const MaterialAccessBar = (props: MaterialAccessBarProps) => {
 
   return (
     <Flex wrap>
-      {sortBy((m: Material) => MATERIAL_RARITY[m.name])(availableMaterials).map(
+      {sortBy(availableMaterials, (m: Material) => MATERIAL_RARITY[m.name]).map(
         (material) => (
           <Flex.Item grow basis={4.5} key={material.name}>
             <MaterialCounter

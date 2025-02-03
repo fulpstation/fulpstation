@@ -10,18 +10,18 @@
 	///The name of the clan we're in.
 	var/name = CLAN_NONE
 	///Description of what the clan is, given when joining and through your antag UI.
-	var/description = "The Caitiff is as basic as you can get with Bloodsuckers. \n\
-		Entirely Clan-less, they are blissfully unaware of who they really are. \n\
-		No additional abilities is gained, nothing is lost, if you want a plain Bloodsucker, this is it. \n\
-		The Favorite Vassal will gain the Brawn ability, to help in combat."
+	var/description = "The Caitiff are as basic as you can get with Bloodsuckers. \n\
+		Entirely clanless, they are blissfully unaware of the greater clan structure. \n\
+		No additional abilities are gained, none are lost: if you want a plain Bloodsucker then this is it. \n\
+		The favorite vassal will gain the Brawn ability to help in combat."
 	///The clan objective that is required to greentext.
 	var/datum/objective/clan_objective
 	///The icon of the radial icon to join this clan.
-	var/join_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/clan_icons.dmi'
+	var/join_icon = 'fulp_modules/icons/antagonists/bloodsuckers/clan_icons.dmi'
 	///Same as join_icon, but the state
 	var/join_icon_state = "caitiff"
 	///Description shown when trying to join the clan.
-	var/join_description = "The default, Classic Bloodsucker."
+	var/join_description = "The default, classic Bloodsucker."
 	///Whether the clan can be joined by players. FALSE for flavortext-only clans.
 	var/joinable_clan = TRUE
 	///Boolean on whether the clan shows up in the Archives of the Kindred.
@@ -127,7 +127,7 @@
  */
 /datum/bloodsucker_clan/proc/on_vassal_made(datum/antagonist/bloodsucker/source, mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
-	user.playsound_local(null, 'sound/effects/explosion_distant.ogg', 40, TRUE)
+	user.playsound_local(null, 'sound/effects/explosion/explosion_distant.ogg', 40, TRUE)
 	target.playsound_local(null, 'sound/effects/singlebeat.ogg', 40, TRUE)
 	target.set_timed_status_effect(15 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
 	INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "laugh")
@@ -207,6 +207,7 @@
 	if(bloodsuckerdatum.bloodsucker_level == 4)
 		bloodsuckerdatum.SelectReputation(am_fledgling = FALSE, forced = TRUE)
 
+
 	to_chat(bloodsuckerdatum.owner.current, span_notice("You are now a rank [bloodsuckerdatum.bloodsucker_level] Bloodsucker. \
 		Your strength, health, feed rate, regen rate, and maximum blood capacity have all increased! \n\
 		* Your existing powers have all ranked up as well!"))
@@ -214,7 +215,7 @@
 	bloodsuckerdatum.update_hud()
 
 /**
- * Called when we are trying to turn someone into a Favorite Vassal
+ * Called when we are trying to turn someone into a special type of vassal.
  * args:
  * bloodsuckerdatum - the antagonist datum of the Bloodsucker performing this.
  * vassaldatum - the antagonist datum of the Vassal being offered up.
@@ -225,17 +226,32 @@
 	INVOKE_ASYNC(src, PROC_REF(interact_with_vassal), bloodsuckerdatum, vassaldatum)
 
 /datum/bloodsucker_clan/proc/interact_with_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)
+	var/datum/mind/vassal_mind = vassaldatum.owner
+	var/datum/objective/source_objective = source.my_clan?.clan_objective
 	if(vassaldatum.special_type)
 		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal was already assigned a special position."))
 		return FALSE
 	if(!vassaldatum.owner.can_make_special(creator = bloodsuckerdatum.owner))
-		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a Special rank due to innate features."))
+		to_chat(bloodsuckerdatum.owner.current, span_notice("This Vassal is unable to gain a special rank due to innate features."))
 		return FALSE
+	if(istype(source_objective, /datum/objective/brujah_clan_objective) && (source_objective.target == vassal_mind))
+		var/datum/objective/brujah_clan_objective/brujah_objective = source_objective
+		for(var/obj/item/implant/mindshield/implant in vassal_mind.current.implants)
+			implant.removed(vassal_mind.current, silent = TRUE)
+
+		vassaldatum.make_special(/datum/antagonist/vassal/discordant)
+		brujah_objective.target_subverted = TRUE
+		to_chat(source.owner, span_notice("You have turned [vassal_mind.current.name] into a Discordant Vassal."))
+		playsound(get_turf(vassal_mind.current), 'sound/effects/rock/rocktap3.ogg', 75)
+		vassaldatum.owner.announce_objectives()
+		return TRUE
 
 	var/list/options = list()
 	var/list/radial_display = list()
 	for(var/datum/antagonist/vassal/vassaldatums as anything in subtypesof(/datum/antagonist/vassal))
 		if(bloodsuckerdatum.special_vassals[initial(vassaldatums.special_type)])
+			continue
+		if(vassaldatums.special_type == DISCORDANT_VASSAL && (!source.my_clan.clan_objective || vassaldatum.owner != source.my_clan.clan_objective.target))
 			continue
 		options[initial(vassaldatums.name)] = vassaldatums
 
@@ -255,7 +271,7 @@
 	if(QDELETED(src) || QDELETED(bloodsuckerdatum.owner.current) || QDELETED(vassaldatum.owner.current))
 		return FALSE
 	vassaldatum.make_special(vassal_response)
-	bloodsuckerdatum.bloodsucker_blood_volume -= 150
+	bloodsuckerdatum.AddBloodVolume(-150)
 	return TRUE
 
 /**

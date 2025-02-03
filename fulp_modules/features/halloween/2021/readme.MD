@@ -48,7 +48,7 @@ If you want to do it yourself, then;
 
 [2] 'desc' is the text that comes up when you examine the suit. This should be a small description related to the item itself.
 
-[2.1] If your costume is more complex and should explain more in the description, you can add it to /examine_more(mob/user) - Look at 'features/clothing/body_cameras/body_camera.dm' for an example.
+[2.1] If your costume is more complex and should explain more in the description, you can add it to /examine_more(mob/user) - Look at 'icons/clothing/body_camera.dm' for an example.
 
 #### Jumpsuits
 
@@ -79,7 +79,7 @@ Hardhats are used for hats you want to have an alternate icon to, that you can s
 
 - <b>Make sure your .dmi file has a unique name. If it is a moth cape, name it 'moth_cape' instead of 'cape'.</b>
 
-- When adding a new sprite, make sure it is a subtype of /costume_2021 if it exists, all of which can be seen at the start of 'fulp_modules/features/halloween/2021/costumes.dm'. This is because all clothes that are under /costume_2021 are automatically set to use our primary 2021 .dmi file, meaning you will not have to set 'icon' or 'worn_icon', and 'icon_state' will be the only thing to worry about.
+- When adding a new sprite, make sure it is a subtype of /costume_2021 if it exists, all of which can be seen at the start of 'fulp_modules/icons/halloween/costumes.dm'. This is because all clothes that are under /costume_2021 are automatically set to use our primary 2021 .dmi file, meaning you will not have to set 'icon' or 'worn_icon', and 'icon_state' will be the only thing to worry about.
 
 [4] To Add your sprites to the main .dmi file, go to Graphic > Import > Find your old .dmi file, and use it.
 
@@ -95,7 +95,7 @@ There are three things to keep note of: Name, Illustration and costume_contents.
 
 [1] Name is what it will be called when ordering your costume from a Halloween beacon (the ones purchased at Cargo)
 
-[2] Illustration is the image on the box, if you want to see all illustrations you can use (or want to add more, in which case you will have to talk with @Halloween Helper's on Discord), check 'fulp_modules/features/halloween/box.dmi' for all icon states.
+[2] Illustration is the image on the box, if you want to see all illustrations you can use (or want to add more, in which case you will have to talk with @Halloween Helper's on Discord), check 'fulp_modules/icons/halloween/box.dmi' for all icon states.
 
 [3] costume_contents is all the items that will be in the box, this is the easiest way to add something, just put the path of the clothing you've made there, and it'll appear in game when ordering that box.
 
@@ -118,7 +118,7 @@ Example of how it should be done:
 This will add your randomly chosen item into the kit when being purchased.
 
 [3.2] If you want to add a 'Random' option to a list of kits you've added
-This is a rare enough thing to see, and it shouldn't generally happen, but if you need to, refer to 'fulp_modules/features/halloween/2021/power_rangers.dm' and 'fulp_modules/features/halloween/2021/onesies.dm' to see how it's done.
+This is a rare enough thing to see, and it shouldn't generally happen, but if you need to, refer to 'fulp_modules/icons/halloween/power_rangers.dm' and 'fulp_modules/icons/halloween/onesies.dm' to see how it's done.
 
 I am not explaining it here as I do not want to encourage that type of behavior. Each costume should be unique.
 

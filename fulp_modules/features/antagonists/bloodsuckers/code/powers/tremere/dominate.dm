@@ -17,7 +17,7 @@
 	desc = "Mesmerize any foe who stands still long enough."
 	button_icon_state = "power_dominate"
 	power_explanation = "Level 1: Dominate:\n\
-		Click any person to, after a 4 second timer, Mesmerize them.\n\
+		Click any person to mesmerize them after four seconds.\n\
 		This will completely immobilize them for the next 10.5 seconds."
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
 	bloodcost = 15
@@ -32,7 +32,7 @@
 	level_current = 2
 	desc = "Mesmerize and mute any foe who stands still long enough."
 	power_explanation = "Level 2: Dominate:\n\
-		Click any person to, after a 4 second timer, Mesmerize them.\n\
+		Click any person to mesmerize them after four seconds.\n\
 		This will completely immobilize and mute them for the next 12 seconds."
 	bloodcost = 20
 	cooldown_time = 40 SECONDS
@@ -43,7 +43,7 @@
 	level_current = 3
 	desc = "Mesmerize, mute and blind any foe who stands still long enough."
 	power_explanation = "Level 3: Dominate:\n\
-		Click any person to, after a 4 second timer, Mesmerize them.\n\
+		Click any person to mesmerize them after four seconds.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds."
 	bloodcost = 30
 	cooldown_time = 35 SECONDS
@@ -68,13 +68,13 @@
 	name = "Level 4: Possession"
 	upgraded_power = /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/advanced/two
 	level_current = 4
-	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
+	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary vassals."
 	power_explanation = "Level 4: Possession:\n\
-		Click any person to, after a 4 second timer, Mesmerize them.\n\
+		Click any person to mesmerize them after four seconds.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
-		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
-		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
-		Despite being Mute and Deaf, they will still have complete loyalty to you, until their death in 5 minutes upon use."
+		However, if your target is in critical condition or dead and you are adjacent to them, they will instead be turned into a temporary vassal.\n\
+		If you use this on a currently dead full-time vassal, you will instead revive them normally.\n\
+		Despite being mute and deaf, they will still have complete loyalty to you, but <b>they will die five minutes after use</b>."
 	background_icon_state = "tremere_power_gold_off"
 	active_background_icon_state = "tremere_power_gold_on"
 	base_background_icon_state = "tremere_power_gold_off"
@@ -83,15 +83,15 @@
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/advanced/two
 	name = "Level 5: Possession"
-	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary Vassals."
+	desc = "Mesmerize, mute and blind any foe who stands still long enough, or convert the damaged to temporary vassals."
 	level_current = 5
 	upgraded_power = null
 	power_explanation = "Level 5: Possession:\n\
-		Click any person to, after a 4 second timer, Mesmerize them.\n\
+		Click any person to mesmerize them after four seconds.\n\
 		This will completely immobilize, mute, and blind them for the next 13.5 seconds.\n\
-		However, while adjacent to the target, if your target is in critical condition or dead, they will instead be turned into a temporary Vassal.\n\
-		If you use this on a currently dead normal Vassal, you will instead revive them normally.\n\
-		They will have complete loyalty to you, until their death in 8 minutes upon use."
+		However, if your target is in critical condition or dead and you are adjacent to them, they will instead be turned into a temporary vassal.\n\
+		If you use this on a currently dead full-time vassal, you will instead revive them normally.\n\
+		They will have complete loyalty to you, but <b>they will die eight minutes after use</b>."
 	bloodcost = 100
 	cooldown_time = 2 MINUTES
 
@@ -187,5 +187,5 @@
 /datum/action/cooldown/bloodsucker/targeted/tremere/proc/end_possession(mob/living/user)
 	user.remove_traits(list(TRAIT_MUTE, TRAIT_DEAF), BLOODSUCKER_TRAIT)
 	user.mind.remove_antag_datum(/datum/antagonist/vassal)
-	to_chat(user, span_warning("You feel the Blood of your Master run out!"))
+	to_chat(user, span_warning("You feel the blood of your master run out! Your time amongst the living was much more temporary than you intially thought!"))
 	user.death()

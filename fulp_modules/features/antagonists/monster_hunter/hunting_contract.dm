@@ -1,9 +1,10 @@
 /obj/item/hunting_contract
 	name = "\improper Hunter's Contract"
-	desc = "A contract detailing all the guidelines a good hunter needs."
+	desc = "A contract written in an exotic language and marked with a red, queenly stamp.."
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll2"
 	w_class = WEIGHT_CLASS_SMALL
+	resistance_flags = INDESTRUCTIBLE
 	///have we claimed our weapon?
 	var/bought = FALSE
 	///the datum containing all weapons
@@ -24,6 +25,20 @@
 		weapons += new items
 	if(hunter)
 		owner = hunter
+
+/obj/item/hunting_contract/examine(mob/user)
+	. = ..()
+	if(user.mind == owner.owner) //If the examining mob's mind is the mind owning the antag datum that owns the contract
+		. += span_notice("This is your hunting contract.")
+		. += span_notice("You may use it to call in one trick weapon of your choosing.")
+		. += span_notice("<b>Do not lose it</b> if you intend to achieve something greater as a harbinger of Wonderland.")
+		return
+	if(IS_HERETIC_OR_MONSTER(user))
+		. += span_notice("This is the contract of a heathen who may hunt Mansus scholars.")
+	if(IS_BLOODSUCKER(user))
+		. += span_cult("This is the contract of a mortal who may hunt the Kindred in all of their forms.")
+	if(IS_CHANGELING(user))
+		. += span_changeling("This is the contract of an audacious lesser organism who may hunt those of our kind.")
 
 /obj/item/hunting_contract/ui_interact(mob/living/user, datum/tgui/ui)
 	if(!IS_MONSTERHUNTER(user))
@@ -78,7 +93,7 @@
 			if(!objectives_completed || length(owner.rabbits) || used_up)
 				return
 			if(!is_station_level(loc.z))
-				to_chat(usr, span_warning("The pull of the ice moon isn't strong enough here...."))
+				to_chat(usr, span_warning("The pull of the Ice Moon isn't strong enough here..."))
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 			used_up = TRUE
@@ -98,7 +113,7 @@
 
 	podspawn(list(
 		"target" = get_turf(user),
-		"style" = STYLE_SYNDICATE,
+		"style" = /datum/pod_style/syndicate,
 		"spawn" = purchased,
 		))
 
@@ -117,18 +132,18 @@
 
 /datum/hunter_weapons/threaded_cane
 	name = "Threaded cane"
-	desc = "cane made out of heavy metal, can transform into a whip to strike foes from afar."
+	desc = "A cane made out of lighter metals, can transform into a whip to strike foes from afar."
 	item = /obj/item/melee/trick_weapon/threaded_cane
 
 
 /datum/hunter_weapons/hunter_axe
 	name = "Hunter's axe"
-	desc = "simple axe for hunters that lean towards barbarian tactics, can transform into a double bladed axe."
+	desc = "A simple but devastating axe for hunters that lean towards barbaric tactics, can be wielded as a double bladed axe."
 	item = /obj/item/melee/trick_weapon/hunter_axe
 
 /datum/hunter_weapons/darkmoon_greatsword
 	name = "Darkmoon greatsword"
-	desc = "a heavy sword hilt that would knock anyone out cold, can transform into the darkmoonlight greatsword. "
+	desc = "A sword that can fire beams of moonlight and be extended or withdrawn from its hilt. "
 	item = /obj/item/melee/trick_weapon/darkmoon
 
 

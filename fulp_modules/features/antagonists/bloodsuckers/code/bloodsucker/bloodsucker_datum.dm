@@ -8,15 +8,15 @@
 	show_name_in_check_antagonists = TRUE
 	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
-	hud_icon = 'fulp_modules/features/antagonists/bloodsuckers/icons/bloodsucker_icons.dmi'
+	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'
 	ui_name = "AntagInfoBloodsucker"
 	preview_outfit = /datum/outfit/bloodsucker_outfit
 	tip_theme = "spookyconsole"
 	antag_tips = list(
-		"You are a Bloodsucker, an undead blood-seeking monster living aboard Space Station 13.",
-		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a Frenzy!",
-		"Use your Antagonist UI page to enter a Clan and learn how your Powers work.",
-		"While not in a Clan, you will be unable to rank up, Feed, or do any other Bloodsucker activities.",
+		"You are a Bloodsucker, a type of vampire who has infiltrated Space Station 13.",
+		"You regenerate your health slowly, you're weak to fire, and you depend on blood to survive. Don't allow your blood to run too low, or you'll enter a frenzy!",
+		"Use your Antagonist UI page to enter a clan and learn how your powers work.",
+		"While not in a clan, you will be unable to rank up, feed, or do any other Bloodsucker activities.",
 	)
 
 	/// How much blood we have, starting off at default blood levels.
@@ -25,6 +25,11 @@
 	var/max_blood_volume = 600
 
 	var/datum/bloodsucker_clan/my_clan
+
+
+	/// The bloodsucker structure (if any,) being used by the owner of this antag datum.
+	/// Currently only used to make blood mirrors functional, but it could have applications elsewhere.
+	var/obj/structure/bloodsucker/blood_structure_in_use = null
 
 	// TIMERS //
 	///Timer between alerts for Burn messages
@@ -57,8 +62,12 @@
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
-	///Special vassals I own, to not have double of the same type.
-	var/list/datum/antagonist/vassal/special_vassals = list()
+	/// List of special vassals owned. Referenced to make sure we don't get two of the same type.
+	/// Discordant vassals are here because only Brujah should be able to make them.
+	var/list/datum/antagonist/vassal/special_vassals = list(
+		//This is an unlockable vassal, this prevents Bloodsuckers from making one.
+		DISCORDANT_VASSAL,
+	)
 
 	var/bloodsucker_level = 0
 	var/bloodsucker_level_unspent = 1
@@ -67,7 +76,7 @@
 
 	// Used for Bloodsucker Objectives
 	var/area/bloodsucker_lair_area
-	var/obj/structure/closet/crate/coffin
+	var/obj/structure/closet/crate/claimed_coffin
 	var/total_blood_drank = 0
 
 	///Blood display HUD
@@ -103,6 +112,7 @@
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_TOXIMMUNE,
 		TRAIT_HARDLY_WOUNDED,
+		TRAIT_NO_MIRROR_REFLECTION, //Mirrors aren't THAT common— besides, Masquerade can cover this up.
 	)
 
 /**
@@ -182,6 +192,7 @@
 		.["Add Clan"] = CALLBACK(src, PROC_REF(admin_set_clan))
 
 ///Called when you get the antag datum, called only ONCE per antagonist.
+///The signals registered with the sol subsystem here are reregistered on mind transfer.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
 	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start))
@@ -257,13 +268,30 @@
 		old_body.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 	new_body.add_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 
+	//Give the datum the blood volume of its new body.
+	bloodsucker_blood_volume = new_body.blood_volume
+
+	//Enter or exit Frenzy depending on our new blood volume
+	if(bloodsucker_blood_volume >= frenzy_threshold)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
+	else
+		owner.current.apply_status_effect(/datum/status_effect/frenzy)
+
+	//Sol-related signals are removed when 'FinalDeath()' is called,
+	//so we'll reregister them here.
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning), TRUE)
+
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
 	var/fullname = return_full_name()
 	to_chat(owner, span_userdanger("You are [fullname], a strain of vampire known as a Bloodsucker!"))
 	owner.announce_objectives()
 	if(bloodsucker_level_unspent >= 2)
-		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus Ranks, entering your claimed coffin allows you to spend a Rank."))
+		to_chat(owner, span_announce("As a latejoiner, you have [bloodsucker_level_unspent] bonus ranks, entering your claimed coffin allows you to spend a rank."))
 	owner.current.playsound_local(null, 'fulp_modules/features/antagonists/bloodsuckers/sounds/BloodsuckerAlert.ogg', 100, FALSE, pressure_affected = FALSE)
 	antag_memory += "Although you were born a mortal, in undeath you earned the name <b>[fullname]</b>.<br>"
 
@@ -275,11 +303,11 @@
 
 // Called when using admin tools to give antag status
 /datum/antagonist/bloodsucker/admin_add(datum/mind/new_owner, mob/admin)
-	var/levels = input("How many unspent Ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
+	var/levels = input("How many unspent ranks would you like [new_owner] to have?","Bloodsucker Rank", bloodsucker_level_unspent) as null | num
 	var/msg = " made [key_name_admin(new_owner)] into \a [name]"
 	if(levels > 1)
 		bloodsucker_level_unspent = levels
-		msg += " with [levels] extra unspent Ranks."
+		msg += " with [levels] extra unspent ranks."
 	message_admins("[key_name_admin(usr)][msg]")
 	log_admin("[key_name(usr)][msg]")
 	new_owner.add_antag_datum(src)
@@ -328,8 +356,8 @@
 		if("join_clan")
 			if(my_clan)
 				return
+			ui.close()
 			assign_clan_and_bane()
-			ui.send_full_update(force = TRUE)
 			return
 
 /datum/antagonist/bloodsucker/roundend_report()
@@ -354,7 +382,7 @@
 
 	// Now list their vassals
 	if(vassals.len)
-		report += "<span class='header'>Their Vassals were...</span>"
+		report += "<span class='header'>Their vassals were...</span>"
 		for(var/datum/antagonist/vassal/all_vassals as anything in vassals)
 			if(!all_vassals.owner)
 				continue
@@ -438,10 +466,10 @@
 	owner.current.remove_language(/datum/language/vampiric)
 	// Heart & Eyes
 	var/mob/living/carbon/user = owner.current
-	var/obj/item/organ/internal/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/heart/newheart = owner.current.get_organ_slot(ORGAN_SLOT_HEART)
 	if(newheart)
 		newheart.Restart()
-	var/obj/item/organ/internal/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(user_eyes)
 		user_eyes.flash_protect = initial(user_eyes.flash_protect)
 		user_eyes.color_cutoffs = initial(user_eyes.color_cutoffs)

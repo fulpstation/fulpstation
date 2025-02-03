@@ -1,12 +1,13 @@
-import { Button, Stack } from '../../../../../components';
+import { Button, Stack } from 'tgui-core/components';
+
 import {
   FeatureChoiced,
   FeatureChoicedServerData,
-  FeatureDropdownInput,
   FeatureNumeric,
   FeatureSliderInput,
   FeatureValueProps,
 } from '../base';
+import { FeatureDropdownInput } from '../dropdowns';
 
 const FeatureTTSDropdownInput = (
   props: FeatureValueProps<string, string, FeatureChoicedServerData>,
