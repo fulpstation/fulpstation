@@ -61,7 +61,7 @@
 	attack_verb_continuous = list("staked", "stabbed", "tore into")
 	attack_verb_simple = list("staked", "stabbed", "tore into")
 	sharpness = SHARP_EDGED
-	embed_data = /datum/embed_data/stake
+	embed_data = /datum/embedding/stake
 	force = 6
 	throwforce = 10
 	max_integrity = 30
@@ -69,7 +69,7 @@
 	///Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
 
-/datum/embed_data/stake
+/datum/embedding/stake
 	embed_chance = 20
 
 /obj/item/stake/attack(mob/living/target, mob/living/user, params)
@@ -130,10 +130,10 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embed_data = /datum/embed_data/hardened_stake
+	embed_data = /datum/embedding/hardened_stake
 	staketime = 80
 
-/datum/embed_data/hardened_stake
+/datum/embedding/hardened_stake
 	embed_chance = 35
 
 /obj/item/stake/hardened/silver
@@ -144,8 +144,8 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embed_data = /datum/embed_data/silver_stake
+	embed_data = /datum/embedding/silver_stake
 	staketime = 60
 
-/datum/embed_data/silver_stake
+/datum/embedding/silver_stake
 	embed_chance = 65
