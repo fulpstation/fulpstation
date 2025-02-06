@@ -74,7 +74,9 @@
 	/// The mob currently being observed by someone using the mirror (if any.)
 	var/mob/living/carbon/human/current_observed = null
 	/// The typepath of the action used to stop observing someone with the mirror.
-	var/datum/action/innate/mirror_observe_stop/stop_observe = /datum/action/innate/mirror_observe_stop
+	var/datum/action/innate/mirror/observe_stop/stop_observe = /datum/action/innate/mirror/observe_stop
+	/// The typepath of the action used to change the person observed while the mirror is active.
+	var/datum/action/innate/mirror/observe_change/change_observe = /datum/action/innate/mirror/observe_change
 	/// The original left eye color of the mob being observed.
 	var/original_eye_color_left
 	/// The original right eye color of the mob being observed.
@@ -90,8 +92,9 @@
 	var/list/update_signals = list(COMSIG_ATOM_BREAK)
 
 	AddComponent(/datum/component/reflection, reflection_filter = reflection_filter, reflection_matrix = reflection_matrix, can_reflect = can_reflect, update_signals = update_signals)
-	stop_observe = new stop_observe(src)
 	register_context()
+	change_observe = new change_observe(src)
+	stop_observe = new stop_observe(src)
 
 /obj/structure/bloodsucker/mirror/Destroy(force)
 	. = ..()
@@ -189,37 +192,39 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	if(!observed)
 		balloon_alert(user, "chosen vassal doesn't exist!")
 		return
-	var/obj/item/organ/eyes/observed_eyes = observed.get_organ_slot(ORGAN_SLOT_EYES)
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 
+	if(!check_observability(user, observed))
+		return
+
+	user.reset_perspective(observed, TRUE)
+	original_eye_color_left = observed.eye_color_left
+	original_eye_color_right = observed.eye_color_right
+	observed.eye_color_left = BLOODCULT_EYE
+	observed.eye_color_right = BLOODCULT_EYE
+	observed.update_body()
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	if(length(bloodsuckerdatum.vassals) > 1)
+		change_observe.Grant(user)
 	stop_observe.Grant(user)
+
 	START_PROCESSING(SSobj, src)
 	user.add_client_colour(/datum/client_colour/glass_colour/red)
 	set_light_on(TRUE)
 
-	if(observed_eyes)
-		user.reset_perspective(observed, TRUE)
-		original_eye_color_left = observed.eye_color_left
-		original_eye_color_right = observed.eye_color_right
-		observed.eye_color_left = BLOODCULT_EYE
-		observed.eye_color_right = BLOODCULT_EYE
-		observed.update_body()
-	else
-		balloon_alert(user, "targeted vassal has no eyes!")
-		return
-
+	bloodsuckerdatum.blood_structure_in_use = src
 	in_use = TRUE
 	icon_state = "blood_mirror_active"
 	playsound(src, 'sound/effects/portal/portal_travel.ogg', 25, frequency = 0.75, use_reverb = TRUE)
 	current_user = user
 	current_observed = observed
-	bloodsuckerdatum.blood_structure_in_use = src
 
 /// Proc used by blood mirrors to stop observing. Arguments default to 'current_user' and 'current_observed'
 /obj/structure/bloodsucker/mirror/proc/stop_observing(mob/living/carbon/human/user = current_user, mob/living/carbon/human/observed = current_observed)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 
 	user.reset_perspective()
+	change_observe.Remove(user)
 	stop_observe.Remove(user)
 	STOP_PROCESSING(SSobj, src)
 	user.remove_client_colour(/datum/client_colour/glass_colour/red)
@@ -239,36 +244,60 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	current_observed = null
 	bloodsuckerdatum.blood_structure_in_use = null
 
-/obj/structure/bloodsucker/mirror/process(seconds_per_tick)
-	if(isdead(current_user))
-		balloon_alert(current_user, "you are dead!")
-		stop_observing()
+/// Proc used by blood mirrors to swap to a different vassal while one is already being observed.
+/obj/structure/bloodsucker/mirror/proc/swap_observed(mob/living/carbon/human/new_observed)
+	if(!new_observed)
+		to_chat(current_user, span_warning("Your chosen vassal doesn't exist!"))
 		return
 
-	if(isdead(current_observed))
-		balloon_alert(current_user, "[current_observed] is dead!")
-		stop_observing()
-		return
+	current_observed.eye_color_left = original_eye_color_left
+	current_observed.eye_color_right = original_eye_color_right
+	current_observed.update_body()
 
-	if(!current_observed.get_organ_slot(ORGAN_SLOT_EYES))
-		balloon_alert(current_user, "[current_observed] has lost their eyes!")
-		stop_observing()
-		return
+	original_eye_color_left = new_observed.eye_color_left
+	original_eye_color_right = new_observed.eye_color_right
+	new_observed.eye_color_left = BLOODCULT_EYE
+	new_observed.eye_color_right = BLOODCULT_EYE
+	new_observed.update_body()
+
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = current_user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	bloodsuckerdatum.blood_structure_in_use = src
+
+	current_user.reset_perspective(new_observed)
+	current_observed = new_observed
+	playsound(src, 'sound/effects/portal/portal_travel.ogg', 25, frequency = 0.75, use_reverb = TRUE)
+
+/// Checks if 'current_observed' and 'current_user' meet observability criteria.
+/// Returns TRUE only once all checks are passed.
+/obj/structure/bloodsucker/mirror/proc/check_observability(mob/living/carbon/human/user = current_user, mob/living/carbon/human/observed = current_observed)
+	if(user.stat == DEAD)
+		to_chat(user, span_danger("You are dead!"))
+		return FALSE
+
+	if(observed.stat == DEAD)
+		to_chat(user, span_danger("[observed.name] is dead!"))
+		return FALSE
+
+	if(!observed.get_organ_slot(ORGAN_SLOT_EYES))
+		balloon_alert(user, span_warning("[observed.name] has no eyes!"))
+		return FALSE
 
 	if(broken)
-		balloon_alert(current_user, "[src] has broken!")
-		stop_observing()
-		return
+		balloon_alert(user, span_warning("[src] has broken!"))
+		return FALSE
 
-	if(!in_range(src, current_user))
-		current_user.balloon_alert(current_user, "you have moved too far from [src]!")
-		stop_observing()
-		return
+	if(!in_range(src, user))
+		user.balloon_alert(user, span_warning("you're too far from [src]!"))
+		return FALSE
 
-	if(!current_user.mind.has_antag_datum(/datum/antagonist/bloodsucker)) //Unlikely, but still...
-		balloon_alert(current_user, "you aren't a bloodsucker anymore!")
+	if(!user.mind.has_antag_datum(/datum/antagonist/bloodsucker)) //Unlikely, but still...
+		balloon_alert(user, span_warning("you aren't a bloodsucker anymore!"))
+		return FALSE
+	return TRUE
+
+/obj/structure/bloodsucker/mirror/process(seconds_per_tick)
+	if(!check_observability())
 		stop_observing()
-		return
 
 /obj/structure/bloodsucker/mirror/attack_hand(mob/living/carbon/human/user)
 	. = ..()
@@ -278,7 +307,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 	if(IS_BLOODSUCKER(user))
 		var/datum/antagonist/bloodsucker/user_bloodsucker_datum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker, FALSE)
-
 		if(!length(user_bloodsucker_datum.vassals))
 			balloon_alert(user, "no vassals!")
 			return
@@ -289,24 +317,29 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 			balloon_alert(user, "already using a mirror!")
 			return
 
-
-		var/vassal_name_list[0]
+		var/list/vassal_name_list[0]
 		for(var/datum/antagonist/vassal/vassal_datum as anything in user_bloodsucker_datum.vassals)
 			vassal_name_list[vassal_datum.owner.name] = vassal_datum
-		var/chosen = tgui_input_list(user, "Select a vassal to watch over...", "Vassal Observation List", vassal_name_list)
 
-		if(chosen)
-			var/datum/antagonist/vassal/chosen_datum = vassal_name_list[chosen]
-			var/mob/chosen_datum_current = chosen_datum.owner.current
-			if(isdead(chosen_datum_current))
-				balloon_alert(user, "[chosen_datum_current.name] is dead!")
-				return
-
-			begin_observing(user, chosen_datum_current)
-			return
+		var/chosen
+		if(length(vassal_name_list) > 1)
+			chosen = tgui_input_list(user, "Select a vassal to watch over...", "Vassal Observation List", vassal_name_list)
 		else
+			chosen = vassal_name_list[1]
+
+		if(!chosen)
 			balloon_alert(user, "no vassal selected!")
 			return
+
+		var/datum/antagonist/vassal/chosen_datum = vassal_name_list[chosen]
+		var/mob/chosen_datum_current = chosen_datum.owner.current
+		if(chosen_datum_current.stat == DEAD)
+			balloon_alert(user, "[chosen_datum_current.name] is dead!")
+			return
+
+		begin_observing(user, chosen_datum_current)
+		return
+
 
 	if(IS_VASSAL(user))
 		balloon_alert(user, "you don't know how to use it!")
@@ -397,17 +430,61 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	victim.gain_trauma(/datum/brain_trauma/mild/phobia/blood, TRAUMA_RESILIENCE_LOBOTOMY)
 	victim.add_mood_event("blood_mirror", /datum/mood_event/bloodmirror)
 
+
+/// The parent action datum for blood mirror action buttons.
+/// (Mainly used for the icon changes.)
+/datum/action/innate/mirror
+	background_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_status_effects.dmi'
+	background_icon_state = "template"
+
+	button_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi'
+
+	overlay_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_status_effects.dmi'
+	overlay_icon_state = "template_border"
+
 /// The action button that allows players to stop using blood mirrors.
-/datum/action/innate/mirror_observe_stop
+/datum/action/innate/mirror/observe_stop
 	name = "Stop Overseeing"
-	button_icon = 'icons/mob/actions/actions_spells.dmi'
 	button_icon_state = "blind"
 
-/datum/action/innate/mirror_observe_stop/Activate()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	var/obj/structure/bloodsucker/mirror/our_mirror = bloodsuckerdatum.blood_structure_in_use
+/datum/action/innate/mirror/observe_stop/Activate()
+	var/datum/antagonist/bloodsucker/bloodsucker_datum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/obj/structure/bloodsucker/mirror/our_mirror = bloodsucker_datum.blood_structure_in_use
 
 	if(!our_mirror)
 		return
 
 	our_mirror.stop_observing(our_mirror.current_user, our_mirror.current_observed)
+
+
+/// The action button that allows players to change their observed vassal at an active blood mirror.
+/datum/action/innate/mirror/observe_change
+	name = "Swap Overseen"
+	button_icon_state = "look"
+
+/datum/action/innate/mirror/observe_change/Activate()
+	var/datum/antagonist/bloodsucker/bloodsucker_datum = owner.mind.has_antag_datum(/datum/antagonist/bloodsucker)
+	var/obj/structure/bloodsucker/mirror/our_mirror = bloodsucker_datum.blood_structure_in_use
+
+	if(!our_mirror)
+		return
+
+	var/list/vassal_name_list[0]
+	for(var/datum/antagonist/vassal/vassal_datum as anything in bloodsucker_datum.vassals)
+		vassal_name_list[vassal_datum.owner.name] = vassal_datum
+	// Remove the one we're already observing...
+	vassal_name_list.Remove(our_mirror.current_observed.name)
+
+	var/chosen_vassal
+	if(length(vassal_name_list) > 1)
+		chosen_vassal = tgui_input_list(owner, "Select a different vassal to watch over...", "Vassal Observation List", vassal_name_list)
+	else
+		chosen_vassal = vassal_name_list[1]
+
+	if(!chosen_vassal)
+		return
+
+	var/datum/antagonist/vassal/new_observed = vassal_name_list[chosen_vassal]
+	var/mob/living/carbon/human/new_observed_current = new_observed.owner.current
+	if(our_mirror.check_observability(owner, new_observed_current))
+		our_mirror.swap_observed(new_observed_current)
