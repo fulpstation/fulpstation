@@ -48,3 +48,8 @@
 //Defines for "Alert Level Deltaww"
 #define SEC_LEVEL_DELTAWW 4
 #define ALERT_COEFF_DELTAWW 255 //This alert level should only be temporary; might as well mess with everyone.
+
+//Defines for "Ghost Kitchen" diner ghost spawners
+#define ROLE_GHOST_CHEF "All-American Chef"
+#define ROLE_GHOST_COOK "All-American Cook"
+#define ROLE_GHOST_REGULAR "Fake Health Inspector"

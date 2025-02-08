@@ -237,3 +237,7 @@
 /area/ruin/has_grav/prototype/dorms
 	name = "Prototype Dormitories"
 	icon_state = "dorms"
+
+/area/ruin/has_grav/ghostkitchen
+	name = "The All American Diner"
+	icon_state = "kitchen"
