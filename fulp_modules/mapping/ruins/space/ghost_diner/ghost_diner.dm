@@ -13,6 +13,11 @@
 /datum/job/fulp_ghostregular
 	title = ROLE_GHOST_REGULAR
 
+/obj/effect/mob_spawn/ghost_role/human/allamerican
+	prompt_name = "A real american"
+	you_are_text = "A real american, fight for the rights of every man!"
+	flavour_text = "Fight what's right, fight for your life!"
+
 /obj/effect/mob_spawn/ghost_role/human/allamerican/chef
 	name = "All-American Chef"
 	desc = "A cryogenics pod, storing a trained chef to prepare meals when activity is detected in this sector."
@@ -20,7 +25,7 @@
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	you_are_text = "You are a head chef employed by the All American foods company."
-	flavour_text = "After a recent accquistion by Nano-Trasen, you've been reassigned. \
+	flavour_text = "After a recent accquistion by Nanotrasen, you've been reassigned. \
 	Lead the kitchen and ensure your cook has direction. Create culinary masterpieces."
 	important_text = "Do not abandon the kitchen! Lead with grace."
 	spawner_job_path = /datum/job/fulp_ghostchef
@@ -33,7 +38,7 @@
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	you_are_text = "You are a line cook employed by the All American foods company."
-	flavour_text = "After a recent accquistion by Nano-Trasen, you've been reassigned. \
+	flavour_text = "After a recent accquistion by Nanotrasen, you've been reassigned. \
 	Follow the chef's direction. Do menial tasks. Clean up after the recent Flyperson birthday bash."
 	important_text = "Yes chef! You answer directly to the chef."
 	spawner_job_path = /datum/job/fulp_ghostcook
