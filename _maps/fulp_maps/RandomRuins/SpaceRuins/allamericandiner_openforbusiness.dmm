@@ -71,13 +71,6 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/ghostkitchen)
-"bo" = (
-/obj/machinery/atmospherics/components/tank/air{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/powered/ghostkitchen)
 "bs" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/suit_storage_unit/open,
@@ -571,6 +564,11 @@
 	},
 /turf/open/floor/iron/cafeteria,
 /area/ruin/space/has_grav/powered/ghostkitchen)
+"iJ" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/grille/broken,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/ghostkitchen)
 "iO" = (
 /obj/structure/table/reinforced,
 /obj/effect/decal/cleanable/food/flour,
@@ -887,10 +885,6 @@
 /obj/structure/sign/poster/contraband/have_a_puff/directional/west,
 /obj/structure/sign/poster/official/wtf_is_co2/directional/north,
 /turf/open/floor/plating,
-/area/ruin/space/has_grav/powered/ghostkitchen)
-"oG" = (
-/turf/closed/wall,
-/area/ruin/space/has_grav/powered/ghostkitchen,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "oQ" = (
 /obj/effect/turf_decal/siding/dark/inner_corner,
@@ -1535,10 +1529,6 @@
 	},
 /turf/open/floor/iron/herringbone,
 /area/ruin/space/has_grav/powered/ghostkitchen)
-"xu" = (
-/obj/machinery/portable_atmospherics/canister/air,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/powered/ghostkitchen)
 "xD" = (
 /obj/structure/sign/poster/contraband/eat/directional/east,
 /obj/structure/lattice,
@@ -1664,10 +1654,10 @@
 /turf/open/floor/iron/kitchen/small,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "yF" = (
-/obj/machinery/airalarm/directional/east,
-/obj/effect/decal/cleanable/garbage,
+/obj/machinery/atmospherics/components/tank/air{
+	dir = 8
+	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/machinery/light/small/dim/directional/east,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "zb" = (
@@ -1706,8 +1696,6 @@
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "zi" = (
 /obj/machinery/portable_atmospherics/canister/air,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
-/obj/machinery/light/small/dim/directional/east,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "zv" = (
@@ -1921,6 +1909,12 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood/parquet,
 /area/ruin/space/has_grav/powered/ghostkitchen)
+"Ce" = (
+/obj/machinery/portable_atmospherics/canister/air,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/machinery/light/small/dim/directional/east,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/powered/ghostkitchen)
 "Cn" = (
 /obj/effect/turf_decal/siding/dark{
 	dir = 4
@@ -1981,8 +1975,8 @@
 /turf/open/floor/iron/dark/small,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "CL" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/floor/plating,
+/turf/closed/wall,
+/area/ruin/space/has_grav/powered/ghostkitchen,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "CT" = (
 /obj/effect/decal/cleanable/cobweb/cobweb2,
@@ -2588,7 +2582,6 @@
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "Kz" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/grille/broken,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "KJ" = (
@@ -2630,6 +2623,13 @@
 /obj/effect/decal/cleanable/insectguts,
 /obj/item/trash/semki/healthy,
 /turf/open/floor/iron/white,
+/area/ruin/space/has_grav/powered/ghostkitchen)
+"Lp" = (
+/obj/machinery/airalarm/directional/east,
+/obj/effect/decal/cleanable/garbage,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/machinery/light/small/dim/directional/east,
+/turf/open/floor/plating,
 /area/ruin/space/has_grav/powered/ghostkitchen)
 "Lr" = (
 /obj/structure/sign/poster/contraband/eat/directional/west,
@@ -3989,7 +3989,7 @@ FC
 GI
 sx
 zd
-xu
+zi
 tP
 tP
 tP
@@ -4022,11 +4022,11 @@ qf
 VH
 qf
 tP
+Lp
 yF
-bo
 Dz
 Rr
-zi
+Ce
 tP
 NV
 tP
@@ -4056,10 +4056,10 @@ kA
 (10,1,1) = {"
 cN
 qf
-oG
+CL
 tP
-oG
-oG
+CL
+CL
 tP
 On
 tP
@@ -4170,7 +4170,7 @@ kA
 tP
 kF
 uE
-CL
+Kz
 mm
 UL
 Sn
@@ -4205,7 +4205,7 @@ kA
 kA
 LG
 tP
-Kz
+iJ
 EO
 WF
 tP
