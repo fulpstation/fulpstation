@@ -1156,11 +1156,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/obj/machinery/status_display/supply{
-	dir = 4;
-	pixel_y = 32
-	},
 /obj/effect/turf_decal/trimline/brown/filled/corner,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "afe" = (
@@ -13940,7 +13937,7 @@
 	},
 /obj/machinery/status_display/supply{
 	dir = 4;
-	pixel_x = 33
+	pixel_x = 32
 	},
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
@@ -30609,7 +30606,7 @@
 "ech" = (
 /obj/machinery/conveyor{
 	dir = 10;
-	id = "ShuttleLoad"
+	id = "ShuttleUnload"
 	},
 /turf/open/floor/plating,
 /area/station/cargo/storage)
@@ -32622,12 +32619,14 @@
 /turf/open/floor/plating,
 /area/station/maintenance/disposal)
 "fER" = (
-/obj/structure/extinguisher_cabinet/directional/south,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/turf_decal/bot,
 /obj/structure/closet/crate,
+/obj/machinery/status_display/supply{
+	pixel_y = -32
+	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "fEU" = (
@@ -42348,7 +42347,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/turf/open/floor/iron,
+/turf/open/floor/iron/corner{
+	dir = 1
+	},
 /area/station/cargo/storage)
 "nNN" = (
 /obj/structure/disposaloutlet{
@@ -50168,12 +50169,13 @@
 /obj/effect/turf_decal/trimline/brown/filled/line{
 	dir = 8
 	},
-/obj/machinery/status_display/ai{
-	pixel_x = 32
-	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/trimline/brown/filled/mid_joiner{
 	dir = 8
+	},
+/obj/machinery/status_display/supply{
+	dir = 4;
+	pixel_x = 32
 	},
 /turf/open/floor/iron/edge{
 	dir = 8
@@ -56158,6 +56160,14 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/medical/medbay/lobby)
+"xQB" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment,
+/obj/structure/extinguisher_cabinet/directional/south,
+/turf/open/floor/iron,
+/area/station/cargo/storage)
 "xQM" = (
 /obj/structure/table/wood,
 /obj/item/storage/box/donkpockets,
@@ -96861,7 +96871,7 @@ gUJ
 euT
 tbz
 euT
-anQ
+xQB
 qXb
 udR
 lGJ
