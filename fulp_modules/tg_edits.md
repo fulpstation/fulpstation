@@ -29,6 +29,7 @@
 - code/__DEFINES/fulp_defines > Contains all of our defines
 - _maps/fulp_maps > Contains all of our non-station maps (Ruins, Deathmatch maps, etc.)
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
+- code/modules/unit_tests/screenshots > Contains Fulp antag & species screenshots for unit tests.
 
 #### Maps & Shuttles
 - _maps/map_files/Heliostation/Heliostation.dmm
