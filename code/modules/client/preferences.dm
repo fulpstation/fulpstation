@@ -21,6 +21,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// Cached changelog size, to detect new changelogs since last join
 	var/lastchangelog = ""
 
+	/// FULP EDIT ///
+	/// Same as var above but for Fulpstation's changelog.
+	var/last_fulp_changelog = ""
+	/// FULP EDIT END ///
+
 	/// List of ROLE_X that the client wants to be eligible for
 	var/list/be_special = list() //Special role selection
 
