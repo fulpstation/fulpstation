@@ -39662,7 +39662,8 @@
 /area/station/maintenance/fore)
 "onj" = (
 /obj/machinery/door/window/left/directional/north{
-	name = "Monkey Pen"
+	name = "Monkey Pen";
+	req_access = list("genetics")
 	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -55351,6 +55352,9 @@
 /area/station/commons/dorms)
 "udf" = (
 /mob/living/carbon/human/species/monkey,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
 /turf/open/floor/grass,
 /area/station/science/genetics)
 "udt" = (
