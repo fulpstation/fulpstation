@@ -55,4 +55,5 @@
 #define ROLE_GHOST_REGULAR "Fake Health Inspector"
 
 ///Define for the diner ghost role's z-level restriction component.
+///This does NOT work with the regular "stationstuck" component.
 #define PIZZAFICATION "pizzafy"
