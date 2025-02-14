@@ -7,8 +7,23 @@
 
 
 // - CUSTOM RTG SUBTYPE FOR THE DINER MAP - //
-/obj/machinery/power/rtg/diner
-	component_parts = ""
+/obj/item/circuitboard/machine/rtg/advanced/pre_upgraded
+	name = "Prebuilt RTG"
+	build_path = /obj/machinery/power/rtg/advanced/pre_upgraded
+	specific_parts = TRUE
+	req_components = list(
+		/obj/item/stack/cable_coil = 5,
+		/datum/stock_part/capacitor/tier4 = 1,
+		/datum/stock_part/micro_laser/tier4 = 1,
+		/obj/item/stack/sheet/mineral/uranium = 10,
+		/obj/item/stack/sheet/mineral/plasma = 5,
+	)
+
+/obj/machinery/power/rtg/advanced/pre_upgraded
+	name = "prebuilt radioisotope thermoelectric generator"
+	desc = "An incredibly expensive RTG that requires highly specific parts to function. "
+	circuit = /obj/item/circuitboard/machine/rtg/advanced/pre_upgraded
+
 
 // - JOB DATUMS - //
 /datum/job/fulp_ghostchef
@@ -68,6 +83,11 @@
 	to_chat(new_spawn, span_warning("You have been implanted with a pizzafication implant that will activate if you stray too far from the diner. Glory to Nanotrasen."))
 	new_spawn.AddComponent(/datum/component/stationstuck/diner, PIZZAFICATION, "You have left the vicinity of the diner. Your pizzafication implant has been triggered.")
 
+	// Beacons won't spawn as a part of outfit datums for some reason, so we'll spawn ours here.
+	var/turf/beacon_spawn_turf = get_turf(new_spawn)
+	var/obj/item/beacon/new_beacon = new /obj/item/beacon(beacon_spawn_turf)
+	new_spawn.put_in_hands(new_beacon, ignore_animation = TRUE)
+
 /obj/effect/mob_spawn/ghost_role/human/allamerican/chef
 	name = "All-American Chef"
 	desc = "A cryogenics pod, storing a trained chef to prepare meals when activity is detected in this sector."
@@ -109,7 +129,17 @@
 	outfit = /datum/outfit/diner_ghost/fulp_ghostregular
 
 
-// - EXPOSITIONAL POCKET NOTES FOR GHOST ROLE OUTFITS - //
+// - EXPOSITIONAL POCKET NOTES - //
+/obj/item/paper/crumpled/fluff/space_diner_general
+	name = "NOTICE: Feeling lonely?"
+	color = "#e0e010"
+	default_raw_text = {"
+<center><h1>No customers?</h1></center>
+<p>Try hailing nearby stations over your wall intercomms and telling them that your open! Anyone with a functional teleporter should be able to make a one-way trip to your restaurant once you and your tracking beacons are out of cryostasis.</p>
+<p>Changing the name of the handheld GPS unit in the front airlock will help non-teleporting spacefarers locate you manually. Enjoy your new life.</p>
+<p><i><b>NOTE</b>: All proceeds from the Nanotrasen Brand restaurant portal tourism system legally belong to the Nanotrasen Revenue Department. You will receive your salary in full after your six quadrum employment period has ceased. Ensure that these proceeds are kept secure in the manager's safe. Glory to Nanotrasen.</i></p>
+	"}
+
 /obj/item/paper/fluff/space_diner_staff
 	name = "Notice of Employment"
 	desc = "A formal document detailing employment information."
@@ -169,8 +199,7 @@ turn this beacon off as a means of closing your work site prior to resting.)
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/job/cook/chef
-	l_hand = /obj/item/paper/fluff/space_diner_staff
-	l_pocket = /obj/item/beacon
+	l_pocket = /obj/item/paper/fluff/space_diner_staff
 
 /datum/outfit/diner_ghost/fulp_ghostcook
 	name = "All-American Cook"
@@ -180,8 +209,7 @@ turn this beacon off as a means of closing your work site prior to resting.)
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/job/cook
-	l_hand = /obj/item/paper/fluff/space_diner_staff
-	l_pocket = /obj/item/beacon
+	l_pocket = /obj/item/paper/fluff/space_diner_staff
 
 /datum/outfit/diner_ghost/fulp_ghostregular
 	name = "Diner Regular"
