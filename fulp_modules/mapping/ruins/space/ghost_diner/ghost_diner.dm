@@ -135,7 +135,7 @@
 	color = "#e0e010"
 	default_raw_text = {"
 <center><h1>No customers?</h1></center>
-<p>Try hailing nearby stations over your wall intercomms and telling them that your open! Anyone with a functional teleporter should be able to make a one-way trip to your restaurant once you and your tracking beacons are out of cryostasis.</p>
+<p>Try hailing nearby stations over your wall intercomms and telling them that you're open! Anyone with a functional teleporter should be able to make a one-way trip to your restaurant once you and your tracking beacons are out of cryostasis.</p>
 <p>Changing the name of the handheld GPS unit in the front airlock will help non-teleporting spacefarers locate you manually. Enjoy your new life.</p>
 <p><i><b>NOTE</b>: All proceeds from the Nanotrasen Brand restaurant portal tourism system legally belong to the Nanotrasen Revenue Department. You will receive your salary in full after your six quadrum employment period has ceased. Ensure that these proceeds are kept secure in the manager's safe. Glory to Nanotrasen.</i></p>
 	"}
