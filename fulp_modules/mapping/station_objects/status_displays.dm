@@ -1,4 +1,23 @@
-/// Custom status display machines.
+// Custom status display machines.
+
+// PLEASE NOTE:
+// These may not work for all shuttles; the 'shuttle_id' var
+// may need to be edited on some maps.
+
 /obj/machinery/status_display/shuttle/arrivals
 	name = "arrivals shuttle display"
 	shuttle_id = "arrival"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/shuttle/arrivals, 32)
+
+/obj/machinery/status_display/shuttle/mining
+	name = "mining shuttle display"
+	shuttle_id = "mining"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/shuttle/mining, 32)
+
+/obj/machinery/status_display/shuttle/mining/common
+	name = "public mining shuttle display"
+	shuttle_id = "mining_common"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/shuttle/mining/common, 32)
