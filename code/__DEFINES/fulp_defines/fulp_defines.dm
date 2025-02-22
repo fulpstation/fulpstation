@@ -53,3 +53,6 @@
 #define ROLE_GHOST_CHEF "All-American Chef"
 #define ROLE_GHOST_COOK "All-American Cook"
 #define ROLE_GHOST_REGULAR "Fake Health Inspector"
+
+/// Define for the atmospherics chamber on the beefman space station ruin.
+#define ATMOS_GAS_MONITOR_BEEF_MIX "govyadina mix"
