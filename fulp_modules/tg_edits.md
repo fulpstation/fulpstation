@@ -1,7 +1,5 @@
 ## List of all TG edits:
 
-- .github/workflows/compile_changelogs.yml > Same as above.
-
 - code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
@@ -17,6 +15,14 @@
 - several removed objectives from /tg/ have been readded; see 'fulp_modules\Z_edits\antag_edits\traitor'
 
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
+
+- .github\workflows\compile_changelogs.yml > Same as above.
+
+- code\game\world.dm > Marked by a "FULP EDIT" comment; copies a bit of code to make 'GLOB.fulp_changelog_hash' functional.
+
+- code\modules\client\preferences.dm > Marked by a "FULP EDIT" comment; gives clients the 'last_fulp_changelog' var.
+
+- interface\interface.dm > Changes the value of 'name' on '/client/verb/changelog' to "/TG/ Changelog"
 
 ## All Fulp files not contained within /fulp_modules/
 
