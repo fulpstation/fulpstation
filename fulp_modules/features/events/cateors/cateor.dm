@@ -56,11 +56,39 @@
 	Bump(thing_that_touched_the_cateor)
 
 /// Called 1.25 decisecond after a cateor calls 'Bump()' on a target.
-/// Global because cateors will be deleted by the time this is called, so it can't be a proc belonging
-/// to cateors themselves.
+/// Global because cateors will be deleted by the time this is called,
+/// so it can't be a proc belonging to cateors themselves.
 /proc/cateor_hit_effects(mob/living/target)
 	target.extinguish() //Just in case it lit them on fire...
 	new /obj/effect/temp_visual/cateor_hit(get_turf(target))
+
+/**
+ * 'purrbation_apply()' removes the external spines on mobs that it hits, but spines are
+ * just one external organ of many that we "need" to remove prior to giving our target cat organs.
+ *
+ * This proc properly removes all relevant external organs from our cateor's target
+ * using 'mob_remove()' rather than 'Remove()', which is used by 'purrbation_apply()'.
+*/
+/obj/effect/meteor/cateor/proc/remove_relevant_organs(mob/living/carbon/target)
+	var/obj/item/organ/spines/current_spines = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_SPINES)
+	if(current_spines)
+		current_spines.mob_remove(target, special = TRUE)
+		qdel(current_spines)
+
+	var/obj/item/organ/horns/current_horns = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_HORNS)
+	if(current_horns)
+		current_horns.mob_remove(target, special = TRUE)
+		qdel(current_horns)
+
+	var/obj/item/organ/tail/current_tail = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
+	if(current_tail)
+		current_tail.mob_remove(target, special = TRUE)
+		qdel(current_tail)
+
+	var/obj/item/organ/antennae/current_antennae = target.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
+	if(current_antennae)
+		current_antennae.mob_remove(target, special = TRUE)
+		qdel(current_antennae)
 
 /obj/effect/meteor/cateor/Bump(mob/living/target)
 	//Callback after 1.25 deciseconds to account for the possibility of explosion moving the target.
@@ -93,12 +121,27 @@
 			qdel(src)
 			return
 
-	if(istype(target, /mob/living/carbon/human)) //Humanoids get lightly exploded and felinidified
+	if(istype(target, /mob/living/carbon/human)) //(Most) humanoids get lightly exploded and felinidified
 		var/mob/living/carbon/humanoid = target
-		if(isfelinid(target)) //Felinids just get stunned
+
+		//First we check to see if the target already has cat ears and a cat tail.
+		var/obj/item/organ/ears/possible_cat_ears = humanoid.get_organ_slot(ORGAN_SLOT_EARS)
+		var/cat_ears_confirmed = FALSE
+		var/obj/item/organ/tail/possible_cat_tail = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_TAIL)
+		var/cat_tail_confirmed = FALSE
+
+		if(possible_cat_ears && istype(possible_cat_ears, /obj/item/organ/ears/cat))
+			cat_ears_confirmed = TRUE
+
+		if(possible_cat_tail && istype(possible_cat_tail, /obj/item/organ/tail/cat))
+			cat_tail_confirmed = TRUE
+
+		 //Felinids/those already catified just get stunned.
+		if(isfelinid(target) || (cat_ears_confirmed && cat_tail_confirmed))
 			humanoid.emote("spin")
 			humanoid.Paralyze(10 SECONDS)
 			humanoid.Knockdown(15 SECONDS)
+			target.apply_status_effect(/datum/status_effect/drugginess, 15 SECONDS)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 25)
 			to_chat(humanoid, (span_hypnophrase("The overwhelming smell of catnip permeates the air...")))
 			qdel(src)
@@ -106,12 +149,10 @@
 
 		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 
-		//Remove moth antennae if present since 'purrbation_apply()' doesn't do that.
-		var/obj/item/organ/spines/antennae = humanoid.get_organ_slot(ORGAN_SLOT_EXTERNAL_ANTENNAE)
-		if(antennae)
-			antennae.Remove(humanoid, special = TRUE)
-			qdel(antennae)
-
+		remove_relevant_organs(humanoid)
+		/// These next two lines are necessary, and I am not be able to explain why.
+		humanoid.dna.features["ears"] = "Cat"
+		humanoid.dna.features["tail_cat"] = "Cat"
 		purrbation_apply(humanoid, TRUE)
 
 		to_chat(humanoid, span_reallybig(span_hypnophrase("WOAW!~")))

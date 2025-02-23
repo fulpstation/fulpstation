@@ -192,6 +192,7 @@
 		.["Add Clan"] = CALLBACK(src, PROC_REF(admin_set_clan))
 
 ///Called when you get the antag datum, called only ONCE per antagonist.
+///The signals registered with the sol subsystem here are reregistered on mind transfer.
 /datum/antagonist/bloodsucker/on_gain()
 	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up))
 	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start))
@@ -266,6 +267,23 @@
 	if(old_body)
 		old_body.remove_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
 	new_body.add_traits(bloodsucker_traits, BLOODSUCKER_TRAIT)
+
+	//Give the datum the blood volume of its new body.
+	bloodsucker_blood_volume = new_body.blood_volume
+
+	//Enter or exit Frenzy depending on our new blood volume
+	if(bloodsucker_blood_volume >= frenzy_threshold)
+		owner.current.remove_status_effect(/datum/status_effect/frenzy)
+	else
+		owner.current.apply_status_effect(/datum/status_effect/frenzy)
+
+	//Sol-related signals are removed when 'FinalDeath()' is called,
+	//so we'll reregister them here.
+	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol), TRUE)
+	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning), TRUE)
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()

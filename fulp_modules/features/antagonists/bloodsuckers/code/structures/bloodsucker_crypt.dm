@@ -73,6 +73,11 @@
 	return TRUE
 
 /obj/structure/bloodsucker/click_alt(mob/user)
+	prompt_unsecure(user)
+
+///Separate from 'click_alt()' so certain structures can easily prompt unsecuring
+///through different inputs.
+/obj/structure/bloodsucker/proc/prompt_unsecure(mob/user)
 	if(user == owner && user.Adjacent(src))
 		balloon_alert(user, "unbolt [src]?")
 		var/static/list/unclaim_options = list(
@@ -83,6 +88,7 @@
 		switch(unclaim_response)
 			if("Yes")
 				unbolt(user)
+
 /*
 /obj/structure/bloodsucker/bloodaltar
 	name = "bloody altar"
@@ -471,7 +477,7 @@
 		user.visible_message(span_danger("The [lit ? "[src.name] suddenly crackles to life" : "[src.name] is abruptly extinguished"]!"),
 		span_danger("<i>With a subtle hand motion you [lit ? "ignite [src]" : "snuff out [src]"].</i>"))
 		return CLICK_ACTION_SUCCESS
-	return CLICK_ACTION_BLOCKING
+	return
 
 /obj/structure/bloodsucker/lighting/proc/toggle(mob/user)
 	lit = !lit
@@ -528,12 +534,26 @@
 	vamp_desc = "You alone can toggle this from afar by <b>ctrl-clicking</b> it."
 	vassal_desc = "You can toggle this by <b>clicking</b> it."
 
+	/// Our slightly quieter looping burn sound effect; copied over from 'bonfire.dm'
+	var/datum/looping_sound/burning/brazier/burning_loop
+
+/obj/structure/bloodsucker/lighting/brazier/Initialize()
+	. = ..()
+	burning_loop = new(src)
+
 /obj/structure/bloodsucker/lighting/brazier/toggle(mob/user)
 	. = ..()
 	if(lit)
 		particles = new /particles/brazier
+		burning_loop.start()
 	else
 		QDEL_NULL(particles)
+		burning_loop.stop()
+
+//Quieter burning sound loop based off of 'code\datums\looping_sounds\burning.dm'
+/datum/looping_sound/burning/brazier
+	volume = 15
+	ignore_walls = FALSE
 
 /// Blood Throne - Allows Bloodsuckers to remotely speak with their Vassals. - Code (Mostly) stolen from comfy chairs (armrests) and chairs (layers)
 /obj/structure/bloodsucker/bloodthrone
@@ -546,7 +566,8 @@
 	density = TRUE
 	can_buckle = TRUE
 	ghost_desc = "This is a Bloodsucker's throne, any Bloodsucker sitting on it can remotely speak to their vassals by attempting to speak aloud."
-	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically speak to your vassals by simply speaking."
+	vamp_desc = "This is a blood throne, sitting on it will allow you to telepathically broadcast messages to all of your vassals by simply speaking. \n\
+		Unlike other blood structures this throne may be unsecured by a <b>right-click</b> (just make sure it's unoccupied first)."
 	vassal_desc = "This is a blood throne, it allows your master to telepathically speak to you and others who work under them."
 	hunter_desc = "This blood-red seat allows vampires to telepathically communicate with those in their fold."
 
@@ -555,7 +576,7 @@
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
-	AddComponent(/datum/component/simple_rotation)
+	AddComponent(/datum/component/simple_rotation, ROTATION_IGNORE_ANCHORED)
 	if(!armrest)
 		armrest = mutable_appearance('fulp_modules/icons/antagonists/bloodsuckers/vamp_obj_64.dmi', "thronearm")
 		armrest.layer = ABOVE_MOB_LAYER
@@ -573,6 +594,13 @@
 	. = ..()
 	anchored = FALSE
 
+/obj/structure/bloodsucker/bloodthrone/attack_hand_secondary(mob/user, list/modifiers)
+	. = ..()
+	if(length(buckled_mobs))
+		return
+	if(anchored)
+		prompt_unsecure(user)
+
 /obj/structure/bloodsucker/bloodthrone/update_overlays()
 	. = ..()
 	if(has_buckled_mobs())
@@ -585,7 +613,7 @@
 		for(var/mob/living/buckled_mob as anything in buckled_mobs)
 			buckled_mob.setDir(newdir)
 
-	if(has_buckled_mobs() && dir == NORTH)
+	if(dir == NORTH)
 		layer = ABOVE_MOB_LAYER
 	else
 		layer = OBJ_LAYER
@@ -604,8 +632,8 @@
 
 /obj/structure/bloodsucker/bloodthrone/post_buckle_mob(mob/living/target)
 	. = ..()
-	target.pixel_y += 2
-	update_appearance(UPDATE_OVERLAYS)
+	target.pixel_y += 3
+	update_appearance(UPDATE_ICON)
 
 // Unbuckling
 /obj/structure/bloodsucker/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
