@@ -238,5 +238,5 @@
 	name = "Prototype Dormitories"
 	icon_state = "dorms"
 
-/area/ruin/space/has_grav/powered/ghostkitchen
+/area/ruin/space/has_grav/ghostkitchen
 	name = "The All American Diner"
