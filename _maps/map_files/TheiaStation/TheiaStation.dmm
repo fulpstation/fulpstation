@@ -4473,9 +4473,11 @@
 /area/station/hallway/secondary/command)
 "bAw" = (
 /obj/effect/turf_decal/trimline/yellow/filled/warning,
-/obj/structure/reagent_dispensers/water_cooler,
 /obj/effect/turf_decal/siding/thinplating_new{
 	dir = 4
+	},
+/obj/machinery/computer/shuttle/mining/common{
+	dir = 8
 	},
 /turf/open/floor/iron/herringbone,
 /area/station/hallway/secondary/construction)
@@ -5104,12 +5106,10 @@
 /obj/machinery/computer/shuttle/mining{
 	dir = 4
 	},
-/obj/machinery/status_display/shuttle{
-	pixel_x = -32
-	},
 /obj/effect/turf_decal/trimline/brown/warning{
 	dir = 4
 	},
+/obj/machinery/status_display/shuttle/mining/directional/west,
 /turf/open/floor/iron,
 /area/station/cargo/miningdock)
 "bKI" = (
@@ -6579,13 +6579,6 @@
 /obj/effect/spawner/random/vending/colavend,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/central/aft)
-"ckt" = (
-/obj/effect/turf_decal/trimline/yellow/filled/warning,
-/obj/machinery/computer/shuttle/mining/common{
-	dir = 8
-	},
-/turf/open/floor/iron/herringbone,
-/area/station/hallway/secondary/construction)
 "ckw" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -9073,6 +9066,10 @@
 /obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/aisat/exterior)
+"dgG" = (
+/obj/machinery/status_display/shuttle/arrivals,
+/turf/closed/wall,
+/area/station/security/checkpoint/escape)
 "dgH" = (
 /obj/item/soap/homemade,
 /obj/machinery/shower/directional/west,
@@ -21415,6 +21412,10 @@
 "hoK" = (
 /turf/closed/wall/r_wall,
 /area/station/hallway/primary/aft)
+"hoP" = (
+/obj/structure/reagent_dispensers/water_cooler,
+/turf/open/floor/iron/herringbone,
+/area/station/hallway/secondary/construction)
 "hoQ" = (
 /obj/effect/turf_decal/siding/thinplating_new{
 	dir = 8
@@ -21691,13 +21692,6 @@
 /obj/machinery/duct,
 /turf/open/floor/plating,
 /area/station/maintenance/fore)
-"huS" = (
-/obj/machinery/computer/shuttle/mining/common{
-	dir = 1
-	},
-/obj/effect/turf_decal/trimline/yellow/filled/warning,
-/turf/open/floor/iron/herringbone,
-/area/station/hallway/secondary/construction)
 "hve" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
@@ -46939,11 +46933,6 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating,
 /area/station/maintenance/department/crew_quarters/dorms)
-"qJA" = (
-/obj/effect/turf_decal/trimline/yellow/filled/warning,
-/obj/structure/reagent_dispensers/water_cooler,
-/turf/open/floor/iron/herringbone,
-/area/station/hallway/secondary/construction)
 "qJI" = (
 /obj/item/clothing/under/plasmaman,
 /obj/item/clothing/head/helmet/space/plasmaman,
@@ -48812,8 +48801,8 @@
 /turf/open/space/basic,
 /area/space)
 "rrZ" = (
-/obj/machinery/holopad,
 /obj/effect/landmark/event_spawn,
+/obj/machinery/holopad,
 /turf/open/floor/iron/herringbone,
 /area/station/hallway/secondary/construction)
 "rsd" = (
@@ -49866,6 +49855,10 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/hallway/primary/aft)
+"rLR" = (
+/obj/machinery/status_display/shuttle/mining/common,
+/turf/closed/wall/r_wall,
+/area/station/hallway/secondary/construction)
 "rMx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/effect/turf_decal/siding/thinplating{
@@ -57505,6 +57498,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/wood,
 /area/station/commons/lounge)
+"uEr" = (
+/obj/machinery/status_display/shuttle/arrivals,
+/turf/closed/wall,
+/area/station/hallway/secondary/entry)
 "uEs" = (
 /obj/structure/closet/crate/internals,
 /turf/open/floor/plating,
@@ -101622,7 +101619,7 @@ xpi
 aGp
 rrZ
 lNw
-huS
+nLN
 iRq
 bQu
 bQu
@@ -101879,7 +101876,7 @@ kPI
 aGp
 lNw
 lNw
-qJA
+nLN
 iRq
 bQu
 bQu
@@ -102650,8 +102647,8 @@ vGD
 aGp
 lNw
 lNw
-ckt
-eqC
+nLN
+rLR
 bQu
 bQu
 bQu
@@ -102906,7 +102903,7 @@ oOh
 sBc
 hjL
 pgV
-lNw
+hoP
 bAw
 uKl
 bQu
@@ -112076,7 +112073,7 @@ tYP
 chL
 hVA
 hVA
-hVA
+uEr
 hVA
 hVA
 chL
@@ -113615,13 +113612,13 @@ vFf
 fuK
 qLB
 gGt
-hVA
+uEr
 qYv
 aiN
 qVh
 qYv
 aiN
-hVA
+uEr
 tcQ
 gYl
 jHR
@@ -115414,13 +115411,13 @@ luS
 dYX
 qLB
 pSz
-chL
+uEr
 qYv
 aiN
 qVh
 qYv
 aiN
-kFc
+dgG
 kFc
 pJq
 kFc
