@@ -53,3 +53,7 @@
 #define ROLE_GHOST_CHEF "All-American Chef"
 #define ROLE_GHOST_COOK "All-American Cook"
 #define ROLE_GHOST_REGULAR "Fake Health Inspector"
+
+/// Define for the beefman cytology ghost role's z-level restriction component.
+/// This does NOT work with the regular "stationstuck" component.
+#define MEATIFICATION "meatify"
