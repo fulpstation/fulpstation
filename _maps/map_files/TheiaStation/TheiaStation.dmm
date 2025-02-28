@@ -6202,6 +6202,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/sign/departments/maint/alt/directional/west,
+/obj/machinery/requests_console/auto_name/directional/south{
+	c_tag = "Security Locker Room"
+	},
 /turf/open/floor/plating,
 /area/station/maintenance/department/security)
 "cdc" = (
@@ -27863,10 +27866,6 @@
 	},
 /turf/open/floor/iron/checker,
 /area/station/hallway/secondary/exit/escape_pod/secondary)
-"jJY" = (
-/obj/machinery/power/apc/auto_name/directional/north,
-/turf/closed/wall,
-/area/station/security/office)
 "jKd" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -48624,7 +48623,6 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/east,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/iron/edge{
 	dir = 4
 	},
@@ -50257,7 +50255,6 @@
 /turf/open/floor/iron,
 /area/station/security/prison/work)
 "rMx" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/effect/turf_decal/siding/thinplating{
 	dir = 8
 	},
@@ -50490,6 +50487,12 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
+"rQx" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/turf/open/floor/iron/dark/herringbone,
+/area/station/hallway/secondary/command)
 "rQz" = (
 /obj/machinery/portable_atmospherics/canister/plasma,
 /obj/effect/turf_decal/bot,
@@ -55533,6 +55536,9 @@
 /area/station/maintenance/department/engine)
 "tJB" = (
 /obj/item/radio/intercom/directional/west,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
 /turf/open/floor/iron/dark/herringbone,
 /area/station/hallway/secondary/command)
 "tJF" = (
@@ -55674,7 +55680,7 @@
 	dir = 1
 	},
 /obj/machinery/requests_console/auto_name/directional/south{
-	c_tag = "Security Locker Room"
+	department = "Security Locker Room"
 	},
 /obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/information,
@@ -61346,9 +61352,6 @@
 /obj/effect/turf_decal/trimline/red/filled/corner{
 	dir = 1
 	},
-/obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/information,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/north,
 /turf/open/floor/iron,
@@ -63857,9 +63860,6 @@
 /turf/open/floor/plastic,
 /area/station/cargo/storage)
 "wEP" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
@@ -99784,7 +99784,7 @@ hfv
 jiv
 qdL
 nxF
-qdL
+rQx
 oXt
 qdL
 aGC
@@ -107494,7 +107494,7 @@ uAw
 irQ
 iPp
 prv
-jJY
+gVs
 jsj
 jIb
 coa
