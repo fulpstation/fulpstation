@@ -9,12 +9,12 @@ import {
   Section,
   Stack,
   Table,
-} from '../tgui/components';
-import { classes } from 'common/react';
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
 
-import { resolveAsset } from '../tgui/assets';
-import { useBackend } from '../tgui/backend';
-import { Window } from '../tgui/layouts';
+import { resolveAsset } from '../assets';
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
 
 const icons = {
   add: { icon: 'check-circle', color: 'green' },
