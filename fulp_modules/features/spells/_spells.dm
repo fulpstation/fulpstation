@@ -8,6 +8,7 @@
 	cooldown_time = 20 SECONDS //20 seconds, so the effects can't be spammed
 	invocation_type = INVOCATION_SHOUT
 	invocation = "DR'P TH' B'T!!!"
+	spell_max_level = 1
 
 	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "funk"
@@ -32,9 +33,13 @@
 
 /datum/action/cooldown/spell/summon_dancefloor/before_cast(atom/cast_on)
 	. = ..()
-	funky_turfs = RANGE_TURFS(1, owner)
+	if(!get_turf(owner))
+		to_chat(owner, span_warning("You can't cast [src] here!"))
+		return SPELL_CANCEL_CAST
+
+	funky_turfs = RANGE_TURFS(1, get_turf(owner))
 	for(var/turf/closed/solid in funky_turfs)
-		to_chat(owner, span_warning("You're too close to a wall."))
+		to_chat(owner, span_warning("You're too close to a wall to cast [src]."))
 		return SPELL_CANCEL_CAST
 
 /datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
@@ -103,6 +108,7 @@
 	for(var/i in 1 to 25)
 		if(i == 1)
 			central_sparkle = new /obj/effect/overlay/sparkles(target_turf)
+			sparkles += central_sparkle
 		var/obj/effect/overlay/sparkles/S = new /obj/effect/overlay/sparkles(target_turf)
 		sparkles += S
 		switch(i)

@@ -18,11 +18,18 @@
 
 - .github\workflows\compile_changelogs.yml > Same as above.
 
+- code\game\world.dm > Marked by a "FULP EDIT" comment; copies a bit of code to make 'GLOB.fulp_changelog_hash' functional.
+
+- code\modules\client\preferences.dm > Marked by a "FULP EDIT" comment; gives clients the 'last_fulp_changelog' var.
+
+- interface\interface.dm > Changes the value of 'name' on '/client/verb/changelog' to "/TG/ Changelog"
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines
 - _maps/fulp_maps > Contains all of our non-station maps (Ruins, Deathmatch maps, etc.)
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
+- code/modules/unit_tests/screenshots > Contains Fulp antag & species screenshots for unit tests.
 
 #### Maps & Shuttles
 - _maps/map_files/Heliostation/Heliostation.dmm
