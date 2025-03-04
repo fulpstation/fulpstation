@@ -14,6 +14,9 @@
 ///The delay between sync attempts for nanites to the cloud, if it fails then it will start to corrupt.
 #define NANITE_SYNC_DELAY (30 SECONDS)
 
+///The time a nanite will remain completely inactive upon being jammed.
+#define NANITE_JAMMER_DURATION (5 MINUTES)
+
 /datum/component/nanites
 	dupe_mode = COMPONENT_DUPE_UNIQUE_PASSARGS
 
@@ -45,6 +48,8 @@
 	var/diagnostics = TRUE
 	///The techweb these Nanites are synced to, to generate Nanite research points
 	var/datum/techweb/linked_techweb
+	///The cooldown triggered when a nanite host is hit with a radio jammer that causes nanites to completely freeze, no updating included.
+	COOLDOWN_DECLARE(nanite_jammer_cooldown)
 
 /datum/component/nanites/Initialize(
 	datum/techweb/linked_techweb,
@@ -88,6 +93,7 @@
 	RegisterSignal(parent, COMSIG_LIVING_HEALTHSCAN, PROC_REF(on_healthscan))
 	RegisterSignal(parent, COMSIG_NANITE_SCAN, PROC_REF(nanite_scan))
 	RegisterSignal(parent, COMSIG_NANITE_SYNC, PROC_REF(sync))
+	RegisterSignal(parent, COMSIG_RADIO_JAMMED, PROC_REF(on_jammed))
 	if(isliving(parent))
 		RegisterSignal(parent, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp))
 		RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_death))
@@ -114,6 +120,7 @@
 		COMSIG_LIVING_HEALTHSCAN,
 		COMSIG_NANITE_SCAN,
 		COMSIG_NANITE_SYNC,
+		COMSIG_RADIO_JAMMED,
 		COMSIG_ATOM_EMP_ACT,
 		COMSIG_LIVING_DEATH,
 		COMSIG_MOB_TRIED_ACCESS,
@@ -142,6 +149,9 @@
 		adjust_nanites(null, amount) //just add to the nanite volume
 
 /datum/component/nanites/process()
+	//nanites will do absolutely nothing when jammed, won't lose/gain/update.
+	if(!COOLDOWN_FINISHED(src, nanite_jammer_cooldown))
+		return
 	if(!HAS_TRAIT(host_mob, TRAIT_STASIS))
 		adjust_nanites(null, regen_rate)
 		add_research()
@@ -334,6 +344,11 @@
 
 	regen_rate = amount
 
+///Called when the radio has been jammed.
+/datum/component/nanites/proc/on_jammed(datum/source, ignore_syndie)
+	SIGNAL_HANDLER
+	COOLDOWN_START(src, nanite_jammer_cooldown, NANITE_JAMMER_DURATION)
+
 /datum/component/nanites/proc/get_data(list/nanite_data)
 	nanite_data["nanite_volume"] = nanite_volume
 	nanite_data["max_nanites"] = max_nanites
@@ -448,3 +463,5 @@
 #undef NANITE_FAILURE_CHANCE
 #undef NANITE_PROGRAM_LIMIT
 #undef NANITE_SYNC_DELAY
+
+#undef NANITE_JAMMER_DURATION
