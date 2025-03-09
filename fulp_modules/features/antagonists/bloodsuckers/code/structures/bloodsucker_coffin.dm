@@ -32,6 +32,12 @@
 	///The time it takes to pry this open with a crowbar.
 	var/pry_lid_timer = 25 SECONDS
 
+
+/obj/structure/closet/crate/coffin
+	icon_state = "coffin_override"
+	base_icon_state = "coffin_override"
+	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
+
 /obj/structure/closet/crate/coffin/examine(mob/user)
 	. = ..()
 	if(user == resident)
