@@ -385,9 +385,9 @@ effective or pretty fucking useless.
 
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/jammer/proc/disable_radios_on(atom/target)
-	for (var/obj/item/radio/radio in target.get_all_contents() + target)
-		radio.set_broadcasting(FALSE)
+///Sends a signal meant to be picked up by all radio devices to handle shutting themselves off.
+/obj/item/jammer/proc/disable_radios_on(atom/target, ignore_syndie = FALSE)
+	SEND_SIGNAL(target, COMSIG_RADIO_JAMMED, ignore_syndie)
 
 /obj/item/jammer/Destroy()
 	GLOB.active_jammers -= src
