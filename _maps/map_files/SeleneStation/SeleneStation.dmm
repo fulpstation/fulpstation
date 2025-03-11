@@ -6486,6 +6486,10 @@
 /area/station/ai_monitored/command/storage/eva)
 "cox" = (
 /obj/machinery/vending/coffee,
+/obj/machinery/camera/directional/west{
+	c_tag = "Permabrig - Rec Room Fore";
+	network = list("ss13","prison")
+	},
 /turf/open/floor/iron/grimy,
 /area/station/security/prison/rec)
 "coA" = (
@@ -13733,7 +13737,7 @@
 /obj/structure/table,
 /obj/item/book/manual/wiki/security_space_law,
 /obj/machinery/camera/directional/west{
-	c_tag = "Permabrig - Rec Room";
+	c_tag = "Permabrig - Rec Room Aft";
 	network = list("ss13","prison")
 	},
 /turf/open/floor/iron/grimy,
@@ -21257,7 +21261,7 @@
 "hLf" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Engine S";
-	network = list("ss13","engineering")
+	network = list("ss13","engine")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/supermatter/room)
@@ -21644,7 +21648,7 @@
 "hSa" = (
 /obj/machinery/camera/directional/south{
 	c_tag = "Engineering - Telecomms";
-	network = list("ss13","engineering")
+	network = list("ss13","tcomms")
 	},
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/station/tcommsat/server)
@@ -25277,6 +25281,7 @@
 /turf/open/floor/iron/grimy,
 /area/station/security/courtroom)
 "jix" = (
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark/side{
 	dir = 8
 	},
@@ -26052,6 +26057,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
 "jwy" = (
@@ -35919,7 +35925,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/west{
 	c_tag = "Engineering - Emiters";
-	network = list("ss13","engineering")
+	network = list("ss13","engine")
 	},
 /turf/open/floor/plating,
 /area/station/engineering/supermatter/room)
@@ -36185,7 +36191,6 @@
 /turf/open/floor/iron,
 /area/station/security/prison/mess)
 "mTc" = (
-/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/dark/side{
 	dir = 4
 	},
@@ -37792,6 +37797,7 @@
 "nvs" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/junction/flip,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
 "nvA" = (
@@ -38652,6 +38658,7 @@
 "nOw" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/machinery/computer/crew,
+/obj/machinery/computer/security/telescreen/prison/directional/north,
 /turf/open/floor/iron,
 /area/station/security/warden)
 "nOC" = (
@@ -45941,7 +45948,7 @@
 	},
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Engine E";
-	network = list("ss13","engineering")
+	network = list("ss13","engine")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/supermatter/room)
@@ -48058,7 +48065,7 @@
 /obj/structure/cable,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Telecomms Control";
-	network = list("ss13","engineering")
+	network = list("ss13","tcomms")
 	},
 /turf/open/floor/iron/dark/textured,
 /area/station/tcommsat/computer)
@@ -48844,7 +48851,7 @@
 	dir = 1
 	},
 /obj/structure/cable,
-/obj/structure/table,
+/obj/structure/table/reinforced,
 /obj/item/taperecorder{
 	pixel_x = -4;
 	pixel_y = 7
@@ -51009,10 +51016,10 @@
 	dir = 8
 	},
 /obj/machinery/light/directional/south,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 4
+/obj/machinery/computer/security/telescreen/engine/directional/south,
+/obj/machinery/computer/security{
+	dir = 1
 	},
-/obj/machinery/firealarm/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
 "sux" = (
@@ -53718,7 +53725,7 @@
 	dir = 4
 	},
 /obj/structure/cable,
-/obj/structure/table,
+/obj/structure/table/reinforced,
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/machinery/recharger,
 /obj/machinery/light/directional/north,
@@ -57116,7 +57123,7 @@
 /obj/machinery/light/directional/north,
 /obj/machinery/camera/directional/north{
 	c_tag = "Engineering - Engine N";
-	network = list("ss13","engineering")
+	network = list("ss13","engine")
 	},
 /turf/open/floor/iron,
 /area/station/engineering/supermatter/room)
@@ -61212,6 +61219,7 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
+/obj/machinery/computer/security/telescreen/ce/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/ce)
 "woG" = (
@@ -65628,7 +65636,7 @@
 /obj/effect/mapping_helpers/airalarm/engine_access,
 /obj/machinery/camera/directional/east{
 	c_tag = "Engineering - Engine";
-	network = list("ss13","engineering")
+	network = list("ss13","engine")
 	},
 /obj/effect/mapping_helpers/airalarm/link{
 	chamber_id = "engine"
