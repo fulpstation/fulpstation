@@ -14,6 +14,17 @@
 		return TRUE
 	return FALSE
 
+/// Sets a new_telecrystal_reward for the objective and appends a notice to its description.
+/// 'new_telecrystal_reward' defaults to zero and may be either a number or list.
+/datum/traitor_objective/proc/set_lowpop(new_telecrystal_reward = 0)
+	if(islist(new_telecrystal_reward))
+		telecrystal_reward = rand(new_telecrystal_reward[1], new_telecrystal_reward[2])
+	else
+		telecrystal_reward = new_telecrystal_reward
+
+	description += " \
+	NOTICE: the telecrystal payout for this objective has been reduced since you are operating on \
+	a low-priority (understaffed) site."
 
 //////// Outright lowpop removals ////////
 
@@ -48,70 +59,70 @@
 /datum/traitor_objective/destroy_item/very_risky/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = rand(2, 3)
+		set_lowpop(list(2, 3))
 
 /datum/traitor_objective/hack_comm_console/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = rand(4, 6)
+		set_lowpop(list(4, 6))
 
 /datum/traitor_objective/locate_weakpoint/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = rand(2, 4)
+		set_lowpop(list(2, 4))
 
 //This further incentivizes keeping the kidnapping target alive.
 /datum/traitor_objective/target_player/kidnapping/common/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/target_player/kidnapping/uncommon/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/target_player/kidnapping/rare/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/target_player/kidnapping/captain/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/target_player/assault/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/destroy_heirloom/common/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/destroy_heirloom/uncommon/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 1
+		set_lowpop(1)
 
 /datum/traitor_objective/destroy_heirloom/rare/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 2
+		set_lowpop(2)
 
 /datum/traitor_objective/destroy_heirloom/captain/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 3
+		set_lowpop(3)
 
 /datum/traitor_objective/kill_pet/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 0
+		set_lowpop()
 
 /datum/traitor_objective/kill_pet/high_risk/New(datum/uplink_handler/handler)
 	. = ..()
 	if(at_lowpop())
-		telecrystal_reward = 1
+		set_lowpop(1)
