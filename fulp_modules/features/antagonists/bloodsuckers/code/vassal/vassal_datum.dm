@@ -100,7 +100,7 @@
 	/// Forge Objectives
 	forge_objectives()
 	/// Give Vampire Language & Hud
-	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
+	owner.current.grant_all_languages(grant_omnitongue = TRUE)
 	owner.current.grant_language(/datum/language/vampiric)
 	return ..()
 
