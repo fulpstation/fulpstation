@@ -24,6 +24,7 @@
 	to_chat(remove_from, span_userdanger("You've forgotten Velvet-Fu..."))
 	recedingstance.Remove(remove_from)
 	twistedstance.Remove(remove_from)
+	return ..()
 
 /datum/martial_art/velvetfu/proc/check_streak(mob/living/A, mob/living/D)
 	if(findtext(streak, FLYING_AXEKICK_COMBO))
@@ -81,7 +82,7 @@
 		span_danger("[owner] focuses on his stance."),
 		span_userdanger("You focus on your stance. Stamina..."),
 	)
-	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(owner.current)
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
 	art.streak = RECEDING_STANCE
 	user.adjustStaminaLoss(-40)
 	stancing = FALSE
@@ -97,7 +98,7 @@
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
 	var/mob/living/user = owner
-	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(owner.current)
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
 	if(art.streak == TWISTED_STANCE)
 		owner.visible_message(
 			span_danger("[owner] suddenly twists themselves even further!"),
@@ -120,7 +121,8 @@
 		span_danger("[owner] suddenly untwists in pain."),
 		span_userdanger("You untwist yourself in pain!"),
 	)
-	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(owner.current)
+	var/mob/living/user = owner
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
 	if(art.streak == TWISTED_STANCE)
 		art.streak = ""
 

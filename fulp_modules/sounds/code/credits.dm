@@ -1,7 +1,7 @@
 // This is triggered in roundend.dm, so that we have some round-end music instead of just playing lobby music again.
-/client/playtitlemusic(vol = 85)
+/client/playtitlemusic(volume_multiplier = 85)
 	if(SSticker.current_state == GAME_STATE_FINISHED)
-		return playcreditsmusic(vol)
+		return playcreditsmusic(volume_multiplier)
 	return ..()
 
 /client/proc/playcreditsmusic(volume_multiplier = 85)
