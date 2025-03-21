@@ -4,10 +4,10 @@
 		return playcreditsmusic(vol)
 	return ..()
 
-/client/proc/playcreditsmusic(vol = 85)
+/client/proc/playcreditsmusic(volume_multiplier = 85)
 	set waitfor = FALSE
 
-	var/volume_modifier = prefs.read_preference(/datum/preference/numeric/sound_lobby_volume)
+	var/volume_modifier = prefs.read_preference(/datum/preference/numeric/volume/sound_lobby_volume) * volume_multiplier
 	if((prefs && volume_modifier) && !CONFIG_GET(flag/disallow_title_music))
 		SEND_SOUND(src, sound(returncreditsmusic(), repeat = 0, wait = 0, volume = volume_modifier, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
 
