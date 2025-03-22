@@ -8,7 +8,7 @@ GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 
 /obj/item/instrument/halcyon_pearl
 	name = "Strange Pearl"
-	desc = "A purple pearl that resonates with subtle warmth. It looks vaguely electronic— an AI might be able to interface with it."
+	desc = "A purple pearl that resonates with subtle warmth."
 	force = 1
 	max_integrity = 200
 	resistance_flags = FIRE_PROOF | ACID_PROOF
@@ -48,6 +48,13 @@ GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 	else
 		context[SCREENTIP_CONTEXT_CTRL_LMB] = "ERR% TARGET OUT OF RANGE"
 	return CONTEXTUAL_SCREENTIP_SET
+
+/obj/item/instrument/halcyon_pearl/examine(mob/user)
+	. = ..()
+	if(!isAI(user))
+		. += span_notice("It looks vaguely electronic— an <b>AI</b> might be able to interface with it.")
+	else
+		. += span_notice("This is an exotic data storage device that you could probably manipulate at close-range.")
 
 /obj/item/instrument/halcyon_pearl/ui_interact(mob/user, datum/tgui/ui)
 	if(isliving(user))
@@ -107,4 +114,9 @@ GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 				break
 
 		new /obj/item/instrument/halcyon_pearl(target_turf)
-
+		GLOB.halcyon_pearl_generated = TRUE
+		visible_message(
+			span_tinynotice("A small pearl falls out of [src] as it boots up..."),
+			span_notice("A small pearl falls out of you as you boot up..."),
+			span_tinynoticeital("You hear something clink to the ground...")
+		)
