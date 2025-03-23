@@ -27,7 +27,7 @@
 		beefman_base.blend_icon(eyes, ICON_OVERLAY)
 
 		beefman_base.scale(64, 64)
-		beefman_base.crop(15, 64, 15 + 31, 64 - 31)
+		beefman_base.crop(15, 64 - 31, 15 + 31, 64)
 	var/color = GLOB.color_list_beefman[value]
 
 	var/datum/universal_icon/icon = beefman_base.copy()
@@ -61,7 +61,7 @@
 	var/datum/universal_icon/icon_with_eye = beef_head.copy()
 	icon_with_eye.blend_icon(uni_icon('fulp_modules/icons/species/mob/beefman_bodyparts.dmi', "[eyes.icon_state]_head"), ICON_OVERLAY)
 	icon_with_eye.scale(64, 64)
-	icon_with_eye.crop(15, 64, 15 + 31, 64 - 31)
+	icon_with_eye.crop(15, 64 - 31, 15 + 31, 64)
 
 	return icon_with_eye
 
@@ -91,7 +91,7 @@
 	var/datum/universal_icon/icon_with_mouth = beef_head.copy()
 	icon_with_mouth.blend_icon(uni_icon('fulp_modules/icons/species/mob/beefman_bodyparts.dmi', "[mouths.icon_state]_head"), ICON_OVERLAY)
 	icon_with_mouth.scale(64, 64)
-	icon_with_mouth.crop(15, 64, 15 + 31, 64 - 31)
+	icon_with_mouth.crop(15, 64 - 31, 15 + 31, 64)
 
 	return icon_with_mouth
 
