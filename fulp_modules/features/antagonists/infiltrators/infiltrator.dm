@@ -35,8 +35,6 @@
 	owner.current.mind.set_assigned_role(SSjob.get_job_type(/datum/job/infiltrator))
 	owner.current.mind.special_role = ROLE_INFILTRATOR
 	uplink_handler.has_progression = FALSE
-	uplink_handler.has_objectives = FALSE
-	uplink_handler.maximum_potential_objectives = 0
 
 /datum/antagonist/traitor/fulp_infiltrator/admin_add(datum/mind/new_owner, mob/admin)
 	var/choice = tgui_input_list(admin, "What affiliation would you like [new_owner] to have?", "Affiliation", possible_employers)
