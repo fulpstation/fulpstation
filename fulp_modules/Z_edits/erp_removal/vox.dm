@@ -5,8 +5,6 @@ GLOBAL_LIST_INIT(vox_filter_list, list(
 	"lusty",
 ))
 
-#endif
-
 /// Override/edit the main VOX terms list.
 /world/proc/override_vox()
 	if(!GLOB.vox_filter_list || !GLOB.vox_sounds)
