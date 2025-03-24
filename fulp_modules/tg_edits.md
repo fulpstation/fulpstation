@@ -16,11 +16,13 @@
 
 - tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
 
-- tools/build/build.js > Adds our folder to be read for changes when compiling.
-
 - tgstation.dme > Adds our files to be included when compiling
 
+- tools/build/build.js > Adds our folder to be read for changes when compiling.
+
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
+
+- tools/deploy.sh > Adds Fulp's ``icon`` and ``greyscale/json_configs`` folders to the list of folders that RustG uses to compile icons.
 
 ## All Fulp files not contained within /fulp_modules/
 
