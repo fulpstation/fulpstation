@@ -141,44 +141,57 @@
 	name = "Kill a command pet"
 	martyr_compatible = TRUE
 	admin_grantable = TRUE
-	var/mob/living/target_pet ///The assigned target pet for the objective
+	///The assigned target pet for the objective
+	var/mob/living/target_pet
 
 /datum/objective/kill_pet/proc/find_pet_target()
-	var/list/possible_target_pets = list(
+	var/static/list/possible_target_pets = list(
 		/mob/living/basic/pet/dog/corgi/ian,
 		/mob/living/basic/pet/dog/corgi/puppy/ian,
 		/mob/living/basic/pet/dog/pug/mcgriff,
 		/mob/living/basic/carp/pet/lia,
+		/mob/living/basic/bear/snow/misha,
 		/mob/living/basic/spider/giant/sgt_araneus,
 		/mob/living/basic/pet/fox/renault,
 		/mob/living/basic/sloth/paperwork,
 		/mob/living/basic/sloth/citrus,
-
-		// le sad simple animals (let's kill them)
 		/mob/living/basic/pet/cat/runtime,
 		/mob/living/basic/parrot/poly,
  	)
 
-	remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
-	var/chosen_pet
-	while(!target_pet && possible_target_pets.len)
-		chosen_pet = pick(possible_target_pets)
-		target_pet = locate(chosen_pet) in GLOB.mob_living_list
-		if(!target_pet)
-			possible_target_pets -= chosen_pet
+	var/list/potential_targets = remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
+	shuffle_inplace(potential_targets)
+	
+	for(var/pet_path in potential_targets)
+		var/mob/living/potential_animal = locate(pet_path) in GLOB.mob_living_list
+		if(isnull(potential_animal) || HAS_TRAIT(potential_animal, TRAIT_GODMODE) || potential_animal.stat == DEAD)
 			continue
-		if(target_pet.stat == DEAD || istype(target_pet, /mob/living/basic/parrot/poly/ghost))
-			target_pet = null
-		possible_target_pets -= chosen_pet
+		assign_target_pet(new_target = potential_animal)
+		return
 
+/datum/objective/kill_pet/proc/assign_target_pet(atom/new_target)
+	if(!isnull(target_pet))
+		UnregisterSignal(target_pet, COMSIG_QDELETING)
+
+	if(isnull(new_target))
+		target_pet = null
+		return
+	
+	target_pet = new_target
 	update_explanation_text()
+	RegisterSignal(target_pet, COMSIG_QDELETING, PROC_REF(on_pet_delete)) 
 
-
-
-/datum/objective/kill_pet/proc/remove_duplicate(possible_target_pets)
+/datum/objective/kill_pet/proc/on_pet_delete()
+	SIGNAL_HANDLER
+	assign_target_pet(new_target = null)
+		
+/datum/objective/kill_pet/proc/remove_duplicate(list/possible_target_pets)
+	var/list/new_list = possible_target_pets.Copy()
 	for(var/datum/objective/kill_pet/objective in owner.get_all_objectives())
-		if(objective.target_pet.type in possible_target_pets)
-			possible_target_pets -= objective.target_pet.type
+		if(isnull(objective.target_pet))
+			continue
+		new_list -= objective.target_pet.type
+	return new_list 
 
 
 /datum/objective/kill_pet/update_explanation_text()
