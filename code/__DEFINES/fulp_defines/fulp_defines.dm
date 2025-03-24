@@ -42,9 +42,25 @@
 ///Define for the 'Rabbits' Faction.
 #define FACTION_RABBITS "rabbits"
 
-//Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
+///Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
 #define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
 
-//Defines for "Alert Level Deltaww"
+///Defines for "Alert Level Deltaww"
 #define SEC_LEVEL_DELTAWW 4
 #define ALERT_COEFF_DELTAWW 255 //This alert level should only be temporary; might as well mess with everyone.
+
+///Defines for "Ghost Kitchen" diner ghost spawners
+#define ROLE_GHOST_CHEF "All-American Chef"
+#define ROLE_GHOST_COOK "All-American Cook"
+#define ROLE_GHOST_REGULAR "Fake Health Inspector"
+
+/// Define for the atmospherics chamber on the beefman space station ruin.
+#define ATMOS_GAS_MONITOR_BEEF_MIX "govyadina mix"
+
+///Define for the diner ghost role's z-level restriction component.
+///This does NOT work with the regular "stationstuck" component.
+#define PIZZAFICATION "pizzafy"
+
+/// Define for the beefman cytology ghost role's z-level restriction component.
+/// This does NOT work with the regular "stationstuck" component.
+#define MEATIFICATION "meatify"

@@ -6,7 +6,7 @@
 
 import { useBackend } from './backend';
 import { useDebug } from './debug';
-import { LoadingScreen } from './interfaces/common/LoadingToolbox';
+import { LoadingScreen } from './interfaces/common/LoadingScreen';
 import { Window } from './layouts';
 
 const requireInterface = require.context('./interfaces');
@@ -69,7 +69,7 @@ export const getRoutedComponent = () => {
     }
   }
 
-  const name = config?.interface;
+  const name = config?.interface?.name;
   const interfacePathBuilders = [
     (name: string) => `./${name}.tsx`,
     (name: string) => `./${name}.jsx`,
@@ -101,7 +101,7 @@ export const getRoutedComponent = () => {
 };
 
 // Fulp edit - Adding our Interfaces to the list of UIs that are read.
-const requireFulpInterface = require.context('../fulpui-patches');
+const requireFulpInterface = require.context('./fulpui-patches');
 const getComponent = (interfacePath) => {
   let esModule = null;
 

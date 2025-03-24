@@ -99,7 +99,7 @@
 
 
 /client/verb/changelog()
-	set name = "Changelog"
+	set name = "/TG/ Changelog"
 	set category = "OOC"
 	if(!GLOB.changelog_tgui)
 		GLOB.changelog_tgui = new /datum/changelog()

@@ -250,8 +250,10 @@
 	base_icon_state = "mail"
 	can_install_electronics = FALSE
 	lid_icon_state = "maillid"
-	lid_x = -26
-	lid_y = 2
+	lid_w = -26
+	lid_z = 2
+	weld_w = 1
+	weld_z = 4
 	paint_jobs = null
 	///if it'll show the nt mark on the crate
 	var/postmarked = TRUE
@@ -342,6 +344,7 @@
 	icon_state = "mailbag"
 	worn_icon_state = "mailbag"
 	resistance_flags = FLAMMABLE
+	custom_premium_price = PAYCHECK_LOWER
 
 /obj/item/storage/bag/mail/Initialize(mapload)
 	. = ..()

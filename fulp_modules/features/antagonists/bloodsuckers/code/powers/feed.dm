@@ -18,7 +18,7 @@
 	purchase_flags = BLOODSUCKER_CAN_BUY|BLOODSUCKER_DEFAULT_POWER
 	bloodcost = 0
 	cooldown_time = 15 SECONDS
-	///Amount of blood taken, reset after each Feed. Used for logging.
+	///Amount of blood taken, reset after each Feed. Used (mostly) for logging.
 	var/blood_taken = 0
 	///The amount of Blood a target has since our last feed, this loops and lets us not spam alerts of low blood.
 	var/warning_target_bloodvol = BLOOD_VOLUME_MAX_LETHAL
@@ -49,16 +49,14 @@
 	return TRUE
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
-	if(!active)
-		return
 	var/mob/living/user = owner
-	var/mob/living/feed_target = target_ref.resolve()
-	if(isnull(feed_target))
-		log_combat(user, user, "fed on blood (target not found)", addition="(and took [blood_taken] blood)")
-	else
+	var/mob/living/feed_target
+	if(target_ref)
+		feed_target = target_ref.resolve()
+	if(!isnull(feed_target))
 		log_combat(user, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
 		to_chat(user, span_notice("You slowly release [feed_target]."))
-		if(feed_target.stat == DEAD)
+		if(feed_target.stat == DEAD && blood_taken > 0)
 			user.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
 			bloodsuckerdatum_power.AddHumanityLost(10)
 
@@ -81,6 +79,12 @@
 		DeactivatePower()
 		feed_target.death()
 		return
+
+	if(feed_target.blood_volume <= 0)
+		owner.balloon_alert(owner, "no blood!")
+		DeactivatePower()
+		return
+
 	var/feed_timer = clamp(round(FEED_DEFAULT_TIMER / (1.25 * (level_current || 1))), 1, FEED_DEFAULT_TIMER)
 	if(bloodsuckerdatum_power.frenzied)
 		feed_timer = 2 SECONDS
@@ -88,7 +92,6 @@
 	owner.balloon_alert(owner, "feeding off [feed_target]...")
 	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE))
 		owner.balloon_alert(owner, "feed stopped")
-		target_ref = null
 		DeactivatePower()
 		return
 	if(owner.pulling == feed_target && owner.grab_state >= GRAB_AGGRESSIVE)

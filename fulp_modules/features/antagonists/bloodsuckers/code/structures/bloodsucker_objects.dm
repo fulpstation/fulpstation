@@ -111,7 +111,7 @@
 	attack_verb_continuous = list("staked", "stabbed", "tore into")
 	attack_verb_simple = list("staked", "stabbed", "tore into")
 	sharpness = SHARP_EDGED
-	embed_data = /datum/embed_data/stake
+	embed_type = /datum/embedding/stake
 	force = 6
 	throwforce = 10
 	max_integrity = 30
@@ -119,15 +119,12 @@
 	///Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
 
-/datum/embed_data/stake
+/datum/embedding/stake
 	embed_chance = 20
 
 /obj/item/stake/attack(mob/living/target, mob/living/user, params)
 	. = ..()
 	if(.)
-		return
-	// Invalid Target, or not targetting the chest?
-	if(check_zone(user.zone_selected) != BODY_ZONE_CHEST)
 		return
 	if(target == user)
 		return
@@ -142,26 +139,27 @@
 	playsound(user, 'sound/effects/magic/Demon_consume.ogg', 50, 1)
 	if(!do_after(user, staketime, target, extra_checks = CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon, can_be_staked)))) // user / target / time / uninterruptable / show progress bar / extra checks
 		return
+	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
+	var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
+	get_embed()?.embed_into(victim = target, target_limb = chest)
 	// Drop & Embed Stake
 	user.visible_message(
 		span_danger("[user.name] drives the [src] into [target]'s chest!"),
 		span_danger("You drive the [src] into [target]'s chest!"),
 	)
-	playsound(get_turf(target), 'sound/effects/splat.ogg', 40, 1)
-	if(tryEmbed(target.get_bodypart(BODY_ZONE_CHEST), TRUE, TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
-		target.apply_damage(max(10, force * 1.2), BRUTE, BODY_ZONE_CHEST, wound_bonus = 0, sharpness = TRUE)
+
 	if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
 		return
 	if(!target.mind)
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = target.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
-		// If DEAD or TORPID... Kill Bloodsucker!
-		if(target.StakeCanKillMe())
-			bloodsuckerdatum.FinalDeath()
-		else
-			to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
-			target.balloon_alert(target, "you have been staked!")
+	if(!bloodsuckerdatum)
+		return
+	if(target.StakeCanKillMe())
+		bloodsuckerdatum.FinalDeath()
+	else
+		to_chat(target, span_userdanger("You have been staked! Your powers are useless, your death forever, while it remains in place."))
+		target.balloon_alert(target, "you have been staked!")
 
 ///Can this target be staked? If someone stands up before this is complete, it fails. Best used on someone stationary.
 /mob/living/proc/can_be_staked()
@@ -180,10 +178,10 @@
 	force = 8
 	throwforce = 12
 	armour_penetration = 10
-	embed_data = /datum/embed_data/hardened_stake
+	embed_data = /datum/embedding/hardened_stake
 	staketime = 80
 
-/datum/embed_data/hardened_stake
+/datum/embedding/hardened_stake
 	embed_chance = 35
 
 /obj/item/stake/hardened/silver
@@ -194,10 +192,10 @@
 	siemens_coefficient = 1 //flags = CONDUCT // var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
 	force = 9
 	armour_penetration = 25
-	embed_data = /datum/embed_data/silver_stake
+	embed_data = /datum/embedding/silver_stake
 	staketime = 60
 
-/datum/embed_data/silver_stake
+/datum/embedding/silver_stake
 	embed_chance = 65
 
 //////////////////////
