@@ -1,5 +1,3 @@
-#ifdef AI_VOX
-
 /// List of terms that we filter out of the main VOX list.
 GLOBAL_LIST_INIT(vox_filter_list, list(
 	"coomer",
@@ -10,7 +8,7 @@ GLOBAL_LIST_INIT(vox_filter_list, list(
 #endif
 
 /// Override/edit the main VOX terms list.
-/world/proc/override_VOX()
+/world/proc/override_vox()
 	if(!GLOB.vox_filter_list || !GLOB.vox_sounds)
 		return
 
