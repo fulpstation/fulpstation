@@ -10,7 +10,7 @@ GLOBAL_LIST_INIT(vox_filter_list, list(
 #endif
 
 /// Override/edit the main VOX terms list.
-/proc/override_VOX()
+/world/proc/override_VOX()
 	if(!GLOB.vox_filter_list || !GLOB.vox_sounds)
 		return
 
