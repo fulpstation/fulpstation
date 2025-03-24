@@ -120,7 +120,7 @@
 	var/staketime = 12 SECONDS
 
 /datum/embedding/stake
-	embed_chance = 100
+	embed_chance = 20
 
 /obj/item/stake/attack(mob/living/target, mob/living/user, params)
 	. = ..()
