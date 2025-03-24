@@ -224,11 +224,11 @@
 
 /obj/item/storage/pill_bottle/strange_reagent/PopulateContents()
 	for(var/i in 1 to 7)
-		new /obj/item/reagent_containers/pill/strange_reagent(src)
+		new /obj/item/reagent_containers/applicator/pill/strange_reagent(src)
 
 // ...And the pill itself.
 
-/obj/item/reagent_containers/pill/strange_reagent
+/obj/item/reagent_containers/applicator/pill/strange_reagent
 	name = "strange reagent pill"
 	desc = "Used to bring back people from the dead through holy means."
 	list_reagents = list(/datum/reagent/medicine/strange_reagent = 2)
