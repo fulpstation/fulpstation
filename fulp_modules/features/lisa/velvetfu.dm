@@ -10,20 +10,21 @@
 	id = MARTIALART_VELVETFU
 	help_verb = /mob/living/proc/velvetfu_help
 	display_combos = TRUE
-	allow_temp_override = FALSE
+
 	var/datum/action/receding_stance/recedingstance = new/datum/action/receding_stance()
 	var/datum/action/twisted_stance/twistedstance = new/datum/action/twisted_stance()
 
-/datum/martial_art/velvetfu/teach(mob/living/H, make_temporary = FALSE)
-	if(..())
-		to_chat(H, span_userdanger("You've mastered Velvet-Fu!"))
-		recedingstance.Grant(H)
-		twistedstance.Grant(H)
+/datum/martial_art/velvetfu/activate_style(mob/living/new_holder)
+	. = ..()
+	to_chat(new_holder, span_userdanger("You've mastered Velvet-Fu!"))
+	recedingstance.Grant(new_holder)
+	twistedstance.Grant(new_holder)
 
-/datum/martial_art/velvetfu/on_remove(mob/living/H)
-	to_chat(H, span_userdanger("You've forgotten Velvet-Fu..."))
-	recedingstance.Remove(H)
-	twistedstance.Remove(H)
+/datum/martial_art/velvetfu/deactivate_style(mob/living/remove_from)
+	to_chat(remove_from, span_userdanger("You've forgotten Velvet-Fu..."))
+	recedingstance.Remove(remove_from)
+	twistedstance.Remove(remove_from)
+	return ..()
 
 /datum/martial_art/velvetfu/proc/check_streak(mob/living/A, mob/living/D)
 	if(findtext(streak, FLYING_AXEKICK_COMBO))
@@ -81,7 +82,8 @@
 		span_danger("[owner] focuses on his stance."),
 		span_userdanger("You focus on your stance. Stamina..."),
 	)
-	owner.mind.martial_art.streak = RECEDING_STANCE
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	art.streak = RECEDING_STANCE
 	user.adjustStaminaLoss(-40)
 	stancing = FALSE
 
@@ -96,7 +98,8 @@
 		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
 		return
 	var/mob/living/user = owner
-	if(owner.mind.martial_art.streak == TWISTED_STANCE)
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	if(art.streak == TWISTED_STANCE)
 		owner.visible_message(
 			span_danger("[owner] suddenly twists themselves even further!"),
 			span_userdanger("You twist yourself even further!"),
@@ -108,7 +111,7 @@
 		span_danger("[owner] suddenly twists and turns, what a strange stance!"),
 		span_userdanger("You twist and turn, your twisted stance is done!"),
 	)
-	owner.mind.martial_art.streak = TWISTED_STANCE
+	art.streak = TWISTED_STANCE
 	user.adjustStaminaLoss(-40)
 	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	addtimer(CALLBACK(src, PROC_REF(untwist)), 15 SECONDS)
@@ -118,8 +121,10 @@
 		span_danger("[owner] suddenly untwists in pain."),
 		span_userdanger("You untwist yourself in pain!"),
 	)
-	if(owner.mind.martial_art.streak == TWISTED_STANCE)
-		owner.mind.martial_art.streak = ""
+	var/mob/living/user = owner
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	if(art.streak == TWISTED_STANCE)
+		art.streak = ""
 
 
 /*
