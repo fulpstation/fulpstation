@@ -58,7 +58,7 @@
 	///ALL Powers currently owned
 	var/list/datum/action/cooldown/bloodsucker/powers = list()
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
-	var/datum/martial_art/frenzygrab/frenzygrab = new
+	var/datum/martial_art/frenzygrab/frenzygrab
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
@@ -431,7 +431,7 @@
 	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	// Tongue & Language
-	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
+	owner.current.get_language_holder().omnitongue = TRUE //Grants omnitongue
 	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs
 	heal_vampire_organs()
