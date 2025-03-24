@@ -13,6 +13,7 @@ mkdir -p \
     $1/_maps \
     $1/code/datums/greyscale/json_configs \
 		$1/fulp_modules/strings/greyscale/json_configs \
+		$1/fulp_modules/icons \
     $1/data/spritesheets \
     $1/icons \
     $1/sound/runtime \
@@ -29,6 +30,7 @@ cp tgstation.dmb tgstation.rsc $1/
 cp -r _maps/* $1/_maps/
 cp -r code/datums/greyscale/json_configs/* $1/code/datums/greyscale/json_configs/
 cp -r fulp_modules/strings/greyscale/json_configs/* $1/fulp_modules/strings/greyscale/json_configs/
+cp -r fulp_modules/icons/* $1/fulp_modules/icons/
 cp -r icons/* $1/icons/
 cp -r sound/runtime/* $1/sound/runtime/
 cp -r strings/* $1/strings/
