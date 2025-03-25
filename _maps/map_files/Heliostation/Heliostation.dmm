@@ -19913,7 +19913,6 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/structure/cable,
-/obj/item/radio/intercom/directional/south,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "bXv" = (
@@ -20722,8 +20721,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "cfG" = (
-/obj/structure/displaycase/captain,
-/obj/machinery/newscaster/directional/west,
+/obj/structure/sign/poster/greenscreen/directional/west,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "cfI" = (
@@ -41325,10 +41323,11 @@
 /turf/open/floor/catwalk_floor/iron_dark,
 /area/station/security/prison)
 "iPF" = (
-/obj/machinery/computer/security/telescreen/entertainment/directional/north,
 /obj/effect/turf_decal/siding/wood{
 	dir = 6
 	},
+/obj/structure/bed/dogbed/renault,
+/mob/living/basic/pet/fox/renault,
 /turf/open/floor/stone,
 /area/station/command/heads_quarters/captain)
 "iPS" = (
@@ -41361,8 +41360,9 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint)
 "iQg" = (
-/obj/structure/bed/dogbed/renault,
-/mob/living/basic/pet/fox/renault,
+/obj/machinery/greenscreen_camera{
+	dir = 8
+	},
 /turf/open/floor/iron/grimy,
 /area/station/command/heads_quarters/captain)
 "iQm" = (
@@ -41872,28 +41872,8 @@
 /area/station/security/detectives_office)
 "iYN" = (
 /obj/structure/table/wood,
-/obj/item/toy/figure/captain{
-	pixel_x = 6;
-	pixel_y = 14
-	},
-/obj/item/coin/plasma{
-	pixel_x = -5
-	},
-/obj/item/lighter{
-	color = "#d4af37";
-	desc = "Cap's Lucky Lighter. Given to him by NT staff for being the most capable person to secure the disk.";
-	name = "The Captain's Lucky Lighter";
-	pixel_x = 7;
-	pixel_y = -3
-	},
-/obj/item/cigarette/cigar{
-	pixel_x = -3;
-	pixel_y = 13
-	},
-/obj/item/cigarette/cigar{
-	pixel_x = -1;
-	pixel_y = 9
-	},
+/obj/item/paper_bin,
+/obj/item/pen/fountain/captain,
 /turf/open/floor/iron/grimy,
 /area/station/command/heads_quarters/captain)
 "iZq" = (
@@ -43162,13 +43142,17 @@
 "jyP" = (
 /obj/structure/table/wood,
 /obj/item/storage/photo_album{
-	pixel_y = -10
+	pixel_y = -4;
+	pixel_x = 1
 	},
 /obj/item/camera{
 	pixel_x = -2;
 	pixel_y = 4
 	},
 /obj/machinery/light/directional/west,
+/obj/structure/plaque/static_plaque/golden/captain{
+	pixel_x = -32
+	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "jyQ" = (
@@ -59253,10 +59237,14 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port)
 "pHF" = (
-/obj/structure/table/wood,
-/obj/item/hand_tele,
-/obj/item/melee/chainofcommand,
 /obj/machinery/airalarm/directional/north,
+/obj/item/toy/figure/captain{
+	pixel_x = -5;
+	pixel_y = 1
+	},
+/obj/structure/table/wood,
+/obj/item/melee/chainofcommand,
+/obj/item/hand_tele,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "pHT" = (
@@ -60133,7 +60121,7 @@
 	pixel_y = 4
 	},
 /obj/item/storage/lockbox/medal,
-/obj/machinery/status_display/ai/directional/south,
+/obj/machinery/computer/security/telescreen/entertainment/directional/south,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "qaw" = (
@@ -61209,7 +61197,7 @@
 	name = "Captain's Desk";
 	req_access = list("captain")
 	},
-/obj/machinery/status_display/evac/directional/north,
+/obj/machinery/status_display/ai/directional/north,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "qvV" = (
@@ -66739,21 +66727,8 @@
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
 "sEV" = (
-/obj/structure/table/wood,
-/obj/item/clipboard{
-	pixel_x = 4
-	},
-/obj/item/paper_bin{
-	pixel_x = -4;
-	pixel_y = 6
-	},
-/obj/item/pen/fountain/captain{
-	pixel_x = -4;
-	pixel_y = 7
-	},
-/obj/structure/plaque/static_plaque/golden/captain{
-	pixel_x = -32
-	},
+/obj/structure/displaycase/captain,
+/obj/machinery/status_display/evac/directional/west,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "sEW" = (
@@ -66991,6 +66966,13 @@
 /obj/machinery/camera/directional/east{
 	c_tag = "Command - Captain's Quarters";
 	network = list("ss13","command")
+	},
+/obj/item/lighter{
+	color = "#d4af37";
+	desc = "Cap's Lucky Lighter. Given to him by NT staff for being the most capable person to secure the disk.";
+	name = "The Captain's Lucky Lighter";
+	pixel_x = 7;
+	pixel_y = -3
 	},
 /turf/open/floor/iron/grimy,
 /area/station/command/heads_quarters/captain/private)
@@ -72037,6 +72019,7 @@
 	fax_name = "Captain's Office";
 	name = "Captain's Fax Machine"
 	},
+/obj/machinery/newscaster/directional/west,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "uDM" = (
