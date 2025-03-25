@@ -10,6 +10,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	icon = 'fulp_modules/icons/toys/instruments.dmi'
 	icon_state = "halcyon_pearl"
+	base_icon_state = "halcyon_pearl"
 	inhand_icon_state = "harmonica"
 	allowed_instrument_ids = "sine"
 	hitsound = 'sound/effects/rock/rocktap1.ogg'
