@@ -98,18 +98,19 @@
 	// This turf should always be directly above or below the AI start landmark.
 	// (If it's to the left or right then it'll pan/sound weird; if it's not right next to them then
 	// they can't use it.)
-	if(at_lowpop())
-		// The landmark's turf.
-		var/turf/source_turf = get_turf(src)
-		// The turf we'll ultimately end up spawning the pearl at.
-		// Defaults to our 'source_turf' just in case we can't find a better alternative.
-		var/turf/open/target_turf = source_turf
+	if(!at_lowpop())
+		return
+	// The landmark's turf.
+	var/turf/source_turf = get_turf(src)
+	// The turf we'll ultimately end up spawning the pearl at.
+	// Defaults to our 'source_turf' just in case we can't find a better alternative.
+	var/turf/open/target_turf = source_turf
 
-		for(var/turf/open/open_turf in orange(1, source_turf))
-			if(open_turf == source_turf)
-				continue
-			if(open_turf.x == src.loc.x)
-				target_turf = open_turf
-				break
+	for(var/turf/open/open_turf in orange(1, source_turf))
+		if(open_turf == source_turf)
+			continue
+		if(open_turf.x == src.loc.x)
+			target_turf = open_turf
+			break
 
-		new /obj/item/instrument/halcyon_pearl(target_turf)
+	new /obj/item/instrument/halcyon_pearl(target_turf)
