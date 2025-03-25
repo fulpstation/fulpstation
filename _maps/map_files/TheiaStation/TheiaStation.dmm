@@ -592,6 +592,10 @@
 /obj/structure/cable,
 /turf/open/floor/iron/white/telecomms,
 /area/station/tcommsat/server)
+"ajs" = (
+/obj/structure/sign/departments/aiupload,
+/turf/closed/wall/r_wall,
+/area/station/command/teleporter)
 "ajx" = (
 /obj/structure/reagent_dispensers/wall/virusfood/directional/south,
 /obj/effect/turf_decal/trimline/green/filled/line,
@@ -5106,6 +5110,7 @@
 /area/station/security/prison/rec)
 "bJo" = (
 /obj/machinery/holopad/secure,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "bJu" = (
@@ -24185,7 +24190,6 @@
 /obj/machinery/computer/teleporter{
 	dir = 4
 	},
-/obj/structure/sign/departments/aiupload/directional/south,
 /obj/effect/turf_decal/trimline/dark_blue/filled/corner{
 	dir = 4
 	},
@@ -27952,7 +27956,9 @@
 /turf/open/floor/carpet/purple,
 /area/station/maintenance/starboard)
 "jHP" = (
-/obj/structure/filingcabinet,
+/obj/machinery/greenscreen_camera{
+	dir = 8
+	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "jHR" = (
@@ -29255,8 +29261,7 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "kfe" = (
-/obj/machinery/light/small/directional/east,
-/obj/machinery/light_switch/directional/east,
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "kfs" = (
@@ -31298,10 +31303,6 @@
 /obj/machinery/duct,
 /turf/open/floor/wood,
 /area/station/commons/lounge)
-"kOU" = (
-/obj/structure/cable,
-/turf/open/floor/wood,
-/area/station/command/heads_quarters/captain)
 "kOY" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -32020,13 +32021,12 @@
 /turf/open/floor/carpet/blue,
 /area/station/medical/psychology)
 "ldp" = (
-/mob/living/basic/pet/fox/renault,
-/obj/machinery/light/small/directional/west,
 /obj/machinery/camera/directional/west{
 	c_tag = "Command - Captains Office";
 	name = "camera"
 	},
-/obj/machinery/firealarm/directional/west,
+/obj/machinery/power/apc/auto_name/directional/west,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "ldq" = (
@@ -34167,8 +34167,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/bridge)
 "lTk" = (
-/obj/structure/chair/office,
 /obj/machinery/status_display/evac/directional/west,
+/obj/machinery/light/small/directional/west,
+/obj/structure/bed/dogbed/renault,
+/mob/living/basic/pet/fox/renault,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "lTl" = (
@@ -35207,6 +35209,10 @@
 /obj/effect/turf_decal/trimline/red/filled/line,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
+"mmE" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/wood,
+/area/station/command/heads_quarters/captain)
 "mmH" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -36541,10 +36547,8 @@
 /turf/open/floor/iron/dark/textured,
 /area/station/medical/paramedic)
 "mOc" = (
-/obj/structure/bed/dogbed/renault,
 /obj/item/radio/intercom/directional/north,
-/obj/machinery/power/apc/auto_name/directional/west,
-/obj/structure/cable,
+/obj/structure/sign/poster/greenscreen/directional/west,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "mOf" = (
@@ -41809,7 +41813,7 @@
 /obj/machinery/shower/directional/south,
 /obj/item/bikehorn/rubberducky,
 /turf/open/floor/iron/white,
-/area/station/command/heads_quarters/captain)
+/area/station/command/heads_quarters/captain/private)
 "oEZ" = (
 /obj/structure/displaycase,
 /obj/structure/cable,
@@ -44906,7 +44910,7 @@
 /obj/machinery/light/dim/directional/south,
 /obj/structure/mirror/directional/west,
 /turf/open/floor/iron/white,
-/area/station/command/heads_quarters/captain)
+/area/station/command/heads_quarters/captain/private)
 "pMY" = (
 /obj/effect/turf_decal/trimline/blue/line{
 	dir = 8
@@ -45241,7 +45245,6 @@
 /turf/open/floor/iron,
 /area/station/security/brig)
 "pUj" = (
-/obj/structure/sign/departments/aiupload/directional/north,
 /obj/structure/window/reinforced/spawner/directional/west,
 /turf/open/floor/engine,
 /area/station/command/teleporter)
@@ -51852,6 +51855,7 @@
 	req_access = list("captain")
 	},
 /obj/structure/cable,
+/obj/machinery/light_switch/directional/south,
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
 "sqW" = (
@@ -98041,7 +98045,7 @@ coX
 faT
 gpa
 ipO
-ogV
+ajs
 gfq
 tUg
 hET
@@ -99327,7 +99331,7 @@ xCa
 wbR
 xCa
 gDU
-kOU
+kQQ
 bJo
 aPv
 wmi
@@ -99589,10 +99593,10 @@ rKB
 uHK
 oFM
 sqS
-lYI
-lYI
-lYI
-lYI
+xjj
+xjj
+xjj
+xjj
 lYI
 nri
 hab
@@ -99845,11 +99849,11 @@ khr
 pJC
 kfe
 uHK
-kQQ
-lYI
+mmE
+xjj
 oEY
 pMV
-lYI
+xjj
 nri
 nri
 hab
@@ -101385,11 +101389,11 @@ xBM
 wle
 cpA
 xXY
-xjj
-xjj
+bEN
+bEN
 fkW
-xjj
-xjj
+bEN
+bEN
 xjj
 xjj
 nri
