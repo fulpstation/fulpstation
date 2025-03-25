@@ -17,9 +17,6 @@
 
 /obj/item/instrument/halcyon_pearl/Initialize(mapload)
 	. = ..()
-	if(!at_lowpop())
-		return INITIALIZE_HINT_QDEL
-
 	var/song_lines = HALCYON_SONG
 	song.note_shift = 12
 	song.ParseSong(new_song = song_lines)
