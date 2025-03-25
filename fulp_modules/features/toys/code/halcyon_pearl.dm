@@ -1,10 +1,6 @@
-/// An instrument that spawns near AIs on lowpop (reference to Rain World: Downpour)
+/// An instrument that spawns in the AI satellite on lowpop (reference to Rain World: Downpour)
 /// Hardcoded to only play a rough version of "Halcyon Memories"
 /// (https://www.youtube.com/watch?v=z04shakaUcE)
-
-/// If a halcyon pearl has been generated on AI creation this round.
-/// This should only happen once.
-GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 
 /obj/item/instrument/halcyon_pearl
 	name = "Strange Pearl"
@@ -89,18 +85,22 @@ GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 ///      "OVERRIDES" SO THAT THE PEARL ACTUALLY SPAWNS IN      ///
 //////////////////////////////////////////////////////////////////
 
-/mob/living/silicon/ai/New()
-	. = ..()
-	// We'll only do this once— it would be a bit ridiculous/exploitable otherwise.
-	if(GLOB.halcyon_pearl_generated)
-		return
+/// Overriding 'Initialize()' causes the spawn turf location logic to become faulty for some reason,
+/// so we'll just "override" the preexisting 'after_round_start()' proc with itself and then append
+/// the necessary code.
+/obj/effect/landmark/start/ai/after_round_start()
+	if(latejoin_active && !used)
+		new /obj/structure/ai_core/latejoin_inactive(loc)
+
+	if(!primary_ai)
+		return ..()
 
 	// If at lowpop then find a turf to spawn a halcyon pearl at.
-	// This turf should always be directly above or below our new AI.
+	// This turf should always be directly above or below the AI start landmark.
 	// (If it's to the left or right then it'll pan/sound weird; if it's not right next to them then
 	// they can't use it.)
 	if(at_lowpop())
-		// The turf our new AI is created at.
+		// The landmark's turf.
 		var/turf/source_turf = get_turf(src)
 		// The turf we'll ultimately end up spawning the pearl at.
 		// Defaults to our 'source_turf' just in case we can't find a better alternative.
@@ -114,9 +114,4 @@ GLOBAL_VAR_INIT(halcyon_pearl_generated, FALSE)
 				break
 
 		new /obj/item/instrument/halcyon_pearl(target_turf)
-		GLOB.halcyon_pearl_generated = TRUE
-		visible_message(
-			span_tinynotice("A small pearl falls out of [src] as it boots up..."),
-			span_notice("A small pearl falls out of you as you boot up..."),
-			span_tinynoticeital("You hear something clink to the ground...")
-		)
+	return ..()
