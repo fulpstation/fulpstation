@@ -34,7 +34,7 @@
 /obj/item/instrument/halcyon_pearl/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
 	if(!isAI(user))
-		return
+		return NONE
 
 	if(in_range(src, user))
 		context[SCREENTIP_CONTEXT_CTRL_LMB] = "Toggle [song.playing ? "Off" : "On"]"
