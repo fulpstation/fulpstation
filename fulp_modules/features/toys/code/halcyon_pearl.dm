@@ -89,11 +89,9 @@
 /// so we'll just "override" the preexisting 'after_round_start()' proc with itself and then append
 /// the necessary code.
 /obj/effect/landmark/start/ai/after_round_start()
-	if(latejoin_active && !used)
-		new /obj/structure/ai_core/latejoin_inactive(loc)
-
+	. = ..()
 	if(!primary_ai)
-		return ..()
+		return
 
 	// If at lowpop then find a turf to spawn a halcyon pearl at.
 	// This turf should always be directly above or below the AI start landmark.
@@ -114,4 +112,3 @@
 				break
 
 		new /obj/item/instrument/halcyon_pearl(target_turf)
-	return ..()
