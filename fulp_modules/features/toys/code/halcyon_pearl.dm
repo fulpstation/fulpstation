@@ -79,7 +79,7 @@
 	SIGNAL_HANDLER
 
 	REMOVE_TRAIT(src, TRAIT_MOVE_FLOATING, TRAIT_GENERIC)
-	icon_state = "halcyon_pearl"
+	icon_state = base_icon_state
 	update_appearance()
 
 //////////////////////////////////////////////////////////////////
