@@ -72,7 +72,7 @@
 	SIGNAL_HANDLER
 
 	ADD_TRAIT(src, TRAIT_MOVE_FLOATING, TRAIT_GENERIC)
-	icon_state = "halcyon_pearl_active"
+	icon_state = "[base_icon_state]_active"
 	update_appearance()
 
 /obj/item/instrument/halcyon_pearl/proc/on_instrument_end()
