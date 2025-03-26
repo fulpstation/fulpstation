@@ -78,6 +78,7 @@
 	update_appearance(UPDATE_ICON)
 
 /obj/item/instrument/halcyon_pearl/update_icon_state()
+	. = ..()
 	if(HAS_TRAIT(src, TRAIT_MOVE_FLOATING))
 		icon_state = "[base_icon_state]_active"
 	else
