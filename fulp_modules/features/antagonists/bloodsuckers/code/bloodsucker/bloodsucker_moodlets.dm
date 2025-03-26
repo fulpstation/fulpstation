@@ -9,7 +9,7 @@
 	timeout = 3 MINUTES
 
 /datum/mood_event/drankblood_dead
-	description = span_boldwarning("I drank dead blood. I am better than this.")
+	description = span_boldwarning("I drank blood from the dead. I am better than this.")
 	mood_change = -7
 	timeout = 8 MINUTES
 
@@ -19,7 +19,7 @@
 	timeout = 8 MINUTES
 
 /datum/mood_event/drankkilled
-	description = span_boldwarning("I fed off of a dead person. I feel... less human.")
+	description = span_boldwarning("I fed off of someone until their death. I feel... less human.")
 	mood_change = -15
 	timeout = 10 MINUTES
 
