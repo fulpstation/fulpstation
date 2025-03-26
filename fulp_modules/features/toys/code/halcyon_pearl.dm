@@ -69,15 +69,19 @@
 	SIGNAL_HANDLER
 
 	ADD_TRAIT(src, TRAIT_MOVE_FLOATING, TRAIT_GENERIC)
-	icon_state = "[base_icon_state]_active"
-	update_appearance()
+	update_appearance(UPDATE_ICON)
 
 /obj/item/instrument/halcyon_pearl/proc/on_instrument_end()
 	SIGNAL_HANDLER
 
 	REMOVE_TRAIT(src, TRAIT_MOVE_FLOATING, TRAIT_GENERIC)
-	icon_state = base_icon_state
-	update_appearance()
+	update_appearance(UPDATE_ICON)
+
+/obj/item/instrument/halcyon_pearl/update_icon_state()
+	if(HAS_TRAIT(src, TRAIT_MOVE_FLOATING))
+		icon_state = "[base_icon_state]_active"
+	else
+		icon_state = base_icon_state
 
 //////////////////////////////////////////////////////////////////
 ///      "OVERRIDES" SO THAT THE PEARL ACTUALLY SPAWNS IN      ///
