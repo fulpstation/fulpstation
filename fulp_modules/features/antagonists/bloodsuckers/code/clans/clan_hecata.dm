@@ -42,6 +42,9 @@
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = owner.current.mind.has_antag_datum(/datum/antagonist/bloodsucker)
 	if(!bloodsuckerdatum)
 		return FALSE
-	if(bloodsuckerdatum.clanprogress >= target_amount)
+	var/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/power_with_revive_count
+	for(var/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/necromancy_power in bloodsuckerdatum.powers)
+		power_with_revive_count = necromancy_power
+	if(power_with_revive_count.revive_count >= target_amount)
 		return TRUE
 	return FALSE

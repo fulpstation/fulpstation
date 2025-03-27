@@ -14,6 +14,10 @@
 	target_range = 1
 	prefire_message = "Select a target."
 
+	/// The number of people "revived" with this power.
+	/// Used to determine Hecata clan objective completion status.
+	var/revive_count = 0
+
 /datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/CheckValidTarget(atom/target_atom)
 	. = ..()
 	if(!.)
@@ -51,7 +55,7 @@
 			power_activated_sucessfully()
 			owner.balloon_alert(owner, "we revive [target]!")
 			zombify(target)
-			bloodsuckerdatum.clanprogress++ //counts a succesful necromancy towards your objective progress
+			revive_count++ //counts a succesful necromancy towards your objective progress
 			return
 		if(IS_MONSTERHUNTER(target))
 			owner.balloon_alert(owner, "their body refuses to react...")
@@ -60,7 +64,7 @@
 		zombify(target)
 		bloodsuckerdatum.make_vassal(target)
 		power_activated_sucessfully()
-		bloodsuckerdatum.clanprogress++ //counts a succesful necromancy towards your objective progress
+		revive_count++ //counts a succesful necromancy towards your objective progress
 		to_chat(user, span_warning("We revive [target]!"))
 		var/living_time
 		switch(level_current)
