@@ -29,7 +29,7 @@
 			num_spirits = 2
 		if(2)
 			num_spirits = 3
-		if(3 to 99)
+		else
 			num_spirits = 4
 	var/list/turf/locs = list()
 	for(var/direction in GLOB.alldirs) //looking for spirit spawns
