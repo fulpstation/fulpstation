@@ -47,7 +47,7 @@
 
 /datum/action/cooldown/bloodsucker/hecata/spiritcall/proc/summon_wraiths(list/targets, mob/living/user)
 	for(var/T in targets)
-		new /mob/living/simple_animal/hostile/bloodsucker/wraith(T)
+		new /mob/living/basic/bloodsucker/wraith(T)
 
 /datum/action/cooldown/bloodsucker/hecata/spiritcall/proc/cast_effect() //same as veil of many faces, makes smoke and stuff when casted
 	// Effect

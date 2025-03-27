@@ -1,45 +1,62 @@
 //Wraith - Hecata mob
 
-/mob/living/simple_animal/hostile/bloodsucker/wraith
+/mob/living/basic/bloodsucker/wraith
 	name = "wraith"
 	real_name = "Wraith"
 	desc = "An angry, tormented spirit, which looks to let out it's wrath on whoever is nearby."
 	gender = PLURAL
 	icon_state = "wraith"
 	icon_living = "wraith"
+
 	mob_biotypes = list(MOB_SPIRIT)
+	status_flags = 0
+	status_flags = CANPUSH
+	movement_type = FLYING
+	basic_mob_flags = DEL_ON_DEATH
+
 	maxHealth = 30
 	health = 30
+	melee_damage_lower = 6
+	melee_damage_upper = 6
+
 	speak_emote = list("hisses")
-	emote_hear = list("wails.","screeches.")
 	response_help_continuous = "puts their hand through"
 	response_help_simple = "put your hand through"
 	response_disarm_continuous = "flails at"
 	response_disarm_simple = "flail at"
 	response_harm_continuous = "punches"
 	response_harm_simple = "punch"
-	speak_chance = 1
-	melee_damage_lower = 6
-	melee_damage_upper = 6
 	attack_verb_continuous = "metaphysically strikes"
 	attack_verb_simple = "metaphysically strike"
-	minbodytemp = 0
-	maxbodytemp = INFINITY
-	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
-	status_flags = 0
-	status_flags = CANPUSH
-	movement_type = FLYING
-	loot = list(/obj/item/ectoplasm)
 	death_message = "withers away into nothing."
 
-/mob/living/simple_animal/hostile/bloodsucker/wraith/Initialize(mapload)
+	ai_controller = /datum/ai_controller/basic_controller/wraith
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+	unsuitable_atmos_damage = 0
+
+/mob/living/basic/bloodsucker/wraith/Initialize(mapload)
 	ADD_TRAIT(src, TRAIT_FREE_HYPERSPACE_MOVEMENT, INNATE_TRAIT)
 	. = ..()
-	AddElement(/datum/element/life_draining)
-	AddElement(/datum/element/simple_flying)
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 
-/mob/living/simple_animal/hostile/bloodsucker/wraith/death(gibbed)
-	REMOVE_TRAIT(src, TRAIT_FREE_HYPERSPACE_MOVEMENT, INNATE_TRAIT)
-	qdel(src) //Del on death for some reason doesn't work, might be due to previous code preventing it for /bloodsucker mobs.
-	..()
+	var/list/remains = list(/obj/item/ectoplasm)
+	AddElement(/datum/element/death_drops, remains)
+	AddElement(/datum/element/life_draining)
+	AddElement(/datum/element/simple_flying)
+
+/// Copied from '/datum/ai_controller/basic_controller/ghost' with minor alteration.
+/datum/ai_controller/basic_controller/wraith
+	blackboard = list(
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
+	)
+
+	ai_movement = /datum/ai_movement/basic_avoidance
+	idle_behavior = /datum/idle_behavior/idle_random_walk
+
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+		/datum/ai_planning_subtree/random_speech/faithless,
+	)
