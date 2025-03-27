@@ -60,6 +60,9 @@
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
 	var/datum/martial_art/frenzygrab/frenzygrab
 
+	///How much progress have you done on your clan
+	var/clanprogress = 0
+
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
 	/// List of special vassals owned. Referenced to make sure we don't get two of the same type.
