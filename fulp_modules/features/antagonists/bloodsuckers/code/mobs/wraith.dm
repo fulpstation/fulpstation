@@ -5,7 +5,6 @@
 	real_name = "Wraith"
 	desc = "An angry, tormented spirit, which looks to let out it's wrath on whoever is nearby."
 	gender = PLURAL
-	icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_mobs.dmi'
 	icon_state = "wraith"
 	icon_living = "wraith"
 	mob_biotypes = list(MOB_SPIRIT)
