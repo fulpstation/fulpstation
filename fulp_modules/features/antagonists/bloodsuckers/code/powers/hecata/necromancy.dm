@@ -74,7 +74,7 @@
 				living_time = 11 MINUTES
 			if(4)
 				living_time = 14 MINUTES
-			if(5 to 99)
+			else
 				living_time = 17 MINUTES //in general, they don't last long, make the most of them.
 		addtimer(CALLBACK(src, PROC_REF(end_necromance), target), living_time)
 	else //extra check, but this shouldn't happen
