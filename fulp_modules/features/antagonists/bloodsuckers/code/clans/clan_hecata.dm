@@ -15,7 +15,7 @@
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/targeted/hecata/necromancy)
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/hecata/spiritcall)
 	bloodsuckerdatum.BuyPower(new /datum/action/cooldown/bloodsucker/hecata/communion)
-	bloodsuckerdatum.owner.current.faction |= "bloodhungry"
+	bloodsuckerdatum.owner.current.faction |= FACTION_BLOODHUNGRY
 	bloodsuckerdatum.owner.current.update_body()
 
 /datum/bloodsucker_clan/hecata/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/vassaldatum)

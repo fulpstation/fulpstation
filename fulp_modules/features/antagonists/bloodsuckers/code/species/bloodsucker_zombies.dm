@@ -36,7 +36,7 @@
 
 /datum/species/zombie/hecata/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load, regenerate_icons)
 	. = ..()
-	human_who_gained_species.faction |= "bloodhungry"
+	human_who_gained_species.faction |= FACTION_BLOODHUNGRY
 	var/mob/living/carbon/our_zombie = human_who_gained_species
 
 	var/obj/item/bodypart/zombie_left_hand = our_zombie.get_bodypart(BODY_ZONE_L_ARM)
@@ -48,7 +48,7 @@
 
 /datum/species/zombie/hecata/on_species_loss(mob/living/carbon/human/human, datum/species/new_species, pref_load)
 	. = ..()
-	human.faction -= "bloodhungry"
+	human.faction -= FACTION_BLOODHUNGRY
 	var/mob/living/carbon/our_zombie = human
 
 	var/obj/item/bodypart/zombie_left_hand = our_zombie.get_bodypart(BODY_ZONE_L_ARM)

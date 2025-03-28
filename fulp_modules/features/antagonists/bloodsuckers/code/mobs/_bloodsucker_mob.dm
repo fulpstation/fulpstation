@@ -9,7 +9,7 @@
 	mob_size = MOB_SIZE_LARGE
 	gold_core_spawnable = FALSE
 	movement_type = GROUND
-	faction = list("hostile", "bloodhungry")
+	faction = list(FACTION_HOSTILE, FACTION_BLOODHUNGRY)
 
 	response_help_continuous = "touches"
 	response_help_simple = "touch"
