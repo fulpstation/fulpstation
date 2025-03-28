@@ -53,7 +53,7 @@
 
 	var/obj/item/bodypart/zombie_left_hand = our_zombie.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/zombie_right_hand = our_zombie.get_bodypart(BODY_ZONE_R_ARM)
-	zombie_left_hand.unarmed_damage_low -= HECATA_ZOMBIE_ATTACK_BONUS
-	zombie_right_hand.unarmed_damage_low -= HECATA_ZOMBIE_ATTACK_BONUS
-	zombie_left_hand.unarmed_damage_high -= HECATA_ZOMBIE_ATTACK_BONUS
-	zombie_right_hand.unarmed_damage_high -= HECATA_ZOMBIE_ATTACK_BONUS
+	zombie_left_hand.unarmed_damage_low = initial(zombie_left_hand.unarmed_damage_low)
+	zombie_right_hand.unarmed_damage_low = initial(zombie_right_hand.unarmed_damage_low)
+	zombie_left_hand.unarmed_damage_high = initial(zombie_left_hand.unarmed_damage_high)
+	zombie_right_hand.unarmed_damage_high = initial(zombie_right_hand.unarmed_damage_high)
