@@ -40,7 +40,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 
-	var/list/remains = list(/obj/item/ectoplasm)
+	var/static/list/remains = list(/obj/item/ectoplasm)
 	AddElement(/datum/element/death_drops, remains)
 	AddElement(/datum/element/life_draining)
 	AddElement(/datum/element/simple_flying)
