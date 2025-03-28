@@ -86,17 +86,17 @@
 		return FALSE
 	DeactivatePower()
 
-/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/end_necromance(mob/living/user)
-	user.mind.remove_antag_datum(/datum/antagonist/vassal)
-	to_chat(user, span_warning("You feel the shadows around you weaken, your form falling limp like a puppet cut from its strings!"))
-	user.set_species(/datum/species/human/krokodil_addict) //they will turn into a fake zombie on death, that still retains blood and isnt so powerful.
-	user.death()
+/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/end_necromance(mob/living/victim)
+	victim.mind.remove_antag_datum(/datum/antagonist/vassal)
+	to_chat(victim, span_warning("You feel the shadows around you weaken, your form falling limp like a puppet cut from its strings!"))
+	victim.set_species(/datum/species/human/krokodil_addict) //they will turn into a fake zombie on death, that still retains blood and isnt so powerful.
+	victim.death()
 
-/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/zombify(mob/living/user)
-	user.mind.grab_ghost()
-	user.set_species(/datum/species/zombie/hecata) //imitation zombies that shamble around and beat people with their fists
-	user.revive(HEAL_ALL)
-	user.visible_message(span_danger("[user] suddenly convulses, as [user.p_they()] stagger to their feet and gain a ravenous hunger in [user.p_their()] eyes!"), span_alien("You RISE!"))
-	playsound(owner.loc, 'sound/effects/hallucinations/far_noise.ogg', 50, 1)
-	to_chat(user, span_warning("Your broken form is picked up by strange shadows. If you were previously not a vassal, it is unlikely these shadows will be strong enough to keep you going for very long."))
-	to_chat(user, span_notice("You are resilient to many things like the vacuum of space, can punch harder, and can take more damage before dropping. However, you are unable to use guns and are slower."))
+/datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/zombify(mob/living/victim)
+	victim.mind.grab_ghost()
+	victim.set_species(/datum/species/zombie/hecata) //imitation zombies that shamble around and beat people with their fists
+	victim.revive(HEAL_ALL)
+	victim.visible_message(span_danger("[victim.name] suddenly convulses, as [victim.p_they()] stagger to [victim.p_their()] feet and gain a ravenous hunger in [victim.p_their()] eyes!"), span_alien("You RISE!"))
+	playsound(get_turf(victim), 'sound/effects/hallucinations/far_noise.ogg', 50, 1)
+	to_chat(victim, span_warning("Your broken form is picked up by strange shadows. If you were previously not a vassal, it is unlikely these shadows will be strong enough to keep you going for very long."))
+	to_chat(victim, span_notice("You are resilient to many things like the vacuum of space, can punch harder, and can take more damage before dropping. However, you are unable to use guns and are slower."))
