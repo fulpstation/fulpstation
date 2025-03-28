@@ -40,11 +40,12 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 
-	var/static/list/remains = list(/obj/item/ectoplasm)
-	remains = string_list(remains)
-	AddElement(/datum/element/death_drops, remains)
 	AddElement(/datum/element/life_draining)
 	AddElement(/datum/element/simple_flying)
+
+/mob/living/basic/bloodsucker/wraith/death(gibbed)
+	. = ..()
+	new /obj/item/ecotplasm(src.loc)
 
 /// Copied from '/datum/ai_controller/basic_controller/ghost' with minor alteration.
 /datum/ai_controller/basic_controller/wraith
