@@ -45,7 +45,7 @@
 
 /mob/living/basic/bloodsucker/wraith/death(gibbed)
 	. = ..()
-	new /obj/item/ecotplasm(src.loc)
+	new /obj/item/ectoplasm(src.loc)
 
 /// Copied from '/datum/ai_controller/basic_controller/ghost' with minor alteration.
 /datum/ai_controller/basic_controller/wraith
