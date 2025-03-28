@@ -22,6 +22,7 @@
 
 /datum/action/cooldown/bloodsucker/hecata/spiritcall/ActivatePower()
 	. = ..()
+	var/mob/user = owner
 	switch(level_current)
 		if(0)
 			num_spirits = 1
