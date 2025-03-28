@@ -29,7 +29,17 @@
 - code/__DEFINES/fulp_defines > Contains all of our defines
 - _maps/fulp_maps > Contains all of our non-station maps (Ruins, Deathmatch maps, etc.)
 - tgui/packages/fulpui-patches > Adds all Fulp TGUI files
-- code/modules/unit_tests/screenshots > Contains Fulp antag & species screenshots for unit tests.
+
+- code/modules/unit_tests/screenshots > Contains Fulp antag & species screenshots for unit tests. This includes **BUT IS NOT LIMITED TO** the following:
+
+1. screenshot_antag_icons_bloodsucker.png
+2. screenshot_antag_icons_bloodsuckerbreakout.png
+3. screenshot_antag_icons_infiltrator.png
+4. screenshot_antag_icons_monsterhunter.png
+5. screenshot_antag_icons_vampiricaccident.png
+6. screenshot_humanoids__datum_species_beefman.png
+7. screenshot_humanoids__datum_species_protogen.png
+8. screenshot_humanoids__datum_species_zombie_hecata.png
 
 #### Maps & Shuttles
 - _maps/map_files/Heliostation/Heliostation.dmm
