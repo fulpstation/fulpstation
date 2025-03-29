@@ -164,15 +164,24 @@
 	squeak_override = list(
 		'fulp_modules/sounds/effects/kero.ogg' = 1
 	)
-	/// The rice the shrimp fried. The shrimp can only fry one rice
-	var/obj/item/food/fried_rice
-	/// Whether the shrimp has fried any rice
+	/// A list of "fried rice" items that the shrimp can produce on frying rice.
+	/// PLEASE NOTE: the rice item must have "fried rice" in its name by default
+	/// or else the "shrimp fried" componenty won't be able to attatch to it.
+	var/list/fried_rice_types = list(
+		/obj/item/food/salad/hurricane_rice,
+		/obj/item/food/salad/hawaiian_fried_rice,
+		/obj/item/food/salad/ketchup_fried_rice,
+		/obj/item/food/salad/mediterranean_fried_rice,
+	)
+	/// Whether the shrimp has fried any rice. The shrimp can only fry rice once.
 	var/has_fried = FALSE
 
 /obj/item/toy/plush/shrimp/examine(mob/user)
 	. = ..()
 	if(has_fried)
 		. += span_notice("[p_Theyre()] all tuckered out.")
+	else
+		. += span_notice("[p_Theyre()] ready to fry some rice.")
 
 
 /obj/item/toy/plush/phos
