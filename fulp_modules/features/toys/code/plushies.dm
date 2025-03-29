@@ -166,7 +166,7 @@
 	)
 	/// A list of "fried rice" items that the shrimp can produce on frying rice.
 	/// PLEASE NOTE: the rice item must have "fried rice" in its name by default
-	/// or else the "shrimp fried" componenty won't be able to attatch to it.
+	/// or else the "shrimp fried" component won't be able to attatch to it.
 	var/list/fried_rice_types = list(
 		/obj/item/food/salad/hurricane_rice,
 		/obj/item/food/salad/hawaiian_fried_rice,
