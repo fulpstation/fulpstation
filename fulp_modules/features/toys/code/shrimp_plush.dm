@@ -88,6 +88,9 @@
  **/
 /obj/item/toy/plush/shrimp/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
+	if(has_fried)
+		return NONE
+
 	if(!interacting_with.is_open_container() || !interacting_with.reagents)
 		return NONE
 
@@ -108,6 +111,7 @@
 		has_fried = TRUE
 		target_reagents.remove_reagent(/datum/reagent/consumable/rice, 30)
 		playsound(get_turf(new_rice), 'fulp_modules/sounds/effects/kero.ogg', 75, frequency = 0.5)
+		user.do_attack_animation(interacting_with)
 		new /obj/effect/temp_visual/shrimp_frying_rice(get_turf(new_rice))
 		return ITEM_INTERACT_SUCCESS
 
@@ -119,7 +123,7 @@
 	icon_state = "shrimp"
 	layer = MOB_UPPER_LAYER
 	plane = GAME_PLANE
-	duration = 3 SECONDS
+	duration = 1.5 SECONDS
 	alpha = 223.125
 
 	var/matrix/effect_matrix = matrix()
@@ -127,4 +131,4 @@
 /obj/effect/temp_visual/shrimp_frying_rice/Initialize(mapload)
 	. = ..()
 	//Taken directly from Dream Maker Reference on 'animate()' with minor adjustment.
-	animate(src, transform = turn(matrix(), 360), alpha = 0, time = 3 SECONDS)
+	animate(src, time = 1.5 SECONDS, alpha = 0, easing = SINE_EASING)
