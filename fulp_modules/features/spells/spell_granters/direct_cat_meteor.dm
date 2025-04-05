@@ -50,3 +50,7 @@
 	. = ..()
 	var/obj/effect/meteor/cateor/new_cateor = new /obj/effect/meteor/cateor(get_turf(user), NONE)
 	new_cateor.Bump(user)
+
+///Nerfed subtype of the spellgranter above that's available in a space ruin.
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/nerfed
+	granted_action = /datum/action/cooldown/spell/conjure_item/infinite_guns/direct_cateor/nerfed
