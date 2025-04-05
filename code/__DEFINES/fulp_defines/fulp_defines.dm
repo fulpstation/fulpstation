@@ -39,8 +39,10 @@
 #define COMSIG_GAIN_INSIGHT "gain_insight"
 #define COMSIG_BEASTIFY "beastify"
 
-///Define for the 'Rabbits' Faction.
+///Define for the "Rabbits" faction.
 #define FACTION_RABBITS "rabbits"
+///Define for the "Bloodhungry"/bloodsucker monster faction.
+#define FACTION_BLOODHUNGRY "bloodhungry"
 
 ///Define for the Syndicate Engineer Ruin, used in 'syndicate_engineer.dm"
 #define ROLE_SYNDICATE_ENGINEER "Syndicate Engineer"
