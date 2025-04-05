@@ -12,16 +12,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      # Fulp Edit - Replaces ACTION_ENABLER with ACTION_ENABLER_FULP
-      - name: "Check for ACTION_ENABLER_FULP secret and pass true to output if it exists to be checked by later steps" # Here
+      - name: "Check for ACTION_ENABLER secret and pass true to output if it exists to be checked by later steps"
         id: value_holder
         env:
-          ENABLER_SECRET: ${{ secrets.ACTION_ENABLER_FULP }} # Here
-      # Fulp Edit End
+          ENABLER_SECRET: ${{ secrets.ACTION_ENABLER }}
         run: |
           unset SECRET_EXISTS
           if [ -n "$ENABLER_SECRET" ]; then SECRET_EXISTS=true ; fi
           echo "ACTIONS_ENABLED=$SECRET_EXISTS" >> $GITHUB_OUTPUT
+
       - name: "Setup python"
         if: steps.value_holder.outputs.ACTIONS_ENABLED
         uses: actions/setup-python@v5
@@ -44,9 +43,8 @@ jobs:
 
       - name: "Compile"
         if: steps.value_holder.outputs.ACTIONS_ENABLED
-        # Fulp Edit - Replaces html/changelogs with fulp_modules/data/html/changelogs
         run: |
-          python tools/ss13_genchangelog.py fulp_modules/data/html/changelogs
+          python tools/ss13_genchangelog.py html/changelogs
 
       - name: Commit
         if: steps.value_holder.outputs.ACTIONS_ENABLED
@@ -54,9 +52,9 @@ jobs:
           git config --local user.name "tgstation-ci[bot]"
           git config --local user.email "179393467+tgstation-ci[bot]@users.noreply.github.com"
           git pull origin master
-          git add fulp_modules/data/html/changelogs
+          git add html/changelogs
           git commit -m "Automatic changelog compile [ci skip]" -a || true
-        # Fulp Edit End
+
       - name: Generate App Token
         id: app-token-generation
         uses: actions/create-github-app-token@v1
