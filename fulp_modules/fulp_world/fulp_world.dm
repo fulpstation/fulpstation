@@ -5,6 +5,9 @@
 	// Load Mentors
 	load_mentors()
 
+	// Call overrides
+	call_fulp_overrides()
+
 	GLOB.special_roles += list(
 		ROLE_BLOODSUCKER = 0,
 		ROLE_VAMPIRICACCIDENT = 0,
