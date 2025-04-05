@@ -18,7 +18,6 @@
 		TRAIT_RESISTCOLD,
 		TRAIT_SLEEPIMMUNE,
 		TRAIT_NO_UNDERWEAR,
-		TRAIT_MUTANT_COLORS,
 		TRAIT_AGENDER,
 	)
 	bodytemp_heat_damage_limit = BEEFMAN_BLEEDOUT_LEVEL
@@ -72,6 +71,7 @@
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
 		limb.update_limb(is_creating = TRUE)
+
 
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
