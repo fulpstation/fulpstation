@@ -25,6 +25,14 @@
 	last_held = world.time
 	. = ..()
 
+/datum/vote/public_shuttle_vote/initiate_vote(initiator, duration)
+	. = ..()
+	priority_announce("Attention [station_name()], our automated morale monitoring system indicates \
+		that your crew may qualify for a shuttle call. Transcendental biometric analysis will \
+		will now begin in order to determine if such a call would be profitable.", \
+		"[command_name()] Department of Understaffed Station Logistics", 'sound/announcer/announcement/announce_dig.ogg', \
+		has_important_message = TRUE)
+
 /datum/vote/public_shuttle_vote/get_vote_result()
 	. = ..()
 
@@ -49,20 +57,38 @@
 
 /datum/vote/public_shuttle_vote/finalize_vote(winning_option)
 	if(winning_option == CHOICE_CONTINUE)
+		priority_announce("Attention [station_name()], our morale monitoring system indicates that the \
+			profitability of your crew would NOT be increased by an automated shuttle call. Individual \
+			heads of staff may still attempt to call an emergency shuttle, but they are advised to \
+			carefully consider if such a call would be in their station's best interest.", \
+			"[command_name()] Department of Understaffed Station Logistics", 'sound/announcer/announcement/announce_dig.ogg', \
+			has_important_message = TRUE)
 		return
 
 	if(winning_option == CHOICE_RESTART)
-		SSshuttle.emergency.request(reason = "\n\
-		\n\
-		Biometrics data shows morale has decayed beyond profitable limits. A mandatory crew rotation will now take place. \
-		Crew remaining on site after the end of their shift may expect recovery in approximately six business weeks \
-		and are encouraged to apply for a Nanowage Overtime Plan Acclimated Yearly.\n\
-		\nGlory to Nanotrasen")
-		SSshuttle.emergency_no_recall = TRUE
-		log_game("Shuttle call forced by successful public vote.")
+		if(SSshuttle.shuttle_purchased != SHUTTLEPURCHASE_PURCHASABLE)
+			call_shuttle()
+		else
+			priority_announce("Attention [station_name()], our morale monitoring system indicates that the \
+				profitability of your crew would be increased by an automated shuttle call. We will wait \
+				ONE MINUTE before calling in order to allow your captain the chance to purchase a shuttle.", \
+				"[command_name()] Department of Understaffed Station Logistics", 'sound/announcer/announcement/announce_dig.ogg', \
+				has_important_message = TRUE)
+			addtimer(CALLBACK(src, PROC_REF(call_shuttle)), 1 MINUTES, TIMER_UNIQUE)
 		return
 
 	CRASH("[type] wasn't passed a valid winning choice. (Got: [winning_option || "null"])")
+
+/datum/vote/public_shuttle_vote/proc/call_shuttle()
+	SSshuttle.emergency.request(reason = "\n\
+	\n\
+	Biometrics data shows morale has decayed beyond profitable limits. A mandatory crew rotation will now take place. \
+	Crew remaining on site after the end of their shift may expect recovery in approximately six business weeks \
+	and are encouraged to apply for a Nanowage Overtime Plan Acclimated Yearly.\n\
+	\nGlory to Nanotrasen")
+	SSshuttle.emergency_no_recall = TRUE
+	log_game("Shuttle call forced by successful public vote.")
+	return
 
 #undef CHOICE_RESTART
 #undef CHOICE_CONTINUE

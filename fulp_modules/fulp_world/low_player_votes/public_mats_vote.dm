@@ -121,7 +121,7 @@
 	if(winning_option == CHOICE_NO_DROP)
 		priority_announce("[station_name()], your crew seems uninterested in a material supply drop. If \
 		you ever start to need materials then we advise you to consider Galactic Materials Market \
-		trading, Lavaland shaft mining, or bitrunning. Have a wonderful shift.",
+		trading, [SSmapping.is_planetary() ? "" : "Lavaland "]shaft mining, or bitrunning. Have a wonderful shift.",
 		"[command_name()] Department of Understaffed Station Logistics", 'sound/announcer/announcement/announce_dig.ogg', \
 		has_important_message = TRUE)
 
