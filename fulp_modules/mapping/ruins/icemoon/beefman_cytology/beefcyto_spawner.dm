@@ -50,7 +50,7 @@
 	flavour_text = "You and your fellow researcher are studying cellular biology to better understand the origins of your species. \
 	Sample the subjects provided and the surrounding area for testing."
 	important_text = "This is meant as a way to learn how to play Cytology! \
-		If leave the lab's z-level then you'll turn into meat!"
+		Don't leave the lab's z-level: you'll turn into a slab of meat!"
 	outfit = /datum/outfit/russian_beefman
 	spawner_job_path = /datum/job/fulp_cytology
 

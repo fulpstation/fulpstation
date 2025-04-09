@@ -111,7 +111,7 @@
 
 /obj/structure/closet/crate/coffin/metalcoffin
 	name = "metal coffin"
-	desc = "A big metal sardine can inside of another big metal sardine can— in <b>space</b>!"
+	desc = "A big metal sardine can inside of another big metal sardine can— in SPACE!"
 	icon_state = "metalcoffin"
 	base_icon_state = "metalcoffin"
 	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'

@@ -131,7 +131,7 @@
 		return FALSE
 	// Conscious? -- We use our own (AB_CHECK_CONSCIOUS) here so we can control it more, like the error message.
 	if((check_flags & BP_CANT_USE_WHILE_UNCONSCIOUS) && user.stat != CONSCIOUS)
-		to_chat(user, span_warning("You can't do this while you are unconcious!"))
+		to_chat(user, span_warning("You can't do this while you are unconscious!"))
 		return FALSE
 	// Incapacitated?
 	if((check_flags & BP_CANT_USE_WHILE_INCAPACITATED) && (user.incapacitated))

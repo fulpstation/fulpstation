@@ -3,7 +3,7 @@
  *
  * If they are already in a Clan (or in a Frenzy), they will not be able to do so.
  *
- * The arguement 'person_selecting' defaults to the clan owner when not set. It should only be set when the
+ * The argument 'person_selecting' defaults to the clan owner when not set. It should only be set when the
  * function is called by an admin assigning the clan— 'admin_selecting' should also be TRUE in that case.
  *
  * For regular players the clan is selected through a radial menu over the player's body.

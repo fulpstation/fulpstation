@@ -8,7 +8,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
-	var/used = FALSE ///determines wether the injector is used up or nah
+	var/used = FALSE ///determines whether the injector is used up or nah
 	var/datum/weakref/store  ///the mob currently stored in the injector
 
 /obj/item/adv_mulligan/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)

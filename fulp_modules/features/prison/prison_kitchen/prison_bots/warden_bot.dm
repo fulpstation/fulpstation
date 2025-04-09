@@ -53,7 +53,7 @@
 	leave_happy_lines = list(
 		"You know, maybe prisoners aren't bad afterall.",
 		"This has been great, I hope my brig gets the same treatment one day.",
-		"This place realy is something new. I'd love to see you once you've completed your sentence.",
+		"This place really is something new. I'd love to see you once you've completed your sentence.",
 		"I hope you're sent to my brig next time you're arrested.",
 		"I don't go for the face.",
 		"Taking your wife out to dinner tomorrow.",
