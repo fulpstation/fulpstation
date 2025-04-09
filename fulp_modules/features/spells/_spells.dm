@@ -385,7 +385,7 @@
 
 /*
 *'zoom()' and 'stop_zooming()' copied from parent under the assumption of necessity.
-*If the parent procs of these two ever get arguements implemented for the scope and sfx used
+*If the parent procs of these two ever get arguments implemented for the scope and sfx used
 *then please change this.
 */
 /datum/component/scope/magic/zoom(mob/user)

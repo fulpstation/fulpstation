@@ -284,7 +284,7 @@
 /obj/item/gun/ballistic/revolver/hunter_revolver/examine(mob/user)
 	. = ..()
 	if(IS_MONSTERHUNTER(user))
-		. += span_notice("This revolver deals miniscule damage, but it will temporarily slow down any monster shot with it.")
+		. += span_notice("This revolver deals minuscule damage, but it will temporarily slow down any monster shot with it.")
 
 /datum/movespeed_modifier/silver_bullet
 	movetypes = GROUND

@@ -121,7 +121,7 @@
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	you_are_text = "You are a lover of fine dining."
-	flavour_text = "After realizing you could claim to be a health inspector (and recieve free meals) \
+	flavour_text = "After realizing you could claim to be a health inspector (and receive free meals) \
 	you began a journey across the Spinward sector (on a quest for free meals). As an ironic punishment \
 	for impersonating a food safety official, you are now unwillingly imprisoned on a space diner."
 	important_text = "Don't get yourself kicked out: you'll turn into a pizza!"
