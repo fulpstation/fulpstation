@@ -120,7 +120,7 @@
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/proc/attempt_mesmerize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "attempting to mesmerize.")
-	if(!do_after(user, 3 SECONDS, target, NONE, TRUE))
+	if(!do_after(user, 3 SECONDS, target, NONE, TRUE, hidden = TRUE))
 		return
 
 	power_activated_sucessfully()
