@@ -209,7 +209,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	stop_observe.Grant(user)
 
 	START_PROCESSING(SSobj, src)
-	user.add_client_colour(/datum/client_colour/glass_colour/red)
+	user.add_client_colour(/datum/client_colour/glass_colour/red, REF(src))
 	set_light_on(TRUE)
 
 	bloodsuckerdatum.blood_structure_in_use = src
@@ -227,7 +227,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	change_observe.Remove(user)
 	stop_observe.Remove(user)
 	STOP_PROCESSING(SSobj, src)
-	user.remove_client_colour(/datum/client_colour/glass_colour/red)
+	user.remove_client_colour(REF(src))
 	set_light_on(FALSE)
 
 	observed.eye_color_left = original_eye_color_left
