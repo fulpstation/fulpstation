@@ -12,6 +12,7 @@
 	purchase_flags = NONE
 	bloodcost = 10
 	cooldown_time = 10 SECONDS
+	should_level = FALSE
 
 	///Bloodbag we have in our hands.
 	var/obj/item/reagent_containers/blood/bloodbag

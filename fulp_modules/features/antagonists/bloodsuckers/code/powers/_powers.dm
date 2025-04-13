@@ -12,9 +12,9 @@
 	/// Cooldown you'll have to wait between each use, decreases depending on level.
 	cooldown_time = 2 SECONDS
 
-	///Background icon when the Power is active.
+	/// Background icon when the Power is active.
 	active_background_icon_state = "vamp_power_on"
-	///Background icon when the Power is NOT active.
+	/// Background icon when the Power is NOT active.
 	base_background_icon_state = "vamp_power_off"
 
 	/// The text that appears when using the help verb, meant to explain how the Power changes when ranking up.
@@ -33,22 +33,28 @@
 	// VARS //
 	/// If the Power is currently active, differs from action cooldown because of how powers are handled.
 	var/active = FALSE
-	///Can increase to yield new abilities - Each Power ranks up each Rank
+	/// Can increase to yield new abilities - Each Power ranks up each Rank
 	var/level_current = 0
-	///The cost to ACTIVATE this Power
+	/// Boolean indicating whether or not this power's level matters
+	/// for the sake of being both incremented and included in a description.
+	var/should_level = TRUE
+	/// The cost to ACTIVATE this Power
 	var/bloodcost = 0
-	///The cost to MAINTAIN this Power - Only used for Constant Cost Powers
+	/// The cost to MAINTAIN this Power - Only used for Constant Cost Powers
 	var/constant_bloodcost = 0
+	/**
+	 * The button movable associated with this power.
+	 * CURRENTLY only stored so we can update the
+	 * button's 'desc' every time this power ranks up.
+	 *
+	 * WARNING: ONLY STORED IF 'should_level' IS TRUE
+	**/
+	var/atom/movable/screen/movable/action_button/linked_button
 
 // Modify description to add cost.
 /datum/action/cooldown/bloodsucker/New(Target)
 	. = ..()
-	if(bloodcost > 0)
-		desc += "<br><br><b>COST:</b> [bloodcost] blood"
-	if(constant_bloodcost > 0)
-		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] blood maintain active.</i>"
-	if(power_flags & BP_AM_SINGLEUSE)
-		desc += "<br><br><b>SINGLE USE:</br><i> [name] can only be used once per night.</i>"
+	assemble_desc()
 
 /datum/action/cooldown/bloodsucker/Destroy()
 	bloodsuckerdatum_power = null
@@ -84,6 +90,13 @@
 		DeactivatePower()
 	return TRUE
 
+/datum/action/cooldown/bloodsucker/create_button()
+	if(!should_level) // We only store the button in a var if we change
+		return ..()   // its desc on levelling.
+
+	var/atom/movable/screen/movable/action_button/button = ..()
+	linked_button = button
+	return button
 
 /datum/action/cooldown/bloodsucker/proc/can_pay_cost()
 	if(!owner || !owner.mind)
@@ -107,9 +120,11 @@
 		return FALSE
 	return TRUE
 
-///Called when the Power is upgraded.
+///Called when the Power is upgraded if 'should_level' is TRUE.
 /datum/action/cooldown/bloodsucker/proc/upgrade_power()
 	level_current++
+	assemble_desc()
+	build_button_icon(linked_button, UPDATE_BUTTON_NAME)
 
 ///Checks if the Power is available to use.
 /datum/action/cooldown/bloodsucker/proc/can_use(mob/living/carbon/user, trigger_flags)
@@ -187,7 +202,7 @@
 		START_PROCESSING(SSprocessing, src)
 
 	owner.log_message("used [src][bloodcost != 0 ? " at the cost of [bloodcost]" : ""].", LOG_ATTACK, color="red")
-	build_all_button_icons()
+	build_all_button_icons(UPDATE_BUTTON_BACKGROUND)
 
 /datum/action/cooldown/bloodsucker/proc/DeactivatePower()
 	if(!active) //Already inactive? Return
@@ -199,7 +214,7 @@
 		return
 	active = FALSE
 	StartCooldown()
-	build_all_button_icons()
+	build_all_button_icons(UPDATE_BUTTON_BACKGROUND|UPDATE_BUTTON_STATUS)
 
 ///Used by powers that are continuously active (That have BP_AM_TOGGLE flag)
 /datum/action/cooldown/bloodsucker/process(seconds_per_tick)
@@ -229,3 +244,17 @@
 /datum/action/cooldown/bloodsucker/proc/remove_after_use()
 	bloodsuckerdatum_power?.powers -= src
 	Remove(owner)
+
+/// Assembles the description of this bloodsucker ability.
+/// (Mainly used so that we can keep updating it with 'current_level'.)
+/datum/action/cooldown/bloodsucker/proc/assemble_desc()
+	desc = initial(desc)
+	if(power_flags & BP_AM_SINGLEUSE)
+		desc += "<br><br><b>SINGLE USE:</b><i> [name] can only be used once per night.</i>"
+	if(should_level)
+		desc += "<br><br><b>ABILITY LEVEL:</b><i> [level_current]</i>" // "POWER LEVEL" sounds cliché.
+
+	if(bloodcost > 0)
+		desc += "<br><br><b>COST:</b> [bloodcost] blood"
+	if(constant_bloodcost > 0)
+		desc += "<br><br><b>CONSTANT COST:</b><i> [name] costs [constant_bloodcost] blood maintain active.</i>"
