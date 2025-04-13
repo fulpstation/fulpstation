@@ -105,7 +105,7 @@
 	if(istype(mesmerized_target))
 		owner.balloon_alert(owner, "attempting to hypnotically gaze [mesmerized_target]...")
 
-	if(!do_after(user, 4 SECONDS, mesmerized_target, NONE, TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
+	if(!do_after(user, 4 SECONDS, mesmerized_target, NONE, TRUE, hidden = TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
 		return
 
 	var/power_time = max((9 SECONDS + level_current * 0.75 SECONDS), 15 SECONDS)
