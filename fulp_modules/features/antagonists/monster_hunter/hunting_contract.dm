@@ -52,27 +52,38 @@
 /obj/item/hunting_contract/ui_data(mob/user)
 	var/list/data = list()
 	data["bought"] = bought
-	data["items"] = list()
-	data["objectives"] = list()
+
 	if(weapons.len)
 		for(var/datum/hunter_weapons/contraband as anything in weapons)
-			data["items"] += list(list(
-				"id" = contraband.type,
-				"name" = contraband.name,
-				"desc" = contraband.desc,
-			))
+			var/list/item_data = list()
+
+			item_data["item_id"] = contraband.type
+			item_data["item_name"] = contraband.name
+			item_data["item_desc"] = contraband.desc
+
+			data["items"] += list(item_data)
+
 	if(owner)
 		data["rabbits_found"] = !(owner.rabbits.len)
 		data["used_up"] = used_up
 		var/objective_unfinished = FALSE
+
 		for(var/datum/objective/existing_objective as anything in owner.objectives)
 			var/completed = existing_objective.check_completion()
 			if(completed)
 				continue
-			data["objectives"] += list(list("explanation" = existing_objective.explanation_text))
+
 			objective_unfinished = TRUE
+			var/list/objective_data = list()
+
+			objective_data["name"] += existing_objective.name
+			objective_data["explanation"] += existing_objective.explanation_text
+
+			data["objectives"] += list(objective_data)
+
 		objectives_completed = !objective_unfinished
 		data["all_completed"] = objectives_completed
+
 	return data
 
 /obj/item/hunting_contract/ui_act(action, params)

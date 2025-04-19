@@ -1,19 +1,45 @@
+import { useState } from 'react';
 import { Box, Button, Dropdown, Stack } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
-const HunterObjectives = (props) => {
-  const { act, data } = useBackend();
-  const { objectives = [], all_completed, rabbits_found, used_up } = data;
+type HunterAndContractInformation = {
+  objectives: Objective[];
+  items: ItemInfo[];
+  rabbits_found: BooleanLike;
+  all_completed: BooleanLike;
+  used_up: BooleanLike;
+  bought: BooleanLike;
+};
+
+type ItemInfo = {
+  item_id: string;
+  item_name: string;
+  item_desc: string;
+};
+
+type Objective = {
+  name: string;
+  explanation: string;
+};
+
+const HunterObjectives = () => {
+  const { act, data } = useBackend<HunterAndContractInformation>();
+  const { objectives, all_completed, rabbits_found, used_up } = data;
+
+  const [selectedObjective, setSelectedObjective] = useState(objectives[0]);
   return (
     <Stack vertical fill>
-      <Stack.Item>
+      <Stack.Item grow>
         <Dropdown
           over
+          displayText={selectedObjective.name}
+          selected={selectedObjective.name}
           width="100%"
-          options={objectives.map((objective) => objective.explanation)}
-          displayText={'Incomplete Objectives'}
+          options={objectives.map((objective) => objective.name)}
+          onSelected={(objective: Objective) => setSelectedObjective(objective)}
         />
       </Stack.Item>
       <Stack.Item>
@@ -36,9 +62,9 @@ const HunterObjectives = (props) => {
   );
 };
 
-export const HunterContract = (props) => {
-  const { act, data } = useBackend();
-  const { items = [], bought } = data;
+export const HunterContract = () => {
+  const { act, data } = useBackend<HunterAndContractInformation>();
+  const { items, bought } = data;
   return (
     <Window
       width={500}
@@ -61,10 +87,10 @@ export const HunterContract = (props) => {
             </Button>
             <Stack.Item>
               {items.map((item) => (
-                <Box key={item.name} className="candystripe" p={1} pb={2}>
+                <Box key={item.item_name} className="candystripe" p={1} pb={2}>
                   <Stack align="baseline">
                     <Stack.Item grow bold>
-                      {item.name}
+                      {item.item_name}
                     </Stack.Item>
                     <Stack.Item>
                       <Button
@@ -72,13 +98,13 @@ export const HunterContract = (props) => {
                         disabled={bought}
                         onClick={() =>
                           act('select', {
-                            item: item.id,
+                            item: item.item_id,
                           })
                         }
                       />
                     </Stack.Item>
                   </Stack>
-                  {item.desc}
+                  {item.item_desc}
                 </Box>
               ))}
             </Stack.Item>
