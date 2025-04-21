@@ -308,6 +308,7 @@
 /obj/effect/turf_decal/siding/white{
 	dir = 8
 	},
+/obj/machinery/duct,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "ll" = (
@@ -452,10 +453,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/mineral/ore_redemption{
-	req_access = null;
-	requires_silo = 0
-	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "oI" = (
@@ -473,6 +470,10 @@
 /obj/structure/flora/tree/pine,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"oY" = (
+/obj/machinery/mineral/processing_unit_console,
+/turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
 "pg" = (
 /obj/machinery/shower/directional/west,
 /obj/effect/turf_decal/bot_white{
@@ -798,6 +799,7 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 10
 	},
+/obj/structure/moisture_trap,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "yT" = (
@@ -981,9 +983,11 @@
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Ds" = (
-/obj/machinery/light/small/directional/south,
-/obj/machinery/space_heater,
-/obj/effect/spawner/random/trash/graffiti,
+/obj/effect/mapping_helpers/broken_floor,
+/obj/item/paper/crumpled/fluff/poem{
+	default_raw_text = "Для плазмы плавка";
+	name = "Scribbled Instructions"
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Dy" = (
@@ -1053,7 +1057,11 @@
 /turf/open/misc/asteroid/snow/standard_air,
 /area/ruin/powered/beefcyto)
 "FS" = (
-/obj/effect/spawner/random/structure/girder,
+/obj/machinery/light/small/directional/south,
+/obj/effect/spawner/random/trash/graffiti,
+/obj/structure/closet/crate/trashcart,
+/mob/living/basic/mouse/white,
+/mob/living/basic/mouse/gray,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "GG" = (
@@ -1068,6 +1076,7 @@
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 1
 	},
+/obj/machinery/duct,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "GX" = (
@@ -1309,7 +1318,6 @@
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 5
 	},
-/obj/structure/moisture_trap,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "NE" = (
@@ -1347,6 +1355,7 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
 	},
+/obj/machinery/duct,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "PN" = (
@@ -1413,6 +1422,10 @@
 /obj/machinery/chem_dispenser/drinks/fullupgrade,
 /obj/structure/table/wood,
 /turf/open/floor/wood,
+/area/ruin/powered/beefcyto)
+"RN" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "RZ" = (
 /obj/machinery/duct,
@@ -1530,9 +1543,10 @@
 /turf/open/floor/plating/snowed/icemoon,
 /area/icemoon/underground/explored)
 "Vx" = (
-/obj/structure/closet/crate/trashcart,
-/mob/living/basic/mouse/gray,
-/mob/living/basic/mouse/white,
+/obj/machinery/mineral/processing_unit{
+	output_dir = 8;
+	input_dir = 4
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Wk" = (
@@ -1582,6 +1596,11 @@
 	},
 /turf/open/floor/grass,
 /area/ruin/powered/beefcyto)
+"YA" = (
+/obj/machinery/duct,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "YC" = (
 /obj/machinery/gibber,
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
@@ -1591,7 +1610,6 @@
 /obj/effect/turf_decal/siding/white{
 	dir = 1
 	},
-/obj/machinery/duct,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "YN" = (
@@ -2202,7 +2220,7 @@ yD
 yD
 pv
 UI
-uO
+RN
 JG
 Rp
 CJ
@@ -3118,7 +3136,7 @@ pv
 pv
 pv
 pv
-pv
+oY
 De
 Vx
 pv
@@ -3171,7 +3189,7 @@ ps
 ps
 pv
 EW
-De
+YA
 pv
 pv
 pv
@@ -3179,7 +3197,7 @@ pv
 pv
 pv
 wA
-Mc
+NE
 WM
 Js
 lg
@@ -3231,7 +3249,7 @@ De
 us
 NE
 NE
-NE
+Mc
 YH
 gD
 JT
