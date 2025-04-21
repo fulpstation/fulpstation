@@ -203,7 +203,7 @@
 	target = null
 	return ..()
 
-/obj/item/gorilla_serum/proc/set_objective(datum/antagonist/traitor/infiltrator/criminal)
+/obj/item/gorilla_serum/proc/set_objective(datum/antagonist/traitor/fulp_infiltrator/criminal)
 	if(!criminal)
 		return
 	var/datum/objective/gorillize/objective = locate() in criminal.objectives
