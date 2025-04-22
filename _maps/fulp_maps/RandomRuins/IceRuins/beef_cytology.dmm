@@ -10,9 +10,12 @@
 /turf/open/misc/asteroid/snow/standard_air,
 /area/icemoon/underground/explored)
 "au" = (
-/obj/structure/marker_beacon/fuchsia,
-/obj/effect/mapping_helpers/no_atoms_ontop,
-/turf/open/floor/plating/snowed/smoothed,
+/obj/effect/turf_decal/trimline/purple/filled/line,
+/obj/machinery/light,
+/obj/machinery/computer/camera_advanced/xenobio{
+	dir = 1
+	},
+/turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "av" = (
 /turf/open/floor/eighties,
@@ -67,6 +70,10 @@
 	color = "#D381C9"
 	},
 /obj/structure/fluff/shower_drain,
+/obj/item/paper/crumpled/fluff/poem{
+	default_raw_text = "Слизь не любит воду";
+	name = "Scribbled Instructions"
+	},
 /turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "co" = (
@@ -123,7 +130,10 @@
 /area/ruin/powered/beefcyto)
 "eo" = (
 /obj/effect/turf_decal/trimline/purple/filled/line,
-/turf/open/floor/iron/white,
+/obj/structure/window/reinforced/spawner/directional/east{
+	dir = 8
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "eE" = (
 /obj/structure/railing{
@@ -309,6 +319,7 @@
 	dir = 8
 	},
 /obj/machinery/duct,
+/obj/effect/decal/cleanable/food/flour,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "ll" = (
@@ -375,7 +386,7 @@
 "nb" = (
 /mob/living/basic/pet/penguin/baby/permanent/snowdin,
 /turf/open/misc/asteroid/snow/standard_air,
-/area/ruin/powered/beefcyto)
+/area/icemoon/underground/explored)
 "nf" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 1
@@ -470,10 +481,6 @@
 /obj/structure/flora/tree/pine,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
-"oY" = (
-/obj/machinery/mineral/processing_unit_console,
-/turf/closed/wall/r_wall,
-/area/ruin/powered/beefcyto)
 "pg" = (
 /obj/machinery/shower/directional/west,
 /obj/effect/turf_decal/bot_white{
@@ -609,7 +616,18 @@
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "tG" = (
-/turf/open/misc/ice,
+/obj/effect/turf_decal/trimline/purple/filled/line,
+/obj/machinery/camera/autoname/directional/south{
+	pixel_x = 11
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
+"tN" = (
+/obj/structure/window/reinforced/spawner/directional/east,
+/obj/structure/window/reinforced/spawner/directional/east{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "tT" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
@@ -671,6 +689,12 @@
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"vB" = (
+/obj/machinery/mineral/processing_unit_console{
+	pixel_y = -7
+	},
+/turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
 "vY" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 4
@@ -715,8 +739,10 @@
 /turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/underground/explored)
 "wX" = (
-/mob/living/basic/pet/penguin/emperor/snowdin,
-/turf/open/misc/asteroid/snow/standard_air,
+/obj/structure/window/reinforced/spawner/directional/east{
+	dir = 8
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "wZ" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
@@ -724,6 +750,15 @@
 	},
 /obj/item/kirbyplants/fern,
 /turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"xr" = (
+/obj/structure/window/reinforced/spawner/directional/east{
+	dir = 8
+	},
+/obj/structure/window/reinforced/spawner/directional/east{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "xx" = (
 /obj/structure/railing{
@@ -784,7 +819,7 @@
 /area/ruin/powered/beefcyto)
 "yq" = (
 /obj/structure/closet/crate/trashcart,
-/obj/item/food/breadslice/moldy,
+/obj/item/food/breadslice/moldy/bacteria,
 /obj/item/food/pizzaslice/moldy/bacteria,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
@@ -1054,7 +1089,7 @@
 /obj/machinery/vatgrower{
 	dir = 1
 	},
-/turf/open/misc/asteroid/snow/standard_air,
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "FS" = (
 /obj/machinery/light/small/directional/south,
@@ -1163,7 +1198,8 @@
 /turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "Jf" = (
-/turf/open/misc/asteroid/snow/standard_air,
+/obj/structure/window/reinforced/spawner/directional/east,
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "Jl" = (
 /obj/structure/table/wood,
@@ -1198,7 +1234,7 @@
 "Jx" = (
 /obj/structure/statue/snow/snowman,
 /turf/open/misc/asteroid/snow/standard_air,
-/area/ruin/powered/beefcyto)
+/area/icemoon/underground/explored)
 "Jy" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
@@ -1292,6 +1328,11 @@
 "Mc" = (
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
+"Mn" = (
+/obj/effect/turf_decal/trimline/purple/filled/line,
+/obj/structure/window/reinforced/spawner/directional/east,
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "Ms" = (
 /obj/machinery/door/airlock/external/glass/ruin,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -1303,6 +1344,9 @@
 /obj/machinery/door/airlock/external/glass/ruin,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
@@ -1469,8 +1513,11 @@
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "St" = (
-/obj/structure/flora/ash/chilly,
-/turf/open/misc/asteroid/snow/standard_air,
+/obj/machinery/door/window/right/directional/north,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "SG" = (
 /obj/structure/chair/sofa/corp/corner{
@@ -1512,6 +1559,10 @@
 /area/icemoon/underground/explored)
 "UI" = (
 /obj/structure/moisture_trap,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
+"UQ" = (
+/obj/machinery/light/small/directional/north,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "UW" = (
@@ -2283,7 +2334,7 @@ Hb
 Rx
 DP
 DP
-gV
+au
 pv
 yD
 yD
@@ -2332,8 +2383,8 @@ pv
 jz
 SN
 Rx
-DP
-DP
+xr
+wX
 eo
 pv
 yD
@@ -2383,9 +2434,9 @@ sH
 GX
 SN
 Rx
-DP
-DP
-eo
+St
+FN
+tG
 pv
 PY
 yD
@@ -2434,9 +2485,9 @@ sH
 LX
 Jc
 Rx
-DP
-DP
-eo
+tN
+Jf
+Mn
 pv
 yD
 ps
@@ -2836,8 +2887,8 @@ pg
 pv
 Mz
 pv
-au
-Jf
+ME
+ak
 sH
 cQ
 Ay
@@ -2885,10 +2936,10 @@ pv
 Av
 pv
 pv
-uO
+UQ
 pv
-Jf
-Jf
+ak
+ak
 NV
 Vc
 Yo
@@ -2938,8 +2989,8 @@ Sp
 pv
 zQ
 pv
-Jf
-Jf
+ak
+ak
 sH
 Pc
 yl
@@ -2987,10 +3038,10 @@ pv
 De
 Ib
 pv
-Jf
-St
+ak
+oi
 nb
-Jf
+ak
 sH
 ID
 ZX
@@ -3038,10 +3089,10 @@ pv
 De
 FS
 pv
-Jf
-Jf
-FN
-Jf
+ak
+ak
+ak
+ak
 NV
 xJ
 ta
@@ -3089,10 +3140,10 @@ uO
 De
 Ds
 pv
-tG
-wX
-wX
-Jf
+oc
+Kq
+Kq
+ak
 sH
 ID
 on
@@ -3136,13 +3187,13 @@ pv
 pv
 pv
 pv
-oY
+vB
 De
 Vx
 pv
-tG
-tG
-Jf
+oc
+oc
+ak
 Jx
 sH
 kt
