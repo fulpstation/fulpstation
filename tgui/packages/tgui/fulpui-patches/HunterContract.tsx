@@ -29,52 +29,42 @@ const HunterObjectives = (props: any) => {
     return;
   }
 
-  return (
-    <Stack vertical fill>
-      <Stack.Item grow>
-        <ObjectivePrintout fill objectives={objectives} />
-      </Stack.Item>
-    </Stack>
-  );
+  return <ObjectivePrintout fill objectives={objectives} />;
 };
 
-const HunterApocalypseButton = (props: any) => {
+const HunterApocalypseButton = (props) => {
   const { act, data } = useBackend<Info>();
   const { all_completed, all_rabbits_found, rabbits_count, used_up } = data;
+
   return (
-    <Stack fill vertical align="center">
-      <Stack.Item grow>
-        <Section bold fontSize="125%" fill>
-          <Image
-            height="96px"
-            width="96px"
-            src={resolveAsset(`monster_hunter.white_rabbit.png`)}
-            style={{
-              verticalAlign: 'middle',
-            }}
-          />
-          <Box textAlign="center">
-            Rabbits Found: {rabbits_count.toString()}&#47;5
-          </Box>
-        </Section>
-      </Stack.Item>
-      <Stack.Item grow>
-        <Box>
-          <Button
-            fluid
-            textAlign="center"
-            align="center"
-            content={'Commence Apocalypse'}
-            fontSize="200%"
-            disabled={!all_completed || !all_rabbits_found || used_up}
-            onClick={() => act('claim_reward')}
-            tooltip={
-              'Only unlocked once all objectives are completed and rabbits are found, this will allow you to start your Final Reckoning.'
-            }
-          />
+    <>
+      <Section noTopPadding>
+        <Image
+          align="center"
+          height="96px"
+          width="96px"
+          src={resolveAsset(`monster_hunter.white_rabbit.png`)}
+          verticalAlign="middle"
+        />
+        <Box textAlign="center" fontSize="150%" className="candystripe">
+          Rabbits Found: {rabbits_count.toString()}&#47;5
         </Box>
-      </Stack.Item>
-    </Stack>
+      </Section>
+      <Box>
+        <Button
+          fluid
+          textAlign="center"
+          align="center"
+          content={'Commence Apocalypse'}
+          fontSize="200%"
+          disabled={!all_completed || !all_rabbits_found || used_up}
+          onClick={() => act('claim_reward')}
+          tooltip={
+            'Only unlocked once all objectives are completed and rabbits are found, this will allow you to start your Final Reckoning.'
+          }
+        />
+      </Box>
+    </>
   );
 };
 
@@ -83,8 +73,8 @@ export const HunterContract = () => {
   const { items, bought } = data;
   return (
     <Window
-      width={bought ? 325 : 400}
-      height={bought ? 325 : 550}
+      width={bought ? 325 : 425}
+      height={bought ? 325 : 575}
       theme="spookyconsole"
       title="Hunter's Contract"
     >
@@ -132,16 +122,13 @@ export const HunterContract = () => {
               </Stack.Item>
             </>
           )}
+          <Stack.Divider />
           <Stack.Item>
-            <Section>
-              <HunterObjectives />
-            </Section>
+            <HunterObjectives />
           </Stack.Item>
           <Stack.Divider />
           <Stack.Item>
-            <Box>
-              <HunterApocalypseButton />
-            </Box>
+            <HunterApocalypseButton />
           </Stack.Item>
         </Stack>
       </Window.Content>
