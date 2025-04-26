@@ -12,7 +12,7 @@
 	background_icon_state = "background"
 
 	button_icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
-	button_icon_state = "killer_rabbit"
+	button_icon_state = "killer_rabbit_centered"
 
 	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
 	overlay_icon_state = "diamonds"

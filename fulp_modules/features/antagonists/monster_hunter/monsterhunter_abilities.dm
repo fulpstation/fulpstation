@@ -14,8 +14,8 @@
 	name = "Paradox Rabbit"
 	desc = "The rabbit's movements will be translated onto you, ignoring any solid objects in your way."
 
-	button_icon = 'icons/mob/simple/rabbit.dmi'
-	button_icon_state = "rabbit_white_dead"
+	button_icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
+	button_icon_state = "dead_rabbit_centered"
 
 	overlay_icon_state = "diamonds"
 
