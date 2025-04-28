@@ -88,8 +88,8 @@ export const HunterContract = () => {
               Contract completed!
             </Box>
             <Box textAlign="center" italic pt={1} pb={1}>
-              You are now obliged to do as you will— just don't interfere with
-              the rabbits from Wonderland!
+              You are now obliged to do as you will— just don&#39;t interfere
+              with the rabbits from Wonderland!
             </Box>
             <Stack.Divider />
           </Stack>
