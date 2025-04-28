@@ -38,15 +38,17 @@ const HunterApocalypseButton = (props) => {
 
   return (
     <>
-      <Section noTopPadding>
+      <Section noTopPadding align="center">
         <Image
-          align="center"
           height="96px"
           width="96px"
           src={resolveAsset(`monster_hunter.white_rabbit.png`)}
           verticalAlign="middle"
+          style={{
+            marginTop: '-32px',
+          }}
         />
-        <Box textAlign="center" fontSize="150%" className="candystripe">
+        <Box textAlign="center" fontSize="150%" className="candystripe" bold>
           Rabbits Found: {rabbits_count.toString()}&#47;5
         </Box>
       </Section>
@@ -60,7 +62,7 @@ const HunterApocalypseButton = (props) => {
           disabled={!all_completed || !all_rabbits_found || used_up}
           onClick={() => act('claim_reward')}
           tooltip={
-            'Only unlocked once all objectives are completed and rabbits are found, this will allow you to start your Final Reckoning.'
+            'Unlocked once all objectives are completed and all rabbits are found. This will allow you to merge the station with Wonderland.'
           }
         />
       </Box>
@@ -70,11 +72,36 @@ const HunterApocalypseButton = (props) => {
 
 export const HunterContract = () => {
   const { act, data } = useBackend<Info>();
-  const { items, bought } = data;
+  const { items, bought, used_up } = data;
+  if (bought && used_up) {
+    return (
+      <Window
+        width={300}
+        height={150}
+        theme="spookyconsole"
+        title="Completed Hunter's Contract"
+      >
+        <Window.Content>
+          <Stack vertical fill>
+            <Stack.Divider />
+            <Box textAlign="center" fontSize="200%" pt={1}>
+              Contract completed!
+            </Box>
+            <Box textAlign="center" italic pt={1} pb={1}>
+              You are now obliged to do as you will— just don't interfere with
+              the rabbits from Wonderland!
+            </Box>
+            <Stack.Divider />
+          </Stack>
+        </Window.Content>
+      </Window>
+    );
+  }
+
   return (
     <Window
       width={bought ? 325 : 425}
-      height={bought ? 325 : 575}
+      height={bought ? 295 : 550}
       theme="spookyconsole"
       title="Hunter's Contract"
     >
@@ -104,7 +131,7 @@ export const HunterContract = () => {
                       <Stack.Item grow bold>
                         {item.item_name}
                       </Stack.Item>
-                      <Stack.Item>
+                      <Stack.Item pb={0.5}>
                         <Button
                           content="Claim"
                           disabled={bought}
