@@ -284,8 +284,16 @@
 /datum/action/droppod_item
 	name = "Summon Monster Hunter tools"
 	desc = "Call in your equipment via droppod."
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon = 'icons/obj/devices/tracker.dmi'
 	button_icon_state = "beacon"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "border"
+
 	///path of item we are spawning
 	var/item_path
 
@@ -312,7 +320,15 @@
 /datum/action/cooldown/spell/track_monster
 	name = "Hunter Vision"
 	desc = "Detect monsters within your vicinity"
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon_state = "blind"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "clubs"
+
 	cooldown_time = 5 SECONDS
 	spell_requirements = NONE
 
