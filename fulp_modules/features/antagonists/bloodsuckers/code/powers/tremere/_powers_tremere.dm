@@ -16,7 +16,7 @@
 	background_icon = 'fulp_modules/icons/antagonists/bloodsuckers/actions_tremere_bloodsucker.dmi'
 
 	// Tremere powers don't level up, we have them hardcoded.
-	level_current = 0
+	should_level = FALSE
 	// Re-defining these as we want total control over them
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN
 	purchase_flags = TREMERE_CAN_BUY
