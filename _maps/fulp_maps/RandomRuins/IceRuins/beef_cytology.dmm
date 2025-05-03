@@ -9,6 +9,13 @@
 "ak" = (
 /turf/open/misc/asteroid/snow/standard_air,
 /area/icemoon/underground/explored)
+"au" = (
+/obj/machinery/door/window/right/directional/north,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "av" = (
 /turf/open/floor/eighties,
 /area/ruin/powered/beefcyto)
@@ -62,6 +69,10 @@
 	color = "#D381C9"
 	},
 /obj/structure/fluff/shower_drain,
+/obj/item/paper/crumpled/fluff/poem{
+	default_raw_text = "Слизь не любит воду";
+	name = "Scribbled Instructions"
+	},
 /turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "co" = (
@@ -117,8 +128,8 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "eo" = (
-/obj/effect/turf_decal/trimline/purple/filled/line,
-/turf/open/floor/iron/white,
+/obj/structure/window/reinforced/spawner/directional/west,
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "eE" = (
 /obj/structure/railing{
@@ -139,7 +150,6 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "fT" = (
-/obj/structure/closet/l3closet/virology,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
 	},
@@ -208,8 +218,8 @@
 /area/icemoon/underground/explored)
 "iB" = (
 /obj/machinery/duct,
-/obj/effect/turf_decal/box/white{
-	color = "#9FED58"
+/obj/effect/turf_decal/trimline/green/filled/line{
+	dir = 9
 	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
@@ -252,7 +262,6 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/beefcyto)
 "jy" = (
-/obj/structure/closet/l3closet/virology,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 6
 	},
@@ -305,8 +314,8 @@
 /obj/effect/turf_decal/siding/white{
 	dir = 8
 	},
-/obj/effect/decal/cleanable/food/flour,
 /obj/machinery/duct,
+/obj/effect/decal/cleanable/food/flour,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "ll" = (
@@ -343,13 +352,15 @@
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "mu" = (
-/obj/structure/closet/secure_closet/cytology{
-	req_access = null
-	},
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 4
 	},
-/obj/item/clothing/suit/toggle/labcoat/science,
+/obj/structure/sink{
+	pixel_shift = 16;
+	pixel_x = 16;
+	pixel_z = 4;
+	dir = 8
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "mH" = (
@@ -369,12 +380,9 @@
 /turf/open/floor/plating/snowed/icemoon,
 /area/icemoon/underground/explored)
 "nb" = (
-/obj/machinery/duct,
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 8
-	},
-/turf/open/floor/iron/white,
-/area/ruin/powered/beefcyto)
+/mob/living/basic/pet/penguin/baby/permanent/snowdin,
+/turf/open/misc/asteroid/snow/standard_air,
+/area/icemoon/underground/explored)
 "nf" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 1
@@ -435,6 +443,7 @@
 	dir = 10
 	},
 /obj/structure/extinguisher_cabinet/directional/west,
+/obj/structure/closet/l3closet/virology,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "oB" = (
@@ -513,6 +522,7 @@
 /obj/machinery/door/airlock/freezer{
 	name = "Cytology Outpost Freezer"
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/iron/kitchen_coldroom/freezerfloor,
 /area/ruin/powered/beefcyto)
 "ql" = (
@@ -601,12 +611,19 @@
 /obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
+"tG" = (
+/obj/structure/window/reinforced/spawner/directional/west,
+/obj/structure/window/reinforced/spawner/directional/north,
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "tT" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 1
 	},
 /obj/machinery/vending/hydroseeds{
-	onstation = 0
+	onstation = 0;
+	scan_id = 0;
+	all_products_free = 1
 	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
@@ -623,7 +640,10 @@
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 8
 	},
-/obj/structure/sink/directional/east,
+/obj/structure/closet/secure_closet/cytology{
+	req_access = null
+	},
+/obj/item/clothing/suit/toggle/labcoat/science,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "uy" = (
@@ -656,6 +676,12 @@
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"vB" = (
+/obj/machinery/mineral/processing_unit_console{
+	pixel_y = -7
+	},
+/turf/closed/wall/r_wall,
+/area/ruin/powered/beefcyto)
 "vY" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 4
@@ -675,7 +701,9 @@
 /area/ruin/powered/beefcyto)
 "wn" = (
 /obj/machinery/vending/hydronutrients{
-	onstation = 0
+	onstation = 0;
+	scan_id = 0;
+	all_products_free = 1
 	},
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 1
@@ -698,9 +726,9 @@
 /turf/open/floor/plating/snowed/smoothed/icemoon,
 /area/icemoon/underground/explored)
 "wX" = (
-/mob/living/basic/pet/penguin/emperor/snowdin,
-/turf/open/misc/ice,
-/area/icemoon/underground/explored)
+/obj/structure/window/reinforced/spawner/directional/east,
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "wZ" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 10
@@ -741,6 +769,7 @@
 /obj/item/flashlight/seclite,
 /obj/item/clothing/head/costume/ushanka,
 /obj/item/clothing/suit/hooded/wintercoat/science,
+/obj/item/storage/bag/ore,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "xG" = (
@@ -766,7 +795,7 @@
 /area/ruin/powered/beefcyto)
 "yq" = (
 /obj/structure/closet/crate/trashcart,
-/obj/item/food/breadslice/moldy,
+/obj/item/food/breadslice/moldy/bacteria,
 /obj/item/food/pizzaslice/moldy/bacteria,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
@@ -778,11 +807,10 @@
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
 "yF" = (
-/obj/machinery/shower/directional/east,
-/obj/structure/fluff/shower_drain,
-/obj/effect/turf_decal/bot_white{
-	color = "#52B4E9"
+/obj/effect/turf_decal/trimline/blue/filled/line{
+	dir = 10
 	},
+/obj/structure/moisture_trap,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "yT" = (
@@ -824,9 +852,13 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "zQ" = (
-/mob/living/basic/pet/penguin/baby/permanent/snowdin,
-/turf/open/misc/asteroid/snow/standard_air,
-/area/icemoon/underground/explored)
+/obj/machinery/door/airlock/external/glass/ruin,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "zW" = (
 /obj/structure/fence{
 	dir = 4
@@ -913,6 +945,7 @@
 /obj/item/borg/upgrade/modkit/damage,
 /obj/item/borg/upgrade/modkit/range,
 /obj/item/borg/upgrade/modkit/cooldown,
+/obj/item/mining_scanner,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Ch" = (
@@ -961,9 +994,11 @@
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Ds" = (
-/obj/machinery/light/small/directional/south,
-/obj/machinery/space_heater,
-/obj/effect/spawner/random/trash/graffiti,
+/obj/effect/mapping_helpers/broken_floor,
+/obj/item/paper/crumpled/fluff/poem{
+	default_raw_text = "Для плазмы плавка";
+	name = "Scribbled Instructions"
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Dy" = (
@@ -971,6 +1006,10 @@
 	dir = 4
 	},
 /turf/open/floor/iron/white,
+/area/ruin/powered/beefcyto)
+"DE" = (
+/obj/structure/extinguisher_cabinet/directional/east,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/beefcyto)
 "DF" = (
 /obj/effect/turf_decal/weather/snow/corner{
@@ -1022,8 +1061,15 @@
 	},
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+"FN" = (
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "FS" = (
-/obj/effect/spawner/random/structure/girder,
+/obj/machinery/light/small/directional/south,
+/obj/effect/spawner/random/trash/graffiti,
+/obj/structure/closet/crate/trashcart,
+/mob/living/basic/mouse/white,
+/mob/living/basic/mouse/gray,
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "GG" = (
@@ -1125,9 +1171,9 @@
 /turf/open/floor/iron/white/textured,
 /area/ruin/powered/beefcyto)
 "Jf" = (
-/obj/structure/statue/snow/snowman,
-/turf/open/misc/asteroid/snow/standard_air,
-/area/icemoon/underground/explored)
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "Jl" = (
 /obj/structure/table/wood,
 /obj/item/gun/energy/recharge/kinetic_accelerator,
@@ -1146,6 +1192,7 @@
 /obj/item/flashlight/seclite,
 /obj/item/clothing/head/costume/ushanka,
 /obj/item/clothing/suit/hooded/wintercoat/science,
+/obj/item/storage/bag/ore,
 /obj/item/toy/plush/beefplushie/living,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
@@ -1157,11 +1204,15 @@
 /obj/machinery/processor,
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
+"Jx" = (
+/obj/structure/statue/snow/snowman,
+/turf/open/misc/asteroid/snow/standard_air,
+/area/icemoon/underground/explored)
 "Jy" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 8
 	},
-/obj/structure/sink/directional/east,
+/obj/structure/closet/l3closet/virology,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "JG" = (
@@ -1189,6 +1240,12 @@
 /obj/machinery/smartfridge/chemistry/preloaded,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"Kv" = (
+/obj/structure/fence/door{
+	dir = 4
+	},
+/turf/open/misc/asteroid/snow/standard_air,
+/area/icemoon/underground/explored)
 "Kz" = (
 /obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/grass,
@@ -1251,6 +1308,16 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
+"Mz" = (
+/obj/machinery/door/airlock/external/glass/ruin,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "ME" = (
 /obj/structure/marker_beacon/fuchsia,
 /obj/effect/mapping_helpers/no_atoms_ontop,
@@ -1260,13 +1327,9 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/closet/secure_closet/cytology{
-	req_access = null
-	},
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 5
 	},
-/obj/item/clothing/suit/toggle/labcoat/science,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "NE" = (
@@ -1324,10 +1387,13 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/structure/moisture_trap,
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 9
 	},
+/obj/structure/closet/secure_closet/cytology{
+	req_access = null
+	},
+/obj/item/clothing/suit/toggle/labcoat/science,
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "QD" = (
@@ -1369,11 +1435,15 @@
 /obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
+"RN" = (
+/obj/machinery/space_heater,
+/turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
 "RZ" = (
-/obj/effect/turf_decal/trimline/green/filled/line{
-	dir = 8
-	},
 /obj/machinery/duct,
+/obj/effect/turf_decal/trimline/green/filled/corner{
+	dir = 1
+	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "Sa" = (
@@ -1388,7 +1458,10 @@
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "Si" = (
-/obj/machinery/vending/dinnerware,
+/obj/machinery/vending/dinnerware{
+	onstation = 0;
+	all_products_free = 1
+	},
 /turf/open/floor/iron/cafeteria,
 /area/ruin/powered/beefcyto)
 "Sj" = (
@@ -1406,6 +1479,12 @@
 /obj/machinery/light/small/directional/west,
 /obj/structure/moisture_trap,
 /turf/open/floor/plating,
+/area/ruin/powered/beefcyto)
+"St" = (
+/obj/machinery/vatgrower{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/beefcyto)
 "SG" = (
 /obj/structure/chair/sofa/corp/corner{
@@ -1456,6 +1535,11 @@
 	},
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
+"UX" = (
+/obj/structure/window/reinforced/spawner/directional/east,
+/obj/structure/window/reinforced/spawner/directional/north,
+/turf/open/floor/engine,
+/area/ruin/powered/beefcyto)
 "Vc" = (
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/grass,
@@ -1478,9 +1562,10 @@
 /turf/open/floor/plating/snowed/icemoon,
 /area/icemoon/underground/explored)
 "Vx" = (
-/obj/structure/closet/crate/trashcart,
-/mob/living/basic/mouse/gray,
-/mob/living/basic/mouse/white,
+/obj/machinery/mineral/processing_unit{
+	output_dir = 8;
+	input_dir = 4
+	},
 /turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "Wk" = (
@@ -1493,7 +1578,9 @@
 /turf/open/floor/iron/white,
 /area/ruin/powered/beefcyto)
 "WM" = (
-/obj/machinery/jukebox,
+/obj/machinery/jukebox{
+	req_access = null
+	},
 /turf/open/floor/wood,
 /area/ruin/powered/beefcyto)
 "WQ" = (
@@ -1527,6 +1614,11 @@
 	name = "Pen"
 	},
 /turf/open/floor/grass,
+/area/ruin/powered/beefcyto)
+"YA" = (
+/obj/machinery/duct,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/plating,
 /area/ruin/powered/beefcyto)
 "YC" = (
 /obj/machinery/gibber,
@@ -2147,7 +2239,7 @@ yD
 yD
 pv
 UI
-uO
+RN
 JG
 Rp
 CJ
@@ -2259,8 +2351,8 @@ pv
 jz
 SN
 Rx
-DP
-DP
+tG
+eo
 eo
 pv
 yD
@@ -2310,9 +2402,9 @@ sH
 GX
 SN
 Rx
-DP
-DP
-eo
+au
+St
+FN
 pv
 PY
 yD
@@ -2361,9 +2453,9 @@ sH
 LX
 Jc
 Rx
-DP
-DP
-eo
+UX
+wX
+wX
 pv
 yD
 ps
@@ -2393,7 +2485,7 @@ dr
 lv
 yT
 yT
-yT
+DE
 fU
 ra
 yD
@@ -2402,7 +2494,7 @@ pv
 QC
 ut
 RZ
-nb
+zc
 Jy
 op
 pv
@@ -2454,7 +2546,7 @@ oM
 It
 It
 nP
-It
+nP
 zc
 co
 pv
@@ -2505,7 +2597,7 @@ nP
 It
 Rd
 QA
-It
+nP
 nP
 ph
 sH
@@ -2556,7 +2648,7 @@ nP
 It
 QA
 Ku
-It
+nP
 nP
 ve
 sH
@@ -2607,7 +2699,7 @@ nP
 It
 Ea
 wf
-It
+nP
 nP
 Ek
 sH
@@ -2657,8 +2749,8 @@ pS
 Ef
 It
 It
-It
-It
+nP
+nP
 Lo
 zg
 pv
@@ -2713,7 +2805,7 @@ fT
 jy
 pv
 pv
-ak
+Kv
 sH
 cQ
 pD
@@ -2761,7 +2853,7 @@ pv
 Uf
 pg
 pv
-pv
+Mz
 pv
 ME
 ak
@@ -2812,8 +2904,8 @@ pv
 Av
 pv
 pv
-ak
-ak
+Jf
+pv
 ak
 ak
 NV
@@ -2863,9 +2955,9 @@ cP
 De
 Sp
 pv
-ak
 zQ
-Jf
+pv
+ak
 ak
 sH
 Pc
@@ -2914,9 +3006,9 @@ pv
 De
 Ib
 pv
-oc
-oi
 ak
+oi
+nb
 ak
 sH
 ID
@@ -2965,8 +3057,8 @@ pv
 De
 FS
 pv
-oc
-oc
+ak
+ak
 ak
 ak
 NV
@@ -3017,7 +3109,7 @@ De
 Ds
 pv
 oc
-wX
+Kq
 Kq
 ak
 sH
@@ -3063,14 +3155,14 @@ pv
 pv
 pv
 pv
-pv
+vB
 De
 Vx
 pv
 oc
 oc
-oc
 ak
+Jx
 sH
 kt
 Pr
@@ -3116,7 +3208,7 @@ ps
 ps
 pv
 EW
-De
+YA
 pv
 pv
 pv
