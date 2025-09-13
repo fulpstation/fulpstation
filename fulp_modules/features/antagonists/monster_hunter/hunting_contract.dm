@@ -51,31 +51,39 @@
 
 /obj/item/hunting_contract/ui_data(mob/user)
 	var/list/data = list()
+
 	data["bought"] = bought
-	data["items"] = list()
-	data["objectives"] = list()
-	if(weapons.len)
+	data["rabbits_count"] = owner.rabbits_spotted
+	if(!bought && weapons.len)
 		for(var/datum/hunter_weapons/contraband as anything in weapons)
-			data["items"] += list(list(
-				"id" = contraband.type,
-				"name" = contraband.name,
-				"desc" = contraband.desc,
-			))
+			var/list/item_data = list()
+
+			item_data["item_id"] = contraband.type
+			item_data["item_name"] = contraband.name
+			item_data["item_desc"] = contraband.desc
+
+			data["items"] += list(item_data)
+
 	if(owner)
-		data["rabbits_found"] = !(owner.rabbits.len)
+		data["all_rabbits_found"] = !(owner.rabbits.len)
 		data["used_up"] = used_up
 		var/objective_unfinished = FALSE
-		for(var/datum/objective/existing_objective as anything in owner.objectives)
+
+		for(var/datum/objective/assassinate/hunter/existing_objective as anything in owner.objectives)
 			var/completed = existing_objective.check_completion()
 			if(completed)
 				continue
-			data["objectives"] += list(list("explanation" = existing_objective.explanation_text))
+
 			objective_unfinished = TRUE
+
+		data["objectives"] = owner.get_objectives()
+
 		objectives_completed = !objective_unfinished
 		data["all_completed"] = objectives_completed
+
 	return data
 
-/obj/item/hunting_contract/ui_act(action, params)
+/obj/item/hunting_contract/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
@@ -89,6 +97,8 @@
 			selected_item = item
 			. = TRUE
 			purchase(selected_item, usr)
+			ui.close()
+			return
 		if("claim_reward")
 			if(!objectives_completed || length(owner.rabbits) || used_up)
 				return
@@ -97,7 +107,13 @@
 				return
 			SEND_SIGNAL(owner, COMSIG_BEASTIFY)
 			used_up = TRUE
+			ui.close()
+			return
 
+/obj/item/hunting_contract/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/simple/monster_hunter_icons),
+	)
 
 /obj/item/hunting_contract/proc/purchase(item, user)
 	var/obj/item/purchased
