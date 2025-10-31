@@ -106,13 +106,14 @@ SUBSYSTEM_DEF(statpanels)
 #endif
 	/* 516 is stable we dont need this anymore 
 	var/static/list/beta_notice = list("", "You are on BYOND 516, some visual glitches with UIs may be present!", "Please report issues, and switch back to BYOND 515 if things are causing too many issues for you.")
+	*/
 	if(!global_data)//statbrowser hasnt fired yet and we were called from immediate_send_stat_data()
 		return
 	target.stat_panel.send_message("update_stat", list(
-		"global_data" = (target.byond_version < 516) ? global_data : (global_data + beta_notice),
+		"global_data" = (target.byond_version < 516) ? global_data : (global_data),
 		"ping_str" = "Ping: [round(target.lastping, 1)]ms (Average: [round(target.avgping, 1)]ms)",
 		"other_str" = target.mob?.get_status_tab_items(),
-	)) */
+	))
 
 /datum/controller/subsystem/statpanels/proc/set_MC_tab(client/target)
 	var/turf/eye_turf = get_turf(target.eye)
