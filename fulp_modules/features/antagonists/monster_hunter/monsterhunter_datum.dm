@@ -137,14 +137,14 @@
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!monsterhunterdatum)
 		monsterhunterdatum = add_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = ROLE_MONSTERHUNTER
+		LAZYADD(special_roles, ROLE_MONSTERHUNTER)
 	return monsterhunterdatum
 
 /datum/mind/proc/remove_monsterhunter()
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(monsterhunterdatum)
 		remove_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = null
+		LAZYREMOVE(special_roles, ROLE_MONSTERHUNTER)
 
 /// Called when using admin tools to give antag status
 /datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner, mob/admin)

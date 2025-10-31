@@ -31,7 +31,7 @@
 	///A wearkef to the throwdatum we're currently dealing with, if we need it
 	var/datum/weakref/tackle_ref
 
-/datum/component/tackler/Initialize(stamina_cost = 25, base_knockdown = 1 SECONDS, range = 4, speed = 1, skill_mod = 0, min_distance = min_distance)
+/datum/component/tackler/Initialize(stamina_cost = 25, base_knockdown = 1 SECONDS, range = 4, speed = 1, skill_mod = 0, min_distance = min_distance, silent_gain = FALSE)
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -42,8 +42,9 @@
 	src.skill_mod = skill_mod
 	src.min_distance = min_distance
 
-	var/mob/P = parent
-	to_chat(P, span_notice("You are now able to launch tackles! You can do so by activating throw mode, and ") + span_boldnotice("RIGHT-CLICKING on your target with an empty hand."))
+	if(!silent_gain)
+		var/mob/P = parent
+		to_chat(P, span_notice("You are now able to launch tackles! You can do so by activating throw mode, and ") + span_boldnotice("RIGHT-CLICKING on your target with an empty hand."))
 
 	addtimer(CALLBACK(src, PROC_REF(resetTackle)), base_knockdown, TIMER_STOPPABLE)
 
@@ -410,6 +411,13 @@
 		if(istype(potential_spine))
 			defense_mod += potential_spine.strength_bonus
 
+		if(istype(tackle_target.wear_suit, /obj/item/clothing/suit/hooded/cultrobes/eldritch/blade))
+			defense_mod += 8
+		if(istype(tackle_target.wear_suit, /obj/item/clothing/suit/hooded/cultrobes/eldritch/rust))
+			var/obj/item/clothing/suit/hooded/cultrobes/eldritch/rust/rust_robes = tackle_target.wear_suit
+			if(rust_robes.rusted)
+				defense_mod += 10
+
 	// OF-FENSE
 	var/mob/living/carbon/sacker = parent
 	var/sacker_drunkenness = sacker.get_drunk_amount()
@@ -605,9 +613,14 @@
 	if(windscreen_casualty.type in list(/obj/structure/window, /obj/structure/window/fulltile, /obj/structure/window/unanchored, /obj/structure/window/fulltile/unanchored)) // boring unreinforced windows
 		for(var/i in 1 to speed)
 			var/obj/item/shard/shard = new /obj/item/shard(get_turf(user))
-			shard.set_embed(/datum/embedding/glass_candy)
+			var/datum/embedding/embed = shard.get_embed()
+			embed.embed_chance = 100
+			embed.ignore_throwspeed_threshold = TRUE
+			embed.impact_pain_mult = 1
 			user.hitby(shard, skipcatch = TRUE, hitpush = FALSE)
-			shard.set_embed(initial(shard.embed_type))
+			embed.embed_chance = initial(embed.embed_chance)
+			embed.ignore_throwspeed_threshold = initial(embed.ignore_throwspeed_threshold)
+			embed.impact_pain_mult = initial(embed.impact_pain_mult)
 		windscreen_casualty.atom_destruction()
 		user.adjustStaminaLoss(10 * speed)
 		user.Paralyze(3 SECONDS)

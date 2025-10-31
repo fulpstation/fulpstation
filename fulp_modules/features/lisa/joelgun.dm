@@ -219,7 +219,7 @@
 	ammo_type = /obj/item/ammo_casing/c22
 	caliber = CALIBER_C22
 	max_ammo = 1
-	multiload = FALSE
+	ammo_box_multiload = AMMO_BOX_MULTILOAD_NONE
 
 /// Bullet casing & Bullet
 /obj/item/ammo_casing/c22

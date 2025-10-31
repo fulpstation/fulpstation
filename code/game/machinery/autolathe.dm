@@ -38,7 +38,7 @@
 		/datum/component/material_container, \
 		SSmaterials.materials_by_category[MAT_CATEGORY_ITEM_MATERIAL], \
 		0, \
-		MATCONTAINER_EXAMINE, \
+		MATCONTAINER_EXAMINE|MATCONTAINER_ACCEPT_ALLOYS, \
 		container_signals = list(COMSIG_MATCONTAINER_ITEM_CONSUMED = TYPE_PROC_REF(/obj/machinery/autolathe, AfterMaterialInsert)) \
 	)
 	. = ..()
@@ -80,7 +80,7 @@
 		return NONE
 
 	if(held_item.tool_behaviour == TOOL_SCREWDRIVER)
-		context[SCREENTIP_CONTEXT_RMB] = "[panel_open ? "Close" : "Open"] Panel"
+		context[SCREENTIP_CONTEXT_LMB] = "[panel_open ? "Close" : "Open"] Panel"
 		return CONTEXTUAL_SCREENTIP_SET
 
 	if(panel_open && held_item.tool_behaviour == TOOL_CROWBAR)
@@ -302,6 +302,13 @@
 			target_location = get_turf(src)
 	else
 		target_location = get_turf(src)
+
+	//give achievement for using unique material
+	if(design.materials[MAT_CATEGORY_ITEM_MATERIAL])
+		for(var/datum/material/material in materials_needed)
+			if(!istype(material, /datum/material/glass) && !istype(material, /datum/material/iron))
+				ui.user.client.give_award(/datum/award/achievement/misc/getting_an_upgrade, ui.user)
+				break
 	addtimer(CALLBACK(src, PROC_REF(do_make_item), design, build_count, build_time_per_item, material_cost_coefficient, charge_per_item, materials_needed, target_location), build_time_per_item)
 
 	return TRUE
@@ -446,7 +453,7 @@
 		span_hear("You hear the chatter of a floppy drive."))
 	busy = TRUE
 
-	if(do_after(user, 1.5 SECONDS, target = src))
+	if(!do_after(user, 1.5 SECONDS, target = src))
 		busy = FALSE
 		update_static_data_for_all_viewers()
 		balloon_alert(user, "interrupted!")

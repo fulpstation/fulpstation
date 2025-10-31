@@ -79,7 +79,7 @@
 				START_PROCESSING(SSpriority_effects, src)
 
 	update_particles()
-
+	SEND_SIGNAL(owner, COMSIG_LIVING_STATUS_APPLIED, src)
 	return TRUE
 
 /datum/status_effect/Destroy()
@@ -96,6 +96,7 @@
 		LAZYREMOVE(owner.status_effects, src)
 		on_remove()
 		UnregisterSignal(owner, COMSIG_LIVING_POST_FULLY_HEAL)
+		SEND_SIGNAL(owner, COMSIG_LIVING_STATUS_REMOVED, src)
 		owner = null
 	if(particle_effect)
 		QDEL_NULL(particle_effect)
@@ -119,13 +120,16 @@
 		qdel(src)
 		return
 
-	if(tick_interval != STATUS_EFFECT_NO_TICK && tick_interval < world.time)
+	if(tick_interval == STATUS_EFFECT_AUTO_TICK)
+		tick(seconds_per_tick)
+	else if(tick_interval != STATUS_EFFECT_NO_TICK && tick_interval < world.time)
 		var/tick_length = (tick_interval_upperbound && tick_interval_lowerbound) ? rand(tick_interval_lowerbound, tick_interval_upperbound) : initial(tick_interval)
 		tick(tick_length / (1 SECONDS))
 		tick_interval = world.time + tick_length
-		if(QDELING(src))
-			// tick deleted us, no need to continue
-			return
+
+	if(QDELING(src))
+		// tick deleted us, no need to continue
+		return
 
 	if(duration != STATUS_EFFECT_PERMANENT)
 		if(duration < world.time)
@@ -175,7 +179,7 @@
 
 /// Called before being fully removed (before on_remove)
 /// Returning FALSE will cancel removal
-/datum/status_effect/proc/before_remove()
+/datum/status_effect/proc/before_remove(...)
 	return TRUE
 
 /// Called when a status effect of status_type STATUS_EFFECT_REFRESH

@@ -7,8 +7,7 @@
 	zone = BODY_ZONE_HEAD
 	slot = ORGAN_SLOT_EXTERNAL_ANTENNAE
 
-	preference = "feature_protogen_antennae"
-	dna_block = DNA_MOTH_ANTENNAE_BLOCK
+	dna_block = /datum/dna_block/feature/accessory/moth_antenna
 
 	bodypart_overlay = /datum/bodypart_overlay/mutant/protogen_antennae
 

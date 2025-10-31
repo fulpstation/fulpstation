@@ -2,30 +2,26 @@
 "a" = (
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/supply)
-"b" = (
-/obj/effect/spawner/structure/window/reinforced/shuttle,
-/turf/open/floor/plating,
-/area/shuttle/supply)
 "e" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/conveyor{
 	dir = 4;
 	id = "ShuttleLoad"
 	},
-/turf/open/floor/iron/dark,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "f" = (
 /obj/machinery/conveyor{
 	dir = 4;
 	id = "ShuttleLoad"
 	},
-/turf/open/floor/iron/dark,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "g" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/machinery/conveyor/inverted{
-	dir = 10;
-	id = "ShuttleLoad"
+/obj/machinery/button/door/directional/west{
+	id = "cargoload";
+	name = "Loading Doors"
 	},
 /turf/open/floor/iron/dark,
 /area/shuttle/supply)
@@ -34,11 +30,14 @@
 /turf/open/floor/iron/dark,
 /area/shuttle/supply)
 "k" = (
+/obj/machinery/door/poddoor{
+	id = "cargoload";
+	name = "Supply Dock Loading Door"
+	},
 /obj/machinery/conveyor{
 	dir = 4;
 	id = "ShuttleLoad"
 	},
-/obj/structure/plasticflaps/opaque,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "m" = (
@@ -53,15 +52,15 @@
 /area/shuttle/supply)
 "s" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/oil,
+/obj/effect/decal/cleanable/blood/oil,
 /turf/open/floor/iron/chapel{
 	dir = 1
 	},
 /area/shuttle/supply)
 "t" = (
-/obj/machinery/conveyor/inverted{
-	dir = 6;
-	id = "ShuttleUnload"
+/obj/machinery/button/door/directional/west{
+	id = "cargounload";
+	name = "Loading Doors"
 	},
 /turf/open/floor/iron/dark,
 /area/shuttle/supply)
@@ -74,14 +73,14 @@
 	dir = 8;
 	id = "ShuttleUnload"
 	},
-/turf/open/floor/iron/dark,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "y" = (
 /obj/machinery/conveyor{
 	dir = 8;
 	id = "ShuttleUnload"
 	},
-/turf/open/floor/iron/dark,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "z" = (
 /obj/structure/window/reinforced/spawner/directional/north,
@@ -114,50 +113,30 @@
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating/airless,
 /area/shuttle/supply)
-"F" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/machinery/light/directional/east,
-/turf/open/floor/iron/dark,
-/area/shuttle/supply)
-"H" = (
-/obj/machinery/conveyor_switch/oneway{
-	id = "ShuttleLoad";
-	name = "Shuttle Load";
-	pixel_x = -5;
-	pixel_y = 16
-	},
-/turf/open/floor/iron/dark,
-/area/shuttle/supply)
 "I" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/conveyor{
-	dir = 5;
+	dir = 4;
 	id = "ShuttleLoad"
 	},
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/iron/dark,
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "J" = (
+/obj/machinery/door/poddoor{
+	id = "cargounload";
+	name = "Supply Dock Loading Door"
+	},
 /obj/machinery/conveyor{
 	dir = 8;
 	id = "ShuttleUnload"
 	},
-/obj/structure/plasticflaps/opaque,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "K" = (
 /turf/open/floor/iron/chapel{
 	dir = 1
 	},
-/area/shuttle/supply)
-"Q" = (
-/obj/machinery/conveyor_switch/oneway{
-	dir = 8;
-	id = "ShuttleUnload";
-	name = "Shuttle Unload";
-	pixel_x = -5
-	},
-/turf/open/floor/iron/dark,
 /area/shuttle/supply)
 "R" = (
 /obj/docking_port/mobile/supply{
@@ -170,16 +149,16 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/mapping_helpers/airlock/access/all/supply/general,
-/turf/open/floor/iron/dark/textured_large,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "T" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/conveyor{
-	dir = 9;
+	dir = 8;
 	id = "ShuttleUnload"
 	},
-/obj/machinery/light/small/directional/west,
-/turf/open/floor/iron/dark,
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/iron,
 /area/shuttle/supply)
 "U" = (
 /turf/open/floor/iron/chapel,
@@ -192,15 +171,15 @@
 
 (1,1,1) = {"
 a
-a
 k
+a
 a
 a
 R
 a
 a
-J
 a
+J
 a
 B
 "}
@@ -221,13 +200,13 @@ C
 (3,1,1) = {"
 a
 f
-H
+w
 m
 U
 w
 m
 U
-Q
+w
 x
 z
 D
@@ -263,13 +242,13 @@ D
 (6,1,1) = {"
 a
 f
-F
-m
-U
-w
+j
 m
 U
 q
+m
+U
+w
 y
 a
 E
@@ -278,11 +257,11 @@ E
 a
 a
 a
-b
-b
-b
-b
-b
+a
+a
+a
+a
+a
 a
 a
 a

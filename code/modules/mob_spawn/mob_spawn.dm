@@ -53,7 +53,7 @@
 	spawned_mob_ref = WEAKREF(spawned_mob)
 	return spawned_mob
 
-/obj/effect/mob_spawn/proc/special(mob/living/spawned_mob)
+/obj/effect/mob_spawn/proc/special(mob/living/spawned_mob, mob/mob_possessor)
 	SHOULD_CALL_PARENT(TRUE)
 	if(faction)
 		spawned_mob.faction = faction
@@ -141,13 +141,13 @@
 /obj/effect/mob_spawn/ghost_role/Initialize(mapload)
 	. = ..()
 	SSpoints_of_interest.make_point_of_interest(src)
-	LAZYADD(GLOB.mob_spawners[name], src)
+	LAZYADD(GLOB.mob_spawners[format_text(name)], src)
 
 /obj/effect/mob_spawn/ghost_role/Destroy()
-	var/list/spawners = GLOB.mob_spawners[name]
+	var/list/spawners = GLOB.mob_spawners[format_text(name)]
 	LAZYREMOVE(spawners, src)
 	if(!LAZYLEN(spawners))
-		GLOB.mob_spawners -= name
+		GLOB.mob_spawners -= format_text(name)
 	return ..()
 
 //ATTACK GHOST IGNORING PARENT RETURN VALUE
@@ -296,7 +296,7 @@
 			if(mapload || (SSticker && SSticker.current_state > GAME_STATE_SETTING_UP))
 				INVOKE_ASYNC(src, PROC_REF(create))
 
-/obj/effect/mob_spawn/corpse/special(mob/living/spawned_mob)
+/obj/effect/mob_spawn/corpse/special(mob/living/spawned_mob, mob/mob_possessor)
 	. = ..()
 	spawned_mob.death(TRUE)
 	spawned_mob.adjustOxyLoss(oxy_damage)
@@ -344,9 +344,21 @@
 		// Or on crew monitors
 		var/obj/item/clothing/under/sensor_clothes = spawned_human.w_uniform
 		if(istype(sensor_clothes))
-			sensor_clothes.sensor_mode = SENSOR_OFF
-			spawned_human.update_suit_sensors()
+			sensor_clothes.set_sensor_mode(SENSOR_OFF)
 
 //don't use this in subtypes, just add 1000 brute yourself. that being said, this is a type that has 1000 brute. it doesn't really have a home anywhere else, it just needs to exist
 /obj/effect/mob_spawn/corpse/human/damaged
 	brute_damage = 1000
+
+/obj/effect/mob_spawn/cockroach
+	name = "Cockroach Spawner"
+	desc = "A spawner for cockroaches, the most common vermin in the station. Small chance to spawn a bloodroach."
+	mob_type = /mob/living/basic/cockroach
+	var/bloodroach_chance = 1 // 1% chance to spawn a bloodroach
+
+/obj/effect/mob_spawn/cockroach/Initialize(mapload)
+	if(prob(bloodroach_chance))
+		mob_type = /mob/living/basic/cockroach/bloodroach
+	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(create))
+	qdel(src)
