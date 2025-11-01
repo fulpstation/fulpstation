@@ -33,7 +33,7 @@
 	cost = CARGO_CRATE_VALUE
 	contains = list(
 		/obj/item/clothing/gloves/color/white,
-		/obj/item/clothing/head/frenchberet,
+		/obj/item/clothing/head/beret/frenchberet,
 		/obj/item/clothing/mask/gas/mime,
 		/obj/item/clothing/shoes/sneakers/black,
 		/obj/item/clothing/suit/toggle/suspenders,

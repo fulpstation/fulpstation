@@ -154,7 +154,7 @@
 		return
 
 	bloodsuckeruser.cure_husk(BURN)
-	bloodsuckeruser.regenerate_organs(regenerate_existing = FALSE)
+	bloodsuckeruser.regenerate_organs(remove_hazardous = TRUE)
 
 	for(var/obj/item/organ/organ as anything in bloodsuckeruser.organs)
 		organ.set_organ_damage(0)

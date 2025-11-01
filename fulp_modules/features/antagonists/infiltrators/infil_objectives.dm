@@ -103,7 +103,7 @@
 		target = pick(possible_targets)
 
 	if(target?.current)
-		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] as a Syndicate Agent, ensure they are eliminated."
+		explanation_text = "Special intel has identified [target.name] the [!target_role_type ? target.assigned_role.title : english_list(target.get_special_roles())] as a Syndicate Agent, ensure they are eliminated."
 
 
 //advanced mulligan objective
@@ -161,7 +161,7 @@
 
 	var/list/potential_targets = remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
 	shuffle_inplace(potential_targets)
-	
+
 	for(var/pet_path in potential_targets)
 		var/mob/living/potential_animal = locate(pet_path) in GLOB.mob_living_list
 		if(isnull(potential_animal) || HAS_TRAIT(potential_animal, TRAIT_GODMODE) || potential_animal.stat == DEAD)
@@ -176,22 +176,22 @@
 	if(isnull(new_target))
 		target_pet = null
 		return
-	
+
 	target_pet = new_target
 	update_explanation_text()
-	RegisterSignal(target_pet, COMSIG_QDELETING, PROC_REF(on_pet_delete)) 
+	RegisterSignal(target_pet, COMSIG_QDELETING, PROC_REF(on_pet_delete))
 
 /datum/objective/kill_pet/proc/on_pet_delete()
 	SIGNAL_HANDLER
 	assign_target_pet(new_target = null)
-		
+
 /datum/objective/kill_pet/proc/remove_duplicate(list/possible_target_pets)
 	var/list/new_list = possible_target_pets.Copy()
 	for(var/datum/objective/kill_pet/objective in owner.get_all_objectives())
 		if(isnull(objective.target_pet))
 			continue
 		new_list -= objective.target_pet.type
-	return new_list 
+	return new_list
 
 
 /datum/objective/kill_pet/update_explanation_text()
@@ -226,7 +226,7 @@
 		target = pick(sci_targets)
 
 	if(target?.current)
-		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role]!"
+		explanation_text = "Make a stance against science's animal experimentation by assassinating [target.name] the [!target_role_type ? target.assigned_role.title : english_list(target.get_special_roles())]!"
 
 /datum/objective/gorillize
 	name = "Summon endangered gorilla"
@@ -235,7 +235,7 @@
 
 /datum/objective/gorillize/update_explanation_text()
 	if(target?.current)
-		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] with the gorilla serum!"
+		explanation_text = "Inject [target.name] the [!target_role_type ? target.assigned_role.title : english_list(target.get_special_roles())] with the gorilla serum!"
 
 // SELF objectives
 /datum/objective/cyborg_hack
@@ -249,7 +249,7 @@
 		return
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/card/emag/silicon_hack/card = new(criminal)
-	var/list/slots = list ("backpack" = ITEM_SLOT_BACKPACK)
+	var/list/slots = list (LOCATION_BACKPACK)
 	criminal.equip_in_one_of_slots(card, slots)
 
 /datum/objective/missiles

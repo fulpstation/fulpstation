@@ -52,7 +52,7 @@
 		span_notice("You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name]."))
 
 	user.real_name = stored.real_name
-	stored.dna.transfer_identity(user, transfer_SE=1)
+	stored.dna.copy_dna(user.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 	user.updateappearance(mutcolor_update=1)
 	user.domutcheck()
 	used = TRUE

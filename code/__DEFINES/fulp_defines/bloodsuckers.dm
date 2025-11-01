@@ -5,8 +5,10 @@
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
 /**
- * Blood-level defines
+ * Blood-related defines
  */
+/// Name for the bloodsucker blood type, used to empower vassals.
+#define BLOOD_TYPE_BLOODSUCKER "BS"
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Cost to torture someone halfway, in blood. Called twice for full cost

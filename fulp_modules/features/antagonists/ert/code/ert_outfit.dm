@@ -141,9 +141,7 @@
 	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
 	equipped_radio.recalculateChannels()
 	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
-	user.dna.add_mutation(/datum/mutation/clumsy)
-	for(var/datum/mutation/clumsy/clumsy_mutation in user.dna.mutations)
-		clumsy_mutation.mutadone_proof = TRUE
+	user.dna.add_mutation(/datum/mutation/clumsy, MUTATION_SOURCE_CLOWN_CLUMSINESS)
 
 /datum/outfit/centcom/ert/clown/commander
 	name = "ERT Commander - Clown"
@@ -167,6 +165,4 @@
 	equipped_radio.keyslot = new /obj/item/encryptionkey/headset_service
 	equipped_radio.recalculateChannels()
 	ADD_TRAIT(user, TRAIT_NAIVE, INNATE_TRAIT)
-	user.dna.add_mutation(/datum/mutation/clumsy)
-	for(var/datum/mutation/clumsy/clumsy_mutation in user.dna.mutations)
-		clumsy_mutation.mutadone_proof = TRUE
+	user.dna.add_mutation(/datum/mutation/clumsy, MUTATION_SOURCE_CLOWN_CLUMSINESS)

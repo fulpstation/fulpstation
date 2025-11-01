@@ -7,7 +7,7 @@
 	name = "\improper Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
-	job_rank = ROLE_BLOODSUCKER
+	pref_flag = ROLE_BLOODSUCKER
 	antag_hud_name = "vassal"
 	show_in_roundend = FALSE
 	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'

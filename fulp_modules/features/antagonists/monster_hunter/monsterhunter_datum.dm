@@ -2,7 +2,7 @@
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
-	job_rank = ROLE_MONSTERHUNTER
+	pref_flag = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
 	tip_theme = "spookyconsole"
@@ -54,7 +54,7 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
-	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
+	var/list/slots = list(LOCATION_BACKPACK, LOCATION_LPOCKET, LOCATION_RPOCKET)
 	if(!criminal.equip_in_one_of_slots(card, slots))
 		var/obj/item/rabbit_locator/droppod_card = new()
 		grant_drop_ability(droppod_card)
