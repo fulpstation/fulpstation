@@ -78,7 +78,7 @@
 	turn_off()
 	user.put_in_hands(src)
 	if(user.get_item_by_slot(ITEM_SLOT_OCLOTHING) == taking_from)
-		user.update_worn_oversuit(update_obscured = FALSE)
+		user.update_worn_oversuit()
 
 ///Turns the camera on. Will be silent if 'user' is null.
 /obj/item/bodycam_upgrade/proc/turn_on(mob/living/user, obj/item/card/id/id_card)

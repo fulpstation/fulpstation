@@ -41,15 +41,3 @@
 		return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.russian_names)]"
 	return "[pick(GLOB.experiment_names)] \Roman[rand(1,49)] [pick(GLOB.beef_names)]"
 
-
-/obj/item/organ/tongue/beefman
-	name = "meaty tongue"
-	desc = "A meaty and thick muscle typically found in Beefmen."
-	icon = 'fulp_modules/icons/species/mob/beef_tongue.dmi'
-	icon_state = "beef_tongue"
-	say_mod = "gurgles"
-	taste_sensitivity = 15
-	languages_native = list(/datum/language/russian)
-	disliked_foodtypes = VEGETABLES | FRUIT | CLOTH
-	liked_foodtypes = RAW | MEAT | FRIED
-	toxic_foodtypes = DAIRY | PINEAPPLE
