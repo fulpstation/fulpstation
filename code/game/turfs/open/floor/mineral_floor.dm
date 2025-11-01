@@ -46,7 +46,6 @@
 /turf/open/floor/mineral/plasma/disco/crowbar_act(mob/living/user, obj/item/I)
 	return
 
-
 //GOLD
 
 /turf/open/floor/mineral/gold
