@@ -145,10 +145,14 @@ const PowerSection = (props: any) => {
           )}
           <Divider />
         </Stack.Item>
-        <Stack.Divider />
-        <Stack.Item grow={1} fontSize="16px">
-          {selectedPower && selectedPower.power_explanation}
-        </Stack.Item>
+        {selectedPower && (
+          <>
+            <Stack.Divider />
+            <Stack.Item grow={1} fontSize="16px">
+              {selectedPower.power_explanation}
+            </Stack.Item>
+          </>
+        )}
       </Stack>
     </Section>
   );
