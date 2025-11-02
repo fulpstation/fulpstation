@@ -32,9 +32,3 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/security/telescreen/monaster
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MOUNTS,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
-
-/datum/techweb_node/consoles/New()
-	var/has_monastery = CHECK_MAP_JOB_CHANGE(JOB_CHAPLAIN, "has_monastery")
-	if(has_monastery)
-		design_ids += "telescreen_monastery"
-	return ..()
