@@ -4,8 +4,9 @@
 
 /obj/item/book/codex_gigas/Initialize(mapload)
 	. = ..()
-	var/turf/current_turf = get_turf(src)
-	new /obj/item/book/kindred(current_turf)
+	if(mapload)
+		var/turf/current_turf = get_turf(src)
+		new /obj/item/book/kindred(current_turf)
 
 /**
  *	# Archives of the Kindred:
