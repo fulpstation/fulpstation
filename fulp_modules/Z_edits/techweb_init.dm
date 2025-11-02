@@ -13,5 +13,6 @@
 
 //This exists so it can pass CI despite not existing on non-monastery maps.
 /obj/item/disk/design_disk/monastery_telescreen/Initialize(mapload)
+	. = ..()
 	blueprints += new /datum/design/telescreen_monastery
 
