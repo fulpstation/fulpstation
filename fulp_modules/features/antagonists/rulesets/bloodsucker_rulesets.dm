@@ -38,6 +38,8 @@
 	pref_flag = ROLE_VAMPIRICACCIDENT
 	jobban_flag = ROLE_BLOODSUCKER
 	ruleset_flags = RULESET_HIGH_IMPACT
+	midround_type = LIGHT_MIDROUND
+	ruleset_flags = RULESET_VARIATION
 	weight = 5
 	blacklisted_roles = list(
 		JOB_HEAD_OF_PERSONNEL,
@@ -74,6 +76,7 @@
 	preview_antag_datum = /datum/antagonist/bloodsucker
 	jobban_flag = ROLE_BLOODSUCKER
 	pref_flag = ROLE_BLOODSUCKERBREAKOUT
+	ruleset_flags = RULESET_VARIATION
 	blacklisted_roles = list(
 		JOB_HEAD_OF_PERSONNEL,
 		JOB_RESEARCH_DIRECTOR,

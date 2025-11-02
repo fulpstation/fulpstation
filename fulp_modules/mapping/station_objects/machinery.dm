@@ -32,3 +32,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/security/telescreen/monaster
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MOUNTS,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+
+/datum/techweb_node/consoles/Initialize()
+	. = ..()
+	var/list/monastery_telescreens = SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/security/telescreen/monastery)
+	if(length(monastery_telescreens))
+		design_ids += list("telescreen_monastery")
