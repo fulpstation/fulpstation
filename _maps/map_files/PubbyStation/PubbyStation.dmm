@@ -2151,6 +2151,7 @@
 /obj/effect/turf_decal/tile/red/anticorner/contrasted{
 	dir = 8
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/security/execution/education)
 "aja" = (
@@ -17652,6 +17653,7 @@
 /area/station/hallway/secondary/entry)
 "bAK" = (
 /obj/structure/transit_tube/horizontal,
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "bAL" = (
@@ -23326,6 +23328,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/sand/plating,
+/obj/machinery/camera/directional/south{
+	c_tag = "Chapel Office Tunnel";
+	network = list("ss13","monastery")
+	},
 /turf/open/floor/iron,
 /area/station/service/chapel/office)
 "cef" = (
@@ -24409,6 +24415,7 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron,
 /area/station/security/prison)
 "clG" = (
@@ -25381,9 +25388,9 @@
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "cqW" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/closed/mineral,
-/area/station/service/chapel/asteroid/monastery)
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/dock)
 "cqX" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/lattice,
@@ -25435,6 +25442,7 @@
 /obj/structure/table/wood/fancy,
 /obj/item/folder,
 /obj/item/pen,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/office)
 "cru" = (
@@ -25586,10 +25594,6 @@
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/office)
 "csM" = (
-/obj/machinery/camera/directional/south{
-	c_tag = "Chapel Office Tunnel";
-	network = list("ss13","monastery")
-	},
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
@@ -25598,6 +25602,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/sand/plating,
+/obj/effect/landmark/firealarm_sanity,
 /turf/open/floor/iron,
 /area/station/service/chapel/office)
 "csS" = (
@@ -25948,6 +25953,7 @@
 /obj/structure/flora/bush/flowers_pp/style_random,
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/machinery/light/small/directional/south,
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden/monastery)
 "cvk" = (
@@ -26079,6 +26085,7 @@
 /obj/effect/decal/cleanable/cobweb/cobweb2,
 /obj/item/storage/fancy/candle_box,
 /obj/structure/table/wood,
+/obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/funeral)
 "cwm" = (
@@ -26288,6 +26295,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 4
 	},
+/obj/effect/landmark/firealarm_sanity,
 /turf/open/floor/iron/dark,
 /area/station/service/library/lounge)
 "cyB" = (
@@ -29356,17 +29364,16 @@
 /turf/open/floor/carpet,
 /area/station/command/heads_quarters/captain)
 "eAF" = (
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 8
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
+	dir = 4
 	},
-/obj/machinery/firealarm/directional/west,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
 /obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
-/turf/open/floor/iron,
-/area/station/security/prison)
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/iron/dark,
+/area/station/service/chapel/funeral)
 "eAP" = (
 /obj/effect/landmark/start/hangover,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
@@ -31915,6 +31922,7 @@
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/station/security/prison/workout)
 "grq" = (
@@ -41738,6 +41746,11 @@
 /obj/item/aicard,
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
+"nNy" = (
+/obj/effect/turf_decal/sand/plating,
+/obj/effect/landmark/firealarm_sanity,
+/turf/open/floor/iron,
+/area/station/service/chapel/asteroid/monastery)
 "nNN" = (
 /obj/structure/disposaloutlet{
 	dir = 4
@@ -43549,6 +43562,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
+"paO" = (
+/obj/structure/sign/painting/library{
+	pixel_x = -32
+	},
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/iron/dark,
+/area/station/service/library/artgallery)
 "pbm" = (
 /obj/machinery/door/airlock/external{
 	name = "Pod Docking Bay"
@@ -44742,6 +44762,15 @@
 /obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/science/server)
+"pSu" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer4,
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/iron/dark,
+/area/station/security/processing/cremation)
 "pSy" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/machinery/door/poddoor/shutters/preopen{
@@ -45798,6 +45827,7 @@
 	dir = 9
 	},
 /obj/machinery/plate_press,
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/station/security/prison/work)
 "qEm" = (
@@ -50015,6 +50045,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/dark,
 /area/station/service/chapel/monastery)
 "txB" = (
@@ -53794,6 +53825,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/red/opposingcorners,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/iron/white,
 /area/station/security/prison/mess)
 "wdx" = (
@@ -56625,6 +56657,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
+"xVH" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/iron/dark,
+/area/station/service/library/artgallery)
 "xWj" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -68263,7 +68302,7 @@ bGI
 bNs
 cfN
 cfN
-cqW
+cfN
 cfN
 cfN
 bZY
@@ -68775,7 +68814,7 @@ aaa
 aaa
 bGI
 bNs
-cqW
+cfN
 bOw
 cfN
 bOw
@@ -69569,7 +69608,7 @@ jIU
 hyY
 cve
 slf
-oQn
+eAF
 fdl
 oQn
 slf
@@ -71592,7 +71631,7 @@ bMu
 hCj
 mKH
 bMu
-bMu
+cqW
 bPo
 bQg
 bQg
@@ -71600,7 +71639,7 @@ bQg
 bQg
 bQg
 bQg
-bQg
+nNy
 ecq
 bQg
 lTq
@@ -74200,7 +74239,7 @@ pIy
 voM
 gkQ
 whJ
-elH
+paO
 elH
 ucd
 elH
@@ -75622,7 +75661,7 @@ aiZ
 ajH
 akx
 alY
-wtj
+pSu
 amI
 ueU
 ueU
@@ -75993,7 +76032,7 @@ wBO
 fdN
 fdN
 fdN
-ndF
+xVH
 whJ
 reR
 tFt
@@ -77656,7 +77695,7 @@ kmV
 kdk
 clE
 kmV
-eAF
+kmV
 kmV
 bMI
 bMI
