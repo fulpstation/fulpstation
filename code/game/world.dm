@@ -238,11 +238,6 @@ GLOBAL_VAR(restart_counter)
 	var/latest_changelog = file("[global.config.directory]/../html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM", TIMEZONE_UTC) + ".yml")
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
 
-	// FULP EDIT //
-	var/latest_fulp_changelog = file("[global.config.directory]/../fulp_modules/data/html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM", TIMEZONE_UTC) + ".yml")
-	GLOB.fulp_changelog_hash = fexists(latest_fulp_changelog) ? md5(latest_fulp_changelog) : 0
-	// FULP EDIT END //
-
 	if(GLOB.round_id)
 		log_game("Round ID: [GLOB.round_id]")
 

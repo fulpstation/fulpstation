@@ -6,10 +6,6 @@
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- code/game/world.dm > Marked by a "FULP EDIT" comment; copies a bit of code to make 'GLOB.fulp_changelog_hash' functional.
-
-- code/modules/client/preferences.dm > Marked by a "FULP EDIT" comment; gives clients the 'last_fulp_changelog' var.
-
 - interface\interface.dm > Changes the value of 'name' on '/client/verb/changelog' to "/TG/ Changelog"
 
 - README.md > Replaces it with our own readme
