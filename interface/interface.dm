@@ -98,8 +98,8 @@
 
 	DIRECT_OUTPUT(src, link(jointext(concatable, "")))
 
-/client/verb/changelog()
-	set name = "/TG/ Changelog"
+/client/verb/tg_changelog() // Fulp edit - /client/verb/changelog()
+	set name = "/TG/ Changelog" // Fulp edit - "Changelog"
 	set category = "OOC"
 
 	if(!GLOB.changelog_tgui)

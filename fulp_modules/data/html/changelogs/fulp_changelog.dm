@@ -51,7 +51,7 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 
 /// CHANGELOG VERB ///
 
-/client/verb/fulp_changelog()
+/client/verb/changelog()
 	set name = "Changelog"
 	set category = "OOC"
 	if(!GLOB.fulp_changelog_tgui)

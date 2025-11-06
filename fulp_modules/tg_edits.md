@@ -6,7 +6,7 @@
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- interface\interface.dm > Changes the value of 'name' on '/client/verb/changelog' to "/TG/ Changelog"
+- interface\interface.dm > Changes the TG Changelog verb to a new path & name.
 
 - README.md > Replaces it with our own readme
 
