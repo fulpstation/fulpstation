@@ -10,6 +10,7 @@
 /obj/structure/sign/map/fulp/helio/right
 	icon_state = "map-right-helio"
 
+
 /obj/structure/sign/map/fulp/selene
 	desc = "A framed picture of the station. It's centerpiece being security (red) it is surrounded by going clockwise from arrivals (blue-white) and departures (red-white) to the left with service (green), command (dark blue), medical (blue), science (purple), engineering (yellow) and cargo (brown)."
 
@@ -18,6 +19,11 @@
 
 /obj/structure/sign/map/fulp/selene/right
 	icon_state = "map-right-selene"
+
+
+/obj/structure/sign/map/fulp/pubby
+	icon_state = "map-pubby"
+
 
 /obj/structure/sign/map/fulp/directions/aft
 	icon_state = "aft_sign"

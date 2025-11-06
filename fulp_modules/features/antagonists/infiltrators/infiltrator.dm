@@ -1,7 +1,7 @@
 /datum/antagonist/traitor/fulp_infiltrator
 	name = "Infiltrator"
 	antagpanel_category = "Infiltrator"
-	job_rank = ROLE_INFILTRATOR
+	pref_flag = ROLE_INFILTRATOR
 	hijack_speed = 1
 	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"
@@ -33,7 +33,6 @@
 /datum/antagonist/traitor/fulp_infiltrator/on_gain()
 	. = ..()
 	owner.current.mind.set_assigned_role(SSjob.get_job_type(/datum/job/infiltrator))
-	owner.current.mind.special_role = ROLE_INFILTRATOR
 	uplink_handler.has_progression = FALSE
 
 /datum/antagonist/traitor/fulp_infiltrator/admin_add(datum/mind/new_owner, mob/admin)
@@ -112,7 +111,7 @@
 /datum/antagonist/infiltrator_backup
 	name = "Infiltrator Reinforcement"
 	antagpanel_category = "Infiltrator"
-	job_rank = ROLE_INFILTRATOR
+	pref_flag = ROLE_INFILTRATOR
 	hijack_speed = 1
 	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"

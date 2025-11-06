@@ -41,9 +41,16 @@
 ///Bloodbag of Bloodsucker blood (used by Vassals only)
 /obj/item/reagent_containers/blood/o_minus/bloodsucker
 	name = "blood pack"
-	unique_blood = /datum/reagent/blood/bloodsucker
+	blood_type = BLOOD_TYPE_BLOODSUCKER
 
 /obj/item/reagent_containers/blood/o_minus/bloodsucker/examine(mob/user)
 	. = ..()
 	if(user.mind.has_antag_datum(/datum/antagonist/ex_vassal) || user.mind.has_antag_datum(/datum/antagonist/vassal/revenge))
 		. += span_notice("Seems to be just about the same color as your Master's...")
+
+/datum/blood_type/bloodsucker
+	name = BLOOD_TYPE_BLOODSUCKER
+
+/datum/blood_type/bloodsucker/New()
+	. = ..()
+	compatible_types = subtypesof(/datum/blood_type)

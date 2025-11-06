@@ -3,7 +3,7 @@
 	name = "\improper Shaded Bloodsucker"
 	antagpanel_category = "Bloodsucker"
 	show_in_roundend = FALSE
-	job_rank = ROLE_BLOODSUCKER
+	pref_flag = ROLE_BLOODSUCKER
 	antag_hud_name = "bloodsucker"
 
 /obj/item/soulstone/bloodsucker

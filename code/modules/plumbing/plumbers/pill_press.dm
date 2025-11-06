@@ -15,6 +15,8 @@
 	var/max_volume = 50
 	/// prefix for the product name
 	var/product_name = "factory"
+	/// Selected duration of produced pills, if they're selected
+	var/pill_duration = 3
 	/// All packaging types wrapped up in 1 big list
 	var/static/list/packaging_types = null
 	///The type of packaging to use
@@ -51,6 +53,7 @@
 			packaging_types += list(category_item)
 
 	packaging_type = GLOB.reagent_containers[CAT_PILLS][1]
+	packaging_category = CAT_PILLS
 	max_volume = initial(packaging_type.volume)
 	current_volume = clamp(current_volume, MIN_VOLUME, max_volume)
 
@@ -75,13 +78,16 @@
 		var/suffix
 		switch(packaging_category)
 			if(CAT_PILLS)
-				suffix = "Pill"
+				suffix = "pill"
 			if(CAT_PATCHES)
-				suffix = "Patch"
+				suffix = "patch"
 			else
-				suffix = "Bottle"
+				suffix = "bottle"
 		container.name = "[product_name] [suffix]"
 		reagents.trans_to(container, current_volume)
+		if (istype(container, /obj/item/reagent_containers/applicator/pill))
+			var/obj/item/reagent_containers/applicator/pill/pill = container
+			pill.layers_remaining = pill_duration
 		stored_products += container
 
 	//dispense stored products on the floor
@@ -121,7 +127,9 @@
 	var/list/data = list()
 
 	data["current_volume"] = current_volume
+	data["pill_duration"] = pill_duration
 	data["max_volume"] = max_volume
+	data["max_duration"] = PILL_MAX_LAYERS
 	data["product_name"] = product_name
 	data["packaging_type"] = REF(packaging_type)
 	data["packaging_category"] = packaging_category
@@ -144,6 +152,18 @@
 				return FALSE
 
 			current_volume = clamp(value, MIN_VOLUME, max_volume)
+			return TRUE
+
+		if("change_pill_duraton")
+			var/value = params["duration"]
+			if(isnull(value))
+				return FALSE
+
+			value = text2num(value)
+			if(isnull(value))
+				return FALSE
+
+			pill_duration = clamp(value, 0, PILL_MAX_LAYERS)
 			return TRUE
 
 		if("change_product_name")

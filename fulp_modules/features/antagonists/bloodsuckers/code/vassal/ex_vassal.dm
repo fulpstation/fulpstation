@@ -5,7 +5,7 @@
 	name = "\improper Ex-Vassal"
 	roundend_category = "vassals"
 	antagpanel_category = "Bloodsucker"
-	job_rank = ROLE_BLOODSUCKER
+	pref_flag = ROLE_BLOODSUCKER
 	antag_hud_name = "vassal_grey"
 	show_in_roundend = FALSE
 	show_in_antagpanel = FALSE
@@ -89,7 +89,7 @@
  * Artificially made, this must be fed to ex-vassals to keep them on their high.
  */
 /datum/reagent/blood/bloodsucker
-	name = "Blood two"
+	name = BLOOD_TYPE_BLOODSUCKER
 
 /datum/reagent/blood/bloodsucker/expose_mob(mob/living/exposed_mob, methods, reac_volume, show_message, touch_protection)
 	var/datum/antagonist/ex_vassal/former_vassal = exposed_mob.mind.has_antag_datum(/datum/antagonist/ex_vassal)

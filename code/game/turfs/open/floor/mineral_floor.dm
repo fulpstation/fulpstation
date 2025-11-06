@@ -46,7 +46,6 @@
 /turf/open/floor/mineral/plasma/disco/crowbar_act(mob/living/user, obj/item/I)
 	return
 
-
 //GOLD
 
 /turf/open/floor/mineral/gold
@@ -178,7 +177,7 @@
 
 //Used in SnowCabin.dm
 /turf/open/floor/mineral/plastitanium/red/snow_cabin
-	temperature = 180
+	temperature = ICEBOX_MIN_TEMPERATURE
 
 //BANANIUM
 
@@ -199,7 +198,7 @@
 	if(isliving(arrived))
 		squeak()
 
-/turf/open/floor/mineral/bananium/attackby(obj/item/W, mob/user, params)
+/turf/open/floor/mineral/bananium/attackby(obj/item/W, mob/user, list/modifiers)
 	.=..()
 	if(!.)
 		honk()
@@ -257,7 +256,7 @@
 	if(isliving(arrived))
 		radiate()
 
-/turf/open/floor/mineral/uranium/attackby(obj/item/W, mob/user, params)
+/turf/open/floor/mineral/uranium/attackby(obj/item/W, mob/user, list/modifiers)
 	.=..()
 	if(!.)
 		radiate()

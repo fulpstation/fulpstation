@@ -36,11 +36,12 @@
 	playsound(src, get_sfx(SFX_CAT_MEOW), 50, FALSE)
 	last_process = world.time
 
-/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/try_carve(obj/item/carving_item, mob/living/user, params)
+/obj/item/book/granter/action/spell/fulp/direct_cat_meteor/carving_act(mob/living/user, obj/item/tool)
 	. = ..()
-	to_chat(user, span_warning("[src] wrathfully winks at you as you raise your [carving_item.name] towards it. A singular ultimatum overwhelms your psyche:"))
+	to_chat(user, span_warning("[src] wrathfully winks at you as you raise your [tool.name] towards it. A singular ultimatum overwhelms your psyche:"))
 	to_chat(user, span_hypnophrase(span_big("NO.")))
 	recoil(user)
+	return ITEM_INTERACT_BLOCKING
 
 /obj/item/book/granter/action/spell/fulp/direct_cat_meteor/carve_out(obj/item/carving_item, mob/living/user)
 	. = ..()

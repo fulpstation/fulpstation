@@ -6,16 +6,11 @@
 	load_mentors()
 
 	// Call overrides
-	call_fulp_overrides()
+	override_vox()
 
-	GLOB.special_roles += list(
-		ROLE_BLOODSUCKER = 0,
-		ROLE_VAMPIRICACCIDENT = 0,
-		ROLE_BLOODSUCKERBREAKOUT = 0,
-		ROLE_MONSTERHUNTER = 0,
-		ROLE_INFILTRATOR = 0,
-	)
-
+	// This is a near copy paste of 'changelog_hash'.
+	var/latest_fulp_changelog = file("[global.config.directory]/../fulp_modules/data/html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM", TIMEZONE_UTC) + ".yml")
+	GLOB.fulp_changelog_hash = fexists(latest_fulp_changelog) ? md5(latest_fulp_changelog) : 0
 
 // DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
 /world/update_status()

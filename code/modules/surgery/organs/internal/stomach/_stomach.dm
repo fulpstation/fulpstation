@@ -24,6 +24,10 @@
 	//This is a reagent user and needs more then the 10u from edible component
 	reagent_vol = 1000
 
+	cell_line = CELL_LINE_ORGAN_STOMACH
+	cells_minimum = 1
+	cells_maximum = 2
+
 	///The rate that disgust decays
 	var/disgust_metabolism = 1
 
@@ -384,7 +388,7 @@
 
 /obj/item/organ/stomach/on_mob_insert(mob/living/carbon/receiver, special, movement_flags)
 	. = ..()
-	receiver.hud_used?.hunger?.update_appearance()
+	receiver.hud_used?.hunger?.update_hunger_bar()
 	RegisterSignal(receiver, COMSIG_CARBON_VOMITED, PROC_REF(on_vomit))
 	RegisterSignal(receiver, COMSIG_HUMAN_GOT_PUNCHED, PROC_REF(on_punched))
 
@@ -393,7 +397,7 @@
 		var/mob/living/carbon/human/human_owner = stomach_owner
 		human_owner.clear_alert(ALERT_DISGUST)
 		human_owner.clear_mood_event("disgust")
-	stomach_owner.hud_used?.hunger?.update_appearance()
+	stomach_owner.hud_used?.hunger?.update_hunger_bar()
 	UnregisterSignal(stomach_owner, list(COMSIG_CARBON_VOMITED, COMSIG_HUMAN_GOT_PUNCHED))
 	return ..()
 
@@ -405,7 +409,7 @@
 	return span_boldwarning("Your stomach cramps in pain!")
 
 /// If damage is high enough, we may end up vomiting out whatever we had stored
-/obj/item/organ/stomach/proc/on_punched(datum/source, mob/living/carbon/human/attacker, damage, attack_type, obj/item/bodypart/affecting, final_armor_block, kicking)
+/obj/item/organ/stomach/proc/on_punched(datum/source, mob/living/carbon/human/attacker, damage, attack_type, obj/item/bodypart/affecting, final_armor_block, kicking, limb_sharpness)
 	SIGNAL_HANDLER
 	if (!length(stomach_contents) || damage < 9 || final_armor_block || kicking)
 		return
@@ -530,7 +534,7 @@
 	emp_vulnerability = 20
 	metabolism_efficiency = 0.1
 
-/obj/item/organ/stomach/cybernetic/tier2/stomach_acid_power(atom/movable/nomnom)
+/obj/item/organ/stomach/cybernetic/tier3/stomach_acid_power(atom/movable/nomnom)
 	if (isliving(nomnom))
 		return 0
 	if (IsEdible(nomnom))
@@ -557,5 +561,21 @@
 	desc = "A green plant-like organ that functions similarly to a human stomach."
 	foodtype_flags = PODPERSON_ORGAN_FOODTYPES
 	color = COLOR_LIME
+
+/obj/item/organ/stomach/ghost
+	name = "ghost stomach"
+	desc = "Ghosts eat plenty, you know? And it's not just your life, I swear!"
+	icon_state = "stomach-ghost"
+	movement_type = PHASING
+	organ_flags = parent_type::organ_flags | ORGAN_GHOST
+
+/obj/item/organ/stomach/evolved
+	name = "evolved stomach"
+	desc = "It can draw nutrients from your food even harder!"
+	icon_state = "stomach-evolved"
+
+	maxHealth = 1.2 * STANDARD_ORGAN_THRESHOLD
+	disgust_metabolism = 2.5
+	metabolism_efficiency = 0.08
 
 #undef STOMACH_METABOLISM_CONSTANT

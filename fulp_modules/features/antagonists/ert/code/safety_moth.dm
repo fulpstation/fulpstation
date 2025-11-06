@@ -221,10 +221,8 @@
 /obj/item/storage/pill_bottle/strange_reagent
 	name = "bottle of strange reagent pills"
 	desc = "Contains pills, used to bring patients back to life with a very special and rare chemical."
-
-/obj/item/storage/pill_bottle/strange_reagent/PopulateContents()
-	for(var/i in 1 to 7)
-		new /obj/item/reagent_containers/applicator/pill/strange_reagent(src)
+	spawn_count = 7
+	spawn_type = /obj/item/reagent_containers/applicator/pill/strange_reagent
 
 // ...And the pill itself.
 

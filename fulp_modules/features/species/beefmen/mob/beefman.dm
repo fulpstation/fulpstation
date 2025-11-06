@@ -101,13 +101,6 @@
 			return
 	user.blood_volume += 4
 
-/datum/species/beefman/handle_chemical(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
-	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
-		if(!dehydrated || SPT_PROB(10, delta_time))
-			to_chat(user, span_alert("Your beefy mouth tastes dry."))
-		dehydrated++
-	return ..()
-
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
 	var/my_color = beefman.dna.features["beef_color"]

@@ -1,6 +1,10 @@
-#define BASIC_MOB_MAX_STAMINALOSS 200
-
 ///Basic mob flags
+
+/// Stamina threshold to not experience stamina crit
+#define BASIC_MOB_NO_STAMCRIT 0
+
+/// Max stamina should be equal to max health
+#define BASIC_MOB_STAMINA_MATCH_HEALTH -1
 
 /// Delete mob upon death
 #define DEL_ON_DEATH (1<<0)
@@ -16,6 +20,8 @@
 #define IMMUNE_TO_GETTING_WET (1<<5)
 /// Disables the function of attacking random body zones
 #define PRECISE_ATTACK_ZONES (1<<6)
+/// People would be sad to see this mob die
+#define SENDS_DEATH_MOODLETS (1<<7)
 
 /// Temporary trait applied when an attack forecast animation has completed
 #define TRAIT_BASIC_ATTACK_FORECAST "trait_basic_attack_forecast"

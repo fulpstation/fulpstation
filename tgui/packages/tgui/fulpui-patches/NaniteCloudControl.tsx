@@ -8,7 +8,7 @@ import {
   Section,
   Table,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -206,7 +206,7 @@ const NaniteCloudBackupDetails = (props) => {
   }
   return (
     <Section
-      title={'Backup #' + current_view}
+      title={`Backup #${current_view}`}
       buttons={
         !!has_program && (
           <Button
@@ -356,7 +356,7 @@ export const NaniteCloudControl = (props) => {
               <Button
                 fluid
                 key={backup.cloud_id}
-                content={'Backup #' + backup.cloud_id}
+                content={`Backup #${current_view}`}
                 textAlign="center"
                 onClick={() =>
                   act('set_view', {
