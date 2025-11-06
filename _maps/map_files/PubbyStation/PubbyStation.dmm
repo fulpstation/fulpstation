@@ -9453,14 +9453,13 @@
 "aNQ" = (
 /obj/machinery/button/door/directional/west{
 	id = "warehouse";
-	name = "Foundry shutters button";
+	name = "Foundry shutter button";
 	pixel_x = 0;
-	pixel_y = -24;
+	pixel_y = 26;
 	req_access = list("cargo","mining")
 	},
-/obj/structure/closet/crate,
 /turf/open/floor/iron,
-/area/station/cargo/miningfoundry)
+/area/station/cargo/storage)
 "aNT" = (
 /obj/machinery/airalarm/directional/south,
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -9913,6 +9912,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "aQo" = (
+/obj/structure/closet/crate,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
@@ -10562,7 +10562,6 @@
 	c_tag = "Cargo Bay - West";
 	dir = 8
 	},
-/obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "aTr" = (
@@ -13385,8 +13384,10 @@
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
 "bgy" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/light/directional/north,
 /obj/effect/turf_decal/bot,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/airalarm/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/storage)
 "bgz" = (
@@ -35586,16 +35587,9 @@
 /turf/open/floor/plating,
 /area/station/service/abandoned_gambling_den)
 "jiu" = (
-/obj/machinery/button/door/directional/west{
-	id = "warehouse";
-	name = "Foundry shutter button";
-	pixel_x = 0;
-	pixel_y = 26;
-	req_access = list("cargo","mining")
-	},
-/obj/machinery/light/directional/north,
-/turf/open/floor/iron,
-/area/station/cargo/storage)
+/obj/structure/disposalpipe/segment,
+/turf/closed/wall,
+/area/station/cargo/miningfoundry)
 "jiD" = (
 /turf/closed/wall/r_wall,
 /area/station/science/genetics)
@@ -41987,7 +41981,15 @@
 /area/station/security/checkpoint/medical)
 "nSz" = (
 /obj/machinery/light/small/directional/south,
-/obj/machinery/light_switch/directional/south,
+/obj/structure/rack,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
+/obj/item/stack/sheet/cardboard,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "nTk" = (
@@ -49848,6 +49850,16 @@
 /obj/effect/spawner/random/entertainment/arcade,
 /turf/open/floor/iron/dark,
 /area/station/hallway/primary/central/fore)
+"tmL" = (
+/obj/machinery/button/door/directional/west{
+	id = "warehouse";
+	name = "Foundry shutters button";
+	pixel_x = 0;
+	pixel_y = -24;
+	req_access = list("cargo","mining")
+	},
+/turf/open/floor/iron,
+/area/station/cargo/miningfoundry)
 "tmO" = (
 /obj/effect/turf_decal/trimline/red/filled/line,
 /obj/machinery/firealarm/directional/south,
@@ -51002,6 +51014,7 @@
 /turf/open/floor/plating,
 /area/station/cargo/miningfoundry)
 "tYu" = (
+/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/bot,
 /obj/structure/closet/crate,
 /turf/open/floor/iron,
@@ -53942,15 +53955,7 @@
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
 "vZS" = (
-/obj/structure/rack,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
-/obj/item/stack/sheet/cardboard,
+/obj/machinery/light_switch/directional/west,
 /turf/open/floor/iron,
 /area/station/cargo/miningfoundry)
 "vZV" = (
@@ -98289,10 +98294,10 @@ aEj
 nsH
 aKh
 vZS
-jBh
-bgy
-aYB
-tYu
+bbJ
+cCB
+cCB
+cCB
 aTp
 aUz
 ocf
@@ -98545,9 +98550,9 @@ aKk
 aEj
 vuK
 aKh
-aNQ
-jBh
-jiu
+vBZ
+rCu
+cCB
 cCB
 cCB
 cCB
@@ -98802,11 +98807,11 @@ uXX
 aEj
 xAy
 aKh
-vBZ
-bbJ
+tmL
+jBh
+aNQ
 cCB
 cCB
-aYB
 cCB
 aUz
 aTr
@@ -99060,9 +99065,9 @@ aEj
 xog
 aMw
 aQo
-rCu
-euT
-euT
+jiu
+bgy
+tYu
 jap
 euT
 bcV
