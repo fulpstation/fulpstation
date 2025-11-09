@@ -53,8 +53,6 @@
 - _maps/shuttles/labour_selene.dmm
 - _maps/map_files/PubbyStation/PubbyStation.dmm
 - _maps/pubbystation.json
-- _maps/map_files/TheiaStation/TheiaStation.dmm
-- _maps/theiastation.json
 - _maps/shuttles/arrival_fulp.dmm
 - _maps/shuttles/cargo_fulp.dmm
 - _maps/shuttles/emergency_theia.dmm
