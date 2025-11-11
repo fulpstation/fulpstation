@@ -25,7 +25,7 @@
 	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len))
 	var/datum/tgs_chat_embed/field/embed_security = new("Security Level", SSsecurity_level.get_current_level_as_text())
 	var/datum/tgs_chat_embed/field/embed_map = new("Map", SSmapping.current_map.map_name || "Loading...")
-	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency.mode)
+	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency.mode ? "Not loaded yet...")
 	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(SStime_track.time_dilation_avg))
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
