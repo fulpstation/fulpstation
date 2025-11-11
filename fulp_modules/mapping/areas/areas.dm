@@ -60,6 +60,16 @@
 	icon = 'fulp_modules/icons/mapping/areas.dmi'
 	icon_state = "lower_entry"
 
+/area/station/hallway/primary/central/port
+	name = "\improper Port Central Primary Hallway"
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
+	icon_state = "hall_central_port"
+
+/area/station/hallway/primary/central/starboard
+	name = "\improper Starboard Central Primary Hallway"
+	icon = 'fulp_modules/icons/mapping/areas.dmi'
+	icon_state = "hall_central_starboard"
+
 /area/station/maintenance/department/security/dungeon
 	name = "\improper Dungeon"
 
