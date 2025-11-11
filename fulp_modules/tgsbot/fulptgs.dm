@@ -21,16 +21,16 @@
 
 	var/list/embed_object_fields = list()
 	// field/New(name, value)
-	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", ""+SSticker ? round((world.time-SSticker.round_start_time)/10) : 0)
-	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", ""+GLOB.clients.len)
+	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", SSticker ? num2text(round((world.time-SSticker.round_start_time)/10)) : "0")
+	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len))
 	var/datum/tgs_chat_embed/field/embed_security = new("Security Level", SSsecurity_level.get_current_level_as_text())
 	var/datum/tgs_chat_embed/field/embed_map = new("Map", SSmapping.current_map.map_name || "Loading...")
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency.mode)
-	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", ""+SStime_track.time_dilation_avg)
+	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(SStime_track.time_dilation_avg))
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
-	var/datum/tgs_chat_embed/field/embed_admins = new("Admins", ""+presentmins + afkmins)
+	var/datum/tgs_chat_embed/field/embed_admins = new("Admins", num2text(presentmins + afkmins))
 	embed_object_fields.Add(embed_round_duration, embed_players, embed_security, embed_map, embed_shuttle_mode, embed_time_dilation, embed_admins)
 	embed_object.fields = embed_object_fields
 	embed_object.footer = embed_object_footer
