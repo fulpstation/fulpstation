@@ -35,7 +35,7 @@
 	embed_object.fields = embed_object_fields
 	embed_object.footer = embed_object_footer
 
-	var/message_draft = new("")
+	var/datum/tgs_message_content/message_draft = new("")
 	message_draft.embed = embed_object
 
 	return message_draft
