@@ -34,4 +34,8 @@
 	embed_object_fields.Add(embed_round_duration, embed_players, embed_security, embed_map, embed_shuttle_mode, embed_time_dilation, embed_admins)
 	embed_object.fields = embed_object_fields
 	embed_object.footer = embed_object_footer
-	return new /datum/tgs_message_content("", embed_object)
+
+	var/message_draft = new("")
+	message_draft.embed = embed_object
+
+	return message_draft
