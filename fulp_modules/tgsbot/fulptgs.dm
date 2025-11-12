@@ -39,7 +39,7 @@
 	var/ETA_mode = "\u200b"
 	var/ETA_time = "\u200b"
 	if(emergency_shuttle)
-		var/shuttle_mode = SSshuttle.emergency.mode
+		shuttle_mode = SSshuttle.emergency.mode
 		var/ETA = SSshuttle.emergency.getModeStr()
 		if(ETA)
 			ETA_mode = ETA
