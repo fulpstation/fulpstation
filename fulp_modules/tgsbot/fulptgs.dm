@@ -34,7 +34,7 @@
 	embed_map.is_inline = 1
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency ? SSshuttle.emergency.mode : "Not loaded yet...")
 	embed_shuttle_mode.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_avg,1)+"%"))
+	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_avg,1))+"%")
 	embed_time_dilation.is_inline = 1
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
