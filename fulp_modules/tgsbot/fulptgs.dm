@@ -1,9 +1,10 @@
-//is it possible to override a proc in this way
-//i dont know what even is byond
-//ive spent too long in the sysadmin domain i forgot how code
+// HELPERS
+// override default field constructor to accept inline bool because why the hell doesnt the default constructor
 /datum/tgs_chat_embed/field/New(name, value, inline)
 	. = ..(name,value)
 	is_inline = inline
+
+
 
 // Beefman
 /datum/tgs_chat_command/beefman
@@ -14,23 +15,22 @@
 	return new /datum/tgs_message_content("https://wiki.fulp.gg/images/b/be/Beefmanstanding.png")
 
 
-// Status
-
-/datum/tgs_chat_command/status
+// updog
+/datum/tgs_chat_command/updog
 	name = "updog"
 	help_text = "get status of current round. like check but fancier."
 	admin_only = FALSE
 
-/datum/tgs_chat_command/status/Run(datum/tgs_chat_user/sender, params)
+/datum/tgs_chat_command/updog/Run(datum/tgs_chat_user/sender, params)
 	// ask me how this works in discord if you want a throttling
 	var/datum/tgs_chat_embed/structure/embed_object = new
 	embed_object.title = "Status Report - Round " + GLOB.round_id
 	var/datum/tgs_chat_embed/footer/embed_object_footer = new("Brought to you by the admin cabal.")
 
 	var/list/embed_object_fields = list()
-	// field/New(name, value)
+
 	var/time = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
-	time = time > 0 ? time : 0 //dont show negative time?
+	time = time > 0 ? time : 0 //dont show negative time
 
 	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", add_leading(num2text(round(time/3600)), 2, "0")+ ":"+add_leading(num2text(round((time%3600)/60)), 2, "0")+":"+add_leading(num2text(round(time%60)), 2, "0"), TRUE )
 	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len), TRUE)
@@ -51,7 +51,7 @@
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode, TRUE)
 	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time, TRUE)
 
-	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1), TRUE)+"%")
+	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%", TRUE)
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
