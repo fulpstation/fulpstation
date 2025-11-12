@@ -36,8 +36,8 @@
 
 	var/emergency_shuttle = SSshuttle.emergency
 	var/shuttle_mode = "Not loaded yet..."
-	var/ETA_mode = "\u200b"
-	var/ETA_time = "\u200b"
+	var/ETA_mode = "\\u200b"
+	var/ETA_time = "\\u200b"
 	if(emergency_shuttle)
 		shuttle_mode = SSshuttle.emergency.mode
 		var/ETA = SSshuttle.emergency.getModeStr()
