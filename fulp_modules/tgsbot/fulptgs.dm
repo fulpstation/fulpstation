@@ -39,19 +39,22 @@
 	var/ETA_mode = "\\u200b"
 	var/ETA_time = "\\u200b"
 	if(emergency_shuttle)
+		log_runtime("emergency shuttle is yes")
 		shuttle_mode = SSshuttle.emergency.mode
 		var/ETA = SSshuttle.emergency.getModeStr()
 		if(ETA)
+			log_runtime("ETA is yes ")
 			ETA_mode = ETA
 			ETA_time = SSshuttle.emergency.getTimerStr()
 
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode)
 	embed_shuttle_mode.is_inline = 1
+	log_runtime("mode: " + ETA_mode + " time: " + ETA_time)
 	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time)
-	embed_shuttle_timer.is_inline = 1
+	//embed_shuttle_timer.is_inline = 1
 
 	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%")
-	embed_time_dilation.is_inline = 1
+	embed_time_dilation.is_inline = 0
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
