@@ -10,10 +10,9 @@
 // Status
 
 /datum/tgs_chat_command/status
-	name = "status"
+	name = "updog"
 	help_text = "get status of current round. like check but fancier."
 	admin_only = FALSE
-	required_rights = R_NONE
 
 /datum/tgs_chat_command/status/Run(datum/tgs_chat_user/sender, params)
 	//unbridled shitcode but you can kiss my ass
