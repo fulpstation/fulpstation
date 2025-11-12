@@ -50,11 +50,11 @@
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode)
 	embed_shuttle_mode.is_inline = 1
 	log_runtime("mode: " + ETA_mode + " time: " + ETA_time)
-	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time)
-	//embed_shuttle_timer.is_inline = 1
+	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new("Shuttle Timer", ETA_time)
+	embed_shuttle_timer.is_inline = 1
 
 	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%")
-	embed_time_dilation.is_inline = 0
+	embed_time_dilation.is_inline = 1
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
