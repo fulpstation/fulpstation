@@ -22,7 +22,7 @@
 
 	var/list/embed_object_fields = list()
 	// field/New(name, value)
-	var/time = SSticker ? num2text(round((world.time-SSticker.round_start_time)/10)) : "0"
+	var/time = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
 	// will this work? fuck if i know but its the same-ish logic i used in the old bot.
 	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", num2text(round(time/3600))+ ":"+num2text(round((time%3600)/60))+":"+num2text(round(time%60)) )
 	embed_round_duration.is_inline = 1
