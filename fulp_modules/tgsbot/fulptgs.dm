@@ -25,7 +25,7 @@
 	var/time = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
 	time = time > 0 ? time : 0 //dont show negative time?
 	// will this work? fuck if i know but its the same-ish logic i used in the old bot.
-	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", num2text(round(time/3600))+ ":"+num2text(round((time%3600)/60))+":"+num2text(round(time%60)) )
+	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", add_leading(num2text(round(time/3600)), 2, "0")+ ":"+add_leading(num2text(round((time%3600)/60)), 2, "0")+":"+add_leading(num2text(round(time%60)), 2, "0") )
 	embed_round_duration.is_inline = 1
 	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len))
 	embed_players.is_inline = 1
@@ -33,8 +33,23 @@
 	embed_security.is_inline = 1
 	var/datum/tgs_chat_embed/field/embed_map = new("Map", SSmapping.current_map.map_name || "Loading...")
 	embed_map.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency ? SSshuttle.emergency.mode : "Not loaded yet...")
+
+	var/emergency_shuttle = SSshuttle.emergency
+	var/shuttle_mode = "Not loaded yet..."
+	var/ETA_mode = "\u200b"
+	var/ETA_time = "\u200b"
+	if(emergency_shuttle)
+		var/shuttle_mode = SSshuttle.emergency.mode
+		var/ETA = SSshuttle.emergency.getModeStr()
+		if(ETA)
+			ETA_mode = ETA
+			ETA_time = SSshuttle.emergency.getTimerStr()
+
+	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode)
 	embed_shuttle_mode.is_inline = 1
+	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time)
+	embed_shuttle_timer.is_inline = 1
+
 	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%")
 	embed_time_dilation.is_inline = 1
 	var/list/adm = get_admin_counts()
