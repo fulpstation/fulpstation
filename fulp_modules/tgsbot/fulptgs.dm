@@ -1,3 +1,10 @@
+//is it possible to override a proc in this way
+//i dont know what even is byond
+//ive spent too long in the sysadmin domain i forgot how code
+/datum/tgs_chat_embed/field/New(name, value, inline)
+	. = ..(name,value)
+	is_inline = inline
+
 // Beefman
 /datum/tgs_chat_command/beefman
 	name = "beefman"
@@ -15,24 +22,20 @@
 	admin_only = FALSE
 
 /datum/tgs_chat_command/status/Run(datum/tgs_chat_user/sender, params)
-	//unbridled shitcode but you can kiss my ass
-	var/datum/tgs_chat_embed/structure/embed_object = new /datum/tgs_chat_embed/structure
+	// ask me how this works in discord if you want a throttling
+	var/datum/tgs_chat_embed/structure/embed_object = new
 	embed_object.title = "Status Report - Round " + GLOB.round_id
-	var/datum/tgs_chat_embed/footer/embed_object_footer = new ("Brought to you by the admin cabal.")
+	var/datum/tgs_chat_embed/footer/embed_object_footer = new("Brought to you by the admin cabal.")
 
 	var/list/embed_object_fields = list()
 	// field/New(name, value)
 	var/time = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
 	time = time > 0 ? time : 0 //dont show negative time?
-	// will this work? fuck if i know but its the same-ish logic i used in the old bot.
-	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", add_leading(num2text(round(time/3600)), 2, "0")+ ":"+add_leading(num2text(round((time%3600)/60)), 2, "0")+":"+add_leading(num2text(round(time%60)), 2, "0") )
-	embed_round_duration.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len))
-	embed_players.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_security = new("Security Level", SSsecurity_level.get_current_level_as_text())
-	embed_security.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_map = new("Map", SSmapping.current_map.map_name || "Loading...")
-	embed_map.is_inline = 1
+
+	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", add_leading(num2text(round(time/3600)), 2, "0")+ ":"+add_leading(num2text(round((time%3600)/60)), 2, "0")+":"+add_leading(num2text(round(time%60)), 2, "0"), TRUE )
+	var/datum/tgs_chat_embed/field/embed_players = new("Active Players", num2text(GLOB.clients.len), TRUE)
+	var/datum/tgs_chat_embed/field/embed_security = new("Security Level", SSsecurity_level.get_current_level_as_text(), TRUE)
+	var/datum/tgs_chat_embed/field/embed_map = new("Map", SSmapping.current_map.map_name || "Loading...", TRUE)
 
 	var/emergency_shuttle = SSshuttle.emergency
 	var/shuttle_mode = "Not loaded yet..."
@@ -45,18 +48,15 @@
 			ETA_mode = ETA
 			ETA_time = SSshuttle.emergency.getTimerStr()
 
-	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode)
-	embed_shuttle_mode.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time)
-	embed_shuttle_timer.is_inline = 1
+	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", shuttle_mode, TRUE)
+	var/datum/tgs_chat_embed/field/embed_shuttle_timer = new(ETA_mode, ETA_time, TRUE)
 
-	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%")
-	embed_time_dilation.is_inline = 1
+	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1), TRUE)+"%")
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
 	var/list/afkmins = adm["afk"]
-	var/datum/tgs_chat_embed/field/embed_admins = new("Admins", num2text(presentmins + afkmins))
-	embed_admins.is_inline = 1
+	var/datum/tgs_chat_embed/field/embed_admins = new("Admins", num2text(presentmins + afkmins), TRUE)
+
 	embed_object_fields.Add(embed_round_duration, embed_players, embed_security, embed_map, embed_shuttle_mode, embed_shuttle_timer,  embed_time_dilation, embed_admins)
 	embed_object.fields = embed_object_fields
 	embed_object.footer = embed_object_footer
