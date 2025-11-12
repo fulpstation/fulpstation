@@ -23,6 +23,7 @@
 	var/list/embed_object_fields = list()
 	// field/New(name, value)
 	var/time = SSticker ? round((world.time-SSticker.round_start_time)/10) : 0
+	time = time > 0 ? time : 0 //dont show negative time?
 	// will this work? fuck if i know but its the same-ish logic i used in the old bot.
 	var/datum/tgs_chat_embed/field/embed_round_duration = new("Round Duration", num2text(round(time/3600))+ ":"+num2text(round((time%3600)/60))+":"+num2text(round(time%60)) )
 	embed_round_duration.is_inline = 1
@@ -34,7 +35,7 @@
 	embed_map.is_inline = 1
 	var/datum/tgs_chat_embed/field/embed_shuttle_mode = new("Shuttle Mode", SSshuttle.emergency ? SSshuttle.emergency.mode : "Not loaded yet...")
 	embed_shuttle_mode.is_inline = 1
-	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_avg,1))+"%")
+	var/datum/tgs_chat_embed/field/embed_time_dilation = new("Time Dilation", num2text(round(SStime_track.time_dilation_current,1))+"%")
 	embed_time_dilation.is_inline = 1
 	var/list/adm = get_admin_counts()
 	var/list/presentmins = adm["present"]
