@@ -66,7 +66,7 @@
 	enrico.hairstyle = "Undercut"
 	enrico.hair_color = "FFF"
 	enrico.skin_tone = "african2"
-	enrico.eye_color_left = "#663300"
-	enrico.eye_color_right = "#663300"
+	enrico.eye_color_left = COLOR_BLACK
+	enrico.eye_color_right = COLOR_BLACK
 
 	enrico.update_body(is_creating = TRUE)
