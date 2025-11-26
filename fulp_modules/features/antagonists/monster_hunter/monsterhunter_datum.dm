@@ -129,7 +129,7 @@
 	l_hand = /obj/item/knife/butcher
 	mask = /obj/item/clothing/mask/monster_preview_mask
 	uniform = /obj/item/clothing/under/suit/black
-	suit =  /obj/item/clothing/suit/hooded/techpriest
+	suit =  /obj/item/clothing/suit/hooded/techpriest/preview
 	gloves = /obj/item/clothing/gloves/color/white
 
 /// Mind version
@@ -247,10 +247,14 @@
 	invasion.run_event()
 
 /obj/item/clothing/mask/monster_preview_mask
-	name = "Monster Preview Mask"
+	name = "Rabbit Mask"
+	icon =  'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
-	worn_icon_state = "monoclerabbit"
+	worn_icon_state = "rabbitmask_preview"
 
+/obj/item/clothing/suit/hooded/techpriest/preview
+	name = "hoodless " + parent_type::name
+	hoodtype = null
 
 /datum/antagonist/monsterhunter/roundend_report()
 	var/list/parts = list()
