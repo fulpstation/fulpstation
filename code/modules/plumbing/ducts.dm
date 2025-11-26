@@ -56,7 +56,8 @@ All the important duct code:
 		active = FALSE
 		set_anchored(FALSE)
 	else if(!can_anchor())
-		CRASH("Overlapping ducts detected at [AREACOORD(src)], unanchoring one.")
+		if(mapload)
+			log_mapping("Overlapping ducts detected at [AREACOORD(src)], unanchoring one.")
 		// Note that qdeling automatically drops a duct stack
 		return INITIALIZE_HINT_QDEL
 
