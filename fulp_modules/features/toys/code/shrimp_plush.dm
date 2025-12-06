@@ -1,3 +1,35 @@
+///////    = PLUSH OBJECT =    ///////
+
+/obj/item/toy/plush/shrimp
+	name = "shrimp plushie"
+	desc = "You're telling me THIS GUY fried my rice?"
+	icon = 'fulp_modules/icons/toys/toys.dmi'
+	icon_state = "shrimp"
+	attack_verb_continuous = list("shrimps", "skitters")
+	attack_verb_simple = list("shrimp","skitter")
+	squeak_override = list(
+		'fulp_modules/sounds/effects/kero.ogg' = 1
+	)
+	/// A list of "fried rice" items that the shrimp can produce on frying rice.
+	/// PLEASE NOTE: the rice item must have "fried rice" in its name by default
+	/// or else the "shrimp fried" component won't be able to attatch to it.
+	var/list/fried_rice_types = list(
+		/obj/item/food/salad/hurricane_rice,
+		/obj/item/food/salad/hawaiian_fried_rice,
+		/obj/item/food/salad/ketchup_fried_rice,
+		/obj/item/food/salad/mediterranean_fried_rice,
+	)
+	/// Whether the shrimp has fried any rice. The shrimp can only fry rice once.
+	var/has_fried = FALSE
+
+/obj/item/toy/plush/shrimp/examine(mob/user)
+	. = ..()
+	if(has_fried)
+		. += span_notice("[p_Theyre()] all tuckered out.")
+	else
+		. += span_notice("[p_Theyre()] ready to fry some rice.")
+
+
 ///////    = MOOD EVENT =    ///////
 
 /// The mood event that shrimp fried rice provides on consumption.
@@ -41,7 +73,7 @@
 /// give a positive mood event and speech modifier when eaten.
 /datum/component/shrimp_fried/Initialize(...)
 	. = ..()
-	if(!istype(parent, /obj/item/food))
+	if(!IsEdible(parent))
 		return COMPONENT_INCOMPATIBLE
 
 	var/obj/item/food/food_parent = parent
@@ -99,21 +131,23 @@
 		return NONE
 
 	var/datum/reagents/target_reagents = interacting_with.reagents
-	if(target_reagents.has_reagent(/datum/reagent/consumable/rice, 30))
-		to_chat(user, span_notice("[src] produces fried rice from [interacting_with]."))
-		var/chosen = pick(fried_rice_types)
-		var/obj/item/food/new_rice = new chosen(interacting_with.loc)
+	if(!target_reagents.has_reagent(/datum/reagent/consumable/rice, 30))
+		return NONE
 
-		ADD_TRAIT(new_rice, TRAIT_FOOD_CHEF_MADE, user)
-		new_rice.crafted_food_buff = /datum/status_effect/food/speech/shrimp_speech
-		new_rice.AddComponent(/datum/component/shrimp_fried)
+	to_chat(user, span_notice("[src] produces fried rice from [interacting_with]."))
+	var/chosen = pick(fried_rice_types)
+	var/obj/item/food/new_rice = new chosen(interacting_with.loc)
 
-		has_fried = TRUE
-		target_reagents.remove_reagent(/datum/reagent/consumable/rice, 30)
-		playsound(get_turf(new_rice), 'fulp_modules/sounds/effects/kero.ogg', 75, frequency = 0.5)
-		user.do_attack_animation(interacting_with)
-		new /obj/effect/temp_visual/shrimp_frying_rice(get_turf(new_rice))
-		return ITEM_INTERACT_SUCCESS
+	ADD_TRAIT(new_rice, TRAIT_FOOD_CHEF_MADE, user)
+	new_rice.crafted_food_buff = /datum/status_effect/food/speech/shrimp_speech
+	new_rice.AddComponent(/datum/component/shrimp_fried)
+
+	has_fried = TRUE
+	target_reagents.remove_reagent(/datum/reagent/consumable/rice, 30)
+	playsound(get_turf(new_rice), 'fulp_modules/sounds/effects/kero.ogg', 75, frequency = 0.5)
+	user.do_attack_animation(interacting_with)
+	new /obj/effect/temp_visual/shrimp_frying_rice(get_turf(new_rice))
+	return ITEM_INTERACT_SUCCESS
 
 
 ///////    = SHRIMP PLUSH RICE FRYING VISUAL EFFECT =    ///////

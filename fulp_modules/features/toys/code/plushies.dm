@@ -153,37 +153,6 @@
 	squeak_override = list(
 		'sound/effects/meow1.ogg' = 1)
 
-
-/obj/item/toy/plush/shrimp
-	name = "shrimp plushie"
-	desc = "You're telling me THIS GUY fried my rice?"
-	icon = 'fulp_modules/icons/toys/toys.dmi'
-	icon_state = "shrimp"
-	attack_verb_continuous = list("shrimps", "skitters")
-	attack_verb_simple = list("shrimp","skitter")
-	squeak_override = list(
-		'fulp_modules/sounds/effects/kero.ogg' = 1
-	)
-	/// A list of "fried rice" items that the shrimp can produce on frying rice.
-	/// PLEASE NOTE: the rice item must have "fried rice" in its name by default
-	/// or else the "shrimp fried" component won't be able to attatch to it.
-	var/list/fried_rice_types = list(
-		/obj/item/food/salad/hurricane_rice,
-		/obj/item/food/salad/hawaiian_fried_rice,
-		/obj/item/food/salad/ketchup_fried_rice,
-		/obj/item/food/salad/mediterranean_fried_rice,
-	)
-	/// Whether the shrimp has fried any rice. The shrimp can only fry rice once.
-	var/has_fried = FALSE
-
-/obj/item/toy/plush/shrimp/examine(mob/user)
-	. = ..()
-	if(has_fried)
-		. += span_notice("[p_Theyre()] all tuckered out.")
-	else
-		. += span_notice("[p_Theyre()] ready to fry some rice.")
-
-
 /obj/item/toy/plush/phos
 	name = "phosphophyllite plushie"
 	desc = "Has a hardness of roughly 3.5 on Mohs' scale."
