@@ -68,7 +68,7 @@
 	if(!istype(eater))
 		return
 
-	if(bitecount == 0)
+	if(!bitecount)
 		eater.add_mood_event("shrimp_fried_rice", /datum/mood_event/shrimp_rice)
 
 /datum/component/shrimp_fried/proc/on_examine(atom/source, mob/user, list/examine_list)
