@@ -216,7 +216,7 @@
 	if(istype(target, /mob/living/silicon/robot))
 		var/mob/living/silicon/robot/unfortunate_robot = target
 		if(!(unfortunate_robot.hat && HAS_TRAIT(unfortunate_robot.hat, TRAIT_NODROP)))
-			var/obj/item/clothing/head/costume/kitty/cat_ears = new /obj/item/clothing/head/costume/kitty
+			var/obj/item/clothing/head/costume/kitty/cat_ears = new()
 			unfortunate_robot.place_on_head(cat_ears)
 
 	if(istype(target, /mob/living/silicon/pai))
