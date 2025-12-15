@@ -617,6 +617,7 @@
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MOUNTS,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	ignored = TRUE
 
 /datum/design/entertainment_radio
 	name = "Entertainment Radio"

@@ -51,6 +51,8 @@
 		all_designs[design_id] = design
 
 	for (var/datum/techweb_node/node as anything in subtypesof(/datum/techweb_node))
+		if(node::ignored)
+			continue
 		node = new node()
 		for (var/design_id in node.design_ids)
 			if (!all_designs[design_id])
