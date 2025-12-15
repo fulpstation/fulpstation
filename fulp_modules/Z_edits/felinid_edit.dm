@@ -28,4 +28,4 @@
 	. = ..()
 	if(slot != ITEM_SLOT_HEAD)
 		return
-	user.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100, 199)
+	user.adjust_organ_loss(ORGAN_SLOT_BRAIN, 100, 199)
