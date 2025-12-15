@@ -190,8 +190,8 @@ export class FulpChangelog extends Component {
           this changelog would not be possible without the groundwork laid by
           /tg/station's contributors and so many others. Aside from its logged
           content, this changelog is an almost identical copy of /tg/station's,
-          which can currently be found in the OOC tab under the "/TG/ Changelog"
-          verb.
+          which can currently be found{' '}
+          <Button onClick={() => act('open_tg_log')}>Here</Button>
         </p>
         <p>
           <b>Thanks to: </b>
