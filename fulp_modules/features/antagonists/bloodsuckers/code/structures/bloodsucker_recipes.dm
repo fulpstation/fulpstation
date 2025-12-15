@@ -141,6 +141,7 @@
 		/obj/item/stack/sheet/mineral/silver = 1,
 		/obj/item/stake/hardened = 1,
 	)
+	requirements_mats_blacklist = list(/obj/item/stack/sheet/mineral/silver)
 	time = 8 SECONDS
 	category = CAT_WEAPON_MELEE
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
