@@ -75,7 +75,8 @@
 	change_observe = new change_observe(src)
 	stop_observe = new stop_observe(src)
 
-	find_and_mount_on_atom()
+	if(mapload)
+		find_and_mount_on_atom()
 	bolt()
 
 /obj/structure/bloodsucker/mirror/Destroy(force)
