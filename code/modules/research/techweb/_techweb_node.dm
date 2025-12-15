@@ -48,7 +48,6 @@
 	 * Not every node has to be announced if you want, some are best kept a little "subtler", like Illegal Weapons.
 	 */
 	var/list/announce_channels
-	var/ignored = FALSE
 
 /datum/techweb_node/error_node
 	id = "ERROR"

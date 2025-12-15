@@ -617,7 +617,12 @@
 		RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_MOUNTS,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
-	ignored = TRUE
+
+/datum/design/telescreen_monastery/New()
+	var/has_monastery = CHECK_MAP_JOB_CHANGE(JOB_CHAPLAIN, "has_monastery")
+	if(!has_monastery)
+		id = DESIGN_ID_IGNORE
+	return ..()
 
 /datum/design/entertainment_radio
 	name = "Entertainment Radio"
