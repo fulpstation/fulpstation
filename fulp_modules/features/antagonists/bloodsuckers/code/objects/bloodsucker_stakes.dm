@@ -151,7 +151,7 @@
 	embed_data = /datum/embedding/silver_stake
 	staketime = 60
 	custom_materials = list(
-		/datum/material/silver = SHEET_MATERIAL_AMOUNT,
+		/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT,
 	)
 
 /datum/embedding/silver_stake

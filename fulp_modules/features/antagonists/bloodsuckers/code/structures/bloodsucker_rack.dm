@@ -21,7 +21,7 @@
 		Their rituals take time, allowing us to disrupt them."
 	custom_materials = list(
 		/datum/material/wood = SHEET_MATERIAL_AMOUNT * 3,
-		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2,
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2.3,
 		/datum/material/glass = SMALL_MATERIAL_AMOUNT * 3,
 	)
 
