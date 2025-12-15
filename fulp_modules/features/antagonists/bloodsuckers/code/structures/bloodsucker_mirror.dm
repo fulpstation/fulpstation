@@ -5,8 +5,8 @@
 	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_mirror"
 	custom_materials = list(
-		/datum/material/glass = SHEET_MATERIAL_AMOUNT,
-		/datum/material/silver = SHEET_MATERIAL_AMOUNT,
+		/datum/material/glass = SHEET_MATERIAL_AMOUNT * 5,
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 2,
 	)
 	result_path = /obj/structure/bloodsucker/mirror
 	pixel_shift = 28
