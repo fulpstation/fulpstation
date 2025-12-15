@@ -41,14 +41,13 @@
 	)
 
 	for (var/datum/design/design as anything in subtypesof(/datum/design))
-		var/design_id = design::id
 		design = new design()
-		if (design_id == DESIGN_ID_IGNORE || (design.type in exceptions))
+		if (design.id == DESIGN_ID_IGNORE || (design.type in exceptions))
 			continue
-		if (design_id in all_designs)
-			TEST_FAIL("Design [design.type] shares an ID \"[design_id]\" with another design")
+		if (design.id in all_designs)
+			TEST_FAIL("Design [design.type] shares an ID \"[design.id]\" with another design")
 			continue
-		all_designs[design_id] = design.type
+		all_designs[design.id] = design.type
 
 	for (var/datum/techweb_node/node as anything in subtypesof(/datum/techweb_node))
 		node = new node()
