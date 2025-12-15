@@ -12347,6 +12347,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/light/floor,
 /turf/open/floor/iron,
 /area/station/commons/lounge)
 "bio" = (
@@ -30150,7 +30151,7 @@
 "euY" = (
 /obj/item/kirbyplants/random,
 /obj/machinery/turretid{
-	control_area = "/area/station/ai_monitored/turret_protected/aisat/hallway";
+	control_area = "/area/station/ai/satellite/hallway";
 	name = "Hallway Turret Control";
 	pixel_y = -24;
 	req_access = list("minisat")
@@ -37264,11 +37265,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 8
 	},
-/obj/machinery/turretid{
-	control_area = "/area/station/ai_monitored/turret_protected/ai_upload";
-	name = "AI Upload Turret Control";
-	pixel_y = 28
-	},
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/light/small/directional/east,
 /obj/machinery/camera/directional/north{
@@ -37276,6 +37272,11 @@
 	network = list("aiupload")
 	},
 /obj/machinery/firealarm/directional/south,
+/obj/machinery/turretid{
+	control_area = "/area/station/ai/upload/chamber";
+	name = "AI Upload Turret Control";
+	pixel_y = 28
+	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/ai/upload/foyer)
 "hky" = (
@@ -46844,14 +46845,6 @@
 /obj/effect/spawner/structure/window,
 /turf/open/floor/plating,
 /area/station/science/lab)
-"kMb" = (
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/item/radio/intercom/prison/directional/north,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/hidden/layer5,
-/turf/open/floor/iron,
-/area/station/hallway/secondary/entry/lower)
 "kMc" = (
 /turf/open/floor/iron/dark/textured,
 /area/station/engineering/atmos/hfr_room)
@@ -58533,7 +58526,6 @@
 /turf/open/floor/iron,
 /area/station/maintenance/aft/lesser)
 "pgr" = (
-/obj/machinery/light/small/directional/north,
 /obj/effect/turf_decal/bot,
 /obj/structure/rack,
 /obj/item/stack/cable_coil,
@@ -58546,6 +58538,7 @@
 	},
 /obj/structure/sign/warning/electric_shock/directional/south,
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/directional/south,
 /turf/open/floor/engine,
 /area/station/ai/satellite/chamber)
 "pgy" = (
@@ -78560,7 +78553,6 @@
 /obj/item/stack/pipe_cleaner_coil/random,
 /obj/item/stack/pipe_cleaner_coil/random,
 /obj/item/stack/pipe_cleaner_coil/random,
-/obj/machinery/light/small/directional/east,
 /obj/structure/window/spawner/directional/east,
 /turf/open/floor/iron,
 /area/station/commons/lounge)
@@ -78945,7 +78937,7 @@
 	color = "#52B4E9"
 	},
 /obj/machinery/turretid{
-	control_area = "/area/station/ai_monitored/turret_protected/aisat_interior";
+	control_area = "/area/station/ai/satellite/interior";
 	name = "Foyer Turret Control";
 	pixel_y = -24;
 	req_access = list("minisat")
@@ -94106,7 +94098,7 @@ bQS
 bie
 jud
 bzD
-kMb
+bqp
 vVi
 bEx
 aaa
