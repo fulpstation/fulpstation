@@ -112,6 +112,7 @@ export class FulpChangelog extends Component {
   render() {
     const { data, selectedDate, selectedIndex } = this.state;
     const {
+      act,
       data: { dates },
     } = useBackend();
     const { dateChoices } = this;
@@ -188,10 +189,20 @@ export class FulpChangelog extends Component {
         <p>
           <b>Please note: </b>
           this changelog would not be possible without the groundwork laid by
-          /tg/station's contributors and so many others. Aside from its logged
-          content, this changelog is an almost identical copy of /tg/station's,
-          which can currently be found{' '}
-          <Button onClick={() => act('open_tg_log')}>Here</Button>
+          /tg/station's contributors and so many others.
+          <br />
+          Anything not written here can safely be assumed to be from
+          /tg/station, you can find their Changelog in the OOC tab, or by{' '}
+          <Button
+            mx={-0.5}
+            compact
+            textColor="blue"
+            color="transparent"
+            onClick={() => act('open_tg_log')}
+          >
+            clicking this
+          </Button>
+          .
         </p>
         <p>
           <b>Thanks to: </b>
