@@ -31,13 +31,13 @@
 	var/datum/antagonist/vassal/vassaldatum = IS_VASSAL(user)
 	vassaldatum.master.AddBloodVolume(-1)
 	user.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
-	user.adjustStaminaLoss(bloodcost * 1.1)
-	user.adjustBruteLoss(-2.5)
-	user.adjustToxLoss(-2, forced = TRUE)
+	user.adjust_stamina_loss(bloodcost * 1.1)
+	user.adjust_brute_loss(-2.5)
+	user.adjust_tox_loss(-2, forced = TRUE)
 	// Plasmamen won't lose blood, they don't have any, so they don't heal from Burn.
 	if(!HAS_TRAIT(user, TRAIT_NOBLOOD))
 		user.blood_volume -= bloodcost
-		user.adjustFireLoss(-1.5)
+		user.adjust_fire_loss(-1.5)
 	// Stop Bleeding
 	if(istype(user) && user.is_bleeding())
 		for(var/obj/item/bodypart/part in user.bodyparts)

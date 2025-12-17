@@ -65,6 +65,9 @@
 	force = 6
 	throwforce = 10
 	max_integrity = 30
+	custom_materials = list(
+		/datum/material/wood = SHEET_MATERIAL_AMOUNT * 3,
+	)
 
 	///Time it takes to embed the stake into someone's chest.
 	var/staketime = 12 SECONDS
@@ -130,6 +133,9 @@
 	armour_penetration = 10
 	embed_data = /datum/embedding/hardened_stake
 	staketime = 80
+	custom_materials = list(
+		/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT,
+	)
 
 /datum/embedding/hardened_stake
 	embed_chance = 35
@@ -144,6 +150,9 @@
 	armour_penetration = 25
 	embed_data = /datum/embedding/silver_stake
 	staketime = 60
+	custom_materials = list(
+		/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT,
+	)
 
 /datum/embedding/silver_stake
 	embed_chance = 65

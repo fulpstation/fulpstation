@@ -325,7 +325,7 @@ SUBSYSTEM_DEF(air)
 		currentrun.len--
 		if(!M)
 			atmos_machinery -= M
-		if(M.process_atmos() == PROCESS_KILL)
+		if(M.process_atmos(wait * 0.1) == PROCESS_KILL)
 			stop_processing_machine(M)
 		if(MC_TICK_CHECK)
 			return
@@ -584,8 +584,6 @@ SUBSYSTEM_DEF(air)
 		log_mapping("There are [starting_ats] active turfs at roundstart caused by a difference of the air between the adjacent turfs. \
 		To locate these active turfs, go into the \"Debug\" tab of your stat-panel. Then hit the verb that says \"Mapping Verbs - Enable\". \
 		Now, you can see all of the associated coordinates using \"Mapping -> Show roundstart AT list\" verb.")
-		for(var/turf/active as anything in active_turfs)
-			log_mapping("Turf Area: [active.loc.type]")
 
 		for(var/turf/T in active_turfs)
 			GLOB.active_turfs_startlist += T

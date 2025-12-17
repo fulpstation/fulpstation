@@ -327,7 +327,7 @@
 	else
 		human_owner.visible_message(span_warning("[human_owner] [leap_word]s!"), span_danger("You [leap_word]!"))
 	human_owner.Knockdown(1 SECONDS, ignore_canstun = TRUE)
-	human_owner.adjustStaminaLoss(25)
+	human_owner.adjust_stamina_loss(25)
 	human_owner.throw_at(feed_target, 4, 1, human_owner, FALSE)
 
 #undef FEED_NOTICE_RANGE

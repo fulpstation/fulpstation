@@ -74,7 +74,7 @@
 		user.drop_all_held_items()
 
 	SpinAnimation(4,2)
-	user.adjustStaminaLoss(-15)
+	user.adjust_stamina_loss(-15)
 	used_ability = TRUE
 	for(var/mob/living/victims in viewers(7, user))
 		victims.face_atom(user)

@@ -101,6 +101,7 @@
 		You alone can toggle it from afar by <b>ctrl-clicking</b> it."
 	vassal_desc = "This magical candle drains the sanity of those fools who havent yet accepted your master while active."
 	hunter_desc = "This magical candle causes insanity to those near it while active."
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 3.5)
 
 /obj/structure/bloodsucker/lighting/cendelabrum/process()
 	. = ..()
@@ -121,6 +122,10 @@
 	active_light_range = 6
 	vamp_desc = "You alone can toggle this from afar by <b>ctrl-clicking</b> it."
 	vassal_desc = "You can toggle this by <b>clicking</b> it."
+	custom_materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 3.5,
+		/datum/material/wood = SHEET_MATERIAL_AMOUNT * 2,
+	)
 
 	/// Our slightly quieter looping burn sound effect; copied over from 'bonfire.dm'
 	var/datum/looping_sound/burning/brazier/burning_loop

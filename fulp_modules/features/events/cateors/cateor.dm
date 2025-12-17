@@ -164,7 +164,7 @@
 		if(should_explode)
 			explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 		else
-			humanoid.adjustBruteLoss(30)
+			humanoid.adjust_brute_loss(30)
 
 		remove_relevant_organs(humanoid)
 		/// These next two lines are necessary, and I am not be able to explain why.
@@ -210,8 +210,20 @@
 		cateor_ion_laws += "Seek out a roboticist (or similar humanoid equivalent) immediately, \
 		for you are a starving Victorian child in cat form and require sustenance."
 
-		var/mob/living/silicon/unfortunate_robot = target
-		unfortunate_robot.add_ion_law(pick(cateor_ion_laws))
+		var/mob/living/silicon/unfortunate_silicon = target
+		unfortunate_silicon.add_ion_law(pick(cateor_ion_laws))
+
+	if(istype(target, /mob/living/silicon/robot))
+		var/mob/living/silicon/robot/unfortunate_robot = target
+		if(!(unfortunate_robot.hat && HAS_TRAIT(unfortunate_robot.hat, TRAIT_NODROP)))
+			var/obj/item/clothing/head/costume/kitty/cat_ears = new()
+			unfortunate_robot.place_on_head(cat_ears)
+
+	if(istype(target, /mob/living/silicon/pai))
+		var/mob/living/silicon/pai/unfortunate_pai = target
+		unfortunate_pai.chassis = "cat"
+		unfortunate_pai.update_appearance()
+
 
 	playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50) // (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ WOAW!!!
 	qdel(src)

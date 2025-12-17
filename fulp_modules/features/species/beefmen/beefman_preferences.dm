@@ -21,8 +21,8 @@
 		beefman_base.blend_icon(uni_icon('fulp_modules/icons/species/mob/beefman_bodyparts.dmi', "beefman_l_arm"), ICON_OVERLAY)
 		beefman_base.blend_icon(uni_icon('fulp_modules/icons/species/mob/beefman_bodyparts.dmi', "beefman_r_arm"), ICON_OVERLAY)
 
-		var/datum/universal_icon/eyes = uni_icon('icons/mob/human/human_face.dmi', "eyes_l")
-		eyes.blend_icon(uni_icon('icons/mob/human/human_face.dmi', "eyes_r"), ICON_OVERLAY)
+		var/datum/universal_icon/eyes = uni_icon('icons/mob/human/human_eyes.dmi', "eyes_l")
+		eyes.blend_icon(uni_icon('icons/mob/human/human_eyes.dmi', "eyes_r"), ICON_OVERLAY)
 		eyes.blend_color(COLOR_BLACK, ICON_MULTIPLY)
 		beefman_base.blend_icon(eyes, ICON_OVERLAY)
 
