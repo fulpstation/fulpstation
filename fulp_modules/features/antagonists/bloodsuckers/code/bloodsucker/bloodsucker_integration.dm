@@ -16,9 +16,8 @@
 		return ..()
 	bloodsuckerdatum.AddBloodVolume(round(reac_volume, 0.1))
 
-/mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced, ignore_incompatibility)
+/mob/living/carbon/transfer_blood_to(atom/movable/receiver, amount, ignore_low_blood = FALSE, ignore_incompatibility = FALSE, transfer_viruses = TRUE)
 	. = ..()
-
 	if(!mind)
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)

@@ -36,4 +36,4 @@
 		return
 	if(check_damage_callback?.Invoke())
 		return
-	source.adjustBruteLoss(damage_overtime)
+	source.adjust_brute_loss(damage_overtime)

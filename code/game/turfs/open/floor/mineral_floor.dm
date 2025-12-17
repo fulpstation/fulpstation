@@ -15,7 +15,7 @@
 	material_flags = MATERIAL_EFFECTS
 	rust_resistance = RUST_RESISTANCE_BASIC
 	var/list/icons
-	tiled_dirt = FALSE
+	tiled_turf = FALSE
 
 
 
@@ -45,6 +45,7 @@
 
 /turf/open/floor/mineral/plasma/disco/crowbar_act(mob/living/user, obj/item/I)
 	return
+
 
 //GOLD
 

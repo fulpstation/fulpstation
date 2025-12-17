@@ -164,7 +164,7 @@
 		if(should_explode)
 			explosion(humanoid, light_impact_range = 1, explosion_cause = src)
 		else
-			humanoid.adjustBruteLoss(30)
+			humanoid.adjust_brute_loss(30)
 
 		remove_relevant_organs(humanoid)
 		/// These next two lines are necessary, and I am not be able to explain why.
