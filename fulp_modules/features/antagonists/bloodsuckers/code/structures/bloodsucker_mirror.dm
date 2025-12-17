@@ -5,43 +5,22 @@
 	icon = 'fulp_modules/icons/antagonists/bloodsuckers/vamp_obj.dmi'
 	icon_state = "blood_mirror"
 	custom_materials = list(
-		/datum/material/glass = SHEET_MATERIAL_AMOUNT,
-		/datum/material/silver = SHEET_MATERIAL_AMOUNT,
+		/datum/material/glass = SHEET_MATERIAL_AMOUNT * 5,
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 2,
 	)
 	result_path = /obj/structure/bloodsucker/mirror
 	pixel_shift = 28
 
-//Copied over from 'wall_mounted.dm' with necessary alterations
-/obj/item/wallframe/blood_mirror/attach(turf/on_wall, mob/user)
+/obj/item/wallframe/blood_mirror/try_build(atom/support, mob/user)
+	. = ..()
 	if(!IS_BLOODSUCKER(user))
-		balloon_alert(user, "you don't understand its mounting mechanism!")
-		return
+		to_chat(user, span_warning("you don't understand its mounting mechanism!"))
+		return FALSE
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = user.mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(get_area(user) == bloodsuckerdatum.bloodsucker_lair_area)
-		playsound(src.loc, 'sound/machines/click.ogg', 75, TRUE)
-		user.visible_message(span_notice("[user.name] attaches [src] to the wall."),
-			span_notice("You attach [src] to the wall."),
-			span_hear("You hear clicking."))
-		var/floor_to_wall = get_dir(user, on_wall)
-
-		var/obj/structure/bloodsucker/mirror/hanging_object = new result_path(get_turf(user), floor_to_wall, TRUE)
-		hanging_object.setDir(floor_to_wall)
-		if(pixel_shift)
-			switch(floor_to_wall)
-				if(NORTH)
-					hanging_object.pixel_y = pixel_shift
-				if(SOUTH)
-					hanging_object.pixel_y = -pixel_shift
-				if(EAST)
-					hanging_object.pixel_x = pixel_shift
-				if(WEST)
-					hanging_object.pixel_x = -pixel_shift
-		transfer_fingerprints_to(hanging_object)
-		hanging_object.bolt(user)
-		qdel(src)
-	else
-		balloon_alert(user, "you can only mount it while in your lair!")
-
+	if(get_area(user) != bloodsuckerdatum.bloodsucker_lair_area)
+		user.balloon_alert(user, "not in lair!")
+		return FALSE
+	return .
 
 /// Blood mirror, allows bloodsuckers to remotely observe their vassals. Vassals being observed gain red eyes.
 /// Lots of code from regular mirrors has been copied over here for obvious reasons.
@@ -96,6 +75,10 @@
 	change_observe = new change_observe(src)
 	stop_observe = new stop_observe(src)
 
+	if(mapload)
+		find_and_mount_on_atom()
+	bolt()
+
 /obj/structure/bloodsucker/mirror/Destroy(force)
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
@@ -148,11 +131,6 @@
 	return TRUE
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror, 28)
-
-/obj/structure/bloodsucker/mirror/Initialize(mapload)
-	. = ..()
-	find_and_hang_on_wall()
-	bolt()
 
 /obj/structure/bloodsucker/mirror/broken
 	icon_state = "blood_mirror_broken"
@@ -385,7 +363,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 	//Damage
 	if((victim.maxHealth - victim.get_total_damage()) >= victim.crit_threshold)
 		var/refined_damage_amount = (victim.maxHealth - victim.get_total_damage()) * (aggressive ? 0.45 : 0.35)
-		victim.adjustBruteLoss(refined_damage_amount)
+		victim.adjust_brute_loss(refined_damage_amount)
 
 	//Break mirror
 	atom_break()

@@ -20,4 +20,4 @@
 	to_chat(vassaldatum.master.owner, span_userdanger("[owner], your loyal vassal, is desperately calling for aid at [target_area]!"))
 
 	var/mob/living/user = owner
-	user.adjustBruteLoss(10)
+	user.adjust_brute_loss(10)

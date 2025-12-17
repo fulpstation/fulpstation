@@ -43,9 +43,11 @@
 	internals_slot = ITEM_SLOT_DEX_STORAGE // SLOT_R_STORE
 	id = /obj/item/card/id/advanced/chameleon
 	implants = list(/obj/item/implant/weapons_auth)
-	backpack_contents = list(/obj/item/storage/box/survival/syndie=1,\
-		/obj/item/tank/jetpack/oxygen/harness=1,\
-		/obj/item/gun/ballistic/automatic/pistol)
+	backpack_contents = list(
+		/obj/item/storage/box/survival/syndie = 1,
+		/obj/item/tank/jetpack/harness = 1,
+		/obj/item/gun/ballistic/automatic/pistol,
+	)
 
 /datum/outfit/syndicate_engineer/post_equip(mob/living/carbon/human/H)
 	H.faction |= ROLE_SYNDICATE

@@ -88,7 +88,7 @@
 */
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
-	var/searJuices = user.getFireLoss_nonProsthetic() / 30
+	var/searJuices = user.get_fire_loss_non_prosthetic() / 30
 	if(dehydrated)
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - BEEFMAN_BLEEDOUT_LEVEL) / 20 - searJuices, 2, 10))
 		return dehydrated--

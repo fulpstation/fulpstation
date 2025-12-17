@@ -14,6 +14,10 @@
 		Unlike other blood structures this throne may be unsecured by a <b>right-click</b> (just make sure it's unoccupied first)."
 	vassal_desc = "This is a blood throne, it allows your master to telepathically speak to you and others who work under them."
 	hunter_desc = "This blood-red seat allows vampires to telepathically communicate with those in their fold."
+	custom_materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5,
+		/datum/material/wood = SHEET_MATERIAL_AMOUNT,
+	)
 
 	///The static armrest that the throne has while someone is buckled onto it.
 	var/static/mutable_appearance/armrest
