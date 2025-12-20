@@ -48,7 +48,7 @@
 		if(isliving(victim))
 			var/mob/living/victim_living = victim
 			victim_living.Paralyze(10 SECONDS)
-			victim_living.adjustBruteLoss(5)
+			victim_living.adjust_brute_loss(5)
 			to_chat(victim, span_userdanger("You're slammed into the floor by [caster]!"))
 	else
 		if(sparkle_path)
@@ -76,7 +76,7 @@
 	sound = 'sound/effects/magic/repulse.ogg'
 
 	school = SCHOOL_EVOCATION
-	invocation = "GITTAH WEIGH"
+	invocation = "GITTAH WEIGH!"
 	invocation_type = INVOCATION_SHOUT
 	aoe_radius = 5
 

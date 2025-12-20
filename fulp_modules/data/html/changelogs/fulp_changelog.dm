@@ -37,6 +37,10 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 			fulp_changelog_item = new /datum/asset/fulp_changelog_item(params["date"])
 			fulp_changelog_items[params["date"]] = fulp_changelog_item
 		return ui.send_asset(fulp_changelog_item)
+	if(action == "open_tg_log") //this is a fulp-exclusive edit, unlike the rest of this file copied mostly from TG's changelog.
+		var/mob/user = ui.user
+		user.client.tg_changelog()
+		return TRUE
 
 /datum/fulp_changelog/ui_static_data()
 	var/list/data = list( "dates" = list() )
@@ -51,7 +55,7 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 
 /// CHANGELOG VERB ///
 
-/client/verb/fulp_changelog()
+/client/verb/changelog()
 	set name = "Changelog"
 	set category = "OOC"
 	if(!GLOB.fulp_changelog_tgui)

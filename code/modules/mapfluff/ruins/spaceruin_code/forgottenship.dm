@@ -89,14 +89,6 @@ GLOBAL_VAR_INIT(fscpassword, generate_password())
 	. = ..()
 	AddComponent(/datum/component/gps, "Old Encrypted Signal")
 
-/obj/item/storage/box/firingpins/syndicate
-	name = "box of syndicate firing pins"
-	desc = "A box full of special syndicate firing pins which allow only syndicate operatives to use weapons with those firing pins."
-
-/obj/item/storage/box/firingpins/syndicate/PopulateContents()
-	for(var/i in 1 to 5)
-		new /obj/item/firing_pin/implant/pindicate(src)
-
 /////////// AI Laws
 
 /obj/item/ai_module/core/full/cybersun
@@ -128,4 +120,4 @@ GLOBAL_VAR_INIT(fscpassword, generate_password())
 	name = "Syndicate Forgotten Vault"
 	icon_state = "syndie-ship"
 	ambientsounds = list('sound/ambience/engineering/ambitech2.ogg', 'sound/ambience/engineering/ambitech3.ogg')
-	area_flags = NOTELEPORT | UNIQUE_AREA
+	area_flags = NOTELEPORT

@@ -8,7 +8,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
-	var/used = FALSE ///determines wether the injector is used up or nah
+	var/used = FALSE ///determines whether the injector is used up or nah
 	var/datum/weakref/store  ///the mob currently stored in the injector
 
 /obj/item/adv_mulligan/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
@@ -52,7 +52,7 @@
 		span_notice("You inject yourself with [src] and suddenly become a copy of [stored.dna.real_name]."))
 
 	user.real_name = stored.real_name
-	stored.dna.transfer_identity(user, transfer_SE=1)
+	stored.dna.copy_dna(user.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 	user.updateappearance(mutcolor_update=1)
 	user.domutcheck()
 	used = TRUE

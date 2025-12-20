@@ -1,26 +1,27 @@
-import { filter } from 'common/collections';
+import { filter } from 'es-toolkit/compat';
 import { useState } from 'react';
 import { useBackend } from 'tgui/backend';
 import {
   Box,
   Button,
+  Floating,
   Icon,
   Input,
-  Popper,
   Stack,
   Tooltip,
 } from 'tgui-core/components';
 import { createSearch } from 'tgui-core/string';
 
 import {
-  PreferencesMenuData,
-  Quirk,
+  type PreferencesMenuData,
+  type Quirk,
   RandomSetting,
-  ServerData,
+  type ServerData,
 } from '../types';
 import { useRandomToggleState } from '../useRandomToggleState';
 import { useServerPrefs } from '../useServerPrefs';
 import { getRandomization, PreferenceList } from './MainPage';
+import { PersonalityPage } from './PersonalityPage';
 
 function getColorValueClass(quirk: Quirk) {
   if (quirk.value > 0) {
@@ -50,7 +51,6 @@ type QuirkListProps = {
 };
 
 type QuirkProps = {
-  // eslint-disable-next-line react/no-unused-prop-types
   onClick: (quirkName: string, quirk: Quirk) => void;
   randomBodyEnabled: boolean;
   selected: boolean;
@@ -67,7 +67,7 @@ function QuirkList(props: QuirkProps & QuirkListProps) {
   } = props;
 
   return (
-    <Stack vertical>
+    <Stack vertical g={0}>
       {quirks.map(([quirkKey, quirk]) => (
         <Stack.Item key={quirkKey} m={0}>
           <QuirkDisplay
@@ -87,7 +87,6 @@ function QuirkList(props: QuirkProps & QuirkListProps) {
 type QuirkDisplayProps = {
   quirk: Quirk & { failTooltip?: string };
   // bugged
-  // eslint-disable-next-line react/no-unused-prop-types
   quirkKey: string;
 } & QuirkProps;
 
@@ -111,7 +110,7 @@ function QuirkDisplay(props: QuirkDisplayProps) {
         onClick(quirkKey, quirk);
       }}
     >
-      <Stack fill>
+      <Stack fill g={0}>
         <Stack.Item
           align="center"
           style={{
@@ -216,74 +215,60 @@ function QuirkPopper(props: QuirkPopperProps) {
   const hasExpandableCustomization =
     customizable &&
     selected &&
-    customizationExpanded &&
     customization_options &&
     Object.entries(customization_options).length > 0;
 
   return (
-    <Popper
+    <Floating
+      stopChildPropagation
       placement="bottom-end"
-      onClickOutside={() => setCustomizationExpanded(false)}
-      isOpen={customizationExpanded}
-      baseZIndex={1}
+      onOpenChange={setCustomizationExpanded}
       content={
-        <div>
-          {!!customization_options && hasExpandableCustomization && (
-            <Box
-              mt="1px"
-              style={{
-                boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.7)',
-              }}
-            >
-              <Stack
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                maxWidth="300px"
-                backgroundColor="black"
-                px="5px"
-                py="3px"
-              >
-                <Stack.Item>
-                  <PreferenceList
-                    preferences={getCorrespondingPreferences(
+        hasExpandableCustomization && (
+          <Box
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            style={{
+              boxShadow: '0px 4px 8px 3px rgba(0, 0, 0, 0.7)',
+            }}
+          >
+            <Stack maxWidth="300px" backgroundColor="black" px="5px" py="3px">
+              <Stack.Item>
+                <PreferenceList
+                  preferences={getCorrespondingPreferences(
+                    customization_options,
+                    character_preferences.manually_rendered_features,
+                  )}
+                  randomizations={getRandomization(
+                    getCorrespondingPreferences(
                       customization_options,
                       character_preferences.manually_rendered_features,
-                    )}
-                    randomizations={getRandomization(
-                      getCorrespondingPreferences(
-                        customization_options,
-                        character_preferences.manually_rendered_features,
-                      ),
-                      serverData,
-                      randomBodyEnabled,
-                    )}
-                    maxHeight="100px"
-                  />
-                </Stack.Item>
-              </Stack>
-            </Box>
-          )}
-        </div>
+                    ),
+                    serverData,
+                    randomBodyEnabled,
+                  )}
+                  maxHeight="100px"
+                />
+              </Stack.Item>
+            </Stack>
+          </Box>
+        )
       }
     >
-      <div>
+      <div style={{ display: 'flow-root' }}>
         {selected && (
           <Button
             selected={customizationExpanded}
             icon="cog"
             tooltip="Customize"
-            onClick={(e) => {
-              e.stopPropagation();
-              setCustomizationExpanded(!customizationExpanded);
-            }}
             style={{
               float: 'right',
             }}
           />
         )}
       </div>
-    </Popper>
+    </Floating>
   );
 }
 
@@ -304,7 +289,7 @@ function StatDisplay(props) {
   );
 }
 
-export function QuirksPage(props) {
+function QuirkPage() {
   const { act, data } = useBackend<PreferencesMenuData>();
 
   // this is mainly just here to copy from MainPage.tsx
@@ -338,7 +323,7 @@ export function QuirksPage(props) {
     }
   });
 
-  let balance = 0;
+  let balance = -data.default_quirk_balance;
   let positiveQuirks = 0;
 
   for (const selectedQuirkName of selectedQuirks) {
@@ -383,7 +368,9 @@ export function QuirksPage(props) {
         }
       }
     }
-
+    if (data.species_disallowed_quirks.includes(quirk.name)) {
+      return 'This quirk is incompatible with your selected species.';
+    }
     return;
   }
 
@@ -429,7 +416,7 @@ export function QuirksPage(props) {
               placeholder="Search quirks..."
               width="200px"
               value={searchQuery}
-              onInput={(text, value) => setSearchQuery(value)}
+              onChange={setSearchQuery}
             />
           </Stack.Item>
           <Stack.Item grow className="PreferencesMenu__Quirks__QuirkList">
@@ -527,6 +514,46 @@ export function QuirksPage(props) {
             />
           </Stack.Item>
         </Stack>
+      </Stack.Item>
+    </Stack>
+  );
+}
+
+export function QuirkPersonalityPage() {
+  const [contentPage, setContentPage] = useState<'quirks' | 'personality'>(
+    'quirks',
+  );
+
+  return (
+    <Stack fill vertical>
+      <Stack.Item>
+        <Stack>
+          <Stack.Item grow>
+            <Button
+              selected={contentPage === 'quirks'}
+              onClick={() => setContentPage('quirks')}
+              fluid
+              align="center"
+              fontSize="14px"
+            >
+              Quirks
+            </Button>
+          </Stack.Item>
+          <Stack.Item grow>
+            <Button
+              selected={contentPage === 'personality'}
+              onClick={() => setContentPage('personality')}
+              fluid
+              align="center"
+              fontSize="14px"
+            >
+              Personality
+            </Button>
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+      <Stack.Item grow>
+        {contentPage === 'personality' ? <PersonalityPage /> : <QuirkPage />}
       </Stack.Item>
     </Stack>
   );

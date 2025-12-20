@@ -85,4 +85,3 @@
 
 /obj/machinery/atmospherics/components/unary/outlet_injector/monitored/beef_mix_input
 	name = "Govyadina mix tank input injector"
-	chamber_id = ATMOS_GAS_MONITOR_BEEF_MIX

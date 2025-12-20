@@ -8,6 +8,7 @@
 	base_icon_state = "hygienebot"
 	pass_flags = parent_type::pass_flags | PASSTABLE
 	layer = MOB_UPPER_LAYER
+	gender = MALE
 	density = FALSE
 	anchored = FALSE
 	health = 100
@@ -20,6 +21,8 @@
 	additional_access = /datum/id_trim/job/janitor
 	hackables = "cleaning service protocols"
 	ai_controller = /datum/ai_controller/basic_controller/bot/hygienebot
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 3.3, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 2)
+
 
 	///are we currently washing someone?
 	var/washing = FALSE
@@ -114,6 +117,7 @@
 		target.fire_act()
 		return
 	target.wash(CLEAN_WASH)
+	target.extinguish()
 
 /mob/living/basic/bot/hygienebot/on_bot_movement(atom/movable/source, atom/oldloc, dir, forced)
 
@@ -122,7 +126,6 @@
 
 	for(var/mob/living/carbon/human in loc)
 		commence_wash(human)
-
 
 /mob/living/basic/bot/hygienebot/proc/generate_ai_speech()
 	ai_controller.set_blackboard_key(BB_WASH_FOUND, found_announcements)

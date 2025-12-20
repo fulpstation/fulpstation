@@ -66,7 +66,7 @@
 	. = ..()
 	if(volume <= 5)
 		return
-	if(poisoned_mob.adjustToxLoss(2.5 * REM * seconds_per_tick, updating_health = FALSE))
+	if(poisoned_mob.adjust_tox_loss(2.5 * REM * seconds_per_tick, updating_health = FALSE))
 		return UPDATE_MOB_HEALTH
 
 // bubble ability structure
@@ -239,7 +239,7 @@
 	overlay_icon_state = "bg_revenant_border"
 	spell_requirements = NONE
 	cooldown_time = 30 SECONDS
-	summon_type = list(/mob/living/basic/frog/frog_suicide)
+	summon_type = list(/mob/living/basic/frog/suicide)
 	summon_radius = 2
 	summon_amount = 2
 	max_summons = 2

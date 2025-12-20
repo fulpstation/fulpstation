@@ -1,5 +1,3 @@
-#define CREDIT_TYPE_BITRUNNING "np"
-
 /obj/machinery/computer/order_console/bitrunning
 	name = "bitrunning supplies order console"
 	desc = "NexaCache(tm)! Dubiously authentic gear for the digital daredevil."
@@ -15,7 +13,7 @@
 	and hopefully get delivered by them.
 	35% cheaper than express delivery."}
 	express_tooltip = @{"Sends your purchases instantly."}
-	credit_type = CREDIT_TYPE_BITRUNNING
+	credit_type = MONEY_BITRUNNING_SYMBOL
 
 	order_categories = list(
 		CATEGORY_BITRUNNING_FLAIR,
@@ -74,15 +72,13 @@
 
 /datum/supply_pack/bitrunning
 	name = "bitrunning order"
-	hidden = TRUE
+	order_flags = ORDER_INVISIBLE
 	crate_name = "bitrunning delivery crate"
 	access = list(ACCESS_BIT_DEN)
-	abstract = TRUE
+	test_ignored = TRUE
 
 /datum/supply_pack/bitrunning/New(purchaser, cost, list/contains)
 	. = ..()
 	name = "[purchaser]'s Bitrunning Order"
 	src.cost = cost
 	src.contains = contains
-
-#undef CREDIT_TYPE_BITRUNNING

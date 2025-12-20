@@ -9,8 +9,8 @@
 
 	for(var/crate in subtypesof(/datum/supply_pack))
 		var/datum/supply_pack/new_crate = allocate(crate)
-		if(new_crate.abstract)
-			continue // We can safely ignore custom supply packs like the stock market or mining supply crates.
+		if(new_crate.test_ignored)
+			continue // We can safely ignore custom supply packs like the stock market or mining supply crates, or packs that have innate randomness.
 		if(!new_crate?.crate_type)
 			continue
 		var/obj/crate_type = allocate(new_crate.crate_type)
@@ -19,7 +19,7 @@
 		var/crate_value = counterlist_sum(minimum_cost.total_value)
 
 		var/obj/results = new_crate.generate(testing_floor)
-		var/datum/export_report/export_log = export_item_and_contents(results, apply_elastic = TRUE, delete_unsold = TRUE, export_market = EXPORT_MARKET_STATION)
+		var/datum/export_report/export_log = export_item_and_contents(results, apply_elastic = TRUE, delete_unsold = TRUE, export_markets = list(EXPORT_MARKET_STATION))
 
 		// The value of the crate and all of it's contents.
 		var/value = counterlist_sum(export_log.total_value)

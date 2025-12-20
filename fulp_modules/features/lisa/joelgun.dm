@@ -74,7 +74,7 @@
 		user.drop_all_held_items()
 
 	SpinAnimation(4,2)
-	user.adjustStaminaLoss(-15)
+	user.adjust_stamina_loss(-15)
 	used_ability = TRUE
 	for(var/mob/living/victims in viewers(7, user))
 		victims.face_atom(user)
@@ -219,7 +219,7 @@
 	ammo_type = /obj/item/ammo_casing/c22
 	caliber = CALIBER_C22
 	max_ammo = 1
-	multiload = FALSE
+	ammo_box_multiload = AMMO_BOX_MULTILOAD_NONE
 
 /// Bullet casing & Bullet
 /obj/item/ammo_casing/c22

@@ -7,7 +7,7 @@ import {
   Section,
   Table,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -78,7 +78,7 @@ export const NaniteRemoteContent = (props) => {
               value={program_name}
               maxLength={14}
               width="130px"
-              onChange={(e, value) =>
+              onChange={(value) =>
                 act('update_name', {
                   name: value,
                 })
@@ -106,7 +106,7 @@ export const NaniteRemoteContent = (props) => {
               <Input
                 value={message}
                 width="270px"
-                onChange={(e, value) =>
+                onChange={(value) =>
                   act('set_message', {
                     value: value,
                   })

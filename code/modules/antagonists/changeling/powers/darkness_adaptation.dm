@@ -51,7 +51,7 @@
 /// Makes the user harder to see in the dark (and makes the user see in the dark easier)
 /datum/status_effect/darkness_adapted
 	id = "darkness_adapted"
-	tick_interval = 0.5 SECONDS
+	tick_interval = 0.6 SECONDS
 	alert_type = null
 	/// Threshold before the dark color is applied
 	var/dark_color_threshold = 70
@@ -63,7 +63,7 @@
 	COOLDOWN_DECLARE(skip_tick_update)
 
 /datum/status_effect/darkness_adapted/on_apply()
-	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(update_invis))
+	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
 	RegisterSignal(owner, COMSIG_CARBON_GAIN_ORGAN, PROC_REF(eye_implanted))
 	RegisterSignal(owner, COMSIG_CARBON_LOSE_ORGAN, PROC_REF(eye_removed))
 	RegisterSignal(owner, COMSIG_ATOM_EXAMINE, PROC_REF(examine_mob))

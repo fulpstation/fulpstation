@@ -11,7 +11,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_ON_SOLID_GROUND | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/securecoffin
 	name = "Secure Coffin"
@@ -24,7 +24,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_ON_SOLID_GROUND | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/meatcoffin
 	name = "Meat Coffin"
@@ -36,7 +36,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND //The sacred coffin!
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/metalcoffin
 	name = "Metal Coffin"
@@ -47,7 +47,7 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_ON_SOLID_GROUND | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/vassalrack
 	name = "Persuasion Rack"
@@ -60,7 +60,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/candelabrum
 	name = "Candelabrum"
@@ -73,7 +73,7 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/brazier
 	name = "Brazier"
@@ -88,7 +88,7 @@
 	)
 	time = 10 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/bloodthrone
 	name = "Blood Throne"
@@ -101,7 +101,7 @@
 	)
 	time = 5 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/blood_mirror
 	name = "blood mirror frame"
@@ -114,7 +114,7 @@
 	)
 	time = 15 SECONDS
 	category = CAT_STRUCTURE
-	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
+	crafting_flags = parent_type::crafting_flags | CRAFT_MUST_BE_LEARNED | CRAFT_ON_SOLID_GROUND
 
 /datum/crafting_recipe/stake
 	name = "Stake"
@@ -141,6 +141,7 @@
 		/obj/item/stack/sheet/mineral/silver = 1,
 		/obj/item/stake/hardened = 1,
 	)
+	requirements_mats_blacklist = list(/obj/item/stack/sheet/mineral/silver)
 	time = 8 SECONDS
 	category = CAT_WEAPON_MELEE
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED

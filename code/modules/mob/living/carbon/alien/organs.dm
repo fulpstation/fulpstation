@@ -62,9 +62,9 @@
 			if(!isalien(owner))
 				heal_amt *= 0.2
 			owner.adjustPlasma(0.5 * plasma_rate * delta_time_capped)
-			owner.adjustBruteLoss(-heal_amt * delta_time_capped)
-			owner.adjustFireLoss(-heal_amt * delta_time_capped)
-			owner.adjustOxyLoss(-heal_amt * delta_time_capped)
+			owner.adjust_brute_loss(-heal_amt * delta_time_capped)
+			owner.adjust_fire_loss(-heal_amt * delta_time_capped)
+			owner.adjust_oxy_loss(-heal_amt * delta_time_capped)
 	else
 		owner.adjustPlasma(0.1 * plasma_rate * delta_time)
 
@@ -192,6 +192,7 @@
 		RegisterSignal(thing, COMSIG_LIVING_DEATH, PROC_REF(content_died))
 
 /obj/item/organ/stomach/alien/content_moved(atom/movable/source)
+	. = ..()
 	if(source.loc == src || source.loc == owner)
 		return
 	UnregisterSignal(source, COMSIG_LIVING_DEATH)

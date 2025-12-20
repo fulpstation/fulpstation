@@ -118,7 +118,7 @@
 	add_fingerprint(user)
 	return ..()
 
-/obj/item/paper_bin/attackby(obj/item/I, mob/user, params)
+/obj/item/paper_bin/attackby(obj/item/I, mob/user, list/modifiers, list/attack_modifiers)
 	if(at_overlay_limit())
 		dump_contents(drop_location(), TRUE)
 		return
@@ -215,6 +215,7 @@
 	papertype = /obj/item/paper/natural
 	resistance_flags = FLAMMABLE
 	bin_overlay_string = "paper_bundle_overlay"
+	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT)
 	///Cable this bundle is held together with.
 	var/obj/item/stack/cable_coil/binding_cable
 

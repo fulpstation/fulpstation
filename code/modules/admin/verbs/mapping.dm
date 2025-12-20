@@ -8,11 +8,11 @@ ADMIN_VERB(camera_view, R_DEBUG, "Camera Range Display", "Shows the range of cam
 
 	if(!on)
 		var/list/seen = list()
-		for(var/obj/machinery/camera/C as anything in GLOB.cameranet.cameras)
-			for(var/turf/T in C.can_see())
-				seen[T]++
-		for(var/turf/T in seen)
-			T.maptext = MAPTEXT(seen[T])
+		for(var/obj/machinery/camera/cam as anything in SScameras.cameras)
+			for(var/turf/cam_turf as anything in cam.can_see())
+				seen[cam]++
+		for(var/turf/seen_turf as anything in seen)
+			seen_turf.maptext = MAPTEXT(seen[seen_turf])
 	BLACKBOX_LOG_ADMIN_VERB("Show Camera Range")
 
 #ifdef TESTING
@@ -34,7 +34,7 @@ ADMIN_VERB_VISIBILITY(sec_camera_report, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG
 ADMIN_VERB(sec_camera_report, R_DEBUG, "Camera Report", "Get a printout of all camera issues.", ADMIN_CATEGORY_MAPPING)
 	var/list/obj/machinery/camera/CL = list()
 
-	for(var/obj/machinery/camera/C as anything in GLOB.cameranet.cameras)
+	for(var/obj/machinery/camera/C as anything in SScameras.cameras)
 		CL += C
 
 	var/output = {"<B>Camera Abnormalities Report</B><HR>
@@ -390,7 +390,7 @@ ADMIN_VERB(check_for_obstructed_atmospherics, R_DEBUG, "Check For Obstructed Atm
 ADMIN_VERB_VISIBILITY(modify_lights, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
 ADMIN_VERB(modify_lights, R_DEBUG, "Toggle Light Debug", "Toggles light debug mode.", ADMIN_CATEGORY_MAPPING)
 	if(GLOB.light_debug_enabled)
-		undebug_sources()
+		undebug_light_sources()
 		return
 
 	for(var/obj/machinery/light/fix_up as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/light))
@@ -398,7 +398,7 @@ ADMIN_VERB(modify_lights, R_DEBUG, "Toggle Light Debug", "Toggles light debug mo
 		if(initial(fix_up.status) == LIGHT_OK)
 			fix_up.fix()
 		CHECK_TICK
-	debug_sources()
+	debug_light_sources()
 
 ADMIN_VERB_VISIBILITY(visualize_lights, ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG)
 ADMIN_VERB(visualize_lights, R_DEBUG, "Visualize Lighting Corners", "Visualizes the corners of all lights on the station.", ADMIN_CATEGORY_MAPPING)

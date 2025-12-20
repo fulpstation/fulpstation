@@ -38,7 +38,7 @@
 	display_results(
 		user,
 		target,
-		span_notice("You begins performing an autopsy on [target]..."),
+		span_notice("You begin performing an autopsy on [target]..."),
 		span_notice("[user] uses [tool] to perform an autopsy on [target]."),
 		span_notice("[user] uses [tool] on [target]'s chest."),
 	)
@@ -63,4 +63,4 @@
 		span_warning("[user] screws up, brusing [target]'s chest!"),
 		span_warning("[user] screws up!"),
 	)
-	target.adjustBruteLoss(5)
+	target.adjust_brute_loss(5)

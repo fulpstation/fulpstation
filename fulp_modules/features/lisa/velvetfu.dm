@@ -84,7 +84,7 @@
 	)
 	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
 	art.streak = RECEDING_STANCE
-	user.adjustStaminaLoss(-40)
+	user.adjust_stamina_loss(-40)
 	stancing = FALSE
 
 /// Twisted Stance
@@ -104,7 +104,7 @@
 			span_danger("[owner] suddenly twists themselves even further!"),
 			span_userdanger("You twist yourself even further!"),
 		)
-		user.adjustStaminaLoss(-40)
+		user.adjust_stamina_loss(-40)
 		user.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 		return
 	owner.visible_message(
@@ -112,7 +112,7 @@
 		span_userdanger("You twist and turn, your twisted stance is done!"),
 	)
 	art.streak = TWISTED_STANCE
-	user.adjustStaminaLoss(-40)
+	user.adjust_stamina_loss(-40)
 	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	addtimer(CALLBACK(src, PROC_REF(untwist)), 15 SECONDS)
 
@@ -146,7 +146,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You flying kick [D]!"))
-	A.adjustStaminaLoss(50)
+	A.adjust_stamina_loss(50)
 	if(prob(70))
 		var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 		var/datum/wound/slash/flesh/moderate/crit_wound = new
@@ -166,7 +166,7 @@
 	)
 	to_chat(A, span_danger("You swiftly headbutt [D]!"))
 	A.apply_damage(18, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
-	A.adjustStaminaLoss(20)
+	A.adjust_stamina_loss(20)
 	if(prob(60) && !D.stat)
 		D.Paralyze(3 SECONDS)
 		D.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
@@ -187,7 +187,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You quickly and fashionably thrust into [D]!"))
-	A.adjustStaminaLoss(60)
+	A.adjust_stamina_loss(60)
 	if(prob(70) && !D.stat)
 		D.Knockdown(4 SECONDS)
 	D.apply_damage(10, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
@@ -204,7 +204,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You swiftly and repeatedly slash at [D], truly a master attack!"))
-	A.adjustStaminaLoss(80)
+	A.adjust_stamina_loss(80)
 	var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 	var/datum/wound/slash/flesh/moderate/crit_wound = new
 	crit_wound.apply_wound(limb)
@@ -224,7 +224,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("D",D)
 	if(check_streak(A,D))
@@ -251,7 +251,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("G",D)
 	if(check_streak(A,D))
@@ -272,7 +272,7 @@
 
 /datum/martial_art/velvetfu/harm_act(mob/living/A, mob/living/D)
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("H",D)
 	if(check_streak(A,D))

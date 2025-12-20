@@ -28,11 +28,9 @@
 	var/turf/last_camera_turf
 
 	// Stuff needed to render the map
-	var/atom/movable/screen/map_view/cam_screen
-	/// All the plane masters that need to be applied.
-	var/atom/movable/screen/background/cam_background
+	var/atom/movable/screen/map_view/camera/cam_screen
 
-	///Internal tracker used to find a specific person and keep them on cameras.
+	///Internal tracker used to find a specific person and keep them on cameras, only used if this is a 'spying' console.
 	var/datum/trackable/internal_tracker
 
 ///Syndicate subtype that has no access restrictions and is available on Syndinet
@@ -54,13 +52,21 @@
 	)
 	spying = TRUE
 
+///Human AI subtype that has access to most networks on the station and can't be copied.
 /datum/computer_file/program/secureye/human_ai
 	filename = "Overseer"
 	filedesc = "OverSeer"
 	run_access = list(ACCESS_MINISAT)
 	can_run_on_flags = PROGRAM_PDA
 	program_flags = PROGRAM_UNIQUE_COPY
-	network = list("ss13", "mine", "rd", "labor", "ordnance", "minisat")
+	network = list(
+		CAMERANET_NETWORK_SS13,
+		CAMERANET_NETWORK_MINE,
+		CAMERANET_NETWORK_RD,
+		CAMERANET_NETWORK_LABOR,
+		CAMERANET_NETWORK_ORDNANCE,
+		CAMERANET_NETWORK_MINISAT,
+	)
 	spying = TRUE
 
 /datum/computer_file/program/secureye/on_install(datum/computer_file/source, obj/item/modular_computer/computer_installing)
@@ -75,13 +81,9 @@
 	// Initialize map objects
 	cam_screen = new
 	cam_screen.generate_view(map_name)
-	cam_background = new
-	cam_background.assigned_map = map_name
-	cam_background.del_on_map_removal = FALSE
 
 /datum/computer_file/program/secureye/Destroy()
 	QDEL_NULL(cam_screen)
-	QDEL_NULL(cam_background)
 	QDEL_NULL(internal_tracker)
 	last_camera_turf = null
 	return ..()
@@ -102,8 +104,7 @@
 	if(is_living)
 		concurrent_users += user_ref
 	// Register map objects
-	cam_screen.display_to(user)
-	user.client.register_map_obj(cam_background)
+	cam_screen.display_to(user, ui.window)
 
 /datum/computer_file/program/secureye/ui_status(mob/user, datum/ui_state/state)
 	. = ..()
@@ -128,7 +129,7 @@
 	data["network"] = network
 	data["mapRef"] = cam_screen.assigned_map
 	data["can_spy"] = !!spying
-	data["cameras"] = GLOB.cameranet.get_available_cameras_data(network)
+	data["cameras"] = SScameras.get_available_cameras_data(network)
 	return data
 
 /datum/computer_file/program/secureye/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
@@ -137,15 +138,21 @@
 		return
 	switch(action)
 		if("switch_camera")
-			var/obj/machinery/camera/selected_camera = locate(params["camera"]) in GLOB.cameranet.cameras
+			var/obj/machinery/camera/active_camera = camera_ref?.resolve()
+			if(!spying && active_camera)
+				active_camera.on_stop_watching(src)
+
+			if(!spying)
+				playsound(computer, SFX_TERMINAL_TYPE, 25, FALSE)
+
+			var/obj/machinery/camera/selected_camera = locate(params["camera"]) in SScameras.cameras
 			if(selected_camera)
 				camera_ref = WEAKREF(selected_camera)
 			else
 				camera_ref = null
-			if(!spying)
-				playsound(computer, SFX_TERMINAL_TYPE, 25, FALSE)
-			if(isnull(camera_ref))
 				return TRUE
+			if(!spying)
+				selected_camera.on_start_watching(src)
 			if(internal_tracker)
 				internal_tracker.reset_tracking()
 
@@ -161,12 +168,13 @@
 
 /datum/computer_file/program/secureye/proc/on_track_target(datum/trackable/source, mob/living/target)
 	SIGNAL_HANDLER
-	var/datum/camerachunk/target_camerachunk = GLOB.cameranet.getTurfVis(get_turf(target))
+	var/target_turf = get_turf(target)
+	var/datum/camerachunk/target_camerachunk = SScameras.get_turf_camera_chunk(target_turf)
 	if(!target_camerachunk)
 		CRASH("[src] was able to track [target] through /datum/trackable, but was not on a visible turf to cameras.")
-	for(var/obj/machinery/camera/cameras as anything in target_camerachunk.cameras["[target.z]"])
-		var/found_target = locate(target) in cameras.can_see()
-		if(!found_target)
+	for(var/obj/machinery/camera/cameras as anything in target_camerachunk.cameras[target.z])
+		// We need to find a particular camera that can see this turf
+		if(!(target_turf in cameras.can_see()))
 			continue
 		var/new_camera = WEAKREF(cameras)
 		if(camera_ref == new_camera)
@@ -188,6 +196,9 @@
 	cam_screen.hide_from(user)
 	// Turn off the console
 	if(length(concurrent_users) == 0 && is_living)
+		var/obj/machinery/camera/active_camera = camera_ref?.resolve()
+		if(!spying && active_camera)
+			active_camera.on_stop_watching(src)
 		camera_ref = null
 		last_camera_turf = null
 		if(!spying)
@@ -197,7 +208,7 @@
 	var/obj/machinery/camera/active_camera = camera_ref?.resolve()
 	// Show static if can't use the camera
 	if(!active_camera?.can_use())
-		show_camera_static()
+		cam_screen.show_camera_static()
 		return
 
 	var/list/visible_turfs = list()
@@ -225,13 +236,6 @@
 	var/size_x = bbox[3] - bbox[1] + 1
 	var/size_y = bbox[4] - bbox[2] + 1
 
-	cam_screen.vis_contents = visible_turfs
-	cam_background.icon_state = "clear"
-	cam_background.fill_rect(1, 1, size_x, size_y)
-
-/datum/computer_file/program/secureye/proc/show_camera_static()
-	cam_screen.vis_contents.Cut()
-	cam_background.icon_state = "scanline2"
-	cam_background.fill_rect(1, 1, DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE)
+	cam_screen.show_camera(visible_turfs, size_x, size_y)
 
 #undef DEFAULT_MAP_SIZE

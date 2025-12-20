@@ -70,7 +70,7 @@
 	bloodsuckerdatum.frenzygrab = new(src)
 	bloodsuckerdatum.frenzygrab.teach(user)
 	bloodsuckerdatum.frenzygrab.locked_to_use = TRUE
-	owner.add_client_colour(/datum/client_colour/manual_heart_blood)
+	owner.add_client_colour(/datum/client_colour/manual_heart_blood, REF(src))
 	var/obj/cuffs = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
 	var/obj/legcuffs = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
 	if(user.handcuffed || user.legcuffed)
@@ -92,7 +92,7 @@
 		was_tooluser = FALSE
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/dna_vault_speedup)
 	QDEL_NULL(bloodsuckerdatum.frenzygrab)
-	owner.remove_client_colour(/datum/client_colour/manual_heart_blood)
+	owner.remove_client_colour(REF(src))
 
 	SEND_SIGNAL(bloodsuckerdatum, BLOODSUCKER_EXITS_FRENZY)
 	bloodsuckerdatum.frenzied = FALSE
@@ -105,7 +105,7 @@
 	//Passively accumulate burn damage (Bloodsuckers can't survive on low blood forever).
 	//Humanity loss is supposed to be a bad thing for Bloodsuckers so it adds to this damage.
 	//Brujah Bloodsuckers start with a lot of lost humanity so we give them a bit of leeway.
-	user.adjustFireLoss(1.5 + (brujah ? 1 : (bloodsuckerdatum.humanity_lost / 10)))
+	user.adjust_fire_loss(1.5 + (brujah ? 1 : (bloodsuckerdatum.humanity_lost / 10)))
 	if(prob(30))
 		user.do_jitter_animation(300)
 		return

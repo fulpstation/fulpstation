@@ -2,7 +2,7 @@
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
-	job_rank = ROLE_MONSTERHUNTER
+	pref_flag = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
 	tip_theme = "spookyconsole"
@@ -54,7 +54,7 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
-	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
+	var/list/slots = list(LOCATION_BACKPACK, LOCATION_LPOCKET, LOCATION_RPOCKET)
 	if(!criminal.equip_in_one_of_slots(card, slots))
 		var/obj/item/rabbit_locator/droppod_card = new()
 		grant_drop_ability(droppod_card)
@@ -129,7 +129,7 @@
 	l_hand = /obj/item/knife/butcher
 	mask = /obj/item/clothing/mask/monster_preview_mask
 	uniform = /obj/item/clothing/under/suit/black
-	suit =  /obj/item/clothing/suit/hooded/techpriest
+	suit =  /obj/item/clothing/suit/hooded/techpriest/preview
 	gloves = /obj/item/clothing/gloves/color/white
 
 /// Mind version
@@ -137,14 +137,14 @@
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!monsterhunterdatum)
 		monsterhunterdatum = add_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = ROLE_MONSTERHUNTER
+		LAZYADD(special_roles, ROLE_MONSTERHUNTER)
 	return monsterhunterdatum
 
 /datum/mind/proc/remove_monsterhunter()
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(monsterhunterdatum)
 		remove_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = null
+		LAZYREMOVE(special_roles, ROLE_MONSTERHUNTER)
 
 /// Called when using admin tools to give antag status
 /datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner, mob/admin)
@@ -247,10 +247,14 @@
 	invasion.run_event()
 
 /obj/item/clothing/mask/monster_preview_mask
-	name = "Monster Preview Mask"
+	name = "Rabbit Mask"
+	icon =  'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
-	worn_icon_state = "monoclerabbit"
+	worn_icon_state = "rabbitmask_preview"
 
+/obj/item/clothing/suit/hooded/techpriest/preview
+	name = "hoodless " + parent_type::name
+	hoodtype = null
 
 /datum/antagonist/monsterhunter/roundend_report()
 	var/list/parts = list()
@@ -284,8 +288,16 @@
 /datum/action/droppod_item
 	name = "Summon Monster Hunter tools"
 	desc = "Call in your equipment via droppod."
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon = 'icons/obj/devices/tracker.dmi'
 	button_icon_state = "beacon"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "border"
+
 	///path of item we are spawning
 	var/item_path
 
@@ -312,7 +324,15 @@
 /datum/action/cooldown/spell/track_monster
 	name = "Hunter Vision"
 	desc = "Detect monsters within your vicinity"
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon_state = "blind"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "clubs"
+
 	cooldown_time = 5 SECONDS
 	spell_requirements = NONE
 

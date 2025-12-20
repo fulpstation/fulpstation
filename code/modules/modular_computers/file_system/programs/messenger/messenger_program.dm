@@ -88,10 +88,9 @@
 /datum/computer_file/program/messenger/proc/get_messengers()
 	var/list/dictionary = list()
 
-	var/list/messengers_sorted = sort_by_job ? get_messengers_sorted_by_job() : get_messengers_sorted_by_name()
+	var/list/messengers_sorted = sort_by_job ? GLOB.pda_messengers_by_job : GLOB.pda_messengers_by_name
 
-	for(var/messenger_ref in messengers_sorted)
-		var/datum/computer_file/program/messenger/messenger = messengers_sorted[messenger_ref]
+	for(var/datum/computer_file/program/messenger/messenger as anything in messengers_sorted)
 		if(!istype(messenger) || !istype(messenger.computer))
 			continue
 		if(messenger == src || messenger.invisible)
@@ -599,6 +598,13 @@
 	for(var/datum/computer_file/program/messenger/messenger as anything in targets)
 		stringified_targets += get_messenger_name(messenger)
 
+	var/sent_prob = 0
+	if(ishuman(source))
+		var/mob/living/carbon/human/oldie = source
+		sent_prob = (0.025 * oldie.age) ** 3 // 25 y/o = ~0.25% chance, 85 y/o = ~10% chance
+	if (computer && prob(sent_prob))
+		message = "[message] [computer.get_messenger_ending()]"
+
 	var/datum/signal/subspace/messaging/tablet_message/signal = new(computer, list(
 		"ref" = REF(src),
 		"message" = message,
@@ -632,7 +638,7 @@
 	// Log in the talk log
 	source.log_talk(message, LOG_PDA, tag="[shell_addendum][rigged ? "Rigged" : ""] PDA: [computer.saved_identification] to [signal.format_target()]")
 	if(rigged)
-		log_bomber(sender, "sent a rigged PDA message (Name: [fake_name]. Job: [fake_job]) to [english_list(stringified_targets)] [!is_special_character(sender) ? "(SENT BY NON-ANTAG)" : ""]")
+		log_bomber(sender, "sent a rigged PDA message (Name: [fake_name]. Job: [fake_job]) to [english_list(stringified_targets)] [sender.is_antag() ? "" : "(SENT BY NON-ANTAG)"]")
 
 	// Show it to ghosts
 	var/ghost_message = span_game_say("[span_name(signal.format_sender())] [rigged ? "(as [span_name(fake_name)]) Rigged " : ""]PDA Message --> [span_name("[signal.format_target()]")]: \"[signal.format_message()]\"")
@@ -724,6 +730,7 @@
 	SStgui.update_uis(computer)
 	update_pictures_for_all()
 
+
 /// topic call that answers to people pressing "(Reply)" in chat
 /datum/computer_file/program/messenger/Topic(href, href_list)
 	..()
@@ -758,6 +765,12 @@
 
 			var/obj/item/modular_computer/pda/comp = computer
 			comp.explode(usr, from_message_menu = TRUE)
+
+/datum/computer_file/program/messenger/proc/compare_name(datum/computer_file/program/messenger/rhs)
+	return sorttext(rhs.computer?.saved_identification, computer?.saved_identification)
+
+/datum/computer_file/program/messenger/proc/compare_job(datum/computer_file/program/messenger/rhs)
+	return sorttext(rhs.computer?.saved_job, computer?.saved_job)
 
 #undef PDA_MESSAGE_TIMESTAMP_FORMAT
 #undef MAX_PDA_MESSAGE_LEN

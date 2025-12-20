@@ -7,7 +7,7 @@
 	rogue_types = list(/datum/nanite_program/necrotic)
 
 /datum/nanite_program/regenerative/check_conditions()
-	if(!host_mob.getBruteLoss() && !host_mob.getFireLoss())
+	if(!host_mob.get_brute_loss() && !host_mob.get_fire_loss())
 		return FALSE
 	if(iscarbon(host_mob))
 		var/mob/living/carbon/host_carbon = host_mob
@@ -18,11 +18,11 @@
 
 /datum/nanite_program/regenerative/active_effect()
 	if(!iscarbon(host_mob))
-		host_mob.adjustBruteLoss(-0.5, TRUE)
-		host_mob.adjustFireLoss(-0.5, TRUE)
+		host_mob.adjust_brute_loss(-0.5, TRUE)
+		host_mob.adjust_fire_loss(-0.5, TRUE)
 		return
-	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1 : 0.6) // 0.5 on lavaland, 0.3 on station
-	host_mob.heal_overall_damage(brute = (0.5 * lavaland_bonus), brute = (0.5 * lavaland_bonus), required_bodytype = BODYTYPE_ORGANIC)
+	var/healing_given = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 0.5 : 0.3)
+	host_mob.heal_overall_damage(brute = healing_given, brute = healing_given, required_bodytype = BODYTYPE_ORGANIC)
 
 /datum/nanite_program/regenerative_advanced
 	name = "Bio-Reconstruction"
@@ -34,11 +34,11 @@
 
 /datum/nanite_program/regenerative_advanced/active_effect()
 	if(!iscarbon(host_mob))
-		host_mob.adjustBruteLoss(-3, TRUE)
-		host_mob.adjustFireLoss(-3, TRUE)
+		host_mob.adjust_brute_loss(-3, TRUE)
+		host_mob.adjust_fire_loss(-3, TRUE)
 		return
-	var/lavaland_bonus = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1 : 0.8) // 1.5 on Lavaland, 1.2 on station
-	host_mob.heal_overall_damage(brute = (1.5 * lavaland_bonus), brute = (1.5 * lavaland_bonus), required_bodytype = BODYTYPE_ORGANIC)
+	var/healing_given = (lavaland_equipment_pressure_check(get_turf(host_mob)) ? 1.5 : 1.2)
+	host_mob.heal_overall_damage(brute = healing_given, brute = healing_given, required_bodytype = BODYTYPE_ORGANIC)
 
 /datum/nanite_program/temperature
 	name = "Temperature Adjustment"
@@ -65,12 +65,12 @@
 
 /datum/nanite_program/purging/check_conditions()
 	var/foreign_reagent = length(host_mob.reagents?.reagent_list)
-	if(!host_mob.getToxLoss() && !foreign_reagent)
+	if(!host_mob.get_tox_loss() && !foreign_reagent)
 		return FALSE
 	return ..()
 
 /datum/nanite_program/purging/active_effect()
-	host_mob.adjustToxLoss(-1)
+	host_mob.adjust_tox_loss(-1)
 	for(var/datum/reagent/reagents as anything in host_mob.reagents.reagent_list)
 		host_mob.reagents.remove_reagent(reagents.type, amount = 1)
 
@@ -91,7 +91,7 @@
 	return problems ? ..() : FALSE
 
 /datum/nanite_program/brain_heal/active_effect()
-	host_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1)
+	host_mob.adjust_organ_loss(ORGAN_SLOT_BRAIN, -1)
 	if(iscarbon(host_mob) && prob(10))
 		var/mob/living/carbon/carbon_host = host_mob
 		carbon_host.cure_trauma_type(resilience = TRAUMA_RESILIENCE_BASIC)
@@ -129,7 +129,7 @@
 	rogue_types = list(/datum/nanite_program/necrotic)
 
 /datum/nanite_program/repairing/check_conditions()
-	if(!host_mob.getBruteLoss() && !host_mob.getFireLoss())
+	if(!host_mob.get_brute_loss() && !host_mob.get_fire_loss())
 		return FALSE
 
 	if(!iscarbon(host_mob))
@@ -145,8 +145,8 @@
 
 /datum/nanite_program/repairing/active_effect(mob/living/M)
 	if(!iscarbon(host_mob))
-		host_mob.adjustBruteLoss(-1.5, TRUE)
-		host_mob.adjustFireLoss(-1.5, TRUE)
+		host_mob.adjust_brute_loss(-1.5, TRUE)
+		host_mob.adjust_fire_loss(-1.5, TRUE)
 		return
 	host_mob.heal_overall_damage(brute = 1.5, brute = 1.5, required_bodytype = BODYTYPE_ROBOTIC)
 
@@ -162,12 +162,12 @@
 	for(var/datum/reagent/toxin/toxic_reagents in host_mob.reagents.reagent_list)
 		foreign_reagent = TRUE
 		break
-	if(!host_mob.getToxLoss() && !foreign_reagent)
+	if(!host_mob.get_tox_loss() && !foreign_reagent)
 		return FALSE
 	return ..()
 
 /datum/nanite_program/purging_advanced/active_effect()
-	host_mob.adjustToxLoss(-1)
+	host_mob.adjust_tox_loss(-1)
 	for(var/datum/reagent/toxin/toxic_reagents in host_mob.reagents.reagent_list)
 		host_mob.reagents.remove_reagent(toxic_reagents.type, 1)
 
@@ -188,7 +188,7 @@
 	return problems ? ..() : FALSE
 
 /datum/nanite_program/brain_heal_advanced/active_effect()
-	host_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, -2)
+	host_mob.adjust_organ_loss(ORGAN_SLOT_BRAIN, -2)
 	if(iscarbon(host_mob) && prob(10))
 		var/mob/living/carbon/carbon_host = host_mob
 		carbon_host.cure_trauma_type(resilience = TRAUMA_RESILIENCE_LOBOTOMY)

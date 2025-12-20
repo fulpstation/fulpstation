@@ -57,14 +57,14 @@
 				step_towards(A,pull)
 				step_towards(A,pull)
 
-/obj/item/singularityhammer/afterattack(atom/target, mob/user, click_parameters)
+/obj/item/singularityhammer/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
 	if(!HAS_TRAIT(src, TRAIT_WIELDED))
 		return
 	if(!charged)
 		return
 
 	charged = FALSE
-	if(isliving(target))
+	if(isliving(target) && !QDELETED(target))
 		var/mob/living/smacked = target
 		smacked.take_bodypart_damage(20, 0)
 	playsound(user, 'sound/items/weapons/marauder.ogg', 50, TRUE)

@@ -13,6 +13,7 @@
 	bloodcost = 15
 	constant_bloodcost = 0.1
 	cooldown_time = 10 SECONDS
+	should_level = FALSE
 	// Outfit Vars
 //	var/list/original_items = list()
 	// Identity Vars
@@ -88,7 +89,7 @@
 	SIGNAL_HANDLER
 
 	identity[VISIBLE_NAME_FACE] = disguise_name
-	user.SetSpecialVoice(disguise_name)
+	user.override_voice = disguise_name
 
 /datum/action/cooldown/bloodsucker/veil/DeactivatePower()
 	. = ..()
@@ -96,7 +97,7 @@
 		return
 	var/mob/living/carbon/human/user = owner
 	// Revert Identity
-	user.UnsetSpecialVoice()
+	user.override_voice = ""
 
 	// Revert Appearance
 	user.gender = prev_gender

@@ -4,8 +4,9 @@
 
 /obj/item/book/codex_gigas/Initialize(mapload)
 	. = ..()
-	var/turf/current_turf = get_turf(src)
-	new /obj/item/book/kindred(current_turf)
+	if(mapload)
+		var/turf/current_turf = get_turf(src)
+		new /obj/item/book/kindred(current_turf)
 
 /**
  *	# Archives of the Kindred:
@@ -38,9 +39,9 @@
 	. = ..()
 	AddComponent(/datum/component/stationloving, FALSE, TRUE)
 
-/obj/item/book/kindred/try_carve(obj/item/carving_item, mob/living/user, params)
+/obj/item/book/kindred/carving_act(mob/living/user, obj/item/tool)
 	to_chat(user, span_notice("You feel the gentle whispers of a Librarian telling you not to cut [starting_title]."))
-	return FALSE
+	return ITEM_INTERACT_BLOCKING
 
 ///Attacking someone with the book.
 /obj/item/book/kindred/afterattack(mob/living/target, mob/living/user, flag, params)

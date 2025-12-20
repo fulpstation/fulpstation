@@ -32,6 +32,15 @@
 	/// Used in one instance of size adjustment— not really that important.
 	var/resize_count = 1.5
 
+	//     These two vars are used by a nerfed subtype of the "Direct Cat Meteor" spell:
+	/// Boolean indicating if the cateor should produce a small explosion on impact. The spell
+	/// will instead do 30 brute damage on impact if this is FALSE.
+	var/should_explode = TRUE
+	/// Boolean indicating if the cateor should apply paralysis and a long knockdown to
+	/// felinids on impact. The cateor will still cause a short knockdown and drugginess
+	/// even if this is FALSE.
+	var/should_stun = TRUE
+
 /// Transform code taken directly from Dream Maker Reference on "transform."
 /// Surely this won't cause any annoying visual bugs!
 /obj/effect/meteor/cateor/Initialize(mapload, turf/target)
@@ -139,15 +148,23 @@
 		 //Felinids/those already catified just get stunned.
 		if(isfelinid(target) || (cat_ears_confirmed && cat_tail_confirmed))
 			humanoid.emote("spin")
-			humanoid.Paralyze(10 SECONDS)
-			humanoid.Knockdown(15 SECONDS)
-			target.apply_status_effect(/datum/status_effect/drugginess, 15 SECONDS)
+			target.apply_status_effect(/datum/status_effect/drugginess, 30 SECONDS)
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 25)
 			to_chat(humanoid, (span_hypnophrase("The overwhelming smell of catnip permeates the air...")))
+
+			if(should_stun)
+				humanoid.Paralyze(10 SECONDS)
+				humanoid.Knockdown(15 SECONDS)
+			else
+				humanoid.Knockdown(5 SECONDS)
+
 			qdel(src)
 			return
 
-		explosion(humanoid, light_impact_range = 1, explosion_cause = src)
+		if(should_explode)
+			explosion(humanoid, light_impact_range = 1, explosion_cause = src)
+		else
+			humanoid.adjust_brute_loss(30)
 
 		remove_relevant_organs(humanoid)
 		/// These next two lines are necessary, and I am not be able to explain why.
@@ -193,8 +210,20 @@
 		cateor_ion_laws += "Seek out a roboticist (or similar humanoid equivalent) immediately, \
 		for you are a starving Victorian child in cat form and require sustenance."
 
-		var/mob/living/silicon/unfortunate_robot = target
-		unfortunate_robot.add_ion_law(pick(cateor_ion_laws))
+		var/mob/living/silicon/unfortunate_silicon = target
+		unfortunate_silicon.add_ion_law(pick(cateor_ion_laws))
+
+	if(istype(target, /mob/living/silicon/robot))
+		var/mob/living/silicon/robot/unfortunate_robot = target
+		if(!(unfortunate_robot.hat && HAS_TRAIT(unfortunate_robot.hat, TRAIT_NODROP)))
+			var/obj/item/clothing/head/costume/kitty/cat_ears = new()
+			unfortunate_robot.place_on_head(cat_ears)
+
+	if(istype(target, /mob/living/silicon/pai))
+		var/mob/living/silicon/pai/unfortunate_pai = target
+		unfortunate_pai.chassis = "cat"
+		unfortunate_pai.update_appearance()
+
 
 	playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 50) // (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ WOAW!!!
 	qdel(src)

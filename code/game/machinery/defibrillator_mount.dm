@@ -21,10 +21,14 @@
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/defibrillator_mount, 28)
 
+/obj/machinery/defibrillator_mount/Initialize(mapload)
+	. = ..()
+	if(mapload)
+		find_and_mount_on_atom()
+
 /obj/machinery/defibrillator_mount/loaded/Initialize(mapload) //loaded subtype for mapping use
 	. = ..()
 	defib = new/obj/item/defibrillator/loaded(src)
-	find_and_hang_on_wall()
 
 /obj/machinery/defibrillator_mount/Destroy()
 	QDEL_NULL(defib)
@@ -81,7 +85,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/defibrillator_mount, 28)
 		return
 	user.put_in_hands(defib.paddles)
 
-/obj/machinery/defibrillator_mount/attackby(obj/item/item, mob/living/user, params)
+/obj/machinery/defibrillator_mount/attackby(obj/item/item, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(istype(item, /obj/item/defibrillator))
 		if(defib)
 			to_chat(user, span_warning("There's already a defibrillator in [src]!"))
@@ -227,10 +231,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/defibrillator_mount, 28)
 	icon_state = "mobile"
 	anchored = FALSE
 	density = TRUE
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 5.15, /datum/material/silver = SHEET_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 1.5)
 
 /obj/machinery/defibrillator_mount/mobile/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/noisy_movement)
+
+/obj/machinery/defibrillator_mount/mobile/find_and_mount_on_atom(mark_for_late_init, late_init)
+	return //its mobile
 
 /obj/machinery/defibrillator_mount/mobile/wrench_act_secondary(mob/living/user, obj/item/tool)
 	if(user.combat_mode)
@@ -247,9 +255,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/defibrillator_mount, 28)
 	return TRUE
 
 /obj/machinery/defibrillator_mount/mobile/on_deconstruction(disassembled)
+	var/atom/drop = drop_location()
 	if(disassembled)
-		new /obj/item/stack/sheet/iron(drop_location(), 5)
-		new /obj/item/stack/sheet/mineral/silver(drop_location(), 1)
-		new /obj/item/stack/cable_coil(drop_location(), 15)
+		new /obj/item/stack/sheet/iron(drop, 5)
+		new /obj/item/stack/sheet/mineral/silver(drop)
+		new /obj/item/stack/cable_coil(drop, 15)
 	else
-		new /obj/item/stack/sheet/iron(drop_location(), 5)
+		new /obj/item/stack/sheet/iron(drop, 5)

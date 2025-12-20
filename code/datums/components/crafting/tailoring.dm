@@ -119,7 +119,7 @@
 
 /datum/crafting_recipe/grass_sheath
 	name = "Grass Sabre Sheath"
-	result = /obj/item/storage/belt/grass_sabre
+	result = /obj/item/storage/belt/sheath/grass_sabre
 	reqs = list(/obj/item/food/grown/grass = 4,
 				/obj/item/food/grown/grass/fairy = 2)
 	time = 4 SECONDS
@@ -150,6 +150,7 @@
 	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
 	reqs = list(/obj/item/clothing/glasses/hud/security/sunglasses = 1)
 	category = CAT_EQUIPMENT
+	crafting_flags = parent_type::crafting_flags | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/hudsunmed
 	name = "Medical HUDsunglasses"
@@ -168,6 +169,7 @@
 	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
 	reqs = list(/obj/item/clothing/glasses/hud/health/sunglasses = 1)
 	category = CAT_EQUIPMENT
+	crafting_flags = parent_type::crafting_flags | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/hudsundiag
 	name = "Diagnostic HUDsunglasses"
@@ -186,6 +188,7 @@
 	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
 	reqs = list(/obj/item/clothing/glasses/hud/diagnostic/sunglasses = 1)
 	category = CAT_EQUIPMENT
+	crafting_flags = parent_type::crafting_flags | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/scienceglasses
 	name = "Science Glasses"
@@ -204,6 +207,7 @@
 	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
 	reqs = list(/obj/item/clothing/glasses/sunglasses/chemical = 1)
 	category = CAT_EQUIPMENT
+	crafting_flags = parent_type::crafting_flags | CRAFT_SKIP_MATERIALS_PARITY
 
 /datum/crafting_recipe/ghostsheet
 	name = "Ghost Sheet"
@@ -539,6 +543,7 @@
 		/obj/item/stack/sheet/mineral/metal_hydrogen = 1,
 		/obj/item/stack/sheet/mineral/zaukerite = 1,
 	)
+	crafting_flags = parent_type::crafting_flags | CRAFT_SKIP_MATERIALS_PARITY // stupid recipe, don't give every atmos gas mask these mats.
 
 	category = CAT_CLOTHING
 
@@ -580,9 +585,7 @@
 	category = CAT_CLOTHING
 
 /datum/crafting_recipe/balloon_helmet/check_requirements(mob/user, list/collected_requirements)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_BALLOON_SUTRA))
-		return TRUE
+	return HAS_TRAIT(user, TRAIT_BALLOON_SUTRA)
 
 /datum/crafting_recipe/balloon_tophat
 	result = /obj/item/clothing/head/hats/tophat/balloon
@@ -593,9 +596,7 @@
 	category = CAT_CLOTHING
 
 /datum/crafting_recipe/balloon_tophat/check_requirements(mob/user, list/collected_requirements)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_BALLOON_SUTRA))
-		return TRUE
+	return HAS_TRAIT(user, TRAIT_BALLOON_SUTRA)
 
 /datum/crafting_recipe/balloon_vest
 	result = /obj/item/clothing/suit/armor/balloon_vest
@@ -606,9 +607,7 @@
 	category = CAT_CLOTHING
 
 /datum/crafting_recipe/balloon_vest/check_requirements(mob/user, list/collected_requirements)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_BALLOON_SUTRA))
-		return TRUE
+	return HAS_TRAIT(user, TRAIT_BALLOON_SUTRA)
 
 /datum/crafting_recipe/press_armor
 	name = "press armor vest"

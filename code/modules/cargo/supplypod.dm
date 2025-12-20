@@ -71,6 +71,19 @@
 	bluespace = TRUE
 	explosionSize = list(0,0,0,0)
 
+/// Quick setup for if you want a pod that transports a specific object somewhere and makes it look like it is flying away
+/obj/structure/closet/supplypod/transport
+	style = /datum/pod_style/seethrough
+	specialised = TRUE
+	explosionSize = list(0,0,0,0)
+	reversing = TRUE
+	delays = list(POD_TRANSIT = 0, POD_FALLING = 0, POD_OPENING = 0, POD_LEAVING = 0)
+	reverse_delays = list(POD_TRANSIT = 15, POD_FALLING = 10, POD_OPENING = 0, POD_LEAVING = 0)
+	custom_rev_delay = TRUE
+	effectQuiet = TRUE
+	close_sound = null
+	pod_flags = FIRST_SOUNDS
+
 /obj/structure/closet/supplypod/podspawn/deathmatch
 	desc = "A blood-red styled drop pod."
 	specialised = TRUE
@@ -300,17 +313,18 @@
 	if (custom_rev_delay)
 		delays = reverse_delays
 	backToNonReverseIcon()
+	SEND_SIGNAL(src, COMSIG_SUPPLYPOD_RETURNING)
 	var/turf/return_turf = locate(reverse_dropoff_coords[1], reverse_dropoff_coords[2], reverse_dropoff_coords[3])
 	new /obj/effect/pod_landingzone(return_turf, src)
 
 /obj/structure/closet/supplypod/proc/preOpen() //Called before the open_pod() proc. Handles anything that occurs right as the pod lands.
 	var/turf/turf_underneath = get_turf(src)
-	var/list/B = explosionSize //Mostly because B is more readable than explosionSize :p
+	var/list/boom = explosionSize
 	resistance_flags = initial(resistance_flags)
 	set_density(TRUE) //Density is originally false so the pod doesn't block anything while it's still falling through the air
-	AddComponent(/datum/component/pellet_cloud, projectile_type=shrapnel_type, magnitude=shrapnel_magnitude)
 	if(effectShrapnel)
-		SEND_SIGNAL(src, COMSIG_SUPPLYPOD_LANDED)
+		AddComponent(/datum/component/pellet_cloud, projectile_type=shrapnel_type, magnitude=shrapnel_magnitude)
+	SEND_SIGNAL(src, COMSIG_SUPPLYPOD_LANDED)
 	for (var/mob/living/target_living in turf_underneath)
 		if (iscarbon(target_living)) //If effectLimb is true (which means we pop limbs off when we hit people):
 			if (effectLimb)
@@ -318,8 +332,7 @@
 				for (var/bp in carbon_target_mob.bodyparts) //Look at the bodyparts in our poor mob beneath our pod as it lands
 					var/obj/item/bodypart/bodypart = bp
 					if(bodypart.body_part != HEAD && bodypart.body_part != CHEST)//we dont want to kill him, just teach em a lesson!
-						if (!(bodypart.bodypart_flags & BODYPART_UNREMOVABLE))
-							bodypart.dismember() //Using the power of flextape i've sawed this man's limb in half!
+						if(bodypart.dismember()) //Using the power of flextape i've sawed this man's limb in half!
 							break
 			if (effectOrgans) //effectOrgans means remove every organ in our mob
 				var/mob/living/carbon/carbon_target_mob = target_living
@@ -332,20 +345,21 @@
 				for (var/bp in carbon_target_mob.bodyparts) //Look at the bodyparts in our poor mob beneath our pod as it lands
 					var/obj/item/bodypart/bodypart = bp
 					var/destination = get_edge_target_turf(turf_underneath, pick(GLOB.alldirs))
-					if (!(bodypart.bodypart_flags & BODYPART_UNREMOVABLE))
-						bodypart.dismember() //Using the power of flextape i've sawed this man's bodypart in half!
+					if (bodypart.dismember()) //Using the power of flextape i've sawed this man's bodypart in half!
 						bodypart.throw_at(destination, 2, 3)
 						sleep(0.1 SECONDS)
 
 		if (effectGib) //effectGib is on, that means whatever's underneath us better be fucking oof'd on
-			target_living.adjustBruteLoss(5000) //THATS A LOT OF DAMAGE (called just in case gib() doesnt work on em)
+			target_living.adjust_brute_loss(5000) //THATS A LOT OF DAMAGE (called just in case gib() doesnt work on em)
 			if (!QDELETED(target_living))
 				target_living.gib(DROP_ALL_REMAINS) //After adjusting the fuck outta that brute loss we finish the job with some satisfying gibs
 		else
-			target_living.adjustBruteLoss(damage)
-	var/explosion_sum = B[1] + B[2] + B[3] + B[4]
-	if (explosion_sum != 0) //If the explosion list isn't all zeroes, call an explosion
-		explosion(turf_underneath, B[1], B[2], B[3], flame_range = B[4], silent = effectQuiet, ignorecap = istype(src, /obj/structure/closet/supplypod/centcompod), explosion_cause = src) //less advanced equipment than bluespace pod, so larger explosion when landing
+			target_living.adjust_brute_loss(damage)
+
+	if (boom?.len == 4)
+		boom.len += 1
+	if (!isnull(boom) && (boom[1] + boom[2] + boom[3] + boom[4] + boom[5])) // spawn explosion only if there is actual explosion range
+		explosion(turf_underneath, boom[1], boom[2], boom[3], flame_range = boom[4], flash_range = boom[5], silent = effectQuiet, ignorecap = istype(src, /obj/structure/closet/supplypod/centcompod), explosion_cause = src)
 	else if (!effectQuiet && !(pod_flags & FIRST_SOUNDS)) //If our explosion list IS all zeroes, we still make a nice explosion sound (unless the effectQuiet var is true)
 		playsound(src, SFX_EXPLOSION, landingSound ? soundVolume * 0.25 : soundVolume, TRUE)
 	if (landingSound)
@@ -362,6 +376,7 @@
 		moveToNullspace()
 		addtimer(CALLBACK(src, PROC_REF(open_pod), benis), delays[POD_OPENING]) //After the opening delay passes, we use the open proc from this supplyprod while referencing the contents of the "holder", in this case the gondolapod mob
 	else if (ispath(style, /datum/pod_style/seethrough))
+		transform = matrix()
 		open_pod(src)
 	else
 		addtimer(CALLBACK(src, PROC_REF(open_pod), src), delays[POD_OPENING]) //After the opening delay passes, we use the open proc from this supplypod, while referencing this supplypod's contents
@@ -413,7 +428,8 @@
 	if (!holder)
 		return
 	take_contents(holder)
-	playsound(holder, close_sound, soundVolume*0.75, TRUE, -3)
+	if (close_sound)
+		playsound(holder, close_sound, soundVolume*0.75, TRUE, -3)
 	holder.setClosed()
 	addtimer(CALLBACK(src, PROC_REF(preReturn), holder), delays[POD_LEAVING] * 0.2) //Start to leave a bit after closing for cinematic effect
 
@@ -656,7 +672,11 @@
 		stack_trace("Pod landingzone effect created with no pod")
 		return INITIALIZE_HINT_QDEL
 	transform = matrix() * 1.5
-	animate(src, transform = matrix()*0.01, time = pod.delays[POD_TRANSIT]+pod.delays[POD_FALLING])
+	var/arrival_time = pod.delays[POD_TRANSIT] + pod.delays[POD_FALLING]
+	if (arrival_time > 0)
+		animate(src, transform = matrix()*0.01, time = arrival_time)
+	else
+		alpha = 0
 
 /obj/effect/pod_landingzone //This is the object that forceMoves the supplypod to its location
 	name = "Landing Zone Indicator"
@@ -683,12 +703,18 @@
 	if (!pod.effectStealth)
 		helper = new (drop_location(), pod)
 		alpha = 255
-	animate(src, transform = matrix().Turn(90), time = pod.delays[POD_TRANSIT]+pod.delays[POD_FALLING])
+	var/arrival_time = pod.delays[POD_TRANSIT] + pod.delays[POD_FALLING]
+	if (arrival_time > 0)
+		animate(src, transform = matrix().Turn(90), time = arrival_time)
+	else
+		alpha = 0
 	if (single_order)
 		if (istype(single_order, /datum/supply_order))
 			var/datum/supply_order/SO = single_order
 			if (SO.pack.crate_type)
 				SO.generate(pod)
+			else if (SO.pack.order_flags & ORDER_GOODY) //Goody orders lack a crate_type and need special handling
+				SO.generateCombo(pod, SO.orderer, SO.pack.contains, SO.pack.cost)
 		else if (istype(single_order, /atom/movable))
 			var/atom/movable/O = single_order
 			O.forceMove(pod)
@@ -697,14 +723,13 @@
 	if(pod.effectStun) //If effectStun is true, stun any mobs caught on this pod_landingzone until the pod gets a chance to hit them
 		for (var/mob/living/target_living in get_turf(src))
 			target_living.Stun(pod.delays[POD_TRANSIT]+10, ignore_canstun = TRUE)//you ain't goin nowhere, kid.
-	if (pod.delays[POD_TRANSIT] + pod.delays[POD_FALLING] < pod.fallingSoundLength)
+	if (arrival_time < pod.fallingSoundLength)
 		pod.fallingSoundLength = 3 //The default falling sound is a little long, so if the landing time is shorter than the default falling sound, use a special, shorter default falling sound
 		pod.fallingSound = 'sound/items/weapons/mortar_whistle.ogg'
 	var/soundStartTime = pod.delays[POD_TRANSIT] - pod.fallingSoundLength + pod.delays[POD_FALLING]
 	if (soundStartTime < 0)
 		soundStartTime = 1
-	if (!pod.effectQuiet && !(pod.pod_flags & FIRST_SOUNDS))
-		addtimer(CALLBACK(src, PROC_REF(playFallingSound)), soundStartTime)
+	addtimer(CALLBACK(src, PROC_REF(playFallingSound)), soundStartTime)
 	addtimer(CALLBACK(src, PROC_REF(beginLaunch), pod.effectCircle), pod.delays[POD_TRANSIT])
 
 /obj/effect/pod_landingzone/proc/playFallingSound()

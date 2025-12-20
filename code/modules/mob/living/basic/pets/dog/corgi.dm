@@ -112,7 +112,7 @@
 			armorval += inventory_back.get_armor_rating(type)
 	return armorval * 0.5
 
-/mob/living/basic/pet/dog/corgi/attackby(obj/item/attacking_item, mob/user, params)
+/mob/living/basic/pet/dog/corgi/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(attacking_item, /obj/item/razor))
 		if(shaved)
 			to_chat(user, span_warning("You can't shave this corgi, [p_they()] has already been shaved!"))
@@ -174,7 +174,7 @@
 
 		if(stat == DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH))
 			head_icon = equipped_head_fashion_item.get_overlay(dir = EAST)
-			head_icon.pixel_y = -8
+			head_icon.pixel_z = -8
 			head_icon.transform = head_icon.transform.Turn(180)
 		else
 			head_icon = equipped_head_fashion_item.get_overlay()
@@ -194,7 +194,7 @@
 
 		if(stat == DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH))
 			back_icon = equipped_back_fashion_item.get_overlay(dir = EAST)
-			back_icon.pixel_y = -11
+			back_icon.pixel_z = -11
 			back_icon.transform = back_icon.transform.Turn(180)
 		else
 			back_icon = equipped_back_fashion_item.get_overlay()
@@ -292,7 +292,7 @@
 			possible_headwear += item
 	if(!length(possible_headwear))
 		for(var/obj/item/item in orange(1))
-			if(ispath(item.dog_fashion, /datum/dog_fashion/head) && CanReach(item))
+			if(ispath(item.dog_fashion, /datum/dog_fashion/head) && item.IsReachableBy(src))
 				possible_headwear += item
 	if(!length(possible_headwear))
 		return
@@ -517,7 +517,7 @@
 		visible_message(span_warning("[src] arises again, revived by the dark magicks!"), \
 		span_cult_large("RISE"))
 		revive(ADMIN_HEAL_ALL) //also means that a dead Nars-Ian can consume a pet and revive
-	adjustBruteLoss(-maxHealth)
+	adjust_brute_loss(-maxHealth)
 
 //LISA! SQUEEEEEEEEE~
 /mob/living/basic/pet/dog/corgi/lisa

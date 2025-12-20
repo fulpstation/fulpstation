@@ -51,7 +51,7 @@
 /datum/design/nanites/heart_stop
 	name = "Heart-Stopper"
 	desc = "Stops the host's heart when triggered; restarts it if triggered again."
-	id = "heartstop_nanites"
+//	id = "heartstop_nanites"
 	category = list(NANITES_CATEGORY_WEAPONIZED)
 	program_type = /datum/nanite_program/heart_stop
 

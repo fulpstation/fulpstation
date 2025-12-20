@@ -151,13 +151,13 @@
 	var/list/block = list()
 	var/get_percent = HAS_MIND_TRAIT(user, TRAIT_EXAMINE_DEEPER_FISH)
 	block += span_info("You think you can cast it up to [get_cast_range()] tiles away.")
-	block += get_stat_info(get_percent, difficulty_modifier * 0.01, "Fishing will be", "easier", "harder", "with this fishing rod", offset = 0)
-	block += get_stat_info(get_percent, experience_multiplier, "You will gain experience", "faster", "slower")
-	block += get_stat_info(get_percent, completion_speed_mult, "You should complete the minigame", "faster", "slower")
-	block += get_stat_info(get_percent, bait_speed_mult, "Reeling is", "faster", "slower")
-	block += get_stat_info(get_percent, deceleration_mult, "Deceleration is", "faster", "slower", less_is_better = TRUE)
-	block += get_stat_info(get_percent, bounciness_mult, "This fishing rod is ", "bouncier", "less bouncy", "than a normal one", less_is_better = TRUE)
-	block += get_stat_info(get_percent, gravity_mult, "The lure will sink", "faster", "slower", span_info = TRUE)
+	block += get_stat_info(get_percent, difficulty_modifier * 0.01, "Fishing will be", "easier", "harder", "with this fishing rod")
+	block += get_stat_info(get_percent, experience_multiplier - 1, "You will gain experience", "faster", "slower")
+	block += get_stat_info(get_percent, completion_speed_mult - 1, "The minigame completion speed is", "faster", "slower")
+	block += get_stat_info(get_percent, bait_speed_mult - 1, "Reeling is", "faster", "slower")
+	block += get_stat_info(get_percent, deceleration_mult - 1, "Deceleration is", "faster", "slower")
+	block += get_stat_info(get_percent, bounciness_mult - 1, "This fishing rod is ", "bouncier", "less bouncy", "than a normal one", less_is_better = TRUE)
+	block += get_stat_info(get_percent, gravity_mult - 1, "The lure will sink", "faster", "slower", span_info = TRUE)
 
 	list_clear_nulls(block)
 	. += boxed_message(block.Join("\n"))
@@ -184,10 +184,9 @@
 		. += boxed_message(block.Join("\n"))
 
 ///Used in examine_more to reduce all the copypasta when getting more information about the various stats of the fishing rod.
-/obj/item/fishing_rod/proc/get_stat_info(get_percent, value, prefix, easier, harder, suffix = "with this fishing rod", span_info = FALSE, less_is_better = FALSE, offset = 1)
-	if(value == 1)
+/obj/item/fishing_rod/proc/get_stat_info(get_percent, value, prefix, easier, harder, suffix = "with this fishing rod", span_info = FALSE, less_is_better = FALSE)
+	if(!value)
 		return
-	value -= offset
 	var/percent = get_percent ? "[abs(value * 100)]% " : ""
 	var/harder_easier = value > 0 ? easier : harder
 	. = "[prefix] [percent][harder_easier] [suffix]."
@@ -380,8 +379,9 @@
 		return
 	if(!hook.can_be_hooked(target_atom))
 		return
+	if(!create_fishing_line(target_atom, user))
+		return
 	currently_hooked = target_atom
-	create_fishing_line(target_atom, user)
 	hook.hook_attached(target_atom, src)
 	SEND_SIGNAL(src, COMSIG_FISHING_ROD_HOOKED_ITEM, target_atom, user)
 
@@ -432,12 +432,15 @@
 		return
 	if(!COOLDOWN_FINISHED(src, casting_cd))
 		return
+	// Inside of storages, or camera weirdness
+	if(target.z != user.z || !(target in view(user.client?.view || world.view, user)))
+		return
 	COOLDOWN_START(src, casting_cd, 1 SECONDS)
 	// skip firing a projectile if the target is adjacent and can be reached (no order windows in the way),
 	// otherwise it may end up hitting other things on its turf, which is problematic
 	// especially for entities with the profound fisher component, which should only work on
 	// proper fishing spots.
-	if(user.CanReach(target, src))
+	if(target.Adjacent(user, null, null, 0))
 		hook_hit(target, user)
 		return
 	casting = TRUE
@@ -483,15 +486,13 @@
 	var/line_color = line?.line_color || default_line_color
 	/// Line part by the rod.
 	if(reel_overlay)
-		var/mutable_appearance/reel_appearance = mutable_appearance(icon, reel_overlay)
-		reel_appearance.appearance_flags = RESET_COLOR
+		var/mutable_appearance/reel_appearance = mutable_appearance(icon, reel_overlay, appearance_flags = RESET_COLOR|KEEP_APART)
 		reel_appearance.color = line_color
 		. += reel_appearance
 
 	// Line & hook is also visible when only bait is equipped but it uses default appearances then
 	if(hook || bait)
-		var/mutable_appearance/line_overlay = mutable_appearance(icon, "line_overlay")
-		line_overlay.appearance_flags = RESET_COLOR
+		var/mutable_appearance/line_overlay = mutable_appearance(icon, "line_overlay", appearance_flags = RESET_COLOR|KEEP_APART)
 		line_overlay.color = line_color
 		. += line_overlay
 		. += hook?.rod_overlay_icon_state || "hook_overlay"
@@ -512,19 +513,17 @@
 /obj/item/fishing_rod/proc/get_fishing_worn_overlays(mutable_appearance/standing, isinhands, icon_file)
 	. = list()
 	var/line_color = line?.line_color || default_line_color
-	var/mutable_appearance/reel_overlay = mutable_appearance(icon_file, "reel_overlay")
-	reel_overlay.appearance_flags |= RESET_COLOR
+	var/mutable_appearance/reel_overlay = mutable_appearance(icon_file, "reel_overlay", appearance_flags = RESET_COLOR|KEEP_APART)
 	reel_overlay.color = line_color
 	. += reel_overlay
 	/// if we don't have anything hooked show the dangling hook & line
 	if(isinhands && !fishing_line)
-		var/mutable_appearance/line_overlay = mutable_appearance(icon_file, "line_overlay")
-		line_overlay.appearance_flags |= RESET_COLOR
+		var/mutable_appearance/line_overlay = mutable_appearance(icon_file, "line_overlay", appearance_flags = RESET_COLOR|KEEP_APART)
 		line_overlay.color = line_color
 		. += line_overlay
 		. += mutable_appearance(icon_file, "hook_overlay")
 
-/obj/item/fishing_rod/attackby(obj/item/attacking_item, mob/user, params)
+/obj/item/fishing_rod/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(slot_check(attacking_item,ROD_SLOT_LINE))
 		use_slot(ROD_SLOT_LINE, user, attacking_item)
 		SStgui.update_uis(src)
@@ -544,13 +543,13 @@
 	var/list/data = list()
 
 	data["bait_name"] = format_text(bait?.name)
-	data["bait_icon"] = bait != null ? icon2base64(icon(bait.icon, bait.icon_state)) : null
+	data["bait_icon"] = bait != null ? icon2base64(icon(bait.icon, bait.icon_state, frame = 1)) : null
 
 	data["line_name"] = format_text(line?.name)
-	data["line_icon"] = line != null ? icon2base64(icon(line.icon, line.icon_state)) : null
+	data["line_icon"] = line != null ? icon2base64(icon(line.icon, line.icon_state, frame = 1)) : null
 
 	data["hook_name"] = format_text(hook?.name)
-	data["hook_icon"] = hook != null ? icon2base64(icon(hook.icon, hook.icon_state)) : null
+	data["hook_icon"] = hook != null ? icon2base64(icon(hook.icon, hook.icon_state, frame = 1)) : null
 
 	data["busy"] = fishing_line
 
@@ -696,6 +695,7 @@
 	frame_state = "frame_bone"
 	line = null //sinew line (usable to fish in lava) not included
 	hook = /obj/item/fishing_hook/bone
+	custom_materials = list(/datum/material/bone = SHEET_MATERIAL_AMOUNT * 2)
 
 /obj/item/fishing_rod/telescopic
 	name = "telescopic fishing rod"

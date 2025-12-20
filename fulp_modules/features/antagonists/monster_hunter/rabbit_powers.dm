@@ -7,8 +7,16 @@
 	button_icon_state = "killer_rabbit"
 	desc = "Give birth to a bunch of cute bunnies eager to suicide bomb the nearest enemy!"
 	cooldown_time = 3 SECONDS
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
-	button_icon_state = "killer_rabbit"
+	button_icon_state = "killer_rabbit_centered"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "diamonds"
+
 	spell_requirements = NONE
 
 
@@ -29,8 +37,16 @@
 	button_icon_state = "hole_effect_button"
 	cooldown_time = 3 SECONDS
 	desc = "Create a small cascade of rabbit holes to trip your enemies!"
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon = 'fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi'
 	button_icon_state = "hole_effect_button"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "clubs"
+
 	spell_requirements = NONE
 
 /datum/action/cooldown/spell/pointed/red_rabbit_hole/is_valid_target(atom/target_atom)
@@ -49,12 +65,24 @@
 	charge_past = 5
 	cooldown_time = 3 SECONDS
 
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "spades"
+
 /**
  * Shotgun blast ability
  */
 /datum/action/cooldown/mob_cooldown/projectile_attack/shotgun_blast/red_rabbit
 	cooldown_time = 3 SECONDS
 	projectile_type = /obj/projectile/red_rabbit
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "hearts"
 
 /obj/projectile/red_rabbit
 	name = "Red Queen"

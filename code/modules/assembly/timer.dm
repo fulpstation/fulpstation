@@ -21,7 +21,7 @@
 
 /obj/item/assembly/timer/proc/manual_suicide(mob/living/user)
 	user.visible_message(span_suicide("[user]'s time is up!"))
-	user.adjustOxyLoss(200)
+	user.adjust_oxy_loss(200)
 	user.death(FALSE)
 
 /obj/item/assembly/timer/Initialize(mapload)
@@ -88,7 +88,7 @@
 	attached_overlays += "timer_timing"
 	for (var/i in 1 to clamp(ceil(time / 10), 1, 3))
 		var/mutable_appearance/timer_light = mutable_appearance(icon, "timer_light", layer, src)
-		timer_light.pixel_x = (i - 1) * 2
+		timer_light.pixel_w = (i - 1) * 2
 		. += timer_light
 
 /obj/item/assembly/timer/ui_status(mob/user, datum/ui_state/state)

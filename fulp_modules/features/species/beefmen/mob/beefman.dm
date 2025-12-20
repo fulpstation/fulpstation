@@ -88,7 +88,7 @@
 */
 /datum/species/beefman/spec_life(mob/living/carbon/human/user)
 	. = ..()
-	var/searJuices = user.getFireLoss_nonProsthetic() / 30
+	var/searJuices = user.get_fire_loss_non_prosthetic() / 30
 	if(dehydrated)
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - BEEFMAN_BLEEDOUT_LEVEL) / 20 - searJuices, 2, 10))
 		return dehydrated--
@@ -100,13 +100,6 @@
 		if(all_bodyparts.generic_bleedstacks)
 			return
 	user.blood_volume += 4
-
-/datum/species/beefman/handle_chemical(datum/reagent/chem, mob/living/carbon/human/user, delta_time, times_fired)
-	if(istype(chem, /datum/reagent/saltpetre) || istype(chem, /datum/reagent/consumable/salt))
-		if(!dehydrated || SPT_PROB(10, delta_time))
-			to_chat(user, span_alert("Your beefy mouth tastes dry."))
-		dehydrated++
-	return ..()
 
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER

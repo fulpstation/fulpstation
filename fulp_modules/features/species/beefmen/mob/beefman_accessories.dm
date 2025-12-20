@@ -33,9 +33,9 @@
 	name = BEEF_MOUTH_FROWN
 	icon_state = "frown"
 
-/datum/sprite_accessory/beef/mouth/dissapointed
-	name = BEEF_MOUTH_DISSAPOINTED
-	icon_state = "dissapointing"
+/datum/sprite_accessory/beef/mouth/disappointed
+	name = BEEF_MOUTH_DISAPPOINTED
+	icon_state = "disappointing"
 
 /datum/sprite_accessory/beef/mouth/grit
 	name = BEEF_MOUTH_GRIT

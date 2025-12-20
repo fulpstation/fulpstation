@@ -5,8 +5,10 @@
 #define TRAIT_BLOODSUCKER_HUNTER "bloodsucker_hunter"
 
 /**
- * Blood-level defines
+ * Blood-related defines
  */
+/// Name for the bloodsucker blood type, used to empower vassals.
+#define BLOOD_TYPE_BLOODSUCKER "BS"
 /// Determines Bloodsucker regeneration rate
 #define BS_BLOOD_VOLUME_MAX_REGEN 700
 /// Cost to torture someone halfway, in blood. Called twice for full cost
@@ -52,6 +54,7 @@
 #define CLAN_VENTRUE "Ventrue Clan"
 #define CLAN_MALKAVIAN "Malkavian Clan"
 #define CLAN_TZIMISCE "Tzimisce Clan"
+#define CLAN_HECATA "Hecata Clan"
 #define CLAN_VASSAL "your Master"
 
 #define TREMERE_VASSAL "tremere_vassal"
@@ -83,6 +86,8 @@
 #define VASSAL_CAN_BUY (1<<3)
 /// This Power is exclusive to Brujah Bloodsuckers, who will gain them upon joining Brujah.
 #define BRUJAH_DEFAULT_POWER (1<<4)
+/// This Power can be purchased by Hecata Bloodsuckers
+#define HECATA_CAN_BUY (1<<5)
 
 /// This Power is a Toggled Power
 #define BP_AM_TOGGLE (1<<0)
@@ -124,6 +129,8 @@
 #define BLOODSUCKER_DRINK_SNOBBY "bloodsucker_drink_snobby"
 ///Drinks blood from disgusting creatures without Humanity consequences.
 #define BLOODSUCKER_DRINK_INHUMANELY "bloodsucker_drink_imhumanely"
+///Drinks blood only from aggressive or higher grabs, no silent feeding.
+#define BLOODSUCKER_DRINK_PAINFUL "bloodsucker_drink_painful"
 
 /**
  * Role defines
@@ -141,3 +148,5 @@
  */
 /// The attack bonus added to the punch damage of the Brujah clan's favorite vassals.
 #define BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS 4
+/// The attack bonus added to the punch damage of Hecata zombies.
+#define HECATA_ZOMBIE_ATTACK_BONUS 10

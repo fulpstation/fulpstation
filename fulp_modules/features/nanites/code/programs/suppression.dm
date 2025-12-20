@@ -122,7 +122,7 @@
 		return
 	if(signal_comm_code == comm_code)
 		log_game("[host_mob]'s [name] nanite program was messaged by [comm_source] with comm code [signal_comm_code] and message '[comm_message]'.")
-		trigger(comm_message)
+		trigger(FALSE, comm_message)
 
 /datum/nanite_program/comm/speech
 	name = "Forced Speech"

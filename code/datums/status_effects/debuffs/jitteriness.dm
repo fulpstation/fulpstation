@@ -22,12 +22,10 @@
 /datum/status_effect/jitter/on_remove()
 	UnregisterSignal(owner, COMSIG_LIVING_DEATH)
 	owner.clear_mood_event(id)
-	// juuust in case, reset our x and y's from our jittering
-	owner.pixel_x = 0
-	owner.pixel_y = 0
+	owner.update_offsets()
 
 /datum/status_effect/jitter/get_examine_text()
-	switch(duration - world.time)
+	switch(duration)
 		if(5 MINUTES to INFINITY)
 			return span_boldwarning("[owner.p_They()] [owner.p_are()] convulsing violently!")
 		if(3 MINUTES to 5 MINUTES)
@@ -49,7 +47,7 @@
 	if(owner.resting && remove_duration(4 * seconds_between_ticks))
 		return
 
-	var/time_left_in_seconds = (duration - world.time) / 10
+	var/time_left_in_seconds = duration / 10
 	owner.do_jitter_animation(time_left_in_seconds)
 
 /// Helper proc that causes the mob to do a jittering animation by jitter_amount.

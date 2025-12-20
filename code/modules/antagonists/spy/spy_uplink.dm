@@ -114,13 +114,13 @@
 		active_scan_cone = new(spy.loc)
 		var/angle = round(get_angle(spy, stealing), 10)
 		if(angle > 180 && angle < 360)
-			active_scan_cone.pixel_x -= 16
+			active_scan_cone.pixel_w -= 16
 		else if(angle < 180 && angle > 0)
-			active_scan_cone.pixel_x += 16
+			active_scan_cone.pixel_w += 16
 		if(angle > 90 && angle < 270)
-			active_scan_cone.pixel_y -= 16
+			active_scan_cone.pixel_z -= 16
 		else if(angle < 90 || angle > 270)
-			active_scan_cone.pixel_y += 16
+			active_scan_cone.pixel_z += 16
 		active_scan_cone.transform = active_scan_cone.transform.Turn(angle)
 		active_scan_cone.alpha = 0
 		animate(active_scan_cone, time = 0.5 SECONDS, alpha = initial(active_scan_cone.alpha))
@@ -148,12 +148,16 @@
 		return FALSE
 
 	var/bounty_key = bounty.get_dupe_protection_key(stealing)
+	// record that we've claimed this type of bounty
 	handler.all_claimed_bounty_types[bounty_key] += 1
 	handler.claimed_bounties_from_last_pool[bounty_key] = TRUE
-
+	// clear up the bounty itself
 	bounty.clean_up_stolen_item(stealing, spy, handler)
 	bounty.claimed = TRUE
-
+	// adds child items to the bounty pool, ie ammo for a newly acquired gun
+	for(var/child_item_type in bounty.reward_item.relevant_child_items)
+		handler.try_add_to_loot_pool(SStraitor.uplink_items_by_type[child_item_type])
+	// and finally, spawn the reward
 	var/atom/movable/reward = bounty.reward_item.spawn_item_for_generic_use(spy)
 	if(isitem(reward))
 		spy.put_in_hands(reward)

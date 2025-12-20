@@ -8,7 +8,7 @@ import {
   Section,
   Table,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -244,10 +244,10 @@ const NaniteExtraText = (props) => {
     <Input
       value={value}
       width="200px"
-      onInput={(e, val) =>
+      onChange={(val) =>
         act('set_extra_setting', {
-          target_setting: name,
-          value: val,
+            target_setting: name,
+            value: val,
         })
       }
     />

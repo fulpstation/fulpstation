@@ -21,7 +21,7 @@
 	if(!length(possible_turfs)) // Out of turfs to place a curiosity
 		return FALSE
 
-	if(generated_domain.secondary_loot_generated >= assoc_value_sum(generated_domain.secondary_loot)) // Out of curiosities to place
+	if(generated_domain.secondary_loot_generated >= counterlist_sum(generated_domain.secondary_loot)) // Out of curiosities to place
 		return FALSE
 
 	shuffle_inplace(possible_turfs)
@@ -129,7 +129,7 @@
 
 /// Scans over neo's contents for bitrunning tech disks. Loads the items or abilities onto the avatar.
 /obj/machinery/quantum_server/proc/stock_gear(mob/living/carbon/human/avatar, mob/living/carbon/human/neo, datum/lazy_template/virtual_domain/generated_domain)
-	var/domain_forbids_flags = generated_domain.external_load_flags
+	var/domain_forbids_flags = generated_domain.domain_flags
 
 	var/import_ban = list()
 	var/disk_ban = list()

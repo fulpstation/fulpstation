@@ -36,6 +36,9 @@
 	if(user.is_mouth_covered() && !isplasmaman(user))
 		owner.balloon_alert(owner, "mouth covered!")
 		return FALSE
+	if(bloodsuckerdatum_power?.my_clan?.blood_drink_type == BLOODSUCKER_DRINK_PAINFUL && owner.grab_state <= GRAB_PASSIVE)
+		owner.balloon_alert(owner, "can't silent feed!")
+		return FALSE
 	//Find target, it will alert what the problem is, if any.
 	if(!find_target())
 		return FALSE
@@ -50,13 +53,14 @@
 
 /datum/action/cooldown/bloodsucker/feed/DeactivatePower()
 	var/mob/living/user = owner
-	var/mob/living/feed_target
+	var/atom/feed_target
 	if(target_ref)
 		feed_target = target_ref.resolve()
-	if(!isnull(feed_target))
-		log_combat(user, feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
-		to_chat(user, span_notice("You slowly release [feed_target]."))
-		if(feed_target.stat == DEAD && blood_taken > 0)
+	if(!isnull(feed_target) && isliving(feed_target))
+		var/mob/living/living_feed_target = feed_target
+		log_combat(user, living_feed_target, "fed on blood", addition="(and took [blood_taken] blood)")
+		to_chat(user, span_notice("You slowly release [living_feed_target]."))
+		if(living_feed_target.stat == DEAD && blood_taken > 0)
 			user.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
 			bloodsuckerdatum_power.AddHumanityLost(10)
 
@@ -68,6 +72,38 @@
 	return ..()
 
 /datum/action/cooldown/bloodsucker/feed/ActivatePower(trigger_flags)
+	/// The initial version of "feed_target" before it's set as a "/mob/living"
+	var/atom/feed_target_atom = target_ref.resolve()
+	if(istype(feed_target_atom, /obj/effect/decal/cleanable/blood))
+		if(!owner.get_organ_slot(ORGAN_SLOT_TONGUE))
+			owner.balloon_alert(owner, "no tongue!")
+			DeactivatePower()
+			return
+
+		var/obj/effect/decal/cleanable/blood/blood_decal = feed_target_atom
+		if(bloodsuckerdatum_power.frenzied)
+			tackle_feed_target()
+		owner.visible_message(
+			span_warning("[owner] starts licking [blood_decal] off the [blood_decal.loc.name]!"),
+			span_notice("You start licking [blood_decal] off the [blood_decal.loc.name]."),
+		)
+
+		var/time_to_lick = (1 SECONDS + (ceil(blood_decal.bloodiness/20) SECONDS))
+		if(do_after(owner, time_to_lick, blood_decal))
+			bloodsuckerdatum_power.AddHumanityLost(0.1) // They lose Humanity regardless of drinking type because it's funny.
+			owner.visible_message(
+				span_warning("[owner] licks [blood_decal] off the [blood_decal.loc.name]!"),
+				span_notice("You lick [blood_decal] off the [blood_decal.loc.name]."),
+			)
+			DeactivatePower()
+			// "Bloodiness" is not an accurate reflection of blood decal volume, but it's
+			// the best thing available to go off of. We
+			bloodsuckerdatum_power.AddBloodVolume(ceil(blood_decal.bloodiness/50))
+			blood_decal.Destroy()
+
+		return
+
+	/// Past this point our "feed_target" can only be a living mob.
 	var/mob/living/feed_target = target_ref.resolve()
 	if(istype(feed_target, /mob/living/basic/mouse))
 		to_chat(owner, span_notice("You recoil at the taste of a lesser lifeform."))
@@ -90,7 +126,7 @@
 		feed_timer = 2 SECONDS
 
 	owner.balloon_alert(owner, "feeding off [feed_target]...")
-	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE))
+	if(!do_after(owner, feed_timer, feed_target, NONE, TRUE, hidden = TRUE))
 		owner.balloon_alert(owner, "feed stopped")
 		DeactivatePower()
 		return
@@ -214,27 +250,47 @@
 			close_living_mobs |= near_targets
 		else
 			close_dead_mobs |= near_targets
-	//Check living first
+
+	// Check living first
 	for(var/mob/living/suckers in close_living_mobs)
 		if(can_feed_from(suckers))
 			target_ref = WEAKREF(suckers)
 			return TRUE
-	//If not, check dead
+
+	// If not, check dead
 	for(var/mob/living/suckers in close_dead_mobs)
 		if(can_feed_from(suckers))
 			target_ref = WEAKREF(suckers)
 			return TRUE
-	//No one to suck blood from.
+
+	// If neither living or dead are present, check the floor for fresh blood decals.
+	var/list/close_blood_decals = list()
+	for(var/obj/effect/decal/cleanable/blood/blood_decal in oview(1, owner))
+		if(!owner.Adjacent(blood_decal))
+			continue
+		if(blood_decal.bloodiness < 20) // Essentially if it's dry.
+			continue
+		else
+			close_blood_decals |= blood_decal
+
+	if(length(close_blood_decals))
+		var/obj/effect/decal/cleanable/blood/random_blood_decal = pick(close_blood_decals)
+		if(can_feed_from(random_blood_decal))
+			target_ref = WEAKREF(random_blood_decal)
+			return TRUE
+
+	// Nothing to suck blood from.
 	return FALSE
 
-/datum/action/cooldown/bloodsucker/feed/proc/can_feed_from(mob/living/target, give_warnings = FALSE)
-	if(istype(target, /mob/living/basic/mouse))
+/datum/action/cooldown/bloodsucker/feed/proc/can_feed_from(atom/target, give_warnings = FALSE)
+	if(istype(target, /mob/living/basic/mouse) || istype(target, /obj/effect/decal/cleanable/blood))
 		if(bloodsuckerdatum_power.my_clan && bloodsuckerdatum_power.my_clan.blood_drink_type == BLOODSUCKER_DRINK_SNOBBY)
 			if(give_warnings)
 				owner.balloon_alert(owner, "too disgusting!")
 			return FALSE
 		return TRUE
-	//Mice check done, only humans are otherwise allowed
+
+	// Mice/blood checks done, only humans are otherwise allowed
 	if(!ishuman(target))
 		return FALSE
 
@@ -252,6 +308,27 @@
 			owner.balloon_alert(owner, "cant drink from mindless!")
 		return FALSE
 	return TRUE
+
+/// Makes our owner tackle our feed target.
+/// Derived from 'code\datums\components\tackle.dm'
+/datum/action/cooldown/bloodsucker/feed/proc/tackle_feed_target()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/human_owner = owner
+	var/atom/feed_target = target_ref.resolve()
+
+	human_owner.face_atom(feed_target)
+
+	playsound(human_owner, 'sound/items/weapons/thudswoosh.ogg', 40, TRUE, -1)
+
+	var/leap_word = isfelinid(human_owner) || HAS_TRAIT(human_owner, TRAIT_TACKLING_TAILED_POUNCE) ? "pounce" : "leap" //If cat, "pounce" instead of "leap".
+	if(can_see(human_owner, feed_target, 7))
+		human_owner.visible_message(span_warning("[human_owner] [leap_word]s at [feed_target]!"), span_danger("You [leap_word] at [feed_target]!"))
+	else
+		human_owner.visible_message(span_warning("[human_owner] [leap_word]s!"), span_danger("You [leap_word]!"))
+	human_owner.Knockdown(1 SECONDS, ignore_canstun = TRUE)
+	human_owner.adjust_stamina_loss(25)
+	human_owner.throw_at(feed_target, 4, 1, human_owner, FALSE)
 
 #undef FEED_NOTICE_RANGE
 #undef FEED_DEFAULT_TIMER
