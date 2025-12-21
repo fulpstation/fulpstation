@@ -379,7 +379,7 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 			job = "Unknown"
 		//FULP EDIT START
 		var/mob/living/carbon/human/human_speaker = M
-		if(human_speaker.GetVoice() != human_speaker.real_name)
+		if(human_speaker.get_voice() != human_speaker.real_name)
 			gender = PLURAL
 		//FULP EDIT END
 	else if(iscarbon(M))  // Carbon nonhuman

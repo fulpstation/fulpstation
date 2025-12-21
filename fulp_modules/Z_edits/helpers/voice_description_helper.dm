@@ -9,7 +9,7 @@
 	//This isn't ideal at all (and could be metagamed), but no 'voice_gender' exists.
 	if(ishuman(speaker))
 		var/mob/living/carbon/human/human_speaker = speaker
-		if(speaker.GetVoice() != human_speaker.real_name)
+		if(speaker.get_voice() != human_speaker.real_name)
 			voice_description = VOICE_DESCRIPTION_PLURAL //"Their" instead of "its" to be less /obj
 			return voice_description
 
