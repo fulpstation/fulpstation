@@ -165,7 +165,10 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/messagepart = speaker.generate_messagepart(raw_message, spans, message_mods)
 	messagepart = " <span class='message'>[messagepart]</span></span>"
 
-	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	// FULP EDIT START
+	var/speaker_voice_description = get_voice_description(speaker)
+	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, namepart)][span_tooltip_subtle(speaker_voice_description, namepart)][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	// FULP EDIT END
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
@@ -357,6 +360,9 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 	source = M
 	if(istype(M))
 		name = radio.anonymize ? "Unknown" : M.get_voice(add_id_name = TRUE)
+		//FULP EDIT START
+		gender = M.gender
+		//FULP EDIT END
 		verb_say = M.get_default_say_verb()
 		verb_ask = M.verb_ask
 		verb_exclaim = M.verb_exclaim
@@ -371,6 +377,11 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 			job = found_record.rank
 		else
 			job = "Unknown"
+		//FULP EDIT START
+		var/mob/living/carbon/human/human_speaker = M
+		if(human_speaker.get_voice() != human_speaker.real_name)
+			gender = PLURAL
+		//FULP EDIT END
 	else if(iscarbon(M))  // Carbon nonhuman
 		job = "No ID"
 	else if(isAI(M))  // AI

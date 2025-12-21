@@ -18,6 +18,8 @@
 
 - tools/deploy.sh > Adds Fulp's ``icon`` and ``greyscale/json_configs`` folders to the list of folders that RustG uses to compile icons.
 
+- code\game\say.dm > Edits the end of 'compose_message()' in order to add gender indicating tooltips to speaker names. Also edits '/atom/movable/virtualspeaker/Initialize()' in order to have virtualspeakers mimic their source's gender.
+
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
 
 ## All Fulp files not contained within /fulp_modules/
