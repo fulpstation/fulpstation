@@ -73,7 +73,7 @@
 /// give a positive mood event and speech modifier when eaten.
 /datum/component/shrimp_fried/Initialize(...)
 	. = ..()
-	if(!IsEdible(parent))
+	if(!IS_EDIBLE(parent))
 		return COMPONENT_INCOMPATIBLE
 
 	var/obj/item/food/food_parent = parent
