@@ -192,7 +192,8 @@
 	..()
 	if(!special)
 		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache)
-		qdel(src)
+		if(!QDELETED(src))
+			qdel(src)
 		return new_meat
 
 /obj/item/bodypart/arm/left/beef
@@ -226,7 +227,8 @@
 	..()
 	if(!special)
 		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
-		qdel(src)
+		if(!QDELETED(src))
+			qdel(src)
 		return new_meat
 
 /obj/item/bodypart/leg/right/beef
@@ -243,10 +245,10 @@
 	var/mob/living/carbon/owner_cache = owner
 	..()
 	if(!special)
+		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 		if(!QDELETED(src))
-			var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
 			qdel(src)
-			return new_meat
+		return new_meat
 
 /obj/item/bodypart/leg/left/beef
 	icon = 'fulp_modules/icons/species/mob/beefman_bodyparts.dmi'
@@ -263,7 +265,8 @@
 	..()
 	if(!special)
 		var/obj/item/food/meat/slab/new_meat = drop_meat(owner_cache, TRUE)
-		qdel(src)
+		if(!QDELETED(src))
+			qdel(src)
 		return new_meat
 
 /mob/living/carbon/human/spread_bodyparts(skip_head = FALSE)
