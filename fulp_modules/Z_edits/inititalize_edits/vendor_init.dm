@@ -26,5 +26,13 @@
 		/obj/item/toy/plush/batong = 3, //Used in toys.dm
 		/obj/item/toy/plush/pico = 1, // Used in toys.dm
 	)
+
+	// CAS removal.
+	var/list/card_category = product_categories[1]
+	var/list/card_category_products = card_category["products"]
+	for(var/obj/item/toy/cards/deck/our_deck as anything in card_category_products)
+		if(ispath(our_deck, /obj/item/toy/cards/deck/cas))
+			card_category_products.Remove(our_deck)
+
 	return ..()
 
