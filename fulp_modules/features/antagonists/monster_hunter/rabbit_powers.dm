@@ -25,7 +25,7 @@
 	StartCooldown(360 SECONDS, 360 SECONDS)
 	for(var/i in 1 to 3)
 		var/mob/living/basic/killer_rabbit/rabbit = new(owner.loc)
-		rabbit.faction = owner.faction.Copy()
+		rabbit.add_faction(owner.get_faction())
 	StartCooldown()
 
 /**

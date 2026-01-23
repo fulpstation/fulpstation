@@ -24,7 +24,7 @@
 
 // Add rotating and armrest
 /obj/structure/bloodsucker/bloodthrone/Initialize()
-	AddComponent(/datum/component/simple_rotation, ROTATION_IGNORE_ANCHORED)
+	AddElement(/datum/element/simple_rotation, ROTATION_IGNORE_ANCHORED)
 	if(!armrest)
 		armrest = mutable_appearance('fulp_modules/icons/antagonists/bloodsuckers/vamp_obj_64.dmi', "thronearm")
 		armrest.layer = ABOVE_MOB_LAYER

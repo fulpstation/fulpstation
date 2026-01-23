@@ -168,17 +168,20 @@
 		'sound/effects/rock/rocktap2.ogg' = 1
 	)
 	max_integrity = 250
-	grind_results = list(
+
+	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
+	/// Coded by referencing 'supermatter.dm'
+	var/holiday_edition = FALSE
+
+//I'm not a geologist so this may or mayn't be accurate
+/obj/item/toy/plush/phos/grind_results()
+	return list(
 		/datum/reagent/phosphorus = 5,
 		/datum/reagent/carbon = 2,
 		/datum/reagent/iron = 3,
 		/datum/reagent/oxygen = 2,
 		/datum/reagent/hydrogen = 4
-	) //I'm not a geologist so this may or mayn't be accurate
-
-	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
-	/// Coded by referencing 'supermatter.dm'
-	var/holiday_edition = FALSE
+	)
 
 /obj/item/toy/plush/phos/Initialize(mapload)
 	. = ..()
