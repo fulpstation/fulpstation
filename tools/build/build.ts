@@ -22,7 +22,7 @@ export const DME_NAME = 'tgstation';
 
 Juke.chdir('../..', import.meta.url);
 
-const dependencies: Record<string, any> = await Bun.file('dependencies.sh')
+const dependencies: Record<string, string> = await Bun.file('dependencies.sh')
   .text()
   .then(formatDeps)
   .catch((err) => {
@@ -147,11 +147,10 @@ export const DmMapsIncludeTarget = new Juke.Target({
       ...Juke.glob('_maps/shuttles/**/*.dmm'),
       ...Juke.glob('_maps/templates/**/*.dmm'),
     ];
-    const content =
-      folders
-        .map((file) => file.replace('_maps/', ''))
-        .map((file) => `#include "${file}"`)
-        .join('\n') + '\n';
+    const content = `${folders
+      .map((file) => file.replace('_maps/', ''))
+      .map((file) => `#include "${file}"`)
+      .join('\n')}\n`;
     fs.writeFileSync('_maps/templates.dm', content);
   },
 });
@@ -172,9 +171,6 @@ export const DmTarget = new Juke.Target({
     '_maps/map_files/generic/**',
     'maps/**/*.dm',
     'code/**',
-    // Fulp edit - Build //Add our folder as part of dependecies, so the build doesn't fail if the only file edited is inside it.
-    'fulp_modules/**',
-    // Fulp edit END
     'html/**',
     'icons/**',
     'interface/**',
@@ -413,6 +409,7 @@ export const TguiCleanTarget = new Juke.Target({
     Juke.rm('tgui/public/*.{chunk,bundle,hot-update}.*');
     Juke.rm('tgui/packages/tgfont/dist', { recursive: true });
     Juke.rm('tgui/node_modules', { recursive: true });
+    Juke.rm('tgui/packages/*/node_modules', { recursive: true });
   },
 });
 
