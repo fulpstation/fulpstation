@@ -1,9 +1,12 @@
 import { Box, Button, Image, Section, Stack } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
-import { Objective, ObjectivePrintout } from '../interfaces/common/Objectives';
+import {
+  type Objective,
+  ObjectivePrintout,
+} from '../interfaces/common/Objectives';
 import { Window } from '../layouts';
 
 type ItemInfo = {
@@ -15,7 +18,7 @@ type ItemInfo = {
 type Info = {
   objectives: Objective[];
   items: ItemInfo[];
-  rabbits_count: Number;
+  rabbits_count: number;
   all_rabbits_found: BooleanLike;
   all_completed: BooleanLike;
   used_up: BooleanLike;
