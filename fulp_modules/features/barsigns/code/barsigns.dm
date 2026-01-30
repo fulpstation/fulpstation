@@ -33,7 +33,7 @@
 /datum/barsign/fulp/franksmeatshop
 	name = "Franks Meat Shop"
 	icon_state = "franksmeatshop"
-	desc = "Home to the valid salad"
+	desc = "Home to the valid salad."
 
 /datum/barsign/fulp/thefulpmoment
 	name = "The Fulp Moment"
