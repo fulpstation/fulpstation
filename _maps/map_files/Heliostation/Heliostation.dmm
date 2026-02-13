@@ -8580,16 +8580,16 @@
 /turf/open/floor/iron/freezer,
 /area/station/medical/treatment_center)
 "aSN" = (
-/obj/structure/sink/directional/south,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk,
+/obj/structure/sign/eyechart/directional/north,
 /turf/open/floor/iron/freezer,
 /area/station/medical/treatment_center)
 "aSO" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /obj/effect/turf_decal/bot,
-/obj/item/radio/intercom/directional/north,
+/obj/structure/sink/directional/south,
 /turf/open/floor/iron/freezer,
 /area/station/medical/treatment_center)
 "aSQ" = (
@@ -8846,10 +8846,10 @@
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
 "aTR" = (
-/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 5
 	},
@@ -9127,10 +9127,6 @@
 /area/station/medical/medbay/central)
 "aUZ" = (
 /obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/trimline/blue/filled/line{
-	dir = 4
-	},
-/obj/effect/landmark/start/medical_doctor,
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
 "aVb" = (
@@ -9351,10 +9347,10 @@
 /mob/living/basic/bot/cleanbot{
 	name = "C.L.E.A.N."
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
 "aVW" = (
-/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
 	},
@@ -14000,7 +13996,6 @@
 /obj/effect/landmark/event_spawn,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/airalarm/directional/west,
 /obj/effect/landmark/start/depsec/medical,
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 8
@@ -14902,7 +14897,6 @@
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/medical)
 "bru" = (
-/obj/machinery/newscaster/directional/east,
 /obj/effect/turf_decal/tile/red/anticorner/contrasted,
 /obj/machinery/camera/directional/south{
 	c_tag = "Security - Medbay  Post";
@@ -14915,6 +14909,7 @@
 /obj/item/screwdriver,
 /obj/item/book/manual/wiki/security_space_law,
 /obj/machinery/computer/security/telescreen/med_sec/directional/south,
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/medical)
 "brw" = (
@@ -21130,7 +21125,7 @@
 	},
 /obj/machinery/light/directional/south,
 /obj/item/storage/belt/medical,
-/obj/structure/sign/eyechart/directional/east,
+/obj/machinery/vitals_reader/directional/east,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
 "cjy" = (
@@ -32100,7 +32095,7 @@
 /obj/structure/table/optable,
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/decal/cleanable/blood/splatter,
-/obj/machinery/defibrillator_mount/directional/west,
+/obj/machinery/vitals_reader/directional/west,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery/aft)
 "fjZ" = (
@@ -38260,8 +38255,8 @@
 	pixel_y = 2
 	},
 /obj/item/clothing/glasses/hud/health,
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/disposalpipe/junction{
+	dir = 8
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
@@ -62810,8 +62805,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/structure/disposalpipe/junction{
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
@@ -72246,8 +72241,8 @@
 /area/station/command/eva)
 "uqp" = (
 /obj/structure/table/optable,
-/obj/machinery/defibrillator_mount/directional/east,
 /obj/effect/turf_decal/tile/blue/fourcorners,
+/obj/machinery/vitals_reader/directional/east,
 /turf/open/floor/iron/white,
 /area/station/medical/surgery/aft)
 "uqq" = (
@@ -77875,7 +77870,8 @@
 	name = "Stasis Camera";
 	network = list("ss13","medbay")
 	},
-/obj/machinery/firealarm/directional/west,
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/vitals_reader/directional/west,
 /turf/open/floor/iron/white/textured,
 /area/station/medical/treatment_center)
 "wCv" = (
@@ -127226,7 +127222,7 @@ aYZ
 cdn
 wBV
 piO
-bdB
+aNc
 lgn
 sbw
 bhD
@@ -127732,7 +127728,7 @@ tPa
 piO
 aSN
 aTQ
-xfB
+aUZ
 aVV
 hAb
 aXL
@@ -127989,7 +127985,7 @@ tPa
 piO
 aSO
 aTR
-aUZ
+bae
 aVW
 qOr
 mTx
