@@ -105,7 +105,7 @@
 
 	if(ismegafauna(target))
 		//Only work on Blood Drunk Miners because they're just barely megafauna and it's funny.
-		if(!istype(target, /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner))
+		if(!istype(target, /mob/living/basic/boss/blood_drunk_miner))
 			playsound(src.loc, 'fulp_modules/sounds/effects/anime_wow.ogg', 12)
 			qdel(src)
 			return
@@ -184,7 +184,7 @@
 		var/mob/living/basic/new_cat = new /mob/living/basic/pet/cat(target.loc)
 		new_cat.name = target.real_name
 		new_cat.real_name = target.real_name
-		new_cat.faction = target.faction.Copy()
+		new_cat.add_faction(target.get_faction())
 		if(target.mind)
 			target.mind.transfer_to(new_cat)
 		if(target.key)

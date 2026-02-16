@@ -12,7 +12,7 @@ fi
 mkdir -p \
     $1/_maps \
     $1/code/datums/greyscale/json_configs \
-		$1/fulp_modules/strings/greyscale/json_configs \
+    $1/fulp_modules/strings/greyscale/json_configs \
 		$1/fulp_modules/icons \
     $1/data/spritesheets \
     $1/icons \

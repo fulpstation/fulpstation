@@ -49,8 +49,8 @@
 		/obj/item/gun/ballistic/automatic/pistol,
 	)
 
-/datum/outfit/syndicate_engineer/post_equip(mob/living/carbon/human/H)
-	H.faction |= ROLE_SYNDICATE
+/datum/outfit/syndicate_engineer/post_equip(mob/living/carbon/human/equipped_syndicate)
+	equipped_syndicate.add_faction(ROLE_SYNDICATE)
 
 // We're giving them a special solar panel crate because the budget one doesn't have enough panels-- and I don't want to place 20 crates.
 

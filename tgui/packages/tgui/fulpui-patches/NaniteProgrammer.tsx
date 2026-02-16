@@ -246,8 +246,8 @@ const NaniteExtraText = (props) => {
       width="200px"
       onChange={(val) =>
         act('set_extra_setting', {
-            target_setting: name,
-            value: val,
+          target_setting: name,
+          value: val,
         })
       }
     />
