@@ -71,8 +71,8 @@
 		rabbits += cretin
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
 	gun_holder.drop_gun = TRUE
-	var/datum/action/cooldown/spell/track_monster/track = new
-	track.Grant(owner.current)
+//	var/datum/action/cooldown/spell/track_monster/track = new
+//	track.Grant(owner.current)
 	return ..()
 
 /datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
@@ -320,7 +320,7 @@
 	qdel(src)
 	return TRUE
 
-
+/* Fulp edit - This shit's broken asf
 /datum/action/cooldown/spell/track_monster
 	name = "Hunter Vision"
 	desc = "Detect monsters within your vicinity"
@@ -399,3 +399,5 @@
 	if(!iscarbon(input))
 		saved_appearances["[input.icon]-[input.icon_state]"] = copied_appearance
 	return copied_appearance
+*/
+
