@@ -10,13 +10,12 @@
 
 	var/list/lines = list()
 	var/payload_string = generate_mentorwho_string()
-	var/header = "Current Mentors:"
+	var/header = "Current Mentors"
 
 	lines += span_bold(header)
 	lines += payload_string
 
-	var/finalized_string = boxed_message(jointext(lines, "\n"))
-	to_chat(src, finalized_string)
+	to_chat(src, fieldset_block(span_bold(header), jointext(lines, "\n"), "boxed_message"), type = MESSAGE_TYPE_INFO)
 
 /// Proc that returns a list of cliented mentors. Remember that this list can contain nulls!
 /// Also, will return null if we don't have any mentors.
