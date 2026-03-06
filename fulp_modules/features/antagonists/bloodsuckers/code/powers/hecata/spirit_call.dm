@@ -53,9 +53,7 @@
 /datum/action/cooldown/bloodsucker/hecata/spiritcall/proc/cast_effect() //same as veil of many faces, makes smoke and stuff when casted
 	// Effect
 	playsound(get_turf(owner), 'sound/effects/magic/smoke.ogg', 20, TRUE)
-	var/datum/effect_system/steam_spread/puff = new /datum/effect_system/steam_spread/bloodsucker()
-	puff.effect_type = /obj/effect/particle_effect/fluid/smoke/vampsmoke
-	puff.set_up(3, 0, get_turf(owner))
+	var/datum/effect_system/basic/steam_spread/bloodsucker/puff = new(get_turf(owner), 3, 0)
 	puff.attach(owner) //OPTIONAL
 	puff.start()
 	owner.spin(8, 1) //Spin around like a loon.
