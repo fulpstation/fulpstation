@@ -47,16 +47,6 @@
 		return
 	return ..()
 
-// Used to keep track of how much Blood we've drank so far
-/mob/living/get_status_tab_items()
-	. = ..()
-	if(!mind)
-		return ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
-		. += ""
-		. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
-
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/costume/dracula
