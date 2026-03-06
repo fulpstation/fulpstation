@@ -59,6 +59,11 @@
 - _maps/shuttles/cargo_fulp.dmm
 - _maps/shuttles/emergency_theia.dmm
 
+##### Important Mapping notice
+
+cargo_pubby.dmm is on TG, however Fulp edited it to fit with Cargo.
+Please make sure to not accidentally re-add the old version.
+
 #### TGUI
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsucker.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/bloodsuckerbreakout.ts

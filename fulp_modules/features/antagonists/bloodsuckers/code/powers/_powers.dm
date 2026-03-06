@@ -7,7 +7,6 @@
 	button_icon_state = "power_feed"
 	buttontooltipstyle = "cult"
 	transparent_when_unavailable = TRUE
-	panel = "Bloodsucker"
 
 	/// Cooldown you'll have to wait between each use, decreases depending on level.
 	cooldown_time = 2 SECONDS
@@ -59,14 +58,6 @@
 /datum/action/cooldown/bloodsucker/Destroy()
 	bloodsuckerdatum_power = null
 	return ..()
-
-/datum/action/cooldown/bloodsucker/set_statpanel_format()
-	. = ..()
-	if(!islist(.))
-		return
-
-	if(active)
-		.[PANEL_DISPLAY_STATUS] = "ACTIVE"
 
 /datum/action/cooldown/bloodsucker/IsAvailable(feedback = FALSE)
 	return next_use_time <= world.time
