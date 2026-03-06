@@ -320,6 +320,11 @@
 
 	return finish_preview_icon(final_icon)
 
+/datum/antagonist/bloodsucker/ui_data(mob/user)
+	var/list/data = ..()
+	data["total_blood_drank"] = total_blood_drank
+	return data
+
 /datum/antagonist/bloodsucker/ui_static_data(mob/user)
 	var/list/data = list()
 	//we don't need to update this that much.

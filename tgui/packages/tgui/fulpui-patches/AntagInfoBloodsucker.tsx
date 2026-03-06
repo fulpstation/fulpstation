@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  DmIcon,
   Dropdown,
   Image,
   Section,
@@ -25,6 +26,7 @@ type Objective = {
 };
 
 type BloodsuckerInformation = {
+  total_blood_drank: number;
   clan: ClanInfo[];
   in_clan: BooleanLike;
   power: PowerInfo[];
@@ -95,17 +97,34 @@ export const AntagInfoBloodsucker = (props: any) => {
 };
 
 const BloodsuckerIntro = () => {
+  const { data } = useBackend<BloodsuckerInformation>();
+  const { total_blood_drank } = data;
   return (
     <Stack vertical fill>
       <Stack.Item minHeight="16rem">
         <Section scrollable fill>
-          <Stack vertical>
-            <Stack.Item textColor="red" fontSize="20px">
-              You are a Bloodsucker, an undead blood-seeking monster living
-              aboard Space Station 13
-            </Stack.Item>
+          <Stack>
+            <Stack vertical>
+              <Stack.Item textColor="red" fontSize="20px">
+                You are a Bloodsucker, an undead blood-seeking monster living
+                aboard Space Station 13
+              </Stack.Item>
+              <Stack.Item>
+                <ObjectivePrintout />
+              </Stack.Item>
+            </Stack>
             <Stack.Item>
-              <ObjectivePrintout />
+              <Button
+                color="transparent"
+                tooltip={'Blood drank: ' + total_blood_drank + 'u'}
+              >
+                <DmIcon
+                  icon="fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi"
+                  icon_state="blood_drank"
+                  height="64px"
+                  width="64px"
+                />
+              </Button>
             </Stack.Item>
           </Stack>
         </Section>
