@@ -104,24 +104,23 @@
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
-	var/icon/white_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
-	var/icon/red_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
-	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
+	var/datum/universal_icon/white_rabbit = uni_icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
+	var/datum/universal_icon/red_rabbit = uni_icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
+	var/datum/universal_icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
 
-	var/icon/final_icon = hunter_icon
-	white_rabbit.Shift(EAST,8)
-	white_rabbit.Shift(NORTH,18)
-	red_rabbit.Shift(WEST,8)
-	red_rabbit.Shift(NORTH,18)
-	red_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
-	white_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
-	final_icon.Blend(white_rabbit, ICON_UNDERLAY)
-	final_icon.Blend(red_rabbit, ICON_UNDERLAY)
+	white_rabbit.shift(EAST,8)
+	white_rabbit.shift(NORTH,18)
+	red_rabbit.shift(WEST,8)
+	red_rabbit.shift(NORTH,18)
+	red_rabbit.blend_color(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	white_rabbit.blend_color(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	hunter_icon.blend_icon(white_rabbit, ICON_UNDERLAY)
+	hunter_icon.blend_icon(red_rabbit, ICON_UNDERLAY)
 
-	final_icon.Scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
+	hunter_icon.scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
 	qdel(hunter)
 
-	return finish_preview_icon(final_icon)
+	return finish_preview_icon(hunter_icon)
 
 /datum/outfit/monsterhunter
 	name = "Monster Hunter (Preview Only)"
