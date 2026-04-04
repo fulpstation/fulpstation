@@ -78,13 +78,6 @@
 	var/obj/structure/closet/crate/claimed_coffin
 	var/total_blood_drank = 0
 
-	///Blood display HUD
-	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
-	///Vampire level display HUD
-	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
-	///Sunlight timer HUD
-	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
-
 	/// Static typecache of all bloodsucker powers.
 	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/cooldown/bloodsucker, ignore_root_path = TRUE)
 	/// Antagonists that cannot be Vassalized no matter what
@@ -151,28 +144,18 @@
 
 	if(current_mob.hud_used)
 		var/datum/hud/hud_used = current_mob.hud_used
-		hud_used.infodisplay -= blood_display
-		hud_used.infodisplay -= vamprank_display
-		hud_used.infodisplay -= sunlight_display
-		QDEL_NULL(blood_display)
-		QDEL_NULL(vamprank_display)
-		QDEL_NULL(sunlight_display)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_BLOOD, update = FALSE)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_RANK, update = FALSE)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_SOL)
 
 /datum/antagonist/bloodsucker/proc/on_hud_created(datum/source)
 	SIGNAL_HANDLER
-	var/datum/hud/bloodsucker_hud = owner.current.hud_used
-
-	blood_display = new /atom/movable/screen/bloodsucker/blood_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += blood_display
-
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += vamprank_display
-
-	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += sunlight_display
-
-	bloodsucker_hud.show_hud(bloodsucker_hud.hud_version)
 	UnregisterSignal(owner.current, COMSIG_MOB_HUD_CREATED)
+
+	var/datum/hud/bloodsucker_hud = owner.current.hud_used
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/blood_counter, HUD_BLOODSUCKER_BLOOD, HUD_GROUP_INFO)
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/rank_counter, HUD_BLOODSUCKER_RANK, HUD_GROUP_INFO)
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/sunlight_counter, HUD_BLOODSUCKER_SOL, HUD_GROUP_INFO, update_screen = TRUE)
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
