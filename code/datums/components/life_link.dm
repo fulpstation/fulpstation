@@ -29,10 +29,12 @@
 	if (!isnull(host))
 		var/mob/living/living_parent = parent
 		living_parent.updatehealth()
+		living_parent.client?.set_stat_panel()
 
 /datum/component/life_link/UnregisterFromParent()
 	unregister_host()
 	UnregisterSignal(parent, list(COMSIG_CARBON_LIMB_DAMAGED, COMSIG_LIVING_HEALTH_UPDATE, COMSIG_MOB_GET_STATUS_TAB_ITEMS) + COMSIG_LIVING_ADJUST_STANDARD_DAMAGE_TYPES)
+	astype(parent, /mob/living)?.client?.set_stat_panel()
 
 /datum/component/life_link/InheritComponent(datum/component/new_comp, i_am_original, mob/living/host, datum/callback/on_passed_damage, datum/callback/on_linked_death)
 	register_host(host)
@@ -118,8 +120,9 @@
 		mob_parent.overlay_fullscreen("brute", /atom/movable/screen/fullscreen/brute, severity)
 	else
 		mob_parent.clear_fullscreen("brute")
-	if(mob_parent.hud_used?.healths)
-		mob_parent.hud_used.healths.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='#efeeef'>[round(healthpercent, 0.5)]%</font></div>")
+
+	if(mob_parent.hud_used?.screen_objects[HUD_MOB_HEALTH])
+		mob_parent.hud_used.screen_objects[HUD_MOB_HEALTH].maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='#efeeef'>[round(healthpercent, 0.5)]%</font></div>")
 
 /// Update our health on the medical hud
 /datum/component/life_link/proc/update_med_hud_health(mob/living/mob_parent)

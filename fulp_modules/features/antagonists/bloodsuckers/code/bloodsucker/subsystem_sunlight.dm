@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(sunlight)
 	name = "Sol"
 	can_fire = FALSE
 	wait = 2 SECONDS
-	flags = SS_NO_INIT | SS_BACKGROUND | SS_TICKER
+	ss_flags = SS_NO_INIT | SS_BACKGROUND | SS_TICKER
 
 	///If the Sun is currently out our not.
 	var/sunlight_active = FALSE

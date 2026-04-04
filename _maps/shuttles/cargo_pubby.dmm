@@ -38,7 +38,11 @@
 	dir = 4;
 	id = "ShuttleLoad"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/poddoor{
+	id = "QMLoaddoor2";
+	name = "Supply Dock Loading Door"
+	},
+/obj/effect/landmark/flaps_install,
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "m" = (
@@ -141,12 +145,31 @@
 	dir = 8;
 	id = "ShuttleUnload"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/effect/landmark/flaps_install,
+/obj/machinery/door/poddoor{
+	id = "QMLoaddoor";
+	name = "Supply Dock Loading Door"
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "K" = (
 /turf/open/floor/iron/chapel{
 	dir = 1
+	},
+/area/shuttle/supply)
+"L" = (
+/obj/machinery/button/door/directional/west{
+	id = "QMLoaddoor2";
+	name = "Loading Doors";
+	pixel_y = 6
+	},
+/obj/machinery/button/door/directional/west{
+	id = "QMLoaddoor";
+	name = "Loading Doors";
+	pixel_y = -6
+	},
+/turf/open/floor/iron/chapel{
+	dir = 8
 	},
 /area/shuttle/supply)
 "Q" = (
@@ -208,7 +231,7 @@ a
 I
 g
 s
-X
+L
 w
 K
 X
