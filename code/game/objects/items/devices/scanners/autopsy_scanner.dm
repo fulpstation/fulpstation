@@ -48,7 +48,7 @@
 
 	add_fingerprint(user)
 
-/obj/item/autopsy_scanner/proc/scan_cadaver(mob/living/carbon/human/user, mob/living/carbon/scanned)
+/obj/item/autopsy_scanner/proc/scan_cadaver(mob/living/carbon/human/user, mob/living/scanned)
 	if(scanned.stat != DEAD)
 		return
 
@@ -61,7 +61,10 @@
 	//Does not list quirks/exhaustion/how to repair wounds
 	//DOES list wound sources/
 	var/list/autopsy_information = list()
-	autopsy_information += "Autopsy Coroner - [user.name]<hr>"
+	var/mob/living/carbon/carbon_scanned = iscarbon(scanned) ? scanned : FALSE
+	autopsy_information += "--Autopsy Report of [scanned.name]--"
+	if(carbon_scanned)
+		autopsy_information += "Species - [carbon_scanned.dna?.species.name || "Xenomorph"]"
 
 	autopsy_information += "Analyzing results for <b>[scanned.name]</b>:</br></br>"
 	autopsy_information += "Time of Death - <b>[scanned.station_timestamp_timeofdeath]</b></br>"

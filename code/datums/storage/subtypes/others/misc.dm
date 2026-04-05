@@ -27,6 +27,7 @@
 		/obj/item/cautery,
 		/obj/item/circular_saw,
 		/obj/item/clothing/mask/surgical,
+		/obj/item/death_watch,
 		/obj/item/hemostat,
 		/obj/item/razor,
 		/obj/item/reagent_containers/medigel/sterilizine,
