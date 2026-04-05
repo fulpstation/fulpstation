@@ -196,6 +196,7 @@
 		/obj/item/cautery/cruel,
 		/obj/item/circular_saw/cruel,
 		/obj/item/clothing/mask/surgical,
+		/obj/item/death_watch,
 		/obj/item/hemostat/cruel,
 		/obj/item/razor/surgery,
 		/obj/item/retractor/cruel,

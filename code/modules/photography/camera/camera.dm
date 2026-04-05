@@ -36,6 +36,8 @@
 	/// Currently inserted holorecord disk.
 	var/obj/item/disk/holodisk/disk
 
+	///Boolean on whether or not the camera will print in monochrome.
+	var/print_monochrome = FALSE
 	/// Whether we flash upon taking a picture.
 	var/flash_enabled = TRUE
 	/// Whether we silence our picture taking and zoom adjusting sounds.
@@ -65,6 +67,7 @@
 	. = ..()
 	. += span_notice("It has [pictures_left] photos left.")
 	. += span_notice("Alt-click to change its focusing, allowing you to set how big of an area it will capture.")
+	. += span_notice("You can use a [EXAMINE_HINT("screwdriver")] to flip between printing in monochrome or color.")
 
 	if(isnull(disk))
 		. += span_notice("It has a slot for a holorecord disk.")
@@ -156,6 +159,12 @@
 	disk = new_disk
 	return ITEM_INTERACT_SUCCESS
 
+/obj/item/camera/screwdriver_act(mob/living/user, obj/item/tool)
+	tool.play_tool_sound(src)
+	print_monochrome = !print_monochrome
+	user.balloon_alert(user, "[print_monochrome ? "now" : "no longer"] printing monochrome")
+	return ITEM_INTERACT_SUCCESS
+
 /// Attempt to take an image, optionally given a user.
 /obj/item/camera/proc/attempt_picture(atom/target, atom/user)
 	if(!can_target(target, user))
@@ -242,76 +251,20 @@
 		set_light_on(TRUE)
 		addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
 	blending = TRUE
-	var/turf/target_turf = get_turf(target)
-	if(!isturf(target_turf))
-		blending = FALSE
-		return FALSE
-	size_x = clamp(size_x, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	size_y = clamp(size_y, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
-	var/list/mobs_spotted = list()
-	var/list/dead_spotted = list()
-	var/list/viewlist = getviewsize(user?.client?.view || world.view)
-	var/view_range = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
-	var/viewer = get_turf(user?.client?.eye || user || target) // not sure why target is a fallback
-	var/list/seen = get_hear_turfs(view_range, viewer)
-	var/list/turfs = list()
-	var/list/mobs = list()
-	var/blueprints = FALSE
-	var/clone_area = SSmapping.request_turf_block_reservation(size_x * 2 + 1, size_y * 2 + 1, 1)
-	///list of human names taken on picture
-	var/list/names = list()
-	var/cameranet_user = isAI(user) || istype(viewer, /mob/eye/camera)
+	var/datum/picture/picture = take_photo(
+		src,
+		target,
+		user,
+		size_x,
+		size_y,
+		post_image_callback = CALLBACK(src, PROC_REF(steal_souls)),
+		see_ghosts = see_ghosts,
+		monochrome = print_monochrome,
+	)
+	if(picture)
+		after_picture(user, picture)
+		SEND_SIGNAL(src, COMSIG_CAMERA_IMAGE_CAPTURED, target, user, picture)
 
-	var/width = size_x * 2 + 1
-	var/height = size_y * 2 + 1
-	for(var/turf/seen_placeholder as anything in CORNER_BLOCK_OFFSET(target_turf, width, height, -size_x, -size_y))
-		if(isnull(seen_placeholder))
-			continue
-
-		if(cameranet_user && !SScameras.is_visible_by_cameras(seen_placeholder))
-			continue
-		if(!cameranet_user && !(seen_placeholder in seen))
-			continue
-
-		//Multi-z photography
-		var/turf/target_placeholder = seen_placeholder
-		while(!isnull(target_placeholder))
-			turfs += target_placeholder
-			for(var/mob/mob_there in target_placeholder)
-				mobs += mob_there
-			if(locate(/obj/item/blueprints) in target_placeholder)
-				blueprints = TRUE
-
-			if(isopenspaceturf(target_placeholder) || istype(target_placeholder, /turf/open/floor/glass))
-				target_placeholder = GET_TURF_BELOW(target_placeholder)
-			else
-				break
-
-	// do this before picture is taken so we can reveal revenants for the photo
-	steal_souls(mobs)
-
-	for(var/mob/mob as anything in mobs)
-		mobs_spotted += mob
-		if(mob.stat == DEAD)
-			dead_spotted += mob
-		var/info = mob.get_photo_description(src)
-		if(!isnull(info))
-			desc += info
-
-	var/psize_x = (size_x * 2 + 1) * ICON_SIZE_X
-	var/psize_y = (size_y * 2 + 1) * ICON_SIZE_Y
-	var/icon/get_icon = camera_get_icon(turfs, target_turf, psize_x, psize_y, clone_area, size_x, size_y, (size_x * 2 + 1), (size_y * 2 + 1))
-	qdel(clone_area)
-	get_icon.Blend("#000", ICON_UNDERLAY)
-	for(var/mob/living/carbon/human/person in mobs)
-		if(person.obscured_slots & HIDEFACE)
-			continue
-		names += "[person.name]"
-
-	var/datum/picture/picture = new("picture", desc.Join("<br>"), mobs_spotted, dead_spotted, names, get_icon, null, psize_x, psize_y, blueprints, can_see_ghosts = see_ghosts)
-	after_picture(user, picture)
-	SEND_SIGNAL(src, COMSIG_CAMERA_IMAGE_CAPTURED, target, user, picture)
 	blending = FALSE
 	return picture
 
