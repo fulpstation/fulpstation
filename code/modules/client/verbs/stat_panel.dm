@@ -6,16 +6,16 @@
 	prefs.write_preference(GLOB.preference_entries[/datum/preference/toggle/statpanel], !prefs.read_preference(/datum/preference/toggle/statpanel))
 	set_stat_panel()
 
+///Sets the stat panel's visibility to the player, depending on whether they need it/have it enabled or not.
 /client/proc/set_stat_panel()
-	if(should_have_stat_panel())
+	if(prefs.read_preference(/datum/preference/toggle/statpanel) || needs_stat_panel())
 		winset(src, "infowindow.info", "left=statwindow")
 	else
 		winset(src, "infowindow.info", "left=null")
 
-/client/proc/should_have_stat_panel()
-	if(prefs.read_preference(/datum/preference/toggle/statpanel) || holder)
+///Returns TRUE if the player has something that necessitates the stat panel.
+/client/proc/needs_stat_panel()
+	if(holder || interviewee)
 		return TRUE
-	. = list()
-	. += mob.get_status_tab_items()
-	. -= .[1] //remove the "offset unique stuff"
-	return !!length(.)
+	. = mob.get_status_tab_items()
+	return length(.) >= 2

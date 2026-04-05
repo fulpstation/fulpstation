@@ -766,13 +766,13 @@
 
 ///Update the pulling hud icon
 /mob/proc/update_pull_hud_icon()
-	hud_used?.pull_icon?.update_appearance()
+	hud_used?.screen_objects[HUD_MOB_PULL]?.update_appearance()
 
 ///Update the resting hud icon
 /mob/proc/update_rest_hud_icon()
 	if(!hud_used)
 		return FALSE
-	hud_used.rest_icon?.update_appearance()
+	hud_used.screen_objects[HUD_MOB_REST]?.update_appearance()
 	return TRUE
 
 /**
@@ -943,10 +943,10 @@
 	active_hand_index = held_index
 	if(hud_used)
 		var/atom/movable/screen/inventory/hand/held_location
-		held_location = hud_used.hand_slots["[previous_index]"]
+		held_location = hud_used.hand_slots[previous_index]
 		if(!isnull(held_location))
 			held_location.update_appearance()
-		held_location = hud_used.hand_slots["[held_index]"]
+		held_location = hud_used.hand_slots[held_index]
 		if(!isnull(held_location))
 			held_location.update_appearance()
 	return TRUE
@@ -1356,7 +1356,7 @@
  */
 /mob/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
+	VV_DROPDOWN_OPTION("", "--- /mob ---")
 	VV_DROPDOWN_OPTION(VV_HK_GIB, "Gib")
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_AI, "Give AI Controller")
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_AI_SPEECH, "Give Random AI Speech")
@@ -1384,13 +1384,9 @@
 		return
 
 	if(href_list[VV_HK_REGEN_ICONS])
-		if(!check_rights(NONE))
-			return
 		regenerate_icons()
 
 	if(href_list[VV_HK_REGEN_ICONS_FULL])
-		if(!check_rights(NONE))
-			return
 		cut_overlays()
 		regenerate_icons()
 
@@ -1441,8 +1437,6 @@
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/cmd_give_direct_control, src)
 
 	if(href_list[VV_HK_OFFER_GHOSTS])
-		if(!check_rights(NONE))
-			return
 		offer_control(src)
 
 	if(href_list[VV_HK_VIEW_PLANES])
@@ -1451,8 +1445,6 @@
 		usr.client.edit_plane_masters(src)
 
 	if(href_list[VV_HK_GIVE_ACCESS])
-		if(!check_rights(NONE))
-			return
 		AddComponent(/datum/component/simple_access, SSid_access.get_region_access_list(list(REGION_ALL_GLOBAL)))
 		to_chat(usr, span_notice("Access granted."))
 /**
@@ -1509,7 +1501,9 @@
 /// Updates nutrition related effects
 /mob/living/proc/update_nutrition()
 	mob_mood?.update_nutrition_moodlets()
-	hud_used?.hunger?.update_hunger_bar()
+	var/atom/movable/screen/hunger/hunger_bar = hud_used?.screen_objects[HUD_MOB_HUNGER]
+	if (hunger_bar)
+		hunger_bar.update_hunger_bar()
 	SEND_SIGNAL(src, COMSIG_LIVING_UPDATE_NUTRITION)
 
 /// Apply a proper movespeed modifier based on items we have equipped
@@ -1597,6 +1591,18 @@
 	set name = "Memories"
 	set category = "IC"
 	set desc = "View your character's memories."
+	if(!mind)
+		var/fail_message = "You have no mind!"
+		if(isobserver(src))
+			fail_message += " You have to be in the current round at some point to have one."
+		to_chat(src, span_warning(fail_message))
+		return
+	if(!mind.memory_panel)
+		mind.memory_panel = new(usr, mind)
+	mind.memory_panel.ui_interact(usr)
+
+///Shows a tgui window with memories
+/mob/proc/open_memory_panel()
 	if(!mind)
 		var/fail_message = "You have no mind!"
 		if(isobserver(src))

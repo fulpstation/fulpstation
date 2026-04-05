@@ -150,3 +150,8 @@
 #define BRUJAH_FAVORITE_VASSAL_ATTACK_BONUS 4
 /// The attack bonus added to the punch damage of Hecata zombies.
 #define HECATA_ZOMBIE_ATTACK_BONUS 10
+
+//HUD defines
+#define HUD_BLOODSUCKER_BLOOD "bloodsucker_blood"
+#define HUD_BLOODSUCKER_RANK "bloodsucker_rank"
+#define HUD_BLOODSUCKER_SOL "bloodsucker_sol"
