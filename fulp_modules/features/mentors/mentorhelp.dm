@@ -1,3 +1,7 @@
+/client/proc/get_mentor_help()
+	var/msg = tgui_input_text(src, null, "Mentorhelp")
+	mentorhelp(msg)
+
 /client/verb/mentorhelp(msg as text)
 	set category = "Mentor"
 	set name = "Mentorhelp"

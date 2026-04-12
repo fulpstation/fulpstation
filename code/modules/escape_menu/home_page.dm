@@ -47,12 +47,24 @@
 	)
 
 	page_holder.give_screen_object(
+		new /atom/movable/screen/escape_menu/text/clickable/mentorhelp(
+			null,
+			/* hud_owner = */ null,
+			/* escape_menu = */ src,
+			/* button_text = */ "Mentor Help",
+			/* offset = */ list(-276, 30),
+			/* font_size = */ 24,
+			/* on_click_callback = */ CALLBACK(src, PROC_REF(home_open_mentorhelp)),
+		)
+	)
+
+	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/text/clickable/leave_body(
 			null,
 			/* hud_owner = */ null,
 			/* escape_menu = */ src,
 			/* button_text = */ "Leave Body",
-			/* offset = */ list(-276, 30),
+			/* offset = */ list(-311, 30),
 			/* font_size = */ 24,
 			/* on_click_callback = */ CALLBACK(src, PROC_REF(open_leave_body)),
 		)
@@ -64,7 +76,7 @@
 			/* hud_owner = */ null,
 			/* escape_menu = */ src,
 			/* button_text = */ "Quit",
-			/* offset = */ list(-311, 30),
+			/* offset = */ list(-346, 30),
 			/* font_size = */ 24,
 			/* on_click_callback = */ CALLBACK(src, PROC_REF(quit_game_prompt)),
 		)
