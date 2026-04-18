@@ -70,6 +70,8 @@
 
 //This is when we CLICK on the ability Icon, not USING.
 /datum/action/cooldown/bloodsucker/Trigger(trigger_flags, atom/target)
+	SHOULD_CALL_PARENT(FALSE) //Bloodsucker powers do their own thing, let's opt-out of parent.
+	//I don't want to deal with the fallout of changing this at this point tbh.
 	if(active && can_deactivate()) // Active? DEACTIVATE AND END!
 		DeactivatePower()
 		return FALSE
