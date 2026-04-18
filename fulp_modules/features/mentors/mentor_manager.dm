@@ -85,6 +85,6 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 				"message" = request.message,
 				"additional_info" = request.additional_information,
 				"timestamp" = request.timestamp,
-				"timestamp_str" = gameTimestamp(wtime = request.timestamp)
+				"timestamp_str" = round_timestamp(wtime = request.timestamp)
 			)
 			.["requests"] += list(data)

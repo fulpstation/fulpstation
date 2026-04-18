@@ -71,7 +71,7 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 /// FULP CHANGELOG ITEM ASSET ///
 
 /datum/asset/fulp_changelog_item
-	_abstract = /datum/asset/fulp_changelog_item
+	abstract_type = /datum/asset/fulp_changelog_item
 	var/item_filename
 
 /datum/asset/fulp_changelog_item/New(date)
