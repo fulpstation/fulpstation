@@ -129,15 +129,3 @@
 		GLOB.hotkeys_tgui = new /datum/hotkeys_help()
 
 	GLOB.hotkeys_tgui.ui_interact(mob)
-
-/client/verb/emote_panel()
-	set name = "Emote Panel"
-	set hidden = TRUE
-
-	if(!isliving(mob))
-		to_chat(mob, span_notice("You can only use this while you're alive!"))
-		return
-
-	if(!GLOB.emote_panel)
-		GLOB.emote_panel = new /datum/emote_panel()
-	GLOB.emote_panel.ui_interact(mob)

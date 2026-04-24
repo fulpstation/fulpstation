@@ -1,11 +1,12 @@
 // This is the elements from the skin.dmf that we need to adjust the fontsize of
 const ELEMENTS_TO_ADJUST = [
-  'infobuttons.options',
-  'infobuttons.hotkeys',
-  'infobuttons.emotes',
+  'infobuttons.changelog',
+  'infobuttons.rules',
+  'infobuttons.wiki',
+  'infobuttons.forum',
+  'infobuttons.github',
+  'infobuttons.report-issue',
   'infobuttons.fullscreen-toggle',
-  'infobuttons.reconnect',
-  'infobuttons.chat',
   'inputwindow.input',
   'inputbuttons.saybutton',
   'inputbuttons.mebutton',
