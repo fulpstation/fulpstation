@@ -1,6 +1,7 @@
 // This hallucinations makes us suddenly think we died, stopping us / changing our hud / sending a fake deadchat message.
 /datum/hallucination/death
 	random_hallucination_weight = 1
+	hallucination_tier = HALLUCINATION_TIER_UNCOMMON
 	/// Determines whether we floor them or just immobilize them
 	var/floor_them = TRUE
 
@@ -14,6 +15,9 @@
 	return ..()
 
 /datum/hallucination/death/start()
+	if(hallucinator.stat >= UNCONSCIOUS) // on your way there already
+		return FALSE
+
 	if(floor_them)
 		hallucinator.Paralyze(30 SECONDS)
 	else
@@ -59,7 +63,7 @@
 				"FUCK",
 				"git gud",
 				"god damn it",
-				"hey [hallucinator.first_name()]",
+				"hey [first_name(hallucinator.name)]",
 				"i[prob(50) ? " fucking" : ""] hate [pick(things_to_hate)]",
 				"is the AI rogue?",
 				"rip",

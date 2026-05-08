@@ -1,8 +1,9 @@
 /obj/item/gun/ballistic/automatic
+	abstract_type = /obj/item/gun/ballistic/automatic
 	w_class = WEIGHT_CLASS_NORMAL
 	can_suppress = TRUE
 	burst_size = 3
-	fire_delay = 2
+	burst_delay = 2
 	actions_types = list(/datum/action/item_action/toggle_firemode)
 	semi_auto = TRUE
 	fire_sound = 'sound/items/weapons/gun/smg/shot.ogg'
@@ -40,7 +41,7 @@
 	inhand_icon_state = "c20r"
 	selector_switch_icon = TRUE
 	accepted_magazine_type = /obj/item/ammo_box/magazine/smgm45
-	fire_delay = 2
+	burst_delay = 2
 	burst_size = 3
 	pin = /obj/item/firing_pin/implant/pindicate
 	mag_display = TRUE
@@ -73,7 +74,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "arg"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/wt550m9
-	fire_delay = 2
+	burst_delay = 2
 	can_suppress = FALSE
 	burst_size = 1
 	actions_types = list()
@@ -96,7 +97,7 @@
 	inhand_icon_state = "smartgun"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/smartgun
 	burst_size = 4
-	fire_delay = 1
+	burst_delay = 1
 	spread = 40
 	dual_wield_spread = 20
 	actions_types = list()
@@ -148,18 +149,19 @@
 	selector_switch_icon = TRUE
 	accepted_magazine_type = /obj/item/ammo_box/magazine/m223
 	can_suppress = FALSE
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel
 	burst_size = 3
-	fire_delay = 2
+	burst_delay = 2
 	spread = 5
 	pin = /obj/item/firing_pin/implant/pindicate
 	mag_display = TRUE
 	empty_indicator = TRUE
 	fire_sound = 'sound/items/weapons/gun/smg/shot_alt.ogg'
+	/// Attached underbarrel grenade launcher
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel/underbarrel
 
 /obj/item/gun/ballistic/automatic/m90/Initialize(mapload)
 	. = ..()
-	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher(src)
+	underbarrel = new(src)
 	update_appearance()
 
 /obj/item/gun/ballistic/automatic/m90/Destroy()
@@ -182,8 +184,7 @@
 /obj/item/gun/ballistic/automatic/m90/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(isammocasing(tool))
 		if(istype(tool, underbarrel.magazine.ammo_type))
-			underbarrel.attack_self(user)
-			underbarrel.attackby(tool, user, list2params(modifiers))
+			underbarrel.item_interaction(user, tool, modifiers)
 		return ITEM_INTERACT_BLOCKING
 	return ..()
 
@@ -199,7 +200,7 @@
 	can_suppress = FALSE
 	burst_size = 1
 	actions_types = list()
-	fire_delay = 1
+	burst_delay = 1
 	bolt_type = BOLT_TYPE_OPEN
 	empty_indicator = TRUE
 	show_bolt_icon = FALSE
@@ -217,7 +218,7 @@
 /obj/item/gun/ballistic/automatic/tommygun/chimpgun
 	name = "\improper Typewriter"
 	desc = "It was the best of times, it was the BLURST of times!? You stupid monkeys!"
-	fire_delay = 2
+	burst_delay = 2
 	rof = 0.2 SECONDS
 	projectile_damage_multiplier = 0.4
 	projectile_wound_bonus = -25
@@ -232,7 +233,7 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/m223
 	can_suppress = FALSE
 	burst_size = 3
-	fire_delay = 1
+	burst_delay = 1
 
 // L6 SAW //
 
@@ -312,29 +313,11 @@
 		return
 	..()
 
-/obj/item/gun/ballistic/automatic/l6_saw/attackby(obj/item/A, mob/user, params)
+/obj/item/gun/ballistic/automatic/l6_saw/attackby(obj/item/A, mob/user, list/modifiers, list/attack_modifiers)
 	if(!cover_open && istype(A, accepted_magazine_type))
 		balloon_alert(user, "open the cover!")
 		return
 	..()
-
-// Old Semi-Auto Rifle //
-
-/obj/item/gun/ballistic/automatic/surplus
-	name = "surplus rifle"
-	desc = "One of countless obsolete ballistic rifles that still sees use as a cheap deterrent. Uses 10mm ammo and its bulky frame prevents one-hand firing."
-	icon_state = "surplus"
-	worn_icon_state = null
-	weapon_weight = WEAPON_HEAVY
-	accepted_magazine_type = /obj/item/ammo_box/magazine/sr10mm
-	fire_delay = 30
-	burst_size = 1
-	can_unsuppress = TRUE
-	can_suppress = TRUE
-	w_class = WEIGHT_CLASS_HUGE
-	slot_flags = ITEM_SLOT_BACK
-	actions_types = list()
-	mag_display = TRUE
 
 // Laser rifle (rechargeable magazine) //
 
@@ -346,7 +329,8 @@
 	inhand_icon_state = "arg"
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge
 	empty_indicator = TRUE
-	fire_delay = 2
+	bolt_type = BOLT_TYPE_OPEN
+	fire_delay = 2 DECISECONDS
 	can_suppress = FALSE
 	burst_size = 0
 	actions_types = list()
@@ -357,9 +341,9 @@
 
 /obj/item/gun/ballistic/automatic/battle_rifle
 	name = "\improper NT BR-38 battle rifle"
-	desc = "Nanotrasen's prototype security weapon, found exclusively in the hands of their private security teams. Chambered in .38 pistol rounds. \
-		Ignore that this makes it technically a carbine. And that it functions as a designated marksman rifle. Marketing weren't being very co-operative \
-		when it came time to name the gun. That, and the endless arguments in board rooms about exactly what designation the gun is meant to be."
+	desc = "Nanotrasen's latest prototype .38 Special longarm, found exclusively in the hands of their private security teams. \
+		Technically a pistol-caliber carbine, despite the name and its use as a designated marksman rifle. Acceleration technology \
+		enables improved ballistic performance, but necessitates maintenance."
 	icon = 'icons/obj/weapons/guns/wide_guns.dmi'
 	icon_state = "battle_rifle"
 	inhand_icon_state = "battle_rifle"
@@ -375,12 +359,11 @@
 	mag_display = TRUE
 	projectile_damage_multiplier = 1.2
 	projectile_speed_multiplier = 1.2
-	fire_delay = 2
+	fire_delay = 2 DECISECONDS
 	burst_size = 1
 	actions_types = list()
-	spread = 10 //slightly inaccurate in burst fire mode, mostly important for long range shooting
 	fire_sound = 'sound/items/weapons/thermalpistol.ogg'
-	suppressor_x_offset = 8
+	suppressor_x_offset = 0
 
 	/// Determines how many shots we can make before the weapon needs to be maintained.
 	var/shots_before_degradation = 10
@@ -408,6 +391,21 @@
 /obj/item/gun/ballistic/automatic/battle_rifle/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/scope, range_modifier = 2)
+	AddElement(/datum/element/examine_lore, \
+		lore = "The BR-38 is Nanotrasen's latest foray into entirely in-house, standard-issue-ready, accelerator-assisted ballistic firearms.<br>\
+		<br>\
+		The acceleration rail built into the barrel assembly boosts fired projectiles to higher velocities than unassisted bullets, \
+		allowing even less powerful cartridges, such as the venerable .38 Special, to have improved ballistic performance and stopping power. \
+		Even though the chambering makes this more of a pistol-caliber carbine than a battle rifle, countless arguments in both the marketing office \
+		and the corporate boardroom about the name meant that something had to give; in this case, the slightly misleading designation.<br>\
+		<br>\
+		It's hard to cover up everything about its troubled development, though.<br>\
+		<br>\
+		In a sour twist of irony for Nanotrasen's historical issues with ballistics-based security weapons, the BR-38 has one significant flaw. \
+		It is possible for the weapons system to suffer from unintended discombulations due to closed heat distribution systems, should the weapon be tampered with. \
+		Nanotrasen's weapons R&D teams are still working on this issue, while also trying to work out why the weapon's onboard computation systems \
+		suffer from so many calculation errors, before moving onto a full commercial rollout." \
+	)
 	register_context()
 
 /obj/item/gun/ballistic/automatic/battle_rifle/add_context(atom/source, list/context, obj/item/held_item, mob/user)
@@ -417,26 +415,15 @@
 		context[SCREENTIP_CONTEXT_LMB] = "Reset System"
 		return CONTEXTUAL_SCREENTIP_SET
 
-/obj/item/gun/ballistic/automatic/battle_rifle/examine_more(mob/user)
-	. = ..()
-	. += span_notice("<b><i>Looking down at the [name], you recall something you read in a promotional pamphlet... </i></b>")
-
-	. += span_info("The BR-38 possesses an acceleration rail that launches bullets at higher than typical velocity.\
-		This allows even less powerful cartridges to put out significant amounts of stopping power.")
-
-	. += span_notice("<b><i>However, you also remember some of the rumors...  </i></b>")
-
-	. += span_notice("In a sour twist of irony for Nanotrasen's historical issues with ballistics-based security weapons, the BR-38 has one significant flaw. \
-		It is possible for the weapon to suffer from unintended discombulations due to closed heat distribution systems should the weapon be tampered with. \
-		R&D are working on this issue before the weapon sees commercial sales. That, and trying to work out why the weapon's onboard computation systems suffer \
-		from so many calculation errors.")
-
 /obj/item/gun/ballistic/automatic/battle_rifle/examine(mob/user)
 	. = ..()
 	if(shots_before_degradation)
 		. += span_notice("[src] can fire [shots_before_degradation] more times before risking system degradation.")
 	else
 		. += span_notice("[src] is in the process of system degradation. It is currently at stage [degradation_stage] of [degradation_stage_max]. Use a multitool on [src] to recalibrate. Alternatively, insert it into a weapon recharger.")
+	. += span_notice("You can [EXAMINE_HINT("look closer")] to learn a little more about [src].")
+
+
 
 /obj/item/gun/ballistic/automatic/battle_rifle/update_icon_state()
 	. = ..()
@@ -483,29 +470,24 @@
 	balloon_alert(user, "system reset")
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/gun/ballistic/automatic/battle_rifle/try_fire_gun(atom/target, mob/living/user, params)
-	. = ..()
-	if(!chambered || (chambered && !chambered.loaded_projectile))
+/obj/item/gun/ballistic/automatic/battle_rifle/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
+	if(chambered.loaded_projectile && prob(75) && (emp_malfunction || degradation_stage == degradation_stage_max))
+		balloon_alert_to_hearers("*click*")
+		playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
 		return
 
-	if(shots_before_degradation)
-		shots_before_degradation --
+	. = ..()
+	if(!.)
 		return
+
+	else if(shots_before_degradation)
+		shots_before_degradation --
 
 	else if ((obj_flags & EMAGGED) && degradation_stage == degradation_stage_max && !explosion_timer)
 		perform_extreme_malfunction(user)
 
 	else
 		attempt_degradation(FALSE)
-
-
-/obj/item/gun/ballistic/automatic/battle_rifle/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
-	if(chambered.loaded_projectile && prob(75) && (emp_malfunction || degradation_stage == degradation_stage_max))
-		balloon_alert_to_viewers("*click*")
-		playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
-		return
-
-	return ..()
 
 /// Proc to handle weapon degradation. Called when attempting to fire or immediately after an EMP takes place.
 /obj/item/gun/ballistic/automatic/battle_rifle/proc/attempt_degradation(force_increment = FALSE)
@@ -545,3 +527,11 @@
 /// proc to handle our detonation
 /obj/item/gun/ballistic/automatic/battle_rifle/proc/fucking_explodes_you()
 	explosion(src, devastation_range = 1, heavy_impact_range = 3, light_impact_range = 6, explosion_cause = src)
+
+//component for seclight attachment
+/obj/item/gun/ballistic/automatic/battle_rifle/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 28, \
+		overlay_y = 12)

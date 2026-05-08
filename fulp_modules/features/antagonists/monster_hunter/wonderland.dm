@@ -111,14 +111,14 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 			to_chat(user, span_bolddanger("That blood tasted horrible! It stills the very core of your undying form!"))
 			user.apply_status_effect(/datum/status_effect/silver_bullet) //Gives them the silver bullet debuff.
 			user.apply_damage(30, BURN, spread_damage = TRUE)
-			if(user.getStaminaLoss() < 5)
-				user.adjustStaminaLoss(75)
+			if(user.get_stamina_loss() < 5)
+				user.adjust_stamina_loss(75)
 			empty_vial()
 		else
 			to_chat(user, span_danger("<i>Eugh</i>... Drinking that was a terrible idea!"))
 			user.apply_damage(20, TOX, spread_damage = TRUE)
-			if(user.getStaminaLoss() < 5)
-				user.adjustStaminaLoss(75)
+			if(user.get_stamina_loss() < 5)
+				user.adjust_stamina_loss(75)
 			empty_vial()
 			return
 	else
@@ -161,13 +161,13 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /datum/reagent/medicine/blood_vial/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	if(affected_mob.health < 90 && affected_mob.health > 0)
-		affected_mob.adjustOxyLoss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
-		affected_mob.adjustToxLoss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-		affected_mob.adjustBruteLoss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-		affected_mob.adjustFireLoss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
+		affected_mob.adjust_oxy_loss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		affected_mob.adjust_tox_loss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
+		affected_mob.adjust_brute_loss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
+		affected_mob.adjust_fire_loss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
 
 	affected_mob.AdjustAllImmobility(-60  * REM * seconds_per_tick)
-	affected_mob.adjustStaminaLoss(-7 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
+	affected_mob.adjust_stamina_loss(-7 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
 	..()
 	. = TRUE
 

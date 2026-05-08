@@ -20,20 +20,20 @@
 
 /datum/station_goal/station_shield/get_report()
 	return list(
-		"<blockquote>The station is located in a zone full of space debris.",
+		"The station is located in a zone full of space debris.",
 		"We have a prototype shielding system you must deploy to reduce collision-related accidents.",
 		"",
-		"You can order the satellites and control systems at cargo.</blockquote>",
+		"You can order the satellites and control systems at cargo.",
 	).Join("\n")
 
 
 /datum/station_goal/station_shield/on_report()
 	//Unlock
 	var/datum/supply_pack/P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat]
-	P.special_enabled = TRUE
+	P.order_flags |= ORDER_SPECIAL_ENABLED
 
 	P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat_control]
-	P.special_enabled = TRUE
+	P.order_flags |= ORDER_SPECIAL_ENABLED
 
 /datum/station_goal/station_shield/check_completion()
 	if(..())
@@ -145,8 +145,6 @@
 		to_chat(user, span_warning("The last satellite emagged needs [DisplayTimeText(COOLDOWN_TIMELEFT(src, shared_emag_cooldown))] to recalibrate first. Emagging another so soon could damage the satellite network."))
 		return FALSE
 	var/cooldown_applied = METEOR_SHIELD_EMAG_COOLDOWN
-	if(istype(emag_card, /obj/item/card/emag/meteor_shield_recalibrator))
-		cooldown_applied /= 3
 	COOLDOWN_START(src, shared_emag_cooldown, cooldown_applied)
 	obj_flags |= EMAGGED
 	to_chat(user, span_notice("You access the satellite's debug mode and it begins emitting a strange signal, increasing the chance of meteor strikes."))

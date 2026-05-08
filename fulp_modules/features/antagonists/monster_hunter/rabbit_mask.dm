@@ -11,9 +11,9 @@
 	flash_protect = FLASH_PROTECTION_WELDER
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	/// The paradox rabbit ability
-	var/datum/action/cooldown/paradox/paradox
+	var/datum/action/cooldown/monster_hunter/paradox/paradox
 	/// The Wonderland teleportation ability
-	var/datum/action/cooldown/wonderland_drop/wonderland
+	var/datum/action/cooldown/monster_hunter/wonderland_drop/wonderland
 	/// Holder for the "glitched" visual component.
 	var/datum/component/glitching_state/wondershift
 
@@ -29,11 +29,11 @@
 		. += span_boldnotice("Do not leave it in Wonderland unless you wish to risk losing it forever.")
 
 /obj/item/clothing/mask/cursed_rabbit/proc/generate_abilities()
-	var/datum/action/cooldown/paradox/para = new
+	var/datum/action/cooldown/monster_hunter/paradox/para = new
 	if(!para.landmark || !para.chessmark)
 		return
 	paradox = para
-	var/datum/action/cooldown/wonderland_drop/drop = new
+	var/datum/action/cooldown/monster_hunter/wonderland_drop/drop = new
 	if(!drop.landmark)
 		return
 	wonderland = drop

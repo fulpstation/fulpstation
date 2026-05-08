@@ -6,13 +6,16 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	name = "stock part"
 	desc = "What?"
 	icon = 'icons/obj/devices/stock_parts.dmi'
+	///The generic category type that the stock part belongs to.  Generic objects that should not be instantiated should have the same type and abstract_type
+	abstract_type = /obj/item/stock_parts
 	w_class = WEIGHT_CLASS_SMALL
+	sound_vary = TRUE
+	pickup_sound = SFX_GENERIC_DEVICE_PICKUP
+	drop_sound = SFX_GENERIC_DEVICE_DROP
 	var/rating = 1
 	///Used when a base part has a different name to higher tiers of part. For example, machine frames want any servo and not just a micro-servo.
 	var/base_name
 	var/energy_rating = 1
-	///The generic category type that the stock part belongs to.  Generic objects that should not be instantiated should have the same type and abstract_type
-	var/abstract_type = /obj/item/stock_parts
 
 /obj/item/stock_parts/Initialize(mapload)
 	. = ..()
@@ -197,7 +200,7 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 /obj/item/stock_parts/subspace/filter
 	name = "hyperwave filter"
 	icon_state = "hyperwave_filter"
-	desc = "A tiny device capable of filtering and converting super-intense radiowaves."
+	desc = "A tiny device capable of filtering and converting super-intense radio waves."
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3, /datum/material/glass=SMALL_MATERIAL_AMOUNT*0.1)
 
 /obj/item/stock_parts/subspace/amplifier
@@ -241,7 +244,7 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 /obj/item/stock_parts/water_recycler
 	name = "water recycler"
 	icon_state = "water_recycler"
-	desc = "A chemical reclaimation component, which serves to re-accumulate and filter water over time."
+	desc = "A chemical reclamation component, which serves to re-accumulate and filter water over time."
 	custom_materials = list(/datum/material/plastic=SMALL_MATERIAL_AMOUNT * 2, /datum/material/iron=SMALL_MATERIAL_AMOUNT*0.5)
 
 /obj/item/research//Makes testing much less of a pain -Sieve

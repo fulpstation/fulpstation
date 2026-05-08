@@ -35,6 +35,12 @@ Nothing else in the console has ID requirements.
 	var/id_cache = list()
 	/// Sequence var for the id cache
 	var/id_cache_seq = 1
+	/// Cooldown that prevents hanging the MC when tech disks are copied
+	STATIC_COOLDOWN_DECLARE(cooldowncopy)
+
+// An unlocked subtype of the console for mapping.
+/obj/machinery/computer/rdconsole/unlocked
+	circuit = /obj/item/circuitboard/computer/rdconsole/unlocked
 
 /proc/CallMaterialName(ID)
 	if (istype(ID, /datum/material))
@@ -64,31 +70,38 @@ Nothing else in the console has ID requirements.
 		d_disk = null
 	return ..()
 
-/obj/machinery/computer/rdconsole/attackby(obj/item/D, mob/user, params)
-	//Loading a disk into it.
-	if(istype(D, /obj/item/disk))
-		if(istype(D, /obj/item/disk/tech_disk))
-			if(t_disk)
-				to_chat(user, span_warning("A technology disk is already loaded!"))
-				return
-			if(!user.transferItemToLoc(D, src))
-				to_chat(user, span_warning("[D] is stuck to your hand!"))
-				return
-			t_disk = D
-		else if (istype(D, /obj/item/disk/design_disk))
-			if(d_disk)
-				to_chat(user, span_warning("A design disk is already loaded!"))
-				return
-			if(!user.transferItemToLoc(D, src))
-				to_chat(user, span_warning("[D] is stuck to your hand!"))
-				return
-			d_disk = D
-		else
-			to_chat(user, span_warning("Machine cannot accept disks in that format."))
-			return
-		to_chat(user, span_notice("You insert [D] into \the [src]!"))
-		return
-	return ..()
+/obj/machinery/computer/rdconsole/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(!istype(tool, /obj/item/disk))
+		return NONE
+
+	if(istype(tool, /obj/item/disk/tech_disk))
+		if(t_disk)
+			to_chat(user, span_warning("A technology disk is already loaded!"))
+			return ITEM_INTERACT_BLOCKING
+
+		if(!user.transferItemToLoc(tool, src))
+			to_chat(user, span_warning("[tool] is stuck to your hand!"))
+			return ITEM_INTERACT_BLOCKING
+
+		t_disk = tool
+		to_chat(user, span_notice("You insert [tool] into \the [src]!"))
+		return ITEM_INTERACT_SUCCESS
+
+	if (!istype(tool, /obj/item/disk/design_disk))
+		to_chat(user, span_warning("Machine cannot accept disks in that format."))
+		return ITEM_INTERACT_BLOCKING
+
+	if(d_disk)
+		to_chat(user, span_warning("A design disk is already loaded!"))
+		return ITEM_INTERACT_BLOCKING
+
+	if(!user.transferItemToLoc(tool, src))
+		to_chat(user, span_warning("[tool] is stuck to your hand!"))
+		return ITEM_INTERACT_BLOCKING
+
+	d_disk = tool
+	to_chat(user, span_notice("You insert [tool] into \the [src]!"))
+	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/computer/rdconsole/multitool_act(mob/living/user, obj/item/multitool/tool)
 	. = ..()
@@ -164,7 +177,7 @@ Nothing else in the console has ID requirements.
 	var/obj/item/circuitboard/computer/rdconsole/board = circuit
 	if(!(board.obj_flags & EMAGGED))
 		board.silence_announcements = TRUE
-	locked = FALSE
+	board.locked = FALSE
 	return TRUE
 
 /obj/machinery/computer/rdconsole/ui_interact(mob/user, datum/tgui/ui = null)
@@ -176,14 +189,17 @@ Nothing else in the console has ID requirements.
 
 /obj/machinery/computer/rdconsole/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/research_designs),
+		get_asset_datum(/datum/asset/spritesheet_batched/research_designs),
 	)
 
 // heavy data from this proc should be moved to static data when possible
 /obj/machinery/computer/rdconsole/ui_data(mob/user)
 	var/list/data = list()
+
+	var/obj/item/circuitboard/computer/rdconsole/board = circuit
+
 	data["stored_research"] = !!stored_research
-	data["locked"] = locked
+	data["locked"] = board.locked
 	if(!stored_research) //lack of a research node is all we care about.
 		return data
 	data += list(
@@ -234,16 +250,8 @@ Nothing else in the console has ID requirements.
 	var/list/exp_to_process = stored_research.available_experiments.Copy()
 	for (var/e in stored_research.completed_experiments)
 		exp_to_process += stored_research.completed_experiments[e]
-	for (var/e in exp_to_process)
-		var/datum/experiment/ex = e
-		data["experiments"][ex.type] = list(
-			"name" = ex.name,
-			"description" = ex.description,
-			"tag" = ex.exp_tag,
-			"progress" = ex.check_progress(),
-			"completed" = ex.completed,
-			"performance_hint" = ex.performance_hint,
-		)
+	for (var/datum/experiment/ex as anything in exp_to_process)
+		data["experiments"][ex.type] = ex.to_ui_data()
 	return data
 
 /**
@@ -300,7 +308,7 @@ Nothing else in the console has ID requirements.
 
 	// Build design cache
 	var/design_cache = list()
-	var/datum/asset/spritesheet/research_designs/spritesheet = get_asset_datum(/datum/asset/spritesheet/research_designs)
+	var/datum/asset/spritesheet_batched/research_designs/spritesheet = get_asset_datum(/datum/asset/spritesheet_batched/research_designs)
 	var/size32x32 = "[spritesheet.name]32x32"
 	for (var/design_id in SSresearch.techweb_designs)
 		var/datum/design/design = SSresearch.techweb_designs[design_id] || SSresearch.error_design
@@ -329,8 +337,10 @@ Nothing else in the console has ID requirements.
 
 	add_fingerprint(usr)
 
+	var/obj/item/circuitboard/computer/rdconsole/board = circuit
+
 	// Check if the console is locked to block any actions occuring
-	if (locked && action != "toggleLock")
+	if (board.locked && action != "toggleLock")
 		say("Console is locked, cannot perform further actions.")
 		return TRUE
 
@@ -340,22 +350,27 @@ Nothing else in the console has ID requirements.
 				to_chat(usr, span_boldwarning("Security protocol error: Unable to access locking protocols."))
 				return TRUE
 			if(allowed(usr))
-				locked = !locked
+				board.locked = !board.locked
 			else
 				to_chat(usr, span_boldwarning("Unauthorized Access."))
 			return TRUE
+
 		if ("researchNode")
 			research_node(params["node_id"], usr)
 			return TRUE
+
 		if ("enqueueNode")
 			enqueue_node(params["node_id"], usr)
 			return TRUE
+
 		if ("dequeueNode")
 			dequeue_node(params["node_id"], usr)
 			return TRUE
+
 		if ("ejectDisk")
 			eject_disk(params["type"])
 			return TRUE
+
 		if ("uploadDisk")
 			if (params["type"] == RND_DESIGN_DISK)
 				if(QDELETED(d_disk))
@@ -368,19 +383,28 @@ Nothing else in the console has ID requirements.
 				d_disk.on_upload(stored_research, src)
 				return TRUE
 			if (params["type"] == RND_TECH_DISK)
+				if(!COOLDOWN_FINISHED(src, cooldowncopy)) // prevents MC hang
+					say("Servers busy!")
+					return
 				if (QDELETED(t_disk))
 					say("No tech disk inserted!")
 					return TRUE
+				COOLDOWN_START(src, cooldowncopy, 5 SECONDS)
 				say("Uploading technology disk.")
 				t_disk.stored_research.copy_research_to(stored_research)
 			return TRUE
+
 		//Tech disk-only action.
 		if ("loadTech")
+			if(!COOLDOWN_FINISHED(src, cooldowncopy)) // prevents MC hang
+				say("Servers busy!")
+				return
 			if(QDELETED(t_disk))
 				say("No tech disk inserted!")
 				return
-			stored_research.copy_research_to(t_disk.stored_research)
+			COOLDOWN_START(src, cooldowncopy, 5 SECONDS)
 			say("Downloading to technology disk.")
+			stored_research.copy_research_to(t_disk.stored_research)
 			return TRUE
 
 /obj/machinery/computer/rdconsole/proc/eject_disk(type)

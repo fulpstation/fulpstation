@@ -1,12 +1,12 @@
 import {
   Button,
-  Flex,
   LabeledList,
   NoticeBox,
   Section,
+  Stack,
   Tabs,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend, useSharedState } from '../backend';
 import { Window } from '../layouts';
@@ -31,7 +31,7 @@ type ProgramData = {
   id: string;
 };
 
-export const NaniteProgramHub = (props, context) => {
+export const NaniteProgramHub = (props) => {
   const { act, data } = useBackend<Data>();
   const {
     detail_view,
@@ -42,10 +42,10 @@ export const NaniteProgramHub = (props, context) => {
     categories,
   } = data;
   const [selectedCategory, setSelectedCategory] = useSharedState(
-    context,
-    'category',
+    'selectedCategory',
+    categories[0],
   );
-  const programsInCategory = (programs && programs[selectedCategory]) || [];
+  const programsInCategory = programs ? programs[selectedCategory] : [];
 
   return (
     <Window width={500} height={700}>
@@ -54,16 +54,12 @@ export const NaniteProgramHub = (props, context) => {
           title="Program Disk"
           buttons={
             <>
-              <Button
-                icon="eject"
-                content="Eject"
-                onClick={() => act('eject')}
-              />
-              <Button
-                icon="minus-circle"
-                content="Delete Program"
-                onClick={() => act('clear')}
-              />
+              <Button icon="eject" onClick={() => act('eject')}>
+                Eject
+              </Button>
+              <Button icon="minus-circle" onClick={() => act('clear')}>
+                Delete Program
+              </Button>
             </>
           }
         >
@@ -104,8 +100,8 @@ export const NaniteProgramHub = (props, context) => {
           {programs === null ? (
             <NoticeBox>No nanite programs are currently researched.</NoticeBox>
           ) : (
-            <Flex>
-              <Flex.Item minWidth="110px">
+            <Stack>
+              <Stack.Item minWidth="110px">
                 <Tabs vertical>
                   {categories.map((category) => (
                     <Tabs.Tab
@@ -119,8 +115,8 @@ export const NaniteProgramHub = (props, context) => {
                     </Tabs.Tab>
                   ))}
                 </Tabs>
-              </Flex.Item>
-              <Flex.Item grow={1} basis={0}>
+              </Stack.Item>
+              <Stack.Item grow={1} basis={0}>
                 {detail_view ? (
                   programsInCategory.map((program) => (
                     <Section
@@ -164,8 +160,8 @@ export const NaniteProgramHub = (props, context) => {
                     ))}
                   </LabeledList>
                 )}
-              </Flex.Item>
-            </Flex>
+              </Stack.Item>
+            </Stack>
           )}
         </Section>
       </Window.Content>

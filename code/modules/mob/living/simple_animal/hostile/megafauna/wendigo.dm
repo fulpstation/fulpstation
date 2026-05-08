@@ -35,10 +35,10 @@ Difficulty: Hard
 	loot = list()
 	butcher_results = list()
 	guaranteed_butcher_results = list(/obj/item/wendigo_blood = 1, /obj/item/wendigo_skull = 1)
-	crusher_loot = list(/obj/item/crusher_trophy/wendigo_horn)
+	crusher_loot = /obj/item/crusher_trophy/wendigo_horn
 	wander = FALSE
 	del_on_death = FALSE
-	blood_volume = BLOOD_VOLUME_NORMAL
+	default_blood_volume = BLOOD_VOLUME_NORMAL
 	achievement_type = /datum/award/achievement/boss/wendigo_kill
 	crusher_achievement_type = /datum/award/achievement/boss/wendigo_crusher
 	score_achievement_type = /datum/award/score/wendigo_score
@@ -180,7 +180,7 @@ Difficulty: Hard
 			all_turfs -= stomp_turf
 		SLEEP_CHECK_DEATH(delay, owner)
 
-/mob/living/simple_animal/hostile/megafauna/wendigo/death(gibbed, list/force_grant)
+/mob/living/simple_animal/hostile/megafauna/wendigo/death(gibbed)
 	if(health > 0)
 		return
 
@@ -221,32 +221,6 @@ Difficulty: Hard
 		return
 	pixel_moves += .
 	set_angle(original_angle + pixel_moves * wave_speed)
-
-/obj/item/wendigo_blood
-	name = "bottle of wendigo blood"
-	desc = "A bottle of viscous red liquid... You're not actually going to drink this, are you?"
-	icon = 'icons/obj/mining_zones/artefacts.dmi'
-	icon_state = "vial"
-
-/obj/item/wendigo_blood/attack_self(mob/living/user)
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/human_user = user
-	if(!human_user.mind)
-		return
-	to_chat(human_user, span_danger("Power courses through you! You can now shift your form at will."))
-	var/datum/action/cooldown/spell/shapeshift/polar_bear/transformation_spell = new(user.mind || user)
-	transformation_spell.Grant(user)
-	playsound(human_user.loc, 'sound/items/drink.ogg', rand(10,50), TRUE)
-	qdel(src)
-
-/obj/item/wendigo_skull
-	name = "wendigo skull"
-	desc = "A bloody skull torn from a murderous beast, the soulless eye sockets seem to constantly track your movement."
-	icon = 'icons/obj/mining_zones/artefacts.dmi'
-	icon_state = "wendigo_skull"
-	w_class = WEIGHT_CLASS_TINY
-	throwforce = 0
 
 /mob/living/simple_animal/hostile/megafauna/wendigo/noportal/create_portal()
 	return

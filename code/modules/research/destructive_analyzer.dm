@@ -46,12 +46,12 @@
 	if(!is_insertion_ready(user))
 		return ..()
 	if(!user.transferItemToLoc(weapon, src))
-		to_chat(user, span_warning("\The [weapon] is stuck to your hand, you cannot put it in the [name]!"))
+		to_chat(user, span_warning("\The [weapon] is stuck to your hand, you cannot put it in \the [src]!"))
 		return ITEM_INTERACT_BLOCKING
 
 	busy = TRUE
 	loaded_item = weapon
-	to_chat(user, span_notice("You place the [weapon.name] inside the [name]."))
+	to_chat(user, span_notice("You place \the [weapon] inside \the [src]."))
 	flick("[base_icon_state]_la", src)
 	addtimer(CALLBACK(src, PROC_REF(finish_loading)), 1 SECONDS)
 	return ITEM_INTERACT_SUCCESS
@@ -61,8 +61,11 @@
 	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/rnd/destructive_analyzer/update_icon_state()
-	icon_state = "[base_icon_state][loaded_item ? "_l" : null]"
-	return ..()
+	. = ..()
+	if(panel_open && !loaded_item)
+		return // use parent call state
+
+	icon_state = "[base_icon_state][loaded_item ? "_l" : ""]"
 
 /obj/machinery/rnd/destructive_analyzer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -126,11 +129,11 @@
 
 //This allows people to put syndicate screwdrivers in the machine. Secondary act still passes.
 /obj/machinery/rnd/destructive_analyzer/screwdriver_act(mob/living/user, obj/item/tool)
-	return FALSE
+	return NONE
 
 //We need to call default_deconstruction_screwdriver here since its parent will call screwdriver_act on this level which will stop us from ever deconstructing.
 /obj/machinery/rnd/destructive_analyzer/screwdriver_act_secondary(mob/living/user, obj/item/tool)
-	return default_deconstruction_screwdriver(user, "[initial(icon_state)]_t", initial(icon_state), tool)
+	return default_deconstruction_screwdriver(user, tool)
 
 //We need to let wire cutter in (not block) so we can analyze alien wirecutters.
 /obj/machinery/rnd/destructive_analyzer/wirecutter_act(mob/living/user, obj/item/tool)

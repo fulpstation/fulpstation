@@ -1,18 +1,22 @@
 /obj/item/organ/cyberimp/chest
 	name = "cybernetic torso implant"
 	desc = "Implants for the organs in your torso."
+	abstract_type = /obj/item/organ/cyberimp/chest
 	zone = BODY_ZONE_CHEST
 
 /obj/item/organ/cyberimp/chest/nutriment
 	name = "nutriment pump implant"
 	desc = "This implant will synthesize and pump into your bloodstream a small amount of nutriment when you are starving."
 	icon_state = "nutriment_implant"
+	aug_overlay = "nutripump"
 	var/hunger_threshold = NUTRITION_LEVEL_STARVING
 	var/synthesizing = 0
 	var/poison_amount = 5
 	slot = ORGAN_SLOT_STOMACH_AID
 
-/obj/item/organ/cyberimp/chest/nutriment/on_life(seconds_per_tick, times_fired)
+/obj/item/organ/cyberimp/chest/nutriment/on_life(seconds_per_tick)
+	. = ..()
+
 	if(synthesizing)
 		return
 
@@ -37,6 +41,7 @@
 	name = "nutriment pump implant PLUS"
 	desc = "This implant will synthesize and pump into your bloodstream a small amount of nutriment when you are hungry."
 	icon_state = "adv_nutriment_implant"
+	aug_overlay = "nutripump_adv"
 	hunger_threshold = NUTRITION_LEVEL_HUNGRY
 	poison_amount = 10
 
@@ -44,18 +49,22 @@
 	name = "reviver implant"
 	desc = "This implant will attempt to revive and heal you if you lose consciousness. For the faint of heart!"
 	icon_state = "reviver_implant"
+	aug_overlay = "reviver"
+	emissive_overlay = TRUE
 	slot = ORGAN_SLOT_HEART_AID
 	var/revive_cost = 0
 	var/reviving = FALSE
 	COOLDOWN_DECLARE(reviver_cooldown)
 	COOLDOWN_DECLARE(defib_cooldown)
 
-/obj/item/organ/cyberimp/chest/reviver/on_death(seconds_per_tick, times_fired)
+/obj/item/organ/cyberimp/chest/reviver/on_death(seconds_per_tick)
 	if(isnull(owner)) // owner can be null, on_death() gets called by /obj/item/organ/process() for decay
 		return
 	try_heal() // Allows implant to work even on dead people
 
-/obj/item/organ/cyberimp/chest/reviver/on_life(seconds_per_tick, times_fired)
+/obj/item/organ/cyberimp/chest/reviver/on_life(seconds_per_tick)
+	. = ..()
+
 	try_heal()
 
 /obj/item/organ/cyberimp/chest/reviver/proc/try_heal()
@@ -85,19 +94,19 @@
 	/// boolean that stands for if PHYSICAL damage being patched
 	var/body_damage_patched = FALSE
 	var/need_mob_update = FALSE
-	if(owner.getOxyLoss())
-		need_mob_update += owner.adjustOxyLoss(-5, updating_health = FALSE)
+	if(owner.get_oxy_loss())
+		need_mob_update += owner.adjust_oxy_loss(-5, updating_health = FALSE)
 		revive_cost += 5
-	if(owner.getBruteLoss())
-		need_mob_update += owner.adjustBruteLoss(-2, updating_health = FALSE)
+	if(owner.get_brute_loss())
+		need_mob_update += owner.adjust_brute_loss(-2, updating_health = FALSE)
 		revive_cost += 40
 		body_damage_patched = TRUE
-	if(owner.getFireLoss())
-		need_mob_update += owner.adjustFireLoss(-2, updating_health = FALSE)
+	if(owner.get_fire_loss())
+		need_mob_update += owner.adjust_fire_loss(-2, updating_health = FALSE)
 		revive_cost += 40
 		body_damage_patched = TRUE
-	if(owner.getToxLoss())
-		need_mob_update += owner.adjustToxLoss(-1, updating_health = FALSE)
+	if(owner.get_tox_loss())
+		need_mob_update += owner.adjust_tox_loss(-1, updating_health = FALSE)
 		revive_cost += 40
 	if(need_mob_update)
 		owner.updatehealth()
@@ -159,7 +168,8 @@
 	slot = ORGAN_SLOT_THRUSTERS
 	icon_state = "imp_jetpack"
 	base_icon_state = "imp_jetpack"
-	implant_color = null
+	aug_overlay = "imp_jetpack"
+	emissive_overlay = TRUE
 	actions_types = list(/datum/action/item_action/organ_action/toggle)
 	w_class = WEIGHT_CLASS_NORMAL
 	var/on = FALSE
@@ -170,7 +180,6 @@
 		/datum/component/jetpack, \
 		FALSE, \
 		1.5 NEWTONS, \
-		1.2 NEWTONS, \
 		COMSIG_THRUSTER_ACTIVATED, \
 		COMSIG_THRUSTER_DEACTIVATED, \
 		THRUSTER_ACTIVATION_FAILED, \
@@ -208,6 +217,7 @@
 	if(!silent)
 		to_chat(owner, span_notice("You turn your thrusters set on."))
 	update_appearance()
+	owner.update_body_parts()
 
 /obj/item/organ/cyberimp/chest/thrusters/proc/deactivate(silent = FALSE)
 	if(!on)
@@ -218,6 +228,7 @@
 		to_chat(owner, span_notice("You turn your thrusters set off."))
 	on = FALSE
 	update_appearance()
+	owner.update_body_parts()
 
 /obj/item/organ/cyberimp/chest/thrusters/update_icon_state()
 	icon_state = "[base_icon_state][on ? "-on" : null]"
@@ -258,6 +269,14 @@
 	deactivate(silent = TRUE)
 	return FALSE
 
+/obj/item/organ/cyberimp/chest/thrusters/get_overlay_state(image_layer, obj/item/bodypart/limb)
+	return "[aug_overlay][on ? "_on" : ""]"
+
+/obj/item/organ/cyberimp/chest/thrusters/get_overlay(image_layer, obj/item/bodypart/limb)
+	. = ..()
+	for (var/image/overlay as anything in .)
+		overlay.layer = -BODYPARTS_HIGH_LAYER // makes absolutely zero sense why it would layer ontop of jumpsuits but it looks cool
+
 /obj/item/organ/cyberimp/chest/spine
 	name = "\improper Herculean gravitronic spinal implant"
 	desc = "This gravitronic spinal interface is able to improve the athletics of a user, allowing them greater physical ability. \
@@ -281,7 +300,7 @@
 	. = ..()
 	if(!owner || . & EMP_PROTECT_SELF)
 		return
-	to_chat(owner, span_warning("You feel sheering pain as your body is crushed like a soda can!"))
+	to_chat(owner, span_warning("You feel shearing pain as your body is crushed like a soda can!"))
 	owner.apply_damage(20/severity, BRUTE, def_zone = BODY_ZONE_CHEST)
 
 /obj/item/organ/cyberimp/chest/spine/on_mob_insert(mob/living/carbon/organ_owner, special, movement_flags)
@@ -304,29 +323,31 @@
 		remove_organ_trait(TRAIT_STURDY_FRAME)
 
 /obj/item/organ/cyberimp/chest/spine/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
-	. = ..()
+	if(!istype(tool, /obj/item/assembly/signaler/anomaly/grav))
+		return NONE
+
 	if(core_applied)
 		user.balloon_alert(user, "core already installed!")
 		return ITEM_INTERACT_BLOCKING
 
-	if(istype(tool, /obj/item/assembly/signaler/anomaly/grav))
-		user.balloon_alert(user, "core installed.")
-		name = /obj/item/organ/cyberimp/chest/spine/atlas::name
-		desc = /obj/item/organ/cyberimp/chest/spine/atlas::desc
-		athletics_boost_multiplier = /obj/item/organ/cyberimp/chest/spine/atlas::athletics_boost_multiplier
-		added_throw_range = /obj/item/organ/cyberimp/chest/spine/atlas::added_throw_range
-		added_throw_speed = /obj/item/organ/cyberimp/chest/spine/atlas::added_throw_speed
-		strength_bonus = /obj/item/organ/cyberimp/chest/spine/atlas::strength_bonus
-		core_applied = TRUE
-		update_appearance()
-		qdel(tool)
-		return ITEM_INTERACT_SUCCESS
+	user.balloon_alert(user, "core installed")
+	name = /obj/item/organ/cyberimp/chest/spine/atlas::name
+	desc = /obj/item/organ/cyberimp/chest/spine/atlas::desc
+	athletics_boost_multiplier = /obj/item/organ/cyberimp/chest/spine/atlas::athletics_boost_multiplier
+	added_throw_range = /obj/item/organ/cyberimp/chest/spine/atlas::added_throw_range
+	added_throw_speed = /obj/item/organ/cyberimp/chest/spine/atlas::added_throw_speed
+	strength_bonus = /obj/item/organ/cyberimp/chest/spine/atlas::strength_bonus
+	core_applied = TRUE
+	icon_state = "herculean_implant_core"
+	update_appearance()
+	qdel(tool)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/organ/cyberimp/chest/spine/atlas
 	name = "\improper Atlas gravitonic spinal implant"
 	desc = "This gravitronic spinal interface is able to improve the athletics of a user, allowing them greater physical ability. \
 		This one has been improved through the installation of a gravity anomaly core, allowing for personal gravity manipulation. \
-		Not only can you walk with your feet planted firmly on the ground even during a loss of enviromental gravity, but you also \
+		Not only can you walk with your feet planted firmly on the ground even during a loss of environmental gravity, but you also \
 		carry heavier loads with relative ease."
 	icon_state = "herculean_implant_core"
 	athletics_boost_multiplier = 0.25

@@ -4,10 +4,10 @@
  * All overrides of mob/living and mob/living/carbon
  */
 /// Brute
-/mob/living/proc/getBruteLoss_nonProsthetic()
-	return getBruteLoss()
+/mob/living/proc/get_brute_loss_non_prosthetic()
+	return get_brute_loss()
 
-/mob/living/carbon/getBruteLoss_nonProsthetic()
+/mob/living/carbon/get_brute_loss_non_prosthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/chosen_bodypart as anything in bodyparts)
 		if(!IS_ORGANIC_LIMB(chosen_bodypart))
@@ -16,10 +16,10 @@
 	return amount
 
 /// Burn
-/mob/living/proc/getFireLoss_nonProsthetic()
-	return getFireLoss()
+/mob/living/proc/get_fire_loss_non_prosthetic()
+	return get_fire_loss()
 
-/mob/living/carbon/getFireLoss_nonProsthetic()
+/mob/living/carbon/get_fire_loss_non_prosthetic()
 	var/amount = 0
 	for(var/obj/item/bodypart/chosen_bodypart as anything in bodyparts)
 		if(!IS_ORGANIC_LIMB(chosen_bodypart))

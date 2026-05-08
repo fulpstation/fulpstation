@@ -7,7 +7,8 @@
 /obj/item/clothing/suit/hooded/costume_2021/lizard_suit
 	name = "slugcat lizard onesie"
 	desc = "A snuggly animal oneise, made from a stretchy hide."
-	icon_state = "lizard"
+	icon_state = "/obj/item/clothing/suit/hooded/costume_2021/lizard_suit"
+	post_init_icon_state = "lizard"
 	greyscale_config = /datum/greyscale_config/lizard_onesie
 	greyscale_config_worn = /datum/greyscale_config/lizard_onesie/worn
 	greyscale_colors = "#FFFFFF"
@@ -39,7 +40,8 @@
 ///Hoodie
 /obj/item/clothing/head/hooded/costume_2021/lizard_head
 	name = "slugcat lizard hoodie"
-	icon_state = "lizard_head"
+	icon_state = "/obj/item/clothing/head/hooded/costume_2021/lizard_head"
+	post_init_icon_state = "lizard_head"
 	greyscale_config = /datum/greyscale_config/lizard_onesie_head
 	greyscale_config_worn = /datum/greyscale_config/lizard_onesie_head/worn
 	greyscale_colors = "#FFFFFF"
@@ -67,7 +69,8 @@
 /obj/item/clothing/suit/hooded/costume_2021/slugcat_suit
 	name = "slugcat onesie"
 	desc = "A snuggly animal oneise, made from a stretchy hide."
-	icon_state = "slugcat"
+	icon_state = "/obj/item/clothing/suit/hooded/costume_2021/slugcat_suit"
+	post_init_icon_state = "slugcat"
 	greyscale_config = /datum/greyscale_config/slugcat
 	greyscale_config_worn = /datum/greyscale_config/slugcat/worn
 	greyscale_colors = "#FFFFFF"
@@ -99,7 +102,8 @@
 ///Hoodie
 /obj/item/clothing/head/hooded/costume_2021/slugcat_head
 	name = "slugcat hoodie"
-	icon_state = "slugcat_head"
+	icon_state = "/obj/item/clothing/head/hooded/costume_2021/slugcat_head"
+	post_init_icon_state = "slugcat_head"
 	greyscale_config = /datum/greyscale_config/slugcat_head
 	greyscale_config_worn = /datum/greyscale_config/slugcat_head/worn
 	greyscale_colors = "#FFFFFF"

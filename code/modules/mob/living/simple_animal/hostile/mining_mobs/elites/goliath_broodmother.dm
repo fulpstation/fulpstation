@@ -40,7 +40,7 @@
 	throw_message = "does nothing to the rocky hide of the"
 	speed = 2
 	move_to_delay = 5
-	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST|MOB_MINING
 	mouse_opacity = MOUSE_OPACITY_ICON
 	death_message = "explodes into gore!"
 	loot_drop = /obj/item/crusher_trophy/broodmother_tongue
@@ -104,7 +104,7 @@
 		if(CALL_CHILDREN)
 			call_children()
 
-/mob/living/simple_animal/hostile/asteroid/elite/broodmother/Life(seconds_per_tick = SSMOBS_DT, times_fired)
+/mob/living/simple_animal/hostile/asteroid/elite/broodmother/Life(seconds_per_tick = SSMOBS_DT)
 	. = ..()
 	if(!.) //Checks if they are dead as a rock.
 		return
@@ -135,7 +135,7 @@
 			return
 		var/mob/living/simple_animal/hostile/asteroid/elite/broodmother_child/new_child = new /mob/living/simple_animal/hostile/asteroid/elite/broodmother_child(loc)
 		new_child.GiveTarget(target)
-		new_child.faction = faction.Copy()
+		SET_FACTION_AND_ALLIES_FROM(new_child, src)
 		visible_message(span_boldwarning("[new_child] appears below [src]!"))
 		register_child(new_child)
 

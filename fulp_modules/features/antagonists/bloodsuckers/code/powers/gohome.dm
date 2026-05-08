@@ -25,6 +25,7 @@
 	bloodcost = 100
 	constant_bloodcost = 2
 	cooldown_time = 100 SECONDS
+	should_level = FALSE
 	///What stage of the teleportation are we in
 	var/teleporting_stage = GOHOME_START
 	///The types of mobs that will drop post-teleportation.
@@ -111,8 +112,7 @@
 
 	playsound(current_turf, 'sound/effects/magic/summon_karp.ogg', 60, 1)
 
-	var/datum/effect_system/steam_spread/bloodsucker/puff = new(user.loc)
-	puff.set_up(3, 0, current_turf)
+	var/datum/effect_system/basic/steam_spread/bloodsucker/puff = new(user.loc, 3, 0)
 	puff.start()
 
 	var/mob/living/basic/new_mob = pick_weight(spawning_mobs)
@@ -125,7 +125,7 @@
 
 	DeactivatePower()
 
-/datum/effect_system/steam_spread/bloodsucker
+/datum/effect_system/basic/steam_spread/bloodsucker
 	effect_type = /obj/effect/particle_effect/fluid/smoke/vampsmoke
 
 #undef GOHOME_START

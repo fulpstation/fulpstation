@@ -57,7 +57,7 @@
 		if(bloodsucker_level > 0)
 			owner.current.adjust_fire_stacks(0.2 + bloodsucker_level / 10)
 			owner.current.ignite_mob()
-		owner.current.adjustFireLoss(2 + (bloodsucker_level / 2))
+		owner.current.adjust_fire_loss(2 + (bloodsucker_level / 2))
 		owner.current.updatehealth()
 		owner.current.add_mood_event("vampsleep", /datum/mood_event/daylight_2)
 		return
@@ -75,7 +75,7 @@
 	if(COOLDOWN_FINISHED(src, bloodsucker_spam_sol_burn)) // Closets offer SOME protection
 		to_chat(owner, span_warning("Your skin sizzles. [owner.current.loc] doesn't protect well against UV bombardment."))
 		COOLDOWN_START(src, bloodsucker_spam_sol_burn, BLOODSUCKER_SPAM_SOL) //This should happen twice per Sol
-	owner.current.adjustFireLoss(0.5 + (bloodsucker_level / 4))
+	owner.current.adjust_fire_loss(0.5 + (bloodsucker_level / 4))
 	owner.current.updatehealth()
 	owner.current.add_mood_event("vampsleep", /datum/mood_event/daylight_1)
 

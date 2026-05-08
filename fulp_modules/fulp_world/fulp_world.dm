@@ -5,14 +5,12 @@
 	// Load Mentors
 	load_mentors()
 
-	GLOB.special_roles += list(
-		ROLE_BLOODSUCKER = 0,
-		ROLE_VAMPIRICACCIDENT = 0,
-		ROLE_BLOODSUCKERBREAKOUT = 0,
-		ROLE_MONSTERHUNTER = 0,
-		ROLE_INFILTRATOR = 0,
-	)
+	// Call overrides
+	override_vox()
 
+	// This is a near copy paste of 'changelog_hash'.
+	var/latest_fulp_changelog = file("[global.config.directory]/../fulp_modules/data/html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM", TIMEZONE_UTC) + ".yml")
+	GLOB.fulp_changelog_hash = fexists(latest_fulp_changelog) ? md5(latest_fulp_changelog) : 0
 
 // DON'T CALL PARENT, we don't want to use TG's update_status here, only ours!
 /world/update_status()
@@ -29,7 +27,7 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Time: \[<b>[gameTimestamp("hh:mm")]</b>\]"
+	s += "<br>Time: \[<b>[round_timestamp("hh:mm")]</b>\]"
 	s += "<br>Map: \[<b>[SSmapping.current_map.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
 
 	status = s

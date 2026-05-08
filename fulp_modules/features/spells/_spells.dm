@@ -8,6 +8,7 @@
 	cooldown_time = 20 SECONDS //20 seconds, so the effects can't be spammed
 	invocation_type = INVOCATION_SHOUT
 	invocation = "DR'P TH' B'T!!!"
+	spell_max_level = 1
 
 	button_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "funk"
@@ -32,9 +33,13 @@
 
 /datum/action/cooldown/spell/summon_dancefloor/before_cast(atom/cast_on)
 	. = ..()
-	funky_turfs = RANGE_TURFS(1, owner)
+	if(!get_turf(owner))
+		to_chat(owner, span_warning("You can't cast [src] here!"))
+		return SPELL_CANCEL_CAST
+
+	funky_turfs = RANGE_TURFS(1, get_turf(owner))
 	for(var/turf/closed/solid in funky_turfs)
-		to_chat(owner, span_warning("You're too close to a wall."))
+		to_chat(owner, span_warning("You're too close to a wall to cast [src]."))
 		return SPELL_CANCEL_CAST
 
 /datum/action/cooldown/spell/summon_dancefloor/cast(atom/target)
@@ -103,6 +108,7 @@
 	for(var/i in 1 to 25)
 		if(i == 1)
 			central_sparkle = new /obj/effect/overlay/sparkles(target_turf)
+			sparkles += central_sparkle
 		var/obj/effect/overlay/sparkles/S = new /obj/effect/overlay/sparkles(target_turf)
 		sparkles += S
 		switch(i)
@@ -311,11 +317,16 @@
 	dismemberment = 0
 	armour_penetration = 100
 
-	var/matrix/size = matrix() //Used for adjusting cateor size
+ 	/// Used for adjusting cateor size
+	var/matrix/size = matrix()
+	/// Both x and y are scaled up by this.
+	var/scaling_value = 1.5
+	/// Used by a nerfed subtype, affects the end cateor's explosiveness and stun/knockdown.
+	var/nerfed = FALSE
 
 /obj/projectile/directed_cateor/Initialize(mapload)
 	. = ..()
-	size.Scale(1.5,1.5)
+	size.Scale(scaling_value, scaling_value)
 	src.transform = size
 
 /obj/projectile/directed_cateor/Move()
@@ -332,6 +343,10 @@
 /obj/projectile/directed_cateor/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()
 	var/obj/effect/meteor/cateor/new_cateor = new /obj/effect/meteor/cateor(get_turf(target), NONE)
+	if(nerfed)
+		new_cateor.should_explode = FALSE
+		new_cateor.should_stun = FALSE
+
 	new_cateor.Bump(target)
 
 
@@ -370,7 +385,7 @@
 
 /*
 *'zoom()' and 'stop_zooming()' copied from parent under the assumption of necessity.
-*If the parent procs of these two ever get arguements implemented for the scope and sfx used
+*If the parent procs of these two ever get arguments implemented for the scope and sfx used
 *then please change this.
 */
 /datum/component/scope/magic/zoom(mob/user)
@@ -417,3 +432,21 @@
 		animate(user.client, 0.2 SECONDS, pixel_x = 0, pixel_y = 0)
 	tracker = null
 	tracker_owner_ckey = null
+
+// Nerfed version of "Direct Cat Meteor" for use in a spell granter available at a ruin.
+/datum/action/cooldown/spell/conjure_item/infinite_guns/direct_cateor/nerfed
+	name = "Lesser Direct Cat Meteor"
+	desc = "Channel a locus of meteorized cat energy into the palm of your hand and direct it at a target. \n\
+		(<b>Right-click</b> to activate metamagical scope modifier.)\n\n\
+		<i>This seems to be a prototypical version of a potentially greater spell.</i>"
+	item_type = /obj/item/gun/magic/wand/directable_cat_meteor/nerfed
+
+/obj/item/gun/magic/wand/directable_cat_meteor/nerfed
+	ammo_type = /obj/item/ammo_casing/energy/directed_cateor/nerfed
+
+/obj/item/ammo_casing/energy/directed_cateor/nerfed
+	projectile_type = /obj/projectile/directed_cateor/nerfed
+
+/obj/projectile/directed_cateor/nerfed
+	scaling_value = 1.25
+	nerfed = TRUE

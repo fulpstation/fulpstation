@@ -32,7 +32,7 @@
  * Beefman mouth pref defines
  */
 #define BEEF_MOUTH_FROWN "Frown"
-#define BEEF_MOUTH_DISSAPOINTED "Dissapointed"
+#define BEEF_MOUTH_DISAPPOINTED "Disappointed"
 #define BEEF_MOUTH_GRIT "Grit"
 #define BEEF_MOUTH_GRITTING_SMILE "Gritting Smile"
 #define BEEF_MOUTH_SMILE "Smile"

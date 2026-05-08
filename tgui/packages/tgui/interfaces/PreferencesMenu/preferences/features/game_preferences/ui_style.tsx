@@ -2,15 +2,15 @@ import { Box, Dropdown, Stack } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
 
 import {
-  FeatureChoiced,
-  FeatureChoicedServerData,
-  FeatureValueProps,
+  type FeatureChoiced,
+  type FeatureChoicedServerData,
+  type FeatureValueProps,
   sortChoices,
 } from '../base';
 
-const UIStyleInput = (
+function UIStyleInput(
   props: FeatureValueProps<string, string, FeatureChoicedServerData>,
-) => {
+) {
   const { serverData, value } = props;
   if (!serverData) {
     return null;
@@ -58,7 +58,7 @@ const UIStyleInput = (
       )}
     />
   );
-};
+}
 
 export const UI_style: FeatureChoiced = {
   name: 'UI Style',

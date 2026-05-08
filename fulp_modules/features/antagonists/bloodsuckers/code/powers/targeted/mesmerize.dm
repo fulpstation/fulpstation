@@ -40,7 +40,7 @@
 		to_chat(user, span_warning("You have no eyes with which to mesmerize."))
 		return FALSE
 	// Check: Eyes covered?
-	if(istype(user) && (user.is_eyes_covered() && level_current <= 3) || !isturf(user.loc))
+	if(istype(user) && (user.is_eyes_covered() && level_current < 3) || !isturf(user.loc))
 		user.balloon_alert(user, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
@@ -81,7 +81,7 @@
 		owner.balloon_alert(owner, "you must be facing [current_target].")
 		return FALSE
 	// Target facing me? (On the floor, they're facing everyone)
-	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current <= 5))
+	if(((current_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(current_target, owner) && level_current < 5))
 		owner.balloon_alert(owner, "[current_target] must be facing you.")
 		return FALSE
 
@@ -105,7 +105,7 @@
 	if(istype(mesmerized_target))
 		owner.balloon_alert(owner, "attempting to hypnotically gaze [mesmerized_target]...")
 
-	if(!do_after(user, 4 SECONDS, mesmerized_target, NONE, TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
+	if(!do_after(user, 4 SECONDS, mesmerized_target, NONE, TRUE, hidden = TRUE, extra_checks = CALLBACK(src, PROC_REF(ContinueActive), user, mesmerized_target)))
 		return
 
 	var/power_time = max((9 SECONDS + level_current * 0.75 SECONDS), 15 SECONDS)

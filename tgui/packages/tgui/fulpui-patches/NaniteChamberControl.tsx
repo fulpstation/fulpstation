@@ -8,7 +8,7 @@ import {
   Section,
   Table,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -88,7 +88,7 @@ const NaniteChamberControlContent = (props) => {
 
   return (
     <Section
-      title={'Chamber: ' + occupant_name}
+      title={`Chamber: ${occupant_name}`}
       buttons={
         <Button
           icon={locked ? 'lock' : 'lock-open'}

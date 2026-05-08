@@ -24,9 +24,10 @@
 
 	return attacked_machinery.exchange_parts(user, src) ? ITEM_INTERACT_SUCCESS : ITEM_INTERACT_FAILURE
 
-///Plays the sound for RPED exhanging or installing parts.
-/obj/item/storage/part_replacer/proc/play_rped_sound()
+///Plays the sound & flick animation for RPED exhanging or installing parts.
+/obj/item/storage/part_replacer/proc/play_rped_effect()
 	playsound(src, 'sound/items/tools/rped.ogg', 40, TRUE)
+	flick("[icon_state]_active", src)
 
 /**
  * Gets parts sorted in order of their tier
@@ -72,62 +73,46 @@
 /obj/item/storage/part_replacer/bluespace/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	return interact_with_atom(interacting_with, user, modifiers)
 
-/obj/item/storage/part_replacer/bluespace/play_rped_sound()
+/obj/item/storage/part_replacer/bluespace/play_rped_effect()
 	if(prob(1))
 		playsound(src, 'sound/items/pshoom/pshoom_2.ogg', 40, TRUE)
-		return
-	playsound(src, 'sound/items/pshoom/pshoom.ogg', 40, TRUE)
+	else
+		playsound(src, 'sound/items/pshoom/pshoom.ogg', 40, TRUE)
+	flick("[icon_state]_active", src)
 
 /**
  * Signal handler for when a part has been inserted into the BRPED.
- *
  * If the inserted item is a rigged or corrupted cell, does some logging.
- *
- * If it has a reagent holder, clears the reagents and registers signals to prevent new
- * reagents being added and registers clean up signals on inserted item's removal from
- * the BRPED.
+ * We clear existing reagents & stop new ones from being added to prevent remote spam bombing
  */
 /obj/item/storage/part_replacer/bluespace/proc/on_part_entered(datum/source, obj/item/inserted_component)
 	SIGNAL_HANDLER
 
 	if(istype(inserted_component, /obj/item/stock_parts/power_store))
 		var/obj/item/stock_parts/power_store/inserted_cell = inserted_component
-		if(inserted_cell.rigged || inserted_cell.corrupted)
-			message_admins("[ADMIN_LOOKUPFLW(usr)] has inserted rigged/corrupted [inserted_cell] into [src].")
-			usr.log_message("has inserted rigged/corrupted [inserted_cell] into [src].", LOG_GAME)
-			usr.log_message("inserted rigged/corrupted [inserted_cell] into [src]", LOG_ATTACK)
+		if(inserted_cell.corrupted)
+			message_admins("[ADMIN_LOOKUPFLW(usr)] has inserted corrupted [inserted_cell] into [src].")
+			usr.log_message("has inserted corrupted [inserted_cell] into [src].", LOG_GAME)
+			usr.log_message("inserted corrupted [inserted_cell] into [src]", LOG_ATTACK)
 		return
 
-	if(inserted_component.reagents)
-		if(length(inserted_component.reagents.reagent_list))
-			inserted_component.reagents.clear_reagents()
+	var/datum/reagents/target_holder = inserted_component.reagents
+	if(target_holder)
+		if(target_holder.total_volume)
+			target_holder.force_stop_reacting()
+			target_holder.clear_reagents()
 			to_chat(usr, span_notice("[src] churns as [inserted_component] has its reagents emptied into bluespace."))
-		RegisterSignal(inserted_component.reagents, COMSIG_REAGENTS_PRE_ADD_REAGENT, PROC_REF(on_insered_component_reagent_pre_add))
-
-/**
- * Signal handler for when the reagents datum of an inserted part has reagents added to it.
- *
- * Registers the PRE_ADD variant which allows the signal handler to stop reagents being
- * added.
- *
- * Simply returns COMPONENT_CANCEL_REAGENT_ADD. We never want to allow people to add
- * reagents to beakers in BRPEDs as they can then be used for spammable remote bombing.
- */
-/obj/item/storage/part_replacer/bluespace/proc/on_insered_component_reagent_pre_add(datum/source, reagent, amount, reagtemp, data, no_react)
-	SIGNAL_HANDLER
-
-	return COMPONENT_CANCEL_REAGENT_ADD
-
+		target_holder.flags = target_holder.flags << 5 //masks all flags upto DUNKABLE(1<<5) i.e. removes all methods of transfering reagents to/from the object
 /**
  * Signal handler for a part is removed from the BRPED.
- *
- * Does signal registration cleanup on its reagents, if it has any.
+ * Restores original reagents of the component part, if it has any.
  */
 /obj/item/storage/part_replacer/bluespace/proc/on_part_exited(datum/source, obj/item/removed_component)
 	SIGNAL_HANDLER
 
-	if(removed_component.reagents)
-		UnregisterSignal(removed_component.reagents, COMSIG_REAGENTS_PRE_ADD_REAGENT)
+	var/datum/reagents/target_holder = removed_component.reagents
+	if(target_holder)
+		target_holder.flags = target_holder.flags >> 5 //restores all flags upto DUNKABLE(1<<5)
 
 //RPED with tiered contents
 /obj/item/storage/part_replacer/bluespace/tier1/PopulateContents()
@@ -165,6 +150,7 @@
 		new /obj/item/stock_parts/micro_laser/quadultra(src)
 		new /obj/item/stock_parts/matter_bin/bluespace(src)
 		new /obj/item/stock_parts/power_store/cell/bluespace(src)
+		new /obj/item/stack/cable_coil/thirty(src)
 
 //used in a cargo crate
 /obj/item/storage/part_replacer/cargo/PopulateContents()
@@ -184,3 +170,8 @@
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	storage_type = /datum/storage/rped/bluespace
+
+/obj/item/storage/part_replacer/cyborg/small
+	desc = "Special mechanical module made to store, sort, and apply standard machine parts. This one has as much space, as your regular RPED"
+	icon_state = "RPED"
+	storage_type = /datum/storage/rped

@@ -58,7 +58,7 @@
 	RegisterSignal(installing_into, COMSIG_ITEM_GET_WORN_OVERLAYS, PROC_REF(on_checked_overlays))
 	RegisterSignal(installing_into, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
 	if(user.get_item_by_slot(ITEM_SLOT_OCLOTHING) == installing_into)
-		user.update_worn_oversuit(update_obscured = FALSE)
+		user.update_worn_oversuit()
 		turn_on(user)
 
 ///Uninstalls the bodycamera from a piece of clothing.
@@ -78,7 +78,7 @@
 	turn_off()
 	user.put_in_hands(src)
 	if(user.get_item_by_slot(ITEM_SLOT_OCLOTHING) == taking_from)
-		user.update_worn_oversuit(update_obscured = FALSE)
+		user.update_worn_oversuit()
 
 ///Turns the camera on. Will be silent if 'user' is null.
 /obj/item/bodycam_upgrade/proc/turn_on(mob/living/user, obj/item/card/id/id_card)

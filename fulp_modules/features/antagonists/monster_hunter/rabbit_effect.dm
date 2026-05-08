@@ -16,7 +16,7 @@
 			continue
 		visible_message(span_danger("[man] falls into the rabbit hole!"))
 		man.Knockdown(5 SECONDS)
-		man.adjustBruteLoss(20)
+		man.adjust_brute_loss(20)
 
 /**
  * 'First' rabbit hole

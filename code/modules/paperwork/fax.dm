@@ -160,10 +160,7 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
  * Open and close the wire panel.
  */
 /obj/machinery/fax/screwdriver_act(mob/living/user, obj/item/screwdriver)
-	. = ..()
-	default_deconstruction_screwdriver(user, icon_state, icon_state, screwdriver)
-	update_appearance()
-	return TRUE
+	return default_deconstruction_screwdriver(user, screwdriver)
 
 /**
  * Using the multi-tool with the panel closed causes the fax network name to be renamed.
@@ -184,7 +181,7 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 		fax_name = new_fax_name
 	return ITEM_INTERACT_SUCCESS
 
-/obj/machinery/fax/attackby(obj/item/item, mob/user, params)
+/obj/machinery/fax/attackby(obj/item/item, mob/user, list/modifiers, list/attack_modifiers)
 	if (jammed && clear_jam(item, user))
 		return
 	if (panel_open)
@@ -213,7 +210,7 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 		user.visible_message(span_notice("[user] cleans \the [src]."), span_notice("You clean \the [src]."))
 		jammed = FALSE
 		return TRUE
-	if (istype(item, /obj/item/soap) || istype(item, /obj/item/reagent_containers/cup/rag))
+	if (istype(item, /obj/item/soap) || istype(item, /obj/item/rag))
 		var/cleanspeed = 50
 		if (istype(item, /obj/item/soap))
 			var/obj/item/soap/used_soap = item
@@ -241,11 +238,11 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
  * This list expands if you snip a particular wire.
  */
 /obj/machinery/fax/proc/is_allowed_type(obj/item/item)
-	if (is_type_in_list(item, allowed_types))
-		return TRUE
-	if (!allow_exotic_faxes)
-		return FALSE
-	return is_type_in_list(item, exotic_types)
+	var/list/checked_list = allow_exotic_faxes ? (allowed_types | exotic_types) : allowed_types
+	for(var/atom/movable/thing in item.get_all_contents())
+		if(!is_type_in_list(thing, checked_list))
+			return FALSE
+	return TRUE
 
 /obj/machinery/fax/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -480,7 +477,7 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 	var/list/history_data = list()
 	history_data["history_type"] = history_type
 	history_data["history_fax_name"] = history_fax_name
-	history_data["history_time"] = station_time_timestamp()
+	history_data["history_time"] = round_timestamp()
 	fax_history += list(history_data)
 
 /// Clears the history of fax operations.
@@ -500,21 +497,12 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 			return TRUE
 	return FALSE
 
-/**
- * Attempts to shock the passed user, returns true if they are shocked.
- *
- * Arguments:
- * * user - the user to shock
- * * chance - probability the shock happens
- */
-/obj/machinery/fax/proc/shock(mob/living/user, chance)
-	if(!istype(user) || machine_stat & (BROKEN|NOPOWER))
+/obj/machinery/fax/shock(mob/living/shocking, chance = 100, shock_source, siemens_coeff = 1)
+	if( machine_stat & (BROKEN|NOPOWER))
 		return FALSE
-	if(!prob(chance))
-		return FALSE
-	do_sparks(5, TRUE, src)
-	var/check_range = TRUE
-	return electrocute_mob(user, get_area(src), src, 0.7, check_range)
+	if(isnull(siemens_coeff))
+		siemens_coeff = 0.7
+	return ..()
 
 
 /obj/machinery/fax/add_context(atom/source, list/context, obj/item/held_item, mob/user)
@@ -551,7 +539,7 @@ GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 			context[SCREENTIP_CONTEXT_LMB] = "Manipulate wires"
 			return CONTEXTUAL_SCREENTIP_SET
 
-	if (jammed && is_type_in_list(held_item, list(/obj/item/reagent_containers/spray, /obj/item/soap, /obj/item/reagent_containers/cup/rag)))
+	if (jammed && is_type_in_list(held_item, list(/obj/item/reagent_containers/spray, /obj/item/soap, /obj/item/rag)))
 		context[SCREENTIP_CONTEXT_LMB] = "Clean output tray"
 		return CONTEXTUAL_SCREENTIP_SET
 

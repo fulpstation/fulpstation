@@ -36,7 +36,6 @@
 		mytape = new starting_tape_type(src)
 	soundloop = new(src)
 	update_appearance()
-	become_hearing_sensitive()
 
 /obj/item/taperecorder/Destroy()
 	QDEL_NULL(soundloop)
@@ -85,7 +84,7 @@
 	else
 		soundloop.start()
 
-/obj/item/taperecorder/attackby(obj/item/I, mob/user, params)
+/obj/item/taperecorder/attackby(obj/item/I, mob/user, list/modifiers, list/attack_modifiers)
 	if(!mytape && istype(I, /obj/item/tape))
 		if(!user.transferItemToLoc(I,src))
 			return
@@ -110,8 +109,8 @@
 	update_appearance()
 
 /obj/item/taperecorder/fire_act(exposed_temperature, exposed_volume)
-	mytape.unspool() //Fires unspool the tape, which makes sense if you don't think about it
-	..()
+	mytape?.unspool() //Fires unspool the tape, which makes sense if you don't think about it
+	return ..()
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 /obj/item/taperecorder/attack_hand(mob/user, list/modifiers)
@@ -128,7 +127,6 @@
 
 /obj/item/taperecorder/verb/ejectverb()
 	set name = "Eject Tape"
-	set category = "Object"
 
 	if(!can_use(usr))
 		balloon_alert(usr, "can't use!")
@@ -136,7 +134,6 @@
 	if(!mytape)
 		balloon_alert(usr, "no tape!")
 		return
-
 	eject(usr)
 
 
@@ -154,19 +151,17 @@
 	return ..()
 
 
-/obj/item/taperecorder/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq, spans, list/message_mods = list(), message_range)
+/obj/item/taperecorder/Hear(atom/movable/speaker, message_langs, raw_message, radio_freq, radio_freq_name, radio_freq_color, spans, list/message_mods = list(), message_range)
 	. = ..()
-	if(message_mods[MODE_RELAY])
+	if(message_mods[MODE_RELAY] || !mytape || istype(speaker, /obj/item/taperecorder))
 		return
 
-	if(mytape && recording)
-		mytape.timestamp += mytape.used_capacity
-		mytape.storedinfo += "\[[time2text(mytape.used_capacity,"mm:ss")]\] [speaker.GetVoice()]: [raw_message]"
+	mytape.timestamp += mytape.used_capacity
+	mytape.storedinfo += "\[[time2text(mytape.used_capacity,"mm:ss", NO_TIMEZONE)]\] [speaker.get_voice()]: [raw_message]"
 
 
 /obj/item/taperecorder/verb/record()
 	set name = "Start Recording"
-	set category = "Object"
 
 	if(!can_use(usr))
 		balloon_alert(usr, "can't use!")
@@ -185,6 +180,7 @@
 
 	if(mytape.used_capacity < mytape.max_capacity)
 		recording = TRUE
+		become_hearing_sensitive()
 		balloon_alert(usr, "started recording")
 		update_sound()
 		update_appearance()
@@ -208,7 +204,6 @@
 
 /obj/item/taperecorder/verb/stop()
 	set name = "Stop"
-	set category = "Object"
 
 	if(!can_use(usr))
 		balloon_alert(usr, "can't use!")
@@ -218,6 +213,7 @@
 		playsound(src, 'sound/items/taperecorder/taperecorder_stop.ogg', 50, FALSE)
 		balloon_alert(usr, "stopped recording")
 		recording = FALSE
+		lose_hearing_sensitivity()
 	else if(playing)
 		playsound(src, 'sound/items/taperecorder/taperecorder_stop.ogg', 50, FALSE)
 		balloon_alert(usr, "stopped playing")
@@ -228,7 +224,6 @@
 
 /obj/item/taperecorder/verb/play()
 	set name = "Play Tape"
-	set category = "Object"
 
 	if(!can_use(usr))
 		balloon_alert(usr, "can't use!")
@@ -267,7 +262,7 @@
 			playsleepseconds = 1
 			sleep(1 SECONDS)
 		else
-			playsleepseconds = mytape.timestamp[i + 1] - mytape.timestamp[i]
+			playsleepseconds = max(mytape.timestamp[i + 1] - mytape.timestamp[i], 1 SECONDS)
 		if(playsleepseconds > 14 SECONDS)
 			sleep(1 SECONDS)
 			say("Skipping [playsleepseconds/10] seconds of silence.", message_mods = list(MODE_SEQUENTIAL = TRUE))
@@ -301,7 +296,6 @@
 
 /obj/item/taperecorder/verb/print_transcript()
 	set name = "Print Transcript"
-	set category = "Object"
 
 	var/list/transcribed_info = mytape.storedinfo
 	if(!length(transcribed_info))

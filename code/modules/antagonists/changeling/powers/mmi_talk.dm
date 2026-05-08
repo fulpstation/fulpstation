@@ -2,8 +2,9 @@
 	name = "MMI Talk"
 	desc = "Our decoy brain has been implanted into a Man-Machine Interface. \
 		In order to maintain our secrecy, we can speak through the decoy as if a normal brain. \
-		The decoy brain will relay speech it hears to you in purple."
+		The decoy brain will relay speech it hears to us in purple."
 	button_icon = 'icons/obj/devices/assemblies.dmi'
+	category = "stealth"
 	button_icon_state = "mmi_off"
 	dna_cost = CHANGELING_POWER_UNOBTAINABLE
 	ignores_fakedeath = TRUE // Can be used while fake dead
@@ -83,8 +84,7 @@
 		// Generate movement detector (to update the view on MMI movement)
 		update_view_tracker = new(brain_ref, CALLBACK(src, PROC_REF(update_mmi_view)))
 
-	// Shows the view to the user foremost
-	mmi_view.display_to(user)
+	// Register map objects
 	user.client.register_map_obj(mmi_view_background)
 	update_mmi_view()
 	// Makes the MMI relay heard messages
@@ -97,6 +97,8 @@
 	if(!ui)
 		ui = new(user, src, "LingMMITalk")
 		ui.open()
+		// Open map view
+		mmi_view.display_to(user, ui.window)
 
 /datum/action/changeling/mmi_talk/ui_close(mob/user)
 	var/obj/item/mmi/mmi = brain_ref.loc

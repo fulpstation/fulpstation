@@ -3,12 +3,14 @@
 	cut_overlays()
 	for(var/I in overlays_standing)
 		add_overlay(I)
+	for(var/I in managed_overlays)
+		add_overlay(I)
 
 	var/are_we_drooling = istype(click_intercept, /datum/action/cooldown/alien/acid)
 
 	if(stat == DEAD)
 		//If we mostly took damage from fire
-		if(getFireLoss() > 125)
+		if(get_fire_loss() > 125)
 			icon_state = "alien[caste]_husked"
 		else
 			icon_state = "alien[caste]_dead"
@@ -35,15 +37,11 @@
 			icon = alt_icon
 			alt_icon = old_icon
 		icon_state = "alien[caste]_leap"
-		pixel_x = base_pixel_x - 32
-		pixel_y = base_pixel_y - 32
 	else
 		if(alt_icon != initial(alt_icon))
 			var/old_icon = icon
 			icon = alt_icon
 			alt_icon = old_icon
-	pixel_x = base_pixel_x + body_position_pixel_x_offset
-	pixel_y = base_pixel_y + body_position_pixel_y_offset
 	update_held_items()
 	update_worn_handcuffs()
 

@@ -43,9 +43,11 @@
 	else if(bloodsucker_blood_volume > BLOOD_VOLUME_BAD)
 		valuecolor = "#FFAAAA"
 
+	var/atom/movable/screen/bloodsucker/blood_counter/blood_display = owner.current?.hud_used?.screen_objects[HUD_BLOODSUCKER_BLOOD]
 	if(blood_display)
 		blood_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, bloodsucker_blood_volume)
 
+	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display = owner.current?.hud_used?.screen_objects[HUD_BLOODSUCKER_RANK]
 	if(vamprank_display)
 		if(bloodsucker_level_unspent > 0)
 			vamprank_display.icon_state = "[initial(vamprank_display.icon_state)]_up"
@@ -53,6 +55,7 @@
 			vamprank_display.icon_state = initial(vamprank_display.icon_state)
 		vamprank_display.maptext = FORMAT_BLOODSUCKER_HUD_TEXT(valuecolor, bloodsucker_level)
 
+	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display = owner.current?.hud_used?.screen_objects[HUD_BLOODSUCKER_SOL]
 	if(sunlight_display)
 		if(SSsunlight.sunlight_active)
 			valuecolor = "#FF5555"

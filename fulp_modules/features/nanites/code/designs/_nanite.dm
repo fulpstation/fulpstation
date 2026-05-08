@@ -1,7 +1,6 @@
 /datum/design/nanites
 	name = "None"
 	desc = "Warn a coder if you see this."
-	id = "default_nanites"
 	build_type = NONE
 	construction_time = 50
 	category = list()

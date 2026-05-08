@@ -1,11 +1,3 @@
-/obj/item/ammo_box/magazine/sr10mm
-	name = "rifle magazine (10mm)"
-	desc = "A well-worn magazine fitted for the surplus rifle."
-	icon_state = "75"
-	ammo_type = /obj/item/ammo_casing/c10mm
-	max_ammo = 10
-	multiple_sprites = AMMO_BOX_FULL_EMPTY
-
 /obj/item/ammo_box/magazine/m223
 	name = "toploader magazine (.223)"
 	desc = "A top-loading .223 magazine, suitable for the M-90gl carbine."
@@ -31,6 +23,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	ammo_type = /obj/item/ammo_casing/c38
 	caliber = CALIBER_38
+	custom_materials = list(
+		/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT * 4,
+		/datum/material/plastic = HALF_SHEET_MATERIAL_AMOUNT * 1,
+	)
 	max_ammo = 15
 	ammo_band_icon = "+38mag_ammo_band"
 	ammo_band_color = null
@@ -62,7 +58,7 @@
 
 /obj/item/ammo_box/magazine/m38/true
 	name = "battle rifle magazine (.38 True Strike)"
-	desc = parent_type::desc + " Bullets bounce towards new targets with surprising accuracy."
+	desc = parent_type::desc + " Bullets bounce towards new targets with surprising accuracy and can strike through armored target"
 	ammo_type = /obj/item/ammo_casing/c38/match/true
 	ammo_band_color = COLOR_AMMO_TRUESTRIKE
 
@@ -83,3 +79,9 @@
 	desc = parent_type::desc + " Iceblox bullets contain a cryogenic payload."
 	ammo_type = /obj/item/ammo_casing/c38/iceblox
 	ammo_band_color = COLOR_AMMO_ICEBLOX
+
+/obj/item/ammo_box/magazine/m38/flare
+	name = "battle rifle magazine (.38 Flare)"
+	desc = parent_type::desc + " Flare casings launch a concentrated particle beam towards a target, lighting them up for everyone to see."
+	ammo_type = /obj/item/ammo_casing/c38/flare
+	ammo_band_color = COLOR_AMMO_HELLFIRE

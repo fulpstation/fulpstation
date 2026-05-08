@@ -135,6 +135,10 @@
 	roundstart_template = /datum/map_template/shuttle/mining/kilo
 	height = 10
 
+/obj/docking_port/stationary/mining_home/northstar
+	roundstart_template = /datum/map_template/shuttle/mining/northstar
+	height = 6
+
 /obj/docking_port/stationary/mining_home/nebula
 	roundstart_template = /datum/map_template/shuttle/mining/nebula
 	height = 10
@@ -146,6 +150,9 @@
 
 /obj/docking_port/stationary/mining_home/common/kilo
 	roundstart_template = /datum/map_template/shuttle/mining_common/kilo
+
+/obj/docking_port/stationary/mining_home/common/northstar
+	roundstart_template = /datum/map_template/shuttle/mining_common/northstar
 
 /obj/structure/closet/crate/miningcar
 	name = "mine cart"
@@ -404,7 +411,7 @@
 		return
 
 	setDir(movedir)
-	var/datum/move_loop/loop = GLOB.move_manager.move(src, dir, delay = calculate_delay(), subsystem = SSconveyors, flags = MOVEMENT_LOOP_START_FAST|MOVEMENT_LOOP_IGNORE_PRIORITY)
+	var/datum/move_loop/loop = GLOB.move_manager.move(src, dir, delay = calculate_delay(), subsystem = SSconveyors, flags = MOVEMENT_LOOP_START_INSTANT|MOVEMENT_LOOP_IGNORE_PRIORITY)
 	RegisterSignal(loop, COMSIG_MOVELOOP_PREPROCESS_CHECK, PROC_REF(check_rail))
 	RegisterSignal(loop, COMSIG_MOVELOOP_POSTPROCESS, PROC_REF(decay_momentum))
 

@@ -2,12 +2,11 @@
 /obj/item/organ/tail/protogen
 	name = "protogen tail"
 	desc = "A severed protogen tail. Surprisingly sturdy."
-	preference = "feature_protogen_tail"
 
 	bodypart_overlay = /datum/bodypart_overlay/mutant/tail/protogen
 
 	wag_flags = WAG_ABLE
-	dna_block = DNA_LIZARD_TAIL_BLOCK
+	dna_block = /datum/dna_block/feature/accessory/tail
 
 //Overlay
 /datum/bodypart_overlay/mutant/tail/protogen

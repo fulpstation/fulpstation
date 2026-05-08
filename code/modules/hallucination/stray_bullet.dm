@@ -1,6 +1,7 @@
 /// Shoots a random, fake projectile to the hallucinator
 /datum/hallucination/stray_bullet
 	random_hallucination_weight = 7
+	hallucination_tier = HALLUCINATION_TIER_UNCOMMON
 
 /datum/hallucination/stray_bullet/start()
 	var/list/turf/starting_locations = list()
@@ -175,8 +176,8 @@
 		return
 
 	var/image/hit_effect = image('icons/effects/blood.dmi', hit_atom, is_wall ? hal_impact_effect_wall : hal_impact_effect, ABOVE_MOB_LAYER)
-	hit_effect.pixel_x = hit_atom.pixel_x + rand(-4,4)
-	hit_effect.pixel_y = hit_atom.pixel_y + rand(-4,4)
+	hit_effect.pixel_w = hit_atom.pixel_x + rand(-4,4)
+	hit_effect.pixel_z = hit_atom.pixel_y + rand(-4,4)
 	parent.hallucinator.client.images |= hit_effect
 	addtimer(CALLBACK(src, PROC_REF(clean_up_hit), hit_effect), is_wall ? hit_duration_wall : hit_duration)
 
@@ -195,7 +196,7 @@
 	hit_duration_wall = 5
 
 /obj/projectile/hallucination/bullet/apply_effect_to_hallucinator(mob/living/afflicted)
-	afflicted.adjustStaminaLoss(60)
+	afflicted.adjust_stamina_loss(60)
 
 /obj/projectile/hallucination/laser
 	name = "laser"
@@ -215,7 +216,7 @@
 	reflectable = TRUE
 
 /obj/projectile/hallucination/laser/apply_effect_to_hallucinator(mob/living/afflicted)
-	afflicted.adjustStaminaLoss(20)
+	afflicted.adjust_stamina_loss(20)
 	afflicted.adjust_eye_blur(4 SECONDS)
 
 /obj/projectile/hallucination/disabler
@@ -235,7 +236,7 @@
 	reflectable = TRUE
 
 /obj/projectile/hallucination/disabler/apply_effect_to_hallucinator(mob/living/afflicted)
-	afflicted.adjustStaminaLoss(30)
+	afflicted.adjust_stamina_loss(30)
 
 /obj/projectile/hallucination/ebow
 	name = "bolt"
@@ -250,7 +251,7 @@
 /obj/projectile/hallucination/ebow/apply_effect_to_hallucinator(mob/living/afflicted)
 	afflicted.adjust_slurring(10 SECONDS)
 	afflicted.Knockdown(1 SECONDS)
-	afflicted.adjustStaminaLoss(75) // 60 stam + 15 tox
+	afflicted.adjust_stamina_loss(75) // 60 stam + 15 tox
 	afflicted.adjust_eye_blur(20 SECONDS)
 
 /obj/projectile/hallucination/change

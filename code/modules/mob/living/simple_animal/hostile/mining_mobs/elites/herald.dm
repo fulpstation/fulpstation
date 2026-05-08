@@ -32,6 +32,7 @@
 	health = 1000
 	melee_damage_lower = 20
 	melee_damage_upper = 20
+	mob_biotypes = MOB_ORGANIC|MOB_MINING
 	attack_verb_continuous = "preaches to"
 	attack_verb_simple = "preach to"
 	attack_sound = 'sound/effects/magic/clockwork/ratvar_attack.ogg'
@@ -195,7 +196,7 @@
 	var/mob/living/simple_animal/hostile/asteroid/elite/herald/mirror/new_mirror = new /mob/living/simple_animal/hostile/asteroid/elite/herald/mirror(loc)
 	my_mirror = new_mirror
 	my_mirror.my_master = src
-	my_mirror.faction = faction.Copy()
+	SET_FACTION_AND_ALLIES_FROM(my_mirror, src)
 
 /mob/living/simple_animal/hostile/asteroid/elite/herald/mirror
 	name = "herald's mirror"

@@ -11,10 +11,10 @@
 	. = ..()
 	hud_icons += list(NANITE_HUD)
 
-/datum/atom_hud/data/diagnostic/basic/New()
+/datum/atom_hud/data/diagnostic/New()
 	. = ..()
 	hud_icons += list(DIAG_NANITE_FULL_HUD)
 
-/datum/atom_hud/data/diagnostic/advanced/New()
+/datum/atom_hud/data/bot_path/New()
 	. = ..()
 	hud_icons += list(DIAG_NANITE_FULL_HUD)

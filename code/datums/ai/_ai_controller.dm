@@ -18,7 +18,7 @@ multiple modular subtrees with behaviors
 	var/list/blackboard = list()
 
 	///Bitfield of traits for this AI to handle extra behavior
-	var/ai_traits = NONE
+	var/ai_traits = DEFAULT_AI_FLAGS
 	///Current actions planned to be performed by the AI in the upcoming plan
 	var/list/planned_behaviors = list()
 	///Current actions being performed by the AI.
@@ -84,6 +84,10 @@ multiple modular subtrees with behaviors
 	UnpossessPawn(FALSE)
 	if(ai_status)
 		GLOB.ai_controllers_by_status[ai_status] -= src
+		for(var/datum/controller/subsystem/ai_controllers/controller_subsystem in Master.subsystems)
+			if(controller_subsystem.planning_status == ai_status)
+				controller_subsystem.currentrun -= src
+				break
 	our_cells = null
 	set_movement_target(type, null)
 	if(ai_movement.moving_controllers[src])
@@ -203,7 +207,7 @@ multiple modular subtrees with behaviors
 	if(!can_idle || isnull(our_cells))
 		return FALSE
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
-		if(length(grid.client_contents))
+		if(locate(/mob/living) in grid.client_contents)
 			return FALSE
 	return TRUE
 
@@ -225,8 +229,11 @@ multiple modular subtrees with behaviors
 	if(should_idle())
 		set_ai_status(AI_STATUS_IDLE)
 
-/datum/ai_controller/proc/on_client_enter(datum/source, atom/target)
+/datum/ai_controller/proc/on_client_enter(datum/source, list/target_list)
 	SIGNAL_HANDLER
+
+	if (!(locate(/mob/living) in target_list))
+		return
 
 	if(ai_status == AI_STATUS_IDLE)
 		set_ai_status(AI_STATUS_ON)
@@ -246,6 +253,8 @@ multiple modular subtrees with behaviors
  * Returns AI_STATUS_ON otherwise.
  */
 /datum/ai_controller/proc/get_expected_ai_status()
+	if (isnull(get_turf(pawn)))
+		return AI_STATUS_OFF
 
 	if (!ismob(pawn))
 		return AI_STATUS_ON
@@ -294,6 +303,7 @@ multiple modular subtrees with behaviors
 	if(isnull(pawn))
 		return // instantiated without an applicable pawn, fine
 
+	SEND_SIGNAL(src, COMSIG_AI_CONTROLLER_UNPOSSESSED_PAWN)
 	set_ai_status(AI_STATUS_OFF)
 	UnregisterSignal(pawn, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT, COMSIG_MOB_STATCHANGE, COMSIG_QDELETING))
 	clear_able_to_run()
@@ -381,7 +391,7 @@ multiple modular subtrees with behaviors
 
 		///Stops pawns from performing such actions that should require the target to be adjacent.
 		var/atom/movable/moving_pawn = pawn
-		var/can_reach = !(current_behavior.behavior_flags & AI_BEHAVIOR_REQUIRE_REACH) || moving_pawn.CanReach(current_movement_target)
+		var/can_reach = !(current_behavior.behavior_flags & AI_BEHAVIOR_REQUIRE_REACH) || current_movement_target.IsReachableBy(moving_pawn)
 		if(can_reach && current_behavior.required_distance >= get_dist(moving_pawn, current_movement_target)) ///Are we close enough to engage?
 			if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.
 				ai_movement.stop_moving_towards(src)
@@ -425,6 +435,10 @@ multiple modular subtrees with behaviors
 	//remove old status, if we've got one
 	if(ai_status)
 		GLOB.ai_controllers_by_status[ai_status] -= src
+		for(var/datum/controller/subsystem/ai_controllers/controller_subsystem in Master.subsystems)
+			if(controller_subsystem.planning_status == ai_status)
+				controller_subsystem.currentrun -= src
+				break
 	remove_from_unplanned_controllers()
 	stop_previous_processing()
 	ai_status = new_ai_status
@@ -634,7 +648,12 @@ multiple modular subtrees with behaviors
 	}; \
 	else if(isdatum(tracked_datum)) { \
 		var/datum/_tracked_datum = tracked_datum; \
-		if(!HAS_TRAIT_FROM(_tracked_datum, TRAIT_AI_TRACKING, "[REF(src)]_[key]")) { \
+		if(QDELETED(_tracked_datum)) { \
+			stack_trace("Tried to track a qdeleted datum ([_tracked_datum]) in ai datum blackboard (key: [key])! \
+				Please ensure that we are not doing this by adding handling where necessary."); \
+			return; \
+		}; \
+		else if(!HAS_TRAIT_FROM(_tracked_datum, TRAIT_AI_TRACKING, "[REF(src)]_[key]")) { \
 			RegisterSignal(_tracked_datum, COMSIG_QDELETING, PROC_REF(sig_remove_from_blackboard), override = TRUE); \
 			ADD_TRAIT(_tracked_datum, TRAIT_AI_TRACKING, "[REF(src)]_[key]"); \
 		}; \

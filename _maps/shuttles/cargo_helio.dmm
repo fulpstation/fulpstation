@@ -64,7 +64,11 @@
 	dir = 8;
 	id = "QMLoad"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/machinery/door/poddoor{
+	id = "QMLoaddoor2";
+	name = "Supply Dock Loading Door"
+	},
+/obj/effect/landmark/flaps_install,
 /turf/open/floor/mineral/titanium/purple,
 /area/shuttle/supply)
 "w" = (
@@ -73,6 +77,16 @@
 /area/shuttle/supply)
 "x" = (
 /obj/machinery/light/directional/west,
+/obj/machinery/button/door/directional/west{
+	id = "QMLoaddoor2";
+	name = "Loading Doors";
+	pixel_y = 6
+	},
+/obj/machinery/button/door/directional/west{
+	id = "QMLoaddoor";
+	name = "Loading Doors";
+	pixel_y = -6
+	},
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/supply)
 "z" = (
@@ -107,7 +121,11 @@
 	dir = 4;
 	id = "QMLoad2"
 	},
-/obj/structure/plasticflaps/opaque,
+/obj/effect/landmark/flaps_install,
+/obj/machinery/door/poddoor{
+	id = "QMLoaddoor";
+	name = "Supply Dock Loading Door"
+	},
 /turf/open/floor/mineral/titanium/blue,
 /area/shuttle/supply)
 "S" = (
@@ -116,10 +134,6 @@
 	id = "QMLoad2"
 	},
 /turf/open/floor/mineral/titanium/blue,
-/area/shuttle/supply)
-"T" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
 /area/shuttle/supply)
 "U" = (
 /obj/structure/window/reinforced/spawner/directional/east,
@@ -153,7 +167,7 @@ h
 b
 v
 K
-T
+b
 d
 N
 b

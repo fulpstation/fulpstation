@@ -134,8 +134,10 @@
 	if(parent.body_position == LYING_DOWN)
 		src.alpha = 0
 	// (Scaling)
+/*
 	if(parent.body_position_pixel_x_offset || parent.body_position_pixel_y_offset)
 		src.alpha = 0
+*/
 	// (Leaning/other things)
 	if(!parent.density)
 		src.alpha = 0

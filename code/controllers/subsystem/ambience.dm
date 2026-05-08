@@ -1,7 +1,7 @@
 /// The subsystem used to play ambience to users every now and then, makes them real excited.
 SUBSYSTEM_DEF(ambience)
 	name = "Ambience"
-	flags = SS_BACKGROUND|SS_NO_INIT
+	ss_flags = SS_BACKGROUND|SS_NO_INIT
 	priority = FIRE_PRIORITY_AMBIENCE
 	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
 	wait = 1 SECONDS
@@ -27,7 +27,7 @@ SUBSYSTEM_DEF(ambience)
 			client_old_areas -= client_iterator
 			continue
 
-		if(!client_mob.can_hear()) //WHAT? I CAN'T HEAR YOU
+		if(HAS_TRAIT(client_mob, TRAIT_DEAF)) //WHAT? I CAN'T HEAR YOU
 			continue
 
 		//Check to see if the client-mob is in a valid area
@@ -54,12 +54,17 @@ SUBSYSTEM_DEF(ambience)
 ///Attempts to play an ambient sound to a mob, returning the cooldown in deciseconds
 /area/proc/play_ambience(mob/M, sound/override_sound, volume = 27)
 	var/sound/new_sound = override_sound || pick(ambientsounds)
+	if(!new_sound) // Dont try to play a sound if we dont have any.
+		return 1 MINUTES
 	/// volume modifier for ambience as set by the player in preferences.
-	var/volume_modifier = (M.client?.prefs.read_preference(/datum/preference/numeric/sound_ambience_volume))/100
+	var/volume_modifier = (M.client?.prefs.read_preference(/datum/preference/numeric/volume/sound_ambience_volume))/100
 	new_sound = sound(new_sound, repeat = 0, wait = 0, volume = volume*volume_modifier, channel = CHANNEL_AMBIENCE)
 	SEND_SOUND(M, new_sound)
 
 	var/sound_length = SSsounds.get_sound_length(new_sound.file)
+	if(!sound_length)
+		// This will cause sounds to cut into eachother if the sound is longer then the min_ambience_cooldown
+		stack_trace("play_ambience failed to get soundlength from [new_sound] with a file of [new_sound.file].")
 	return sound_length + rand(min_ambience_cooldown, max_ambience_cooldown)
 
 /datum/controller/subsystem/ambience/proc/remove_ambience_client(client/to_remove)
@@ -80,7 +85,7 @@ SUBSYSTEM_DEF(ambience)
 		'sound/items/tools/crowbar.ogg',
 		'sound/items/deconstruct.ogg',
 		'sound/ambience/misc/source_holehit3.ogg',
-		'sound/ambience//misc/cavesound3.ogg',
+		'sound/ambience/misc/cavesound3.ogg',
 	)
 
 /area/station/maintenance/play_ambience(mob/M, sound/override_sound, volume)
@@ -114,14 +119,14 @@ SUBSYSTEM_DEF(ambience)
 
 	var/area/my_area = get_area(src)
 	var/sound_to_use = my_area.ambient_buzz
-	var/volume_modifier = client.prefs.read_preference(/datum/preference/numeric/sound_ship_ambience_volume)
+	var/volume_modifier = client.prefs.read_preference(/datum/preference/numeric/volume/sound_ship_ambience_volume)
 
-	if(!sound_to_use || !(client.prefs.read_preference(/datum/preference/numeric/sound_ship_ambience_volume)))
-		SEND_SOUND(src, sound(null, repeat = 0, volume = volume_modifier, wait = 0, channel = CHANNEL_BUZZ))
+	if(!sound_to_use || !(client.prefs.read_preference(/datum/preference/numeric/volume/sound_ship_ambience_volume)))
+		SEND_SOUND(src, sound(null, repeat = 0, wait = 0, channel = CHANNEL_BUZZ))
 		client.current_ambient_sound = null
 		return
 
-	if(!can_hear()) // Can the mob hear?
+	if(HAS_TRAIT(src, TRAIT_DEAF)) // Can the mob hear?
 		SEND_SOUND(src, sound(null, repeat = 0, wait = 0, channel = CHANNEL_BUZZ))
 		client.current_ambient_sound = null
 		return
@@ -136,4 +141,4 @@ SUBSYSTEM_DEF(ambience)
 			return
 
 		client.current_ambient_sound = sound_to_use
-		SEND_SOUND(src, sound(my_area.ambient_buzz, repeat = 1, wait = 0, volume = my_area.ambient_buzz_vol, channel = CHANNEL_BUZZ))
+		SEND_SOUND(src, sound(my_area.ambient_buzz, repeat = 1, wait = 0, volume = my_area.ambient_buzz_vol * (volume_modifier / 100), channel = CHANNEL_BUZZ))

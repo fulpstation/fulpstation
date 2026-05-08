@@ -16,9 +16,8 @@
 		return ..()
 	bloodsuckerdatum.AddBloodVolume(round(reac_volume, 0.1))
 
-/mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced, ignore_incompatibility)
+/mob/living/carbon/transfer_blood_to(atom/movable/receiver, amount, ignore_low_blood = FALSE, ignore_incompatibility = FALSE, transfer_viruses = TRUE)
 	. = ..()
-
 	if(!mind)
 		return
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
@@ -48,16 +47,6 @@
 		return
 	return ..()
 
-// Used to keep track of how much Blood we've drank so far
-/mob/living/get_status_tab_items()
-	. = ..()
-	if(!mind)
-		return ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(bloodsuckerdatum)
-		. += ""
-		. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
-
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"
 	suit = /obj/item/clothing/suit/costume/dracula
@@ -66,7 +55,7 @@
 	enrico.hairstyle = "Undercut"
 	enrico.hair_color = "FFF"
 	enrico.skin_tone = "african2"
-	enrico.eye_color_left = "#663300"
-	enrico.eye_color_right = "#663300"
+	enrico.eye_color_left = COLOR_BLACK
+	enrico.eye_color_right = COLOR_BLACK
 
 	enrico.update_body(is_creating = TRUE)

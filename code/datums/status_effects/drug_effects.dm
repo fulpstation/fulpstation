@@ -10,7 +10,8 @@
 /atom/movable/screen/alert/status_effect/woozy
 	name = "Woozy"
 	desc = "You feel a bit slower than usual, it seems doing things with your hands takes longer than it usually does."
-	icon_state = "woozy"
+	use_user_hud_icon = USER_HUD_STYLE_INHERIT
+	overlay_state = "woozy"
 
 /datum/status_effect/high_blood_pressure
 	id = "high_blood_pressure"
@@ -36,7 +37,8 @@
 /atom/movable/screen/alert/status_effect/high_blood_pressure
 	name = "High blood pressure"
 	desc = "Your blood pressure is real high right now ... You'd probably bleed like a stuck pig."
-	icon_state = "highbloodpressure"
+	use_user_hud_icon = USER_HUD_STYLE_INHERIT
+	overlay_state = "highbloodpressure"
 
 /datum/status_effect/seizure
 	id = "seizure"
@@ -58,7 +60,8 @@
 /atom/movable/screen/alert/status_effect/seizure
 	name = "Seizure"
 	desc = "FJOIWEHUWQEFGYUWDGHUIWHUIDWEHUIFDUWGYSXQHUIODSDBNJKVBNKDML <--- this is you right now"
-	icon_state = "paralysis"
+	use_user_hud_icon = USER_HUD_STYLE_INHERIT
+	overlay_state = "paralysis"
 
 /datum/status_effect/stoned
 	id = "stoned"
@@ -72,7 +75,7 @@
 	var/mob/living/carbon/human/human_owner = owner
 	human_owner.add_movespeed_modifier(/datum/movespeed_modifier/reagent/cannabis) //slows you down
 	human_owner.add_eye_color(BLOODCULT_EYE, EYE_COLOR_WEED_PRIORITY) //makes cult eyes less obvious
-	human_owner.add_traits(list(TRAIT_CLUMSY, TRAIT_BLOODSHOT_EYES), type) // impairs motor coordination and dilates blood vessels in eyes
+	human_owner.add_traits(list(TRAIT_CLUMSY, TRAIT_BLOODSHOT_EYES), TRAIT_STATUS_EFFECT(id)) // impairs motor coordination and dilates blood vessels in eyes
 	human_owner.add_mood_event("stoned", /datum/mood_event/stoned) //improves mood
 	human_owner.sound_environment_override = SOUND_ENVIRONMENT_DRUGGED //not realistic but very immersive
 	return TRUE
@@ -83,7 +86,7 @@
 	var/mob/living/carbon/human/human_owner = owner
 	human_owner.remove_movespeed_modifier(/datum/movespeed_modifier/reagent/cannabis)
 	human_owner.remove_eye_color(EYE_COLOR_WEED_PRIORITY)
-	human_owner.remove_traits(list(TRAIT_CLUMSY, TRAIT_BLOODSHOT_EYES), type)
+	human_owner.remove_traits(list(TRAIT_CLUMSY, TRAIT_BLOODSHOT_EYES), TRAIT_STATUS_EFFECT(id))
 	human_owner.clear_mood_event("stoned")
 	human_owner.sound_environment_override = SOUND_ENVIRONMENT_NONE
 

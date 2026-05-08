@@ -6,7 +6,7 @@
 	port_direction = SOUTH
 
 	callTime = INFINITY
-	ignitionTime = 50
+	ignitionTime = 5 SECONDS
 
 	movement_force = list("KNOCKDOWN" = 3, "THROW" = 0)
 
@@ -41,6 +41,7 @@
 					new_latejoin += shuttle_chair
 				if(isnull(console))
 					console = locate() in arrival_turf
+					RegisterSignal(console, COMSIG_QDELETING, PROC_REF(find_console))
 		areas += arrival_area
 
 	if(SSjob.latejoin_trackers.len)
@@ -78,10 +79,7 @@
 		damaged = TRUE
 		if(console)
 			console.say("Alert, hull breach detected!")
-		if (length(GLOB.announcement_systems))
-			var/obj/machinery/announcement_system/announcer = pick(GLOB.announcement_systems)
-			if(!QDELETED(announcer))
-				announcer.announce("ARRIVALS_BROKEN", channels = list())
+		aas_config_announce(/datum/aas_config_entry/arrivals_broken, list(), command_span=TRUE)
 		if(mode != SHUTTLE_CALL)
 			sound_played = FALSE
 			mode = SHUTTLE_IDLE
@@ -102,6 +100,22 @@
 			sound_played = TRUE
 	else if(!found_awake)
 		Launch(FALSE)
+
+/obj/docking_port/mobile/arrivals/proc/find_console(datum/source, force)
+	SIGNAL_HANDLER
+
+	//clear ref to old deleted console
+	console = null
+
+	//find new console
+	for(var/area/shuttle/arrival/arrival_area as anything in areas)
+		for(var/list/zlevel_turfs as anything in arrival_area.get_zlevel_turf_lists())
+			for(var/turf/arrival_turf as anything in zlevel_turfs)
+				var/obj/machinery/requests_console/target = locate() in arrival_turf
+				if(!QDELETED(target))
+					console = target
+					RegisterSignal(console, COMSIG_QDELETING, PROC_REF(find_console))
+					return
 
 /obj/docking_port/mobile/arrivals/proc/CheckTurfsPressure()
 	for(var/I in SSjob.latejoin_trackers)

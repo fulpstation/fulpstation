@@ -12,6 +12,7 @@
 	purchase_flags = NONE
 	bloodcost = 10
 	cooldown_time = 10 SECONDS
+	should_level = FALSE
 
 	///Bloodbag we have in our hands.
 	var/obj/item/reagent_containers/blood/bloodbag
@@ -76,7 +77,7 @@
 		if(!former_vassal || former_vassal.revenge_vassal)
 			target_ref = null
 			return
-		if(do_after(owner, 5 SECONDS, target))
+		if(do_after(owner, 5 SECONDS, target, progress = TRUE, hidden = TRUE))
 			former_vassal.return_to_fold(revenge_vassal)
 		target_ref = null
 		DeactivatePower()

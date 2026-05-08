@@ -143,7 +143,7 @@ GLOBAL_DATUM_INIT(requests, /datum/request_manager, new)
 		ui.open()
 
 /datum/request_manager/ui_state(mob/user)
-	return GLOB.admin_state
+	return ADMIN_STATE(R_ADMIN)
 
 /datum/request_manager/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if (..())
@@ -270,7 +270,7 @@ GLOBAL_DATUM_INIT(requests, /datum/request_manager, new)
 				"message" = request.message,
 				"additional_info" = request.additional_information,
 				"timestamp" = request.timestamp,
-				"timestamp_str" = gameTimestamp(wtime = request.timestamp)
+				"timestamp_str" = round_timestamp(wtime = request.timestamp)
 			))
 	data["fax_autoprinting"] = GLOB.fax_autoprinting
 	return data

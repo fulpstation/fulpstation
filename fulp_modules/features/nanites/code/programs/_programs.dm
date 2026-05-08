@@ -154,7 +154,7 @@
 
 /datum/nanite_program/proc/on_mob_remove()
 	SHOULD_CALL_PARENT(TRUE)
-	return
+	host_mob = null
 
 /datum/nanite_program/proc/toggle()
 	if(!activated)
@@ -280,7 +280,7 @@
 #define SOFTWARE_ERROR_ROGUE 5
 
 /datum/nanite_program/proc/software_error()
-	var/list/software_errors_weighted = list(
+	var/static/alist/software_errors_weighted = alist(
 		SOFTWARE_ERROR_DELETE = 1,
 		SOFTWARE_ERROR_DEPROGRAM = 2,
 		SOFTWARE_ERROR_TOGGLE = 2,

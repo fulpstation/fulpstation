@@ -23,9 +23,11 @@
 	var/secured = TRUE
 	var/list/attached_overlays = null
 	var/obj/item/assembly_holder/holder = null
-	var/attachable = FALSE // can this be attached to wires
+	var/assembly_behavior = ASSEMBLY_FUNCTIONAL_OUTPUT // how does the assembly behave with respect to what it's connected to
 	var/datum/wires/connected = null
-	var/next_activate = 0 //When we're next allowed to activate - for spam control
+	COOLDOWN_DECLARE(next_activate)
+	/// Length of the cooldown between activations
+	var/activation_cooldown = 3 SECONDS
 
 /obj/item/assembly/Destroy()
 	holder = null
@@ -54,9 +56,10 @@
 		connected = null
 	if(!holder)
 		return FALSE
-	forceMove(holder.drop_location())
-	SEND_SIGNAL(src, COMSIG_ASSEMBLY_DETACHED, holder)
+	var/atom/was_holder = holder
 	holder = null
+	forceMove(was_holder.drop_location())
+	SEND_SIGNAL(src, COMSIG_ASSEMBLY_DETACHED, was_holder)
 	return TRUE
 
 /**
@@ -70,7 +73,7 @@
 
 /obj/item/assembly/proc/is_secured(mob/user)
 	if(!secured)
-		to_chat(user, span_warning("The [name] is unsecured!"))
+		to_chat(user, span_warning("\The [src] is unsecured!"))
 		return FALSE
 	return TRUE
 
@@ -98,9 +101,9 @@
 
 /// What the device does when turned on
 /obj/item/assembly/proc/activate(mob/activator)
-	if(QDELETED(src) || !secured || (next_activate > world.time))
+	if(QDELETED(src) || !secured || !COOLDOWN_FINISHED(src, next_activate))
 		return FALSE
-	next_activate = world.time + 30
+	COOLDOWN_START(src, next_activate, activation_cooldown)
 	return TRUE
 
 /obj/item/assembly/proc/toggle_secure()
@@ -117,16 +120,19 @@
 		return
 	. = ..()
 
-/obj/item/assembly/attackby(obj/item/attacking_item, mob/user, params)
+/obj/item/assembly/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(isassembly(attacking_item))
 		var/obj/item/assembly/new_assembly = attacking_item
 		// Check both our's and their's assembly flags to see if either should not duplicate
 		// If so, and we match types, don't create a holder - block it
 		if(((new_assembly.assembly_flags|assembly_flags) & ASSEMBLY_NO_DUPLICATES) && istype(new_assembly, type))
-			balloon_alert(user, "can't attach another of that!")
+			balloon_alert(user, "can't attach another [new_assembly.name]!")
 			return
-		if(new_assembly.secured || secured)
-			balloon_alert(user, "both devices not attachable!")
+		if(new_assembly.secured)
+			balloon_alert(user, "[new_assembly.name] is not attachable!")
+			return
+		if(secured)
+			balloon_alert(user, "[name] is not attachable!")
 			return
 
 		holder = new /obj/item/assembly_holder(drop_location())

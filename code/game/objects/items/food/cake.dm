@@ -1,5 +1,6 @@
 /obj/item/food/cake
 	icon = 'icons/obj/food/piecake.dmi'
+	abstract_type = /obj/item/food/cake
 	bite_consumption = 3
 	max_volume = 80
 	food_reagents = list(
@@ -20,10 +21,11 @@
 
 /obj/item/food/cake/make_processable()
 	if (slice_type)
-		AddElement(/datum/element/processable, TOOL_KNIFE, slice_type, yield, 3 SECONDS, table_required = TRUE, screentip_verb = "Slice")
+		AddElement(/datum/element/processable, TOOL_KNIFE, slice_type, yield, 3 SECONDS, table_required = TRUE, screentip_verb = "Slice", sound_to_play = SFX_KNIFE_SLICE)
 
 /obj/item/food/cakeslice
 	icon = 'icons/obj/food/piecake.dmi'
+	abstract_type = /obj/item/food/cakeslice
 	food_reagents = list(
 		/datum/reagent/consumable/nutriment = 4,
 		/datum/reagent/consumable/nutriment/vitamin = 1,
@@ -44,10 +46,26 @@
 	tastes = list("sweetness" = 2, "cake" = 5)
 	foodtypes = GRAIN | DAIRY | SUGAR
 	slice_type = /obj/item/food/cakeslice/plain
+	///ingredient holder for this cake
+	VAR_PROTECTED/cake_holder = /obj/item/food/cake/empty
 
 /obj/item/food/cake/plain/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/customizable_reagent_holder, /obj/item/food/cake/empty, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 16)
+	AddComponent(/datum/component/ingredients_holder, cake_holder, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 16)
+
+/obj/item/food/cake/plain/vegan
+	name = "vegan plain cake"
+	desc = "A plain vegan cake, not a lie."
+	tastes = list("cake" = 5)
+	foodtypes = GRAIN
+	cake_holder = /obj/item/food/cake/empty/vegan
+	slice_type = /obj/item/food/cakeslice/plain/vegan
+
+/obj/item/food/cakeslice/plain/vegan
+	name = "plain vegan cake slice"
+	desc = "Just a slice of vegan cake, it is enough for everyone."
+	tastes = list("cake" = 5)
+	foodtypes = GRAIN
 
 /obj/item/food/cakeslice/plain
 	name = "plain cake slice"
@@ -71,7 +89,18 @@
 
 /obj/item/food/cakeslice/empty/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/customizable_reagent_holder, null, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 16)
+	AddComponent(/datum/component/ingredients_holder, null, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 16)
+
+/obj/item/food/cake/empty/vegan
+	name = "vegan cake"
+	desc = "A custom vegan cake made by an really insane chef."
+	foodtypes = GRAIN
+	slice_type = /obj/item/food/cakeslice/empty/vegan
+
+/obj/item/food/cakeslice/empty/vegan
+	name = "vegan cake slice"
+	desc = "A slice of custom vegan cake, made by an really insane chef."
+	foodtypes = GRAIN
 
 /obj/item/food/cake/carrot
 	name = "carrot cake"
@@ -130,7 +159,7 @@
 		/datum/reagent/consumable/nutriment/protein = 5,
 	)
 	tastes = list("cake" = 4, "cream cheese" = 3)
-	foodtypes = GRAIN | DAIRY
+	foodtypes = GRAIN | DAIRY | SUGAR
 	venue_value = FOOD_PRICE_CHEAP
 	slice_type = /obj/item/food/cakeslice/cheese
 	crafting_complexity = FOOD_COMPLEXITY_3
@@ -350,7 +379,7 @@
 	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/cake/slimecake
-	name = "Slime cake"
+	name = "slime cake"
 	desc = "A cake made of slimes. Probably not electrified."
 	icon_state = "slimecake"
 	tastes = list("cake" = 5, "sweetness" = 1, "slime" = 1)
@@ -371,7 +400,7 @@
 	desc = "A hollow cake with real pumpkin."
 	icon_state = "pumpkinspicecake"
 	tastes = list("cake" = 5, "sweetness" = 1, "pumpkin" = 1)
-	foodtypes = GRAIN | DAIRY | VEGETABLES | SUGAR
+	foodtypes = GRAIN|DAIRY|SUGAR|VEGETABLES
 	venue_value = FOOD_PRICE_CHEAP
 	slice_type = /obj/item/food/cakeslice/pumpkinspice
 	crafting_complexity = FOOD_COMPLEXITY_3
@@ -381,7 +410,7 @@
 	desc = "A spicy slice of pumpkin goodness."
 	icon_state = "pumpkinspicecakeslice"
 	tastes = list("cake" = 5, "sweetness" = 1, "pumpkin" = 1)
-	foodtypes = GRAIN | DAIRY | VEGETABLES | SUGAR
+	foodtypes = GRAIN|DAIRY|SUGAR|VEGETABLES
 	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/cake/berry_vanilla_cake // blackberry strawberries vanilla cake
@@ -482,9 +511,10 @@
 		/datum/reagent/fuel/oil = 15,
 	)
 	tastes = list("acid" = 3, "metal" = 4, "glass" = 5)
-	foodtypes = GRAIN | GROSS
+	foodtypes = GRAIN|DAIRY|SUGAR|GROSS
 	slice_type = /obj/item/food/cakeslice/hardware_cake_slice
 	crafting_complexity = FOOD_COMPLEXITY_3
+	custom_materials = list(/datum/material/glass = SHEET_MATERIAL_AMOUNT)
 
 /obj/item/food/cakeslice/hardware_cake_slice
 	name = "hardware cake slice"
@@ -497,8 +527,9 @@
 		/datum/reagent/fuel/oil = 3,
 	)
 	tastes = list("acid" = 3, "metal" = 4, "glass" = 5)
-	foodtypes = GRAIN | GROSS
+	foodtypes = GRAIN|DAIRY|SUGAR|GROSS
 	crafting_complexity = FOOD_COMPLEXITY_3
+	custom_materials = list(/datum/material/glass = SHEET_MATERIAL_AMOUNT / 5)
 
 /obj/item/food/cake/vanilla_cake
 	name = "vanilla cake"
@@ -511,7 +542,7 @@
 		/datum/reagent/consumable/vanilla = 15,
 	)
 	tastes = list("cake" = 1, "sugar" = 1, "vanilla" = 10)
-	foodtypes = GRAIN | SUGAR | DAIRY
+	foodtypes = GRAIN|FRUIT|DAIRY|SUGAR
 	slice_type = /obj/item/food/cakeslice/vanilla_slice
 	crafting_complexity = FOOD_COMPLEXITY_3
 
@@ -526,7 +557,7 @@
 		/datum/reagent/consumable/vanilla = 3,
 	)
 	tastes = list("cake" = 1, "sugar" = 1, "vanilla" = 10)
-	foodtypes = GRAIN | SUGAR | DAIRY
+	foodtypes = GRAIN|FRUIT|DAIRY|SUGAR
 	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/cake/clown_cake
@@ -539,7 +570,7 @@
 		/datum/reagent/consumable/banana = 15,
 	)
 	tastes = list("cake" = 1, "sugar" = 1, "joy" = 10)
-	foodtypes = GRAIN | SUGAR | DAIRY
+	foodtypes = GRAIN|FRUIT|DAIRY|SUGAR
 	slice_type = /obj/item/food/cakeslice/clown_slice
 	crafting_complexity = FOOD_COMPLEXITY_5
 	crafted_food_buff = /datum/status_effect/food/trait/waddle
@@ -554,7 +585,7 @@
 		/datum/reagent/consumable/banana = 3,
 	)
 	tastes = list("cake" = 1, "sugar" = 1, "joy" = 10)
-	foodtypes = GRAIN | SUGAR | DAIRY
+	foodtypes = GRAIN|FRUIT|DAIRY|SUGAR
 	crafting_complexity = FOOD_COMPLEXITY_5
 	crafted_food_buff = /datum/status_effect/food/trait/waddle
 
@@ -570,7 +601,7 @@
 		/datum/reagent/consumable/berryjuice = 5,
 	)
 	tastes = list("cake" = 4, "violets" = 2, "jam" = 2)
-	foodtypes = GRAIN | DAIRY | FRUIT | SUGAR
+	foodtypes = GRAIN|DAIRY|FRUIT|SUGAR|VEGETABLES
 	slice_type = /obj/item/food/cakeslice/trumpet
 	crafting_complexity = FOOD_COMPLEXITY_4
 
@@ -586,7 +617,7 @@
 		/datum/reagent/consumable/berryjuice = 1,
 	)
 	tastes = list("cake" = 4, "violets" = 2, "jam" = 2)
-	foodtypes = GRAIN | DAIRY | FRUIT | SUGAR
+	foodtypes = GRAIN|DAIRY|FRUIT|SUGAR|VEGETABLES
 	crafting_complexity = FOOD_COMPLEXITY_4
 
 /obj/item/food/cake/brioche

@@ -174,22 +174,16 @@
 	M.Move(dest)
 
 	if(entersparks)
-		var/datum/effect_system/spark_spread/s = new
-		s.set_up(4, 1, src)
-		s.start()
+		do_sparks(4, TRUE, src)
+
 	if(exitsparks)
-		var/datum/effect_system/spark_spread/s = new
-		s.set_up(4, 1, dest)
-		s.start()
+		do_sparks(4, TRUE, dest)
 
 	if(entersmoke)
-		var/datum/effect_system/fluid_spread/smoke/s = new
-		s.set_up(4, holder = src, location = src)
-		s.start()
+		do_smoke(4, src, src)
+
 	if(exitsmoke)
-		var/datum/effect_system/fluid_spread/smoke/s = new
-		s.set_up(4, holder = src, location = dest)
-		s.start()
+		do_smoke(4, dest, dest)
 
 	uses--
 	if(uses == 0)
@@ -202,7 +196,7 @@
 	var/volume = 100
 	var/freq_vary = 1 //Should the frequency of the sound vary?
 	var/extra_range = 0 // eg World.view = 7, extra_range = 1, 7+1 = 8, 8 turfs radius
-	var/happens_once = 0
+	var/happens_once = FALSE
 	var/triggerer_only = 0 //Whether the triggerer is the only person who hears this
 
 
@@ -222,7 +216,25 @@
 		qdel(src)
 
 /obj/effect/step_trigger/sound_effect/lavaland_cult_altar
-	happens_once = 1
+	happens_once = TRUE
 	name = "a grave mistake";
 	sound = 'sound/effects/hallucinations/i_see_you1.ogg'
 	triggerer_only = 1
+
+/// Forces a given outfit onto any carbon which crosses it, for event maps
+/obj/effect/step_trigger/outfitter
+	mobs_only = TRUE
+	///outfit to equip
+	var/datum/outfit/outfit_to_equip
+	var/happens_once = FALSE
+
+/obj/effect/step_trigger/outfitter/Trigger(atom/movable/A)
+	if(!ishuman(A))
+		return
+
+	var/mob/living/carbon/human/fellow = A
+	fellow.delete_equipment()
+	fellow.equipOutfit(outfit_to_equip,FALSE)
+
+	if(happens_once)
+		qdel(src)

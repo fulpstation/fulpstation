@@ -1,5 +1,5 @@
 /**
- * Fulp-only Commision plaques for our stations, these are equal to the ones in static_plaques.dm
+ * Fulp-only commission plaques for our stations, these are equal to the ones in static_plaques.dm
  * Currently houses Heliostation and Selenestation
  */
 

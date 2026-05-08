@@ -47,7 +47,7 @@
 	if(user.move_intent != MOVE_INTENT_WALK)
 		owner.balloon_alert(owner, "you attempt to run, crushing yourself.")
 		user.toggle_move_intent()
-		user.adjustBruteLoss(rand(5,15))
+		user.adjust_brute_loss(rand(5,15))
 
 /datum/action/cooldown/bloodsucker/cloak/ContinueActive(mob/living/user, mob/living/target)
 	. = ..()
@@ -55,7 +55,7 @@
 		return FALSE
 	/// Must be CONSCIOUS
 	if(user.stat != CONSCIOUS)
-		to_chat(owner, span_warning("Your cloak failed due to you falling unconcious!"))
+		to_chat(owner, span_warning("Your cloak failed due to you falling unconscious!"))
 		return FALSE
 	return TRUE
 

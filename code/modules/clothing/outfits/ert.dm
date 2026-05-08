@@ -38,7 +38,7 @@
 /datum/outfit/centcom/ert/commander
 	name = "ERT Commander"
 
-	id = /obj/item/card/id/advanced/centcom/ert
+	id = /obj/item/card/id/advanced/centcom/ert/commander
 	back = /obj/item/mod/control/pre_equipped/responsory/commander
 	l_hand = /obj/item/gun/energy/e_gun
 	box = /obj/item/storage/box/survival/centcom
@@ -46,6 +46,7 @@
 		/obj/item/melee/baton/security/loaded = 1,
 	)
 	belt = /obj/item/storage/belt/security/full
+	ears = /obj/item/radio/headset/headset_cent/alt/leader
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	l_pocket = /obj/item/switchblade
 	additional_radio = /obj/item/encryptionkey/heads/captain
@@ -53,12 +54,14 @@
 /datum/outfit/centcom/ert/commander/alert
 	name = "ERT Commander - High Alert"
 
+	l_hand = /obj/item/gun/energy/disabler/smg
 	backpack_contents = list(
 		/obj/item/gun/energy/pulse/pistol/loyalpin = 1,
 		/obj/item/melee/baton/security/loaded = 1,
 	)
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	l_pocket = /obj/item/melee/energy/sword/saber
+	suit_store = /obj/item/gun/energy/laser/assault
 
 /datum/outfit/centcom/ert/security
 	name = "ERT Security"
@@ -185,7 +188,7 @@
 	name = "Inquisition Commander"
 
 	back = /obj/item/mod/control/pre_equipped/responsory/inquisitory/commander
-	r_hand = /obj/item/nullrod/vibro/talking/chainsword
+	r_hand = /obj/item/nullrod/claymore/talking/chainsword
 	backpack_contents = null
 
 /datum/outfit/centcom/ert/security/inquisitor
@@ -247,7 +250,7 @@
 		/obj/item/storage/box/lights/mixed = 1,
 	)
 	belt = /obj/item/storage/belt/janitor/full
-	glasses = /obj/item/clothing/glasses/night/colorless
+	glasses = /obj/item/clothing/glasses/night
 	l_pocket = /obj/item/grenade/chem_grenade/cleaner
 	r_pocket = /obj/item/grenade/chem_grenade/cleaner
 	l_hand = /obj/item/storage/bag/trash/bluespace
@@ -261,6 +264,7 @@
 		/obj/item/melee/baton/security/loaded = 1,
 		/obj/item/storage/box/lights/mixed = 1,
 	)
+	ears = /obj/item/radio/headset/headset_cent/alt/leader
 	r_hand = /obj/item/reagent_containers/spray/chemsprayer/janitor
 
 /datum/outfit/centcom/ert/clown
@@ -287,9 +291,7 @@
 	if(visuals_only)
 		return
 	ADD_TRAIT(H.mind, TRAIT_NAIVE, INNATE_TRAIT)
-	H.dna.add_mutation(/datum/mutation/human/clumsy)
-	for(var/datum/mutation/human/clumsy/M in H.dna.mutations)
-		M.mutadone_proof = TRUE
+	H.dna.add_mutation(/datum/mutation/clumsy, MUTATION_SOURCE_CLOWN_CLUMSINESS)
 
 /datum/outfit/centcom/centcom_intern
 	name = "CentCom Intern"
@@ -304,8 +306,8 @@
 	glasses = /obj/item/clothing/glasses/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
 	shoes = /obj/item/clothing/shoes/sneakers/black
-	l_pocket = /obj/item/ammo_box/strilka310
-	r_pocket = /obj/item/ammo_box/strilka310
+	l_pocket = /obj/item/ammo_box/speedloader/strilka310
+	r_pocket = /obj/item/ammo_box/speedloader/strilka310
 	l_hand = /obj/item/gun/ballistic/rifle/boltaction
 
 /datum/outfit/centcom/centcom_intern/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
@@ -420,7 +422,7 @@
 		/obj/item/food/cake/birthday = 1,
 		/obj/item/storage/box/fireworks = 3,
 	)
-	belt = /obj/item/storage/belt/sabre
+	belt = /obj/item/storage/belt/sheath/sabre
 	head = /obj/item/clothing/head/hats/coordinator
 	l_pocket = /obj/item/knife/kitchen
 	l_hand = /obj/item/toy/balloon
@@ -434,7 +436,7 @@
 	back = /obj/item/mod/control/pre_equipped/apocryphal
 	box = /obj/item/storage/box/survival/centcom
 	backpack_contents = list(
-		/obj/item/ammo_box/a357 = 1,
+		/obj/item/ammo_box/speedloader/c357 = 1,
 		/obj/item/flashlight = 1,
 		/obj/item/grenade/c4/x4 = 1,
 		/obj/item/storage/box/flashbangs = 1,
@@ -455,6 +457,9 @@
 	)
 
 /datum/outfit/centcom/death_commando/post_equip(mob/living/carbon/human/squaddie, visuals_only = FALSE)
+	var/obj/item/organ/eyes/robotic/tacvisor/deathsquad/visor = new()
+	visor.Insert(squaddie, movement_flags = DELETE_IF_REPLACED)
+
 	if(visuals_only)
 		return
 
@@ -471,6 +476,7 @@
 	name = "Death Commando Officer"
 
 	back = /obj/item/mod/control/pre_equipped/apocryphal/officer
+	ears = /obj/item/radio/headset/headset_cent/alt/leader
 
 /datum/outfit/centcom/death_commando/officer/post_equip(mob/living/carbon/human/squaddie, visuals_only = FALSE)
 	. = ..()
@@ -486,11 +492,12 @@
 /datum/outfit/centcom/ert/marine
 	name = "Marine Commander"
 
-	id = /obj/item/card/id/advanced/centcom/ert
+	id = /obj/item/card/id/advanced/centcom/ert/commander
 	suit = /obj/item/clothing/suit/armor/vest/marine
 	suit_store = /obj/item/gun/ballistic/automatic/wt550
 	back = /obj/item/shield/riot
 	belt = /obj/item/storage/belt/military/assault/full
+	ears = /obj/item/radio/headset/headset_cent/alt/leader
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch
 	l_pocket = /obj/item/knife/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
@@ -504,6 +511,7 @@
 
 	id = /obj/item/card/id/advanced/centcom/ert/security
 	suit = /obj/item/clothing/suit/armor/vest/marine/security
+	ears = /obj/item/radio/headset/headset_cent/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	head = /obj/item/clothing/head/helmet/marine/security
 	additional_radio = /obj/item/encryptionkey/heads/hos
@@ -523,9 +531,9 @@
 		/obj/item/storage/medkit/advanced = 1,
 	)
 	belt = /obj/item/storage/belt/medical/paramedic
+	ears = /obj/item/radio/headset/headset_cent/alt
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	additional_radio = /obj/item/encryptionkey/heads/cmo
-
 
 	skillchips = list(/obj/item/skillchip/entrails_reader)
 
@@ -539,6 +547,7 @@
 	back = /obj/item/deployable_turret_folded
 	uniform = /obj/item/clothing/under/rank/centcom/military/eng
 	belt = /obj/item/storage/belt/utility/full/powertools/rcd
+	ears = /obj/item/radio/headset/headset_cent/alt
 	glasses = /obj/item/clothing/glasses/hud/diagnostic/sunglasses
 	additional_radio = /obj/item/encryptionkey/heads/ce
 
@@ -561,9 +570,9 @@
 	r_pocket = /obj/item/reagent_containers/hypospray/medipen/salacid
 	ears = /obj/item/radio/headset
 	backpack_contents = list(
-			/obj/item/storage/medkit/emergency = 1,
-			/obj/item/crowbar = 1,
-			/obj/item/restraints/handcuffs = 1,
+		/obj/item/storage/medkit/emergency = 1,
+		/obj/item/crowbar = 1,
+		/obj/item/restraints/handcuffs = 1,
 	)
 
 /datum/outfit/centcom/militia/general
@@ -590,6 +599,7 @@
 		/obj/item/stack/medical/poultice = 1, //These stacks contain 15 by default. Great for getting corpses to defib range without surgery.
 	)
 	belt = /obj/item/storage/belt/medical/ert
+	ears = /obj/item/radio/headset/headset_cent/alt
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	additional_radio = /obj/item/encryptionkey/heads/cmo
 	mask = /obj/item/clothing/mask/surgical

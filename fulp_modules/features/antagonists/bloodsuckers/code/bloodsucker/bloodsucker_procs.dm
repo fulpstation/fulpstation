@@ -84,6 +84,8 @@
 	for(var/datum/action/cooldown/bloodsucker/power as anything in powers)
 		if(power.purchase_flags & TREMERE_CAN_BUY)
 			continue
+		if(!power.should_level)
+			continue
 		power.upgrade_power()
 
 ///Disables all powers, accounting for torpor

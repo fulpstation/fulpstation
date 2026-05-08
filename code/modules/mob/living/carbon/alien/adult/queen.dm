@@ -20,6 +20,8 @@
 	REMOVE_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 	// that'd be a too cheeky shield bashing strat
 	ADD_TRAIT(src, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED, INNATE_TRAIT)
+	// Lets you spin without falling over
+	ADD_TRAIT(src, TRAIT_STRENGTH, INNATE_TRAIT)
 	AddComponent(/datum/component/seethrough_mob)
 
 /mob/living/carbon/alien/adult/royal/on_lying_down(new_lying_angle)
@@ -32,6 +34,23 @@
 
 /mob/living/carbon/alien/adult/royal/can_inject(mob/user, target_zone, injection_flags)
 	return FALSE
+
+/mob/living/carbon/alien/adult/royal/get_fire_overlay(stacks, on_fire)
+	var/fire_key = "royal_fire"
+
+	if(!GLOB.fire_appearances[fire_key])
+		var/mutable_appearance/fire = mutable_appearance(
+			'icons/mob/effects/onfire.dmi',
+			"generic_fire",
+			ABOVE_ALL_MOB_LAYER,
+			appearance_flags = RESET_COLOR|KEEP_APART|PIXEL_SCALE,
+		)
+		fire.pixel_x = 16
+		fire.pixel_y = 8
+		fire.transform = fire.transform.Scale(2, 2)
+		GLOB.fire_appearances[fire_key] = fire
+
+	return GLOB.fire_appearances[fire_key]
 
 /mob/living/carbon/alien/adult/royal/queen
 	name = "alien queen"
@@ -56,12 +75,12 @@
 		ORGAN_SLOT_XENO_ACIDGLAND = /obj/item/organ/alien/acid,
 		ORGAN_SLOT_XENO_NEUROTOXINGLAND = /obj/item/organ/alien/neurotoxin,
 		ORGAN_SLOT_XENO_EGGSAC = /obj/item/organ/alien/eggsac,
+		ORGAN_SLOT_EXTERNAL_TAIL = /obj/item/organ/tail/xeno_queen,
 	)
 
 /mob/living/carbon/alien/adult/royal/queen/Initialize(mapload)
 	var/static/list/innate_actions = list(
 		/datum/action/cooldown/alien/promote,
-		/datum/action/cooldown/spell/aoe/repulse/xeno,
 	)
 	grant_actions_by_list(innate_actions)
 
@@ -92,12 +111,11 @@
 	/// The promotion only takes plasma when completed, not on activation.
 	var/promotion_plasma_cost = 500
 
-/datum/action/cooldown/alien/promote/set_statpanel_format()
+/datum/action/cooldown/alien/promote/New(Target)
 	. = ..()
-	if(!islist(.))
-		return
-
-	.[PANEL_DISPLAY_STATUS] = "PLASMA - [promotion_plasma_cost]"
+	//not free
+	if(promotion_plasma_cost != 0)
+		name = "[initial(name)] ([promotion_plasma_cost]P)"
 
 /datum/action/cooldown/alien/promote/IsAvailable(feedback = FALSE)
 	. = ..()

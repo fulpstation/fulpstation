@@ -27,7 +27,8 @@
 	remove_blacklisted = FALSE, //unused for plumbing, we don't care what reagents are inside us
 	methods = LINEAR, //default round robin technique for transferring reagents
 	show_message = TRUE, //unused for plumbing, used for logging only
-	ignore_stomach = FALSE //unused for plumbing, reagents flow only between machines & is not injected to mobs at any point in time
+	ignore_stomach = FALSE, //unused for plumbing, reagents flow only between machines & is not injected to mobs at any point in time
+	copy_only = FALSE //unused
 )
 	if(QDELETED(target) || !total_volume)
 		return FALSE
@@ -51,11 +52,7 @@
 	if(amount <= 0)
 		return FALSE
 
-	//Set up new reagents to inherit the old ongoing reactions
-	transfer_reactions(target_holder)
-
 	var/list/cached_reagents = reagent_list
-	var/list/reagents_to_remove = list()
 	var/transfer_amount
 	var/transfered_amount
 	var/total_transfered_amount = 0
@@ -75,7 +72,6 @@
 
 		if(!isnull(target_id))
 			if(reagent.type == target_id)
-				force_stop_reagent_reacting(reagent)
 				transfer_amount = min(amount, reagent.volume)
 			else
 				continue
@@ -85,33 +81,22 @@
 			else
 				transfer_amount = reagent.volume * part
 
-		if(reagent.intercept_reagents_transfer(target_holder, amount))
-			update_total()
-			target_holder.update_total()
+		if(reagent.intercept_reagents_transfer(target_holder, transfer_amount))
 			continue
 
-		transfered_amount = target_holder.add_reagent(reagent.type, transfer_amount, copy_data(reagent), chem_temp, reagent.purity, reagent.ph, no_react = TRUE, ignore_splitting = reagent.chemical_flags & REAGENT_DONOTSPLIT) //we only handle reaction after every reagent has been transferred.
+		transfered_amount = target_holder.add_reagent(reagent.type, transfer_amount, copy_data(reagent), chem_temp, reagent.purity, reagent.ph, no_react = TRUE) //we only handle reaction after every reagent has been transferred.
 		if(!transfered_amount)
 			continue
-		reagents_to_remove += list(list("R" = reagent, "T" = transfer_amount))
 		total_transfered_amount += transfered_amount
 		if(round_robin)
 			to_transfer -= transfered_amount
+		reagent.volume -= transfered_amount
 
 		if(!isnull(target_id))
 			break
+	update_total()
 
-	//remove chemicals that were added above
-	for(var/list/data as anything in reagents_to_remove)
-		var/datum/reagent/reagent = data["R"]
-		transfer_amount = data["T"]
-		remove_reagent(reagent.type, transfer_amount)
-
-	//handle reactions
-	target_holder.handle_reactions()
-	src.handle_reactions()
-
-	return round(total_transfered_amount, CHEMICAL_VOLUME_ROUNDING)
+	return total_transfered_amount
 
 ///Excludes catalysts during the emptying process
 /datum/reagents/plumbing/reaction_chamber
@@ -162,7 +147,8 @@
 	remove_blacklisted = FALSE,
 	methods = LINEAR,
 	show_message = TRUE,
-	ignore_stomach = FALSE
+	ignore_stomach = FALSE,
+	copy_only = FALSE
 )
 	var/obj/machinery/plumbing/reaction_chamber/reactor = my_atom
 	var/list/datum/reagent/catalysts = reactor.catalysts
@@ -196,10 +182,6 @@
 	if(amount <= 0)
 		return FALSE
 
-	//Set up new reagents to inherit the old ongoing reactions
-	transfer_reactions(target_holder)
-
-	var/list/reagents_to_remove = list()
 	var/working_volume
 	var/catalyst_volume
 	var/transfer_amount
@@ -229,7 +211,6 @@
 
 		if(!isnull(target_id))
 			if(reagent.type == target_id)
-				force_stop_reagent_reacting(reagent)
 				transfer_amount = min(amount, working_volume)
 			else
 				continue
@@ -239,30 +220,107 @@
 			else
 				transfer_amount = working_volume * part
 
-		if(reagent.intercept_reagents_transfer(target_holder, amount))
-			update_total()
-			target_holder.update_total()
+		if(reagent.intercept_reagents_transfer(target_holder, transfer_amount))
 			continue
 
-		transfered_amount = target_holder.add_reagent(reagent.type, transfer_amount, copy_data(reagent), chem_temp, reagent.purity, reagent.ph, no_react = TRUE, ignore_splitting = reagent.chemical_flags & REAGENT_DONOTSPLIT) //we only handle reaction after every reagent has been transferred.
+		transfered_amount = target_holder.add_reagent(reagent.type, transfer_amount, copy_data(reagent), chem_temp, reagent.purity, reagent.ph, no_react = TRUE) //we only handle reaction after every reagent has been transferred.
 		if(!transfered_amount)
 			continue
-		reagents_to_remove += list(list("R" = reagent, "T" = transfer_amount))
 		total_transfered_amount += transfered_amount
 		if(round_robin)
 			to_transfer -= transfered_amount
+		reagent.volume -= transfered_amount
 
 		if(!isnull(target_id))
 			break
+	update_total()
 
-	//remove chemicals that were added above
-	for(var/list/data as anything in reagents_to_remove)
-		var/datum/reagent/reagent = data["R"]
-		transfer_amount = data["T"]
-		remove_reagent(reagent.type, transfer_amount)
+	return total_transfered_amount
 
-	//handle reactions
-	target_holder.handle_reactions()
-	src.handle_reactions()
 
-	return round(total_transfered_amount, CHEMICAL_VOLUME_ROUNDING)
+
+///Excludes blacklisted reagents during the transfer process
+/datum/reagents/plumbing/filter
+
+/datum/reagents/plumbing/filter/trans_to(
+	atom/target,
+	amount = 1,
+	multiplier = 1,
+	datum/reagent/target_id,
+	preserve_data = TRUE,
+	no_react = FALSE,
+	mob/transferred_by,
+	remove_blacklisted = null,
+	methods = LINEAR,
+	show_message = TRUE,
+	ignore_stomach = FALSE,
+	copy_only = FALSE
+)
+	//usual stuff
+	if(!length(remove_blacklisted) || (!isnull(target_id) && ispath(target_id)))
+		return ..()
+
+	if(QDELETED(target))
+		return FALSE
+
+	if(!IS_FINITE(amount))
+		stack_trace("non finite amount passed to trans_to [amount] amount of reagents")
+		return FALSE
+
+	var/datum/reagents/target_holder
+	if(istype(target, /datum/reagents))
+		target_holder = target
+	else
+		target_holder = target.reagents
+	var/list/cached_reagents = reagent_list
+
+	var/actual_volume = 0
+	for(var/datum/reagent/reagent as anything in cached_reagents)
+		if(reagent.type in remove_blacklisted)
+			continue
+		actual_volume += reagent.volume
+	actual_volume = min(round(actual_volume, CHEMICAL_VOLUME_ROUNDING), maximum_volume)
+
+	// Prevents small amount problems, as well as zero and below zero amounts.
+	amount = round(min(amount, actual_volume, target_holder.maximum_volume - target_holder.total_volume), CHEMICAL_QUANTISATION_LEVEL)
+	if(amount <= 0)
+		return FALSE
+
+	var/transfer_amount
+	var/transfered_amount
+	var/total_transfered_amount = 0
+
+	var/round_robin = methods & LINEAR
+	var/part
+	var/to_transfer
+	if(round_robin)
+		to_transfer = amount
+	else
+		part = amount / actual_volume
+
+	//first add reagents to target
+	for(var/datum/reagent/reagent as anything in cached_reagents)
+		if(round_robin && !to_transfer)
+			break
+
+		if(reagent.type in remove_blacklisted)
+			continue
+		else
+			if(round_robin)
+				transfer_amount = min(to_transfer, reagent.volume)
+			else
+				transfer_amount = reagent.volume * part
+
+		if(reagent.intercept_reagents_transfer(target_holder, transfer_amount))
+			continue
+
+		transfered_amount = target_holder.add_reagent(reagent.type, transfer_amount, copy_data(reagent), chem_temp, reagent.purity, reagent.ph, no_react = TRUE) //we only handle reaction after every reagent has been transferred.
+		if(!transfered_amount)
+			continue
+		total_transfered_amount += transfered_amount
+		if(round_robin)
+			to_transfer -= transfered_amount
+		reagent.volume -= transfered_amount
+	update_total()
+
+	return total_transfered_amount

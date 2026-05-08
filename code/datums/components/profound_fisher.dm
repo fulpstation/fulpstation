@@ -105,7 +105,7 @@
 /datum/component/profound_fisher/proc/should_fish_on(mob/living/user, atom/target)
 	if(!HAS_TRAIT(target, TRAIT_FISHING_SPOT) || GLOB.fishing_challenges_by_user[user])
 		return FALSE
-	if(user.combat_mode || !user.CanReach(target))
+	if(user.combat_mode || !target.IsReachableBy(user))
 		return FALSE
 	return TRUE
 
@@ -133,7 +133,7 @@
 		if(!do_after(source, fishing_speed, target = target) && !QDELETED(fish_spot))
 			qdel(float)
 			return
-	var/reward_loot = fish_spot.roll_reward(our_rod, source)
+	var/reward_loot = fish_spot.roll_mindless_reward(our_rod, source, target)
 	fish_spot.dispense_reward(reward_loot, source, target)
 	playsound(float, 'sound/effects/bigsplash.ogg', 100)
 	qdel(float)
@@ -144,3 +144,4 @@
 	resistance_flags = INDESTRUCTIBLE
 	reel_overlay = null
 	show_in_wiki = FALSE //abstract fishing rod
+	item_flags = ABSTRACT

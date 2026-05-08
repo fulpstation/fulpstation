@@ -10,20 +10,21 @@
 	id = MARTIALART_VELVETFU
 	help_verb = /mob/living/proc/velvetfu_help
 	display_combos = TRUE
-	allow_temp_override = FALSE
+
 	var/datum/action/receding_stance/recedingstance = new/datum/action/receding_stance()
 	var/datum/action/twisted_stance/twistedstance = new/datum/action/twisted_stance()
 
-/datum/martial_art/velvetfu/teach(mob/living/H, make_temporary = FALSE)
-	if(..())
-		to_chat(H, span_userdanger("You've mastered Velvet-Fu!"))
-		recedingstance.Grant(H)
-		twistedstance.Grant(H)
+/datum/martial_art/velvetfu/activate_style(mob/living/new_holder)
+	. = ..()
+	to_chat(new_holder, span_userdanger("You've mastered Velvet-Fu!"))
+	recedingstance.Grant(new_holder)
+	twistedstance.Grant(new_holder)
 
-/datum/martial_art/velvetfu/on_remove(mob/living/H)
-	to_chat(H, span_userdanger("You've forgotten Velvet-Fu..."))
-	recedingstance.Remove(H)
-	twistedstance.Remove(H)
+/datum/martial_art/velvetfu/deactivate_style(mob/living/remove_from)
+	to_chat(remove_from, span_userdanger("You've forgotten Velvet-Fu..."))
+	recedingstance.Remove(remove_from)
+	twistedstance.Remove(remove_from)
+	return ..()
 
 /datum/martial_art/velvetfu/proc/check_streak(mob/living/A, mob/living/D)
 	if(findtext(streak, FLYING_AXEKICK_COMBO))
@@ -58,11 +59,12 @@
 	name = "Receding Stance - Regenerates Stamina, takes time to do."
 	button_icon = 'fulp_modules/icons/lisa/stances.dmi'
 	button_icon_state = "receding_stance"
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED|AB_CHECK_INCAPACITATED|AB_CHECK_LYING|AB_CHECK_OPEN_TURF
 	var/stancing = FALSE
 
 /datum/action/receding_stance/Trigger(trigger_flags)
-	if(owner.incapacitated)
-		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
+	. = ..()
+	if(!.)
 		return
 	if(stancing)
 		to_chat(owner, span_warning("You're already stancing."))
@@ -81,8 +83,9 @@
 		span_danger("[owner] focuses on his stance."),
 		span_userdanger("You focus on your stance. Stamina..."),
 	)
-	owner.mind.martial_art.streak = RECEDING_STANCE
-	user.adjustStaminaLoss(-40)
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	art.streak = RECEDING_STANCE
+	user.adjust_stamina_loss(-40)
 	stancing = FALSE
 
 /// Twisted Stance
@@ -90,26 +93,28 @@
 	name = "Twisted Stance - Regenerates a lot of stamina, deals brute damage."
 	button_icon = 'fulp_modules/icons/lisa/stances.dmi'
 	button_icon_state = "twisted_stance"
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED|AB_CHECK_INCAPACITATED|AB_CHECK_LYING|AB_CHECK_OPEN_TURF
 
 /datum/action/twisted_stance/Trigger(trigger_flags)
-	if(owner.incapacitated)
-		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
+	. = ..()
+	if(!.)
 		return
 	var/mob/living/user = owner
-	if(owner.mind.martial_art.streak == TWISTED_STANCE)
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	if(art.streak == TWISTED_STANCE)
 		owner.visible_message(
 			span_danger("[owner] suddenly twists themselves even further!"),
 			span_userdanger("You twist yourself even further!"),
 		)
-		user.adjustStaminaLoss(-40)
+		user.adjust_stamina_loss(-40)
 		user.apply_damage(8, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 		return
 	owner.visible_message(
 		span_danger("[owner] suddenly twists and turns, what a strange stance!"),
 		span_userdanger("You twist and turn, your twisted stance is done!"),
 	)
-	owner.mind.martial_art.streak = TWISTED_STANCE
-	user.adjustStaminaLoss(-40)
+	art.streak = TWISTED_STANCE
+	user.adjust_stamina_loss(-40)
 	user.apply_damage(18, BRUTE, BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
 	addtimer(CALLBACK(src, PROC_REF(untwist)), 15 SECONDS)
 
@@ -118,8 +123,10 @@
 		span_danger("[owner] suddenly untwists in pain."),
 		span_userdanger("You untwist yourself in pain!"),
 	)
-	if(owner.mind.martial_art.streak == TWISTED_STANCE)
-		owner.mind.martial_art.streak = ""
+	var/mob/living/user = owner
+	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)
+	if(art.streak == TWISTED_STANCE)
+		art.streak = ""
 
 
 /*
@@ -141,7 +148,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You flying kick [D]!"))
-	A.adjustStaminaLoss(50)
+	A.adjust_stamina_loss(50)
 	if(prob(70))
 		var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 		var/datum/wound/slash/flesh/moderate/crit_wound = new
@@ -161,7 +168,7 @@
 	)
 	to_chat(A, span_danger("You swiftly headbutt [D]!"))
 	A.apply_damage(18, BRUTE, BODY_ZONE_HEAD, wound_bonus = CANT_WOUND)
-	A.adjustStaminaLoss(20)
+	A.adjust_stamina_loss(20)
 	if(prob(60) && !D.stat)
 		D.Paralyze(3 SECONDS)
 		D.set_timed_status_effect(5 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
@@ -182,7 +189,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You quickly and fashionably thrust into [D]!"))
-	A.adjustStaminaLoss(60)
+	A.adjust_stamina_loss(60)
 	if(prob(70) && !D.stat)
 		D.Knockdown(4 SECONDS)
 	D.apply_damage(10, A.get_attack_type(), BODY_ZONE_CHEST, wound_bonus = CANT_WOUND)
@@ -199,7 +206,7 @@
 		COMBAT_MESSAGE_RANGE, A,
 	)
 	to_chat(A, span_danger("You swiftly and repeatedly slash at [D], truly a master attack!"))
-	A.adjustStaminaLoss(80)
+	A.adjust_stamina_loss(80)
 	var/obj/item/bodypart/limb = D.get_bodypart(ran_zone(A.zone_selected))
 	var/datum/wound/slash/flesh/moderate/crit_wound = new
 	crit_wound.apply_wound(limb)
@@ -219,7 +226,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("D",D)
 	if(check_streak(A,D))
@@ -246,7 +253,7 @@
 	if(HAS_TRAIT(A, TRAIT_PACIFISM))
 		return FALSE
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("G",D)
 	if(check_streak(A,D))
@@ -267,7 +274,7 @@
 
 /datum/martial_art/velvetfu/harm_act(mob/living/A, mob/living/D)
 	var/datum/dna/dna = A.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk))
+	if(dna?.check_mutation(/datum/mutation/hulk))
 		return FALSE
 	add_to_streak("H",D)
 	if(check_streak(A,D))

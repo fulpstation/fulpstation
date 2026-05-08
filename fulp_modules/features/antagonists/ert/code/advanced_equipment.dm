@@ -9,7 +9,7 @@
 	new /obj/item/retractor/advanced(src)
 	new /obj/item/cautery/advanced(src)
 	new /obj/item/bonesetter(src)
-	new /obj/item/stack/medical/gauze/twelve(src)
+	new /obj/item/stack/medical/wrap/gauze/twelve(src)
 	update_icon()
 
 /obj/item/storage/belt/security/webbing/full/PopulateContents()

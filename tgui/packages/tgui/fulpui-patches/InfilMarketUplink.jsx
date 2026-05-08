@@ -39,7 +39,7 @@ export const InfilMarketUplink = (props) => {
           title="Restricted Market"
           buttons={
             <Box color={connected ? 'green' : 'red'} bold fontSize={1.2}>
-              {connected ? currency + ' Points' : 'ERROR'}
+              {connected ? `${currency} Points` : 'ERROR'}
             </Box>
           }
         />
@@ -71,7 +71,7 @@ export const InfilMarketUplink = (props) => {
                     </Stack.Item>
                     <Stack.Item>
                       <Button
-                        content={item.cost + 'PTs'}
+                        content={`${item.cost} PTs`}
                         disabled={item.cost > currency}
                         onClick={() =>
                           act('select', {

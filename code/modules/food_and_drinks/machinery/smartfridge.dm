@@ -32,8 +32,7 @@
 	var/welded_down = FALSE
 	/// The sound of item retrieval
 	var/vend_sound = 'sound/machines/machine_vend.ogg'
-	/// Whether the UI should be set to list view by default
-	var/default_list_view = FALSE
+	layout_prefs_used = /datum/preference/choiced/tgui_layout/smartfridge
 
 /obj/machinery/smartfridge/Initialize(mapload)
 	. = ..()
@@ -64,7 +63,7 @@
 			return ITEM_INTERACT_BLOCKING
 
 		user.visible_message(
-			span_notice("[user.name] starts to cut the [name] free from the floor."),
+			span_notice("[user.name] starts to cut \the [src] free from the floor."),
 			span_notice("You start to cut [src] free from the floor..."),
 			span_hear("You hear welding."),
 		)
@@ -84,7 +83,7 @@
 		return ITEM_INTERACT_BLOCKING
 
 	user.visible_message(
-		span_notice("[user.name] starts to weld the [name] to the floor."),
+		span_notice("[user.name] starts to weld \the [src] to the floor."),
 		span_notice("You start to weld [src] to the floor..."),
 		span_hear("You hear welding."),
 	)
@@ -120,14 +119,7 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/smartfridge/screwdriver_act(mob/living/user, obj/item/tool)
-	if(default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
-		if(panel_open)
-			add_overlay("[base_icon_state]-panel")
-		else
-			cut_overlay("[base_icon_state]-panel")
-		SStgui.update_uis(src)
-		return ITEM_INTERACT_SUCCESS
-	return ITEM_INTERACT_BLOCKING
+	return default_deconstruction_screwdriver(user, tool)
 
 /obj/machinery/smartfridge/can_be_unfasten_wrench(mob/user, silent)
 	if(welded_down)
@@ -147,15 +139,11 @@
 		power_change()
 		return ITEM_INTERACT_SUCCESS
 
-/obj/machinery/smartfridge/crowbar_act(mob/living/user, obj/item/tool)
-	if(default_pry_open(tool, close_after_pry = TRUE))
-		return ITEM_INTERACT_SUCCESS
+/obj/machinery/smartfridge/can_crowbar_deconstruct()
+	return ..() && !welded_down
 
-	if(welded_down)
-		balloon_alert(user, "unweld first!")
-	else
-		default_deconstruction_crowbar(tool)
-	return ITEM_INTERACT_SUCCESS
+/obj/machinery/smartfridge/crowbar_act(mob/living/user, obj/item/tool)
+	return default_pry_open(user, tool, close_after_pry = TRUE, deconstruct_on_fail = TRUE)
 
 /obj/machinery/smartfridge/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	if(isnull(held_item))
@@ -233,6 +221,9 @@
 /obj/machinery/smartfridge/update_overlays()
 	. = ..()
 
+	if(panel_open)
+		. += "[base_icon_state]-panel"
+
 	var/shown_contents_length = visible_items()
 	if(visible_contents && shown_contents_length)
 		var/content_level = "[base_icon_state]-[contents_overlay_icon]"
@@ -261,7 +252,7 @@
 	playsound(src, SFX_SHATTER, 50, TRUE)
 	return ..()
 
-/obj/machinery/smartfridge/attackby(obj/item/weapon, mob/living/user, params)
+/obj/machinery/smartfridge/attackby(obj/item/weapon, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!machine_stat)
 		var/shown_contents_length = visible_items()
 		if(shown_contents_length >= max_n_of_items)
@@ -385,7 +376,6 @@
 	.["contents"] = sort_list(listofitems)
 	.["name"] = name
 	.["isdryer"] = FALSE
-	.["default_list_view"] = default_list_view
 
 /obj/machinery/smartfridge/Exited(atom/movable/gone, direction) // Update the UIs in case something inside is removed
 	. = ..()
@@ -552,14 +542,14 @@
 	base_build_path = /obj/machinery/smartfridge/drying/rack
 	use_power = NO_POWER_USE
 	idle_power_usage = 0
+	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT * 10)
 
 /obj/machinery/smartfridge/drying/rack/Initialize(mapload)
 	. = ..()
 	//so we don't drop any of the parent smart fridge parts upon deconstruction
 	clear_components()
-
-/obj/machinery/smartfridge/drying/rack/welder_act_secondary(mob/living/user, obj/item/tool)
-	return NONE // Can't repair wood with welder
+	AddElement(/datum/element/tool_blocker, TOOL_WELDER)
+	AddElement(/datum/element/tool_blocker, TOOL_SCREWDRIVER)
 
 /obj/machinery/smartfridge/drying/rack/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	if(isnull(held_item))
@@ -570,7 +560,7 @@
 		context[SCREENTIP_CONTEXT_LMB] = "Deconstruct"
 		tool_tip_set = TRUE
 	else if(held_item.tool_behaviour == TOOL_WRENCH)
-		context[SCREENTIP_CONTEXT_LMB] = "[anchored ? "Un" : ""]anchore"
+		context[SCREENTIP_CONTEXT_LMB] = "[anchored ? "Unan" : "An"]chor"
 		tool_tip_set = TRUE
 
 	return tool_tip_set ? CONTEXTUAL_SCREENTIP_SET : NONE
@@ -579,9 +569,6 @@
 	. = ..()
 	. += span_info("The whole rack can be [EXAMINE_HINT("pried")] apart.")
 
-/obj/machinery/smartfridge/drying/rack/default_deconstruction_screwdriver()
-	return NONE
-
 /obj/machinery/smartfridge/drying/rack/exchange_parts()
 	return
 
@@ -589,8 +576,10 @@
 	new /obj/item/stack/sheet/mineral/wood(drop_location(), 10)
 
 /obj/machinery/smartfridge/drying/rack/crowbar_act(mob/living/user, obj/item/tool)
-	if(default_deconstruction_crowbar(tool, ignore_panel = TRUE))
-		return ITEM_INTERACT_SUCCESS
+	return default_deconstruction_crowbar(user, tool)
+
+/obj/machinery/smartfridge/drying/rack/can_crowbar_deconstruct()
+	return TRUE
 
 /obj/machinery/smartfridge/drying/rack/update_overlays()
 	. = ..()
@@ -729,7 +718,6 @@
 	desc = "A refrigerated storage unit for medicine storage."
 	base_build_path = /obj/machinery/smartfridge/chemistry
 	contents_overlay_icon = "chem"
-	default_list_view = TRUE
 
 /obj/machinery/smartfridge/chemistry/accept_check(obj/item/weapon)
 	// not an item or reagent container
@@ -737,7 +725,7 @@
 		return FALSE
 
 	// empty pill prank ok
-	if(istype(weapon, /obj/item/reagent_containers/pill))
+	if(istype(weapon, /obj/item/reagent_containers/applicator))
 		return TRUE
 
 	//check each pill in the pill bottle
@@ -767,8 +755,8 @@
 
 /obj/machinery/smartfridge/chemistry/preloaded
 	initial_contents = list(
-		/obj/item/reagent_containers/pill/epinephrine = 12,
-		/obj/item/reagent_containers/pill/multiver = 5,
+		/obj/item/reagent_containers/applicator/pill/epinephrine = 12,
+		/obj/item/reagent_containers/applicator/pill/multiver = 5,
 		/obj/item/reagent_containers/cup/bottle/epinephrine = 1,
 		/obj/item/reagent_containers/cup/bottle/multiver = 1)
 
@@ -780,7 +768,6 @@
 	desc = "A refrigerated storage unit for volatile sample storage."
 	base_build_path = /obj/machinery/smartfridge/chemistry/virology
 	contents_overlay_icon = "viro"
-	default_list_view = TRUE
 
 /obj/machinery/smartfridge/chemistry/virology/preloaded
 	initial_contents = list(

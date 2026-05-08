@@ -25,7 +25,6 @@
 	throw_range = 7
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*0.1)
 	pressure_resistance = 2
-	grind_results = list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
 	var/colour = COLOR_BLACK //what colour the ink is!
 	var/degrees = 0
 	var/font = PEN_FONT
@@ -57,6 +56,9 @@
 		return
 	create_transform_component()
 	RegisterSignal(src, COMSIG_TRANSFORMING_ON_TRANSFORM, PROC_REF(on_transform))
+
+/obj/item/pen/grind_results()
+	return list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
 
 /// Proc that child classes can override to have custom transforms, like edaggers or pendrivers
 /obj/item/pen/proc/create_transform_component()
@@ -90,10 +92,10 @@
 	return list(
 		"damage" = max(5, throwforce),
 		"speed" = max(0, throw_speed - 3),
-		"embedding" = get_embed().create_copy(projectile),
+		"embedding" = get_embed().create_copy(),
 		"armour_penetration" = armour_penetration,
 		"wound_bonus" = wound_bonus,
-		"bare_wound_bonus" = bare_wound_bonus,
+		"exposed_wound_bonus" = exposed_wound_bonus,
 		"demolition_mod" = demolition_mod,
 	)
 
@@ -165,10 +167,12 @@
 	icon_state = "pen-charcoal"
 	colour = "#696969"
 	font = CHARCOAL_FONT
-	custom_materials = null
-	grind_results = list(/datum/reagent/ash = 5, /datum/reagent/cellulose = 10)
+	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT)
 	requires_gravity = FALSE // this is technically a pencil
 	can_click = FALSE
+
+/obj/item/pen/charcoal/grind_results()
+	return list(/datum/reagent/ash = 5, /datum/reagent/cellulose = 10)
 
 /datum/crafting_recipe/charcoal_stylus
 	name = "Charcoal Stylus"
@@ -177,6 +181,39 @@
 	time = 3 SECONDS
 	category = CAT_TOOLS
 
+// Skins for captain's fountain pen
+/datum/atom_skin/cap_pen
+	abstract_type = /datum/atom_skin/cap_pen
+
+/datum/atom_skin/cap_pen/apply(atom/apply_to, mob/user)
+	. = ..()
+	apply_to.desc = "It's an expensive [preview_name] fountain pen. The nib is quite sharp."
+	apply_to.update_desc()
+
+/datum/atom_skin/cap_pen/clear_skin(atom/clear_from, mob/user)
+	. = ..()
+	clear_from.desc = initial(clear_from.desc)
+
+/datum/atom_skin/cap_pen/oak
+	preview_name = "Oak"
+	new_icon_state = "pen-fountain-o"
+
+/datum/atom_skin/cap_pen/gold
+	preview_name = "Gold"
+	new_icon_state = "pen-fountain-g"
+
+/datum/atom_skin/cap_pen/rosewood
+	preview_name = "Rosewood"
+	new_icon_state = "pen-fountain-r"
+
+/datum/atom_skin/cap_pen/black_silver
+	preview_name = "Black and Silver"
+	new_icon_state = "pen-fountain-b"
+
+/datum/atom_skin/cap_pen/command_blue
+	preview_name = "Command Blue"
+	new_icon_state = "pen-fountain-cb"
+
 /obj/item/pen/fountain/captain
 	name = "captain's fountain pen"
 	desc = "It's an expensive Oak fountain pen. The nib is quite sharp."
@@ -184,26 +221,18 @@
 	force = 5
 	throwforce = 5
 	throw_speed = 4
-	colour = "#DC143C"
 	custom_materials = list(/datum/material/gold = SMALL_MATERIAL_AMOUNT*7.5)
 	sharpness = SHARP_EDGED
 	resistance_flags = FIRE_PROOF
-	unique_reskin = list(
-		"Oak" = "pen-fountain-o",
-		"Gold" = "pen-fountain-g",
-		"Rosewood" = "pen-fountain-r",
-		"Black and Silver" = "pen-fountain-b",
-		"Command Blue" = "pen-fountain-cb"
-	)
 	embed_type = /datum/embedding/pen/captain
 	dart_insert_casing_icon_state = "overlay_fountainpen_gold"
 	dart_insert_projectile_icon_state = "overlay_fountainpen_gold_proj"
 	var/list/overlay_reskin = list(
-		"Oak" = "overlay_fountainpen_gold",
-		"Gold" = "overlay_fountainpen_gold",
-		"Rosewood" = "overlay_fountainpen_gold",
-		"Black and Silver" = "overlay_fountainpen",
-		"Command Blue" = "overlay_fountainpen_gold"
+		/datum/atom_skin/cap_pen/black_silver::preview_name = "overlay_fountainpen",
+		/datum/atom_skin/cap_pen/command_blue::preview_name = "overlay_fountainpen_gold",
+		/datum/atom_skin/cap_pen/gold::preview_name = "overlay_fountainpen_gold",
+		/datum/atom_skin/cap_pen/oak::preview_name = "overlay_fountainpen_gold",
+		/datum/atom_skin/cap_pen/rosewood::preview_name = "overlay_fountainpen_gold",
 	)
 
 /datum/embedding/pen/captain
@@ -211,24 +240,23 @@
 
 /obj/item/pen/fountain/captain/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/butchering, \
-	speed = 20 SECONDS, \
-	effectiveness = 115, \
+	AddComponent( \
+		/datum/component/butchering, \
+		speed = 20 SECONDS, \
+		effectiveness = 115, \
 	)
 	//the pen is mightier than the sword
 	RegisterSignal(src, COMSIG_DART_INSERT_PARENT_RESKINNED, PROC_REF(reskin_dart_insert))
 
-/obj/item/pen/fountain/captain/reskin_obj(mob/M)
-	..()
-	if(current_skin)
-		desc = "It's an expensive [current_skin] fountain pen. The nib is quite sharp."
+/obj/item/pen/fountain/captain/setup_reskins()
+	AddComponent(/datum/component/reskinable_item, /datum/atom_skin/cap_pen)
 
-
-/obj/item/pen/fountain/captain/proc/reskin_dart_insert(datum/component/dart_insert/insert_comp)
+/obj/item/pen/fountain/captain/proc/reskin_dart_insert(datum/component/dart_insert/insert_comp, skin)
+	SIGNAL_HANDLER
 	if(!istype(insert_comp)) //You really shouldn't be sending this signal from anything other than a dart_insert component
 		return
-	insert_comp.casing_overlay_icon_state = overlay_reskin[current_skin]
-	insert_comp.projectile_overlay_icon_state = "[overlay_reskin[current_skin]]_proj"
+	insert_comp.casing_overlay_icon_state = overlay_reskin[skin]
+	insert_comp.projectile_overlay_icon_state = "[overlay_reskin[skin]]_proj"
 
 /obj/item/pen/item_ctrl_click(mob/living/carbon/user)
 	if(loc != user)
@@ -242,7 +270,7 @@
 	SEND_SIGNAL(src, COMSIG_PEN_ROTATED, deg, user)
 	return CLICK_ACTION_SUCCESS
 
-/obj/item/pen/attack(mob/living/M, mob/user, params)
+/obj/item/pen/attack(mob/living/M, mob/user, list/modifiers, list/attack_modifiers)
 	if(force) // If the pen has a force value, call the normal attack procs. Used for e-daggers and captain's pen mostly.
 		return ..()
 	if(!M.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE))
@@ -266,7 +294,7 @@
  * Sleepypens
  */
 
-/obj/item/pen/sleepy/attack(mob/living/M, mob/user, params)
+/obj/item/pen/sleepy/attack(mob/living/M, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
 	if(!.)
 		return
@@ -309,7 +337,7 @@
 	attack_verb_simple = list("slash", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	sharpness = SHARP_POINTY
 	armour_penetration = 20
-	bare_wound_bonus = 10
+	exposed_wound_bonus = 10
 	item_flags = NO_BLOOD_ON_ITEM
 	light_system = OVERLAY_LIGHT
 	light_range = 1.5
@@ -398,8 +426,8 @@
 	playsound(source, 'sound/items/weapons/saberoff.ogg', 5, TRUE)
 	UnregisterSignal(source, list(COMSIG_ITEM_UNEMBEDDED, COMSIG_ITEM_FAILED_EMBED))
 	victim.visible_message(
-		message = span_warning("The blade of the [hidden_name] retracts as the [source.name] is removed from [victim]!"),
-		self_message = span_warning("The blade of the [hidden_name] retracts as the [source.name] is removed from you!"),
+		message = span_warning("The blade of the [hidden_name] retracts as \the [source] is removed from [victim]!"),
+		self_message = span_warning("The blade of the [hidden_name] retracts as \the [source] is removed from you!"),
 		blind_message = span_warning("You hear an energy blade retract!"),
 		vision_distance = 1
 	)
@@ -445,9 +473,10 @@
 /datum/embedding/edagger_active
 	embed_chance = 100
 
-/obj/item/pen/edagger/proc/on_scan(datum/source, mob/user, list/extra_data)
+/obj/item/pen/edagger/proc/on_scan(datum/source, mob/user, datum/detective_scanner_log/entry)
 	SIGNAL_HANDLER
-	LAZYADD(extra_data[DETSCAN_CATEGORY_ILLEGAL], "Hard-light generator detected.")
+
+	entry.add_data_entry(DETSCAN_CATEGORY_ILLEGAL, "Hard-light generator detected.")
 
 /obj/item/pen/survival
 	name = "survival pen"
@@ -460,7 +489,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.1, /datum/material/diamond=SMALL_MATERIAL_AMOUNT, /datum/material/titanium = SMALL_MATERIAL_AMOUNT*0.1)
 	pressure_resistance = 2
-	grind_results = list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
 	tool_behaviour = TOOL_MINING //For the classic "digging out of prison with a spoon but you're in space so this analogy doesn't work" situation.
 	toolspeed = 10 //You will never willingly choose to use one of these over a shovel.
 	font = FOUNTAIN_PEN_FONT
@@ -468,6 +496,9 @@
 	dart_insert_casing_icon_state = "overlay_survivalpen"
 	dart_insert_projectile_icon_state = "overlay_survivalpen_proj"
 	can_click = FALSE
+
+/obj/item/pen/survival/grind_results()
+	return list(/datum/reagent/iron = 2, /datum/reagent/iodine = 1)
 
 /obj/item/pen/survival/on_inserted_into_dart(datum/source, obj/item/ammo_casing/dart, mob/user)
 	. = ..()
@@ -484,11 +515,11 @@
 		target_turf = get_turf(src)
 	if(ismineralturf(target_turf))
 		var/turf/closed/mineral/mineral_turf = target_turf
-		mineral_turf.gets_drilled(firer, TRUE)
+		mineral_turf.gets_drilled(firer, 1)
 
 /obj/item/pen/destroyer
 	name = "Fine Tipped Pen"
-	desc = "A pen with an infinitly sharpened tip. Capable of striking the weakest point of a strucutre or robot and annihilating it instantly. Good at putting holes in people too."
+	desc = "A pen with an infinitely-sharpened tip. Capable of striking the weakest point of a strucutre or robot and annihilating it instantly. Good at putting holes in people too."
 	force = 5
 	wound_bonus = 100
 	demolition_mod = 9000

@@ -2,7 +2,7 @@
 	name = "\improper Monster Hunter"
 	roundend_category = "Monster Hunters"
 	antagpanel_category = "Monster Hunter"
-	job_rank = ROLE_MONSTERHUNTER
+	pref_flag = ROLE_MONSTERHUNTER
 	antag_hud_name = "obsessed"
 	preview_outfit = /datum/outfit/monsterhunter
 	tip_theme = "spookyconsole"
@@ -32,14 +32,14 @@
 /datum/antagonist/monsterhunter/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_UNCONVERTABLE), HUNTER_TRAIT,)
-	current_mob.faction |= FACTION_RABBITS
+	current_mob.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_UNCONVERTABLE), HUNTER_TRAIT)
+	current_mob.add_faction(FACTION_RABBITS)
 
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOCRITDAMAGE, TRAIT_UNCONVERTABLE), HUNTER_TRAIT)
-	current_mob.faction -= FACTION_RABBITS
+	current_mob.remove_faction(FACTION_RABBITS)
 
 /datum/antagonist/monsterhunter/on_gain()
 	//Give Hunter Objective
@@ -54,7 +54,7 @@
 	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake)
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(get_turf(criminal), src)
-	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
+	var/list/slots = list(LOCATION_BACKPACK, LOCATION_LPOCKET, LOCATION_RPOCKET)
 	if(!criminal.equip_in_one_of_slots(card, slots))
 		var/obj/item/rabbit_locator/droppod_card = new()
 		grant_drop_ability(droppod_card)
@@ -71,8 +71,8 @@
 		rabbits += cretin
 	var/obj/effect/client_image_holder/white_rabbit/gun_holder = pick(rabbits)
 	gun_holder.drop_gun = TRUE
-	var/datum/action/cooldown/spell/track_monster/track = new
-	track.Grant(owner.current)
+//	var/datum/action/cooldown/spell/track_monster/track = new
+//	track.Grant(owner.current)
 	return ..()
 
 /datum/antagonist/monsterhunter/proc/grant_drop_ability(obj/item/tool)
@@ -104,24 +104,23 @@
 
 /datum/antagonist/monsterhunter/get_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/hunter = new
-	var/icon/white_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
-	var/icon/red_rabbit = icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
-	var/icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
+	var/datum/universal_icon/white_rabbit = uni_icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "white_rabbit")
+	var/datum/universal_icon/red_rabbit = uni_icon('fulp_modules/icons/antagonists/monster_hunter/rabbit.dmi', "killer_rabbit")
+	var/datum/universal_icon/hunter_icon = render_preview_outfit(/datum/outfit/monsterhunter, hunter)
 
-	var/icon/final_icon = hunter_icon
-	white_rabbit.Shift(EAST,8)
-	white_rabbit.Shift(NORTH,18)
-	red_rabbit.Shift(WEST,8)
-	red_rabbit.Shift(NORTH,18)
-	red_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
-	white_rabbit.Blend(rgb(165, 165, 165, 165), ICON_MULTIPLY)
-	final_icon.Blend(white_rabbit, ICON_UNDERLAY)
-	final_icon.Blend(red_rabbit, ICON_UNDERLAY)
+	white_rabbit.shift(EAST,8)
+	white_rabbit.shift(NORTH,18)
+	red_rabbit.shift(WEST,8)
+	red_rabbit.shift(NORTH,18)
+	red_rabbit.blend_color(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	white_rabbit.blend_color(rgb(165, 165, 165, 165), ICON_MULTIPLY)
+	hunter_icon.blend_icon(white_rabbit, ICON_UNDERLAY)
+	hunter_icon.blend_icon(red_rabbit, ICON_UNDERLAY)
 
-	final_icon.Scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
+	hunter_icon.scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
 	qdel(hunter)
 
-	return finish_preview_icon(final_icon)
+	return finish_preview_icon(hunter_icon)
 
 /datum/outfit/monsterhunter
 	name = "Monster Hunter (Preview Only)"
@@ -129,7 +128,7 @@
 	l_hand = /obj/item/knife/butcher
 	mask = /obj/item/clothing/mask/monster_preview_mask
 	uniform = /obj/item/clothing/under/suit/black
-	suit =  /obj/item/clothing/suit/hooded/techpriest
+	suit =  /obj/item/clothing/suit/hooded/techpriest/preview
 	gloves = /obj/item/clothing/gloves/color/white
 
 /// Mind version
@@ -137,14 +136,14 @@
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(!monsterhunterdatum)
 		monsterhunterdatum = add_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = ROLE_MONSTERHUNTER
+		LAZYADD(special_roles, ROLE_MONSTERHUNTER)
 	return monsterhunterdatum
 
 /datum/mind/proc/remove_monsterhunter()
 	var/datum/antagonist/monsterhunter/monsterhunterdatum = has_antag_datum(/datum/antagonist/monsterhunter)
 	if(monsterhunterdatum)
 		remove_antag_datum(/datum/antagonist/monsterhunter)
-		special_role = null
+		LAZYREMOVE(special_roles, ROLE_MONSTERHUNTER)
 
 /// Called when using admin tools to give antag status
 /datum/antagonist/monsterhunter/admin_add(datum/mind/new_owner, mob/admin)
@@ -247,10 +246,14 @@
 	invasion.run_event()
 
 /obj/item/clothing/mask/monster_preview_mask
-	name = "Monster Preview Mask"
+	name = "Rabbit Mask"
+	icon =  'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	worn_icon = 'fulp_modules/icons/antagonists/monster_hunter/worn_mask.dmi'
-	worn_icon_state = "monoclerabbit"
+	worn_icon_state = "rabbitmask_preview"
 
+/obj/item/clothing/suit/hooded/techpriest/preview
+	name = "hoodless " + parent_type::name
+	hoodtype = null
 
 /datum/antagonist/monsterhunter/roundend_report()
 	var/list/parts = list()
@@ -284,8 +287,16 @@
 /datum/action/droppod_item
 	name = "Summon Monster Hunter tools"
 	desc = "Call in your equipment via droppod."
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon = 'icons/obj/devices/tracker.dmi'
 	button_icon_state = "beacon"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "border"
+
 	///path of item we are spawning
 	var/item_path
 
@@ -308,11 +319,19 @@
 	qdel(src)
 	return TRUE
 
-
+/* Fulp edit - This shit's broken asf
 /datum/action/cooldown/spell/track_monster
 	name = "Hunter Vision"
 	desc = "Detect monsters within your vicinity"
+
+	background_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	background_icon_state = "background"
+
 	button_icon_state = "blind"
+
+	overlay_icon = 'fulp_modules/icons/antagonists/monster_hunter/actions_monster_hunter.dmi'
+	overlay_icon_state = "clubs"
+
 	cooldown_time = 5 SECONDS
 	spell_requirements = NONE
 
@@ -379,3 +398,5 @@
 	if(!iscarbon(input))
 		saved_appearances["[input.icon]-[input.icon_state]"] = copied_appearance
 	return copied_appearance
+*/
+

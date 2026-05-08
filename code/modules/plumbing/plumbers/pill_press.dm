@@ -1,7 +1,5 @@
 ///the minimum size of a pill or patch
 #define MIN_VOLUME 5
-///max amount of pills allowed on our tile before we start storing them instead
-#define MAX_FLOOR_PRODUCTS 10
 
 ///We take a constant input of reagents, and produce a pill once a set volume is reached
 /obj/machinery/plumbing/pill_press
@@ -15,20 +13,20 @@
 	var/max_volume = 50
 	/// prefix for the product name
 	var/product_name = "factory"
+	/// Selected duration of produced pills, if they're selected
+	var/pill_duration = 3
 	/// All packaging types wrapped up in 1 big list
 	var/static/list/packaging_types = null
 	///The type of packaging to use
 	var/obj/item/reagent_containers/packaging_type
 	///Category of packaging
 	var/packaging_category
-	/// list of products stored in the machine, so we dont have 610 pills on one tile
-	var/list/stored_products = list()
 
-/obj/machinery/plumbing/pill_press/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/pill_press/Initialize(mapload, layer)
 	. = ..()
 
 	if(!packaging_types)
-		var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/chemmaster)
+		var/datum/asset/spritesheet_batched/assets = get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
 
 		var/list/types = list(
 			CAT_PILLS = GLOB.reagent_containers[CAT_PILLS],
@@ -51,56 +49,37 @@
 			packaging_types += list(category_item)
 
 	packaging_type = GLOB.reagent_containers[CAT_PILLS][1]
+	packaging_category = CAT_PILLS
 	max_volume = initial(packaging_type.volume)
 	current_volume = clamp(current_volume, MIN_VOLUME, max_volume)
 
-	AddComponent(/datum/component/plumbing/simple_demand, bolt, layer)
-
-/obj/machinery/plumbing/pill_press/Destroy(force)
-	QDEL_LAZYLIST(stored_products)
-	return ..()
-
-/obj/machinery/plumbing/pill_press/examine(mob/user)
-	. = ..()
-	. += span_notice("The [name] currently has [stored_products.len] stored. There needs to be less than [MAX_FLOOR_PRODUCTS] on the floor to continue dispensing.")
+	AddComponent(/datum/component/plumbing/pill_press, layer)
 
 /obj/machinery/plumbing/pill_press/process(seconds_per_tick)
-	if(!is_operational)
+	if(!is_operational || reagents.total_volume < current_volume)
 		return
 
-	//shift & check to account for floating point inaccuracies
-	if(reagents.total_volume >= current_volume)
-		var/obj/item/reagent_containers/container = new packaging_type(src)
-
-		var/suffix
-		switch(packaging_category)
-			if(CAT_PILLS)
-				suffix = "Pill"
-			if(CAT_PATCHES)
-				suffix = "Patch"
-			else
-				suffix = "Bottle"
-		container.name = "[product_name] [suffix]"
-		reagents.trans_to(container, current_volume)
-		stored_products += container
-
-	//dispense stored products on the floor
-	if(stored_products.len)
-		var/pill_amount = 0
-		for(var/obj/item/reagent_containers/thing in loc)
-			pill_amount++
-			if(pill_amount >= MAX_FLOOR_PRODUCTS) //too much so just stop
-				break
-		if(pill_amount < MAX_FLOOR_PRODUCTS && anchored)
-			var/atom/movable/AM = stored_products[1] //AM because forceMove is all we need
-			stored_products -= AM
-			AM.forceMove(drop_location())
+	var/obj/item/reagent_containers/container = new packaging_type(src)
+	var/suffix
+	switch(packaging_category)
+		if(CAT_PILLS)
+			suffix = "pill"
+		if(CAT_PATCHES)
+			suffix = "patch"
+		else
+			suffix = "bottle"
+	container.name = "[product_name] [suffix]"
+	reagents.trans_to(container, current_volume)
+	if (istype(container, /obj/item/reagent_containers/applicator/pill))
+		var/obj/item/reagent_containers/applicator/pill/pill = container
+		pill.layers_remaining = pill_duration
+	container.forceMove(drop_location())
 
 	use_energy(active_power_usage * seconds_per_tick)
 
 /obj/machinery/plumbing/pill_press/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/chemmaster)
+		get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
 	)
 
 /obj/machinery/plumbing/pill_press/ui_interact(mob/user, datum/tgui/ui)
@@ -121,7 +100,9 @@
 	var/list/data = list()
 
 	data["current_volume"] = current_volume
+	data["pill_duration"] = pill_duration
 	data["max_volume"] = max_volume
+	data["max_duration"] = PILL_MAX_LAYERS
 	data["product_name"] = product_name
 	data["packaging_type"] = REF(packaging_type)
 	data["packaging_category"] = packaging_category
@@ -144,6 +125,18 @@
 				return FALSE
 
 			current_volume = clamp(value, MIN_VOLUME, max_volume)
+			return TRUE
+
+		if("change_pill_duraton")
+			var/value = params["duration"]
+			if(isnull(value))
+				return FALSE
+
+			value = text2num(value)
+			if(isnull(value))
+				return FALSE
+
+			pill_duration = clamp(value, 0, PILL_MAX_LAYERS)
 			return TRUE
 
 		if("change_product_name")
@@ -173,9 +166,9 @@
 
 			//decode container & its category
 			packaging_type = locate(container)
-			if(ispath(packaging_type, /obj/item/reagent_containers/pill/patch))
+			if(ispath(packaging_type, /obj/item/reagent_containers/applicator/patch))
 				packaging_category = CAT_PATCHES
-			else if(ispath(packaging_type, /obj/item/reagent_containers/pill))
+			else if(ispath(packaging_type, /obj/item/reagent_containers/applicator/pill))
 				packaging_category = CAT_PILLS
 			else
 				packaging_category = "Bottles"
@@ -186,4 +179,3 @@
 			return TRUE
 
 #undef MIN_VOLUME
-#undef MAX_FLOOR_PRODUCTS

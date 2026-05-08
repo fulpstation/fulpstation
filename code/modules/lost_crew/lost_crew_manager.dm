@@ -8,7 +8,7 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 	/// How long after successful revival we check to see if theyre still alive, and give rewards
 	var/succes_check_time = 3 MINUTES
 	/// How much the revived crew start with on their cards
-	var/starting_funds = 100
+	var/starting_funds = 200
 
 /**
  * Creates a body with random background and injuries
@@ -36,9 +36,12 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 	var/datum/corpse_damage_class/scenario = forced_class || pick_weight(scenarios)
 	scenario = new scenario ()
 
+	new_body.living_flags |= STOP_OVERLAY_UPDATE_BODY_PARTS
 	scenario.apply_character(new_body, protected_items, recovered_items, on_revive_and_player_occupancy, body_data)
 	scenario.apply_injuries(new_body, recovered_items, on_revive_and_player_occupancy, body_data)
 	scenario.death_lore += "I should get a formalized assignment!"
+	new_body.living_flags &= ~STOP_OVERLAY_UPDATE_BODY_PARTS
+	new_body.update_body_parts()
 
 	. = new_body
 	// so bodies can also be used for runes, morgue, etc
@@ -82,7 +85,7 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 	owner.mind.add_antag_datum(/datum/antagonist/recovered_crew) //for tracking mostly
 
 	var/datum/bank_account/bank_account = new(owner.real_name, owner.mind.assigned_role, owner.dna.species.payday_modifier)
-	bank_account.adjust_money(starting_funds, "[starting_funds]cr given to [owner.name] as starting fund.")
+	bank_account.adjust_money(starting_funds, "[starting_funds][MONEY_SYMBOL] given to [owner.name] as starting fund.")
 	owner.account_id = bank_account.account_id
 	bank_account.replaceable = FALSE
 
@@ -104,21 +107,16 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 
 /// Give medbay a happy announcement and put some money into their budget
 /datum/lost_crew_manager/proc/award_succes(datum/mind/revived_mind, list/death_lore)
-	var/obj/item/radio/headset/radio = new /obj/item/radio/headset/silicon/ai(revived_mind.current) //radio cant be in nullspace or brit shakes
-	radio.set_frequency(FREQ_MEDICAL)
-	radio.name = "Medical Announcer"
-
-	// i am incredibly disappointed in you
+	// I am incredibly disappointed in you
 	if(revived_mind.current.stat == DEAD)
-		radio.talk_into(radio, "Sensors indicate lifesigns of [revived_mind.name] have seized. Please inform their family of your failure.", RADIO_CHANNEL_MEDICAL)
+		aas_config_announce(/datum/aas_config_entry/medical_lost_crew_reward, list("PERSON" = revived_mind.name, "AWARD" = 0), null, list(RADIO_CHANNEL_MEDICAL), "Deceased")
 		return
 
 	// You are a credit to society
-	radio.talk_into(radio, "Sensors indicate continued survival of [revived_mind.name]. Well done, [credits_on_succes]cr has been transferred to the medical budget.", RADIO_CHANNEL_MEDICAL)
+	aas_config_announce(/datum/aas_config_entry/medical_lost_crew_reward, list("PERSON" = revived_mind.name, "AWARD" = credits_on_succes), null, list(RADIO_CHANNEL_MEDICAL), "Revived")
 
 	var/datum/bank_account/medical_budget = SSeconomy.get_dep_account(ACCOUNT_MED)
 	medical_budget.adjust_money(credits_on_succes)
-	qdel(radio)
 
 /// A box for recovered items that can only be opened by the new crewmember
 /obj/item/storage/lockbox/mind
@@ -128,10 +126,48 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 	/// The mind needed to unlock the box
 	var/datum/mind/mind
 
-/obj/item/storage/lockbox/mind/attack_self(mob/user, modifiers)
-	. = ..()
+/obj/item/storage/lockbox/mind/attack_hand(mob/user, list/modifiers)
+	if (!(src in user.held_items))
+		return ..()
+	if(atom_storage.locked && can_unlock(user, silent = TRUE))
+		toggle_locked(user)
+		return
+	return ..()
 
-	if(user.mind == mind)
-		atom_storage.locked = STORAGE_NOT_LOCKED
-		balloon_alert(user, atom_storage.locked ? "locked" : "unlocked")
-		update_appearance()
+/obj/item/storage/lockbox/mind/attack_self(mob/user, modifiers)
+	if (atom_storage.locked && can_unlock(user))
+		toggle_locked(user)
+		return
+	return ..()
+
+/obj/item/storage/lockbox/mind/can_unlock(mob/living/user, obj/item/card/id/id_card, silent = FALSE)
+	if (user.mind == mind)
+		return TRUE
+	if (!silent)
+		balloon_alert(user, "access denied!")
+	return FALSE
+
+/obj/item/storage/lockbox/mind/toggle_locked(mob/living/user)
+	if(!atom_storage.locked)
+		return
+
+	atom_storage.set_locked(STORAGE_NOT_LOCKED)
+	balloon_alert(user, "unlocked")
+
+/obj/item/storage/lockbox/mind/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	if(broken || user.mind != mind)
+		return NONE
+	context[SCREENTIP_CONTEXT_LMB] = "Use in-hand to unlock"
+	return CONTEXTUAL_SCREENTIP_SET
+
+/datum/aas_config_entry/medical_lost_crew_reward
+	name = "Medical Alert: Lost Crew Revival Program"
+	announcement_lines_map = list(
+		"Deceased" = "Sensors indicate lifesigns of %PERSON have seized. Please inform their family of your failure.",
+		"Revived" = "Sensors indicate continued survival of %PERSON. Well done, %AWARDcr has been transferred to the medical budget."
+	)
+	vars_and_tooltips_map = list(
+		"PERSON" = "will be replaced with body's name",
+		"AWARD" = "with money that medical department receive, if any"
+	)
+	modifiable = FALSE

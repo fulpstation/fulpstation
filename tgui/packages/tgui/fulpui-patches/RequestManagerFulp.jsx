@@ -45,7 +45,7 @@ export const RequestManagerFulp = (props) => {
             <>
               <Input
                 value={searchText}
-                onChange={(_, value) => setSearchText(value)}
+                onChange={(value) => setSearchText(value)}
                 placeholder={'Search...'}
                 mr={1}
               />

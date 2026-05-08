@@ -3,13 +3,14 @@ import {
   Box,
   Button,
   Divider,
+  DmIcon,
   Dropdown,
   Image,
   Section,
   Stack,
   Tabs,
 } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
@@ -25,6 +26,7 @@ type Objective = {
 };
 
 type BloodsuckerInformation = {
+  total_blood_drank: number;
   clan: ClanInfo[];
   in_clan: BooleanLike;
   power: PowerInfo[];
@@ -95,17 +97,34 @@ export const AntagInfoBloodsucker = (props: any) => {
 };
 
 const BloodsuckerIntro = () => {
+  const { data } = useBackend<BloodsuckerInformation>();
+  const { total_blood_drank } = data;
   return (
     <Stack vertical fill>
       <Stack.Item minHeight="16rem">
         <Section scrollable fill>
-          <Stack vertical>
-            <Stack.Item textColor="red" fontSize="20px">
-              You are a Bloodsucker, an undead blood-seeking monster living
-              aboard Space Station 13
-            </Stack.Item>
+          <Stack>
+            <Stack vertical>
+              <Stack.Item textColor="red" fontSize="20px">
+                You are a Bloodsucker, an undead blood-seeking monster living
+                aboard Space Station 13
+              </Stack.Item>
+              <Stack.Item>
+                <ObjectivePrintout />
+              </Stack.Item>
+            </Stack>
             <Stack.Item>
-              <ObjectivePrintout />
+              <Button
+                color="transparent"
+                tooltip={'Blood drank: ' + total_blood_drank + 'u'}
+              >
+                <DmIcon
+                  icon="fulp_modules/icons/antagonists/bloodsuckers/actions_bloodsucker.dmi"
+                  icon_state="blood_drank"
+                  height="64px"
+                  width="64px"
+                />
+              </Button>
             </Stack.Item>
           </Stack>
         </Section>
@@ -264,10 +283,14 @@ const PowerSection = (props: any) => {
           )}
           <Divider />
         </Stack.Item>
-        <Stack.Divider />
-        <Stack.Item grow={1} fontSize="16px">
-          {selectedPower && selectedPower.power_explanation}
-        </Stack.Item>
+        {selectedPower && (
+          <>
+            <Stack.Divider />
+            <Stack.Item grow={1} fontSize="16px">
+              {selectedPower.power_explanation}
+            </Stack.Item>
+          </>
+        )}
       </Stack>
     </Section>
   );

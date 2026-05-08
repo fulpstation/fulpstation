@@ -1,14 +1,14 @@
-/proc/generate_underwear_icon(datum/sprite_accessory/accessory, icon/base_icon, color)
-	var/icon/final_icon = new(base_icon)
+/proc/generate_underwear_icon(datum/sprite_accessory/accessory, datum/universal_icon/base_icon, color)
+	var/datum/universal_icon/final_icon = base_icon.copy()
 
 	if (!isnull(accessory))
-		var/icon/accessory_icon = icon('icons/mob/clothing/underwear.dmi', accessory.icon_state)
+		var/datum/universal_icon/accessory_icon = uni_icon('icons/mob/clothing/underwear.dmi', accessory.icon_state)
 		if (color && !accessory.use_static)
-			accessory_icon.Blend(color, ICON_MULTIPLY)
-		final_icon.Blend(accessory_icon, ICON_OVERLAY)
+			accessory_icon.blend_color(color, ICON_MULTIPLY)
+		final_icon.blend_icon(accessory_icon, ICON_OVERLAY)
 
-	final_icon.Crop(10, 1, 22, 13)
-	final_icon.Scale(32, 32)
+	final_icon.crop(10, 1, 22, 13)
+	final_icon.scale(32, 32)
 
 	return final_icon
 
@@ -106,15 +106,15 @@
 	return assoc_to_keys_features(SSaccessories.socks_list)
 
 /datum/preference/choiced/socks/create_default_value()
-	return /datum/sprite_accessory/socks/nude::name
+	return /datum/sprite_accessory/clothing/socks/nude::name
 
 /datum/preference/choiced/socks/icon_for(value)
-	var/static/icon/lower_half
+	var/static/datum/universal_icon/lower_half
 
 	if (isnull(lower_half))
-		lower_half = icon('icons/blanks/32x32.dmi', "nothing")
-		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
-		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+		lower_half = uni_icon('icons/blanks/32x32.dmi', "nothing")
+		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
+		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
 	return generate_underwear_icon(SSaccessories.socks_list[value], lower_half)
 
@@ -135,36 +135,36 @@
 	return assoc_to_keys_features(SSaccessories.undershirt_list)
 
 /datum/preference/choiced/undershirt/create_default_value()
-	return /datum/sprite_accessory/undershirt/nude::name
+	return /datum/sprite_accessory/clothing/undershirt/nude::name
 
 /datum/preference/choiced/undershirt/create_informed_default_value(datum/preferences/preferences)
 	switch(preferences.read_preference(/datum/preference/choiced/gender))
 		if(MALE)
-			return /datum/sprite_accessory/undershirt/nude::name
+			return /datum/sprite_accessory/clothing/undershirt/nude::name
 		if(FEMALE)
-			return /datum/sprite_accessory/undershirt/sports_bra::name
+			return /datum/sprite_accessory/clothing/undershirt/sports_bra::name
 
 	return ..()
 
 /datum/preference/choiced/undershirt/icon_for(value)
-	var/static/icon/body
+	var/static/datum/universal_icon/body
 	if (isnull(body))
-		body = icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg")
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_arm"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_arm"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_hand"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_hand"), ICON_OVERLAY)
-		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
+		body = uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg")
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_arm"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_arm"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_hand"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_hand"), ICON_OVERLAY)
+		body.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
 
-	var/icon/icon_with_undershirt = icon(body)
+	var/datum/universal_icon/icon_with_undershirt = body.copy()
 
 	if (value != "Nude")
 		var/datum/sprite_accessory/accessory = SSaccessories.undershirt_list[value]
-		icon_with_undershirt.Blend(icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
+		icon_with_undershirt.blend_icon(uni_icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
 
-	icon_with_undershirt.Crop(9, 9, 23, 23)
-	icon_with_undershirt.Scale(32, 32)
+	icon_with_undershirt.crop(9, 9, 23, 23)
+	icon_with_undershirt.scale(32, 32)
 	return icon_with_undershirt
 
 /datum/preference/choiced/undershirt/apply_to_human(mob/living/carbon/human/target, value)
@@ -183,16 +183,16 @@
 	return assoc_to_keys_features(SSaccessories.underwear_list)
 
 /datum/preference/choiced/underwear/create_default_value()
-	return /datum/sprite_accessory/underwear/male_hearts::name
+	return /datum/sprite_accessory/clothing/underwear/male_hearts::name
 
 /datum/preference/choiced/underwear/icon_for(value)
-	var/static/icon/lower_half
+	var/static/datum/universal_icon/lower_half
 
 	if (isnull(lower_half))
-		lower_half = icon('icons/blanks/32x32.dmi', "nothing")
-		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
-		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
-		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+		lower_half = uni_icon('icons/blanks/32x32.dmi', "nothing")
+		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
+		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
+		lower_half.blend_icon(uni_icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
 	return generate_underwear_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK)
 

@@ -2,6 +2,7 @@
 	name = "this is bait"
 	desc = "you got baited."
 	icon = 'icons/obj/fishing.dmi'
+	abstract_type = /obj/item/food/bait
 	/// Quality trait of this bait
 	var/bait_quality = TRAIT_BASIC_QUALITY_BAIT
 	/// Icon state added to main fishing rod icon when this bait is equipped
@@ -15,7 +16,7 @@
 
 /obj/item/food/bait/worm
 	name = "worm"
-	desc = "It's a wriggling worm from a can of fishing bait. You're not going to eat it are you ?"
+	desc = "It's a wriggling worm from a can of fishing bait. You're not going to eat it, are you?"
 	icon = 'icons/obj/fishing.dmi'
 	icon_state = "worm"
 	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 1)
@@ -62,6 +63,7 @@
 /obj/item/food/bait/doughball/synthetic
 	name = "synthetic doughball"
 	icon_state = "doughball_blue"
+	rod_overlay_icon_state = "dough_blue_overlay"
 	preserved_food = TRUE
 	show_on_wiki = FALSE //It's an abstract item.
 

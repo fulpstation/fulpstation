@@ -3,10 +3,8 @@
 #define NANITE_DEFAULT_REGEN_RATE 0.5
 #define NANITE_DEFAULT_SAFETY_THRESHOLD 50
 
-///The default amount of nanite research points to generate per person per tick, if unmodified.
-#define NANITE_BASE_RESEARCH 1.5
-///The factor by which we multiply node costs to balance the higher production of nanite points compared to general points.
-#define NANITE_POINT_CONVERSION_RATE 10
+///The default amount of nanite research points to generate per person per tick.
+#define NANITE_BASE_RESEARCH 0.2
 ///The chance at a Nanite program randomly failing when it cannot sync
 #define NANITE_FAILURE_CHANCE 8
 ///The max amount of nanite programs you can have in a cloud at once.
@@ -91,7 +89,6 @@
 	if(isliving(parent))
 		RegisterSignal(parent, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp))
 		RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_death))
-		RegisterSignal(parent, COMSIG_MOB_TRIED_ACCESS, PROC_REF(on_tried_access))
 		RegisterSignal(parent, COMSIG_LIVING_ELECTROCUTE_ACT, PROC_REF(on_shock))
 		RegisterSignal(parent, COMSIG_LIVING_MINOR_SHOCK, PROC_REF(on_minor_shock))
 		RegisterSignal(parent, COMSIG_SPECIES_GAIN, PROC_REF(check_viable_biotype))
@@ -116,7 +113,6 @@
 		COMSIG_NANITE_SYNC,
 		COMSIG_ATOM_EMP_ACT,
 		COMSIG_LIVING_DEATH,
-		COMSIG_MOB_TRIED_ACCESS,
 		COMSIG_LIVING_ELECTROCUTE_ACT,
 		COMSIG_LIVING_MINOR_SHOCK,
 		COMSIG_MOVABLE_HEAR,
@@ -291,23 +287,6 @@
 
 	if(!(host_mob.mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
 		qdel(src) //bodytype no longer sustains nanites
-
-/datum/component/nanites/proc/on_tried_access(datum/source, atom/locked_thing)
-	SIGNAL_HANDLER
-
-	if(!isobj(locked_thing))
-		return LOCKED_ATOM_INCOMPATIBLE
-
-	var/list/all_access = list()
-	var/obj/locked_object = locked_thing
-	for(var/datum/nanite_program/access/access_program in programs)
-		if(access_program.activated)
-			all_access += access_program.access
-
-	if(locked_object.check_access_list(all_access))
-		return ACCESS_ALLOWED
-
-	return
 
 /datum/component/nanites/proc/set_volume(datum/source, amount)
 	SIGNAL_HANDLER

@@ -421,13 +421,13 @@ ADMIN_VERB(remove_spell, R_FUN, "Remove Spell", ADMIN_VERB_NO_DESCRIPTION, ADMIN
 	BLACKBOX_LOG_ADMIN_VERB("Remove Spell")
 
 ADMIN_VERB(give_disease, R_FUN, "Give Disease", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/victim)
-	var/datum/disease/D = input(user, "Choose the disease to give to that guy", "ACHOO") as null|anything in sort_list(SSdisease.diseases, GLOBAL_PROC_REF(cmp_typepaths_asc))
-	if(!D)
+	var/datum/disease/disease = tgui_input_list(user, "Choose the disease to give to that guy", "ACHOO", sort_list(SSdisease.diseases, GLOBAL_PROC_REF(cmp_typepaths_asc)))
+	if(!disease)
 		return
-	victim.ForceContractDisease(new D, FALSE, TRUE)
+	victim.ForceContractDisease(new disease, FALSE, TRUE)
 	BLACKBOX_LOG_ADMIN_VERB("Give Disease")
-	log_admin("[key_name(user)] gave [key_name(victim)] the disease [D].")
-	message_admins(span_adminnotice("[key_name_admin(user)] gave [key_name_admin(victim)] the disease [D]."))
+	log_admin("[key_name(user)] gave [key_name(victim)] the disease [disease].")
+	message_admins(span_adminnotice("[key_name_admin(user)] gave [key_name_admin(victim)] the disease [disease]."))
 
 ADMIN_VERB_AND_CONTEXT_MENU(object_say, R_FUN, "OSay", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, obj/speaker in world)
 	var/message = tgui_input_text(user, "What do you want the message to be?", "Make Sound", encode = FALSE)
@@ -508,7 +508,7 @@ ADMIN_VERB(spawn_debug_full_crew, R_DEBUG, "Spawn Debug Full Crew", "Creates a f
 	if(tgui_alert(user, "This command will create a bunch of dummy crewmembers with minds, job, and datacore entries, which will take a while and fill the manifest.", "Spawn Crew", list("Yes", "Cancel")) != "Yes")
 		return
 
-	if(tgui_alert(user, "I sure hope you aren't doing this on live. Are you sure?", "Spawn Crew (Be certain)", list("Yes", "Cancel")) != "Yes")
+	if(!user.is_localhost() && tgui_alert(user, "You are not on localhost! Are you sure?", "Spawn Crew (Be certain)", list("Yes", "Cancel")) != "Yes")
 		return
 
 	// Find the observer spawn, so we have a place to dump the dummies.
@@ -664,3 +664,183 @@ ADMIN_VERB(create_mob_worm, R_FUN, "Create Mob Worm", "Attach a linked list of m
 		QDEL_NULL(segment.ai_controller)
 		segment.AddComponent(/datum/component/mob_chain, front = previous)
 		previous = segment
+
+ADMIN_VERB(give_ai_controller, R_FUN, "Give AI Controller", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/my_guy)
+	var/static/list/controllers = subtypesof(/datum/admin_ai_template)
+	var/static/list/controllers_by_name = list()
+	if (!length(controllers_by_name))
+		for (var/datum/admin_ai_template/template as anything in controllers)
+			controllers_by_name["[initial(template.name)]"] = template
+
+	var/chosen = tgui_input_list(user, "Which template should we apply?", "Select Template", controllers_by_name)
+	if (isnull(chosen))
+		return
+
+	var/chosen_type = controllers_by_name[chosen]
+	var/datum/admin_ai_template/using_template = new chosen_type
+	using_template.apply(my_guy, user)
+
+ADMIN_VERB(clear_legacy_asset_cache, R_DEBUG, "Clear Legacy Asset Cache", "Clears the legacy asset cache, regenerating it immediately (may cause lag).", ADMIN_CATEGORY_DEBUG)
+	if(!CONFIG_GET(flag/cache_assets))
+		to_chat(user, span_warning("Asset caching is disabled in the config!"))
+		return
+	var/regenerated = 0
+	for(var/datum/asset/target_spritesheet as anything in valid_subtypesof(/datum/asset))
+		if(!initial(target_spritesheet.cross_round_cachable))
+			continue
+		var/datum/asset/asset_datum = GLOB.asset_datums[target_spritesheet]
+		asset_datum.regenerate()
+		regenerated++
+	to_chat(user, span_notice("Regenerated [regenerated] asset\s."))
+
+ADMIN_VERB(clear_smart_asset_cache, R_DEBUG, "Clear Smart Asset Cache", "Clear the smart asset cache, causing it to regenerate next round.", ADMIN_CATEGORY_DEBUG)
+	if(!CONFIG_GET(flag/smart_cache_assets))
+		to_chat(user, span_warning("Smart asset caching is disabled in the config!"))
+		return
+	var/cleared = 0
+	for(var/datum/asset/spritesheet_batched/target_spritesheet as anything in valid_subtypesof(/datum/asset/spritesheet_batched))
+		fdel("[ASSET_CROSS_ROUND_SMART_CACHE_DIRECTORY]/spritesheet_cache.[initial(target_spritesheet.name)].json")
+		cleared++
+	to_chat(user, span_notice("Cleared [cleared] asset\s."))
+
+ADMIN_VERB(give_ai_speech, R_FUN, "Give Random AI Speech", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/my_guy)
+	if (isnull(my_guy.ai_controller))
+		var/create_controller = tgui_alert(user, "Target has no AI controller, add one?", "Give AI?", list("Yes", "No")) == "Yes"
+		if (!create_controller)
+			return
+		var/run_with_mind = tgui_alert(user, "Run AI controller while the target has a client?", "Override Client?", list("Yes", "No"))
+		if (isnull(run_with_mind))
+			return
+		if (QDELETED(my_guy))
+			to_chat(user, span_warning("Target ceased to exist."))
+			return
+		my_guy.ai_controller = new /datum/ai_controller/basic_controller/talk(my_guy)
+		if (run_with_mind == "Yes")
+			var/datum/ai_controller/guy_controller = my_guy.ai_controller
+			guy_controller.continue_processing_when_client = TRUE
+			guy_controller.reset_ai_status()
+
+	var/speech_chance
+	var/list/spoken_lines
+	var/list/audible_emotes
+	var/list/visible_emotes
+	var/list/sounds
+
+	speech_chance = tgui_input_number(user, "Enter chance per second to say something", "Speech Chance", default = 2, min_value = 0, max_value = 100, round_value = FALSE)
+	if (isnull(speech_chance))
+		return
+
+	var/add_another
+	var/next_line
+
+	add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] spoken line?", "Spoken Lines", list("Yes", "No"))
+	while (add_another  == "Yes")
+		next_line = tgui_input_text(user, "Enter [length(spoken_lines) ? "another" : "a"] thing spoken out loud.", "Spoken Lines")
+		if (isnull(next_line))
+			return
+		LAZYADD(spoken_lines, next_line)
+		add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] spoken line?", "Spoken Lines", list("Yes", "No"))
+	if (isnull(add_another))
+		return
+
+	add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] emote which people can hear?", "Audible Emotes", list("Yes", "No"))
+	while (add_another == "Yes")
+		next_line = tgui_input_text(user, "Enter [length(spoken_lines) ? "another" : "an"] emote which people can hear.", "Audible Emotes")
+		if (isnull(next_line))
+			return
+		LAZYADD(audible_emotes, next_line)
+		add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] emote which people can hear?", "Audible Emotes", list("Yes", "No"))
+	if (isnull(add_another))
+		return
+
+	add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] emote which people can see?", "Visible Emotes", list("Yes", "No"))
+	while (add_another == "Yes")
+		next_line = tgui_input_text(user, "Enter [length(spoken_lines) ? "another" : "an"] emote which people can see.", "Visible Emotes")
+		if (isnull(next_line))
+			return
+		LAZYADD(visible_emotes, next_line)
+		add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] emote which people can see?", "Visible Emotes", list("Yes", "No"))
+	if (isnull(add_another))
+		return
+
+	if (!length(spoken_lines) && !length(audible_emotes) && !length(visible_emotes))
+		return // Well you didn't tell it to say anything...
+
+	if (length(spoken_lines) || length(audible_emotes))
+		add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] sound to play when doing something audible?", "Sounds", list("Yes", "No"))
+		while (add_another == "Yes")
+			next_line = input("", "Select sound",) as null|sound
+			if (isnull(next_line))
+				return
+			LAZYADD(sounds, next_line)
+			add_another = tgui_alert(user, "Add [length(spoken_lines) ? "another" : "a"] sound to play when doing something audible?", "Sounds", list("Yes", "No"))
+		if (isnull(add_another))
+			return
+
+	if (QDELETED(my_guy))
+		to_chat(user, span_warning("Target stopped existing."))
+		return
+
+	var/datum/ai_controller/our_controller = my_guy.ai_controller
+	if (length(spoken_lines))
+		spoken_lines = string_list(spoken_lines)
+	if (length(audible_emotes))
+		audible_emotes = string_list(audible_emotes)
+	if (length(visible_emotes))
+		visible_emotes = string_list(visible_emotes)
+
+	var/list/emotes = list(
+		BB_EMOTE_SAY = spoken_lines,
+		BB_EMOTE_HEAR = audible_emotes,
+		BB_EMOTE_SEE = visible_emotes,
+		BB_EMOTE_SOUND = sounds,
+		BB_SPEAK_CHANCE = speech_chance,
+	)
+	our_controller.set_blackboard_key(BB_BASIC_MOB_SPEAK_LINES, emotes)
+
+	var/behaviour_exists = !!(locate(/datum/ai_planning_subtree/random_speech/blackboard) in our_controller.planning_subtrees)
+	if (behaviour_exists)
+		return
+	our_controller.planning_subtrees = list(GLOB.ai_subtrees[/datum/ai_planning_subtree/random_speech/blackboard]) + our_controller.planning_subtrees
+
+ADMIN_VERB(new_blackmarket_item, R_BUILD, "Create Black Market Item", "Add an item to the black market for purchase.", ADMIN_CATEGORY_EVENTS, object as text)
+	//first: have admins select a typepath for the item they want to offer.
+	var/obj/chosen = pick_closest_path(object, make_types_fancy(subtypesof(/obj)))
+	// second: poll admins for the name, description, price, and quantity.
+
+	var/name = tgui_input_text(user, "Name of the item to sell?", "Item listing name", "Arcane Object", max_length = MAX_NAME_LEN)
+	if(isnull(name))
+		return
+	var/description = tgui_input_text(user, "Custom description of the item to sell?", "Item listing description", "[chosen::desc]", max_length = 200)
+	if(isnull(description))
+		return
+	var/price = tgui_input_number(user, "Price for the item listing?", "Item listing price", max_value = INFINITY, min_value = 1, round_value = TRUE)
+	if(isnull(price))
+		return
+	var/quantity = tgui_input_number(user, "Quantity of the item to sell?", "Item listing quantity", default = 1, max_value = 100, min_value = 1, round_value = TRUE)
+	if(isnull(quantity))
+		return
+	//lastly: pick a category for the item to go under
+	var/category = tgui_input_list(user, "Category to list the item under?", "Item listing category", BLACKMARKET_CATEGORIES)
+	if(isnull(category))
+		return
+
+	var/datum/market_item/admin_item = new /datum/market_item()
+	// Making a note here that we don't need to assign to blackmarket because we still only have one market type, but if we ever start using multiple we'll want to poll admins.
+	admin_item.item = chosen
+	SSblackbox.record_feedback("tally", "admin blackmarket items", 1, chosen)
+
+	admin_item.name = name
+	admin_item.desc = description
+	admin_item.price = price
+	admin_item.stock = quantity
+	admin_item.category = category
+	admin_item.restockable = FALSE
+
+	SSmarket.admin_items_spawned++
+	admin_item.identifier = "admin_[SSmarket.admin_items_spawned]"
+
+	SSmarket.initialize_admin_item(admin_item)
+	log_admin("[key_name(user)] created a new black market item: [name] ([chosen]) for [price] credits, of quantity [quantity].")
+
+	BLACKBOX_LOG_ADMIN_VERB("Create Black Market Item")

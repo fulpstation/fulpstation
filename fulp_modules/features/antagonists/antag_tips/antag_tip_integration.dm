@@ -84,7 +84,7 @@
 
 /datum/antag_tip/ui_assets(mob/user)
 	return list(
-		get_asset_datum(/datum/asset/spritesheet/antagonists),
+		get_asset_datum(/datum/asset/spritesheet_batched/antagonists),
 	)
 
 /datum/antag_tip/ui_interact(mob/user, datum/tgui/ui)

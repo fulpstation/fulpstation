@@ -64,7 +64,7 @@
 	for(var/mob/living/possible_target in oview(9, src))
 		if(possible_target.stat == DEAD || possible_target.stat == UNCONSCIOUS)
 			continue
-		if(faction_check(faction, possible_target.faction))
+		if(faction_check_atom(possible_target))
 			continue
 		fire(possible_target)
 		return
@@ -93,6 +93,7 @@
 /// Used for the legion turret.
 /obj/projectile/beam/legion
 	name = "blood pulse"
+	icon_state = null
 	hitsound = 'sound/effects/magic/magic_missile.ogg'
 	damage = 19
 	range = 6

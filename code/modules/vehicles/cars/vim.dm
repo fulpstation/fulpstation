@@ -1,12 +1,12 @@
 /**
  * ## VIM!!!!!!!
  *
- * It's a teenie minature mecha... for critters!
+ * It's a teenie miniature mecha... for critters!
  * For the critters that cannot be understood, there is a sound creator in the mecha. It also has headlights.
  */
 /obj/vehicle/sealed/car/vim
 	name = "\improper Vim"
-	desc = "An minature exosuit from Nanotrasen, developed to let the irreplacable station pets live a little longer."
+	desc = "A miniature exosuit from Nanotrasen, developed to let the irreplaceable station pets live a little longer."
 	icon_state = "vim"
 	max_integrity = 50
 	armor_type = /datum/armor/car_vim
@@ -19,6 +19,7 @@
 	light_on = FALSE
 	engine_sound = 'sound/effects/servostep.ogg'
 	interaction_flags_mouse_drop = NONE
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 0.55, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.7)
 	///Maximum size of a mob trying to enter the mech
 	var/maximum_mob_size = MOB_SIZE_SMALL
 	COOLDOWN_DECLARE(sound_cooldown)
@@ -44,7 +45,7 @@
 	. += span_notice("[src] can be repaired with a welder.")
 
 /obj/vehicle/sealed/car/vim/atom_destruction(damage_flag)
-	new /obj/effect/decal/cleanable/oil(get_turf(src))
+	new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
 	do_sparks(5, TRUE, src)
 	visible_message(span_bolddanger("[src] blows apart!"))
 	return ..()
@@ -118,7 +119,7 @@
 
 /obj/item/circuit_component/vim
 	display_name = "Vim"
-	desc = "An minature exosuit from Nanotrasen, developed to let the irreplacable station pets live a little longer."
+	desc = "A miniature exosuit from Nanotrasen, developed to let the irreplaceable station pets live a little longer."
 
 	/// Sent when the mech chimes.
 	var/datum/port/output/chime
@@ -128,7 +129,7 @@
 	var/datum/port/output/are_headlights_on
 
 /obj/item/circuit_component/vim/populate_ports()
-	are_headlights_on = add_output_port("Are Headlights On", PORT_TYPE_NUMBER)
+	are_headlights_on = add_output_port("Are Headlights On", PORT_TYPE_BOOLEAN)
 	chime = add_output_port("On Chime Used", PORT_TYPE_SIGNAL)
 	buzz = add_output_port("On Buzz Used", PORT_TYPE_SIGNAL)
 

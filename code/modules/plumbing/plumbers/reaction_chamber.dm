@@ -8,7 +8,6 @@
 	desc = "Keeps chemicals separated until given conditions are met."
 	icon_state = "reaction_chamber"
 	buffer = 200
-	reagent_flags = TRANSPARENT | NO_REACT
 	reagents = /datum/reagents/plumbing/reaction_chamber
 
 	/**
@@ -23,32 +22,18 @@
 	///towards which temperature do we build (except during draining)?
 	var/target_temperature = 300
 
-/obj/machinery/plumbing/reaction_chamber/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/reaction_chamber/Initialize(mapload, layer)
 	. = ..()
-	AddComponent(/datum/component/plumbing/reaction_chamber, bolt, layer)
-
-/obj/machinery/plumbing/reaction_chamber/create_reagents(max_vol, flags)
-	. = ..()
-	RegisterSignals(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED), PROC_REF(on_reagent_change))
-	RegisterSignal(reagents, COMSIG_QDELETING, PROC_REF(on_reagents_del))
-
-/// Handles properly detaching signal hooks.
-/obj/machinery/plumbing/reaction_chamber/proc/on_reagents_del(datum/reagents/reagents)
-	SIGNAL_HANDLER
-
-	UnregisterSignal(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED, COMSIG_QDELETING))
-
-	return NONE
+	AddComponent(/datum/component/plumbing/reaction_chamber, layer)
 
 /// Handles stopping the emptying process when the chamber empties.
-/obj/machinery/plumbing/reaction_chamber/proc/on_reagent_change(datum/reagents/plumbing/reaction_chamber/holder, ...)
+/obj/machinery/plumbing/reaction_chamber/proc/on_reagent_change(datum/reagents/plumbing/reaction_chamber/holder)
 	SIGNAL_HANDLER
 
-	if(!holder.get_catalyst_excluded_volume() && emptying) //we were emptying, but now we aren't
+	if(!holder.get_catalyst_excluded_volume()) //we were emptying, but now we aren't
 		emptying = FALSE
 		holder.flags |= NO_REACT
-
-	return NONE
+		UnregisterSignal(reagents, COMSIG_REAGENTS_HOLDER_UPDATED)
 
 /obj/machinery/plumbing/reaction_chamber/process(seconds_per_tick)
 	if(!is_operational || !reagents.total_volume)
@@ -132,6 +117,7 @@
 			var/input_amount = text2num(params["amount"])
 			if(!input_amount)
 				return FALSE
+			input_amount = round(input_amount, CHEMICAL_VOLUME_ROUNDING)
 
 			if(!required_reagents[input_reagent])
 				required_reagents[input_reagent] = input_amount
@@ -190,24 +176,18 @@
 	var/alkaline_limit = 9
 
 	///beaker that holds the acidic buffer(50u)
-	var/obj/item/reagent_containers/cup/beaker/acidic_beaker
+	var/datum/reagents/acidic_beaker
 	///beaker that holds the alkaline buffer(50u).
-	var/obj/item/reagent_containers/cup/beaker/alkaline_beaker
+	var/datum/reagents/alkaline_beaker
 
-/obj/machinery/plumbing/reaction_chamber/chem/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/reaction_chamber/chem/Initialize(mapload, layer)
 	. = ..()
 
-	acidic_beaker = new (src)
-	alkaline_beaker = new (src)
+	var/datum/component/plumbing/buffered/acidic_input = AddComponent(/datum/component/plumbing/buffered/acidic_input)
+	var/datum/component/plumbing/buffered/basic_input = AddComponent(/datum/component/plumbing/buffered/alkaline_input)
 
-	AddComponent(/datum/component/plumbing/acidic_input, bolt, custom_receiver = acidic_beaker)
-	AddComponent(/datum/component/plumbing/alkaline_input, bolt, custom_receiver = alkaline_beaker)
-
-/// Make sure beakers are deleted when being deconstructed
-/obj/machinery/plumbing/reaction_chamber/chem/Destroy()
-	QDEL_NULL(acidic_beaker)
-	QDEL_NULL(alkaline_beaker)
-	return ..()
+	acidic_beaker = acidic_input.recipient_reagents_holder()
+	alkaline_beaker = basic_input.recipient_reagents_holder()
 
 /obj/machinery/plumbing/reaction_chamber/chem/handle_reagents(seconds_per_tick)
 	if(reagents.ph < acidic_limit || reagents.ph > alkaline_limit)
@@ -216,12 +196,11 @@
 		if(!num_of_reagents)
 			return
 
-		/**
-		 * figure out which buffer to transfer to restore balance
-		 * if solution is getting too basic(high ph) add some acid to lower its value
-		 * else if solution is getting too acidic(low ph) add some base to increase its value
-		 */
-		var/datum/reagents/buffer = reagents.ph > alkaline_limit ? acidic_beaker.reagents : alkaline_beaker.reagents
+
+		//.figure out which buffer to transfer to restore balance
+		//if solution is getting too basic(high ph) add some acid to lower its value
+		//else if solution is getting too acidic(low ph) add some base to increase its value
+		var/datum/reagents/buffer = reagents.ph > alkaline_limit ? acidic_beaker : alkaline_beaker
 		if(!buffer.total_volume)
 			return
 
@@ -231,7 +210,7 @@
 		if(!buffer.trans_to(reagents, buffer_amount))
 			return
 
-		//some power for accurate ph balancing & keep track of attempts made
+		//some power for accurate ph balancing
 		use_energy(active_power_usage * 0.03 * buffer_amount)
 
 /obj/machinery/plumbing/reaction_chamber/chem/ui_interact(mob/user, datum/tgui/ui)

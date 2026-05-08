@@ -6,7 +6,8 @@
 		/datum/reagent/consumable/salt = 5
 	)
 	result = /obj/item/food/kimchi
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/inferno_kimchi
 	name = "Inferno kimchi"
@@ -16,7 +17,8 @@
 		/datum/reagent/consumable/salt = 5
 	)
 	result = /obj/item/food/inferno_kimchi
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/garlic_kimchi
 	name = "Garlic kimchi"
@@ -27,7 +29,8 @@
 		/datum/reagent/consumable/salt = 5
 	)
 	result = /obj/item/food/garlic_kimchi
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/surimi
 	name = "Surimi"
@@ -35,7 +38,8 @@
 		/obj/item/food/fishmeat = 1,
 	)
 	result = /obj/item/food/surimi
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_COMPONENT
 
 /datum/crafting_recipe/food/sambal
 	name = "Sambal"
@@ -48,7 +52,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/sambal
-	category = CAT_MARTIAN
+	added_foodtypes = SEAFOOD //Until we have easy to get shrimp to add to the recipe
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_COMPONENT
 
 /datum/crafting_recipe/food/katsu_fillet
 	name = "Katsu fillet"
@@ -57,7 +63,10 @@
 		/obj/item/food/breadslice/reispan = 1,
 	)
 	result = /obj/item/food/katsu_fillet
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	added_foodtypes = FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
 
 /datum/crafting_recipe/food/rice_dough
 	name = "Rice dough"
@@ -68,7 +77,8 @@
 	)
 	result = /obj/item/food/rice_dough
 	crafting_flags = CRAFT_CHECK_DENSITY
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/hurricane_rice
 	name = "Hurricane fried rice"
@@ -83,7 +93,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/hurricane_rice
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW|BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/ikareis
 	name = "Ikareis"
@@ -97,7 +109,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/ikareis
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/hawaiian_fried_rice
 	name = "Hawaiian fried rice"
@@ -111,7 +125,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/hawaiian_fried_rice
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/ketchup_fried_rice
 	name = "Ketchup fried rice"
@@ -126,7 +142,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/ketchup_fried_rice
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/mediterranean_fried_rice
 	name = "Mediterranean fried rice"
@@ -140,7 +158,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/mediterranean_fried_rice
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/egg_fried_rice
 	name = "Egg fried rice"
@@ -151,7 +171,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/egg_fried_rice
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST|RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/bibimbap
 	name = "Bibimbap"
@@ -165,7 +187,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/bibimbap
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW|BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/bulgogi_noodles
 	name = "Bulgogi noodles"
@@ -179,7 +203,8 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/bulgogi_noodles
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_NOODLES
 
 /datum/crafting_recipe/food/yakisoba_katsu
 	name = "Yakisoba katsu"
@@ -193,7 +218,8 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/yakisoba_katsu
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_NOODLES
 
 /datum/crafting_recipe/food/martian_fried_noodles
 	name = "Martian fried noodles"
@@ -208,7 +234,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/martian_fried_noodles
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_NOODLES
 
 /datum/crafting_recipe/food/simple_fried_noodles
 	name = "Simple fried noodles"
@@ -218,7 +246,8 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/simple_fried_noodles
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_NOODLES
 
 /datum/crafting_recipe/food/setagaya_curry
 	name = "Setagaya curry"
@@ -238,7 +267,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/setagaya_curry
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW|JUNKFOOD|BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/big_blue_burger
 	name = "Big Blue Burger"
@@ -252,7 +283,9 @@
 		/datum/reagent/consumable/nutriment/soup/teriyaki = 4,
 	)
 	result = /obj/item/food/burger/big_blue
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_BURGER
 
 /datum/crafting_recipe/food/chappy_patty
 	name = "Chappy Patty"
@@ -264,7 +297,9 @@
 		/datum/reagent/consumable/ketchup = 3,
 	)
 	result = /obj/item/food/burger/chappy
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_BURGER
 
 /datum/crafting_recipe/food/king_katsu_sandwich
 	name = "King Katsu sandwich"
@@ -277,7 +312,9 @@
 		/obj/item/food/grown/tomato = 1,
 	)
 	result = /obj/item/food/king_katsu_sandwich
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/marte_cubano_sandwich
 	name = "Marte Cubano sandwich"
@@ -288,7 +325,9 @@
 		/obj/item/food/cheese/wedge = 1,
 	)
 	result = /obj/item/food/marte_cubano_sandwich
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/little_shiro_sandwich
 	name = "Little Shiro sandwich"
@@ -301,7 +340,9 @@
 		/obj/item/food/grown/herbs = 1,
 	)
 	result = /obj/item/food/little_shiro_sandwich
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/croque_martienne
 	name = "Croque-Martienne sandwich"
@@ -313,7 +354,8 @@
 		/obj/item/food/friedegg = 1,
 	)
 	result = /obj/item/food/croque_martienne
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/prospect_sunrise
 	name = "Prospect Sunrise sandwich"
@@ -325,7 +367,8 @@
 		/obj/item/food/pickle = 1,
 	)
 	result = /obj/item/food/prospect_sunrise
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/takoyaki
 	name = "Takoyaki"
@@ -336,7 +379,10 @@
 		/datum/reagent/consumable/worcestershire = 3,
 	)
 	result = /obj/item/food/takoyaki
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/russian_takoyaki
 	name = "Russian takoyaki"
@@ -347,7 +393,10 @@
 		/datum/reagent/consumable/capsaicin = 3,
 	)
 	result = /obj/item/food/takoyaki/russian
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/tacoyaki
 	name = "Tacoyaki"
@@ -359,7 +408,10 @@
 		/obj/item/food/cheese/wedge = 1,
 	)
 	result = /obj/item/food/takoyaki/taco
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED|SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/okonomiyaki
 	name = "Okonomiyaki"
@@ -371,7 +423,10 @@
 		/obj/item/food/grown/potato/sweet = 1,
 	)
 	result = /obj/item/food/okonomiyaki
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED|SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY // ??
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/brat_kimchi
 	name = "Brat-kimchi"
@@ -381,7 +436,9 @@
 		/datum/reagent/consumable/sugar = 3,
 	)
 	result = /obj/item/food/brat_kimchi
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/tonkatsuwurst
 	name = "Tonkatsuwurst"
@@ -392,7 +449,10 @@
 		/datum/reagent/consumable/red_bay = 2,
 	)
 	result = /obj/item/food/tonkatsuwurst
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/ti_hoeh_koe
 	name = "Ti hoeh koe"
@@ -403,7 +463,9 @@
 		/datum/reagent/blood = 5,
 	)
 	result = /obj/item/food/kebab/ti_hoeh_koe
-	category = CAT_MARTIAN
+	removed_foodtypes = JUNKFOOD|VEGETABLES|BREAKFAST
+	added_foodtypes = MEAT|FRIED
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/kitzushi
 	name = "Kitzushi"
@@ -414,7 +476,10 @@
 		/obj/item/food/grown/chili = 1,
 	)
 	result = /obj/item/food/kitzushi
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	added_foodtypes = FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SUSHI
 
 /datum/crafting_recipe/food/epok_epok
 	name = "Epok-epok"
@@ -426,7 +491,10 @@
 		/datum/reagent/consumable/curry_powder = 3,
 	)
 	result = /obj/item/food/epok_epok
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	added_foodtypes = FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
 
 /datum/crafting_recipe/food/roti_john
 	name = "Roti John"
@@ -439,7 +507,10 @@
 		/datum/reagent/consumable/mayonnaise = 3,
 	)
 	result = /obj/item/food/roti_john
-	category = CAT_MARTIAN
+	added_foodtypes = BREAKFAST
+	removed_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/izakaya_fries
 	name = "Izakaya fries"
@@ -450,7 +521,8 @@
 		/datum/reagent/consumable/mayonnaise = 3,
 	)
 	result = /obj/item/food/izakaya_fries
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/kurry_ok_subsando
 	name = "Kurry-OK subsando"
@@ -461,7 +533,8 @@
 		/datum/reagent/consumable/nutriment/soup/curry_sauce = 5,
 	)
 	result = /obj/item/food/kurry_ok_subsando
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/loco_moco
 	name = "Loco moco"
@@ -473,7 +546,9 @@
 		/datum/reagent/consumable/gravy = 5,
 	)
 	result = /obj/item/food/loco_moco
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/wild_duck_fries
 	name = "Wild duck fries"
@@ -483,7 +558,8 @@
 		/datum/reagent/consumable/ketchup = 3,
 	)
 	result = /obj/item/food/wild_duck_fries
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/little_hawaii_hotdog
 	name = "Little Hawaii hotdog"
@@ -494,7 +570,8 @@
 		/datum/reagent/consumable/nutriment/soup/teriyaki = 3,
 	)
 	result = /obj/item/food/little_hawaii_hotdog
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/salt_chilli_fries
 	name = "Salt n' chilli fries"
@@ -506,7 +583,8 @@
 		/datum/reagent/consumable/salt = 3,
 	)
 	result = /obj/item/food/salt_chilli_fries
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/steak_croquette
 	name = "Steak croquette"
@@ -516,7 +594,9 @@
 		/obj/item/food/breadslice/reispan = 1,
 	)
 	result = /obj/item/food/steak_croquette
-	category = CAT_MARTIAN
+	added_foodtypes = FRIED
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
 
 /datum/crafting_recipe/food/chapsilog
 	name = "Chapsilog"
@@ -527,7 +607,7 @@
 		/obj/item/food/grown/garlic = 1,
 	)
 	result = /obj/item/food/chapsilog
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/chap_hash
 	name = "Chap hash"
@@ -539,7 +619,9 @@
 		/obj/item/food/onion_slice = 1,
 	)
 	result = /obj/item/food/chap_hash
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	added_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/agedashi_tofu
 	name = "Agedashi tofu"
@@ -550,7 +632,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/agedashi_tofu
-	category = CAT_MARTIAN
+	added_foodtypes = SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SOUP
 
 /datum/crafting_recipe/food/po_kok_gai
 	name = "Po kok gai"
@@ -562,7 +646,10 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/po_kok_gai
-	category = CAT_MARTIAN
+	added_foodtypes = FRUIT
+	removed_foodtypes = RAW|BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/huoxing_tofu
 	name = "Huoxing tofu"
@@ -574,7 +661,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/huoxing_tofu
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
 
 /datum/crafting_recipe/food/feizhou_ji
 	name = "Fēizhōu jī"
@@ -585,7 +674,9 @@
 		/datum/reagent/consumable/vinegar = 5,
 	)
 	result = /obj/item/food/feizhou_ji
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
 
 /datum/crafting_recipe/food/galinha_de_cabidela
 	name = "Galinha de cabidela"
@@ -597,7 +688,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/galinha_de_cabidela
-	category = CAT_MARTIAN
+	removed_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/katsu_curry
 	name = "Katsu curry"
@@ -608,7 +701,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/katsu_curry
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/beef_bowl
 	name = "Beef bowl"
@@ -620,7 +715,10 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/beef_bowl
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	added_foodtypes = SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/salt_chilli_bowl
 	name = "Salt n' chilli octopus bowl"
@@ -634,7 +732,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/salt_chilli_bowl
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/kansai_bowl
 	name = "Kansai bowl"
@@ -647,7 +747,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/kansai_bowl
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/eigamudo_curry
 	name = "Eigamudo curry"
@@ -660,7 +762,10 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/eigamudo_curry
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	added_foodtypes = GROSS|TOXIC
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 /datum/crafting_recipe/food/cilbir
 	name = "Çilbir"
@@ -672,7 +777,9 @@
 		/datum/reagent/consumable/nutriment/fat/oil/olive = 2,
 	)
 	result = /obj/item/food/cilbir
-	category = CAT_MARTIAN
+	added_foodtypes = DAIRY
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/peking_duck_crepes
 	name = "Peking duck crepes a l'orange"
@@ -683,7 +790,10 @@
 		/datum/reagent/consumable/ethanol/cognac = 2,
 	)
 	result = /obj/item/food/peking_duck_crepes
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/vulgaris_spekkoek
 	name = "Vulgaris spekkoek"
@@ -693,7 +803,9 @@
 		/obj/item/food/butterslice = 2,
 	)
 	result = /obj/item/food/cake/spekkoek
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_CAKE
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/pineapple_foster
 	name = "Pineapple foster"
@@ -705,7 +817,9 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/pineapple_foster
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/pastel_de_nata
 	name = "Pastel de nata"
@@ -716,7 +830,10 @@
 		/datum/reagent/consumable/sugar = 2,
 	)
 	result = /obj/item/food/pastel_de_nata
-	category = CAT_MARTIAN
+	removed_foodtypes = MEAT|RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/boh_loh_yah
 	name = "Boh loh yah"
@@ -726,7 +843,10 @@
 		/datum/reagent/consumable/sugar = 5,
 	)
 	result = /obj/item/food/boh_loh_yah
-	category = CAT_MARTIAN
+	added_foodtypes = PINEAPPLE // someone thought it's funny to give it this foodtype smh
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_COOKIE
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/banana_fritter
 	name = "Banana fritter"
@@ -735,7 +855,10 @@
 		/datum/reagent/consumable/martian_batter = 2
 	)
 	result = /obj/item/food/banana_fritter
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED|SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/pineapple_fritter
 	name = "Pineapple fritter"
@@ -744,7 +867,10 @@
 		/datum/reagent/consumable/martian_batter = 2
 	)
 	result = /obj/item/food/pineapple_fritter
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED|SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/kasei_dango
 	name = "Kasei dango"
@@ -756,7 +882,10 @@
 		/datum/reagent/consumable/grenadine = 2,
 	)
 	result = /obj/item/food/kebab/kasei_dango
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/pb_ice_cream_mochi
 	name = "Peanut-butter ice cream mochi"
@@ -767,7 +896,10 @@
 		/obj/item/food/icecream = 1,
 	)
 	result = /obj/item/food/pb_ice_cream_mochi
-	category = CAT_MARTIAN
+	added_foodtypes = NUTS
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/frozen_pineapple_pop
 	name = "Frozen pineapple pop"
@@ -777,7 +909,10 @@
 		/obj/item/popsicle_stick = 1,
 	)
 	result = /obj/item/food/popsicle/pineapple_pop
-	category = CAT_MARTIAN
+	removed_foodtypes = JUNKFOOD
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/sea_salt_pop
 	name = "Sea-salt ice cream bar"
@@ -788,7 +923,9 @@
 		/obj/item/popsicle_stick = 1,
 	)
 	result = /obj/item/food/popsicle/sea_salt
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/berry_topsicle
 	name = "Berry topsicle"
@@ -799,7 +936,10 @@
 		/obj/item/popsicle_stick = 1,
 	)
 	result = /obj/item/food/popsicle/topsicle
-	category = CAT_MARTIAN
+	added_foodtypes = SUGAR|FRUIT
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/banana_topsicle
 	name = "Banana topsicle"
@@ -810,9 +950,12 @@
 		/obj/item/popsicle_stick = 1,
 	)
 	result = /obj/item/food/popsicle/topsicle/banana
-	category = CAT_MARTIAN
+	added_foodtypes = SUGAR|FRUIT
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
-/datum/crafting_recipe/food/berry_topsicle
+/datum/crafting_recipe/food/pineapple_topsicle
 	name = "Pineapple topsicle"
 	reqs = list(
 		/obj/item/food/tofu = 1,
@@ -821,7 +964,10 @@
 		/obj/item/popsicle_stick = 1,
 	)
 	result = /obj/item/food/popsicle/topsicle/pineapple
-	category = CAT_MARTIAN
+	added_foodtypes = SUGAR|FRUIT|PINEAPPLE
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_FROZEN
+	meal_category = MEAL_DESSERT
 
 /datum/crafting_recipe/food/plasma_dog_supreme
 	name = "Plasma Dog Supreme"
@@ -832,7 +978,8 @@
 		/obj/item/food/onion_slice = 1,
 	)
 	result = /obj/item/food/plasma_dog_supreme
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_SANDWICH
 
 /datum/crafting_recipe/food/frickles
 	name = "Frickles"
@@ -842,7 +989,9 @@
 		/datum/reagent/consumable/red_bay = 1,
 	)
 	result = /obj/item/food/frickles
-	category = CAT_MARTIAN
+	added_foodtypes = GRAIN|FRIED|SEAFOOD
+	cuisine_category = CUISINE_MARTIAN
+	meal_category = MEAL_APPETIZER
 
 /datum/crafting_recipe/food/raw_ballpark_pretzel
 	name = "Raw ballpark pretzel"
@@ -851,7 +1000,10 @@
 		/datum/reagent/consumable/salt = 2,
 	)
 	result = /obj/item/food/raw_ballpark_pretzel
-	category = CAT_MARTIAN
+	added_foodtypes = RAW
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_PASTRY
+	meal_category = MEAL_COMPONENT
 
 /datum/crafting_recipe/food/raw_ballpark_tsukune
 	name = "Raw ballpark tsukune"
@@ -861,7 +1013,8 @@
 		/obj/item/stack/rods = 1,
 	)
 	result = /obj/item/food/kebab/raw_ballpark_tsukune
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT
 
 /datum/crafting_recipe/food/sprout_bowl
 	name = "Sprout bowl"
@@ -873,66 +1026,69 @@
 		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/sprout_bowl
-	category = CAT_MARTIAN
+	removed_foodtypes = BREAKFAST
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_RICE
 
 // Soups
 
 /datum/crafting_recipe/food/reaction/soup/boilednoodles
 	reaction = /datum/chemical_reaction/food/soup/boilednoodles
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/dashi
 	reaction = /datum/chemical_reaction/food/soup/dashi
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/teriyaki
 	reaction = /datum/chemical_reaction/food/soup/teriyaki
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/curry_sauce
 	reaction = /datum/chemical_reaction/food/soup/curry_sauce
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/shoyu_ramen
 	reaction = /datum/chemical_reaction/food/soup/shoyu_ramen
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/gyuramen
 	reaction = /datum/chemical_reaction/food/soup/gyuramen
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/new_osaka_sunrise
 	reaction = /datum/chemical_reaction/food/soup/new_osaka_sunrise
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/satsuma_black
 	reaction = /datum/chemical_reaction/food/soup/satsuma_black
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/dragon_ramen
 	reaction = /datum/chemical_reaction/food/soup/dragon_ramen
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/hong_kong_borscht
 	reaction = /datum/chemical_reaction/food/soup/hong_kong_borscht
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/hong_kong_macaroni
 	reaction = /datum/chemical_reaction/food/soup/hong_kong_macaroni
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/foxs_prize_soup
 	reaction = /datum/chemical_reaction/food/soup/foxs_prize_soup
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/secret_noodle_soup
 	reaction = /datum/chemical_reaction/food/soup/secret_noodle_soup
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/budae_jjigae
 	reaction = /datum/chemical_reaction/food/soup/budae_jjigae
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
 
 /datum/crafting_recipe/food/reaction/soup/volt_fish
 	reaction = /datum/chemical_reaction/food/soup/volt_fish
-	category = CAT_MARTIAN
+	cuisine_category = CUISINE_MARTIAN
+	dish_category = DISH_MEAT

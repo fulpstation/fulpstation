@@ -5,7 +5,7 @@
 /obj/machinery/quantum_server/proc/cool_off()
 	is_ready = TRUE
 	update_appearance()
-	radio.talk_into(src, "Thermal systems within operational parameters. Proceeding to domain configuration.", RADIO_CHANNEL_SUPPLY)
+	aas_config_announce(/datum/aas_config_entry/bitrunning_QS_ready_announcement, list(), src, list(RADIO_CHANNEL_SUPPLY))
 
 
 /// If there are hosted minds, attempts to get a list of their current virtual bodies w/ vitals
@@ -25,10 +25,10 @@
 			"health" = creature.health,
 			"name" = creature.name,
 			"pilot" = pilot,
-			"brute" = creature.getBruteLoss(),
-			"burn" = creature.getFireLoss(),
-			"tox" = creature.getToxLoss(),
-			"oxy" = creature.getOxyLoss(),
+			"brute" = creature.get_brute_loss(),
+			"burn" = creature.get_fire_loss(),
+			"tox" = creature.get_tox_loss(),
+			"oxy" = creature.get_oxy_loss(),
 		))
 
 	return hosted_avatars
@@ -96,7 +96,7 @@
 	for(var/datum/lazy_template/virtual_domain/available as anything in subtypesof(/datum/lazy_template/virtual_domain))
 		var/init_cost = initial(available.cost)
 
-		if(!initial(available.test_only) && \
+		if(!(initial(available.domain_flags) & DOMAIN_TEST_ONLY) && \
 			init_cost <= points && \
 			init_cost > BITRUNNER_COST_NONE && \
 			init_cost < BITRUNNER_COST_EXTREME \
@@ -135,9 +135,7 @@
 /// Do some magic teleport sparks
 /obj/machinery/quantum_server/proc/spark_at_location(obj/cache)
 	playsound(cache, 'sound/effects/magic/blink.ogg', 50, vary = TRUE)
-	var/datum/effect_system/spark_spread/quantum/sparks = new()
-	sparks.set_up(5, location = get_turf(cache))
-	sparks.start()
+	do_sparks(5, FALSE, get_turf(cache), spark_type = /datum/effect_system/basic/spark_spread/quantum)
 
 
 /// Starts building a new avatar for the player.

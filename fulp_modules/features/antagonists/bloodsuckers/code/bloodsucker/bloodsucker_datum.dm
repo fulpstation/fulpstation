@@ -3,10 +3,9 @@
 	show_in_antagpanel = TRUE
 	roundend_category = "bloodsuckers"
 	antagpanel_category = "Bloodsucker"
-	job_rank = ROLE_BLOODSUCKER
+	pref_flag = ROLE_BLOODSUCKER
 	antag_hud_name = "bloodsucker"
 	show_name_in_check_antagonists = TRUE
-	can_coexist_with_others = FALSE
 	hijack_speed = 0.5
 	hud_icon = 'fulp_modules/icons/antagonists/bloodsuckers/bloodsucker_icons.dmi'
 	ui_name = "AntagInfoBloodsucker"
@@ -58,7 +57,7 @@
 	///ALL Powers currently owned
 	var/list/datum/action/cooldown/bloodsucker/powers = list()
 	///Frenzy Grab Martial art given to Bloodsuckers in a Frenzy
-	var/datum/martial_art/frenzygrab/frenzygrab = new
+	var/datum/martial_art/frenzygrab/frenzygrab
 
 	///Vassals under my control. Periodically remove the dead ones.
 	var/list/datum/antagonist/vassal/vassals = list()
@@ -78,13 +77,6 @@
 	var/area/bloodsucker_lair_area
 	var/obj/structure/closet/crate/claimed_coffin
 	var/total_blood_drank = 0
-
-	///Blood display HUD
-	var/atom/movable/screen/bloodsucker/blood_counter/blood_display
-	///Vampire level display HUD
-	var/atom/movable/screen/bloodsucker/rank_counter/vamprank_display
-	///Sunlight timer HUD
-	var/atom/movable/screen/bloodsucker/sunlight_counter/sunlight_display
 
 	/// Static typecache of all bloodsucker powers.
 	var/static/list/all_bloodsucker_powers = typecacheof(/datum/action/cooldown/bloodsucker, ignore_root_path = TRUE)
@@ -152,28 +144,18 @@
 
 	if(current_mob.hud_used)
 		var/datum/hud/hud_used = current_mob.hud_used
-		hud_used.infodisplay -= blood_display
-		hud_used.infodisplay -= vamprank_display
-		hud_used.infodisplay -= sunlight_display
-		QDEL_NULL(blood_display)
-		QDEL_NULL(vamprank_display)
-		QDEL_NULL(sunlight_display)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_BLOOD, update = FALSE)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_RANK, update = FALSE)
+		hud_used.remove_screen_object(HUD_BLOODSUCKER_SOL)
 
 /datum/antagonist/bloodsucker/proc/on_hud_created(datum/source)
 	SIGNAL_HANDLER
-	var/datum/hud/bloodsucker_hud = owner.current.hud_used
-
-	blood_display = new /atom/movable/screen/bloodsucker/blood_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += blood_display
-
-	vamprank_display = new /atom/movable/screen/bloodsucker/rank_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += vamprank_display
-
-	sunlight_display = new /atom/movable/screen/bloodsucker/sunlight_counter(null, bloodsucker_hud)
-	bloodsucker_hud.infodisplay += sunlight_display
-
-	bloodsucker_hud.show_hud(bloodsucker_hud.hud_version)
 	UnregisterSignal(owner.current, COMSIG_MOB_HUD_CREATED)
+
+	var/datum/hud/bloodsucker_hud = owner.current.hud_used
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/blood_counter, HUD_BLOODSUCKER_BLOOD, HUD_GROUP_INFO)
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/rank_counter, HUD_BLOODSUCKER_RANK, HUD_GROUP_INFO)
+	bloodsucker_hud.add_screen_object(/atom/movable/screen/bloodsucker/sunlight_counter, HUD_BLOODSUCKER_SOL, HUD_GROUP_INFO, update_screen = TRUE)
 
 /datum/antagonist/bloodsucker/get_admin_commands()
 	. = ..()
@@ -314,10 +296,17 @@
 
 /datum/antagonist/bloodsucker/get_preview_icon()
 
-	var/icon/final_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit)
-	final_icon.Blend(icon('icons/effects/blood.dmi', "uniformblood"), ICON_OVERLAY)
+	var/datum/universal_icon/final_icon = render_preview_outfit(/datum/outfit/bloodsucker_outfit)
+	var/datum/universal_icon/blood_icon = uni_icon('icons/effects/blood.dmi', "suitblood")
+	blood_icon.blend_color(BLOOD_COLOR_RED, ICON_MULTIPLY)
+	final_icon.blend_icon(blood_icon, ICON_OVERLAY)
 
 	return finish_preview_icon(final_icon)
+
+/datum/antagonist/bloodsucker/ui_data(mob/user)
+	var/list/data = ..()
+	data["total_blood_drank"] = total_blood_drank
+	return data
 
 /datum/antagonist/bloodsucker/ui_static_data(mob/user)
 	var/list/data = list()
@@ -431,7 +420,7 @@
 	if(HAS_TRAIT(owner.current, TRAIT_SKITTISH))
 		REMOVE_TRAIT(owner.current, TRAIT_SKITTISH, ROUNDSTART_TRAIT)
 	// Tongue & Language
-	owner.current.grant_all_languages(FALSE, FALSE, TRUE)
+	owner.current.get_language_holder().omnitongue = TRUE //Grants omnitongue
 	owner.current.grant_language(/datum/language/vampiric)
 	/// Clear Disabilities & Organs
 	heal_vampire_organs()

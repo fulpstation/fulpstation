@@ -26,9 +26,9 @@
 			if(2)
 				to_chat(target, span_warning("You hear an annoying buzz in your head."))
 				target.adjust_confusion(15 SECONDS)
-				target.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10, 160)
+				target.adjust_organ_loss(ORGAN_SLOT_BRAIN, 10, 160)
 			if(3)
-				target.adjust_hallucinations(120 SECONDS)
+				target.adjust_hallucinations(150 SECONDS)
 
 /obj/item/organ/heart/gland/mindshock/mind_control(command, mob/living/user)
 	if(!ownerCheck() || !mind_control_uses || active_mind_control)

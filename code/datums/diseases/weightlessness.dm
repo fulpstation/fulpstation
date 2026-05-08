@@ -1,21 +1,21 @@
 /datum/disease/weightlessness
 	name = "Localized Weightloss Malfunction"
 	max_stages = 4
-	spread_text = "On Contact"
+	spread_text = "Skin contact"
 	spread_flags = DISEASE_SPREAD_BLOOD | DISEASE_SPREAD_CONTACT_SKIN | DISEASE_SPREAD_CONTACT_FLUIDS
-	cure_text = "Liquid dark matter"
+	cure_text = /datum/reagent/liquid_dark_matter::name
 	cures = list(/datum/reagent/liquid_dark_matter)
 	agent = "Sub-quantum DNA Repulsion"
 	viable_mobtypes = list(/mob/living/carbon/human)
 	disease_flags = CAN_CARRY|CAN_RESIST|CURABLE
 	spreading_modifier = 0.5
 	cure_chance = 4
-	desc = "This disease results in a low level rewrite of the patient's bio-electric signature, causing them to reject the phenomena of \"weight\". Injestion of liquid dark matter tends to stabilize the field."
+	desc = "This disease results in a low level rewrite of the patient's bioelectric signature, causing them to reject the phenomena of \"weight\". Ingestion of liquid dark matter tends to stabilize the field."
 	severity = DISEASE_SEVERITY_MEDIUM
 	infectable_biotypes = MOB_ORGANIC
 
 
-/datum/disease/weightlessness/stage_act(seconds_per_tick, times_fired)
+/datum/disease/weightlessness/stage_act(seconds_per_tick)
 	. = ..()
 	if(!.)
 		return

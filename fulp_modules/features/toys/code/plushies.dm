@@ -153,28 +153,6 @@
 	squeak_override = list(
 		'sound/effects/meow1.ogg' = 1)
 
-
-/obj/item/toy/plush/shrimp
-	name = "shrimp plushie"
-	desc = "You're telling me THIS GUY fried my rice?"
-	icon = 'fulp_modules/icons/toys/toys.dmi'
-	icon_state = "shrimp"
-	attack_verb_continuous = list("shrimps", "skitters")
-	attack_verb_simple = list("shrimp","skitter")
-	squeak_override = list(
-		'fulp_modules/sounds/effects/kero.ogg' = 1
-	)
-	/// The rice the shrimp fried. The shrimp can only fry one rice
-	var/obj/item/food/fried_rice
-	/// Whether the shrimp has fried any rice
-	var/has_fried = FALSE
-
-/obj/item/toy/plush/shrimp/examine(mob/user)
-	. = ..()
-	if(has_fried)
-		. += span_notice("[p_Theyre()] all tuckered out.")
-
-
 /obj/item/toy/plush/phos
 	name = "phosphophyllite plushie"
 	desc = "Has a hardness of roughly 3.5 on Mohs' scale."
@@ -190,17 +168,20 @@
 		'sound/effects/rock/rocktap2.ogg' = 1
 	)
 	max_integrity = 250
-	grind_results = list(
+
+	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
+	/// Coded by referencing 'supermatter.dm'
+	var/holiday_edition = FALSE
+
+//I'm not a geologist so this may or mayn't be accurate
+/obj/item/toy/plush/phos/grind_results()
+	return list(
 		/datum/reagent/phosphorus = 5,
 		/datum/reagent/carbon = 2,
 		/datum/reagent/iron = 3,
 		/datum/reagent/oxygen = 2,
 		/datum/reagent/hydrogen = 4
-	) //I'm not a geologist so this may or mayn't be accurate
-
-	/// If true then the plushie will initialize with its holiday icon (which has a santa hat).
-	/// Coded by referencing 'supermatter.dm'
-	var/holiday_edition = FALSE
+	)
 
 /obj/item/toy/plush/phos/Initialize(mapload)
 	. = ..()

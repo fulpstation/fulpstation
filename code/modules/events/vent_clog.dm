@@ -50,7 +50,7 @@
 	filth_spawn_types = list(
 		/obj/effect/decal/cleanable/vomit,
 		/obj/effect/decal/cleanable/insectguts,
-		/obj/effect/decal/cleanable/oil,
+		/obj/effect/decal/cleanable/blood/oil,
 	)
 
 /datum/round_event/vent_clog/start()
@@ -77,8 +77,10 @@
 	var/static/list/mob_list = list(
 		/mob/living/basic/butterfly,
 		/mob/living/basic/cockroach,
+		/mob/living/basic/cockroach/bloodroach,
 		/mob/living/basic/spider/maintenance,
 		/mob/living/basic/mouse,
+		/mob/living/basic/snail,
 	)
 	return pick(mob_list)
 
@@ -218,7 +220,7 @@
 		/obj/effect/decal/cleanable/blood,
 		/obj/effect/decal/cleanable/insectguts,
 		/obj/effect/decal/cleanable/fuel_pool,
-		/obj/effect/decal/cleanable/oil,
+		/obj/effect/decal/cleanable/blood/oil,
 	)
 
 /datum/round_event/vent_clog/major/get_mob()
@@ -281,7 +283,7 @@
 	spawn_delay = rand(6, 25)
 	maximum_spawns = rand(MOB_SPAWN_MINIMUM, 10)
 	filth_spawn_types = list(
-		/obj/effect/decal/cleanable/xenoblood,
+		/obj/effect/decal/cleanable/blood/xeno,
 		/obj/effect/decal/cleanable/fuel_pool,
 		/obj/effect/decal/cleanable/greenglow,
 		/obj/effect/decal/cleanable/vomit,
@@ -295,11 +297,11 @@
 	var/static/list/mob_list = list(
 		/mob/living/basic/bear,
 		/mob/living/basic/cockroach/glockroach/mobroach,
+		/mob/living/basic/goose,
 		/mob/living/basic/lightgeist,
 		/mob/living/basic/mothroach,
 		/mob/living/basic/mushroom,
 		/mob/living/basic/viscerator,
-		/mob/living/simple_animal/hostile/retaliate/goose, //Janitors HATE geese.
 		/mob/living/basic/pet/gondola,
 	)
 	return pick(mob_list)

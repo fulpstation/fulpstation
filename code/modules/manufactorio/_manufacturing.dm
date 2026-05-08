@@ -16,7 +16,7 @@
 /obj/machinery/power/manufacturing/Initialize(mapload)
 	. = ..()
 	if(may_be_moved)
-		AddComponent(/datum/component/simple_rotation)
+		AddElement(/datum/element/simple_rotation)
 	if(anchored)
 		connect_to_network()
 
@@ -54,18 +54,14 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/power/manufacturing/screwdriver_act(mob/living/user, obj/item/tool)
-	if(default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
-		return ITEM_INTERACT_SUCCESS
-	return ITEM_INTERACT_BLOCKING
+	return default_deconstruction_screwdriver(user, tool)
 
 /obj/machinery/power/manufacturing/setDir(newdir)
 	. = ..()
 	update_appearance(UPDATE_OVERLAYS)
 
 /obj/machinery/power/manufacturing/crowbar_act(mob/living/user, obj/item/tool)
-	. = ITEM_INTERACT_BLOCKING
-	if(default_deconstruction_crowbar(tool))
-		return ITEM_INTERACT_SUCCESS
+	return default_deconstruction_crowbar(user, tool)
 
 /obj/machinery/power/manufacturing/proc/generate_io_overlays(direction, color, offsets_override)
 	var/list/dir_offset
@@ -76,12 +72,12 @@
 		dir_offset[1] *= 32
 		dir_offset[2] *= 32
 	var/image/nonemissive = image(icon='icons/obj/doors/airlocks/station/overlays.dmi', icon_state="unres_[direction]")
-	nonemissive.pixel_x = dir_offset[1]
-	nonemissive.pixel_y = dir_offset[2]
+	nonemissive.pixel_w = dir_offset[1]
+	nonemissive.pixel_z = dir_offset[2]
 	nonemissive.color = color
 	var/mutable_appearance/emissive = emissive_appearance(nonemissive.icon, nonemissive.icon_state, offset_spokesman = src, alpha = nonemissive.alpha)
-	emissive.pixel_y = nonemissive.pixel_y
-	emissive.pixel_x = nonemissive.pixel_x
+	emissive.pixel_w = nonemissive.pixel_w
+	emissive.pixel_z = nonemissive.pixel_z
 	return list(nonemissive, emissive)
 
 /// Returns whatever object it may output, or null if it cant do that

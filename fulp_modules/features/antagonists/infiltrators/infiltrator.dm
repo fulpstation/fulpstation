@@ -1,7 +1,7 @@
 /datum/antagonist/traitor/fulp_infiltrator
 	name = "Infiltrator"
 	antagpanel_category = "Infiltrator"
-	job_rank = ROLE_INFILTRATOR
+	pref_flag = ROLE_INFILTRATOR
 	hijack_speed = 1
 	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"
@@ -33,10 +33,7 @@
 /datum/antagonist/traitor/fulp_infiltrator/on_gain()
 	. = ..()
 	owner.current.mind.set_assigned_role(SSjob.get_job_type(/datum/job/infiltrator))
-	owner.current.mind.special_role = ROLE_INFILTRATOR
 	uplink_handler.has_progression = FALSE
-	uplink_handler.has_objectives = FALSE
-	uplink_handler.maximum_potential_objectives = 0
 
 /datum/antagonist/traitor/fulp_infiltrator/admin_add(datum/mind/new_owner, mob/admin)
 	var/choice = tgui_input_list(admin, "What affiliation would you like [new_owner] to have?", "Affiliation", possible_employers)
@@ -77,7 +74,7 @@
 	)
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/chameleon/operative
-	l_hand = /obj/item/tank/jetpack/oxygen
+	l_hand = /obj/item/tank/jetpack
 	shoes = /obj/item/clothing/shoes/jackboots
 	gloves = /obj/item/clothing/gloves/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen
@@ -114,7 +111,7 @@
 /datum/antagonist/infiltrator_backup
 	name = "Infiltrator Reinforcement"
 	antagpanel_category = "Infiltrator"
-	job_rank = ROLE_INFILTRATOR
+	pref_flag = ROLE_INFILTRATOR
 	hijack_speed = 1
 	hud_icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	antag_hud_name = "infil_hud"

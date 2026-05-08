@@ -11,6 +11,7 @@
 	desc = "A gate able to perform mid-depth scans on any organisms who pass under it."
 	icon = 'icons/obj/machines/scangate.dmi'
 	icon_state = "scangate"
+	base_icon_state = "scangate"
 	layer = ABOVE_MOB_LAYER
 	circuit = /obj/item/circuitboard/machine/scanner_gate
 	COOLDOWN_DECLARE(next_beep)
@@ -39,7 +40,7 @@
 	///Base false positive/negative chance
 	var/base_false_beep = 5
 	///List of species that can be scanned by the gate. Supports adding more species' IDs during in-game.
-	var/list/available_species = list(
+	var/static/list/available_species = list(
 		SPECIES_HUMAN,
 		SPECIES_LIZARD,
 		SPECIES_FLYPERSON,
@@ -50,6 +51,31 @@
 		SPECIES_PODPERSON,
 		SPECIES_GOLEM,
 		SPECIES_ZOMBIE,
+	)
+	/// All scan modes available to the scanner
+	var/static/list/all_modes = list(
+		SCANGATE_NONE,
+		SCANGATE_MINDSHIELD,
+		SCANGATE_DISEASE,
+		SCANGATE_GUNS,
+		SCANGATE_WANTED,
+		SCANGATE_SPECIES,
+		SCANGATE_NUTRITION,
+	)
+	/// All disease severity thresholds available to the scanner
+	var/static/list/all_disease_thresholds = list(
+		DISEASE_SEVERITY_POSITIVE,
+		DISEASE_SEVERITY_NONTHREAT,
+		DISEASE_SEVERITY_MINOR,
+		DISEASE_SEVERITY_MEDIUM,
+		DISEASE_SEVERITY_HARMFUL,
+		DISEASE_SEVERITY_DANGEROUS,
+		DISEASE_SEVERITY_BIOHAZARD,
+	)
+	/// All nutrition levels available to the scanner
+	var/static/list/nutrition_modes = list(
+		"Starving",
+		"Obese",
 	)
 	/// Overlay object we're using for scanlines
 	var/obj/effect/overlay/scanline = null
@@ -62,6 +88,7 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+	AddElement(/datum/element/simple_rotation, ROTATION_IGNORE_ANCHORED|ROTATION_REQUIRE_WRENCH|ROTATION_NEEDS_UNBLOCKED)
 	register_context()
 
 /obj/machinery/scanner_gate/Destroy(force)
@@ -72,6 +99,10 @@
 	. = ..()
 	for(var/datum/stock_part/scanning_module/scanning_module in component_parts)
 		minus_false_beep = scanning_module.tier //The better are scanninning modules - the lower is chance of False Positives
+
+/obj/machinery/scanner_gate/setDir(newdir)
+	. = ..()
+	scanline?.setDir(newdir)
 
 /obj/machinery/scanner_gate/examine(mob/user)
 	. = ..()
@@ -115,27 +146,39 @@
 		return
 	set_scanline("passive")
 
-/obj/machinery/scanner_gate/attackby(obj/item/attacking_item, mob/user, params)
-	var/obj/item/card/id/card = attacking_item.GetID()
-	if(card)
-		if(locked)
-			if(allowed(user))
-				locked = FALSE
-				req_access = list()
-				to_chat(user, span_notice("You unlock [src]."))
-		else if(!(obj_flags & EMAGGED))
-			to_chat(user, span_notice("You lock [src] with [attacking_item]."))
-			var/list/access = attacking_item.GetAccess()
-			req_access = access
-			locked = TRUE
-		else
-			to_chat(user, span_warning("You try to lock [src] with [attacking_item], but nothing happens."))
-	else
-		if(!locked && default_deconstruction_screwdriver(user, "[initial(icon_state)]_open", initial(icon_state), attacking_item))
-			return
-		if(panel_open && is_wire_tool(attacking_item))
-			wires.interact(user)
-	return ..()
+/obj/machinery/scanner_gate/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(panel_open && is_wire_tool(tool))
+		wires.interact(user)
+		return ITEM_INTERACT_SUCCESS
+
+	var/obj/item/card/id/card = tool.GetID()
+	if(isnull(card))
+		return NONE
+
+	if(locked)
+		if(!allowed(user))
+			return ITEM_INTERACT_BLOCKING
+
+		locked = FALSE
+		req_access = list()
+		balloon_alert(user, "unlocked")
+		return ITEM_INTERACT_SUCCESS
+
+	if(obj_flags & EMAGGED)
+		balloon_alert(user, "nothing happens!")
+		return ITEM_INTERACT_BLOCKING
+
+	balloon_alert(user, "locked")
+	req_access = tool.GetAccess() // returns a copy so this is chill
+	locked = TRUE
+	return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/scanner_gate/screwdriver_act(mob/living/user, obj/item/tool)
+	return locked ? NONE : default_deconstruction_screwdriver(user, tool)
+
+/obj/machinery/scanner_gate/update_icon_state()
+	. = ..()
+	icon_state = panel_open ? "[base_icon_state]_open" : base_icon_state
 
 /obj/machinery/scanner_gate/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)
@@ -292,6 +335,8 @@
 	switch(action)
 		if("set_mode")
 			var/new_mode = params["new_mode"]
+			if(!new_mode || !(new_mode in all_modes))
+				return
 			scangate_mode = new_mode
 			. = TRUE
 		if("toggle_reverse")
@@ -303,26 +348,25 @@
 			. = TRUE
 		if("set_disease_threshold")
 			var/new_threshold = params["new_threshold"]
+			if(!new_threshold || !(new_threshold in all_disease_thresholds))
+				return
 			disease_threshold = new_threshold
 			. = TRUE
 		if("set_target_species")
 			var/new_specie_id = params["new_species_id"]
-			if(!(new_specie_id in available_species))
+			if(!new_specie_id || !(new_specie_id in available_species))
 				return
 			detect_species_id = new_specie_id
 			. = TRUE
 		if("set_target_nutrition")
 			var/new_nutrition = params["new_nutrition"]
-			var/nutrition_list = list(
-				"Starving",
-				"Obese"
-			)
-			if(new_nutrition && (new_nutrition in nutrition_list))
-				switch(new_nutrition)
-					if("Starving")
-						detect_nutrition = NUTRITION_LEVEL_STARVING
-					if("Obese")
-						detect_nutrition = NUTRITION_LEVEL_FAT
+			if(!new_nutrition || !(new_nutrition in nutrition_modes))
+				return
+			switch(new_nutrition)
+				if("Starving")
+					detect_nutrition = NUTRITION_LEVEL_STARVING
+				if("Obese")
+					detect_nutrition = NUTRITION_LEVEL_FAT
 			. = TRUE
 
 /obj/machinery/scanner_gate/preset_guns

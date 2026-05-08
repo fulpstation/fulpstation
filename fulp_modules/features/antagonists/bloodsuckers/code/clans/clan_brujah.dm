@@ -77,7 +77,7 @@
 
 /datum/objective/brujah_clan_objective/update_explanation_text()
 	if(target?.current)
-		explanation_text = "Subvert the authority of [target.name] the [!target_role_type ? target.assigned_role.title : target.special_role] \
+		explanation_text = "Subvert the authority of [target.name] the [!target_role_type ? target.assigned_role.title : english_list(target.get_special_roles())] \
 			by turning [target.p_them()] into a Discordant Vassal with a persuassion rack."
 	else
 		explanation_text = "Free objective."

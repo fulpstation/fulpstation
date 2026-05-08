@@ -7,10 +7,9 @@
 	zone = BODY_ZONE_HEAD
 	slot = ORGAN_SLOT_EXTERNAL_SNOUT
 
-	preference = "feature_protogen_snout"
 	external_bodyshapes = BODYSHAPE_SNOUTED
 
-	dna_block = DNA_SNOUT_BLOCK
+	dna_block = /datum/dna_block/feature/accessory/snout
 	restyle_flags = EXTERNAL_RESTYLE_FLESH
 
 	bodypart_overlay = /datum/bodypart_overlay/mutant/snout/protogen
