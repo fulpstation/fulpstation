@@ -181,6 +181,7 @@
 #define SPECIES_HUMAN "human"
 #define SPECIES_JELLYPERSON "jelly"
 #define SPECIES_SLIMEPERSON "slime"
+#define SPECIES_SPIRIT "spirit"
 #define SPECIES_LUMINESCENT "luminescent"
 #define SPECIES_STARGAZER "stargazer"
 #define SPECIES_LIZARD "lizard"
@@ -836,7 +837,8 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 	"[HEAD_LAYER]" = UPPER_BODY,
 	// Hair will get cut off by filter
 	"[HAIR_LAYER]" = UPPER_BODY,
-	"[BENEATH_HAIR_LAYER]" = UPPER_BODY,
+	// Doesn't do much
+	"[EYES_LAYER]" = UPPER_BODY,
 	// Long belts (sabre sheathe) will get cut off by filter
 	"[BELT_LAYER]" = LOWER_BODY,
 	// Everything below looks fine with or without a filter, so we can skip it and just offset
@@ -853,6 +855,7 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 	"[ID_LAYER]" = UPPER_BODY,
 	"[FACEMASK_LAYER]" = UPPER_BODY,
 	"[LOW_FACEMASK_LAYER]" = UPPER_BODY,
+	"[BENEATH_HAIR_LAYER]" = UPPER_BODY, // alt mask layer
 	// These two are cached, and have their appearance shared(?), so it's safer to just not touch it
 	"[MUTATIONS_LAYER]" = NO_MODIFY,
 	"[FRONT_MUTATIONS_LAYER]" = NO_MODIFY,
@@ -861,7 +864,6 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 	// BACK_LAYER (backpacks are big)
 	// BODYPARTS_HIGH_LAYER (arms)
 	// BODY_LAYER (body markings (full body), underwear (full body))
-	// EYES_LAYER,
 	// BODY_ADJ_LAYER (external organs like wings)
 	// BODY_BEHIND_LAYER (external organs like wings)
 	// BODY_FRONT_LAYER (external organs like wings)
@@ -968,6 +970,14 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 #define NO_BUCKLE_LYING -1
 /// Possible value of [/atom/movable/buckle_dir]. If set to a different (positive-or-zero) value than this, the buckling thing will force a dir on the buckled.
 #define BUCKLE_MATCH_DIR -1
+
+// Defines for [/datum/component/riding/var/other_unbuckle]
+/// Other mobs cannot force riders to unbuckle in any means
+#define CANNOT_FORCE_UNBUCKLE 0
+/// Other mobs can force riders to unbuckle by simply clicking on the parent
+#define CAN_FORCE_UNBUCKLE 1
+/// Other mobs can force riders to unbuckle by disarming the parent or the rider minimum twice
+#define CAN_DISARM_UNBUCKLE 2
 
 // Flags for fully_heal().
 
