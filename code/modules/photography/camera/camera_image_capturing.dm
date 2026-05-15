@@ -14,19 +14,9 @@
 
 #define PHYSICAL_POSITION(atom) ((atom.y * ICON_SIZE_Y) + (atom.pixel_y))
 
-/proc/camera_get_icon(
-	list/turfs,
-	turf/center,
-	psize_x = 96,
-	psize_y = 96,
-	datum/turf_reservation/clone_area,
-	size_x,
-	size_y,
-	total_x,
-	total_y,
-	see_ghosts,
-	monochrome,
-)
+/obj/item/camera/proc/camera_get_icon(list/turfs, turf/center, datum/turf_reservation/clone_area)
+	PRIVATE_PROC(TRUE)
+
 	var/list/atoms = list()
 	var/list/lighting = list()
 	var/skip_normal = FALSE
@@ -36,35 +26,34 @@
 	backdrop.blend_mode = BLEND_OVERLAY
 	backdrop.color = "#292319"
 
-	if(istype(clone_area) && total_x == clone_area.width && total_y == clone_area.height && size_x >= 0 && size_y > 0)
-		var/turf/bottom_left = clone_area.bottom_left_turfs[1]
-		var/cloned_center_x = round(bottom_left.x + ((total_x - 1) / 2))
-		var/cloned_center_y = round(bottom_left.y + ((total_y - 1) / 2))
-		for(var/t in turfs)
-			var/turf/T = t
-			var/offset_x = T.x - center.x
-			var/offset_y = T.y - center.y
-			var/turf/newT = locate(cloned_center_x + offset_x, cloned_center_y + offset_y, bottom_left.z)
-			if(!(newT in clone_area.reserved_turfs)) //sanity check so we don't overwrite other areas somehow
-				continue
-			atoms += new /obj/effect/appearance_clone(newT, T)
-			if(T.loc.icon_state)
-				atoms += new /obj/effect/appearance_clone(newT, T.loc)
-			if(T.lighting_object)
-				var/obj/effect/appearance_clone/lighting_overlay = new(newT)
-				lighting_overlay.appearance = T.lighting_object.current_underlay
-				lighting_overlay.underlays += backdrop
-				lighting_overlay.blend_mode = BLEND_MULTIPLY
-				lighting += lighting_overlay
-			for(var/atom/found_atom as anything in T.contents)
-				if(HAS_TRAIT(found_atom, TRAIT_INVISIBLE_TO_CAMERA))
-					if(see_ghosts)
-						atoms += new /obj/effect/appearance_clone(newT, found_atom)
-				else if(!found_atom.invisibility || (see_ghosts && isobserver(found_atom)))
+	var/turf/bottom_left = clone_area.bottom_left_turfs[1]
+	var/cloned_center_x = round(bottom_left.x + ((clone_area.width - 1) / 2))
+	var/cloned_center_y = round(bottom_left.y + ((clone_area.height - 1) / 2))
+	for(var/t in turfs)
+		var/turf/T = t
+		var/offset_x = T.x - center.x
+		var/offset_y = T.y - center.y
+		var/turf/newT = locate(cloned_center_x + offset_x, cloned_center_y + offset_y, bottom_left.z)
+		if(!(newT in clone_area.reserved_turfs)) //sanity check so we don't overwrite other areas somehow
+			continue
+		atoms += new /obj/effect/appearance_clone(newT, T)
+		if(T.loc.icon_state)
+			atoms += new /obj/effect/appearance_clone(newT, T.loc)
+		if(T.lighting_object)
+			var/obj/effect/appearance_clone/lighting_overlay = new(newT)
+			lighting_overlay.appearance = T.lighting_object.appearance
+			lighting_overlay.underlays += backdrop
+			lighting_overlay.blend_mode = BLEND_MULTIPLY
+			lighting += lighting_overlay
+		for(var/atom/found_atom as anything in T.contents)
+			if(HAS_TRAIT(found_atom, TRAIT_INVISIBLE_TO_CAMERA))
+				if(see_ghosts)
 					atoms += new /obj/effect/appearance_clone(newT, found_atom)
-		skip_normal = TRUE
-		wipe_atoms = TRUE
-		center = locate(cloned_center_x, cloned_center_y, bottom_left.z)
+			else if(!found_atom.invisibility || (see_ghosts && isobserver(found_atom)))
+				atoms += new /obj/effect/appearance_clone(newT, found_atom)
+	skip_normal = TRUE
+	wipe_atoms = TRUE
+	center = locate(cloned_center_x, cloned_center_y, bottom_left.z)
 
 	if(!skip_normal)
 		for(var/i in turfs)
@@ -72,7 +61,7 @@
 			atoms += T
 			if(T.lighting_object)
 				var/obj/effect/appearance_clone/lighting_overlay = new(T)
-				lighting_overlay.appearance = T.lighting_object.current_underlay
+				lighting_overlay.appearance = T.lighting_object.appearance
 				lighting_overlay.underlays += backdrop
 				lighting_overlay.blend_mode = BLEND_MULTIPLY
 				lighting += lighting_overlay
@@ -83,8 +72,11 @@
 				atoms += A
 			CHECK_TICK
 
+	var/psize_x = clone_area.width * ICON_SIZE_X
+	var/psize_y = clone_area.height * ICON_SIZE_Y
 	var/icon/res = icon('icons/blanks/96x96.dmi', "nothing")
 	res.Scale(psize_x, psize_y)
+
 	atoms += lighting
 
 	var/list/sorted = list()
@@ -146,7 +138,7 @@
 					img.Scale(base_w * abs(decompose.scale_x), base_h * decompose.scale_y)
 					if(decompose.scale_x < 0)
 						img.Flip(EAST)
-					xo -= base_w * (decompose.scale_x - SIGN(decompose.scale_x)) / 2 * SIGN(decompose.scale_x)
+					xo -= base_w * (decompose.scale_x - sign(decompose.scale_x)) / 2 * sign(decompose.scale_x)
 					yo -= base_h * (decompose.scale_y - 1) / 2
 				// Rotation
 				if(decompose.rotation != 0)
@@ -163,114 +155,9 @@
 	else
 		QDEL_LIST(lighting)
 
-	if(monochrome)
+	if(print_monochrome)
 		res.GrayScale()
 
 	return res
 
 #undef PHYSICAL_POSITION
-
-/proc/take_photo(
-	obj/item/camera/camera_item,
-	atom/target,
-	mob/user,
-	size_x = 1,
-	size_y = 1,
-	datum/callback/post_image_callback,
-	see_ghosts,
-	monochrome,
-)
-	var/turf/target_turf = get_turf(target)
-	if(!isturf(target_turf))
-		return FALSE
-	size_x = clamp(size_x, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	size_y = clamp(size_y, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
-	var/list/mobs_spotted = list()
-	var/list/dead_spotted = list()
-	var/list/viewlist = getviewsize(user?.client?.view || world.view)
-	var/view_range = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
-	var/viewer = get_turf(user?.client?.eye || user || target) // not sure why target is a fallback
-	var/list/seen = get_hear_turfs(view_range, viewer)
-	var/list/turfs = list()
-	var/list/mobs = list()
-	var/blueprints = FALSE
-	var/clone_area = SSmapping.request_turf_block_reservation(size_x * 2 + 1, size_y * 2 + 1, 1)
-	///list of human names taken on picture
-	var/list/names = list()
-	var/cameranet_user = isAI(user) || istype(viewer, /mob/eye/camera)
-
-	var/width = size_x * 2 + 1
-	var/height = size_y * 2 + 1
-	for(var/turf/seen_placeholder as anything in CORNER_BLOCK_OFFSET(target_turf, width, height, -size_x, -size_y))
-		if(isnull(seen_placeholder))
-			continue
-
-		if(cameranet_user && !SScameras.is_visible_by_cameras(seen_placeholder))
-			continue
-		if(!cameranet_user && !(seen_placeholder in seen))
-			continue
-
-		//Multi-z photography
-		var/turf/target_placeholder = seen_placeholder
-		while(!isnull(target_placeholder))
-			turfs += target_placeholder
-			for(var/mob/mob_there in target_placeholder)
-				mobs += mob_there
-			if(locate(/obj/item/blueprints) in target_placeholder)
-				blueprints = TRUE
-
-			if(isopenspaceturf(target_placeholder) || istype(target_placeholder, /turf/open/floor/glass))
-				target_placeholder = GET_TURF_BELOW(target_placeholder)
-			else
-				break
-
-	// do this before picture is taken so we can reveal revenants for the photo
-	if(post_image_callback)
-		post_image_callback.Invoke(mobs)
-
-	if(camera_item)
-		for(var/mob/mob as anything in mobs)
-			mobs_spotted += mob
-			if(mob.stat == DEAD)
-				dead_spotted += mob
-			var/info = mob.get_photo_description(camera_item)
-			if(!isnull(info))
-				desc += info
-
-	var/psize_x = (size_x * 2 + 1) * ICON_SIZE_X
-	var/psize_y = (size_y * 2 + 1) * ICON_SIZE_Y
-	var/icon/get_icon = camera_get_icon(
-		turfs,
-		target_turf,
-		psize_x,
-		psize_y,
-		clone_area,
-		size_x,
-		size_y,
-		(size_x * 2 + 1),
-		(size_y * 2 + 1),
-		see_ghosts,
-		monochrome,
-	)
-	qdel(clone_area)
-	get_icon.Blend("#000", ICON_UNDERLAY)
-	for(var/mob/living/carbon/human/person in mobs)
-		if(person.obscured_slots & HIDEFACE)
-			continue
-		names += "[person.name]"
-
-	var/datum/picture/picture = new(
-		"picture",
-		desc.Join("<br>"),
-		mobs_spotted,
-		dead_spotted,
-		names,
-		get_icon,
-		null,
-		psize_x,
-		psize_y,
-		blueprints,
-		can_see_ghosts = see_ghosts,
-	)
-	return picture

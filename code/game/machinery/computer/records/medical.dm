@@ -100,7 +100,7 @@
 			if(!content)
 				return FALSE
 
-			var/datum/medical_note/new_note = new(usr.name, content, station_time_timestamp())
+			var/datum/medical_note/new_note = new(usr.name, content, round_timestamp())
 			while(length(target.medical_notes) > 2)
 				target.medical_notes.Cut(1, 2)
 
@@ -124,6 +124,8 @@
 				return FALSE
 
 			target.physical_status = physical_status
+			if(physical_status != PHYSICAL_DECEASED)
+				target.cause_of_death = null
 
 			if(physical_status != PHYSICAL_DECEASED)
 				target.cause_of_death = null

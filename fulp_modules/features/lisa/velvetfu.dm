@@ -59,11 +59,12 @@
 	name = "Receding Stance - Regenerates Stamina, takes time to do."
 	button_icon = 'fulp_modules/icons/lisa/stances.dmi'
 	button_icon_state = "receding_stance"
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED|AB_CHECK_INCAPACITATED|AB_CHECK_LYING|AB_CHECK_OPEN_TURF
 	var/stancing = FALSE
 
 /datum/action/receding_stance/Trigger(trigger_flags)
-	if(owner.incapacitated)
-		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
+	. = ..()
+	if(!.)
 		return
 	if(stancing)
 		to_chat(owner, span_warning("You're already stancing."))
@@ -92,10 +93,11 @@
 	name = "Twisted Stance - Regenerates a lot of stamina, deals brute damage."
 	button_icon = 'fulp_modules/icons/lisa/stances.dmi'
 	button_icon_state = "twisted_stance"
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED|AB_CHECK_INCAPACITATED|AB_CHECK_LYING|AB_CHECK_OPEN_TURF
 
 /datum/action/twisted_stance/Trigger(trigger_flags)
-	if(owner.incapacitated)
-		to_chat(owner, span_warning("You can't do stances while incapacitated..."))
+	. = ..()
+	if(!.)
 		return
 	var/mob/living/user = owner
 	var/datum/martial_art/velvetfu/art = GET_ACTIVE_MARTIAL_ART(user)

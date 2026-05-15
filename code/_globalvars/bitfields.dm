@@ -27,6 +27,18 @@ GLOBAL_LIST_INIT(bitfields, generate_bitfields())
 	var/name = pick(flags)
 	return flags[name]
 
+/// Returns null if no such field exists, a list of all matching flags by name otherwise
+/proc/get_matching_bitflags(var_name, value)
+	var/list/valid_bitflags = get_valid_bitflags(var_name)
+	if(!length(valid_bitflags))
+		return null
+
+	var/list/flags = list()
+	for (var/bit_name in valid_bitflags)
+		if (value & valid_bitflags[bit_name])
+			flags += bit_name
+	return flags
+
 DEFINE_BITFIELD(admin_flags, list(
 	"ADMIN" = R_ADMIN,
 	"AUTOLOGIN" = R_AUTOADMIN,
@@ -494,9 +506,7 @@ DEFINE_BITFIELD(chemical_flags, list(
 ))
 
 DEFINE_BITFIELD(reaction_flags, list(
-	"REACTION_CLEAR_IMPURE" = REACTION_CLEAR_IMPURE,
 	"REACTION_CLEAR_INVERSE" = REACTION_CLEAR_INVERSE,
-	"REACTION_CLEAR_RETAIN" = REACTION_CLEAR_RETAIN,
 	"REACTION_INSTANT" = REACTION_INSTANT,
 	"REACTION_HEAT_ARBITARY" = REACTION_HEAT_ARBITARY,
 	"REACTION_COMPETITIVE" = REACTION_COMPETITIVE,

@@ -12,6 +12,7 @@ export const COLORS = {
     BG_SECOND: '#151515',
     BUTTON: '#404040',
     TEXT: '#A6A6A6',
+    TEXT_IMPORTANT: '#A6A6A6',
     BG_IMPORTANT: '#492020',
   },
   LIGHT: {
@@ -19,7 +20,8 @@ export const COLORS = {
     BG_SECOND: '#FFFFFF',
     BUTTON: '#FFFFFF',
     TEXT: '#000000',
-    BG_IMPORTANT: '#492020',
+    TEXT_IMPORTANT: '#A6A6A6',
+    BG_IMPORTANT: '#910707',
   },
 } as const;
 

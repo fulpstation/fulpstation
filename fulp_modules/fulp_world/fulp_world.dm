@@ -27,7 +27,7 @@
 
 	s += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	s += "<br>Roleplay: \[<b>Medium</b>\]"
-	s += "<br>Time: \[<b>[gameTimestamp("hh:mm")]</b>\]"
+	s += "<br>Time: \[<b>[round_timestamp("hh:mm")]</b>\]"
 	s += "<br>Map: \[<b>[SSmapping.current_map.map_name]</b>"//\] // Since this is the last line, the ] is done automatically for us.
 
 	status = s
