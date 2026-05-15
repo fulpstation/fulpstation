@@ -61,6 +61,7 @@
 	//A lot of this is extremely similar to /proc/healthscan() - but with different formatting, no color, and some added/removed info
 	//Does not list quirks/exhaustion/how to repair wounds
 	//DOES list wound sources/
+	var/list/autopsy_information = list()
 	autopsy_information += "Autopsy Coroner - [user.name]<hr>"
 
 	autopsy_information += "Analyzing results for <b>[scanned.name]</b>:</br></br>"
