@@ -127,9 +127,6 @@
 			if(physical_status != PHYSICAL_DECEASED)
 				target.cause_of_death = null
 
-			if(physical_status != PHYSICAL_DECEASED)
-				target.cause_of_death = null
-
 			return TRUE
 
 		if("set_mental_status")
