@@ -30,8 +30,6 @@
 	msg = keywords_lookup(msg)
 	if(src.key == "[CONFIG_GET(string/headofpseudostaff)]")
 		msg = "<b><font color = #A097FE><span class='prefix'>HOP:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
-	else if(mentor_datum?.is_contributor)
-		msg = "<b><font color = #16abf9><span class='prefix'>CONTRIB:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
 	else if(holder)
 		msg = "<b><font color = #8A2BE2><span class='prefix'>STAFF:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
 	else

@@ -58,10 +58,7 @@
 		if(GLOB.deadmins[mentor_client.ckey] && !(mentor_client.key == "[CONFIG_GET(string/headofpseudostaff)]"))
 			continue
 
-		if(mentor_client.mentor_datum.is_contributor)
-			returnable_list += "• [mentor_client] is a Contributor"
-		else
-			returnable_list += "• [mentor_client] is a Mentor"
+		returnable_list += "• [mentor_client] is a Mentor"
 
 	return returnable_list
 
@@ -75,8 +72,6 @@
 
 		if(GLOB.deadmins[mentor_client.ckey])
 			mentor_strings += "\t[mentor_client] is a Deadmin"
-		else if(mentor_client.mentor_datum.is_contributor)
-			mentor_strings += "\t[mentor_client] is a Contributor"
 		else
 			mentor_strings += "\t[mentor_client] is a Mentor"
 
