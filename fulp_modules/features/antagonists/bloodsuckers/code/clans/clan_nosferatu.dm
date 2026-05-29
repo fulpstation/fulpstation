@@ -47,7 +47,10 @@
 			our_switch.interact(source.owner.current)
 
 /datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
-	vassaldatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_NUDE, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
+	ADD_TRAIT(vassaldatum.owner.current, TRAIT_VENTCRAWLER_NUDE, BLOODSUCKER_TRAIT)
+	var/obj/item/bodypart/head = vassaldatum.owner.current.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		ADD_TRAIT(head, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
 
 ///Called when Bloodsucker organs are all revived, we'll ensure the head (new or not) is still disfigured.
