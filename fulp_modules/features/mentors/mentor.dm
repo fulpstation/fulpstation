@@ -14,10 +14,6 @@ GLOBAL_PROTECT(mentor_href_token)
 	var/href_token
 	///The mob currently being followed with mfollow.
 	var/mob/following
-	/// Are we a Contributor?
-	var/is_contributor = FALSE
-	///List of all contributors for special MSAY text.
-	var/static/list/contributor_list = world.file2list("[global.config.directory]/contributors.txt")
 
 /datum/mentors/New(ckey)
 	if(!ckey)
@@ -37,8 +33,6 @@ GLOBAL_PROTECT(mentor_href_token)
 		owner.mentor_datum = src
 		owner.add_mentor_verbs()
 		GLOB.mentors += owner
-	if(ckey in contributor_list)
-		is_contributor = TRUE
 
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
 	var/tok = GLOB.mentor_href_token
