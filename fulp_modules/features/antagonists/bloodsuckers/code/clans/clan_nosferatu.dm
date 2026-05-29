@@ -12,19 +12,27 @@
 
 /datum/bloodsucker_clan/nosferatu/New(datum/antagonist/bloodsucker/owner_datum)
 	. = ..()
+	RegisterSignal(bloodsuckerdatum, COMSIG_BLOODSUCKER_REVIVAL, PROC_REF(on_organs_revived))
 	for(var/datum/action/cooldown/bloodsucker/power as anything in bloodsuckerdatum.powers)
 		if(istype(power, /datum/action/cooldown/bloodsucker/masquerade) || istype(power, /datum/action/cooldown/bloodsucker/veil))
 			bloodsuckerdatum.RemovePower(power)
 	if(!bloodsuckerdatum.owner.current.has_quirk(/datum/quirk/badback))
 		bloodsuckerdatum.owner.current.add_quirk(/datum/quirk/badback)
-	bloodsuckerdatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_ALWAYS, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
+	ADD_TRAIT(bloodsuckerdatum.owner.current, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
+	var/obj/item/bodypart/head = bloodsuckerdatum.owner.current.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		ADD_TRAIT(head, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 
 /datum/bloodsucker_clan/nosferatu/Destroy(force)
+	UnregisterSignal(bloodsuckerdatum, COMSIG_BLOODSUCKER_REVIVAL)
 	for(var/datum/action/cooldown/bloodsucker/power in bloodsuckerdatum.powers)
 		bloodsuckerdatum.RemovePower(power)
 	bloodsuckerdatum.give_starting_powers()
 	bloodsuckerdatum.owner.current.remove_quirk(/datum/quirk/badback)
-	bloodsuckerdatum.owner.current.remove_traits(list(TRAIT_VENTCRAWLER_ALWAYS, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
+	REMOVE_TRAIT(bloodsuckerdatum.owner.current, TRAIT_VENTCRAWLER_ALWAYS, BLOODSUCKER_TRAIT)
+	var/obj/item/bodypart/head = bloodsuckerdatum.owner.current.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		REMOVE_TRAIT(head, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 	return ..()
 
 /datum/bloodsucker_clan/nosferatu/handle_clan_life(datum/antagonist/bloodsucker/source)
@@ -41,6 +49,14 @@
 /datum/bloodsucker_clan/nosferatu/on_favorite_vassal(datum/antagonist/bloodsucker/source, datum/antagonist/vassal/favorite/vassaldatum)
 	vassaldatum.owner.current.add_traits(list(TRAIT_VENTCRAWLER_NUDE, TRAIT_DISFIGURED), BLOODSUCKER_TRAIT)
 	to_chat(vassaldatum.owner.current, span_notice("Additionally, you can now ventcrawl while naked, and are permanently disfigured."))
+
+///Called when Bloodsucker organs are all revived, we'll ensure the head (new or not) is still disfigured.
+/datum/bloodsucker_clan/nosferatu/proc/on_organs_revived(datum/antagonist/bloodsucker/source)
+	SIGNAL_HANDLER
+
+	var/obj/item/bodypart/head = source.owner.current.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		ADD_TRAIT(head, TRAIT_DISFIGURED, BLOODSUCKER_TRAIT)
 
 /**
  * Clan objective

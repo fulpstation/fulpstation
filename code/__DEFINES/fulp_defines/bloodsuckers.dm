@@ -111,6 +111,8 @@
 #define COMSIG_SOL_WARNING_GIVEN "comsig_sol_warning_given"
 ///Called on a Bloodsucker's Lifetick.
 #define COMSIG_BLOODSUCKER_ON_LIFETICK "comsig_bloodsucker_on_lifetick"
+///Called when a Bloodsucker's organs are all revived. /proc/heal_vampire_organs()
+#define COMSIG_BLOODSUCKER_REVIVAL "bloodsucker_revival"
 
 #define DANGER_LEVEL_FIRST_WARNING 1
 #define DANGER_LEVEL_SECOND_WARNING 2
