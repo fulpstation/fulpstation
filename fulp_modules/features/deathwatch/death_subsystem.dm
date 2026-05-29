@@ -1,6 +1,7 @@
 SUBSYSTEM_DEF(death_photos)
 	name = "Death Photos"
 	can_fire = FALSE
+	wait = 0.5 SECONDS
 	///The camera we use to take photos of dead people with.
 	var/obj/item/camera/death_camera/death_camera
 	var/list/mob/living/mobs_to_photograph = list()
