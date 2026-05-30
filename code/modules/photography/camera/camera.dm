@@ -226,7 +226,7 @@
 		if(!SScameras.is_visible_by_cameras(target_turf))
 			blending = FALSE
 			return
-	else if(!(target_turf in view(view_size, get_turf(user))))
+	else if(!(target_turf in view(view_size, user)))
 		blending = FALSE
 		return
 
