@@ -4,7 +4,7 @@ import os
 import re
 import sys
 
-parent_directory = "code/**/*.dm"
+parent_directory = "*/**/*.dm"
 
 output_file_name = "define_sanity_output.txt"
 how_to_fix_message = "Please #undef the above defines or remake them as global defines in the code/__DEFINES directory."
