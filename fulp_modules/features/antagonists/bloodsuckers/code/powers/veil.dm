@@ -26,7 +26,8 @@
 	var/prev_underwear
 	var/prev_undershirt
 	var/prev_socks
-	var/prev_disfigured
+	///List of sources that the user is disfigured by, so we give it back afterwards.
+	var/list/prev_disfigured
 	var/list/prev_features // For lizards and such
 	var/disguise_name
 
@@ -36,7 +37,7 @@
 //	if(blahblahblah)
 //		Disguise_Outfit()
 	veil_user()
-	owner.balloon_alert(owner, "veil turned on.")
+	owner.balloon_alert(owner, "veil on")
 
 /* // Meant to disguise your character's clothing into fake ones.
 /datum/action/cooldown/bloodsucker/veil/proc/Disguise_Outfit()
@@ -61,7 +62,8 @@
 	prev_undershirt = user.undershirt
 	prev_socks = user.socks
 //	prev_eye_color
-	prev_disfigured = HAS_TRAIT(user, TRAIT_DISFIGURED) // I was disfigured! //prev_disabilities = user.disabilities
+	var/obj/item/bodypart/head = user.get_bodypart(BODY_ZONE_HEAD)
+	prev_disfigured = head ? GET_TRAIT_SOURCES(head, TRAIT_DISFIGURED) : list() // I was disfigured! //prev_disabilities = user.disabilities
 	prev_features = user.dna.features
 
 	// Change Appearance
@@ -75,8 +77,12 @@
 	user.undershirt = random_undershirt(user.gender)
 	user.socks = random_socks(user.gender)
 	//user.eye_color = random_eye_color()
-	if(prev_disfigured)
-		REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
+
+	//we know there's a head cause otherwise this wouldn't pass
+	if(LAZYLEN(prev_disfigured))
+		for(var/source in prev_disfigured)
+			REMOVE_TRAIT(head, TRAIT_DISFIGURED, source)
+
 	user.dna.features = user.dna.species.randomize_features()
 
 	// Apply Appearance
@@ -110,10 +116,12 @@
 	user.undershirt = prev_undershirt
 	user.socks = prev_socks
 
-	//user.disabilities = prev_disabilities // Restore HUSK, CLUMSY, etc.
-	if(prev_disfigured)
-		//We are ASSUMING husk. // user.status_flags |= DISFIGURED // Restore "Unknown" disfigurement
-		ADD_TRAIT(user, TRAIT_DISFIGURED, TRAIT_HUSK)
+	var/obj/item/bodypart/head = user.get_bodypart(BODY_ZONE_HEAD)
+	if(LAZYLEN(prev_disfigured) && head)
+		for(var/source in prev_disfigured)
+			ADD_TRAIT(head, TRAIT_DISFIGURED, source)
+		prev_disfigured = null
+
 	user.dna.features = prev_features
 
 	// Apply Appearance
@@ -121,7 +129,7 @@
 	user.update_body_parts(update_limb_data = TRUE) // Body itself, maybe skin color?
 
 	cast_effect() // POOF
-	owner.balloon_alert(owner, "veil turned off.")
+	owner.balloon_alert(owner, "veil off")
 
 	UnregisterSignal(user, COMSIG_HUMAN_GET_VISIBLE_NAME)
 
