@@ -61,6 +61,7 @@
 /datum/species/beefman/on_species_gain(mob/living/carbon/human/user, datum/species/old_species, pref_load, regenerate_icons)
 	RegisterSignal(user, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_beefman_color))
 	RegisterSignal(user, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attack_by))
+	RegisterSignal(user, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
 	if(!user.dna.features["beef_color"])
@@ -72,6 +73,13 @@
 			continue
 		limb.update_limb(is_creating = TRUE)
 
+/datum/species/beefman/on_species_loss(mob/living/carbon/human/human_who_lost_species, datum/species/new_species, pref_load)
+	. = ..()
+	UnregisterSignal(human_who_lost_species, list(
+		COMSIG_LIVING_HEALTH_UPDATE,
+		COMSIG_ATOM_ATTACKBY,
+		COMSIG_LIVING_LIFE,
+	))
 
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
@@ -86,8 +94,10 @@
 	human.dna.features["beef_mouth"] = "Gritting Smile"
 	human.update_body(is_creating = TRUE)
 */
-/datum/species/beefman/spec_life(mob/living/carbon/human/user)
-	. = ..()
+
+/datum/species/beefman/proc/on_life(mob/living/carbon/human/user, seconds_per_tick)
+	SIGNAL_HANDLER
+
 	var/searJuices = user.get_fire_loss_non_prosthetic() / 30
 	if(dehydrated)
 		user.adjust_beefman_bleeding(clamp((user.bodytemperature - BEEFMAN_BLEEDOUT_LEVEL) / 20 - searJuices, 2, 10))
