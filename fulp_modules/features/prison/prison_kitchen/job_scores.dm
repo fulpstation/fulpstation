@@ -4,3 +4,5 @@
 	name = "Tourists Served as Prisoner Highscore"
 	desc = "Your highscore on serving tourist bots as a prisoner."
 	database_id = PRISONER_TOURISTS_SERVED
+
+#undef PRISONER_TOURISTS_SERVED

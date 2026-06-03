@@ -702,3 +702,11 @@
 /obj/item/crusher_trophy/kraken_eye/on_mark_detonation(mob/living/target, mob/living/user)
 	. = ..()
 	ability.InterceptClickOn(user, null, target)
+
+#undef BB_KING_PORTAL
+#undef BB_KING_TENTACLE
+#undef BB_KING_SURROUND_TENTACLE
+#undef BB_CHARGE_ABILITY
+#undef BOSS_MEDAL_EXILED
+#undef EXILED_KING_SCORE
+#undef BB_KING_TENTACLE_TRACK

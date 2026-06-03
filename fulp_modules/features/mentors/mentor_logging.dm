@@ -9,3 +9,5 @@
 	category = LOG_CATEGORY_MENTOR
 	master_category = /datum/log_category/admin
 	config_flag = /datum/config_entry/flag/log_admin
+
+#undef LOG_CATEGORY_MENTOR
