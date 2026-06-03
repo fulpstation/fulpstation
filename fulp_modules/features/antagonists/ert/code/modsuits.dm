@@ -159,3 +159,6 @@
 			),
 		),
 	)
+
+#undef FULP_MOD_ICON_ERT
+#undef FULP_MOD_ICON_WORN_ERT

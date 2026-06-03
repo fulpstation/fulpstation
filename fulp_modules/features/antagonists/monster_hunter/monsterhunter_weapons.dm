@@ -549,3 +549,6 @@
 	SEND_SIGNAL(src, COMSIG_GRENADE_DETONATE, lanced_by)
 	explosion(src, ex_dev, ex_heavy, ex_light, ex_flame)
 
+#undef upgraded_val
+#undef CALIBER_BLOODSILVER
+#undef WEAPON_UPGRADE

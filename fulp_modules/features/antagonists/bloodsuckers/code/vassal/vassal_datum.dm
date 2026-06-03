@@ -1,8 +1,3 @@
-#define VASSAL_SCAN_MIN_DISTANCE 5
-#define VASSAL_SCAN_MAX_DISTANCE 500
-/// 2s update time.
-#define VASSAL_SCAN_PING_TIME 20
-
 /datum/antagonist/vassal
 	name = "\improper Vassal"
 	roundend_category = "vassals"
