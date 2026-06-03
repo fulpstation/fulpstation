@@ -102,7 +102,7 @@ GLOBAL_LIST_EMPTY_TYPED(halloween_gifts, /obj/item/storage/box/halloween)
 
 	var/obj/item/contains_type
 
-/obj/item/halloween_gift/Initialize()
+/obj/item/halloween_gift/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-10,10)
 	pixel_y = rand(-10,10)

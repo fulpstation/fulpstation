@@ -57,7 +57,7 @@
 			continue
 		if(word[1] != "@")
 			continue
-		var/ckey_check = lowertext(copytext(word, 2))
+		var/ckey_check = LOWER_TEXT(copytext(word, 2))
 		var/client/client_check = GLOB.directory[ckey_check]
 		if(client_check?.mentor_datum)
 			msglist[i] = "<u>[word]</u>"

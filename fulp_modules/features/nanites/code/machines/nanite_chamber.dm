@@ -38,7 +38,7 @@
 /obj/machinery/nanite_chamber/RefreshParts()
 	. = ..()
 	scan_level = 0
-	for(var/obj/item/stock_parts/scanning_module/scanning_mod in component_parts)
+	for(var/datum/stock_part/scanning_module/scanning_mod in component_parts)
 		scan_level = scanning_mod.rating
 
 /obj/machinery/nanite_chamber/examine(mob/user)

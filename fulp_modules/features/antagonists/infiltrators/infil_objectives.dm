@@ -239,7 +239,7 @@
 
 // SELF objectives
 /datum/objective/cyborg_hack
-    name = "Emag Robot"
+	name = "Emag Robot"
 
 /datum/objective/cyborg_hack/update_explanation_text()
 	explanation_text = "Steal a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"

@@ -32,7 +32,7 @@
 	/// Used in one instance of size adjustment— not really that important.
 	var/resize_count = 1.5
 
-	//     These two vars are used by a nerfed subtype of the "Direct Cat Meteor" spell:
+	// These two vars are used by a nerfed subtype of the "Direct Cat Meteor" spell:
 	/// Boolean indicating if the cateor should produce a small explosion on impact. The spell
 	/// will instead do 30 brute damage on impact if this is FALSE.
 	var/should_explode = TRUE
@@ -54,11 +54,12 @@
 
 /obj/effect/meteor/cateor/Move()
 	. = ..()
-	if(.)
-		//Partially copied from tungska meteors
-		new /obj/effect/temp_visual/revenant(get_turf(src))
-		if(prob(25))
-			playsound(src.loc, 'sound/effects/footstep/meowstep1.ogg', 25)
+	if(!.)
+		return
+	//Partially copied from tungska meteors
+	new /obj/effect/temp_visual/revenant(get_turf(src))
+	if(prob(25))
+		playsound(src.loc, 'sound/effects/footstep/meowstep1.ogg', 25)
 
 /obj/effect/meteor/cateor/attack_hand(mob/living/thing_that_touched_the_cateor, list/modifiers)
 	to_chat(thing_that_touched_the_cateor, span_hypnophrase("How cuwious... CUWIOUS LIKE A CA—"))
@@ -145,7 +146,7 @@
 		if(possible_cat_tail && istype(possible_cat_tail, /obj/item/organ/tail/cat))
 			cat_tail_confirmed = TRUE
 
-		 //Felinids/those already catified just get stunned.
+		//Felinids/those already catified just get stunned.
 		if(isfelinid(target) || (cat_ears_confirmed && cat_tail_confirmed))
 			humanoid.emote("spin")
 			target.apply_status_effect(/datum/status_effect/drugginess, 30 SECONDS)

@@ -39,7 +39,7 @@
 	vassal_desc = "This is a magical blood mirror that Bloodsuckers alone may use to watch over their devotees.\n\
 		Those unworthy of the mirror who haven't been sworn to the service of a Bloodsucker may anger it if they attempt to use it."
 	hunter_desc = "This is a mirror cursed with blood, it allows vampires to spy upon their thralls. \n\
-		 An incredibly shy mirror spirit has also been bound to it, so try not to look into it directly lest you wish to face a phantasmal panic response."
+		An incredibly shy mirror spirit has also been bound to it, so try not to look into it directly lest you wish to face a phantasmal panic response."
 	light_system = OVERLAY_LIGHT //It glows a bit when in use.
 	light_range = 2
 	light_power = 1.5
@@ -249,27 +249,27 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 /// Returns TRUE only once all checks are passed.
 /obj/structure/bloodsucker/mirror/proc/check_observability(mob/living/carbon/human/user = current_user, mob/living/carbon/human/observed = current_observed)
 	if(user.stat == DEAD)
-		to_chat(user, span_danger("You are dead!"))
+		balloon_alert(user, "not while dead!")
 		return FALSE
 
 	if(observed.stat == DEAD)
-		to_chat(user, span_danger("[observed.name] is dead!"))
+		balloon_alert(user, "[observed.name] is dead!")
 		return FALSE
 
 	if(!observed.get_organ_slot(ORGAN_SLOT_EYES))
-		balloon_alert(user, span_warning("[observed.name] has no eyes!"))
+		balloon_alert(user, "[observed.name] has no eyes!")
 		return FALSE
 
 	if(broken)
-		balloon_alert(user, span_warning("[src] has broken!"))
+		balloon_alert(user, "[src] has broken!")
 		return FALSE
 
 	if(!in_range(src, user))
-		user.balloon_alert(user, span_warning("you're too far from [src]!"))
+		user.balloon_alert(user, "you're too far from [src]!")
 		return FALSE
 
 	if(!user.mind.has_antag_datum(/datum/antagonist/bloodsucker)) //Unlikely, but still...
-		balloon_alert(user, span_warning("you aren't a bloodsucker anymore!"))
+		balloon_alert(user, "not a bloodsucker!")
 		return FALSE
 	return TRUE
 
@@ -280,7 +280,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 /obj/structure/bloodsucker/mirror/attack_hand(mob/living/carbon/human/user)
 	. = ..()
 	if(broken)
-		balloon_alert(user, "it's broken!")
+		balloon_alert(user, "broken!")
 		return
 
 	if(IS_BLOODSUCKER(user))
@@ -320,11 +320,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 
 
 	if(IS_VASSAL(user))
-		balloon_alert(user, "you don't know how to use it!")
+		balloon_alert(user, "don't know how to use it!")
 		return
 
 	if(IS_MONSTERHUNTER(user))
-		user.balloon_alert(user, "MOVE— MAYBE WONDERLAND— NOW!") //They might be able to escape it by going to Wonderland...
+		user.balloon_alert(user, "escape now!") //They might be able to escape it by going to Wonderland...
 
 	if(mirror_will_not_forget_this)
 		katabasis(user, TRUE)
@@ -359,7 +359,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
  * * victim - The person affected by this proc.
  * * aggressive - Increases mirror damage if true.
  */
-/obj/structure/bloodsucker/mirror/proc/katabasis(mob/living/carbon/human/victim, var/aggressive = FALSE)
+/obj/structure/bloodsucker/mirror/proc/katabasis(mob/living/carbon/human/victim, aggressive = FALSE)
 	//Damage
 	if((victim.maxHealth - victim.get_total_damage()) >= victim.crit_threshold)
 		var/refined_damage_amount = (victim.maxHealth - victim.get_total_damage()) * (aggressive ? 0.45 : 0.35)

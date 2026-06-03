@@ -33,7 +33,7 @@
 	icon_state = "onesie_beefman"
 	hoodtype = /obj/item/clothing/head/hooded/onesie/beefman
 
-/obj/item/clothing/suit/hooded/onesie/beefman/Initialize()
+/obj/item/clothing/suit/hooded/onesie/beefman/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/squeak, list(
 		'fulp_modules/features/species/sounds/footstep_splat1.ogg' = 1,
@@ -94,7 +94,7 @@
 		turn_off(user)
 	update_icon()
 
-/obj/item/clothing/suit/hooded/onesie/ethereal/Initialize()
+/obj/item/clothing/suit/hooded/onesie/ethereal/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
 
@@ -125,7 +125,7 @@
 	var/on = FALSE
 	flags_inv = 0
 
-/obj/item/clothing/head/hooded/onesie/ethereal/Initialize()
+/obj/item/clothing/head/hooded/onesie/ethereal/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob)
 

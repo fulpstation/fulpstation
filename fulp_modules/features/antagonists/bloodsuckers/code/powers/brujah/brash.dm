@@ -42,7 +42,7 @@
 
 /// Hit an atom, set bloodcost, set cooldown time, play a sound, and deconstruct the atom
 /// with this one convenient proc!
-/datum/action/cooldown/bloodsucker/targeted/brawn/brash/proc/HitWithStyle(atom/target_atom, sound, vol as num, var/cost as num, var/cooldown)
+/datum/action/cooldown/bloodsucker/targeted/brawn/brash/proc/HitWithStyle(atom/target_atom, sound, vol as num, cost as num, cooldown)
 	if(!isobj(target_atom))
 		return
 	var/obj/target_obj = target_atom

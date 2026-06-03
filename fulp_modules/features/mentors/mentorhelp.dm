@@ -70,7 +70,7 @@
 
 	if(key)
 		if(include_link != null)
-			. += "<a href='?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
+			. += "<a href='byond://?_src_=mentor;mentor_msg=[ckey];[MentorHrefToken(TRUE)]'>"
 
 		if(chosen_client && chosen_client.holder && chosen_client.holder.fakekey)
 			. += "Administrator"
@@ -85,6 +85,6 @@
 		. += "*no key*"
 
 	if(include_follow)
-		. += " (<a href='?_src_=mentor;mentor_follow=[REF(user)];[MentorHrefToken(TRUE)]'>F</a>)"
+		. += " (<a href='byond://?_src_=mentor;mentor_follow=[REF(user)];[MentorHrefToken(TRUE)]'>F</a>)"
 
 	return .

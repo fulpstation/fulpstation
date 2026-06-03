@@ -19,7 +19,7 @@
 	///The dancefloor ability we give to the devil.
 	var/datum/action/cooldown/spell/summon_dancefloor/dancefloor_ability
 
-/mob/living/basic/devil/Initialize()
+/mob/living/basic/devil/Initialize(mapload)
 	. = ..()
 	grant_all_languages()
 	dancefloor_ability = new()

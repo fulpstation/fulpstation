@@ -410,7 +410,7 @@
 		/obj/item/clothing/shoes/costume_2020/gnome,
 	)
 
-/obj/item/storage/box/halloween/special/gnomed/Initialize()
+/obj/item/storage/box/halloween/special/gnomed/Initialize(mapload)
 	. = ..()
 	year = pick("2019", "2020")
 	switch(year)
@@ -522,7 +522,7 @@
 	icon_state = "shoulders_white"
 	var/cloakcolor
 
-/obj/item/clothing/neck/costume_2020/moffking/Initialize()
+/obj/item/clothing/neck/costume_2020/moffking/Initialize(mapload)
 	. = ..()
 	if(cloakcolor)
 		name = "moffking [cloakcolor] shoulderpads"
