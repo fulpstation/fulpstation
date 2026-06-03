@@ -48,3 +48,6 @@
 #define NANITES_CATEGORY_WEAPONIZED "Weaponized Nanites"
 #define NANITES_CATEGORY_PROTOCOLS "Protocols Nanites"
 #define NANITES_CATEGORY_DEFECTIVE "Defective Nanites"
+
+#define NANITE_HUD "nanite_hud"
+#define DIAG_NANITE_FULL_HUD "nanite_full_hud"

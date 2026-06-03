@@ -80,8 +80,6 @@
 	return ..()
 
 
-
-
 /datum/ai_controller/basic_controller/kraken
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,

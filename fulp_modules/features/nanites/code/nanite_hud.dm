@@ -1,6 +1,3 @@
-#define NANITE_HUD "nanite_hud"
-#define DIAG_NANITE_FULL_HUD "nanite_full_hud"
-
 /mob/living/proc/hud_set_nanite_indicator(remove = FALSE)
 	var/image/holder = hud_list[NANITE_HUD]
 	var/icon/I = icon(icon, icon_state, dir)
