@@ -66,7 +66,7 @@
 
 /datum/antag_tip/New(name, tip_theme, list/antag_tips)
 	. = ..()
-	src.name = lowertext(name)
+	src.name = LOWER_TEXT(name)
 	src.theme = tip_theme
 	src.antag_tips = antag_tips.Copy()
 

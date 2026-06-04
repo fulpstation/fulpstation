@@ -15,7 +15,7 @@
 
 			var/datum/objective/assassinate/killsec = new
 			killsec.owner = owner
-			killsec.target = escape.target   //assassinate the officer you're supposed to impersonate
+			killsec.target = escape.target //assassinate the officer you're supposed to impersonate
 			killsec.update_explanation_text()
 			objectives += killsec
 
@@ -157,7 +157,7 @@
 		/mob/living/basic/sloth/citrus,
 		/mob/living/basic/pet/cat/runtime,
 		/mob/living/basic/parrot/poly,
- 	)
+	)
 
 	var/list/potential_targets = remove_duplicate(possible_target_pets) //removes pets from the list that are already in the owner's objective
 	shuffle_inplace(potential_targets)
@@ -239,7 +239,7 @@
 
 // SELF objectives
 /datum/objective/cyborg_hack
-    name = "Emag Robot"
+	name = "Emag Robot"
 
 /datum/objective/cyborg_hack/update_explanation_text()
 	explanation_text = "Steal a cyborg's data and subvert them by using your single-use silicon cryptographic sequencer on them!"

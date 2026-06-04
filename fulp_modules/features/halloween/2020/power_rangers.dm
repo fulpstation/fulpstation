@@ -9,7 +9,7 @@
 	icon_state = "red_helm"
 	var/ranger
 
-/obj/item/clothing/head/costume_2020/power_ranger/Initialize()
+/obj/item/clothing/head/costume_2020/power_ranger/Initialize(mapload)
 	. = ..()
 	if(ranger)
 		name = "[ranger] [name]"
@@ -41,7 +41,7 @@
 	var/ranger = "Red"
 	allowed = list(/obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
 
-/obj/item/clothing/suit/costume_2020/power_ranger/Initialize()
+/obj/item/clothing/suit/costume_2020/power_ranger/Initialize(mapload)
 	. = ..()
 	if(ranger)
 		name = "[ranger] [name]"
@@ -72,7 +72,7 @@
 	icon_state = "red_boots"
 	var/ranger
 
-/obj/item/clothing/shoes/costume_2020/power_ranger/Initialize()
+/obj/item/clothing/shoes/costume_2020/power_ranger/Initialize(mapload)
 	. = ..()
 	if(ranger)
 		name = "[ranger] [name]"

@@ -9,7 +9,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	item_flags = NOBLUDGEON
 	var/used = FALSE ///determines whether the injector is used up or nah
-	var/datum/weakref/store  ///the mob currently stored in the injector
+	var/datum/weakref/store ///the mob currently stored in the injector
 
 /obj/item/adv_mulligan/afterattack(atom/movable/victim, mob/living/carbon/human/user, proximity)
 	. = ..()
@@ -180,8 +180,8 @@
 /datum/final_objective/dagd
 	name = "DAGD"
 	description ="Frankly, we have no more uses for you and we would prefer if you \
-    removed all potential evidence of your existence. May you have \
-    an everlasting glorious death."
+	removed all potential evidence of your existence. May you have \
+	an everlasting glorious death."
 	objective = /datum/objective/martyr
 
 /obj/item/gorilla_serum
@@ -268,25 +268,25 @@
 	desc = "A specialized cryptographic sequencer used to free cyborgs. Will become voided after a one time use."
 	icon = 'fulp_modules/icons/antagonists/infiltrators/infils.dmi'
 	icon_state = "cyborg_hack"
-    ///Boolean on whether we have successfully emagged a borg
+	///Boolean on whether we have successfully emagged a borg
 	var/used = FALSE
 
 /obj/item/card/emag/silicon_hack/proc/use_charge(mob/user)
-    used = TRUE
-    to_chat(user, span_boldwarning("You use [src], and it interfaces with the cyborg's panel."))
+	used = TRUE
+	to_chat(user, span_boldwarning("You use [src], and it interfaces with the cyborg's panel."))
 
 /obj/item/card/emag/silicon_hack/examine(mob/user)
-    . = ..()
-    . += span_notice("It can only be used on cyborgs.")
+	. = ..()
+	. += span_notice("It can only be used on cyborgs.")
 
 /obj/item/card/emag/silicon_hack/can_emag(atom/target, mob/user)
-    if(used)
-        to_chat(user, span_warning("[src] is used up."))
-        return FALSE
-    if(!iscyborg(target))
-        to_chat(user, span_warning("[src] is unable to interface with this. It only seems to interface with cyborg panels."))
-        return FALSE
-    return TRUE
+	if(used)
+		to_chat(user, span_warning("[src] is used up."))
+		return FALSE
+	if(!iscyborg(target))
+		to_chat(user, span_warning("[src] is unable to interface with this. It only seems to interface with cyborg panels."))
+		return FALSE
+	return TRUE
 
 /mob/living/silicon/robot/emag_act(mob/user, obj/item/card/emag/emag_card)
 	. = ..()

@@ -1,3 +1,7 @@
+#define VASSAL_SCAN_MIN_DISTANCE 5
+#define VASSAL_SCAN_MAX_DISTANCE 500
+#define VASSAL_SCAN_PING_TIME (2 SECONDS)
+
 /**
  *	# Vassal Pinpointer
  *
@@ -13,6 +17,7 @@
 	id = "agent_pinpointer"
 	alert_type = /atom/movable/screen/alert/status_effect/agent_pinpointer/vassal_edition
 	minimum_range = VASSAL_SCAN_MIN_DISTANCE
+	range_fuzz_factor = VASSAL_SCAN_MAX_DISTANCE
 	tick_interval = VASSAL_SCAN_PING_TIME
 	duration = -1
 	range_fuzz_factor = 0
@@ -29,3 +34,7 @@
 	if(scan_target)
 		to_chat(owner, span_notice("You've lost your master's trail."))
 	return ..()
+
+#undef VASSAL_SCAN_MIN_DISTANCE
+#undef VASSAL_SCAN_MAX_DISTANCE
+#undef VASSAL_SCAN_PING_TIME

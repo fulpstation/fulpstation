@@ -49,3 +49,6 @@
 
 //	new /obj/effect/mob_spawn/spider/bloody(user.loc) // Handled by Parent, so call ..() instead
 	return ..()
+
+#undef CHANGELING_BLOODSPIDER_CREATION_DELAY
+#undef CHANGELING_BLOODSPIDER_ANNOUNCEMENT_CHANCE

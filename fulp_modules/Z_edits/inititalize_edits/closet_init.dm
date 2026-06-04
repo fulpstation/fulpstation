@@ -2,6 +2,6 @@
 /obj/structure/closet/secure_closet/security
 	req_access = list(ACCESS_WEAPONS, ACCESS_SECURITY)
 
-/obj/structure/closet/secure_closet/brig/Initialize()
+/obj/structure/closet/secure_closet/brig/Initialize(mapload)
 	new /obj/item/clothing/suit/hooded/wintercoat/security/pris(src)
 	return ..()

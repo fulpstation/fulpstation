@@ -38,8 +38,8 @@
 /obj/machinery/nanite_chamber/RefreshParts()
 	. = ..()
 	scan_level = 0
-	for(var/obj/item/stock_parts/scanning_module/scanning_mod in component_parts)
-		scan_level = scanning_mod.rating
+	for(var/datum/stock_part/scanning_module/scanning_mod in component_parts)
+		scan_level = scanning_mod.tier
 
 /obj/machinery/nanite_chamber/examine(mob/user)
 	. = ..()
@@ -219,3 +219,5 @@
 	if(close_machine(target))
 		log_combat(user, target, "inserted", null, "into [src].")
 	add_fingerprint(user)
+
+#undef NANITE_CHAMBER_BREAKOUT_TIME

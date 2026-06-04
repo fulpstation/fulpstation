@@ -261,10 +261,10 @@
 
 /obj/item/rabbit_eye/proc/upgrade(obj/item/melee/trick_weapon/killer, mob/user)
 	if(killer.upgrade_level >= 3)
-		user.balloon_alert(user, "Already at maximum upgrade state!")
+		user.balloon_alert(user, "already at max!")
 		return
 	if(killer.enabled)
-		user.balloon_alert(user, "Weapon must be in base form!")
+		user.balloon_alert(user, "weapon not base form!")
 		return
 	SEND_SIGNAL(killer,WEAPON_UPGRADE)
 	killer.name = "[killer.base_name] +[killer.upgrade_level]"
@@ -549,3 +549,6 @@
 	SEND_SIGNAL(src, COMSIG_GRENADE_DETONATE, lanced_by)
 	explosion(src, ex_dev, ex_heavy, ex_light, ex_flame)
 
+#undef upgraded_val
+#undef CALIBER_BLOODSILVER
+#undef WEAPON_UPGRADE

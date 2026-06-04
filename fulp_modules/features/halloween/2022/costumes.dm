@@ -145,7 +145,7 @@
 		/obj/item/clothing/glasses/costume_2022/crueltysquad_glasses,
 		/obj/item/clothing/under/costume_2022/crueltysquad_under,
 		/obj/item/clothing/shoes/costume_2022/crueltysquad_shoes,
-    )
+	)
 
 /**
  * Madotsuki
@@ -170,7 +170,7 @@
 		/obj/item/clothing/under/costume_2022/madotsuki_under,
 		/obj/item/clothing/shoes/costume_2022/madotsuki_shoes,
 		/obj/item/knife/plastic,
-    )
+	)
 
 /**
  * Heather
@@ -194,4 +194,4 @@
 	costume_contents = list(
 		/obj/item/clothing/under/costume_2022/heather_under,
 		/obj/item/clothing/shoes/costume_2022/heather_shoes,
-    )
+	)

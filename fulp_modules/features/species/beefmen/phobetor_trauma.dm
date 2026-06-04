@@ -159,7 +159,7 @@
 	/// Whether we're interactable or not.
 	var/active = TRUE
 
-/obj/effect/client_image_holder/phobetor/Initialize()
+/obj/effect/client_image_holder/phobetor/Initialize(mapload)
 	. = ..()
 	created_on = world.time
 

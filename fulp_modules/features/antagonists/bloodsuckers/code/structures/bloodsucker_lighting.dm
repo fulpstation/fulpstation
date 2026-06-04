@@ -12,7 +12,7 @@
 	var/lit = FALSE 						  //I'm sure it will have no unforeseen consequences, none whatsoever
 	var/active_light_range = 3
 
-/obj/structure/bloodsucker/lighting/Initialize()
+/obj/structure/bloodsucker/lighting/Initialize(mapload)
 	. = ..()
 	register_context()
 	update_appearance()
@@ -130,7 +130,7 @@
 	/// Our slightly quieter looping burn sound effect; copied over from 'bonfire.dm'
 	var/datum/looping_sound/burning/brazier/burning_loop
 
-/obj/structure/bloodsucker/lighting/brazier/Initialize()
+/obj/structure/bloodsucker/lighting/brazier/Initialize(mapload)
 	. = ..()
 	burning_loop = new(src)
 

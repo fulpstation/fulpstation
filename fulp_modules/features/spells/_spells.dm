@@ -317,7 +317,7 @@
 	dismemberment = 0
 	armour_penetration = 100
 
- 	/// Used for adjusting cateor size
+	/// Used for adjusting cateor size
 	var/matrix/size = matrix()
 	/// Both x and y are scaled up by this.
 	var/scaling_value = 1.5

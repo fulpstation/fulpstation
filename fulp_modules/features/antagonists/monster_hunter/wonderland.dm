@@ -61,7 +61,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /obj/structure/blood_fountain/attackby(obj/item/bottle, mob/living/user, params)
 	if(!istype(bottle, /obj/item/blood_vial))
-		balloon_alert(user, "Needs a blood vial!")
+		balloon_alert(user, "needs blood vial!")
 		return ..()
 	var/obj/item/blood_vial/vial = bottle
 	vial.fill_vial(user)
@@ -87,7 +87,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /obj/item/blood_vial/proc/fill_vial(mob/living/user)
 	if(filled)
-		balloon_alert(user, "Vial already full!")
+		balloon_alert(user, "already full!")
 		return
 	filled = TRUE
 	icon_state = "blood_vial"
@@ -101,7 +101,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /obj/item/blood_vial/attack_self(mob/living/user)
 	if(!filled)
-		balloon_alert(user, "Empty!")
+		balloon_alert(user, "empty!")
 		return
 	if("[get_area(user)]" == "Wonderland")
 		to_chat(user, span_warning("The blood refuses to let itself be directly spilt (and therefore drank) within Wonderland!"))

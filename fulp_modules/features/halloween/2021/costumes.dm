@@ -621,7 +621,7 @@
 	theme_name = "2021's Chris Redfield"
 	illustration = "storage_box"
 	costume_contents = list(
-	 	/obj/item/clothing/under/costume_2021/chris_uniform,
+		/obj/item/clothing/under/costume_2021/chris_uniform,
 		/obj/item/gun/ballistic/automatic/pistol/toy,
 		/obj/item/knife/plastic,
 	)
@@ -760,12 +760,12 @@
 	theme_name = "2021's Irish Republican Army"
 	illustration = "reina_box"
 	costume_contents = list(
-	 	/obj/item/clothing/under/costume_2021/ira_suit,
+		/obj/item/clothing/under/costume_2021/ira_suit,
 		/obj/item/clothing/head/costume_2021/ira_hat,
-	 	/obj/item/clothing/suit/costume_2021/ira_jacket,
+		/obj/item/clothing/suit/costume_2021/ira_jacket,
 		/obj/item/clothing/gloves/color/black,
-	 	/obj/item/clothing/shoes/sneakers/black,
-	 	/obj/item/gun/ballistic/automatic/pistol/toy,
+		/obj/item/clothing/shoes/sneakers/black,
+		/obj/item/gun/ballistic/automatic/pistol/toy,
 	)
 
 
