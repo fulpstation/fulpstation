@@ -130,7 +130,7 @@
 	for(var/missing_limb in missing) //Find ONE Limb and regenerate it.
 		user.regenerate_limb(missing_limb, FALSE)
 		AddBloodVolume(-limb_regen_cost)
-		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(missing_limb) // 2) Limb returns Damaged
+		var/obj/item/bodypart/missing_bodypart = user.get_bodypart(missing_limb) // Limb returns Damaged
 		missing_bodypart.brute_dam = 60
 		to_chat(user, span_notice("Your flesh knits as it regrows your [missing_bodypart]!"))
 		playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
@@ -183,6 +183,8 @@
 			continue
 		yucky_organs.Remove(bloodsuckeruser)
 		yucky_organs.forceMove(get_turf(bloodsuckeruser))
+
+	SEND_SIGNAL(src, COMSIG_BLOODSUCKER_REVIVAL)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
