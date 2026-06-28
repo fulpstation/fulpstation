@@ -1,10 +1,10 @@
 ## List of all TG edits:
 
-- .github/workflows/compile_changelogs.yml > Same as above. //Not currently there, is this broken?
-
 - code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
+
+- code/modules/escape_menu/home_page.dm > Added Mentorhelp button & Moves other buttons down one each.
 
 - interface\interface.dm > Changes the TG Changelog verb to a new path & name.
 
