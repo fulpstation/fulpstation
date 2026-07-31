@@ -65,7 +65,7 @@
 		owner.balloon_alert(owner, "bloodsuckers are immune to [src].")
 		return FALSE
 	// Dead/Unconscious
-	if(current_target.stat > CONSCIOUS)
+	if(IS_UNCONSCIOUS(current_target))
 		owner.balloon_alert(owner, "[current_target] is not [(current_target.stat == DEAD || HAS_TRAIT(current_target, TRAIT_FAKEDEATH)) ? "alive" : "conscious"].")
 		return FALSE
 	// Target has eyes?

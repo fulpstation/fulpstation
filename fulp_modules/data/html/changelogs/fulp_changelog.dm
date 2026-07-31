@@ -55,9 +55,8 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 
 /// CHANGELOG VERB ///
 
-/client/verb/changelog()
-	set name = "Changelog"
-	set category = "OOC"
+GAME_VERB(/client, changelog, "Changelog", "OOC")
+
 	if(!GLOB.fulp_changelog_tgui)
 		GLOB.fulp_changelog_tgui = new /datum/fulp_changelog()
 

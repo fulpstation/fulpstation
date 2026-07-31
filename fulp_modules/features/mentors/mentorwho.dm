@@ -4,9 +4,7 @@
  * Please keep parity with that if possible.
  */
 
-/client/verb/mentorwho()
-	set category = "Mentor"
-	set name = "Mentorwho"
+GAME_VERB(/client, mentorwho, "Mentorwho", "Mentor")
 
 	var/list/lines = list()
 	var/payload_string = generate_mentorwho_string()

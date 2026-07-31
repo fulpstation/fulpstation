@@ -151,7 +151,7 @@
 	REMOVE_TRAIT(target, TRAIT_NO_TRANSFORM, BLOODSUCKER_TRAIT)
 	target.cure_blind(BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
+	if(istype(user) && !IS_UNCONSCIOUS(target) && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/proc/attempt_vassalize(mob/living/target, mob/living/user)

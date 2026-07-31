@@ -1,6 +1,4 @@
-/client/verb/mentorhelp(msg as text)
-	set category = "Mentor"
-	set name = "Mentorhelp"
+GAME_VERB(/client, mentorhelp, "Mentorhelp", "Mentor", msg as text)
 
 	if(prefs.muted & MUTE_ADMINHELP)
 		to_chat(src,
