@@ -14293,13 +14293,6 @@
 	dir = 8
 	},
 /area/station/science/xenobiology)
-"fbI" = (
-/obj/effect/turf_decal/tile/command/half{
-	dir = 1
-	},
-/obj/machinery/computer/upload/ai,
-/turf/open/floor/iron/dark,
-/area/station/ai/upload/chamber)
 "fcb" = (
 /obj/structure/mirror/directional/north,
 /obj/item/cigarette/rollie/cannabis{
@@ -33619,7 +33612,6 @@
 /obj/effect/turf_decal/tile/command/half{
 	dir = 1
 	},
-/obj/machinery/computer/upload/borg,
 /turf/open/floor/iron/dark,
 /area/station/ai/upload/chamber)
 "lSG" = (
@@ -52756,8 +52748,8 @@
 /area/station/maintenance/port/aft)
 "sHs" = (
 /obj/structure/extinguisher_cabinet/directional/west,
-/obj/structure/table,
-/obj/effect/spawner/round_default_module,
+/obj/structure/table/wood/fancy/green,
+/obj/effect/spawner/random/aimodule/harmless,
 /turf/open/floor/circuit/green,
 /area/station/ai/upload/chamber)
 "sHu" = (
@@ -53323,7 +53315,7 @@
 "sUE" = (
 /obj/machinery/firealarm/directional/east,
 /obj/structure/table,
-/obj/item/aicard,
+/obj/effect/spawner/round_default_module,
 /turf/open/floor/circuit/green,
 /area/station/ai/upload/chamber)
 "sUF" = (
@@ -57259,6 +57251,16 @@
 /area/station/maintenance/disposal/incinerator)
 "uqp" = (
 /obj/item/radio/intercom/directional/north,
+/obj/structure/table,
+/obj/item/ai_module/law/supplied/freeform{
+	pixel_y = 4;
+	pixel_x = 2
+	},
+/obj/item/ai_module/law/supplied/freeform,
+/obj/item/ai_module/law/supplied/freeform{
+	pixel_y = 5;
+	pixel_x = -2
+	},
 /turf/open/floor/circuit/green,
 /area/station/ai/upload/chamber)
 "uqs" = (
@@ -62903,8 +62905,13 @@
 /turf/open/floor/iron/white,
 /area/station/commons/dorms/laundry)
 "wtX" = (
-/obj/structure/table,
-/obj/effect/spawner/random/aimodule/harmful,
+/obj/structure/table/wood/fancy/blue,
+/obj/effect/spawner/random/aimodule/neutral,
+/obj/machinery/door/window/right/directional/east{
+	name = "Core Modules";
+	req_access = list("captain")
+	},
+/obj/structure/window/reinforced/spawner/directional/north,
 /turf/open/floor/circuit/green,
 /area/station/ai/upload/chamber)
 "wtY" = (
@@ -62973,14 +62980,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/command)
-"wvi" = (
-/obj/effect/turf_decal/tile/command/half{
-	dir = 1
-	},
-/obj/structure/table,
-/obj/effect/spawner/random/aimodule/harmless,
-/turf/open/floor/iron/dark,
-/area/station/ai/upload/chamber)
 "wvA" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -63089,12 +63088,7 @@
 /obj/effect/turf_decal/tile/command/half{
 	dir = 1
 	},
-/obj/structure/table,
-/obj/item/ai_module/supplied/freeform{
-	pixel_x = 2;
-	pixel_y = 3
-	},
-/obj/item/ai_module/reset/purge,
+/obj/machinery/ai_law_rack/base/core,
 /turf/open/floor/iron/dark,
 /area/station/ai/upload/chamber)
 "wxU" = (
@@ -63428,18 +63422,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
-"wDL" = (
-/obj/effect/turf_decal/tile/command/half{
-	dir = 1
-	},
-/obj/structure/table,
-/obj/item/ai_module/supplied/freeform{
-	pixel_x = 2;
-	pixel_y = 3
-	},
-/obj/effect/spawner/random/aimodule/neutral,
-/turf/open/floor/iron/dark,
-/area/station/ai/upload/chamber)
 "wDN" = (
 /obj/machinery/light/directional/west,
 /obj/machinery/camera/motion/directional/west{
@@ -63553,8 +63535,13 @@
 /turf/open/floor/iron,
 /area/station/maintenance/fore)
 "wFp" = (
-/obj/structure/table,
-/obj/effect/spawner/random/aimodule/neutral,
+/obj/structure/table/wood/fancy/red,
+/obj/effect/spawner/random/aimodule/harmful,
+/obj/machinery/door/window/brigdoor/left/directional/west{
+	name = "High-Risk Modules";
+	req_access = list("captain")
+	},
+/obj/structure/window/reinforced/spawner/directional/north,
 /turf/open/floor/circuit/green,
 /area/station/ai/upload/chamber)
 "wFx" = (
@@ -65222,7 +65209,6 @@
 /obj/structure/rack,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/item/pai_card,
-/obj/item/ai_module/reset,
 /turf/open/floor/iron/dark,
 /area/station/engineering/storage/tech)
 "xhn" = (
@@ -116656,7 +116642,7 @@ qkc
 sIU
 eMT
 qkc
-wvi
+lSD
 iBZ
 pNb
 iQW
@@ -116911,8 +116897,8 @@ qqh
 reH
 rXn
 sIX
-qkc
 kmR
+qkc
 wxD
 coZ
 coZ
@@ -117170,7 +117156,7 @@ qkc
 sSb
 uad
 qkc
-wDL
+lSD
 iBZ
 pNb
 iQW
@@ -117424,7 +117410,7 @@ pdP
 coZ
 fKO
 qkc
-fbI
+lSD
 ukC
 rLy
 wFp

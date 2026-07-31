@@ -11261,9 +11261,7 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
 "dJO" = (
-/obj/machinery/computer/upload/borg{
-	dir = 8
-	},
+/obj/effect/turf_decal/stripes/white/line,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "dJT" = (
@@ -13069,6 +13067,16 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/light_switch/directional/north,
+/obj/structure/table,
+/obj/item/ai_module/law/supplied/freeform{
+	pixel_y = 4;
+	pixel_x = 2
+	},
+/obj/item/ai_module/law/supplied/freeform,
+/obj/item/ai_module/law/supplied/freeform{
+	pixel_y = 5;
+	pixel_x = -2
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "esn" = (
@@ -20114,7 +20122,9 @@
 /turf/open/floor/iron/dark,
 /area/station/security/armory)
 "gJF" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 1
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "gJM" = (
@@ -26025,9 +26035,7 @@
 /turf/open/floor/carpet/black,
 /area/station/commons/dorms/room1)
 "iOV" = (
-/obj/structure/table/reinforced,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/stripes/white/corner,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "iOZ" = (
@@ -29062,6 +29070,8 @@
 /area/station/service/library)
 "jQw" = (
 /obj/item/radio/intercom/directional/north,
+/obj/structure/table,
+/obj/effect/spawner/round_default_module,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "jQz" = (
@@ -33290,8 +33300,11 @@
 /turf/open/misc/hay,
 /area/station/command/heads_quarters/captain)
 "lol" = (
-/obj/structure/table/reinforced,
-/obj/item/ai_module/supplied/quarantine,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/ai_slipper{
+	uses = 8
+	},
+/obj/effect/turf_decal/box/red,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "lot" = (
@@ -34193,9 +34206,9 @@
 /turf/open/floor/iron/dark/herringbone,
 /area/station/command/bridge)
 "lDT" = (
-/obj/machinery/holopad,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "lEf" = (
@@ -36581,16 +36594,6 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "mxh" = (
-/obj/item/ai_module/core/freeformcore{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/ai_module/core/full/custom,
-/obj/item/ai_module/core/full/asimov{
-	pixel_x = -3;
-	pixel_y = -3
-	},
-/obj/structure/table,
 /obj/machinery/flasher/directional/west{
 	id = "AI";
 	name = "Meatbag Pacifier"
@@ -36601,6 +36604,8 @@
 	name = "Core Modules";
 	req_access = list("ai_upload")
 	},
+/obj/structure/table/wood/fancy/blue,
+/obj/effect/spawner/random/aimodule/neutral,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "mxi" = (
@@ -37370,9 +37375,10 @@
 /turf/open/floor/iron,
 /area/station/security/brig/hallway)
 "mNo" = (
-/obj/structure/table/reinforced,
-/obj/item/ai_module/reset,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/porta_turret/ai,
+/obj/effect/turf_decal/trimline/dark_blue/warning{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "mNt" = (
@@ -37994,9 +38000,10 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/engine)
 "mYt" = (
-/obj/machinery/computer/upload/ai{
-	dir = 8
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 1
 	},
+/obj/machinery/light/directional/east,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "mYz" = (
@@ -44439,7 +44446,11 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/central)
 "pif" = (
-/obj/structure/window/reinforced/spawner/directional/north,
+/obj/structure/table/wood/fancy/green,
+/obj/effect/spawner/random/aimodule/harmless,
+/obj/effect/turf_decal/trimline/dark_blue/warning{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "pig" = (
@@ -51561,7 +51572,6 @@
 	c_tag = "AI Upload";
 	network = list("aiupload")
 	},
-/obj/structure/window/reinforced/spawner/directional/south,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "rLo" = (
@@ -52726,10 +52736,8 @@
 /turf/open/floor/iron,
 /area/station/commons/fitness)
 "sfZ" = (
-/obj/machinery/light/directional/east,
-/obj/structure/window/reinforced/spawner/directional/north,
-/obj/structure/window/reinforced/spawner/directional/south,
-/turf/open/floor/engine,
+/obj/machinery/ai_law_rack/base/core,
+/turf/open/floor/circuit,
 /area/station/ai/upload/chamber)
 "sgh" = (
 /obj/machinery/camera/directional/west{
@@ -52895,7 +52903,9 @@
 /area/station/security/prison/toilet)
 "skD" = (
 /obj/machinery/light/small/directional/west,
-/obj/structure/cable,
+/obj/effect/turf_decal/trimline/dark_blue/warning{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "skQ" = (
@@ -56177,6 +56187,9 @@
 "tqo" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/holopad,
+/obj/structure/cable,
+/obj/effect/turf_decal/box/white,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "tqz" = (
@@ -58586,6 +58599,9 @@
 /area/station/maintenance/fore)
 "ukU" = (
 /obj/machinery/airalarm/directional/west,
+/obj/effect/turf_decal/trimline/dark_blue/warning{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "ukX" = (
@@ -59694,6 +59710,9 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/turf_decal/trimline/dark_blue/warning{
+	dir = 8
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "uFA" = (
@@ -62604,6 +62623,12 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/security/prison/garden)
+"vEL" = (
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/station/ai/upload/chamber)
 "vEO" = (
 /obj/effect/mapping_helpers/broken_floor,
 /obj/item/stack/cable_coil/thirty,
@@ -65210,22 +65235,18 @@
 /turf/open/floor/iron,
 /area/station/service/janitor)
 "wwC" = (
-/obj/structure/table,
 /obj/machinery/flasher/directional/north{
 	id = "AI";
 	pixel_y = -26
 	},
-/obj/effect/spawner/random/aimodule/harmful,
-/obj/item/ai_module/supplied/oxygen,
-/obj/item/ai_module/supplied/protect_station,
-/obj/item/ai_module/zeroth/onehuman,
-/obj/item/ai_module/reset/purge,
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/machinery/door/window/brigdoor/left/directional/north{
 	name = "High-Risk Modules";
 	req_access = list("ai_upload")
 	},
+/obj/structure/table/wood/fancy/red,
+/obj/effect/spawner/random/aimodule/harmful,
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "wwD" = (
@@ -68412,9 +68433,9 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "xCq" = (
-/obj/structure/table/reinforced,
-/obj/item/ai_module/supplied/freeform,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/stripes/white/corner{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/station/ai/upload/chamber)
 "xCt" = (
@@ -98211,12 +98232,12 @@ nri
 pkh
 nri
 xvz
-jBM
-tdV
+mNo
+pif
 skD
 uFt
 ukU
-jBM
+mNo
 hab
 sUR
 cim
@@ -98470,7 +98491,7 @@ nri
 xvz
 jQw
 tdV
-dEU
+tdV
 lDT
 tdV
 tdV
@@ -98727,9 +98748,9 @@ nri
 xvz
 esh
 bMf
-iOV
+bMf
 tqo
-lol
+tdV
 tdV
 mxh
 xvz
@@ -98984,9 +99005,9 @@ xvz
 xvz
 pxi
 gJF
-xCq
+tdV
+lol
 tHu
-mNo
 fgn
 wwC
 xvz
@@ -99241,9 +99262,9 @@ hno
 giK
 bMf
 tdV
-tdV
-tdV
-tdV
+iOV
+vEL
+xCq
 tdV
 tdV
 xvz
@@ -99501,7 +99522,7 @@ rLl
 dJO
 sfZ
 mYt
-pif
+tdV
 jBM
 xvz
 nri
