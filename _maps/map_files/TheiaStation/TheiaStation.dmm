@@ -2592,10 +2592,6 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron/grimy,
 /area/station/security/detectives_office)
-"aPv" = (
-/obj/structure/chair/office,
-/turf/open/floor/wood,
-/area/station/command/heads_quarters/captain)
 "aPA" = (
 /obj/item/storage/medkit/brute{
 	pixel_x = 3;
@@ -4438,6 +4434,9 @@
 /area/station/service/theater)
 "bta" = (
 /obj/machinery/light/small/directional/east,
+/obj/machinery/light_switch/directional/south,
+/obj/structure/bed/dogbed/renault,
+/mob/living/basic/pet/fox/renault,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "btn" = (
@@ -6149,11 +6148,8 @@
 /area/station/hallway/primary/central/starboard)
 "bVl" = (
 /obj/structure/table/reinforced,
-/obj/machinery/fax{
-	fax_name = "Chief Engineer's Office";
-	name = "Chief Engineer's Fax Machine"
-	},
 /obj/effect/turf_decal/tile/yellow/diagonal_centre,
+/obj/machinery/fax/heads/ce,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/ce)
 "bVu" = (
@@ -8298,7 +8294,10 @@
 	dir = 10
 	},
 /obj/structure/table/wood,
-/obj/machinery/fax,
+/obj/machinery/fax{
+	fax_name = "Cargo Office";
+	name = "Cargo Office Fax Machine"
+	},
 /turf/open/floor/iron,
 /area/station/cargo/office)
 "cJv" = (
@@ -23202,10 +23201,10 @@
 /area/station/medical/medbay/central)
 "hKB" = (
 /obj/structure/table/reinforced/rglass,
-/obj/machinery/fax,
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/machinery/fax/heads/cmo,
 /turf/open/floor/iron/white/textured_corner{
 	dir = 8
 	},
@@ -29375,13 +29374,10 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/exit/departure_lounge)
 "jVI" = (
-/obj/machinery/fax{
-	fax_name = "Research Director's Office";
-	name = "Research Director's Fax Machine"
-	},
 /obj/structure/table/glass,
 /obj/effect/turf_decal/tile/purple/diagonal_centre,
 /obj/structure/cable,
+/obj/machinery/fax/heads/rd,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/rd)
 "jWd" = (
@@ -30777,6 +30773,8 @@
 /area/station/medical/virology)
 "ktP" = (
 /obj/structure/cable,
+/obj/structure/table/wood,
+/obj/machinery/fax/heads/hos,
 /turf/open/floor/carpet/red,
 /area/station/command/heads_quarters/hos)
 "ktW" = (
@@ -31332,11 +31330,8 @@
 /area/station/science/server)
 "kCR" = (
 /obj/machinery/airalarm/directional/north,
-/obj/machinery/fax{
-	fax_name = "Quartermaster's Office";
-	name = "Quartermaster's Fax Machine"
-	},
 /obj/structure/table,
+/obj/machinery/fax/heads/qm,
 /turf/open/floor/plating,
 /area/station/command/heads_quarters/qm)
 "kCT" = (
@@ -32021,15 +32016,12 @@
 /turf/open/floor/wood,
 /area/station/commons/lounge)
 "kOY" = (
-/obj/item/paper_bin/carbon{
-	pixel_x = -2;
-	pixel_y = 4
-	},
 /obj/structure/table/wood,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/south,
+/obj/machinery/fax/heads/hop,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hop)
 "kPn" = (
@@ -37934,7 +37926,7 @@
 	req_access = list("captain")
 	},
 /obj/structure/cable,
-/obj/machinery/light_switch/directional/south,
+/obj/machinery/keycard_auth/wall_mounted/directional/south,
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
 "mXf" = (
@@ -42893,9 +42885,8 @@
 /obj/structure/table/wood,
 /obj/structure/window/reinforced/spawner/directional/north,
 /obj/structure/window/reinforced/spawner/directional/east,
-/obj/machinery/keycard_auth{
-	pixel_x = -9;
-	pixel_y = 3
+/obj/item/hand_tele{
+	pixel_x = -6
 	},
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
@@ -49378,17 +49369,9 @@
 /obj/machinery/requests_console/auto_name/directional/west,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/information,
-/obj/item/stamp/head/captain{
-	pixel_x = 8;
-	pixel_y = 6
-	},
-/obj/item/stamp/denied{
-	pixel_x = 8
-	},
 /obj/effect/mapping_helpers/requests_console/announcement,
-/obj/item/storage/lockbox/medal,
-/obj/item/pen/fountain/captain,
 /obj/structure/window/reinforced/spawner/directional/north,
+/obj/machinery/fax/heads/captain,
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
 "qYv" = (
@@ -54046,8 +54029,7 @@
 "sEY" = (
 /obj/machinery/status_display/evac/directional/west,
 /obj/machinery/light/small/directional/west,
-/obj/structure/bed/dogbed/renault,
-/mob/living/basic/pet/fox/renault,
+/obj/structure/chair/office,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/captain)
 "sFa" = (
@@ -64624,7 +64606,15 @@
 	name = "Captain's Desk";
 	req_access = list("captain")
 	},
-/obj/item/hand_tele,
+/obj/item/stamp/head/captain{
+	pixel_x = 8;
+	pixel_y = 6
+	},
+/obj/item/storage/lockbox/medal,
+/obj/item/pen/fountain/captain,
+/obj/item/stamp/denied{
+	pixel_x = 8
+	},
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
 "wmr" = (
@@ -69370,6 +69360,11 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/south,
+/obj/structure/table/wood,
+/obj/item/paper_bin/carbon{
+	pixel_x = -2;
+	pixel_y = 4
+	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hop)
 "xVn" = (
@@ -101311,7 +101306,7 @@ bzK
 gDU
 kQQ
 gEl
-aPv
+oys
 oFM
 mWV
 xjj
