@@ -135,7 +135,7 @@
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_NO_TRANSFORM, BLOODSUCKER_TRAIT)
 	// They Woke Up! (Notice if within view)
-	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
+	if(istype(user) && !IS_UNCONSCIOUS_OR_CRIT(target) && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/cooldown/bloodsucker/targeted/mesmerize/ContinueActive(mob/living/user, mob/living/target)

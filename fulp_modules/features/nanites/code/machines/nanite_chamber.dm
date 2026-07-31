@@ -171,7 +171,7 @@
 	)
 	if(!do_after(user, NANITE_CHAMBER_BREAKOUT_TIME, target = src))
 		return
-	if(!user || user.stat != CONSCIOUS || user.loc != src || state_open || !locked || busy)
+	if(!user || IS_UNCONSCIOUS(user) || user.loc != src || state_open || !locked || busy)
 		return
 	locked = FALSE
 	user.visible_message(

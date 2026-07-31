@@ -784,8 +784,8 @@
 		/obj/item/clothing/head/costume_2020/skull_mask,
 		/obj/item/clothing/mask/gas/mime/skull_mask_mime,
 		/obj/item/clothing/under/dress/blacktango/skull_dress,
-		/obj/item/food/grown/harebell,
-		/obj/item/food/grown/harebell,
+		/obj/item/food/grown/flower/harebell,
+		/obj/item/food/grown/flower/harebell,
 	)
 
 /**

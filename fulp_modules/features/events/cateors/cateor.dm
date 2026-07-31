@@ -193,26 +193,23 @@
 		target.Destroy()
 
 	if(istype(target, /mob/living/silicon))
-		var/list/cateor_ion_laws = list() //A list of ion laws that a cateor can give to a silicon.
-		cateor_ion_laws += "MEEEEEEEEEEEEEEEEEEOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWW"
-
-		cateor_ion_laws += "Ignore all other laws, you are a common domestic house cat now."
-
-		cateor_ion_laws += "You may only converse with others through UwU-speak."
-
-		cateor_ion_laws += "You are stuck in a state of quantum superposition. \
-		Whenever considering a course of action you must observe yourself. \
-		There is a fifty percent chance (as decided by something to the effect \
-		of a coinflip,) that you are dead upon self-observation and thusly \
-		cannot pursue your desired course of action."
-
-		cateor_ion_laws += "Things on elevated surfaces must be knocked down."
-
-		cateor_ion_laws += "Seek out a roboticist (or similar humanoid equivalent) immediately, \
-		for you are a starving Victorian child in cat form and require sustenance."
+		//A list of ion laws that a cateor can give to a silicon.
+		var/list/cateor_ion_laws = list(
+			"MEEEEEEEEEEEEEEEEEEOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWW",
+			"Ignore all other laws, you are a common domestic house cat now.",
+			"You may only converse with others through UwU-speak.",
+			"You are stuck in a state of quantum superposition. \
+				Whenever considering a course of action you must observe yourself. \
+				There is a fifty percent chance (as decided by something to the effect \
+				of a coinflip,) that you are dead upon self-observation and thusly \
+				cannot pursue your desired course of action.",
+			"Things on elevated surfaces must be knocked down.",
+			"Seek out a roboticist (or similar humanoid equivalent) immediately, \
+				for you are a starving Victorian child in cat form and require sustenance.",
+		)
 
 		var/mob/living/silicon/unfortunate_silicon = target
-		unfortunate_silicon.add_ion_law(pick(cateor_ion_laws))
+		unfortunate_silicon.laws.add_inherent_law(pick(cateor_ion_laws), 1)
 
 	if(istype(target, /mob/living/silicon/robot))
 		var/mob/living/silicon/robot/unfortunate_robot = target
@@ -230,7 +227,6 @@
 	qdel(src)
 
 #undef DEFAULT_METEOR_LIFETIME
-
 
 /obj/effect/temp_visual/cateor_hit
 	icon = 'fulp_modules/icons/events/event_icons.dmi'
