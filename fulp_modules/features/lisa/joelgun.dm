@@ -158,23 +158,23 @@
 	used_ability = TRUE
 	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 7 SECONDS)
 
-	if(!do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.4 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, 90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, -90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, 90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, -90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.emote("gasp")
