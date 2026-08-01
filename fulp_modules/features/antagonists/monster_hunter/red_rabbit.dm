@@ -30,7 +30,7 @@
 	base_pixel_x = -16
 
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
-	ai_controller = /datum/ai_controller/basic_controller/red_rabbit
+	ai_controller = /datum/ai_controller/basic_controller/simple/simple_hostile_obstacles
 	basic_mob_flags = DEL_ON_DEATH
 
 	///Ability to make rabbit holes
@@ -53,24 +53,3 @@
 	hole_power.Grant(src)
 	rabbit_power.Grant(src)
 	spear_power.Grant(src)
-
-/**
- * AI controller
- */
-/datum/ai_controller/basic_controller/red_rabbit
-	blackboard = list(
-		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
-	)
-
-	ai_movement = /datum/ai_movement/basic_avoidance
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree/rabbit,
-		/datum/ai_planning_subtree/attack_obstacle_in_path,
-	)
-
-/datum/ai_planning_subtree/basic_melee_attack_subtree/rabbit
-	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/rabbit
-
-/datum/ai_behavior/basic_melee_attack/rabbit
-	action_cooldown = 1.2 SECONDS
