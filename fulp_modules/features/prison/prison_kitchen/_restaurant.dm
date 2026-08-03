@@ -55,7 +55,7 @@
 	desc = "A holographic projector that creates seating designation for prison restaurants."
 	id = "holosignprisonrestaurant"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 2000, /datum/material/glass = 1000)
+	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT, /datum/material/glass = HALF_SHEET_MATERIAL_AMOUNT)
 	build_path = /obj/item/holosign_creator/robot_seat/restaurant/prison
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_SECURITY
