@@ -8,7 +8,7 @@
 /datum/martial_art/velvetfu
 	name = "Velvet-Fu"
 	id = MARTIALART_VELVETFU
-	help_verb = /mob/living/proc/velvetfu_help
+	help_verb = "Recall Teachings"
 	display_combos = TRUE
 
 	var/datum/action/receding_stance/recedingstance = new/datum/action/receding_stance()
@@ -292,19 +292,19 @@
 	playsound(D, 'sound/items/weapons/punch1.ogg', 50, TRUE, -1)
 	return TRUE
 
-/mob/living/proc/velvetfu_help()
-	set name = "Recall Teachings"
-	set desc = "Remember the martial techniques of Velvet-Fu."
-	set category = "VelvetFu"
+/datum/martial_art/velvetfu/get_style_help()
+	. = list()
 
-	to_chat(usr, span_notice("<b><i>You try to remember the VHS tapes of Velvet-Fu...</i></b>\n\
-	Iron Hoof: Disarm/Grab/Harm while opponent is down, though Disarm works best.\n\
-	Flying Axe Kick: Harm Disarm. Deals damage and causes bleeding. Costs 50 Stamina.\n\
-	Goat Headbutt: Disarm Grab. Deals brute while stunning your opponent. Costs 20 Stamina and 18 Brute.\n\
-	Full Thrust: Grab Harm. Deals brute and has a chance to knock your opponent down. Costs 60 Stamina.\n\
-	Minor Iris: Harm Harm Harm. Devastatingly slashes your opponent. Costs 80 Stamina.\n\
-	Receding Stance: Regenerates 40 Stamina. Requires standing still.\n\
-	Twisted Stance: Regenerates 40 Stamina. Deals brute damage."))
+	. += "<b><i>You try to remember the VHS tapes of Velvet-Fu...</i></b>"
+	. += "Iron Hoof: Disarm/Grab/Harm while opponent is down, though Disarm works best."
+	. += "Flying Axe Kick: Harm Disarm. Deals damage and causes bleeding. Costs 50 Stamina."
+	. += "Goat Headbutt: Disarm Grab. Deals brute while stunning your opponent. Costs 20 Stamina and 18 Brute."
+	. += "Full Thrust: Grab Harm. Deals brute and has a chance to knock your opponent down. Costs 60 Stamina."
+	. += "Minor Iris: Harm Harm Harm. Devastatingly slashes your opponent. Costs 80 Stamina."
+	. += "Receding Stance: Regenerates 40 Stamina. Requires standing still."
+	. += "Twisted Stance: Regenerates 40 Stamina. Deals brute damage."
+
+	return .
 
 #undef RECEDING_STANCE
 #undef TWISTED_STANCE

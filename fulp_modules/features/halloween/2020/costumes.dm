@@ -623,9 +623,7 @@
 	flipped = FALSE
 	..()
 
-/obj/item/clothing/neck/costume_2020/papa_ross_squirrel/verb/flipcap()
-	set category = "Object"
-	set name = "Flip Peapod"
+GAME_VERB(/obj/item/clothing/neck/costume_2020/papa_ross_squirrel, flipcap, "Flip Peapod", null)
 	flip(usr)
 
 /obj/item/clothing/neck/costume_2020/papa_ross_squirrel/click_alt(mob/user)

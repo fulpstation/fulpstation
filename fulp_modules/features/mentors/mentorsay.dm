@@ -2,10 +2,7 @@
 /// This is a copy paste of ASAY_LINK_PINGED_ADMINS_INDEX
 #define MSAY_LINK_PINGED_MENTORS_INDEX "!pinged_mentors"
 
-/client/proc/cmd_mentor_say(msg as text)
-	set category = "Mentor"
-	set name = "Mentorsay"
-
+GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
 	if(!is_mentor())
 		to_chat(src, span_danger("Error: Only mentors and administrators may use this command."), confidential = TRUE)
 		return
@@ -69,10 +66,13 @@
 
 ///Gives both Mentors & Admins all Mentor verb
 /client/proc/add_mentor_verbs()
-	if(mentor_datum || holder)
-		add_verb(src, GLOB.mentor_verbs)
+	if(!mentor_datum && !holder)
+		return
+	ASSIGN_GAME_VERB(src, /client, cmd_mentor_say)
+	ASSIGN_GAME_VERB(src, /client, mentor_requests)
 
 /client/proc/remove_mentor_verbs()
-	remove_verb(src, GLOB.mentor_verbs)
+	UNASSIGN_GAME_VERB(src, /client, cmd_mentor_say)
+	UNASSIGN_GAME_VERB(src, /client, mentor_requests)
 
 #undef MSAY_LINK_PINGED_MENTORS_INDEX

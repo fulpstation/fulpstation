@@ -11,7 +11,7 @@
 	if(silent || !antag_tips.len)
 		return
 	tips = new(name, tip_theme, antag_tips)
-	add_verb(owner.current, /mob/living/proc/open_tips)
+	ASSIGN_GAME_VERB(owner.current, /mob/living, open_tips)
 	if(!owner.current.client?.prefs?.read_preference(/datum/preference/toggle/antag_tips))
 		return
 	tips.ui_interact(owner.current)
@@ -19,6 +19,11 @@
 /datum/antagonist/on_removal()
 	if(tips)
 		QDEL_NULL(tips)
+	for(var/datum/antagonist/antag_datum as anything in owner.antag_datums)
+		if(antag_datum == src)
+			continue
+		return ..()
+	UNASSIGN_GAME_VERB(owner.current, /mob/living, open_tips)
 	return ..()
 
 /**
@@ -26,10 +31,7 @@
  *
  * Tied to the Mob, allows anyone to see their antag tips
  */
-/mob/living/proc/open_tips()
-	set name = "Open Antag tips"
-	set category = "Mentor"
-
+GAME_VERB_PROC(/mob/living, open_tips, "Open Antag Tips", "Mentor")
 	var/list/datum/antagonist/antag_datum_list = list()
 
 	for(var/datum/antagonist/antag_datum as anything in mind.antag_datums)
@@ -38,7 +40,7 @@
 		antag_datum_list += antag_datum
 
 	if(!antag_datum_list.len) //none? You shouldn't have this then.
-		remove_verb(src, /mob/living/proc/open_tips)
+		UNASSIGN_GAME_VERB(src, /mob/living, open_tips)
 		return
 	if(antag_datum_list.len == 1) //only one? skip ui
 		for(var/datum/antagonist/antag_datum as anything in antag_datum_list)
