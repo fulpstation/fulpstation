@@ -13,6 +13,7 @@
 	name = "nanite program disk"
 	desc = "A disk capable of storing nanite programs. Can be customized using a Nanite Programming Console."
 	icon_state = "datadisk0"
+	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT)
 	///The program currently uploaded into the disk. If set to something, the disk will spawn with that program on mapload.
 	var/datum/nanite_program/program
 
