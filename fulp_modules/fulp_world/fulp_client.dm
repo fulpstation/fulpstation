@@ -1,3 +1,4 @@
 /client/New()
 	. = ..()
-	remove_verb(src, /client/verb/verify_in_discord)
+	UNASSIGN_GAME_VERB(src, /client, linkforumaccount)
+	UNASSIGN_GAME_VERB(src, /client, verify_in_discord)
