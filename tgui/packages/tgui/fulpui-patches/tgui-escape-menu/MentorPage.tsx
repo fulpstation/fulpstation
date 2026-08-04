@@ -6,11 +6,7 @@ type Props = {
   onClose: () => void;
 };
 
-export function MentorPage({
-  onNavigate,
-  onAction,
-  onClose,
-}: Props) {
+export function MentorPage({ onNavigate, onAction, onClose }: Props) {
   return (
     <>
       <BackButton onClick={() => onNavigate('home')} />

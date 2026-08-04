@@ -37,6 +37,7 @@ export type ServerState = {
   resources: ResourceLink[];
   admins: PlayerInfo[];
   mentors: PlayerInfo[]; //Fulp edit: Adding mentors to the player list.
+  isMentor: boolean;
   players: PlayerInfo[];
   ignoredOffline: string[];
   suicideIcon: string | null;
