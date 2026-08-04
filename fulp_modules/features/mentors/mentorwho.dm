@@ -2,9 +2,9 @@
  * Basically all of this is copied from adminwho with everything
  * renamed to mentor instead.
  * Please keep parity with that if possible.
+ * Already in escape menu, once Admin tab gets removed, remove this with it.
  */
-
-GAME_VERB(/client, mentorwho, "Mentorwho", "Mentor")
+GAME_VERB(/client, mentorwho, "Mentorwho", "Admin")
 
 	var/list/lines = list()
 	var/payload_string = generate_mentorwho_string()
