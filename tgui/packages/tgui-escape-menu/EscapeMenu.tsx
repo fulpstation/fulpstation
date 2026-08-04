@@ -179,7 +179,6 @@ export function EscapeMenu() {
         )}
         {state.page === 'mentor' && (
           <MentorPage
-            serverState={state.serverState}
             onNavigate={navigate}
             onAction={handleAction}
             onClose={handleClose}
