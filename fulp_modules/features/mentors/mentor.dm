@@ -73,10 +73,10 @@ ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", "Men
 	if(!user)
 		return
 
-	var/confirm = tgui_alert(usr, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
+	var/confirm = tgui_alert(user, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
 	if(confirm != "Yes")
 		return
 
 	load_mentors()
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Reload All Mentors") // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
-	message_admins("[key_name_admin(usr)] manually reloaded mentors")
+	message_admins("[key_name_admin(user)] manually reloaded mentors")

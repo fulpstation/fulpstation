@@ -2,7 +2,7 @@
 /// This is a copy paste of ASAY_LINK_PINGED_ADMINS_INDEX
 #define MSAY_LINK_PINGED_MENTORS_INDEX "!pinged_mentors"
 
-GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
+GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", null, msg as text)
 	if(!is_mentor())
 		to_chat(src, span_danger("Error: Only mentors and administrators may use this command."), confidential = TRUE)
 		return
@@ -37,10 +37,6 @@ GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
 		confidential = TRUE)
 
 	SSblackbox.record_feedback("tally", "mentor_verb", 1, "Msay") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-/client/proc/get_mentor_say()
-	var/msg = input(src, null, "msay \"text\"") as text|null
-	cmd_mentor_say(msg)
 
 // see /proc/check_asay_links(msg) we just check for mentor_datum instead of holder
 /proc/check_mentor_pings(msg)

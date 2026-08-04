@@ -47,4 +47,8 @@ describe('ChannelIterator', () => {
     channelIterator.set('Admin');
     expect(channelIterator.next()).toBe('Admin');
   });
+  it('should not leak a message from a blacklisted channel', () => {
+    channelIterator.set('Mentor');
+    expect(channelIterator.next()).toBe('Mentor');
+  });
 });
