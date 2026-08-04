@@ -1,5 +1,9 @@
 
 /datum/job/prisoner
+	//Because we're now a "Service" role rather than a "No Department" one, we need to overwrite this to have a proper display order.
+	//At time of writing, pun pun is the lowest Service role, so we're basing it off of that. If tests fail, then a new job was added,
+	//simply make the new job the typepath we're copying below to fix it.
+	display_order = /datum/job/pun_pun::display_order + 1
 	department_for_prefs = /datum/job_department/service
 	//Set to service so award_service() works
 	departments_list = list(

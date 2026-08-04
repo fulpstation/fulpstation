@@ -138,7 +138,7 @@
 	var/chosen = pick(fried_rice_types)
 	var/obj/item/food/new_rice = new chosen(interacting_with.loc)
 
-	ADD_TRAIT(new_rice, TRAIT_FOOD_CHEF_MADE, user)
+	ADD_TRAIT(new_rice, TRAIT_HANDMADE, user)
 	new_rice.crafted_food_buff = /datum/status_effect/food/speech/shrimp_speech
 	new_rice.AddComponent(/datum/component/shrimp_fried)
 

@@ -10,7 +10,7 @@
 	melee_damage_lower = 5
 	melee_damage_upper = 5
 	faction = list(FACTION_RABBITS)
-	ai_controller = /datum/ai_controller/basic_controller/killer_rabbit
+	ai_controller = /datum/ai_controller/basic_controller/simple/simple_hostile
 	basic_mob_flags = DEL_ON_DEATH
 
 /mob/living/basic/killer_rabbit/Initialize(mapload)
@@ -25,17 +25,3 @@
 	explosion(src, heavy_impact_range = 1, light_impact_range = 1, flame_range = 2)
 	gib(src)
 
-/**
- * AI controller
- */
-/datum/ai_controller/basic_controller/killer_rabbit
-	blackboard = list(
-		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
-	)
-
-	ai_movement = /datum/ai_movement/basic_avoidance
-	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree/rabbit,
-	)

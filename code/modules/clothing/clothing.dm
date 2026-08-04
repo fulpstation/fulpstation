@@ -61,6 +61,9 @@
 	// such that you never actually cared about checking if something is *edible*.
 	var/obj/item/food/clothing/moth_snack
 
+	// Is it freshly laundered
+	var/is_laundered = FALSE
+
 /obj/item/clothing/Initialize(mapload)
 	if(clothing_flags & VOICEBOX_TOGGLABLE)
 		actions_types += list(/datum/action/item_action/toggle_voice_box)
@@ -356,11 +359,14 @@
 	if(get_armor().has_any_armor() || (flags_cover & (HEADCOVERSMOUTH|PEPPERPROOF)) || (clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
 		. += span_notice("It has a <a href='byond://?src=[REF(src)];list_armor=1'>tag</a> listing its protection classes.")
 
+	if(is_laundered)
+		. += "[src] looks crisp and pristine."
+
 /obj/item/clothing/examine_tags(mob/user)
 	. = ..()
 	if (clothing_flags & THICKMATERIAL)
 		.["thick"] = "Protects from most injections and sprays."
-	if (clothing_flags & CASTING_CLOTHES)
+	if (HAS_TRAIT(src, TRAIT_CASTING_CLOTHING))
 		.["magical"] = "Allows magical beings to cast spells when wearing [src]."
 	if((clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
 		.["pressure-proof"] = "Protects the wearer from extremely low or high pressure, such as vacuum of space."
@@ -431,21 +437,23 @@
 				readout += "<b><u>COVERAGE</u></b>"
 				readout += "It will block [english_list(things_blocked)]."
 
+		var/list/parts_covered = list()
+		if(body_parts_covered & HEAD)
+			parts_covered += "head"
+		if(body_parts_covered & CHEST)
+			parts_covered += "torso"
+		if(body_parts_covered & (ARMS|HANDS))
+			parts_covered += "arms"
+		if(body_parts_covered & (LEGS|FEET))
+			parts_covered += "legs"
+		if(length(parts_covered))
+			readout += "It covers the wearer's [english_list(parts_covered)]."
+
 		if((clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
-			var/list/parts_covered = list()
 			var/output_string = "It"
 			if(!(clothing_flags & STOPSPRESSUREDAMAGE))
 				output_string = "When sealed, it"
-			if(body_parts_covered & HEAD)
-				parts_covered += "head"
-			if(body_parts_covered & CHEST)
-				parts_covered += "torso"
-			if(body_parts_covered & (ARMS|HANDS))
-				parts_covered += "arms"
-			if(body_parts_covered & (LEGS|FEET))
-				parts_covered += "legs"
-			if(length(parts_covered))
-				readout += "[output_string] will protect the wearer's [english_list(parts_covered)] from [span_tooltip("The extremely low pressure is the biggest danger posed by the vacuum of space.", "low pressure")]."
+			readout += "[output_string] will protect the wearer's bodyparts that it covers from [span_tooltip("The extremely low pressure is the biggest danger posed by the vacuum of space.", "low pressure")]."
 
 		var/heat_prot
 		switch (max_heat_protection_temperature)
@@ -496,13 +504,8 @@
 	if(stubborn_stains) //Just can't make it feel right
 		return
 
-	var/fresh_mood = AddComponent( \
-		/datum/component/onwear_mood, \
-		saved_event_type = /datum/mood_event/fresh_laundry, \
-		examine_string = "[src] looks crisp and pristine.", \
-	)
-
-	QDEL_IN(fresh_mood, 2 MINUTES)
+	is_laundered = TRUE
+	addtimer(VARSET_CALLBACK(src, is_laundered, FALSE), 2 MINUTES)
 
 //This mostly exists so subtypes can call appriopriate update icon calls on the wearer.
 /obj/item/clothing/proc/update_clothes_damaged_state(damaged_state = CLOTHING_DAMAGED)
@@ -645,7 +648,7 @@ BLIND     // can't see anything
 	return ..()
 
 /// Returns a list of overlays with our blood, if we're bloodied
-/obj/item/clothing/proc/get_blood_overlay(blood_state)
+/obj/item/clothing/proc/get_blood_overlay(blood_state, bodyshape = NONE)
 	if (!GET_ATOM_BLOOD_DECAL_LENGTH(src))
 		return
 

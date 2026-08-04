@@ -269,11 +269,12 @@
 			qdel(src)
 		return new_meat
 
-/mob/living/carbon/human/spread_bodyparts(skip_head = FALSE)
+/mob/living/carbon/human/spread_bodyparts(drop_bitflags = NONE, gibbed = FALSE)
 	if(!isbeefman(src))
 		return ..()
-	for(var/obj/item/bodypart/bodypart in bodyparts)
-		bodypart.drop_limb()
+	if(drop_bitflags & DROP_BODYPARTS)
+		for(var/obj/item/bodypart/bodypart in bodyparts)
+			bodypart.drop_limb()
 
 
 /obj/item/bodypart/update_limb(dropping_limb = FALSE, is_creating = FALSE)

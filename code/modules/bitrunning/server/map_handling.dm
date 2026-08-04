@@ -199,6 +199,7 @@
 /// Stops the current virtual domain and disconnects all users
 /obj/machinery/quantum_server/proc/reset(fast = FALSE)
 	is_ready = FALSE
+	domain_complete = FALSE
 
 	sever_connections()
 
@@ -236,6 +237,7 @@
 		qdel(creature)
 
 	generated_domain.secondary_loot_generated = 0
+	generated_domain.main_crate_points = 0
 
 	avatar_connection_refs.Cut()
 	exit_turfs = list()

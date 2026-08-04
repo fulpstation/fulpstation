@@ -161,7 +161,7 @@ GLOBAL_LIST_EMPTY(wonderland_marks)
 
 /datum/reagent/medicine/blood_vial/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
 	if(affected_mob.health < 90 && affected_mob.health > 0)
-		affected_mob.adjust_oxy_loss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		affected_mob.adjust_oxy_loss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
 		affected_mob.adjust_tox_loss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
 		affected_mob.adjust_brute_loss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
 		affected_mob.adjust_fire_loss(-2 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)

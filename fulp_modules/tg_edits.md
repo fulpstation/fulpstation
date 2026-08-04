@@ -40,28 +40,29 @@
 #### Maps & Shuttles
 - _maps/map_files/Heliostation/Heliostation.dmm
 - _maps/heliostation.json
-- _maps/shuttles/arrival_helio.dmm
-- _maps/shuttles/cargo_helio.dmm
-- _maps/shuttles/emergency_helio.dmm
-- _maps/shuttles/labour_helio.dmm
 - _maps/map_files/SeleneStation/SeleneStation.dmm
 - _maps/selenestation.json
-- _maps/shuttles/arrival_selene.dmm
-- _maps/shuttles/cargo_selene.dmm
-- _maps/shuttles/emergency_selene.dmm
-- _maps/shuttles/mining_selene.dmm
-- _maps/shuttles/labour_selene.dmm
 - _maps/map_files/PubbyStation/PubbyStation.dmm
 - _maps/pubbystation.json
 - _maps/map_files/TheiaStation/TheiaStation.dmm
 - _maps/theiastation.json
-- _maps/shuttles/arrival_fulp.dmm
-- _maps/shuttles/cargo_fulp.dmm
-- _maps/shuttles/emergency_theia.dmm
+- _maps/shuttles/arrival/arrival_helio.dmm
+- _maps/shuttles/arrival/arrival_selene.dmm
+- _maps/shuttles/arrival/arrival_fulp.dmm
+- _maps/shuttles/cargo/cargo_helio.dmm
+- _maps/shuttles/cargo/cargo_pubby.dmm
+- _maps/shuttles/cargo/cargo_selene.dmm
+- _maps/shuttles/cargo/cargo_fulp.dmm
+- _maps/shuttles/emergency/emergency_helio.dmm
+- _maps/shuttles/emergency/emergency_selene.dmm
+- _maps/shuttles/emergency/emergency_theia.dmm
+- _maps/shuttles/labour/labour_helio.dmm
+- _maps/shuttles/labour/labour_selene.dmm
+- _maps/shuttles/mining/mining_selene.dmm
 
 ##### Important Mapping notice
 
-cargo_pubby.dmm is on TG, however Fulp edited it to fit with Cargo.
+_maps/shuttles/cargo/cargo_pubby.dmm is on TG, however Fulp edited it to fit with Cargo.
 Please make sure to not accidentally re-add the old version.
 
 #### TGUI

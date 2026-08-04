@@ -12,7 +12,7 @@
 	icon = 'fulp_modules/icons/species/russian_language.dmi'
 	icon_state = "commie"
 	default_priority = 90
-	flags = TONGUELESS_SPEECH
+	flags = LANGUAGE_TONGUELESS_SPEECH
 
 /datum/language_holder/russian
 	understood_languages = list(

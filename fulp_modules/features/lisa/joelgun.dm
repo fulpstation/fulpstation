@@ -108,7 +108,7 @@
 			COMBAT_MESSAGE_RANGE,
 		)
 		for(var/mob/living/victims in viewers(1, user))
-			if(prob(75) && !(victims == user) && victims.stat <= CONSCIOUS && !velvet_check(victims))
+			if(prob(75) && !(victims == user) && !IS_UNCONSCIOUS_OR_CRIT(victims) && !velvet_check(victims))
 				to_chat(victims, span_warning("You feel terrifyingly spooked by [user.name]!"))
 				var/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(victims, user)))
 				victims.throw_at(throwtarget, 3, 2)
@@ -158,23 +158,23 @@
 	used_ability = TRUE
 	addtimer(CALLBACK(src, PROC_REF(clear_cooldown)), 7 SECONDS)
 
-	if(!do_after(user, 0.4 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.4 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, 90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, -90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, 90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.setDir(turn(user.dir, -90))
-	if(!do_after(user, 0.3 SECONDS, target = src, progress = FALSE))
+	if(!do_after(user, 0.3 SECONDS, target = src, show_progress = FALSE))
 		return
 
 	user.emote("gasp")
@@ -185,7 +185,7 @@
 	)
 	// Everyone directly next to it will move
 	for(var/mob/living/main_victims in view(1, target))
-		if(!(main_victims == user) && main_victims.stat <= CONSCIOUS && !velvet_check(main_victims))
+		if(!(main_victims == user) && !IS_UNCONSCIOUS_OR_CRIT(main_victims) && !velvet_check(main_victims))
 			main_victims.visible_message(
 				span_danger("[main_victims] quickly jumps towards [target]!"),
 				span_userdanger("You quickly jump towards [target]!"),

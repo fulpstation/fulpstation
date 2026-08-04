@@ -7,8 +7,7 @@
 	transmittable = -1
 	level = 7
 	severity = 0
-	symptom_delay_min = 1
-	symptom_delay_max = 1
+	symptom_delay = 1
 	threshold_descs = list(
 		"Transmission 5" = "Increases the virus' growth rate while nanites are present.",
 		"Stage Speed 7" = "Increases the replication boost.",
@@ -44,8 +43,7 @@
 	transmittable = 1
 	level = 7
 	severity = 0
-	symptom_delay_min = 1
-	symptom_delay_max = 1
+	symptom_delay = 1
 	threshold_descs = list(
 		"Stage Speed 5" = "Increases the virus' growth rate while nanites are present.",
 		"Resistance 7" = "Severely increases the rate at which the nanites are destroyed.",

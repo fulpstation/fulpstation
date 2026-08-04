@@ -3,7 +3,7 @@
 	desc = "Allows for the construction of a nanite remote."
 	id = "nanite_remote"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/glass = 500, /datum/material/iron = 500)
+	materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/nanite_remote
 	category = list(RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_ELECTRONICS)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
@@ -13,7 +13,7 @@
 	desc = "Allows for the construction of a nanite communication remote."
 	id = "nanite_comm_remote"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/glass = 500, /datum/material/iron = 500)
+	materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/nanite_remote/comm
 	category = list(RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_ELECTRONICS)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
@@ -23,7 +23,7 @@
 	desc = "Allows for the construction of a nanite scanner."
 	id = "nanite_scanner"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/glass = 500, /datum/material/iron = 500)
+	materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/nanite_scanner
 	category = list(RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_ELECTRONICS)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
@@ -33,7 +33,7 @@
 	desc = "Stores nanite programs."
 	id = "nanite_disk"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron = 300, /datum/material/glass = 100)
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/disk/nanite_program
 	category = list(RND_CATEGORY_CONSTRUCTION + RND_SUBCATEGORY_CONSTRUCTION_ELECTRONICS)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE

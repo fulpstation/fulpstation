@@ -120,7 +120,7 @@
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/proc/attempt_mesmerize(mob/living/target, mob/living/user)
 	owner.balloon_alert(owner, "mesmerizing...")
-	if(!do_after(user, 3 SECONDS, target, NONE, TRUE, hidden = TRUE))
+	if(!do_after(user, 3 SECONDS, target, NONE, TRUE, cog_icon = null))
 		return
 
 	power_activated_sucessfully()
@@ -151,7 +151,7 @@
 	REMOVE_TRAIT(target, TRAIT_NO_TRANSFORM, BLOODSUCKER_TRAIT)
 	target.cure_blind(BLOODSUCKER_TRAIT)
 	REMOVE_TRAIT(target, TRAIT_MUTE, BLOODSUCKER_TRAIT)
-	if(istype(user) && target.stat == CONSCIOUS && (target in view(6, get_turf(user))))
+	if(istype(user) && !IS_UNCONSCIOUS(target) && (target in view(6, get_turf(user))))
 		owner.balloon_alert(owner, "[target] snapped out of their trance.")
 
 /datum/action/cooldown/bloodsucker/targeted/tremere/dominate/proc/attempt_vassalize(mob/living/target, mob/living/user)

@@ -13,6 +13,7 @@
 	icon_state = "nanite_remote"
 	base_icon_state = "nanite_remote"
 	item_flags = NOBLUDGEON
+	custom_materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 
 	///Boolean on whether the nanite remote has been locked, preventing changing of any setting.
 	var/locked = FALSE

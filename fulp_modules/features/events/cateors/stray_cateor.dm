@@ -27,7 +27,7 @@
 	var/list/viable_crew_targets = list() //Makes a list of who it should chase first
 	for(var/mob/living/crew in shuffle(GLOB.player_list))
 		var/turf/crew_turf = get_turf(crew)
-		if(crew.stat == DEAD || HAS_TRAIT(crew, TRAIT_CRITICAL_CONDITION) || !is_station_level(crew_turf.z))
+		if(crew.stat == DEAD || IS_UNCONSCIOUS_OR_CRIT(crew) || !is_station_level(crew_turf.z))
 			continue
 		if(isfelinid(crew))
 			continue

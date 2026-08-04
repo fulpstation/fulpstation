@@ -30,7 +30,7 @@
 	attack_verb_simple = "metaphysically strike"
 	death_message = "withers away into nothing."
 
-	ai_controller = /datum/ai_controller/basic_controller/wraith
+	ai_controller = /datum/ai_controller/basic_controller/ghost
 	minimum_survivable_temperature = 0
 	maximum_survivable_temperature = INFINITY
 	unsuitable_atmos_damage = 0
@@ -46,19 +46,3 @@
 /mob/living/basic/bloodsucker/wraith/death(gibbed)
 	. = ..()
 	new /obj/item/ectoplasm(src.loc)
-
-/// Copied from '/datum/ai_controller/basic_controller/ghost' with minor alteration.
-/datum/ai_controller/basic_controller/wraith
-	blackboard = list(
-		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
-	)
-
-	ai_movement = /datum/ai_movement/basic_avoidance
-	idle_behavior = /datum/idle_behavior/idle_random_walk
-
-	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target,
-		/datum/ai_planning_subtree/attack_obstacle_in_path,
-		/datum/ai_planning_subtree/basic_melee_attack_subtree,
-		/datum/ai_planning_subtree/random_speech/faithless,
-	)

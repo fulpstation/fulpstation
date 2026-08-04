@@ -486,20 +486,23 @@
 		return FALSE
 
 	count_borgs = TRUE
-	var/mob/living/silicon/robot/model/infiltrator/borg = new /mob/living/silicon/robot/model/infiltrator(loc)
-	borg.SetEmagged(1)
+	var/mob/living/silicon/robot/model/infiltrator/borg = new(get_turf(src))
+	borg.SetEmagged(TRUE)
 	borg.set_connected_ai(null)
-	borg.laws = new /datum/ai_laws/syndicate_override
+	borg.lawupdate = FALSE
 	if(owner)
-		borg.set_zeroth_law("Aid [owner] with their tasks in exacting revenge against Nanotrasen.")
-	borg.laws.associate(src)
+		borg.laws.set_zeroth_law("Aid [owner] with their tasks in exacting revenge against Nanotrasen.")
 	borg.key = user.key
+	borg.laws.show_laws()
 
 /mob/living/silicon/robot/model/infiltrator
 	set_model = /obj/item/robot_model/security/infiltrator
 	icon = 'fulp_modules/icons/antagonists/infiltrators/robot.dmi'
 	icon_state = "infilsec"
 	scrambledcodes = TRUE
+
+/mob/living/silicon/robot/model/infiltrator/make_laws()
+	laws = new /datum/ai_laws/syndicate_override()
 
 /obj/projectile/beam/laser/infil
 	damage = 10
