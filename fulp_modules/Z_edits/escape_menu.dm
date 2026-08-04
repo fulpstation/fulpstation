@@ -30,3 +30,17 @@
 			"isSelf" = (player.ckey == client?.ckey),
 		))
 	return result
+
+/datum/escape_menu/on_message(type, payload, href_list)
+	. = ..()
+	if(type != "action")
+		return FALSE
+	var/action = payload["action"]
+	switch(action)
+		if("mentorhelp")
+			client.mentorhelp()
+		if("mentor_manager")
+			if(isnull(client.mentor_datum))
+				return TRUE
+			client.mentor_requests()
+	return .

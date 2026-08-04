@@ -50,9 +50,6 @@
 		if(ADMIN_CHANNEL)
 			INVOKE_ASYNC(SSadmin_verbs, TYPE_PROC_REF(/datum/controller/subsystem/admin_verbs, dynamic_invoke_verb), client, /datum/admin_verb/cmd_admin_say, entry)
 			return TRUE
-		if(MENTOR_CHANNEL)
-			client.cmd_mentor_say(entry)
-			return TRUE
 		if(PRAY_CHANNEL)
 			client.mob.pray(entry)
 			return TRUE

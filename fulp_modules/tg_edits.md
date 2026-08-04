@@ -7,9 +7,7 @@
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
 - code/modules/client/client_procs.dm
-- code/modules/escape_menu/escape_menu.dm
 - code/modules/tgui_input/say_modal/modal.dm
-- code/modules/tgui_input/say_modal/speech.dm
 
 - interface\interface.dm > Changes the TG Changelog verb to a new path & name.
 

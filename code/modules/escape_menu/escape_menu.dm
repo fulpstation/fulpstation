@@ -262,11 +262,5 @@ GAME_VERB_HIDDEN(/client, reset_held_keys_verb, "Reset Held Keys")
 				LAZYADD(client.prefs.ignoring, ckey)
 			client.prefs.save_preferences()
 			to_chat(client, span_notice("[ckey] has been [(ckey in client.prefs.ignoring) ? "" : "un"]ignored in OOC."))
-		if("mentorhelp")
-			client.mentorhelp()
-		if("mentor_manager")
-			if(isnull(client.mentor_datum))
-				return TRUE
-			client.mentor_requests()
 
 	return TRUE
