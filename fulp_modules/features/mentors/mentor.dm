@@ -49,8 +49,8 @@ GLOBAL_PROTECT(mentor_href_token)
 	var/mob/old_eye = owner.eye
 	UnregisterSignal(owner.mob, COMSIG_MOB_KEYDOWN)
 	owner.mob.reset_perspective()
-	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> stopped mentorfollowing [key_name(old_eye)].</span>"))
-	log_mentor("[key_name(owner.mob)] stopped mentorfollowing [key_name(old_eye)].")
+	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> stopped following [key_name(old_eye)].</span>"))
+	log_mentor("[key_name(owner.mob)] stopped following [key_name(old_eye)].")
 
 
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
