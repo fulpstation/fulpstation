@@ -69,7 +69,7 @@ GLOBAL_PROTECT(mentor_href_token)
 		if(!GLOB.mentor_datums[admin.ckey])
 			new /datum/mentors(admin.ckey)
 
-ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", "Mentor")
+ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", ADMIN_CATEGORY_MENTOR)
 	if(!user)
 		return
 
