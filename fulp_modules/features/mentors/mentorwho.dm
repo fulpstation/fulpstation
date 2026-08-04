@@ -52,8 +52,8 @@ GAME_VERB(/client, mentorwho, "Mentorwho", "Mentor")
 		//AFK people don't show up
 		if(mentor_client.is_afk())
 			continue
-		//Deadmins don't show up unless it's the pseudostaff cause they are generally expected to be.
-		if(GLOB.deadmins[mentor_client.ckey] && !(mentor_client.key == "[CONFIG_GET(string/headofpseudostaff)]"))
+		//Deadmins don't show up
+		if(GLOB.deadmins[mentor_client.ckey])
 			continue
 
 		returnable_list += "• [mentor_client] is a Mentor"
