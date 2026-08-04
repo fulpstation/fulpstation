@@ -60,7 +60,7 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 			return TRUE
 		if ("follow")
 			var/mob/M = request.owner?.mob
-			mentor_client.mentor_follow(M)
+			mentor_client.mentor_datum.mentor_follow(M)
 			return TRUE
 	return ..()
 

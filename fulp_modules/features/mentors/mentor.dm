@@ -12,8 +12,6 @@ GLOBAL_PROTECT(mentor_href_token)
 	var/target
 	/// href token for Mentor commands, uses the same token used by Admins.
 	var/href_token
-	///The mob currently being followed with mfollow.
-	var/mob/following
 
 /datum/mentors/New(ckey)
 	if(!ckey)
@@ -33,6 +31,27 @@ GLOBAL_PROTECT(mentor_href_token)
 		owner.mentor_datum = src
 		owner.add_mentor_verbs()
 		GLOB.mentors += owner
+
+/datum/mentors/proc/mentor_follow(mob/living/followed_guy)
+	if(isnull(followed_guy))
+		return
+	owner.mob.reset_perspective(followed_guy)
+	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> is now following <EM>[key_name(followed_guy)]</span>"))
+	to_chat(owner.mob, span_info("Use \"Escape\" to stop following [key_name(followed_guy)]."))
+	log_mentor("[key_name(owner.mob)] began following [key_name(followed_guy)]")
+	RegisterSignal(owner.mob, COMSIG_MOB_KEYDOWN, PROC_REF(mentor_unfollow))
+
+/datum/mentors/proc/mentor_unfollow(mob/source, key)
+	SIGNAL_HANDLER
+
+	if(key != ESCAPE_KEY)
+		return
+	var/mob/old_eye = owner.eye
+	UnregisterSignal(owner.mob, COMSIG_MOB_KEYDOWN)
+	owner.mob.reset_perspective()
+	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> stopped mentorfollowing [key_name(old_eye)].</span>"))
+	log_mentor("[key_name(owner.mob)] stopped mentorfollowing [key_name(old_eye)].")
+
 
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
 	var/tok = GLOB.mentor_href_token
