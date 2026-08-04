@@ -36,6 +36,7 @@ export type ServerState = {
   hasTicketNotification: boolean;
   resources: ResourceLink[];
   admins: PlayerInfo[];
+  mentors: PlayerInfo[]; //Fulp edit: Adding mentors to the player list.
   players: PlayerInfo[];
   ignoredOffline: string[];
   suicideIcon: string | null;
