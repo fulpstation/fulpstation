@@ -7,13 +7,16 @@ type ServerState = {
   stationName: string;
   canLeaveBody: boolean;
   canAdminHelp: boolean;
+  isMentor: boolean;
   hasTicketNotification: boolean;
   resources: ResourceLink[];
 };
 
 type Props = {
   serverState: ServerState;
-  onNavigate: (page: 'admin' | 'players' | 'leave_body' | 'quit') => void;
+  onNavigate: (
+    page: 'admin' | 'mentor' | 'players' | 'leave_body' | 'quit',
+  ) => void;
   onAction: (action: string) => void;
   onClose: () => void;
   showResources: boolean;
@@ -86,6 +89,20 @@ export function HomePage({
           >
             Admin Help
           </MenuButton>
+          {serverState.isMentor ? (
+            <MenuButton onClick={() => onNavigate('mentor')}>
+              Mentor Help
+            </MenuButton>
+          ) : (
+            <MenuButton
+              onClick={() => {
+                onAction('mentorhelp');
+                onClose();
+              }}
+            >
+              Mentor Help
+            </MenuButton>
+          )}
           <MenuButton
             onClick={() => onNavigate('leave_body')}
             disabled={!serverState.canLeaveBody}

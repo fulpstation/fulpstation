@@ -6,11 +6,12 @@ import { playCloseSounds, playOpenSounds } from './audio';
 import { AdminPage } from './pages/AdminPage';
 import { HomePage } from './pages/HomePage';
 import { LeaveBodyPage } from './pages/LeaveBodyPage';
+import { MentorPage } from './pages/MentorPage';
 import { PlayersPage } from './pages/PlayersPage';
 import { QuitPage } from './pages/QuitPage';
 import { updateScaling } from './scaling';
 
-type Page = 'home' | 'admin' | 'players' | 'leave_body' | 'quit';
+type Page = 'home' | 'admin' | 'mentor' | 'players' | 'leave_body' | 'quit';
 
 export type PlayerInfo = {
   ckey: string;
@@ -171,6 +172,14 @@ export function EscapeMenu() {
         )}
         {state.page === 'admin' && (
           <AdminPage
+            serverState={state.serverState}
+            onNavigate={navigate}
+            onAction={handleAction}
+            onClose={handleClose}
+          />
+        )}
+        {state.page === 'mentor' && (
+          <MentorPage
             serverState={state.serverState}
             onNavigate={navigate}
             onAction={handleAction}
