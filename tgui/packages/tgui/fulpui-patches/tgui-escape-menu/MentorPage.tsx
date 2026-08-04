@@ -1,18 +1,12 @@
 import { Tooltip } from 'tgui-core/components';
 
 type Props = {
-  serverState: {
-    canAdminHelp: boolean;
-    canSeeNotes: boolean;
-    hasTicketNotification: boolean;
-  };
   onNavigate: (page: 'home') => void;
   onAction: (action: string) => void;
   onClose: () => void;
 };
 
 export function MentorPage({
-  serverState,
   onNavigate,
   onAction,
   onClose,

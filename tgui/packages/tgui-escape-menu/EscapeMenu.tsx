@@ -1,12 +1,11 @@
 import './styles/main.scss';
 
 import { useEffect, useReducer, useRef } from 'react';
-
+import { MentorPage } from '../tgui/fulpui-patches/tgui-escape-menu/MentorPage';
 import { playCloseSounds, playOpenSounds } from './audio';
 import { AdminPage } from './pages/AdminPage';
 import { HomePage } from './pages/HomePage';
 import { LeaveBodyPage } from './pages/LeaveBodyPage';
-import { MentorPage } from './pages/MentorPage';
 import { PlayersPage } from './pages/PlayersPage';
 import { QuitPage } from './pages/QuitPage';
 import { updateScaling } from './scaling';

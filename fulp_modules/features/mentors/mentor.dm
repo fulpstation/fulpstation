@@ -44,7 +44,7 @@ GLOBAL_PROTECT(mentor_href_token)
 /datum/mentors/proc/mentor_unfollow(mob/source, key)
 	SIGNAL_HANDLER
 
-	if(key != ESCAPE_KEY)
+	if(key != "Escape")
 		return
 	var/mob/old_eye = owner.eye
 	UnregisterSignal(owner.mob, COMSIG_MOB_KEYDOWN)
