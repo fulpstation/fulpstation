@@ -12,7 +12,7 @@
 	var/list/phrases = alter_phrases || hurt_phrases
 
 	/// No OOC leaks
-	if(!entry || payload["channel"] == OOC_CHANNEL || payload["channel"] == ME_CHANNEL || payload["channel"] == PRAY_CHANNEL || payload["channel"] == MENTOR_CHANNEL)
+	if(!entry || payload["channel"] == OOC_CHANNEL || payload["channel"] == ME_CHANNEL || payload["channel"] == PRAY_CHANNEL)
 		return pick(phrases)
 	/// Random trimming for larger sentences
 	if(length(entry) > 50)
