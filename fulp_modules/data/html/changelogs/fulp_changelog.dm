@@ -20,7 +20,6 @@
 /// FULP CHANGELOG DATUM ///
 
 GLOBAL_DATUM(fulp_changelog_tgui, /datum/fulp_changelog)
-GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 
 /datum/fulp_changelog
 	var/static/list/fulp_changelog_items = list()
