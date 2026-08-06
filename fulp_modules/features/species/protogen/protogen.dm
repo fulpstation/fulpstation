@@ -36,7 +36,6 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/robot/protogen,
 	)
 	digitigrade_customization = DIGITIGRADE_OPTIONAL
-	death_sound = 'sound/mobs/non-humanoids/cyborg/borg_deathsound.ogg'
 
 /datum/species/protogen/check_roundstart_eligible()
 	if(check_holidays(APRIL_FOOLS))
