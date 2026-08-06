@@ -102,13 +102,11 @@ export class FulpChangelogContent extends Component<any, ChangelogState> {
           return;
         }
 
+        const timeout = 50 + attemptNumber * 50;
         this.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
-        setTimeout(
-          () => {
-            this.getData(date, attemptNumber + 1);
-          },
-          50 + attemptNumber * 50,
-        );
+        setTimeout(() => {
+          this.getData(date, attemptNumber + 1);
+        }, timeout);
         return;
       }
 
