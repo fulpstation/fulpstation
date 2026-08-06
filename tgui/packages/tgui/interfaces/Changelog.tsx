@@ -93,8 +93,8 @@ export class ChangelogContent extends Component<any, ChangelogState> {
 
     act('get_month', { date });
 
-    fetch(resolveAsset(`${date}.yml`)).then(async (response) => {
-      if (!response.ok) {
+    fetch(resolveAsset(`${date}.yml`)).then(async (changelogData) => {
+      if (!changelogData.ok) {
         if (attemptNumber >= maxAttempts) {
           this.setData(`Failed to load after ${maxAttempts} attempts`);
           return;
@@ -110,7 +110,7 @@ export class ChangelogContent extends Component<any, ChangelogState> {
         return;
       }
 
-      const result = await response.text();
+      const result = await changelogData.text();
       this.setData(
         yaml.load(result, { schema: yaml.CORE_SCHEMA }) as ChangelogYaml,
       );
