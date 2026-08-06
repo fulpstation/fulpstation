@@ -4,6 +4,7 @@ import { Component, Fragment } from 'react';
 import {
   Box,
   Button,
+  Divider,
   Dropdown,
   Icon,
   Section,
@@ -11,9 +12,9 @@ import {
   Table,
 } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
-
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
+import { Changelog } from '../interfaces/Changelog';
 import { Window } from '../layouts';
 
 const icons = {
@@ -78,7 +79,7 @@ export class FulpChangelog extends Component {
 
     act('get_month', { date });
 
-    fetch(resolveAsset(`${date}.yml`)).then(async (changelogData) => {
+    fetch(resolveAsset(`fulp_${date}.yml`)).then(async (changelogData) => {
       const result = await changelogData.text();
       const errorRegex = /^Cannot find/;
 
@@ -97,15 +98,15 @@ export class FulpChangelog extends Component {
 
   componentDidMount() {
     const {
-      data: { dates = [] },
+      data: { fulp_dates = [] },
     } = useBackend();
 
-    if (dates) {
-      dates.forEach((date) => {
+    if (fulp_dates) {
+      fulp_dates.forEach((date) => {
         this.dateChoices.push(dateformat(date, 'mmmm yyyy', true));
       });
       this.setSelectedDate(this.dateChoices[0]);
-      this.getData(dates[0]);
+      this.getData(fulp_dates[0]);
     }
   }
 
@@ -113,7 +114,7 @@ export class FulpChangelog extends Component {
     const { data, selectedDate, selectedIndex } = this.state;
     const {
       act,
-      data: { dates },
+      data: { fulp_dates },
     } = useBackend();
     const { dateChoices } = this;
 
@@ -135,7 +136,7 @@ export class FulpChangelog extends Component {
                 document.body.scrollHeight ||
                   document.documentElement.scrollHeight,
               );
-              return this.getData(dates[index]);
+              return this.getData(fulp_dates[index]);
             }}
           />
         </Stack.Item>
@@ -154,7 +155,7 @@ export class FulpChangelog extends Component {
                 document.body.scrollHeight ||
                   document.documentElement.scrollHeight,
               );
-              return this.getData(dates[index]);
+              return this.getData(fulp_dates[index]);
             }}
             selected={selectedDate}
             width="150px"
@@ -176,7 +177,7 @@ export class FulpChangelog extends Component {
                 document.body.scrollHeight ||
                   document.documentElement.scrollHeight,
               );
-              return this.getData(dates[index]);
+              return this.getData(fulp_dates[index]);
             }}
           />
         </Stack.Item>
@@ -190,27 +191,10 @@ export class FulpChangelog extends Component {
           <b>Please note: </b>
           this changelog would not be possible without the groundwork laid by
           /tg/station's contributors and so many others.
-          <br />
-          Anything not written here can safely be assumed to be from
-          /tg/station, you can find their Changelog in the OOC tab, or by{' '}
-          <Button
-            mx={-0.5}
-            compact
-            textColor="blue"
-            color="transparent"
-            onClick={() => act('open_tg_log')}
-          >
-            clicking this
-          </Button>
-          .
         </p>
         <p>
-          <b>Thanks to: </b>
-          /tg/station, Baystation 12, /vg/station, NTstation, CDK Station devs,
-          FacepunchStation, GoonStation devs, the original Space Station 13
-          developers, GitHub user celotajstg for adapting this changelog into
-          TGUI, and countless others who have contributed to the game, issue
-          tracker or wiki over the years.
+          Anything not visible here, including our license, is instead part of
+          the Traditional Games 13 license.
         </p>
         <p>
           {'Recent GitHub contributors can be found '}
@@ -221,7 +205,7 @@ export class FulpChangelog extends Component {
         </p>
         <p>
           {
-            'You can also find a link to our discord at the front page of our wiki'
+            'You can also find a link to the Fulpstation Discord at the front page of our wiki'
           }
           <a href="https://wiki.fulp.gg/"> here</a>.
         </p>
@@ -229,92 +213,7 @@ export class FulpChangelog extends Component {
       </Section>
     );
 
-    const footer = (
-      <Section>
-        {dateDropdown}
-        <h3>GoonStation 13 Development Team</h3>
-        <p>
-          <b>Coders: </b>
-          Stuntwaffle, Showtime, Pantaloons, Nannek, Keelin, Exadv1, hobnob,
-          Justicefries, 0staf, sniperchance, AngriestIBM, BrianOBlivion
-        </p>
-        <p>
-          <b>Spriters: </b>
-          Supernorn, Haruhi, Stuntwaffle, Pantaloons, Rho, SynthOrange, I Said
-          No
-        </p>
-        <p>
-          Traditional Games Space Station 13 is thankful to the GoonStation 13
-          Development Team for its work on the game up to the
-          {' r4407 release. The changelog for changes up to r4407 can be seen '}
-          <a href="https://wiki.ss13.co/Pre-2016_Changelog#April_2010">here</a>.
-        </p>
-        <p>
-          {'Except where otherwise noted, Goon Station 13 is licensed under a '}
-          <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">
-            Creative Commons Attribution-Noncommercial-Share Alike 3.0 License
-          </a>
-          {'. Rights are currently extended to '}
-          <a href="http://forums.somethingawful.com/">SomethingAwful Goons</a>
-          {' only.'}
-        </p>
-        <h3>Traditional Games Space Station 13 License</h3>
-        <p>
-          {'All code after '}
-          <a
-            href={
-              'https://github.com/tgstation/tgstation/commit/' +
-              '333c566b88108de218d882840e61928a9b759d8f'
-            }
-          >
-            commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 at
-            4:38 PM PST
-          </a>
-          {' is licensed under '}
-          <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU AGPL v3</a>
-          {'. All code before that commit is licensed under '}
-          <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL v3</a>
-          {', including tools unless their readme specifies otherwise. See '}
-          <a href="https://github.com/tgstation/tgstation/blob/master/LICENSE">
-            LICENSE
-          </a>
-          {' and '}
-          <a href="https://github.com/tgstation/tgstation/blob/master/GPLv3.txt">
-            GPLv3.txt
-          </a>
-          {' for more details.'}
-        </p>
-        <p>
-          The TGS DMAPI API is licensed as a subproject under the MIT license.
-          {' See the footer of '}
-          <a
-            href={
-              'https://github.com/tgstation/tgstation/blob/master' +
-              '/code/__DEFINES/tgs.dm'
-            }
-          >
-            code/__DEFINES/tgs.dm
-          </a>
-          {' and '}
-          <a
-            href={
-              'https://github.com/tgstation/tgstation/blob/master' +
-              '/code/modules/tgs/LICENSE'
-            }
-          >
-            code/modules/tgs/LICENSE
-          </a>
-          {' for the MIT license.'}
-        </p>
-        <p>
-          {'All assets including icons and sound are under a '}
-          <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-            Creative Commons 3.0 BY-SA license
-          </a>
-          {' unless otherwise indicated.'}
-        </p>
-      </Section>
-    );
+    const footer = <Section>{dateDropdown}</Section>;
 
     const changes =
       typeof data === 'object' &&
@@ -367,12 +266,20 @@ export class FulpChangelog extends Component {
         ));
 
     return (
-      <Window title="Changelog" width={675} height={650}>
+      <Window title="Changelog" width={1075} height={650}>
         <Window.Content scrollable>
-          {header}
-          {changes}
-          {typeof data === 'string' && <p>{data}</p>}
-          {footer}
+          <Stack fill>
+            <Stack.Item grow>
+              {header}
+              {changes}
+              {typeof data === 'string' && <p>{data}</p>}
+              {footer}
+            </Stack.Item>
+            <Divider vertical />
+            <Stack.Item grow>
+              <Changelog />
+            </Stack.Item>
+          </Stack>
         </Window.Content>
       </Window>
     );

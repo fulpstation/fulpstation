@@ -15,7 +15,6 @@ import { classes } from 'tgui-core/react';
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
 import { sendAct as act } from '../events/act';
-import { Window } from '../layouts';
 
 const icons = {
   add: { icon: 'check-circle', color: 'green' },
@@ -347,14 +346,12 @@ export class Changelog extends Component {
         ));
 
     return (
-      <Window title="Changelog" width={675} height={650}>
-        <Window.Content scrollable>
-          {header}
-          {changes}
-          {typeof data === 'string' && <p>{data}</p>}
-          {footer}
-        </Window.Content>
-      </Window>
+      <>
+        {header}
+        {changes}
+        {typeof data === 'string' && <p>{data}</p>}
+        {footer}
+      </>
     );
   }
 }
