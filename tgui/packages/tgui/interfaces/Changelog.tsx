@@ -15,6 +15,7 @@ import { classes } from 'tgui-core/react';
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
 import { sendAct as act } from '../events/act';
+import { Window } from '../layouts';
 
 const icons = {
   add: { icon: 'check-circle', color: 'green' },
@@ -44,19 +45,35 @@ const icons = {
   wip: { icon: 'hammer', color: 'orange' },
 };
 
-export class Changelog extends Component {
+type Change = Record<string, string>;
+type AuthorChanges = Record<string, Change[]>;
+type ChangelogYaml = Record<string, AuthorChanges>;
+
+type ChangelogState = {
+  loaded_text: ChangelogYaml | string;
+  selectedDate: string;
+  selectedIndex: number;
+};
+
+type ChangelogData = {
+  dates: string[];
+};
+
+export class ChangelogContent extends Component<any, ChangelogState> {
+  dateChoices: string[];
+
   constructor(props) {
     super(props);
+    this.dateChoices = [];
     this.state = {
-      data: 'Loading changelog data...',
+      loaded_text: 'Loading changelog data...',
       selectedDate: '',
       selectedIndex: 0,
     };
-    this.dateChoices = [];
   }
 
-  setData(data) {
-    this.setState({ data });
+  setData(loaded_text) {
+    this.setState({ loaded_text });
   }
 
   setSelectedDate(selectedDate) {
@@ -68,7 +85,6 @@ export class Changelog extends Component {
   }
 
   getData = (date, attemptNumber = 1) => {
-    const self = this;
     const maxAttempts = 6;
 
     if (attemptNumber > maxAttempts) {
@@ -77,27 +93,33 @@ export class Changelog extends Component {
 
     act('get_month', { date });
 
-    fetch(resolveAsset(`${date}.yml`)).then(async (changelogData) => {
-      const result = await changelogData.text();
-      const errorRegex = /^Cannot find/;
+    fetch(resolveAsset(`${date}.yml`)).then(async (response) => {
+      if (!response.ok) {
+        if (attemptNumber >= maxAttempts) {
+          this.setData(`Failed to load after ${maxAttempts} attempts`);
+          return;
+        }
 
-      if (errorRegex.test(result)) {
-        const timeout = 50 + attemptNumber * 50;
-
-        self.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
-        setTimeout(() => {
-          self.getData(date, attemptNumber + 1);
-        }, timeout);
-      } else {
-        self.setData(yaml.load(result, { schema: yaml.CORE_SCHEMA }));
+        this.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
+        setTimeout(
+          () => {
+            this.getData(date, attemptNumber + 1);
+          },
+          50 + attemptNumber * 50,
+        );
+        return;
       }
+
+      const result = await response.text();
+      this.setData(
+        yaml.load(result, { schema: yaml.CORE_SCHEMA }) as ChangelogYaml,
+      );
     });
   };
 
   componentDidMount() {
-    const {
-      data: { dates = [] },
-    } = useBackend();
+    const { data } = useBackend<ChangelogData>();
+    const { dates = [] } = data;
 
     if (dates) {
       dates.forEach((date) => {
@@ -109,10 +131,10 @@ export class Changelog extends Component {
   }
 
   render() {
-    const { data, selectedDate, selectedIndex } = this.state;
-    const {
-      data: { dates },
-    } = useBackend();
+    const { data } = useBackend<ChangelogData>();
+    const { dates = [] } = data;
+    const { loaded_text, selectedIndex, selectedDate } = this
+      .state as ChangelogState;
     const { dateChoices } = this;
 
     const dateDropdown = dateChoices.length > 0 && (
@@ -296,9 +318,9 @@ export class Changelog extends Component {
     );
 
     const changes =
-      typeof data === 'object' &&
-      Object.keys(data).length > 0 &&
-      Object.entries(data)
+      typeof loaded_text === 'object' &&
+      Object.keys(loaded_text).length > 0 &&
+      Object.entries(loaded_text)
         .reverse()
         .map(([date, authors]) => (
           <Section key={date} title={dateformat(date, 'd mmmm yyyy', true)}>
@@ -349,9 +371,19 @@ export class Changelog extends Component {
       <>
         {header}
         {changes}
-        {typeof data === 'string' && <p>{data}</p>}
+        {typeof loaded_text === 'string' && <p>{loaded_text}</p>}
         {footer}
       </>
     );
   }
 }
+
+export const Changelog = () => {
+  return (
+    <Window title="Changelog" width={675} height={650}>
+      <Window.Content scrollable>
+        <ChangelogContent />
+      </Window.Content>
+    </Window>
+  );
+};

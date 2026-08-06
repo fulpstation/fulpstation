@@ -14,7 +14,7 @@ import {
 import { classes } from 'tgui-core/react';
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
-import { Changelog } from '../interfaces/Changelog';
+import { ChangelogContent } from '../interfaces/Changelog';
 import { Window } from '../layouts';
 
 const icons = {
@@ -277,7 +277,7 @@ export class FulpChangelog extends Component {
             </Stack.Item>
             <Divider vertical />
             <Stack.Item grow>
-              <Changelog />
+              <ChangelogContent />
             </Stack.Item>
           </Stack>
         </Window.Content>
