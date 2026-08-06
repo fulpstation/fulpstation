@@ -9,6 +9,13 @@
  * so credit for all of it goes to the various people who made /tg/'s changelog.
  **/
 
+//Overwrite TG's Changelog to open ours instead, which includes theirs anyways.
+//THIS MEANS WE DO NOT CALL PARENT!!
+/datum/changelog/ui_interact(mob/user, datum/tgui/ui)
+	if(!GLOB.fulp_changelog_tgui)
+		GLOB.fulp_changelog_tgui = new /datum/fulp_changelog()
+	GLOB.fulp_changelog_tgui.ui_interact(user)
+
 
 /// FULP CHANGELOG DATUM ///
 
@@ -38,10 +45,6 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 			fulp_changelog_item = new /datum/asset/fulp_changelog_item(params["date"])
 			fulp_changelog_items[params["date"]] = fulp_changelog_item
 		return ui.send_asset(fulp_changelog_item)
-	if(action == "open_tg_log") //this is a fulp-exclusive edit, unlike the rest of this file copied mostly from TG's changelog.
-		var/mob/user = ui.user
-		user.client.tg_changelog()
-		return TRUE
 
 /datum/fulp_changelog/ui_static_data()
 	var/list/data = list( "fulp_dates" = list() )
@@ -54,22 +57,6 @@ GLOBAL_VAR_INIT(fulp_changelog_hash, "")
 	data += GLOB.changelog_tgui.ui_static_data()
 
 	return data
-
-
-/// CHANGELOG VERB ///
-
-GAME_VERB(/client, changelog, "Changelog", "OOC")
-
-	if(!GLOB.fulp_changelog_tgui)
-		GLOB.fulp_changelog_tgui = new /datum/fulp_changelog()
-	if(!GLOB.changelog_tgui)
-		GLOB.changelog_tgui = new /datum/changelog()
-
-	GLOB.fulp_changelog_tgui.ui_interact(mob)
-	if(prefs.last_fulp_changelog != GLOB.fulp_changelog_hash)
-		prefs.last_fulp_changelog = GLOB.fulp_changelog_hash
-		prefs.save_preferences()
-
 
 /// FULP CHANGELOG ITEM ASSET ///
 

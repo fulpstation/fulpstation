@@ -6,8 +6,6 @@
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
-- interface\interface.dm > Changes the TG Changelog verb to a new path & name.
-
 - README.md > Replaces it with our own readme
 
 - tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
