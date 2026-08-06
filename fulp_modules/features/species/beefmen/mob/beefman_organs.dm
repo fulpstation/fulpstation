@@ -21,3 +21,6 @@
 	disliked_foodtypes = VEGETABLES | FRUIT | CLOTH
 	liked_foodtypes = RAW | MEAT | FRIED
 	toxic_foodtypes = DAIRY | PINEAPPLE
+	emote_sounds = list(
+		/datum/emote/living/deathgasp::key = 'fulp_modules/features/species/sounds/beef_die.ogg',
+	)

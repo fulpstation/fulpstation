@@ -2,37 +2,13 @@
 /datum/species/zombie/hecata
 	name = "Sanguine Zombie"
 	id = "hecatazombie"
-	examine_limb_id = SPECIES_ZOMBIE
 	damage_modifier = -10
 	stunmod = 0.5
-	///no guns or soft crit
 	inherent_traits = list(
-		TRAIT_STABLELIVER,
-		TRAIT_STABLEHEART,
-		TRAIT_RESISTCOLD,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_RADIMMUNE,
-		TRAIT_EASYDISMEMBER,
-		TRAIT_EASILY_WOUNDED,
-		TRAIT_LIMBATTACHMENT,
-		TRAIT_NOBREATH,
-		TRAIT_NODEATH,
-		TRAIT_FAKEDEATH,
 		TRAIT_NOGUNS,
 		TRAIT_NOSOFTCRIT,
 	)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
-
-	// Same as infectious zombies for the slow legs.
-	bodypart_overrides = list(
-		BODY_ZONE_HEAD = /obj/item/bodypart/head/zombie,
-		BODY_ZONE_CHEST = /obj/item/bodypart/chest/zombie,
-		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/zombie,
-		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/zombie,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie/infectious,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie/infectious,
-	)
 
 /datum/species/zombie/hecata/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load, regenerate_icons)
 	. = ..()

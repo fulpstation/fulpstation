@@ -43,7 +43,6 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/beef,\
 	)
 
-	death_sound = 'fulp_modules/features/species/sounds/beef_die.ogg'
 	grab_sound = 'fulp_modules/features/species/sounds/beef_grab.ogg'
 
 	///Dehydration caused by consuming Salt. Causes bleeding and affects how much they will bleed.

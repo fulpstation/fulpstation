@@ -89,7 +89,7 @@
 /datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/end_necromance(mob/living/victim)
 	victim.mind.remove_antag_datum(/datum/antagonist/vassal)
 	to_chat(victim, span_warning("You feel the shadows around you weaken, your form falling limp like a puppet cut from its strings!"))
-	victim.set_species(/datum/species/human/krokodil_addict) //they will turn into a fake zombie on death, that still retains blood and isnt so powerful.
+	victim.become_husk(/datum/status_effect/zombie::id) //they will turn into a fake zombie on death, that still retains blood and isnt so powerful.
 	victim.death()
 
 /datum/action/cooldown/bloodsucker/targeted/hecata/necromancy/proc/zombify(mob/living/victim)
