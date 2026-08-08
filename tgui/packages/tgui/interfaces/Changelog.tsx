@@ -14,6 +14,7 @@ import { classes } from 'tgui-core/react';
 
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
+import { sendAct as act } from '../events/act';
 import { Window } from '../layouts';
 
 const icons = {
@@ -44,19 +45,35 @@ const icons = {
   wip: { icon: 'hammer', color: 'orange' },
 };
 
-export class FulpChangelog extends Component {
+type Change = Record<string, string>;
+type AuthorChanges = Record<string, Change[]>;
+type ChangelogYaml = Record<string, AuthorChanges>;
+
+type ChangelogState = {
+  loaded_text: ChangelogYaml | string;
+  selectedDate: string;
+  selectedIndex: number;
+};
+
+type ChangelogData = {
+  dates: string[];
+};
+
+export class ChangelogContent extends Component<any, ChangelogState> {
+  dateChoices: string[];
+
   constructor(props) {
     super(props);
+    this.dateChoices = [];
     this.state = {
-      data: 'Loading changelog data...',
+      loaded_text: 'Loading changelog data...',
       selectedDate: '',
       selectedIndex: 0,
     };
-    this.dateChoices = [];
   }
 
-  setData(data) {
-    this.setState({ data });
+  setData(loaded_text) {
+    this.setState({ loaded_text });
   }
 
   setSelectedDate(selectedDate) {
@@ -68,8 +85,6 @@ export class FulpChangelog extends Component {
   }
 
   getData = (date, attemptNumber = 1) => {
-    const { act } = useBackend();
-    const self = this;
     const maxAttempts = 6;
 
     if (attemptNumber > maxAttempts) {
@@ -79,26 +94,30 @@ export class FulpChangelog extends Component {
     act('get_month', { date });
 
     fetch(resolveAsset(`${date}.yml`)).then(async (changelogData) => {
-      const result = await changelogData.text();
-      const errorRegex = /^Cannot find/;
+      if (!changelogData.ok) {
+        if (attemptNumber >= maxAttempts) {
+          this.setData(`Failed to load after ${maxAttempts} attempts`);
+          return;
+        }
 
-      if (errorRegex.test(result)) {
         const timeout = 50 + attemptNumber * 50;
-
-        self.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
+        this.setData(`Loading changelog data${'.'.repeat(attemptNumber + 3)}`);
         setTimeout(() => {
-          self.getData(date, attemptNumber + 1);
+          this.getData(date, attemptNumber + 1);
         }, timeout);
-      } else {
-        self.setData(yaml.load(result, { schema: yaml.CORE_SCHEMA }));
+        return;
       }
+
+      const result = await changelogData.text();
+      this.setData(
+        yaml.load(result, { schema: yaml.CORE_SCHEMA }) as ChangelogYaml,
+      );
     });
   };
 
   componentDidMount() {
-    const {
-      data: { dates = [] },
-    } = useBackend();
+    const { data } = useBackend<ChangelogData>();
+    const { dates = [] } = data;
 
     if (dates) {
       dates.forEach((date) => {
@@ -110,15 +129,14 @@ export class FulpChangelog extends Component {
   }
 
   render() {
-    const { data, selectedDate, selectedIndex } = this.state;
-    const {
-      act,
-      data: { dates },
-    } = useBackend();
+    const { data } = useBackend<ChangelogData>();
+    const { dates = [] } = data;
+    const { loaded_text, selectedIndex, selectedDate } = this
+      .state as ChangelogState;
     const { dateChoices } = this;
 
     const dateDropdown = dateChoices.length > 0 && (
-      <Stack mb={1}>
+      <Stack>
         <Stack.Item>
           <Button
             className="Changelog__Button"
@@ -185,45 +203,26 @@ export class FulpChangelog extends Component {
 
     const header = (
       <Section>
-        <h1>Fulpstation</h1>
-        <p>
-          <b>Please note: </b>
-          this changelog would not be possible without the groundwork laid by
-          /tg/station's contributors and so many others.
-          <br />
-          Anything not written here can safely be assumed to be from
-          /tg/station, you can find their Changelog in the OOC tab, or by{' '}
-          <Button
-            mx={-0.5}
-            compact
-            textColor="blue"
-            color="transparent"
-            onClick={() => act('open_tg_log')}
-          >
-            clicking this
-          </Button>
-          .
-        </p>
+        <h1>Traditional Games Space Station 13</h1>
         <p>
           <b>Thanks to: </b>
-          /tg/station, Baystation 12, /vg/station, NTstation, CDK Station devs,
+          Baystation 12, /vg/station, NTstation, CDK Station devs,
           FacepunchStation, GoonStation devs, the original Space Station 13
-          developers, GitHub user celotajstg for adapting this changelog into
-          TGUI, and countless others who have contributed to the game, issue
-          tracker or wiki over the years.
+          developers, Invisty for the title image and the countless others who
+          have contributed to the game, issue tracker or wiki over the years.
         </p>
         <p>
-          {'Recent GitHub contributors can be found '}
-          <a href="https://github.com/fulpstation/fulpstation/pulse/monthly">
+          {'Current organization members can be found '}
+          <a href="https://github.com/orgs/tgstation/people">here</a>
+          {', recent GitHub contributors can be found '}
+          <a href="https://github.com/tgstation/tgstation/pulse/monthly">
             here
           </a>
           .
         </p>
         <p>
-          {
-            'You can also find a link to our discord at the front page of our wiki'
-          }
-          <a href="https://wiki.fulp.gg/"> here</a>.
+          {'You can also join our discord '}
+          <a href="https://tgstation13.org/phpBB/viewforum.php?f=60">here</a>.
         </p>
         {dateDropdown}
       </Section>
@@ -317,9 +316,9 @@ export class FulpChangelog extends Component {
     );
 
     const changes =
-      typeof data === 'object' &&
-      Object.keys(data).length > 0 &&
-      Object.entries(data)
+      typeof loaded_text === 'object' &&
+      Object.keys(loaded_text).length > 0 &&
+      Object.entries(loaded_text)
         .reverse()
         .map(([date, authors]) => (
           <Section key={date} title={dateformat(date, 'd mmmm yyyy', true)}>
@@ -367,14 +366,22 @@ export class FulpChangelog extends Component {
         ));
 
     return (
-      <Window title="Changelog" width={675} height={650}>
-        <Window.Content scrollable>
-          {header}
-          {changes}
-          {typeof data === 'string' && <p>{data}</p>}
-          {footer}
-        </Window.Content>
-      </Window>
+      <>
+        {header}
+        {changes}
+        {typeof loaded_text === 'string' && <p>{loaded_text}</p>}
+        {footer}
+      </>
     );
   }
 }
+
+export const Changelog = () => {
+  return (
+    <Window title="Changelog" width={675} height={650}>
+      <Window.Content scrollable>
+        <ChangelogContent />
+      </Window.Content>
+    </Window>
+  );
+};
