@@ -92,7 +92,7 @@ GAME_VERB_DESC(/client, reportissue, "report-issue", "Report an issue", null)
 
 	DIRECT_OUTPUT(src, link(jointext(concatable, "")))
 
-GAME_VERB(/client, tg_changelog, "/TG/ Changelog", "OOC") // Fulp edit - changelog -> tg_changelog / "Changelog" -> "/TG/ Changelog"
+GAME_VERB(/client, changelog, "Changelog", "OOC")
 
 	if(!GLOB.changelog_tgui)
 		GLOB.changelog_tgui = new /datum/changelog()

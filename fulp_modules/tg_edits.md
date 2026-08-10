@@ -1,6 +1,6 @@
 ## List of all TG edits:
 
-- .github/workflows/compile_changelogs.yml > Same as above. //Not currently there, is this broken?
+- .github/workflows/compile_changelogs.yml > Same as autoChangelog.js
 
 - code/datums/greyscale/_greyscale_config.dm > Adds our greyscales folder to the sanity check
 
@@ -8,8 +8,6 @@
 
 - code/modules/client/client_procs.dm
 - code/modules/tgui_input/say_modal/modal.dm
-
-- interface\interface.dm > Changes the TG Changelog verb to a new path & name.
 
 - README.md > Replaces it with our own readme
 
