@@ -18,6 +18,8 @@
 
 - tools/pull_request_hooks/autoChangelog.js > Changes changelog folder to fulp_modules/data/html/changelogs, to preserve them across TGUs.
 
+- tools/build/build_flags.json > Add fulp custom maps to force map selection for ease of testing.
+
 ## All Fulp files not contained within /fulp_modules/
 
 - code/__DEFINES/fulp_defines > Contains all of our defines
