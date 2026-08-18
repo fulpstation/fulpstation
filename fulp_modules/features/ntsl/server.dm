@@ -74,7 +74,7 @@
 	var/list/compileerrors = Compiler.Compile(rawcode)
 	COOLDOWN_START(src, compile_cooldown, 2 SECONDS)
 	if(!length(compileerrors) && (compiledcode != rawcode))
-		log_ntsl("Uploaded by [user]", list("[rawcode]"))
+		log_ntsl("Uploaded by [user]: [rawcode]")
 		compiledcode = rawcode
 	if(istype(user.mind?.assigned_role, /datum/job/signal_technician)) //achivement description says only Signal Technician gets the achivement
 		var/freq = length(freq_listening) ? freq_listening[1] : 1459

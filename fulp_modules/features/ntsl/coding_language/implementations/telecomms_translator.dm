@@ -236,10 +236,11 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 	var/setname = script_signal.get_clean_property("source", signal.data["name"])
 
 	if(signal.data["name"] != setname)
-		signal.data["realname"] = signal.data["name"]
 		signal.virt.name = setname
 	signal.data["name"] = setname
-//	signal.data["mods"][MODE_SPEAKER_NAME_OVERRIDE] = setname
+	if(!islist(signal.data["mods"]))
+		signal.data["mods"] = list()
+	signal.data["mods"][MODE_SPEAKER_NAME_OVERRIDE] = setname
 	//signal.data["uuid"] = script_signal.get_clean_property("$uuid", signal.data["uuid"])
 	signal.levels = script_signal.get_clean_property("sector", signal.levels)
 	signal.data["job"] = script_signal.get_clean_property("job", signal.data["job"])
@@ -490,7 +491,6 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 	newsign.data["mob"] = virt
 	newsign.data["mobtype"] = /mob/living/carbon/human
 	newsign.data["name"] = source
-	newsign.data["realname"] = newsign.data["name"]
 	newsign.data["uuid"] = source
 	newsign.data["job"] = "[job]"
 	newsign.data["compression"] = 0
