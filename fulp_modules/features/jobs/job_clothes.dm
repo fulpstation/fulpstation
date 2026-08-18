@@ -2,26 +2,24 @@
 	name = "network admins plasma envirosuit"
 	desc = "An air-tight suit designed to be used by plasmamen employed as network admins, \
 		the usual purple stripes being replaced by a unique bright green. It protects the user from fire and acid damage."
-	icon = 'icons/obj/clothing/under/plasmaman.dmi'
-	worn_icon = 'icons/mob/clothing/under/plasmaman.dmi'
+	icon = 'fulp_modules/icons/clothing/obj/plasmaman.dmi'
+	worn_icon = 'fulp_modules/icons/clothing/mob/plasmaman.dmi'
 	icon_state = "signal_tech_envirohelm"
 	inhand_icon_state = null
 
 /obj/item/clothing/head/helmet/space/plasmaman/engineering/signal_tech
 	name = "network admin's plasma envirosuit helmet"
 	desc = "A space-worthy helmet specially designed for network admin plasmamen, the usual purple stripes being replaced by a unique bright green."
-	icon = 'icons/obj/clothing/head/plasmaman_hats.dmi'
-	worn_icon = 'icons/mob/clothing/head/plasmaman_head.dmi'
+	icon = 'fulp_modules/icons/clothing/obj/plasmaman_hats.dmi'
+	worn_icon = 'fulp_modules/icons/clothing/mob/plasmaman_head.dmi'
 	icon_state = "signal_tech_envirohelm"
 	inhand_icon_state = null
 
 /obj/item/clothing/under/rank/engineering/signal_tech
 	name = "network admin's jumpsuit"
 	desc = "It's an orange high visibility jumpsuit with green stripes worn by network admins. Made from fire resistant materials."
-//	icon = 'icons/obj/clothing/uniforms.dmi'
-//	worn_icon = 'icons/mob/clothing/uniform.dmi'
-	icon = 'icons/obj/clothing/under/engineering.dmi'
-	worn_icon = 'icons/mob/clothing/under/engineering.dmi'
+	icon = 'fulp_modules/icons/clothing/obj/engineering.dmi'
+	worn_icon = 'fulp_modules/icons/clothing/mob/engineering.dmi'
 	icon_state = "signal_tech"
 	species_exception = list(/datum/species/golem)
 
