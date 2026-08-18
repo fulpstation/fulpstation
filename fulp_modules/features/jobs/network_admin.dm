@@ -46,11 +46,6 @@
 	rpg_title = "Telecommunications Goblin"
 	job_flags = STATION_JOB_FLAGS
 
-/obj/effect/landmark/start/network_admin
-	name = JOB_NETWORK_ADMIN
-	icon_state = JOB_NETWORK_ADMIN
-	icon = 'fulp_modules/icons/jobs/landmarks.dmi'
-
 /datum/outfit/job/signal_tech
 	name = JOB_NETWORK_ADMIN
 	jobtype = /datum/job/signal_technician
