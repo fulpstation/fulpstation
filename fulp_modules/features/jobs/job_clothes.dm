@@ -30,15 +30,15 @@
 	desc = "A surprisingly heavy yellow winter coat with reflective green stripes. It has a small antennae for its zipper tab, and the inside layer is covered with a radiation-resistant silver-nylon blend. Because heat insulation is clearly not a priority."
 	icon = /obj/item/clothing/suit/hooded/wintercoat/security/pris::icon
 	worn_icon = /obj/item/clothing/suit/hooded/wintercoat/security/pris::worn_icon
-	lefthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::lefthand_file
-	righthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::righthand_file
+//	lefthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::lefthand_file -- we dont have lefthand icons
+//	righthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::righthand_file -- we dont have righthand icons
 	icon_state = "coat_signal_tech"
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/engineering/signal_tech
 
 /obj/item/clothing/head/hooded/winterhood/engineering/signal_tech
 	desc = "A yellow winter coat hood. Definitely not enough to keep you warm near the telecommunications servers."
-	worn_icon = /obj/item/clothing/head/hooded/winterhood/fulp/security/pris::worn_icon
 	icon = /obj/item/clothing/head/hooded/winterhood/fulp/security/pris::icon
+	worn_icon = /obj/item/clothing/head/hooded/winterhood/fulp/security/pris::worn_icon
 	icon_state = "winterhood_signal_tech"
 
 /obj/item/radio/headset/headset_network
