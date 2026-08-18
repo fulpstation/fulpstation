@@ -13,3 +13,5 @@
 	database_id = MEDAL_GOOD_BIRD
 	icon = FULP_ACHIEVEMENTS_SET
 	icon_state = "bird_loud"
+
+#undef FULP_ACHIEVEMENTS_SET

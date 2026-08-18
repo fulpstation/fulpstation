@@ -244,6 +244,11 @@
 	status &= ~CONTINUING
 	return TRUE
 
+#undef RETURNING
+#undef BREAKING
+#undef CONTINUING
+#undef RESET_STATUS
+
 #undef MAX_STATEMENTS
 #undef MAX_ITERATIONS
 #undef MAX_RECURSION

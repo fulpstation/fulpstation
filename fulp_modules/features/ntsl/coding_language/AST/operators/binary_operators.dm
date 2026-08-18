@@ -1,3 +1,29 @@
+/**
+ * Macros: Operator Precedence
+ * The higher the value, the lower the priority in the precedence.
+ */
+#define OOP_ASSIGN 0
+///Logical or ||
+#define OOP_OR 1
+///Logical and &&
+#define OOP_AND 2
+///Bitwise operations &, |
+#define OOP_BIT 3
+///Equality checks ==, !=
+#define OOP_EQUAL 4
+///Greater than, less than, etc >, <, >=, <=
+#define OOP_COMPARE 5
+///Addition and subtraction + -
+#define OOP_ADD 6
+///Multiplication and division * / %
+#define OOP_MULTIPLY 7
+///Exponents ^
+#define OOP_POW 8
+///Unary Operators !
+#define OOP_UNARY 9
+///Parenthesis ()
+#define OOP_GROUP 10
+
 /*
  * binary
  * Represents a binary operator in the AST. A binary operator takes two operands (ie x and y) and returns a value.
@@ -14,7 +40,7 @@
 
 /**
  * NotEqual
- * 
+ *
  * Returns TRUE if x != y
  */
 /datum/node/expression/expression_operator/binary/NotEqual
@@ -75,7 +101,7 @@
 /**
  * BitwiseAnd
  * Performs a Bitwise operation
- * 
+ *
  * Example: 011 & 110 = 010
  */
 /datum/node/expression/expression_operator/binary/BitwiseAnd
@@ -84,7 +110,7 @@
 /**
  * BitwiseOr
  * Performs a bitwise or operation
- * 
+ *
  * Example: 011 | 110 = 111
  */
 /datum/node/expression/expression_operator/binary/BitwiseOr
@@ -93,7 +119,7 @@
 /**
  * BitwiseXor
  * Performs a bitwise exclusive or operation
- * 
+ *
  * Example: 011 xor 110 = 101
  */
 /datum/node/expression/expression_operator/binary/BitwiseXor
@@ -164,3 +190,15 @@
 /datum/node/expression/expression_operator/binary/Assign/Power
 
 /datum/node/expression/expression_operator/binary/Assign/Modulo
+
+#undef OOP_ASSIGN
+#undef OOP_OR
+#undef OOP_AND
+#undef OOP_BIT
+#undef OOP_EQUAL
+#undef OOP_COMPARE
+#undef OOP_ADD
+#undef OOP_MULTIPLY
+#undef OOP_POW
+#undef OOP_UNARY
+#undef OOP_GROUP
