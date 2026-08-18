@@ -49,7 +49,7 @@
 /obj/effect/landmark/start/network_admin
 	name = JOB_NETWORK_ADMIN
 	icon_state = JOB_NETWORK_ADMIN
-	icon = 'fulp_modules/icons/effects/landmarks_static.dmi'
+	icon = 'fulp_modules/icons/jobs/landmarks.dmi'
 
 /datum/outfit/job/signal_tech
 	name = JOB_NETWORK_ADMIN

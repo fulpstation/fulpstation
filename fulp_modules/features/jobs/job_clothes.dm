@@ -28,8 +28,8 @@
 	desc = "A surprisingly heavy yellow winter coat with reflective green stripes. It has a small antennae for its zipper tab, and the inside layer is covered with a radiation-resistant silver-nylon blend. Because heat insulation is clearly not a priority."
 	icon = /obj/item/clothing/suit/hooded/wintercoat/security/pris::icon
 	worn_icon = /obj/item/clothing/suit/hooded/wintercoat/security/pris::worn_icon
-//	lefthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::lefthand_file -- we dont have lefthand icons
-//	righthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::righthand_file -- we dont have righthand icons
+//	lefthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::lefthand_file -- //NETWORK ADMIN TODO: Add Lefthand icons
+//	righthand_file = /obj/item/clothing/suit/hooded/wintercoat/security/pris::righthand_file -- //NETWORK ADMIN TODO: Add Righthand icons
 	icon_state = "coat_signal_tech"
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/engineering/signal_tech
 
@@ -43,9 +43,15 @@
 	name = "network admins radio headset"
 	desc = "When the half-engineer half-scientist wishes to chat to people."
 	icon_state = "eng_headset"
-	keyslot = /obj/item/encryptionkey/headset_net
+	keyslot = /obj/item/encryptionkey/headset_eng
 
+/* Not needed because they don't have science radio here.
 /obj/item/encryptionkey/headset_net
 	name = "network admin's radio encryption key"
-	icon_state = "eng_cypherkey"
+	icon = 'icons/map_icons/items/encryptionkey.dmi'
+	icon_state = "/obj/item/encryptionkey/headset_eng"
+	post_init_icon_state = "cypherkey_engineering"
 	channels = list(RADIO_CHANNEL_ENGINEERING = 1)
+	greyscale_config = /datum/greyscale_config/encryptionkey_engineering
+	greyscale_colors = "#f8d860#dca01b"
+*/

@@ -23,6 +23,7 @@
 
 	var/unlimited_range = FALSE
 
+/*
 /obj/machinery/computer/telecomms/traffic/Initialize(mapload)
 	. = ..()
 	if(length(GLOB.pretty_filter_items) == 0)
@@ -195,3 +196,4 @@
 	create_log("has logged in.")
 	playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
 	to_chat(user, span_notice("You bypass the console's security protocols."))
+*/

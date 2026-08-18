@@ -361,7 +361,7 @@
 		if(JOB_CHIEF_ENGINEER)
 			new_sash = new /obj/item/clothing/under/bodysash/engineer/ce()
 		if(JOB_NETWORK_ADMIN)
-			new_sash = new /obj/item/clothing/under/bodysash/engineer() //TODO: Add Beefmen clothes
+			new_sash = new /obj/item/clothing/under/bodysash/engineer() //NETWORK ADMIN TODO: Add Beefmen clothes
 		if(JOB_STATION_ENGINEER)
 			new_sash = new /obj/item/clothing/under/bodysash/engineer()
 		if(JOB_ATMOSPHERIC_TECHNICIAN)
