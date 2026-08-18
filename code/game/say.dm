@@ -165,7 +165,6 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	//Radio freq/name display
 	var/freqpart = radio_freq ? "\[[get_radio_name(radio_freq, radio_freq_name)]\] " : ""
 	//Speaker name
-	var/realnamepart = speaker.get_voice(add_id_name = TRUE) || speaker.get_message_voice(visible_name)
 	var/namepart = message_mods[MODE_SPEAKER_NAME_OVERRIDE] || speaker.get_message_voice(visible_name)
 
 	//End name span.
@@ -184,7 +183,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/messagepart = speaker.generate_messagepart(raw_message, spans, message_mods)
 	messagepart = " <span class='message'>[messagepart]</span></span>"
 
-	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, realnamepart)][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
+	return "[spanpart1][spanpart2][freqpart][languageicon][compose_track_href(speaker, speaker.get_message_voice(visible_name = FALSE))][namepart][compose_job(speaker, message_language, raw_message, radio_freq)][endspanpart][messagepart]"
 
 /atom/movable/proc/compose_track_href(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
@@ -409,12 +408,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 
 /atom/movable/virtualspeaker/GetJob()
 	return job
-
-/atom/movable/virtualspeaker/get_voice(add_id_name = FALSE) // MONKESTATION ADDITION -- NTSL (this entire proc)
-	if(add_id_name && realvoice)
-		return realvoice
-	else
-		return "[src]"
 
 /atom/movable/virtualspeaker/GetSource()
 	return source

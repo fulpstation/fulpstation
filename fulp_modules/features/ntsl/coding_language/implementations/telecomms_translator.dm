@@ -235,9 +235,7 @@ GLOBAL_LIST_INIT(allowed_translations, list(
 
 	var/setname = script_signal.get_clean_property("source", signal.data["name"])
 
-	if(signal.data["name"] != setname)
-		signal.virt.name = setname
-	signal.data["name"] = setname
+	//we're overriding name signal without actually changing the signal's name. It's genius...
 	if(!islist(signal.data["mods"]))
 		signal.data["mods"] = list()
 	signal.data["mods"][MODE_SPEAKER_NAME_OVERRIDE] = setname
