@@ -3,3 +3,5 @@
 
 ///If something is an 'object' to scripting.
 #define IS_OBJECT(thing) (istype(thing, /datum) || istype(thing, /list) || istype(thing, /savefile) || istype(thing, /client) || (thing==world))
+
+GLOBAL_LIST_EMPTY(pretty_filter_items)

@@ -23,7 +23,6 @@
 
 	var/unlimited_range = FALSE
 
-/*
 /obj/machinery/computer/telecomms/traffic/Initialize(mapload)
 	. = ..()
 	if(length(GLOB.pretty_filter_items) == 0)
@@ -32,7 +31,7 @@
 		unlimited_range = TRUE
 	return INITIALIZE_HINT_LATELOAD
 
-/obj/machinery/computer/telecomms/traffic/LateInitialize(mapload_arg)
+/obj/machinery/computer/telecomms/traffic/post_machine_initialize()
 	refresh_servers()
 	for(var/obj/machinery/telecomms/server/new_server in servers)
 		new_server.autoruncode = TRUE
@@ -44,7 +43,7 @@
 /obj/machinery/computer/telecomms/traffic/proc/create_log(entry)
 	if(!user_name)
 		CRASH("[type] tried to create a log with no user_name!")
-	access_log += "\[[get_timestamp()]\] [user_name] [entry]"
+	access_log += "\[[round_timestamp()]\] [user_name] [entry]"
 
 /obj/machinery/computer/telecomms/traffic/ui_interact(mob/user, datum/tgui/ui)
 	if(is_banned_from(user.ckey, JOB_NETWORK_ADMIN) || is_banned_from(user.ckey, JOB_SIGNAL_TECHNICIAN))
@@ -98,7 +97,7 @@
 		var/message = "[key_name_admin(user)] has completelly cleared the NTSL console of code and re-compiled as an admin, this should only be done in severe rule infractions."
 		message_admins(message)
 		log_ntsl("[key_name(src)] [message] [loc_name(src)]")
-		access_log += "\[[get_timestamp()]\] ERR !NTSL REMOTELLY CLEARED BY NANOTRASEN STAFF!"
+		access_log += "\[[round_timestamp()]\] ERR !NTSL REMOTELLY CLEARED BY NANOTRASEN STAFF!"
 		return TRUE
 
 	if(.)
@@ -194,6 +193,5 @@
 	obj_flags |= EMAGGED
 	user_name = "System Administrator"
 	create_log("has logged in.")
-	playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
+	playsound(src.loc, 'sound/effects/sparks/sparks4.ogg', 75, 1)
 	to_chat(user, span_notice("You bypass the console's security protocols."))
-*/
