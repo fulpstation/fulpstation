@@ -5,6 +5,8 @@
 	change_exempt_flags = NONE
 	head_flags = HEAD_HAIR | HEAD_EYESPRITES | HEAD_EYECOLOR
 	should_draw_greyscale = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2
 
 /obj/item/bodypart/chest/robot/protogen
 	icon = 'fulp_modules/icons/species/mob/protogen_bodyparts.dmi'
@@ -13,6 +15,8 @@
 	change_exempt_flags = NONE
 	should_draw_greyscale = TRUE
 	is_dimorphic = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2
 
 /obj/item/bodypart/arm/left/robot/protogen
 	icon = 'fulp_modules/icons/species/mob/protogen_bodyparts.dmi'
@@ -20,6 +24,8 @@
 	limb_id = SPECIES_PROTOGEN
 	change_exempt_flags = NONE
 	should_draw_greyscale = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2
 
 /obj/item/bodypart/arm/right/robot/protogen
 	icon = 'fulp_modules/icons/species/mob/protogen_bodyparts.dmi'
@@ -27,6 +33,8 @@
 	limb_id = SPECIES_PROTOGEN
 	change_exempt_flags = NONE
 	should_draw_greyscale = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2
 
 /obj/item/bodypart/leg/left/robot/protogen
 	icon = 'fulp_modules/icons/species/mob/protogen_bodyparts.dmi'
@@ -34,6 +42,8 @@
 	limb_id = SPECIES_PROTOGEN
 	change_exempt_flags = NONE
 	should_draw_greyscale = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2
 
 /obj/item/bodypart/leg/right/robot/protogen
 	icon = 'fulp_modules/icons/species/mob/protogen_bodyparts.dmi'
@@ -41,3 +51,5 @@
 	limb_id = SPECIES_PROTOGEN
 	change_exempt_flags = NONE
 	should_draw_greyscale = TRUE
+	brute_modifier = 1.2
+	burn_modifier = 1.2

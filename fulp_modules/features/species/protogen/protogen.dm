@@ -12,7 +12,7 @@
 		TRAIT_MUTANT_COLORS,
 		TRAIT_TACKLING_TAILED_DEFENDER,
 	)
-	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID
+	inherent_biotypes = MOB_ROBOTIC|MOB_HUMANOID|MOB_REPTILE
 	meat = /obj/item/food/meat/slab/human/mutant/lizard
 	mutantbrain = /obj/item/organ/brain/cybernetic
 	mutanttongue = /obj/item/organ/tongue/robot
@@ -25,7 +25,6 @@
 	mutantears = /obj/item/organ/ears/cybernetic
 	species_language_holder = /datum/language_holder/synthetic
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
-	damage_modifier = -25 // 25% More damage
 
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/robot/protogen,
@@ -44,15 +43,16 @@
 
 /datum/species/protogen/randomize_features()
 	var/list/features = ..()
-	features["tail_protogen"] = pick(SSaccessories.tails_list_protogen)
-	features["snout_protogen"] = pick(SSaccessories.snouts_list_protogen)
-	features["antennae_protogen"] = pick(SSaccessories.antennae_list_protogen)
+	features[FEATURE_PROTOGEN_TAIL] = pick(SSaccessories.feature_list[FEATURE_PROTOGEN_TAIL])
+	features[FEATURE_PROTOGEN_SNOUT] = pick(SSaccessories.feature_list[FEATURE_PROTOGEN_SNOUT])
+	features[FEATURE_PROTOGEN_ANTENNAE] = pick(SSaccessories.feature_list[FEATURE_PROTOGEN_ANTENNAE])
 	return features
 
 /datum/species/protogen/prepare_human_for_preview(mob/living/carbon/human/human)
 	human.dna.features["mcolor"] = "#b7b4ab"
-	human.dna.features["snout_protogen"] = "Bolted"
-	human.dna.features["antennae_protogen"] = "Default"
+	human.dna.features[FEATURE_PROTOGEN_TAIL] = "Shark"
+	human.dna.features[FEATURE_PROTOGEN_SNOUT] = "Bolted"
+	human.dna.features[FEATURE_PROTOGEN_ANTENNAE] = "Default"
 	human.eye_color_left = "#ffffff"
 	human.eye_color_right = "#ffffff"
 	human.update_body(is_creating = TRUE)
