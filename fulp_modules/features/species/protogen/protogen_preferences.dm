@@ -14,7 +14,7 @@
 	relevant_organ = /obj/item/organ/snout/protogen
 	should_generate_icons = TRUE
 
-/datum/preference/choiced/species_feature/protogen_snout/lizard_snout/icon_for(value)
+/datum/preference/choiced/species_feature/protogen_snout/icon_for(value)
 	return generate_lizard_side_shot(get_accessory_for_value(value), "snout_protogen", include_snout = FALSE)
 
 //Antennae
