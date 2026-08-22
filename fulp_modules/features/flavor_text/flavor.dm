@@ -1,4 +1,4 @@
-/// How much flavor text gets displayed before cutting off.
+/// How many characters of flavor text gets displayed before it cut off in base examine.
 #define EXAMINE_FLAVOR_MAX_DISPLAYED 65
 
 // -- Flavor text datum stuff. --
@@ -46,24 +46,46 @@ GLOBAL_LIST_EMPTY(flavor_texts)
 	var/name
 	/// The species associated with this flavor text.
 	var/linked_species
-
-	// Shown on examine
-	/// The actual flavor text.
+	/// The actual flavor text, shown on examine.
 	var/flavor_text
-	/// Flavor text shown as a silicon
-	var/silicon_text
 
 /datum/flavor_text/New(mob/living/initial_linked_mob)
 	owner = WEAKREF(initial_linked_mob)
 	name = initial_linked_mob.real_name
 
 	if(issilicon(initial_linked_mob))
-		linked_species = "silicon"
+		return
 	else if(ishuman(initial_linked_mob))
 		var/mob/living/carbon/human/human_mob = initial_linked_mob
 		linked_species = human_mob.dna?.species?.id
 	else
 		linked_species = "simple"
+
+	RegisterSignal(initial_linked_mob, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
+	RegisterSignal(initial_linked_mob, COMSIG_ATOM_EXAMINE_MORE, PROC_REF(on_examine_more))
+
+/datum/flavor_text/Destroy(force)
+	owner = null
+	return ..()
+
+/datum/flavor_text/proc/on_examine(mob/living/source, mob/examiner, list/examine_list)
+	SIGNAL_HANDLER
+
+	// Who's identity are we dealing with? In most cases it's the same as [src], but it could be disguised people, or null.
+	var/datum/flavor_text/known_identity = !(linked_species == "simple" || astype(source, /mob/living/carbon/human)?.is_face_obscured())
+	if(!known_identity)
+		return
+	examine_list += (separator_hr("Flavor text") + get_flavor_text(examiner, shorten = TRUE))
+
+/datum/flavor_text/proc/on_examine_more(datum/source, mob/examiner, list/examine_list)
+	SIGNAL_HANDLER
+
+	var/datum/flavor_text/known_identity = !(linked_species == "simple" || astype(source, /mob/living/carbon/human)?.is_face_obscured())
+	if(known_identity)
+		. += span_info(get_flavor_text(examiner, shorten = FALSE))
+	else if(ishuman(source))
+		. += span_smallnoticeital("You can't make out any details of this individual.")
+	examine_list += .
 
 /**
  * Get the flavor text formatted.
@@ -74,39 +96,15 @@ GLOBAL_LIST_EMPTY(flavor_texts)
  * returns a string
  */
 /datum/flavor_text/proc/get_flavor_text(mob/living/carbon/human/examiner, shorten = TRUE)
-	var/found_text = linked_species == "silicon" ? silicon_text : flavor_text
+	var/found_text = flavor_text
 	if(!length(found_text))
 		return
 
 	if(shorten && length(found_text) > EXAMINE_FLAVOR_MAX_DISPLAYED)
 		found_text = text_preview(found_text, EXAMINE_FLAVOR_MAX_DISPLAYED)
-		found_text += " <a href='byond://?src=[REF(src)];flavor_text=1'>\[More\]</a>"
+		var/mob/living/examined_person = owner?.resolve()
+		found_text += " <a href='byond://?src=[REF(examiner)];run_examinate=[REF(examined_person)]'>\[More\]</a>"
 
 	return found_text
-
-/**
- * All-In-One proc that gets the flavor text and record hrefs and formats it into one message.
- *
- * examiner - who's POV we're gettting this flavor text from
- * shorten - whether to cut it off at [EXAMINE_FLAVOR_MAX_DISPLAYED]
- *
- * returns a string
- */
-/datum/flavor_text/proc/format_flavor_for_examine(mob/living/carbon/human/examiner, shorten = TRUE)
-	if(!examiner)
-		CRASH("format_flavor_for_examine() called without an examiner argument - proc is not implemented for a null examiner")
-
-	. = list()
-	. += (separator_hr("Flavor text") + get_flavor_text(examiner, shorten))
-	return .
-
-/datum/flavor_text/Topic(href, href_list)
-	. = ..()
-	if(href_list["flavor_text"])
-		if(flavor_text)
-			var/datum/browser/popup = new(usr, "[name]'s flavor text", "[name]'s Flavor Text (expanded)", 500, 200)
-			popup.set_content(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", "[name]'s flavor text (expanded)", replacetext(flavor_text, "\n", "<BR>")))
-			popup.open()
-			return
 
 #undef EXAMINE_FLAVOR_MAX_DISPLAYED

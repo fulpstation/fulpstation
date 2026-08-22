@@ -37,7 +37,7 @@
 	if(!length(value) || istype(target, /mob/living/carbon/human/dummy)) // Don't stick flavor text on dummies
 		return
 
-	var/datum/flavor_text/our_flavor = target.linked_flavor || add_or_get_mob_flavor_text(target)
+	var/datum/flavor_text/our_flavor = add_or_get_mob_flavor_text(target)
 	if(isnull(our_flavor))
 		return
 

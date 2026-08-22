@@ -1,5 +1,9 @@
 import { Box, TextArea } from 'tgui-core/components';
-import type { Feature, FeatureShortTextData, FeatureValueProps } from '../base';
+import type { Feature, FeatureValueProps } from '../base';
+
+type FeatureShortTextData = {
+  maximum_length: number;
+};
 
 export type FeatureMultiline = Feature<string, string, FeatureShortTextData>;
 
