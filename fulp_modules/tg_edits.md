@@ -6,6 +6,9 @@
 
 - code/game/area/areas/shuttles.dm > Plays ApproachingFulp instead of ApproachingTG
 
+- code/modules/client/client_procs.dm
+- code/modules/tgui_input/say_modal/modal.dm
+
 - README.md > Replaces it with our own readme
 
 - tgui/packages/tgui/routes.tsx > Add custom routing so fulp-specific interfaces can be found and loaded
@@ -69,3 +72,8 @@ Please make sure to not accidentally re-add the old version.
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/fulp_species_features.tsx
+- tgui/packages/tgui-escape-menu/EscapeMenu.tsx
+- tgui/packages/tgui-escape-menu/pages/HomePage.tsx
+- tgui/packages/tgui-escape-menu/pages/PlayersPage.tsx
+- tgui/packages/tgui-say/ChannelIterator.ts
+- tgui/packages/tgui-say/styles/colors.scss

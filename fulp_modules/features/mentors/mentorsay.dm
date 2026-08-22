@@ -2,7 +2,7 @@
 /// This is a copy paste of ASAY_LINK_PINGED_ADMINS_INDEX
 #define MSAY_LINK_PINGED_MENTORS_INDEX "!pinged_mentors"
 
-GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
+GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", null, msg as text)
 	if(!is_mentor())
 		to_chat(src, span_danger("Error: Only mentors and administrators may use this command."), confidential = TRUE)
 		return
@@ -25,9 +25,7 @@ GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
 
 	log_mentor("MSAY: [key_name(src)] : [msg]")
 	msg = keywords_lookup(msg)
-	if(src.key == "[CONFIG_GET(string/headofpseudostaff)]")
-		msg = "<b><font color = #A097FE><span class='prefix'>HOP:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
-	else if(holder)
+	if(holder)
 		msg = "<b><font color = #8A2BE2><span class='prefix'>STAFF:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
 	else
 		msg = "<b><font color = #E236D8><span class='prefix'>MENTOR:</span> <EM>[key_name(src, include_link = FALSE, include_name = FALSE)]</EM>: <span class='message linkify'>[msg]</span></font></b>"
@@ -37,10 +35,6 @@ GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
 		confidential = TRUE)
 
 	SSblackbox.record_feedback("tally", "mentor_verb", 1, "Msay") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-/client/proc/get_mentor_say()
-	var/msg = input(src, null, "msay \"text\"") as text|null
-	cmd_mentor_say(msg)
 
 // see /proc/check_asay_links(msg) we just check for mentor_datum instead of holder
 /proc/check_mentor_pings(msg)
