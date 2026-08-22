@@ -246,7 +246,7 @@ export function FeatureValueInput(props: FeatureValueInputProps) {
   });
 }
 
-type FeatureShortTextData = {
+export type FeatureShortTextData = {
   maximum_length: number;
 };
 
