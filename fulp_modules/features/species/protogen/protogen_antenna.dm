@@ -7,18 +7,17 @@
 	zone = BODY_ZONE_HEAD
 	slot = ORGAN_SLOT_EXTERNAL_ANTENNAE
 
-	dna_block = /datum/dna_block/feature/accessory/moth_antenna
-
+	dna_block = /datum/dna_block/feature/accessory/protogen_antennae
 	bodypart_overlay = /datum/bodypart_overlay/mutant/protogen_antennae
 
 //Overlay
 /datum/bodypart_overlay/mutant/protogen_antennae
-	feature_key = "antennae_protogen"
+	feature_key = FEATURE_PROTOGEN_ANTENNAE
 	layers = list(EXTERNAL_ADJACENT = BODY_ADJ_LAYER)
 	color_source = ORGAN_COLOR_INHERIT
 
-/datum/bodypart_overlay/mutant/protogen_antennae/get_global_feature_list()
-	return SSaccessories.antennae_list_protogen
+/datum/dna_block/feature/accessory/protogen_antennae
+	feature_key = FEATURE_PROTOGEN_ANTENNAE
 
 //Sprites
 /datum/sprite_accessory/protogen/antennae

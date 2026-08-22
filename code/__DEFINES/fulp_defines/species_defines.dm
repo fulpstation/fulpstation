@@ -4,6 +4,14 @@
 #define SPECIES_BEEFMAN "beefman"
 #define SPECIES_PROTOGEN "protogen"
 
+//Feature defines
+#define FEATURE_BEEF_COLOR "beef_color"
+#define FEATURE_BEEF_EYES "beef_eyes"
+#define FEATURE_BEEF_MOUTH "beef_mouth"
+#define FEATURE_PROTOGEN_TAIL "tail_protogen"
+#define FEATURE_PROTOGEN_SNOUT "snout_protogen"
+#define FEATURE_PROTOGEN_ANTENNAE "antennae_protogen"
+
 /**
 * Beefman damage description defines
 */

@@ -54,15 +54,9 @@
 	icon_state = "smirk"
 
 /datum/bodypart_overlay/simple/body_marking/beefman_eyes
-	dna_feature_key = "beef_eyes"
+	dna_feature_key = FEATURE_BEEF_EYES
 	applies_to = list(/obj/item/bodypart/head)
-
-/datum/bodypart_overlay/simple/body_marking/beefman_eyes/get_accessory(name)
-	return SSaccessories.eyes_beefman_list[name]
 
 /datum/bodypart_overlay/simple/body_marking/beefman_mouth
-	dna_feature_key = "beef_mouth"
+	dna_feature_key = FEATURE_BEEF_MOUTH
 	applies_to = list(/obj/item/bodypart/head)
-
-/datum/bodypart_overlay/simple/body_marking/beefman_mouth/get_accessory(name)
-	return SSaccessories.mouths_beefman_list[name]

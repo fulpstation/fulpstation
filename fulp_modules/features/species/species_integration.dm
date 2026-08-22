@@ -40,9 +40,4 @@
 
 ///Adds fulp-only features to human DNA
 /mob/living/carbon/human/proc/fulp_consistent_human_dna()
-	dna.features["beef_color"] = "#e73f4e"
-	dna.features["beef_eyes"] = BEEF_EYES_OLIVES
-	dna.features["beef_mouth"] = BEEF_MOUTH_SMILE
-	dna.features["tail_protogen"] = "Synthliz"
-	dna.features["snout_protogen"] = "Regular"
-	dna.features["antennae_protogen"] = "Default"
+	dna.features[FEATURE_BEEF_COLOR] = GLOB.color_list_beefman[BEEF_COLOR_MEDIUM_RARE]
