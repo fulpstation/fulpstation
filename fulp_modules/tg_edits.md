@@ -67,5 +67,5 @@ Please make sure to not accidentally re-add the old version.
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/ghostinfiltrator.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/monsterhunter.ts
 - tgui/packages/tgui/interfaces/PreferencesMenu/antagonists/antagonists/vampiricaccident.ts
-- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/antag_tips.tsx
+- tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/game_preferences/fulp_settings.tsx
 - tgui/packages/tgui/interfaces/PreferencesMenu/preferences/features/fulp_species_features.tsx
