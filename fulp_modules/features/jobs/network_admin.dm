@@ -65,8 +65,7 @@
 
 	box = /obj/item/storage/box/survival/engineer
 	pda_slot = ITEM_SLOT_LPOCKET
-	//If PDA_PAINTING_REGIONS don't exist no more then add modular /obj/item/modular_computer/pda/signal :thumbsup:
-	l_pocket = /obj/item/modular_computer/pda/engineering
+	l_pocket = /obj/item/modular_computer/pda/signal
 
 	skillchips = list(/obj/item/skillchip/job/engineer)
 
@@ -110,3 +109,5 @@
 		ACCESS_CE,
 	)
 	job = /datum/job/signal_technician
+	honorifics = list("Admin", "Administrator", "Technician")
+	honorific_positions = HONORIFIC_POSITION_NONE | HONORIFIC_POSITION_FIRST_FULL

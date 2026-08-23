@@ -566,6 +566,7 @@
 	/obj/item/modular_computer/pda/medical = list(REGION_MEDBAY), \
 	/obj/item/modular_computer/pda/coroner = list(REGION_MEDBAY), \
 	/obj/item/modular_computer/pda/engineering = list(REGION_ENGINEERING), \
+	/obj/item/modular_computer/pda/signal = list(REGION_ENGINEERING), \
 	/obj/item/modular_computer/pda/security = list(REGION_SECURITY), \
 	/obj/item/modular_computer/pda/detective = list(REGION_SECURITY), \
 	/obj/item/modular_computer/pda/warden = list(REGION_SECURITY), \
