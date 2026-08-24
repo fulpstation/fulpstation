@@ -53,7 +53,6 @@
 /datum/design/holosign/restaurant/prison
 	name = "Prison Restaurant Seating Projector"
 	desc = "A holographic projector that creates seating designation for prison restaurants."
-	id = "holosignprisonrestaurant"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT, /datum/material/glass = HALF_SHEET_MATERIAL_AMOUNT)
 	build_path = /obj/item/holosign_creator/robot_seat/restaurant/prison
@@ -65,7 +64,6 @@
 /datum/design/board/restaurant_portal/prison
 	name = "Machine Design (Prison Restaurant Portal)"
 	desc = "The circuit board for a restaurant portal"
-	id = "prison_restaurant_portal"
 	build_path = /obj/item/circuitboard/machine/restaurant_portal/prison
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY

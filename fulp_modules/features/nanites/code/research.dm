@@ -1,31 +1,17 @@
-// See code\__DEFINES\research\techweb_nodes.dm
-#define TECHWEB_NODE_NANITE_BASE "nanite_base"
-#define TECHWEB_NODE_NANITE_SMART "nanite_smart"
-#define TECHWEB_NODE_NANITE_MESH "nanite_mesh"
-#define TECHWEB_NODE_NANITE_BIO "nanite_bio"
-#define TECHWEB_NODE_NANITE_NEURAL "nanite_neural"
-#define TECHWEB_NODE_NANITE_SYNAPTIC "nanite_synaptic"
-#define TECHWEB_NODE_NANITE_HARMONIC "nanite_harmonic"
-#define TECHWEB_NODE_NANITE_MILITARY "nanite_military"
-#define TECHWEB_NODE_NANITE_HAZARD "nanite_hazard"
-#define TECHWEB_NODE_NANITE_REPLICATION "nanite_replication_protocols"
-#define TECHWEB_NODE_NANITE_STORAGE "nanite_storage_protocols"
-
 /datum/techweb_node/nanite_base
-	id = TECHWEB_NODE_NANITE_BASE
 	display_name = "Basic Nanite Programming"
 	description = "The basics of nanite construction and programming."
-	prereq_ids = list(TECHWEB_NODE_PROGRAMMING)
-	design_ids = list(
-		"nanite_disk",
-		"nanite_remote",
-		"nanite_comm_remote",
-		"nanite_scanner",
+	prerequisite_nodes = list(/datum/techweb_node/programming)
+	unlocked_designs = list(
+		/datum/design/nanite_disk,
+		/datum/design/nanite_remote,
+		/datum/design/nanite_comm_remote,
+		/datum/design/nanite_scanner,
 		"nanite_chamber",
-		"nanite_chamber_control",
+		/datum/design/board/nanite_chamber_control,
 		"nanite_programmer",
 		"nanite_program_hub",
-		"nanite_cloud_control",
+		/datum/design/board/nanite_cloud_control,
 		"relay_nanites",
 		"access_nanites",
 		"repairing_nanites",
@@ -39,11 +25,13 @@
 	)
 
 /datum/techweb_node/nanite_smart
-	id = TECHWEB_NODE_NANITE_SMART
 	display_name = "Smart Nanite Programming"
 	description = "Nanite programs that require nanites to perform complex actions, act independently, roam or seek targets."
-	prereq_ids = list(TECHWEB_NODE_NANITE_BASE, TECHWEB_NODE_ROBOTICS)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_base,
+		/datum/techweb_node/robotics,
+	)
+	unlocked_designs = list(
 		"purging_nanites",
 		"metabolic_nanites",
 		"stealth_nanites",
@@ -57,11 +45,10 @@
 	)
 
 /datum/techweb_node/nanite_mesh
-	id = TECHWEB_NODE_NANITE_MESH
 	display_name = "Mesh Nanite Programming"
 	description = "Nanite programs that require static structures and membranes."
-	prereq_ids = list(TECHWEB_NODE_NANITE_BASE, TECHWEB_NODE_PARTS_ADV)
-	design_ids = list(
+	prerequisite_nodes = list(TECHWEB_NODE_NANITE_BASE, TECHWEB_NODE_PARTS_ADV)
+	unlocked_designs = list(
 		"hardening_nanites",
 		"dermal_button_nanites",
 		"refractive_nanites",
@@ -77,11 +64,13 @@
 	)
 
 /datum/techweb_node/nanite_bio
-	id = TECHWEB_NODE_NANITE_BIO
 	display_name = "Biological Nanite Programming"
 	description = "Nanite programs that require complex biological interaction."
-	prereq_ids = list(TECHWEB_NODE_NANITE_BASE, TECHWEB_NODE_MEDBAY_EQUIP)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_base,
+		/datum/techweb_node/medbay_equip,
+	)
+	unlocked_designs = list(
 		"regenerative_nanites",
 		"bloodheal_nanites",
 		"coagulating_nanites",
@@ -99,11 +88,10 @@
 	)
 
 /datum/techweb_node/nanite_neural
-	id = TECHWEB_NODE_NANITE_NEURAL
 	display_name = "Neural Nanite Programming"
 	description = "Nanite programs affecting nerves and brain matter."
-	prereq_ids = list(TECHWEB_NODE_NANITE_BIO)
-	design_ids = list(
+	prerequisite_nodes = list(/datum/techweb_node/nanite_bio)
+	unlocked_designs = list(
 		"nervous_nanites",
 		"brainheal_nanites",
 		"paralyzing_nanites",
@@ -118,11 +106,13 @@
 	)
 
 /datum/techweb_node/nanite_synaptic
-	id = TECHWEB_NODE_NANITE_SYNAPTIC
 	display_name = "Synaptic Nanite Programming"
 	description = "Nanite programs affecting mind and thoughts."
-	prereq_ids = list(TECHWEB_NODE_NANITE_NEURAL, TECHWEB_NODE_PASSIVE_IMPLANTS)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_neural,
+		/datum/techweb_node/passive_implants,
+	)
+	unlocked_designs = list(
 		"mindshield_nanites",
 		"pacifying_nanites",
 		"blinding_nanites",
@@ -136,11 +126,14 @@
 	)
 
 /datum/techweb_node/nanite_harmonic
-	id = TECHWEB_NODE_NANITE_HARMONIC
 	display_name = "Harmonic Nanite Programming"
 	description = "Nanite programs that require seamless integration between nanites and biology."
-	prereq_ids = list(TECHWEB_NODE_NANITE_BIO, TECHWEB_NODE_NANITE_SMART, TECHWEB_NODE_NANITE_MESH)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_bio,
+		/datum/techweb_node/nanite_smart,
+		/datum/techweb_node/nanite_mesh,
+	)
+	unlocked_designs = list(
 		"fakedeath_nanites",
 		"aggressive_nanites",
 		"defib_nanites",
@@ -155,11 +148,13 @@
 	)
 
 /datum/techweb_node/nanite_combat
-	id = TECHWEB_NODE_NANITE_MILITARY
 	display_name = "Military Nanite Programming"
 	description = "Nanite programs that perform military-grade functions."
-	prereq_ids = list(TECHWEB_NODE_NANITE_HARMONIC, TECHWEB_NODE_SYNDICATE_BASIC)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_harmonic,
+		/datum/techweb_node/syndicate_basic,
+	)
+	unlocked_designs = list(
 		"explosive_nanites",
 		"pyro_nanites",
 		"meltdown_nanites",
@@ -172,11 +167,13 @@
 	)
 
 /datum/techweb_node/nanite_hazard
-	id = TECHWEB_NODE_NANITE_HAZARD
 	display_name = "Hazard Nanite Programs"
 	description = "Extremely advanced Nanite programs with the potential of being extremely dangerous."
-	prereq_ids = list(TECHWEB_NODE_NANITE_HARMONIC, TECHWEB_NODE_ALIENTECH)
-	design_ids = list(
+	prerequisite_nodes = list(
+		/datum/techweb_node/nanite_harmonic,
+		/datum/techweb_node/alien/base,
+	)
+	unlocked_designs = list(
 		"spreading_nanites",
 		"mindcontrol_nanites",
 		"mitosis_nanites",
@@ -187,11 +184,10 @@
 	)
 
 /datum/techweb_node/nanite_replication_protocols
-	id = TECHWEB_NODE_NANITE_REPLICATION
 	display_name = "Nanite Replication Protocols"
 	description = "Advanced behaviours that allow nanites to exploit certain circumstances to replicate faster."
-	prereq_ids = list(TECHWEB_NODE_NANITE_SMART)
-	design_ids = list(
+	prerequisite_nodes = list(/datum/techweb_node/nanite_smart)
+	unlocked_designs = list(
 		"kickstart_nanites",
 		"factory_nanites",
 		"tinker_nanites",
@@ -205,11 +201,10 @@
 	experimental = TRUE
 
 /datum/techweb_node/nanite_storage_protocols
-	id = TECHWEB_NODE_NANITE_STORAGE
 	display_name = "Nanite Storage Protocols"
 	description = "Protocols that overwrite the default nanite storage routine to achieve more efficiency or greater capacity."
-	prereq_ids = list(TECHWEB_NODE_NANITE_SMART)
-	design_ids = list(
+	prerequisite_nodes = list(/datum/techweb_node/nanite_smart)
+	unlocked_designs = list(
 		"free_range_nanites",
 		"hive_nanites",
 		"unsafe_storage_nanites",
@@ -221,15 +216,3 @@
 	)
 	hidden = TRUE
 	experimental = TRUE
-
-#undef TECHWEB_NODE_NANITE_BASE
-#undef TECHWEB_NODE_NANITE_SMART
-#undef TECHWEB_NODE_NANITE_MESH
-#undef TECHWEB_NODE_NANITE_BIO
-#undef TECHWEB_NODE_NANITE_NEURAL
-#undef TECHWEB_NODE_NANITE_SYNAPTIC
-#undef TECHWEB_NODE_NANITE_HARMONIC
-#undef TECHWEB_NODE_NANITE_MILITARY
-#undef TECHWEB_NODE_NANITE_HAZARD
-#undef TECHWEB_NODE_NANITE_REPLICATION
-#undef TECHWEB_NODE_NANITE_STORAGE

@@ -1,7 +1,6 @@
 /datum/design/nanite_remote
 	name = "Nanite Remote"
 	desc = "Allows for the construction of a nanite remote."
-	id = "nanite_remote"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/nanite_remote
@@ -21,7 +20,6 @@
 /datum/design/nanite_scanner
 	name = "Nanite Scanner"
 	desc = "Allows for the construction of a nanite scanner."
-	id = "nanite_scanner"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/glass = SMALL_MATERIAL_AMOUNT, /datum/material/iron = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/nanite_scanner
@@ -31,7 +29,6 @@
 /datum/design/nanite_disk
 	name = "Nanite Program Disk"
 	desc = "Stores nanite programs."
-	id = "nanite_disk"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/disk/nanite_program

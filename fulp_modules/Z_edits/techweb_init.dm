@@ -1,6 +1,6 @@
 /datum/techweb_node/cafeteria_equip/New()
 	. = ..()
-	design_ids += list(
-		"holosignprisonrestaurant",
-		"prison_restaurant_portal"
+	unlocked_designs += list(
+		/datum/design/holosign/restaurant/prison,
+		/datum/design/board/restaurant_portal/prison,
 	)
