@@ -28,7 +28,7 @@ type DiskData = {
 type ProgramData = {
   name: string;
   desc: string;
-  id: string;
+  path: string;
 };
 
 export const NaniteProgramHub = (props) => {
@@ -120,7 +120,7 @@ export const NaniteProgramHub = (props) => {
                 {detail_view ? (
                   programsInCategory.map((program) => (
                     <Section
-                      key={program.id}
+                      key={program.path}
                       title={program.name}
                       buttons={
                         <Button
@@ -129,7 +129,7 @@ export const NaniteProgramHub = (props) => {
                           disabled={!has_disk}
                           onClick={() =>
                             act('download', {
-                              program_id: program.id,
+                              program_path: program.path,
                             })
                           }
                         />
@@ -142,7 +142,7 @@ export const NaniteProgramHub = (props) => {
                   <LabeledList>
                     {programsInCategory.map((program) => (
                       <LabeledList.Item
-                        key={program.id}
+                        key={program.path}
                         label={program.name}
                         buttons={
                           <Button
@@ -151,7 +151,7 @@ export const NaniteProgramHub = (props) => {
                             disabled={!has_disk}
                             onClick={() =>
                               act('download', {
-                                program_id: program.id,
+                                program_path: program.path,
                               })
                             }
                           />
