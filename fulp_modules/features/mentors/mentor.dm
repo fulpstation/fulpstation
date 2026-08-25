@@ -34,6 +34,32 @@ GLOBAL_PROTECT(mentor_href_token)
 		owner.add_mentor_verbs()
 		GLOB.mentors += owner
 
+/datum/mentors/proc/mentor_follow(mob/living/followed_guy)
+	if(isnull(followed_guy))
+		return
+	owner.mob.reset_perspective(followed_guy)
+	following = followed_guy
+	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> is now following <EM>[key_name(followed_guy)]</span>"))
+	to_chat(owner.mob, span_info("Use \"Escape\" to stop following [key_name(followed_guy)]."))
+	log_mentor("[key_name(owner.mob)] began following [key_name(followed_guy)]")
+	RegisterSignal(owner.mob, COMSIG_MOB_KEYDOWN, PROC_REF(mentor_unfollow))
+	RegisterSignal(owner.mob, COMSIG_MOB_RESET_PERSPECTIVE, PROC_REF(on_perspective_reset))
+
+/datum/mentors/proc/mentor_unfollow(mob/source, key)
+	SIGNAL_HANDLER
+
+	if(key != "Escape")
+		return
+	owner.mob.reset_perspective()
+
+/datum/mentors/proc/on_perspective_reset(atom/source)
+	SIGNAL_HANDLER
+
+	UnregisterSignal(owner.mob, list(COMSIG_MOB_KEYDOWN, COMSIG_MOB_RESET_PERSPECTIVE))
+	to_chat(GLOB.admins, span_adminooc("<span class='prefix'>MENTOR:</span> <EM>[key_name(owner.mob)]</EM> stopped following [key_name(following)].</span>"))
+	log_mentor("[key_name(owner.mob)] stopped following [key_name(following)].")
+	following = null
+
 /proc/RawMentorHrefToken(forceGlobal = FALSE)
 	var/tok = GLOB.mentor_href_token
 	if(!forceGlobal && usr)
@@ -69,14 +95,14 @@ GLOBAL_PROTECT(mentor_href_token)
 		if(!GLOB.mentor_datums[admin.ckey])
 			new /datum/mentors(admin.ckey)
 
-ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", "Mentor")
+ADMIN_VERB(reload_mentors, R_ADMIN, "Reload Mentors", "Reload all mentors", ADMIN_CATEGORY_MENTOR)
 	if(!user)
 		return
 
-	var/confirm = tgui_alert(usr, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
+	var/confirm = tgui_alert(user, "Are you sure you want to reload all mentors?", "Confirm", list("Yes", "No"))
 	if(confirm != "Yes")
 		return
 
 	load_mentors()
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Reload All Mentors") // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
-	message_admins("[key_name_admin(usr)] manually reloaded mentors")
+	message_admins("[key_name_admin(user)] manually reloaded mentors")

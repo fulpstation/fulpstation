@@ -1,5 +1,5 @@
 /// Verb for opening the requests manager panel
-GAME_VERB_PROC_DESC(/client, mentor_requests, "Mentor Manager", "Open the mentor manager panel to view all requests during this round", "Mentor")
+GAME_VERB_PROC_DESC(/client, mentor_requests, "Mentor Manager", "Open the mentor manager panel to view all requests during this round", ADMIN_CATEGORY_MENTOR)
 	SSblackbox.record_feedback("tally", "mentor_verb", 1, "Mentor Manager") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	GLOB.mentor_requests.ui_interact(usr)
 
@@ -60,7 +60,7 @@ GLOBAL_DATUM_INIT(mentor_requests, /datum/request_manager/mentor, new)
 			return TRUE
 		if ("follow")
 			var/mob/M = request.owner?.mob
-			mentor_client.mentor_follow(M)
+			mentor_client.mentor_datum.mentor_follow(M)
 			return TRUE
 	return ..()
 

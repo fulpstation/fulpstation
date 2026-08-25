@@ -16,7 +16,7 @@
 	if(href_list["mentor_follow"])
 		var/mob/living/followed_guy = locate(href_list["mentor_follow"])
 		if(istype(followed_guy))
-			mentor_follow(followed_guy)
+			mentor_datum.mentor_follow(followed_guy)
 		return TRUE
 	return ..()
 

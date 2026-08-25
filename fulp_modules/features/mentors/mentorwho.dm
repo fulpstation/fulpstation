@@ -2,15 +2,14 @@
  * Basically all of this is copied from adminwho with everything
  * renamed to mentor instead.
  * Please keep parity with that if possible.
+ * Already in escape menu, once Admin tab gets removed, remove this with it.
  */
-
-GAME_VERB(/client, mentorwho, "Mentorwho", "Mentor")
+GAME_VERB(/client, mentorwho, "Mentorwho", ADMIN_CATEGORY_MENTOR)
 
 	var/list/lines = list()
 	var/payload_string = generate_mentorwho_string()
 	var/header = "Current Mentors"
 
-	lines += span_bold(header)
 	lines += payload_string
 
 	to_chat(src, fieldset_block(span_bold(header), jointext(lines, "\n"), "boxed_message"), type = MESSAGE_TYPE_INFO)
@@ -52,8 +51,8 @@ GAME_VERB(/client, mentorwho, "Mentorwho", "Mentor")
 		//AFK people don't show up
 		if(mentor_client.is_afk())
 			continue
-		//Deadmins don't show up unless it's the pseudostaff cause they are generally expected to be.
-		if(GLOB.deadmins[mentor_client.ckey] && !(mentor_client.key == "[CONFIG_GET(string/headofpseudostaff)]"))
+		//Deadmins don't show up
+		if(GLOB.deadmins[mentor_client.ckey])
 			continue
 
 		returnable_list += "• [mentor_client] is a Mentor"

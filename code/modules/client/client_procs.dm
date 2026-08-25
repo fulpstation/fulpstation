@@ -1048,6 +1048,12 @@ GLOBAL_LIST_INIT(unrecommended_builds, list(
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[asay]")
 					else
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=")
+				if(MENTOR_CHANNEL)
+					if(mentor_datum)
+						var/mentorsay = tgui_say_create_open_command(MENTOR_CHANNEL)
+						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[mentorsay]")
+					else
+						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=")
 	calculate_move_dir()
 
 /client/proc/change_view(new_size)

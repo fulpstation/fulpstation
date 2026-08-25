@@ -1,7 +1,7 @@
 import './styles/main.scss';
 
 import { useEffect, useReducer, useRef } from 'react';
-
+import { MentorPage } from '../tgui/fulpui-patches/tgui-escape-menu/MentorPage';
 import { playCloseSounds, playOpenSounds } from './audio';
 import { AdminPage } from './pages/AdminPage';
 import { HomePage } from './pages/HomePage';
@@ -10,7 +10,7 @@ import { PlayersPage } from './pages/PlayersPage';
 import { QuitPage } from './pages/QuitPage';
 import { updateScaling } from './scaling';
 
-type Page = 'home' | 'admin' | 'players' | 'leave_body' | 'quit';
+type Page = 'home' | 'admin' | 'mentor' | 'players' | 'leave_body' | 'quit';
 
 export type PlayerInfo = {
   ckey: string;
@@ -36,6 +36,8 @@ export type ServerState = {
   hasTicketNotification: boolean;
   resources: ResourceLink[];
   admins: PlayerInfo[];
+  mentors: PlayerInfo[]; //Fulp edit: Adding mentors to the player list.
+  isMentor: boolean;
   players: PlayerInfo[];
   ignoredOffline: string[];
   suicideIcon: string | null;
@@ -171,6 +173,13 @@ export function EscapeMenu() {
         {state.page === 'admin' && (
           <AdminPage
             serverState={state.serverState}
+            onNavigate={navigate}
+            onAction={handleAction}
+            onClose={handleClose}
+          />
+        )}
+        {state.page === 'mentor' && (
+          <MentorPage
             onNavigate={navigate}
             onAction={handleAction}
             onClose={handleClose}

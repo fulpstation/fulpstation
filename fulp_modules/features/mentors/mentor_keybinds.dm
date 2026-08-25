@@ -7,14 +7,7 @@
 
 /datum/keybinding/mentor/mentor_say
 	hotkey_keys = list("F4")
-	name = "mentor_say"
+	name = MENTOR_CHANNEL
 	full_name = "Mentor say"
 	description = "Talk with fellow mentors and admins."
 	keybind_signal = COMSIG_KB_ADMIN_MSAY_DOWN
-
-/datum/keybinding/mentor/mentor_say/down(client/user)
-	. = ..()
-	if(.)
-		return
-	user.get_mentor_say()
-	return TRUE
