@@ -2,7 +2,8 @@
 /// This is a copy paste of ASAY_LINK_PINGED_ADMINS_INDEX
 #define MSAY_LINK_PINGED_MENTORS_INDEX "!pinged_mentors"
 
-GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor", msg as text)
+GAME_VERB_PROC(/client, cmd_mentor_say, "Mentorsay", "Mentor")
+	VERB_ARG(msg, VERB_ARG_TYPE_TEXT, VERB_ARG_SOURCE_INPUT)
 	if(!is_mentor())
 		to_chat(src, span_danger("Error: Only mentors and administrators may use this command."), confidential = TRUE)
 		return

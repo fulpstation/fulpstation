@@ -51,3 +51,6 @@
 
 #define NANITE_HUD "nanite_hud"
 #define DIAG_NANITE_FULL_HUD "nanite_full_hud"
+
+//Keep as the last build_types flag (rest in code\__DEFINES\machines.dm)
+#define NANITE_PROGRAM_HUB (1<<11)

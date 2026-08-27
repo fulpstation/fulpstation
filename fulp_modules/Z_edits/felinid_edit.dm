@@ -3,8 +3,15 @@
 	desc = "A pair of kitty ears. Meow! Prone to causing the user to behave more absent-minded."
 	equip_delay_other = 20 MINUTES
 	equip_delay_self = 5 SECONDS
-	clothing_flags = SNUG_FIT | ANTI_TINFOIL_MANEUVER | DANGEROUS_OBJECT
+	clothing_flags = SNUG_FIT
 	clothing_traits = list(TRAIT_UNINTELLIGIBLE_SPEECH, TRAIT_CLUMSY, TRAIT_DUMB)
+
+/obj/item/clothing/head/costume/kitty/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_DANGEROUS_EQUIP, INNATE_TRAIT)
+
+/obj/item/clothing/head/costume/kitty/can_throw_equip(atom/hit_atom)
+	return FALSE
 
 /obj/item/clothing/head/costume/kitty/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

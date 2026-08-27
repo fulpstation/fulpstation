@@ -6,15 +6,15 @@
 	bodypart_overlay = /datum/bodypart_overlay/mutant/tail/protogen
 
 	wag_flags = WAG_ABLE
-	dna_block = /datum/dna_block/feature/accessory/tail
+	dna_block = /datum/dna_block/feature/accessory/tail_protogen
+
+/datum/dna_block/feature/accessory/tail_protogen
+	feature_key = FEATURE_PROTOGEN_TAIL
 
 //Overlay
 /datum/bodypart_overlay/mutant/tail/protogen
-	feature_key = "tail_protogen"
+	feature_key = FEATURE_PROTOGEN_TAIL
 	color_source = ORGAN_COLOR_INHERIT
-
-/datum/bodypart_overlay/mutant/tail/protogen/get_global_feature_list()
-	return SSaccessories.tails_list_protogen
 
 //Sprites
 /datum/sprite_accessory/tails/protogen

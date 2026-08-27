@@ -63,7 +63,7 @@
 	RegisterSignal(user, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 	// Instantly set bodytemp to Beefmen levels to prevent bleeding out roundstart.
 	user.bodytemperature = bodytemp_normal
-	if(!user.dna.features["beef_color"])
+	if(!user.dna.features[FEATURE_BEEF_COLOR])
 		randomize_features(user)
 	update_beefman_color(user)
 	. = ..()
@@ -82,17 +82,10 @@
 
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
-	features["beef_color"] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
-	features["beef_eyes"] = pick(SSaccessories.eyes_beefman_list)
-	features["beef_mouth"] = pick(SSaccessories.mouths_beefman_list)
+	features[FEATURE_BEEF_COLOR] = pick(GLOB.color_list_beefman[pick(GLOB.color_list_beefman)])
+	features[FEATURE_BEEF_EYES] = pick(SSaccessories.feature_list[FEATURE_BEEF_EYES])
+	features[FEATURE_BEEF_MOUTH] = pick(SSaccessories.feature_list[FEATURE_BEEF_MOUTH])
 	return features
-/*
-/datum/species/beefman/prepare_human_for_preview(mob/living/carbon/human/human)
-	human.dna.features["beef_color"] = "#e73f4e"
-	human.dna.features["beef_eyes"] = "Capers"
-	human.dna.features["beef_mouth"] = "Gritting Smile"
-	human.update_body(is_creating = TRUE)
-*/
 
 /datum/species/beefman/proc/on_life(mob/living/carbon/human/user, seconds_per_tick)
 	SIGNAL_HANDLER
@@ -112,7 +105,7 @@
 
 /datum/species/beefman/proc/update_beefman_color(mob/living/carbon/human/beefman)
 	SIGNAL_HANDLER
-	var/my_color = beefman.dna.features["beef_color"]
+	var/my_color = beefman.dna.features[FEATURE_BEEF_COLOR]
 	if(isnull(my_color))
 		return
 	fixed_mut_color = my_color

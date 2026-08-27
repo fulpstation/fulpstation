@@ -1,12 +1,16 @@
 PROCESSING_SUBSYSTEM_DEF(nanites)
 	name = "Nanites"
-	ss_flags = SS_BACKGROUND|SS_POST_FIRE_TIMING|SS_NO_INIT
+	ss_flags = SS_BACKGROUND|SS_POST_FIRE_TIMING
 	wait = 1 SECONDS
 
 	///List of all Nanite backups in the game.
 	var/list/datum/nanite_cloud_backup/cloud_backups = list()
 	///List of all nanite relays in the game.
 	var/list/datum/nanite_program/relay/nanite_relays = list()
+
+/datum/controller/subsystem/processing/nanites/Initialize()
+	GLOB.build_types_to_string += list("[NANITE_PROGRAM_HUB]" = "Nanite Program Hub")
+	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/processing/nanites/proc/check_hardware(datum/nanite_cloud_backup/backup)
 	if(QDELETED(backup.cloud_host) || (backup.cloud_host.machine_stat & (NOPOWER|BROKEN)))

@@ -356,7 +356,7 @@ export const NaniteCloudControl = (props) => {
               <Button
                 fluid
                 key={backup.cloud_id}
-                content={`Backup #${current_view}`}
+                content={`Backup #${backup.cloud_id}`}
                 textAlign="center"
                 onClick={() =>
                   act('set_view', {

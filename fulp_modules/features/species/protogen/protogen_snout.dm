@@ -16,10 +16,7 @@
 
 //Overlay
 /datum/bodypart_overlay/mutant/snout/protogen
-	feature_key = "snout_protogen"
-
-/datum/bodypart_overlay/mutant/snout/protogen/get_global_feature_list()
-	return SSaccessories.snouts_list_protogen
+	feature_key = FEATURE_PROTOGEN_SNOUT
 
 //Sprites
 /datum/sprite_accessory/protogen
