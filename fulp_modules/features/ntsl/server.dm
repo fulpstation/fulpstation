@@ -82,7 +82,7 @@
 		var/atom/movable/virtualspeaker/speaker = new(null, M, server_radio)
 		speaker.name = "Poly"
 		speaker.job = ""
-		var/datum/signal/subspace/vocal/signal = new(src, freq, speaker, /datum/language/common, "test", list(), )
+		var/datum/signal/subspace/vocal/signal = new(src, freq, speaker, /datum/language/common, "test", list())
 		signal.data["server"] = src
 		Compiler.Run(signal)
 		if(signal.data["reject"] == TRUE)
