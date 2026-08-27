@@ -36,12 +36,12 @@
 		on_connected_techweb()
 
 /obj/machinery/nanite_program_hub/proc/on_connected_techweb()
-	for (var/researched_design_id in linked_techweb.researched_designs)
-		var/datum/design/nanites/design = SSresearch.techweb_design_by_id(researched_design_id)
+	for(var/researched_design_path in linked_techweb.researched_designs)
+		var/datum/design/nanites/design = SSresearch.techweb_designs[researched_design_path]
 		if (!ispath(design))
 			continue
 
-		cached_designs[design.program_type] = design.id
+		cached_designs[design.program_type] = researched_design_path
 
 	RegisterSignal(linked_techweb, COMSIG_TECHWEB_ADD_DESIGN, PROC_REF(on_research))
 
@@ -54,16 +54,16 @@
  * Updates the `final_sets` and `buildable_parts` for the current mecha fabricator.
  */
 /obj/machinery/nanite_program_hub/proc/update_menu_tech()
-	var/previous_design_count = cached_designs.len
+	var/previous_design_count = length(cached_designs)
 
 	cached_designs.Cut()
-	for(var/v in linked_techweb.researched_designs)
-		var/datum/design/nanites/design = SSresearch.techweb_design_by_id(v)
+	for(var/design_path in linked_techweb.researched_designs)
+		var/datum/design/nanites/design = SSresearch.techweb_designs[design_path]
 
 		if(istype(design))
-			cached_designs |= design
+			cached_designs |= design_path
 
-	var/design_delta = cached_designs.len - previous_design_count
+	var/design_delta = length(cached_designs) - previous_design_count
 
 	if(design_delta > 0)
 		say("Received [design_delta] new design[design_delta == 1 ? "" : "s"].")
@@ -145,19 +145,19 @@
 	var/list/data = list()
 	data["programs"] = list()
 	data["categories"] = list()
-	for(var/i in linked_techweb.researched_designs)
-		var/datum/design/nanites/D = SSresearch.techweb_design_by_id(i)
-		if(!istype(D))
+	for(var/design_path in cached_designs)
+		var/datum/design/nanites/design = SSresearch.techweb_designs[design_path]
+		if(!istype(design))
 			continue
-		var/cat_name = D.category[1] //just put them in the first category fuck it
+		var/cat_name = design.category[1] //just put them in the first category fuck it
 		if(!(cat_name in data["categories"]))
 			data["categories"] += cat_name
 		if(isnull(data["programs"][cat_name]))
 			data["programs"][cat_name] = list()
 		var/list/program_design = list()
-		program_design["id"] = D.id
-		program_design["name"] = D.name
-		program_design["desc"] = D.desc
+		program_design["path"] = design.type
+		program_design["name"] = design.name
+		program_design["desc"] = design.desc
 		data["programs"][cat_name] += list(program_design)
 
 	if(!length(data["programs"]))
@@ -176,7 +176,10 @@
 		if("download")
 			if(!inserted_disk)
 				return
-			var/datum/design/nanites/downloaded = linked_techweb.isDesignResearchedID(params["program_id"]) //check if it's a valid design
+			var/nanite_path = text2path(params["program_path"])
+			if(!linked_techweb.researched_designs[nanite_path]) //check if it's a valid design
+				return
+			var/datum/design/nanites/downloaded = SSresearch.techweb_designs[nanite_path]
 			if(!istype(downloaded))
 				return
 			if(inserted_disk.program)

@@ -117,3 +117,17 @@
 	if(prob(4))
 		to_chat(host_mob, span_warning("You can't feel your legs!"))
 		host_mob.Paralyze(30)
+
+/obj/item/disk/design_disk/rogue_nanites
+	name = "Rogue Nanite Programs disk"
+	blueprints = list(
+		/datum/design/nanites/glitch,
+		/datum/design/nanites/necrotic,
+		/datum/design/nanites/toxic,
+		/datum/design/nanites/suffocating,
+		/datum/design/nanites/brain_misfire,
+		/datum/design/nanites/skin_decay,
+		/datum/design/nanites/nerve_decay,
+		/datum/design/nanites/brain_decay,
+		/datum/design/nanites/heart_stop,
+	)

@@ -333,7 +333,7 @@
 	var/research_value = NANITE_BASE_RESEARCH
 	if(!ishuman(host_mob))
 		research_value *= 0.5
-	linked_techweb.add_point_list(list(TECHWEB_POINT_TYPE_NANITES = research_value))
+	linked_techweb.adjust_points(TECHWEB_POINT_TYPE_NANITES, research_value)
 
 /datum/component/nanites/proc/on_healthscan(datum/source, list/render_list, advanced, mob/user, mode)
 	SIGNAL_HANDLER

@@ -1,7 +1,8 @@
 /datum/design/nanites
 	name = "None"
 	desc = "Warn a coder if you see this."
-	build_type = NONE
+	build_type = NANITE_PROGRAM_HUB
+	abstract_type = /datum/design/nanites
 	construction_time = 50
 	category = list()
 	research_icon = 'fulp_modules/icons/nanites/nanite_device.dmi'
