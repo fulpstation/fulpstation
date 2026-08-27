@@ -45,6 +45,7 @@
 	)
 	rpg_title = "Telecommunications Goblin"
 	job_flags = STATION_JOB_FLAGS
+	tgui_icon = FA_ICON_SIGNAL
 
 /datum/outfit/job/signal_tech
 	name = JOB_NETWORK_ADMIN
@@ -65,7 +66,7 @@
 
 	box = /obj/item/storage/box/survival/engineer
 	pda_slot = ITEM_SLOT_LPOCKET
-	l_pocket = /obj/item/modular_computer/pda/signal
+	l_pocket = /obj/item/modular_computer/pda/netadmin
 
 	skillchips = list(/obj/item/skillchip/job/engineer)
 
@@ -76,9 +77,19 @@
 	gloves = /obj/item/clothing/gloves/color/plasmaman/engineer
 	head = /obj/item/clothing/head/helmet/space/plasmaman/engineering/signal_tech
 
+/obj/item/modular_computer/pda/netadmin
+	name = "network admin PDA"
+	icon_state = "/obj/item/modular_computer/pda/engineering"
+	greyscale_config = /datum/greyscale_config/tablet/stripe_thick
+	greyscale_colors = "#D99A2E#0EC220#727272"
+	starting_programs = list(
+		/datum/computer_file/program/ntnetmonitor,
+	)
+
 /datum/id_trim/job/signal_technician
 	assignment = JOB_NETWORK_ADMIN
 	intern_alt_name = "Junior Network Admin"
+	sechud_icon = 'fulp_modules/icons/jobs/huds.dmi'
 	trim_icon = 'fulp_modules/icons/jobs/cards.dmi'
 	trim_state = "trim_signaltech"
 	department_color = COLOR_ENGINEERING_ORANGE

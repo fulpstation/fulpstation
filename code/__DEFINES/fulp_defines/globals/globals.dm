@@ -6,11 +6,6 @@
  * Because, due to some god-forsaken reason, either `GLOBAL_LIST_INIT` defined in Fulp folders causes TG's 'create and destroy' to fail.
  */
 
-///This list is used in huds.dm to assign jobs their HUD icons. When adding new jobs, add them to this list!!
-GLOBAL_LIST_INIT(fulp_job_trims, list(
-	SECHUD_SIGNAL_TECHNICAN,
-))
-
 // MUSIC //
 GLOBAL_LIST_INIT(credits_music, list(
 	'fulp_modules/sounds/credits/fulp_piano.ogg' = 50,

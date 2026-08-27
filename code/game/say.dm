@@ -168,7 +168,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/namepart = message_mods[MODE_SPEAKER_NAME_OVERRIDE] || speaker.get_message_voice(visible_name)
 
 	//End name span.
-	var/endspanpart = "</span></a>" // MONKESTATION EDIT NEW
+	var/endspanpart = "</span>"
 
 	// Language icon.
 	var/languageicon = ""
@@ -368,7 +368,6 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	var/job
 	var/atom/movable/source
 	var/obj/item/radio/radio
-	var/realvoice // MONKESTATION ADDITION -- NTSL
 
 INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 /atom/movable/virtualspeaker/Initialize(mapload, atom/movable/M, _radio)
@@ -377,7 +376,6 @@ INITIALIZE_IMMEDIATE(/atom/movable/virtualspeaker)
 	source = M
 	if(istype(M))
 		name = radio?.anonymize ? "Unknown" : M.get_voice(add_id_name = TRUE)
-		realvoice = name // MONKESTATION ADDITION -- NTSL
 		verb_say = M.get_default_say_verb()
 		verb_ask = M.verb_ask
 		verb_exclaim = M.verb_exclaim
