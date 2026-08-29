@@ -1,9 +1,12 @@
 //We're overwriting accesses_by_region to add our own access flags to different regions
-/*
 /datum/controller/subsystem/id_access/setup_region_lists()
 	. = ..()
-	accesses_by_region[REGION_ENGINEERING] = REGION_ACCESS_ENGINEERING + ACCESS_TCOMMS_ADMIN
-*/
+	accesses_by_region[REGION_ENGINEERING] |= ACCESS_TCOMMS_ADMIN
+
+/datum/controller/subsystem/id_access/setup_access_flags()
+	. = ..()
+	accesses_by_flag["[ACCESS_FLAG_COMMAND]"] |= ACCESS_TCOMMS_ADMIN
+	flags_by_access |= list(ACCESS_TCOMMS_ADMIN = ACCESS_FLAG_COMMAND)
 
 /datum/controller/subsystem/id_access/setup_access_descriptions()
 	. = ..()
