@@ -71,7 +71,7 @@
 	owner.current.log_message("has been deconverted from vassalization by [implanter]!", LOG_ATTACK, color="#960000")
 	return COMPONENT_MINDSHIELD_DECONVERTED
 
-/datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, examine_text)
+/datum/antagonist/vassal/proc/on_examine(datum/source, mob/examiner, list/examine_text)
 	SIGNAL_HANDLER
 	var/vassal_examine = return_vassal_examine(examiner)
 	if(vassal_examine)
