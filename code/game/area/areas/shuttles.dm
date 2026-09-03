@@ -132,7 +132,6 @@
 		// Fulp edit - Plays ApproachingFulp instead of ApproachingTG
 		boarder.playsound_local(get_turf(boarder), 'fulp_modules/sounds/arrival/ApproachingFulp.ogg', 25)
 		// Fulp edit END
-	boarder.update_parallax_teleport()
 
 /area/shuttle/pod_1
 	name = "Escape Pod One"
