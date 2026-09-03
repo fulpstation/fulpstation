@@ -25,7 +25,7 @@
  */
 /mob/living/basic/guardian/standard/timestop
 	// Like Bloodsuckers do, you will take more damage to Burn and less to Brute
-	damage_coeff = list(BRUTE = 0.5, BURN = 2.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+	physiology = list(BRUTE = 0.5, BURN = 2.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 
 	creator_name = "Timestop"
 	creator_desc = "Devastating close combat attacks and high damage resistance. Can smash through weak walls and stop time."

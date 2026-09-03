@@ -8,13 +8,13 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/host_human = host_mob
-		host_human.physiology.stun_mod *= 0.5
+		MODIFY_PHYSIOLOGY(host_human, PHYS_COEFF_STUN, 0.5)
 
 /datum/nanite_program/nervous/disable_passive_effect()
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/host_human = host_mob
-		host_human.physiology.stun_mod *= 2
+		MODIFY_PHYSIOLOGY(host_human, PHYS_COEFF_STUN, 2)
 
 /datum/nanite_program/adrenaline
 	name = "Adrenaline Burst"
@@ -47,13 +47,13 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/user = host_mob
-		user.physiology.armor = user.physiology.armor.add_other_armor(/datum/armor/nanite_hardening)
+		user.set_armor(user.get_armor().add_other_armor(/datum/armor/nanite_hardening))
 
 /datum/nanite_program/hardening/disable_passive_effect()
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/user = host_mob
-		user.physiology.armor = user.physiology.armor.subtract_other_armor(/datum/armor/nanite_hardening)
+		user.set_armor(user.get_armor().subtract_other_armor(/datum/armor/nanite_hardening))
 
 /datum/nanite_program/refractive
 	name = "Dermal Refractive Surface"
@@ -69,13 +69,13 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/user = host_mob
-		user.physiology.armor = user.physiology.armor.add_other_armor(/datum/armor/nanite_refractive)
+		user.set_armor(user.get_armor().add_other_armor(/datum/armor/nanite_refractive))
 
 /datum/nanite_program/refractive/disable_passive_effect()
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/user = host_mob
-		user.physiology.armor = user.physiology.armor.subtract_other_armor(/datum/armor/nanite_refractive)
+		user.set_armor(user.get_armor().subtract_other_armor(/datum/armor/nanite_refractive))
 
 /datum/nanite_program/coagulating
 	name = "Rapid Coagulation"
@@ -87,13 +87,13 @@
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/host_human = host_mob
-		host_human.physiology.bleed_mod *= 0.1
+		MODIFY_PHYSIOLOGY(host_human, PHYS_COEFF_BLEED, 0.1)
 
 /datum/nanite_program/coagulating/disable_passive_effect()
 	. = ..()
 	if(ishuman(host_mob))
 		var/mob/living/carbon/human/host_human = host_mob
-		host_human.physiology.bleed_mod *= 10
+		MODIFY_PHYSIOLOGY(host_human, PHYS_COEFF_BLEED, 10)
 
 /datum/nanite_program/conductive
 	name = "Electric Conduction"
