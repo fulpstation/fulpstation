@@ -66,7 +66,7 @@
 
 	box = /obj/item/storage/box/survival/engineer
 	pda_slot = ITEM_SLOT_LPOCKET
-	l_pocket = /obj/item/modular_computer/pda/netadmin
+	l_pocket = /obj/item/modular_computer/pda/crew/netadmin
 
 	skillchips = list(/obj/item/skillchip/job/engineer)
 
@@ -77,11 +77,12 @@
 	gloves = /obj/item/clothing/gloves/color/plasmaman/engineer
 	head = /obj/item/clothing/head/helmet/space/plasmaman/engineering/signal_tech
 
-/obj/item/modular_computer/pda/netadmin
+/obj/item/modular_computer/pda/crew/netadmin
 	name = "network admin PDA"
-	icon_state = "/obj/item/modular_computer/pda/engineering"
+	icon_state = "/obj/item/modular_computer/pda/crew/netadmin"
 	greyscale_config = /datum/greyscale_config/tablet/stripe_thick
 	greyscale_colors = "#D99A2E#0EC220#727272"
+	painting_region = REGION_ENGINEERING
 	starting_programs = list(
 		/datum/computer_file/program/ntnetmonitor,
 	)

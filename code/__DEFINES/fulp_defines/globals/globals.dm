@@ -5,7 +5,6 @@
  * Because stuff like `GLOBAL_LIST_INIT` isn't DEFINED on TG until the /code/ folder
  * Because, due to some god-forsaken reason, either `GLOBAL_LIST_INIT` defined in Fulp folders causes TG's 'create and destroy' to fail.
  */
-
 // MUSIC //
 GLOBAL_LIST_INIT(credits_music, list(
 	'fulp_modules/sounds/credits/fulp_piano.ogg' = 50,
