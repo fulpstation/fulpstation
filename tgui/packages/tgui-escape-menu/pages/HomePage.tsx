@@ -14,6 +14,7 @@ type ServerState = {
 
 type Props = {
   serverState: ServerState;
+  // Fulp edit - Mentors: Adds mentor page
   onNavigate: (
     page: 'admin' | 'mentor' | 'players' | 'leave_body' | 'quit',
   ) => void;
@@ -89,6 +90,7 @@ export function HomePage({
           >
             Admin Help
           </MenuButton>
+          {/* Fulp edit - Mentors */}
           {serverState.isMentor ? (
             <MenuButton onClick={() => onNavigate('mentor')}>
               Mentor Help
@@ -103,6 +105,7 @@ export function HomePage({
               Mentor Help
             </MenuButton>
           )}
+          {/* Fulp edit END */}
           <MenuButton
             onClick={() => onNavigate('leave_body')}
             disabled={!serverState.canLeaveBody}

@@ -1,7 +1,7 @@
 import './styles/main.scss';
 
 import { useEffect, useReducer, useRef } from 'react';
-import { MentorPage } from '../tgui/fulpui-patches/tgui-escape-menu/MentorPage';
+import { MentorPage } from '../tgui/fulpui-patches/tgui-escape-menu/MentorPage'; // Fulp edit - Mentors
 import { playCloseSounds, playOpenSounds } from './audio';
 import { AdminPage } from './pages/AdminPage';
 import { HomePage } from './pages/HomePage';
@@ -37,8 +37,8 @@ export type ServerState = {
   hasTicketNotification: boolean;
   resources: ResourceLink[];
   admins: PlayerInfo[];
-  mentors: PlayerInfo[]; //Fulp edit: Adding mentors to the player list.
-  isMentor: boolean;
+  mentors: PlayerInfo[]; // Fulp edit - Mentors: Adding mentors to the player list.
+  isMentor: boolean; // Fulp edit - Mentors
   players: PlayerInfo[];
   ignoredOffline: string[];
   suicideIcon: string | null;
@@ -179,6 +179,7 @@ export function EscapeMenu() {
             onClose={handleClose}
           />
         )}
+        {/* Fulp edit - Mentors */}
         {state.page === 'mentor' && (
           <MentorPage
             onNavigate={navigate}
@@ -186,6 +187,7 @@ export function EscapeMenu() {
             onClose={handleClose}
           />
         )}
+        {/* Fulp edit END */}
         {state.page === 'players' && (
           <PlayersPage
             serverState={state.serverState}
