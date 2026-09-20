@@ -27,7 +27,7 @@
 
 	//Get message text, limit it's length.and clean/escape html
 	if(!msg)
-		msg = input(src, "Message:", "Private message") as text|null
+		msg = tgui_input_text(src, "Message:", "Private message", max_length = MAX_MESSAGE_LEN)
 
 		if(!msg)
 			return
@@ -46,10 +46,6 @@
 		//Neither party is a mentor, they shouldn't be PMing!
 		if(!chosen_client.is_mentor() && !is_mentor())
 			return
-
-	msg = sanitize(copytext(msg, 1, MAX_MESSAGE_LEN))
-	if(!msg)
-		return
 
 	log_mentor("Mentor PM: [key_name(src)]->[key_name(chosen_client)]: [msg]")
 
