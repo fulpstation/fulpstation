@@ -2,7 +2,7 @@
 /datum/escape_menu/send_init()
 	. = ..()
 	send_update(list(
-		"isMentor" = !!client.mentor_datum,
+		"isMentor" = client.is_mentor(),
 		"mentors" = build_mentor_list(),
 	))
 
