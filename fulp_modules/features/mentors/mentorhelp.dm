@@ -6,7 +6,7 @@ GAME_VERB(/client, mentorhelp, "Mentorhelp", ADMIN_CATEGORY_MENTOR)
 			html = "<span class='danger'>Error: MentorPM: You are muted from Mentorhelps. (muted).</span>",
 			confidential = TRUE)
 		return
-	var/msg = tgui_input_text(src, "Ask a question about game mechanics", "Mentorhelp")
+	var/msg = tgui_input_text(src, "Ask a question about game mechanics", "Mentorhelp", max_length = MAX_MESSAGE_LEN)
 	//Cleans the input message
 	if(!msg)
 		return
@@ -14,7 +14,6 @@ GAME_VERB(/client, mentorhelp, "Mentorhelp", ADMIN_CATEGORY_MENTOR)
 	if(!mob)
 		return
 
-	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	var/mentor_msg = "<font color='purple'><span class='mentornotice'><b>MENTORHELP:</b> <b>[key_name_mentor(src, TRUE, FALSE)]</b>: </span><span class='message linkify'>[msg]</span></font>"
 	log_mentor("MENTORHELP: [key_name_mentor(src, null, FALSE, FALSE)]: [msg]")
 
