@@ -202,7 +202,13 @@
 
 /// Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
 /datum/antagonist/bloodsucker/on_removal()
-	UnregisterSignal(SSsunlight, list(COMSIG_SOL_RANKUP_BLOODSUCKERS, COMSIG_SOL_NEAR_START, COMSIG_SOL_END, COMSIG_SOL_RISE_TICK, COMSIG_SOL_WARNING_GIVEN))
+	UnregisterSignal(SSsunlight, list(
+		COMSIG_SOL_RANKUP_BLOODSUCKERS,
+		COMSIG_SOL_NEAR_START,
+		COMSIG_SOL_END,
+		COMSIG_SOL_RISE_TICK,
+		COMSIG_SOL_WARNING_GIVEN,
+	))
 	clear_powers_and_stats()
 	check_cancel_sunlight() //check if sunlight should end
 	if(owner.has_crafting_recipe(/datum/crafting_recipe/vassalrack))
@@ -265,14 +271,6 @@
 		owner.current.remove_status_effect(/datum/status_effect/frenzy)
 	else
 		owner.current.apply_status_effect(/datum/status_effect/frenzy)
-
-	//Sol-related signals are removed when 'FinalDeath()' is called,
-	//so we'll reregister them here.
-	RegisterSignal(SSsunlight, COMSIG_SOL_RANKUP_BLOODSUCKERS, PROC_REF(sol_rank_up), TRUE)
-	RegisterSignal(SSsunlight, COMSIG_SOL_NEAR_START, PROC_REF(sol_near_start), TRUE)
-	RegisterSignal(SSsunlight, COMSIG_SOL_END, PROC_REF(on_sol_end), TRUE)
-	RegisterSignal(SSsunlight, COMSIG_SOL_RISE_TICK, PROC_REF(handle_sol), TRUE)
-	RegisterSignal(SSsunlight, COMSIG_SOL_WARNING_GIVEN, PROC_REF(give_warning), TRUE)
 
 /datum/antagonist/bloodsucker/greet()
 	. = ..()
