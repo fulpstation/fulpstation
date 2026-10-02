@@ -28,3 +28,11 @@
 	)
 	return ..()
 
+//EngiDrobe
+/obj/machinery/vending/wardrobe/engi_wardrobe/Initialize(mapload)
+	products += list(
+		/obj/item/clothing/under/rank/engineering/signal_tech = 1,
+		/obj/item/clothing/suit/hooded/wintercoat/engineering/signal_tech = 1,
+		/obj/item/clothing/gloves/color/black = 1,
+	)
+	return ..()
