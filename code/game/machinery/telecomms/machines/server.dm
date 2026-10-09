@@ -41,6 +41,8 @@
 	if (log_entries.len >= MAX_LOG_ENTRIES)
 		log_entries.Cut(1, 2)
 
+	signal.data["server"] = src
+
 	// Don't create a log if the frequency is banned from being logged
 	if(!(signal.frequency in banned_frequencies))
 		var/datum/comm_log_entry/log = new
@@ -63,6 +65,9 @@
 		var/identifier = num2text(rand(-1000, 1000) + world.time)
 		log.name = "data packet ([md5(identifier)])"
 		log_entries.Add(log)
+
+	if(Compiler && autoruncode)
+		Compiler.Run(signal)
 
 	var/can_send = relay_information(signal, /obj/machinery/telecomms/hub)
 	if(!can_send)
