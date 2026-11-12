@@ -7,9 +7,6 @@ As we are a TG downstream, any PR that they merge, will eventually trickle down 
 
 This is a very important thing to know before contributing to Fulpstation. We rebased to rid ourselves of the old grudgecode, we do not wish to re-become it.
 
-NOTE: If you plan on Contributing to Fulpstation, you may want to instead read the guide, located here;
-- <https://wiki.fulp.gg/en/GuideToContributing>
-
 ## Modular Code/Modularity
 
 Modular, as we use it, is described as "Doesn't touch Core TG files/folders".
@@ -17,8 +14,8 @@ Modular, as we use it, is described as "Doesn't touch Core TG files/folders".
 ### What is a TG file and why does it matter?
 
 - a TG file is a file that we share with our upstream, TGstation. Every time we update, all our files get updated to whatever TG has them set to.
-- To counter this, we have our a fulp_modules folder, containing all the fulp files.
-- There is one exception, our TGUI files, which is placed in the same folder as TG's. It is placed there because of some dumb tgui stuff who cares no one really knows, it just does. Ok?
+- To counter this, we have our a ``fulp_modules/`` folder, containing all the fulp files.
+- There are some exception such as our TGUI files and defines, which is placed in the same folder as TG's, because of limitations we have no way to keep them separate.
 
 ### What is a TG edit?
 
@@ -32,12 +29,11 @@ Modular, as we use it, is described as "Doesn't touch Core TG files/folders".
 This file contains near-all the code exclusive to Fulpstation.
 Due to how maintaining a downstream codebase works, since we must frequently update to latest TG, making sure most our code is as Modular as it can be, is the best way to keep us up-to-date without requiring days worth of effort for every update.
 
-We are incredibly strict in modularity, and Pull Requests can (and will) be quickly denied and closed if they are unable to be modular. Exceptions are granted to this, such as if we are already touching said file, as numbers of lines edited is irrelevant once there's at least one line changed.
+We are incredibly strict in modularity, and Pull Requests can (and will) be quickly denied and closed if they are unable to be modular. Exceptions are granted to this, such as if we are already touching said file, as numbers of lines edited is irrelevant once there's at least one line changed, or for things that physically can't be made modular but also aren't able to be upstreamed; This is a case-by-case basis up to Maintainer discretion.
 
 ## Readme & TG edits
 
-Any Pull Request that touches a TG file, or uses TG sprites/sounds, MUST include a readme.MD page in its folder to explain such.
-Additionally, edits to TG files MUST be documented in tg_edits.md - This is because it is the primary file Contributors will look at to ensure all Fulp code persists through TGUs.
+Any edits to TG files MUST be documented in tg_edits.md - This is because it is the primary file Contributors will look at to ensure all Fulp code persists through TGUs.
 
 ![image](https://i.imgur.com/4p3iTRx.jpg)
 
