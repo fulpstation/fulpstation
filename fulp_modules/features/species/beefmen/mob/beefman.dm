@@ -30,7 +30,6 @@
 	meat = /obj/item/food/meat/slab
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 0.75
-	damage_modifier = -20
 	siemens_coeff = 0.7 // base electrocution coefficient
 	bodytemp_normal = T20C
 
@@ -71,6 +70,7 @@
 		if(limb.limb_id != SPECIES_BEEFMAN)
 			continue
 		limb.update_limb(is_creating = TRUE)
+	user.damage_resistance -= 20
 
 /datum/species/beefman/on_species_loss(mob/living/carbon/human/human_who_lost_species, datum/species/new_species, pref_load)
 	. = ..()
@@ -79,6 +79,7 @@
 		COMSIG_ATOM_ATTACKBY,
 		COMSIG_LIVING_LIFE,
 	))
+	human_who_lost_species.damage_resistance += 20
 
 /datum/species/beefman/randomize_features()
 	var/list/features = ..()
