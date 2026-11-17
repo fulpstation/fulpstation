@@ -16,6 +16,6 @@
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/fulp/security/pris
 
 /obj/item/clothing/head/hooded/winterhood/fulp/security/pris
-	worn_icon = 'fulp_modules/icons/clothing/wintercoats.dmi'
 	icon = 'fulp_modules/icons/clothing/wintercoathoods.dmi'
+	worn_icon = 'fulp_modules/icons/clothing/wintercoats.dmi'
 	icon_state = "winterhood_pris"

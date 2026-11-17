@@ -339,6 +339,9 @@
 		speaker = virtual_speaker.source
 		classes |= "virtual-speaker"
 
+	if(!speaker)
+		return
+
 	// Ignore virtual speaker (most often radio messages) from ourselves
 	if (original_speaker != src && speaker == src)
 		return
