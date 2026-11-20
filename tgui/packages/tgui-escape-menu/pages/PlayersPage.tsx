@@ -28,25 +28,6 @@ export function PlayersPage({ serverState, onNavigate, onAction }: Props) {
             No Admins Online!
           </div>
         )}
-        {/* Fulp edit - Mentors: Adding mentors to the player list. */}
-        {serverState.mentors.length > 0 ? (
-          <PlayerSection title="Mentors">
-            {serverState.mentors.map((mentor) => (
-              <PlayerEntry
-                key={mentor.ckey}
-                player={mentor}
-                onToggleIgnore={() =>
-                  onAction('toggle_ignore', { ckey: mentor.ckey })
-                }
-              />
-            ))}
-          </PlayerSection>
-        ) : (
-          <div className="escape-menu__player-section-title">
-            No Mentors Online!
-          </div>
-        )}
-        {/* Fulp edit END */}
         <PlayerSection title="Players">
           {serverState.players.map((player) => (
             <PlayerEntry

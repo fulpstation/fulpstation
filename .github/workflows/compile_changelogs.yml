@@ -17,11 +17,12 @@ jobs:
         id: value_holder
         env:
           ENABLER_SECRET: ${{ secrets.ACTION_ENABLER_FULP }} # Here
-      # Fulp Edit End
+        # Fulp Edit End
         run: |
           unset SECRET_EXISTS
           if [ -n "$ENABLER_SECRET" ]; then SECRET_EXISTS=true ; fi
           echo "ACTIONS_ENABLED=$SECRET_EXISTS" >> $GITHUB_OUTPUT
+
       - name: "Setup python"
         if: steps.value_holder.outputs.ACTIONS_ENABLED
         uses: actions/setup-python@v7
@@ -56,9 +57,10 @@ jobs:
           git add fulp_modules/data/html/changelogs
           git commit -m "Automatic changelog compile [ci skip]" -a || true
         # Fulp Edit End
+
       - name: Generate App Token
         id: app-token-generation
-        uses: actions/create-github-app-token@v3.2.0
+        uses: actions/create-github-app-token@v3.3.0
         if: env.APP_PRIVATE_KEY != '' && env.APP_ID != ''
         with:
           client-id: ${{ secrets.APP_ID }}

@@ -72,7 +72,7 @@
 		mob_target.Paralyze(10 SECONDS)
 		mob_target.set_eye_blur_if_lower(10 SECONDS)
 		mob_target.visible_message(span_warning("[mob_target] is muddied by [src]!"), span_userdanger("You've been muddied by [src]!"))
-		playsound(mob_target, SFX_DESECRATION, 50, TRUE)
+		playsound(mob_target, /datum/sound_effect/desecration, 50, TRUE)
 
 /**
  * Mud throw ability

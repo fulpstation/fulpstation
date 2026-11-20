@@ -278,7 +278,6 @@
 	icon_state = "revolver"
 	icon = 'fulp_modules/icons/antagonists/monster_hunter/weapons.dmi'
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/cylinder/bloodsilver
-	initial_caliber = CALIBER_BLOODSILVER
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
 /obj/item/gun/ballistic/revolver/hunter_revolver/examine(mob/user)

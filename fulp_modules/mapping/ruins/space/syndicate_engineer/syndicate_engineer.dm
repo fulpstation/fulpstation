@@ -40,7 +40,7 @@
 	back = /obj/item/storage/backpack
 	belt = /obj/item/storage/belt/utility/chief/full
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	internals_slot = ITEM_SLOT_DEX_STORAGE // SLOT_R_STORE
+	internals_slot = ITEM_SLOT_RPOCKET
 	id = /obj/item/card/id/advanced/chameleon
 	implants = list(/obj/item/implant/weapons_auth)
 	backpack_contents = list(

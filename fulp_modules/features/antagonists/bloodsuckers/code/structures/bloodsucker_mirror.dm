@@ -152,7 +152,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/bloodsucker/mirror/broken, 28)
 		return //This return might not be necessary since we've already qdel'd the mirror... idk
 	icon_state = "blood_mirror_broken"
 	if(!mapload)
-		playsound(src, SFX_SHATTER, 70, TRUE)
+		playsound(src, /datum/sound_effect/shatter, 70, TRUE)
 		playsound(src, 'sound/effects/blob/blobattack.ogg', 60, TRUE)
 	if(desc == initial(desc))
 		desc = "It's a suspended pool of darkened fragments resembling a scab."

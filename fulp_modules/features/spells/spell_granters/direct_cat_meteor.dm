@@ -33,7 +33,7 @@
 
 	delay = rand(5, 30)
 	src.manual_emote("meows")
-	playsound(src, get_sfx(SFX_CAT_MEOW), 50, FALSE)
+	playsound(src, get_sfx(/datum/sound_effect/assoc/cat_meow), 50, FALSE)
 	last_process = world.time
 
 /obj/item/book/granter/action/spell/fulp/direct_cat_meteor/carving_act(mob/living/user, obj/item/tool)
